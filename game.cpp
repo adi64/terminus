@@ -3,6 +3,7 @@
 #include <QQuickView>
 
 #include "scene.h"
+#include "squircle.h"
 
 namespace Terminus
 {
@@ -12,6 +13,9 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     m_scene = new Scene;
+
+    Squircle* testSquircle = new Squircle;
+    m_scene->addNode(testSquircle);
 }
 
 Game::~Game()

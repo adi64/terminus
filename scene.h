@@ -1,14 +1,17 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <vector>
+
 #include <QObject>
 #include <QSize>
-
 
 class QOpenGLShaderProgram;
 
 namespace Terminus
 {
+
+class AbstractGraphicsObject;
 
 class Scene : public QObject
 {
@@ -17,12 +20,13 @@ public:
     Scene();
 
     void setViewportSize(const QSize &size) { m_viewportSize = size; }
+    void addNode(AbstractGraphicsObject* node);
 public slots:
     void render();
 protected:
 private:
     QSize m_viewportSize;
-    QOpenGLShaderProgram *m_program;
+    std::vector<AbstractGraphicsObject*> m_nodes;
 
 };
 

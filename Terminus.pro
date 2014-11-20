@@ -1,11 +1,14 @@
 TEMPLATE = app
 
 CONFIG += c++11
+
 QT += qml quick widgets
 
 SOURCES += main.cpp \
     scene.cpp \
-    game.cpp
+    game.cpp \
+    abstractgraphicsobject.cpp \
+    squircle.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,4 +20,6 @@ include(deployment.pri)
 
 HEADERS += \
     scene.h \
-    game.h
+    game.h \
+    abstractgraphicsobject.h \
+    squircle.h
