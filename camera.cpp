@@ -1,4 +1,4 @@
-#include <gloperate/Camera.h>
+#include "camera.h"
 #include <cassert>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
@@ -208,7 +208,7 @@ const mat4 & Camera::view() const
 
     m_viewChanged = false;
 
-    return m_view.value();
+    return m_view;
 }
 
 const mat4 & Camera::projection() const
@@ -221,7 +221,7 @@ const mat4 & Camera::projection() const
 
     m_projectionChanged = false;
 
-    return m_projection.value();
+    return m_projection;
 }
 
 const mat4 & Camera::viewProjection() const
@@ -234,7 +234,7 @@ const mat4 & Camera::viewProjection() const
 
     m_viewProjectionChanged = false;
 
-    return m_viewProjection.value();
+    return m_viewProjection;
 }
 
 const mat4 & Camera::viewInverted() const
@@ -247,7 +247,7 @@ const mat4 & Camera::viewInverted() const
 
     m_viewInvertedChanged = false;
 
-    return m_viewInverted.value();
+    return m_viewInverted;
 }
 
 const mat4 & Camera::projectionInverted() const
@@ -260,7 +260,7 @@ const mat4 & Camera::projectionInverted() const
 
     m_projectionInvertedChanged = false;
 
-    return m_projectionInverted.value();
+    return m_projectionInverted;
 }
 
 const mat4 & Camera::viewProjectionInverted() const
@@ -273,7 +273,7 @@ const mat4 & Camera::viewProjectionInverted() const
 
     m_viewProjectionInvertedChanged = false;
 
-    return m_viewProjectionInverted.value();
+    return m_viewProjectionInverted;
 }
 
 const mat3 & Camera::normal() const
@@ -286,7 +286,7 @@ const mat3 & Camera::normal() const
 
     m_normalChanged = false;
 
-    return m_normal.value();
+    return m_normal;
 }
 
 

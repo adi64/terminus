@@ -4,11 +4,12 @@
 #include <vector>
 
 #include <QObject>
-#include <QSize>
+#include "camera.h"
 
+class Camera;
 class QOpenGLShaderProgram;
 
-namespace Terminus
+namespace terminus
 {
 
 class AbstractGraphicsObject;
@@ -19,13 +20,13 @@ class Scene : public QObject
 public:
     Scene();
 
-    void setViewportSize(const QSize &size) { m_viewportSize = size; }
+    Camera & camera();
     void addNode(AbstractGraphicsObject* node);
 public slots:
     void render();
 protected:
 private:
-    QSize m_viewportSize;
+    Camera* m_camera;
     std::vector<AbstractGraphicsObject*> m_nodes;
 
 };

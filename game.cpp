@@ -5,7 +5,7 @@
 #include "scene.h"
 #include "squircle.h"
 
-namespace Terminus
+namespace terminus
 {
 
 Game::Game()
@@ -13,6 +13,7 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     m_scene = new Scene;
+    m_camera = new Camera;
 
     Squircle* testSquircle = new Squircle;
     m_scene->addNode(testSquircle);
@@ -21,12 +22,14 @@ Game::Game()
 Game::~Game()
 {
     delete m_scene;
+    delete m_camera;
 }
 
 void Game::sync()
 {
     qDebug("sync viewport and stuff");
-    m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
+    //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
+    m_scene->camera().setViewport(window()->width(), window()->height());
 }
 
 void Game::cleanup()

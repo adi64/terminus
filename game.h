@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQuickItem>
 
-namespace Terminus
+namespace terminus
 {
 
 class Scene;

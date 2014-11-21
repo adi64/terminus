@@ -3,12 +3,19 @@
 #include <QOpenGLShaderProgram>
 
 #include "abstractgraphicsobject.h"
+#include "camera.h"
 
-namespace Terminus
+namespace terminus
 {
 
 Scene::Scene()
+: m_camera(new Camera())
 {
+}
+
+Scene::~Scene()
+{
+    delete m_camera;
 }
 
 void Scene::addNode(AbstractGraphicsObject *node)
@@ -20,7 +27,7 @@ void Scene::render()
 {
     qDebug("render");
 
-    glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
+    glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
 
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -35,5 +42,9 @@ void Scene::render()
 
 }
 
-
+Camera & camera()
+{
+    return *m_camera;
 }
+
+} // namespace terminus

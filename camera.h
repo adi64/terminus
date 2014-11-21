@@ -6,7 +6,7 @@
 namespace terminus
 {
 
-class Camera : public globjects::Referenced
+class Camera
 {
 
 
@@ -77,7 +77,7 @@ protected:
 
     glm::ivec2 m_viewport;
 
-    glm::mat4 m_view;
+    glm::detail::tmat4 m_view;
     glm::mat4 m_viewInverted;
     glm::mat4 m_projection;
     glm::mat4 m_projectionInverted;
@@ -85,13 +85,13 @@ protected:
     glm::mat4 m_viewProjectionInverted;
     glm::mat3 m_normal;
 
-    bool m_viewChanged;
-    bool m_viewInvertedChanged;
-    bool m_projectionChanged;
-    bool m_projectionInvertedChanged;
-    bool m_viewProjectionChanged;
-    bool m_viewProjectionInvertedChanged;
-    bool m_normalChanged;
+    mutable bool m_viewChanged;
+    mutable bool m_viewInvertedChanged;
+    mutable bool m_projectionChanged;
+    mutable bool m_projectionInvertedChanged;
+    mutable bool m_viewProjectionChanged;
+    mutable bool m_viewProjectionInvertedChanged;
+    mutable bool m_normalChanged;
 
 };
 
