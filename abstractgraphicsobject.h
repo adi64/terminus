@@ -1,7 +1,7 @@
 #ifndef ABSTRACTGRAPHICSOBJECT_H
 #define ABSTRACTGRAPHICSOBJECT_H
 
-namespace Terminus
+namespace terminus
 {
 
 class AbstractGraphicsObject

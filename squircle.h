@@ -5,7 +5,7 @@
 
 class QOpenGLShaderProgram;
 
-namespace Terminus
+namespace terminus
 {
 
 class Squircle : public AbstractGraphicsObject

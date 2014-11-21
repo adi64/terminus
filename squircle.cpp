@@ -2,7 +2,7 @@
 
 #include <QOpenGLShaderProgram>
 
-namespace Terminus
+namespace terminus
 {
 
 Squircle::Squircle()

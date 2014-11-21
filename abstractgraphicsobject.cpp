@@ -1,6 +1,6 @@
 #include "abstractgraphicsobject.h"
 
-namespace Terminus
+namespace terminus
 {
 
 AbstractGraphicsObject::AbstractGraphicsObject()
