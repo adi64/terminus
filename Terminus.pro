@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     scene.cpp \
     game.cpp \
     abstractgraphicsobject.cpp \
-    squircle.cpp
+    squircle.cpp \
+    camera.cpp
 
 RESOURCES += qml.qrc
 
@@ -22,4 +23,5 @@ HEADERS += \
     scene.h \
     game.h \
     abstractgraphicsobject.h \
-    squircle.h
+    squircle.h \
+    camera.h
