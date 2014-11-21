@@ -77,7 +77,7 @@ protected:
 
     glm::ivec2 m_viewport;
 
-    glm::detail::tmat4 m_view;
+    glm::mat4 m_view;
     glm::mat4 m_viewInverted;
     glm::mat4 m_projection;
     glm::mat4 m_projectionInverted;
