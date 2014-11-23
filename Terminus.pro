@@ -9,7 +9,10 @@ SOURCES += main.cpp \
     game.cpp \
     abstractgraphicsobject.cpp \
     squircle.cpp \
-    camera.cpp
+    camera.cpp \
+    train.cpp \
+    enginewagon.cpp \
+    abstractwagon.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,4 +27,8 @@ HEADERS += \
     game.h \
     abstractgraphicsobject.h \
     squircle.h \
-    camera.h
+    camera.h \
+    train.h \
+    train.hpp \
+    enginewagon.h \
+    abstractwagon.h

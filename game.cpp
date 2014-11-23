@@ -1,9 +1,14 @@
 #include "game.h"
 
+#include <memory>
+
 #include <QQuickView>
 
 #include "scene.h"
 #include "squircle.h"
+#include "train.h"
+
+#include "enginewagon.h"
 
 namespace terminus
 {
@@ -16,6 +21,9 @@ Game::Game()
 
     Squircle* testSquircle = new Squircle;
     m_scene->addNode(testSquircle);
+
+    auto playerTrain = std::make_unique<Train>();
+    playerTrain->addWagon<EngineWagon>();
 }
 
 Game::~Game()
