@@ -13,7 +13,6 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     m_scene = new Scene;
-    m_camera = new Camera;
 
     Squircle* testSquircle = new Squircle;
     m_scene->addNode(testSquircle);
@@ -22,7 +21,6 @@ Game::Game()
 Game::~Game()
 {
     delete m_scene;
-    delete m_camera;
 }
 
 void Game::sync()

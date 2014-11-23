@@ -19,6 +19,7 @@ class Scene : public QObject
     Q_OBJECT
 public:
     Scene();
+    ~Scene();
 
     Camera & camera();
     void addNode(AbstractGraphicsObject* node);

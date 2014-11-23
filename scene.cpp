@@ -27,7 +27,7 @@ void Scene::render()
 {
     qDebug("render");
 
-    glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
+    glViewport(0, 0, m_camera->viewport().x, m_camera->viewport().y);
 
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -42,7 +42,7 @@ void Scene::render()
 
 }
 
-Camera & camera()
+Camera & Scene::camera()
 {
     return *m_camera;
 }

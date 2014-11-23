@@ -77,13 +77,13 @@ protected:
 
     glm::ivec2 m_viewport;
 
-    glm::mat4 m_view;
-    glm::mat4 m_viewInverted;
-    glm::mat4 m_projection;
-    glm::mat4 m_projectionInverted;
-    glm::mat4 m_viewProjection;
-    glm::mat4 m_viewProjectionInverted;
-    glm::mat3 m_normal;
+    mutable glm::mat4 m_view;
+    mutable glm::mat4 m_viewInverted;
+    mutable glm::mat4 m_projection;
+    mutable glm::mat4 m_projectionInverted;
+    mutable glm::mat4 m_viewProjection;
+    mutable glm::mat4 m_viewProjectionInverted;
+    mutable glm::mat3 m_normal;
 
     mutable bool m_viewChanged;
     mutable bool m_viewInvertedChanged;
