@@ -9,7 +9,9 @@ SOURCES += main.cpp \
     game.cpp \
     abstractgraphicsobject.cpp \
     squircle.cpp \
-    camera.cpp
+    camera.cpp \
+    resourcemanager.cpp \
+    geometry.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,4 +26,6 @@ HEADERS += \
     game.h \
     abstractgraphicsobject.h \
     squircle.h \
-    camera.h
+    camera.h \
+    resourcemanager.h \
+    geometry.h
