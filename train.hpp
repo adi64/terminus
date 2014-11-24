@@ -16,7 +16,7 @@ void Train::addWagon()
 template<typename WagonType>
 void Train::insertWagon(int targetPos)
 {    
-    auto newWagon = std::make_unique<WagonType>();
+    auto newWagon = std::unique_ptr<WagonType>(new WagonType);
 
     //auto tmp = new WagonType;
     //auto tmp2 = dynamic_cast<AbstractWagon*>(tmp);

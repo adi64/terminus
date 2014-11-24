@@ -22,7 +22,7 @@ Game::Game()
     Squircle* testSquircle = new Squircle;
     m_scene->addNode(testSquircle);
 
-    auto playerTrain = std::make_unique<Train>();
+    auto playerTrain = std::unique_ptr<Train>(new Train);;
     playerTrain->addWagon<EngineWagon>();
 }
 
