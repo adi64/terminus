@@ -24,6 +24,9 @@ Game::Game()
 
     auto playerTrain = std::unique_ptr<Train>(new Train);;
     playerTrain->addWagon<EngineWagon>();
+    playerTrain->addWagon<EngineWagon>();
+    playerTrain->addWagon<EngineWagon>();
+    playerTrain->moveWagon(1, 2);
 }
 
 Game::~Game()

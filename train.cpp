@@ -1,5 +1,6 @@
 #include "train.h"
 
+#include <memory>
 #include <QDebug>
 
 #include "enginewagon.h"
@@ -68,20 +69,17 @@ void Train::moveWagon(int wagonPos, int targetPos)
         return;
     }
 
-    // TODO IMPLEMENT LATER
-    // this won't work, see unique_ptr
+    auto wagon = std::move(m_wagons.at(wagonPos));
+    m_wagons.erase(m_wagons.begin() + wagonPos);
 
-//    auto wagon = m_wagons.at(wagonPos).get();
-//    m_wagons.erase(m_wagons.begin() + wagonPos);
-
-//    if(targetPos > wagonPos)
-//    {
-//        m_wagons.insert(m_wagons.begin() + targetPos - 1, wagon);
-//    }
-//    else
-//    {
-//        m_wagons.insert(m_wagons.begin() + targetPos, wagon);
-//    }
+    if(targetPos > wagonPos)
+    {
+        m_wagons.insert(m_wagons.begin() + targetPos - 1, std::move(wagon));
+    }
+    else
+    {
+        m_wagons.insert(m_wagons.begin() + targetPos, std::move(wagon));
+    }
 }
 
 
