@@ -18,16 +18,6 @@ void Train::insertWagon(int targetPos)
 {    
     auto newWagon = std::unique_ptr<WagonType>(new WagonType);
 
-    //auto tmp = new WagonType;
-    //auto tmp2 = dynamic_cast<AbstractWagon*>(tmp);
-    //std::unique_ptr<AbstractWagon> newWagon(tmp2);
-
-//    if(!tmp2)
-//    {
-//        qDebug() << "newWagon is no AbstractWagon!";
-//        return;
-//    }
-
     if(targetPos == -1)
     {
         m_wagons.push_back(std::move(newWagon));
@@ -45,6 +35,8 @@ void Train::insertWagon(int targetPos)
 
         m_wagons.insert(m_wagons.begin() + targetPos, std::move(newWagon));
     }
+
+    calculateWagonOffset();
 }
 
 }

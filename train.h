@@ -19,7 +19,7 @@ public:
     void removeWagon(int index);
     void moveWagon(int wagonPos, int targetPos);
 private:
-    void calculateWagonOffset(int index);
+    void calculateWagonOffset();
 
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
     bool m_isRunning;

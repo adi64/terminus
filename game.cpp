@@ -9,6 +9,7 @@
 #include "train.h"
 
 #include "enginewagon.h"
+#include "weaponwagon.h"
 
 namespace terminus
 {
@@ -24,8 +25,8 @@ Game::Game()
 
     auto playerTrain = std::unique_ptr<Train>(new Train);;
     playerTrain->addWagon<EngineWagon>();
-    playerTrain->addWagon<EngineWagon>();
-    playerTrain->addWagon<EngineWagon>();
+    playerTrain->addWagon<WeaponWagon>();
+    playerTrain->addWagon<WeaponWagon>();
     playerTrain->moveWagon(1, 2);
 }
 

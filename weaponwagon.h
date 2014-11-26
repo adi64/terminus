@@ -5,12 +5,11 @@
 namespace terminus
 {
 
-class EngineWagon : public AbstractWagon
+class WeaponWagon : public AbstractWagon
 {
 public:
-    EngineWagon();
+    WeaponWagon();
     void render();
-    static float length();
 };
 
 }

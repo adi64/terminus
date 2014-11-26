@@ -35,6 +35,8 @@ void Train::removeWagon(int index)
     }
 
     m_wagons.erase(m_wagons.begin() + index);
+
+    calculateWagonOffset();
 }
 
 void Train::moveWagon(int wagonPos, int targetPos)
@@ -79,6 +81,20 @@ void Train::moveWagon(int wagonPos, int targetPos)
     else
     {
         m_wagons.insert(m_wagons.begin() + targetPos, std::move(wagon));
+    }
+
+    calculateWagonOffset();
+}
+
+void Train::calculateWagonOffset()
+{
+    float accumulatedOffset = -0.5f * EngineWagon::length();
+
+    for(auto& wagon : m_wagons)
+    {
+        accumulatedOffset += 0.5f * wagon->length();
+        wagon->setPositionOffset(accumulatedOffset);
+        accumulatedOffset += 0.5f * wagon->length();
     }
 }
 
