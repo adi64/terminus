@@ -13,6 +13,10 @@ class Geometry
 {
 public:
     Geometry();//construct NULL-Object
-    //TODO define constructor taking vertex and index buffers, material refs?
+    Geometry(std::vector<int> indexBuffer, std::vector<Vertex> vertexBuffer);    //TODO define constructor taking vertex and index buffers, material refs?
+
+protected:
+    std::vector<Vertex> m_vertexBuffer;
+    std::vector<int> m_indexBuffer;
 };
 
