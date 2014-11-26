@@ -11,6 +11,8 @@ public:
     EngineWagon();
     void render();
     static float length();
+
+protected:
 };
 
 }
