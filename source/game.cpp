@@ -8,8 +8,8 @@
 #include "squircle.h"
 #include "train.h"
 
-#include "enginewagon.h"
-#include "weaponwagon.h"
+#include "wagons/enginewagon.h"
+#include "wagons/weaponwagon.h"
 
 namespace terminus
 {

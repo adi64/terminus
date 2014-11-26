@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstractwagon.h"
+#include "wagons/abstractwagon.h"
 
 #include <QDebug>
 
