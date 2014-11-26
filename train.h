@@ -23,6 +23,7 @@ private:
 
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
     bool m_isRunning;
+    bool m_hasEngine;
     float m_velocity;
     float m_travelledDistance;
 };

@@ -15,8 +15,22 @@ void Train::addWagon()
 
 template<typename WagonType>
 void Train::insertWagon(int targetPos)
-{    
-    auto newWagon = std::unique_ptr<WagonType>(new WagonType);
+{
+    auto wagonRaw = new WagonType;
+
+    bool creatingEngineWagon = false;
+
+    if((dynamic_cast<EngineWagon*>(wagonRaw) != nullptr))
+    {
+        if(m_hasEngine)
+        {
+            qDebug() << "NOPE!";
+            return;
+        }
+        creatingEngineWagon = true;
+    }
+
+    auto newWagon = std::unique_ptr<WagonType>(wagonRaw);
 
     if(targetPos == -1)
     {
@@ -34,6 +48,11 @@ void Train::insertWagon(int targetPos)
         }
 
         m_wagons.insert(m_wagons.begin() + targetPos, std::move(newWagon));
+    }
+
+    if(creatingEngineWagon)
+    {
+        m_hasEngine = true;
     }
 
     calculateWagonOffset();

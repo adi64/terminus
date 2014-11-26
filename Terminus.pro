@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     camera.cpp \
     train.cpp \
     enginewagon.cpp \
-    abstractwagon.cpp
+    abstractwagon.cpp \
+    weaponwagon.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +32,5 @@ HEADERS += \
     train.h \
     train.hpp \
     enginewagon.h \
-    abstractwagon.h
+    abstractwagon.h \
+    weaponwagon.h

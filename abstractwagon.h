@@ -15,7 +15,6 @@ public:
 protected:
     float m_positionOffset;
 
-private:
 };
 
 }

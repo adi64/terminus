@@ -10,6 +10,7 @@ namespace terminus
 
 
 Train::Train()
+    : m_hasEngine(false)
 {
     // Add engine
     addWagon<EngineWagon>();
