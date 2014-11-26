@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstractgraphicsobject.h"
+#include "../abstractgraphicsobject.h"
 
 namespace terminus
 {

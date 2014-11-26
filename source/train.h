@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <vector>
-#include "abstractwagon.h"
+#include "wagons/abstractwagon.h"
 
 namespace terminus
 {

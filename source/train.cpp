@@ -3,7 +3,7 @@
 #include <memory>
 #include <QDebug>
 
-#include "enginewagon.h"
+#include "wagons/enginewagon.h"
 
 namespace terminus
 {
