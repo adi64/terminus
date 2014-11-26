@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <QObject>
 #include <QQuickItem>
@@ -26,5 +25,3 @@ private:
 };
 
 }
-
-#endif // GAME_H

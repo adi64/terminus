@@ -1,5 +1,4 @@
-#ifndef SCENE_H
-#define SCENE_H
+#pragma once
 
 #include <vector>
 
@@ -35,6 +34,3 @@ private:
 
 
 }
-
-
-#endif // SCENE_H
