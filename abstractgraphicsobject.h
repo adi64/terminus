@@ -1,5 +1,4 @@
-#ifndef ABSTRACTGRAPHICSOBJECT_H
-#define ABSTRACTGRAPHICSOBJECT_H
+#pragma once
 
 namespace terminus
 {
@@ -12,5 +11,3 @@ public:
 };
 
 }
-
-#endif // ABSTRACTGRAPHICSOBJECT_H
