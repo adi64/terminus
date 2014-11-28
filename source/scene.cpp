@@ -1,5 +1,6 @@
 #include "scene.h"
 
+#include <QDebug>
 #include <QOpenGLShaderProgram>
 
 #include "abstractgraphicsobject.h"
@@ -11,6 +12,7 @@ namespace terminus
 Scene::Scene()
 : m_camera(new Camera())
 {
+    m_nodes.clear();
 }
 
 Scene::~Scene()
@@ -20,6 +22,7 @@ Scene::~Scene()
 
 void Scene::addNode(AbstractGraphicsObject *node)
 {
+    qDebug() << "m_nodes.size() = " << m_nodes.size();
     m_nodes.push_back(node);
 }
 

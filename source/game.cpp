@@ -20,13 +20,13 @@ Game::Game()
 
     m_scene = new Scene;
 
-    Squircle* testSquircle = new Squircle;
-    m_scene->addNode(testSquircle);
+    //Squircle* testSquircle = new Squircle;
+    //m_scene->addNode(testSquircle);
 
-    auto playerTrain = std::unique_ptr<Train>(new Train);
-    playerTrain->addWagon<WeaponWagon>();
-    playerTrain->addWagon<WeaponWagon>();
-    playerTrain->moveWagon(1, 2);
+    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->moveWagon(1, 2);
 }
 
 Game::~Game()
@@ -39,6 +39,17 @@ void Game::sync()
     qDebug("sync viewport and stuff");
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
+
+
+    // get context opengl-version
+    qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
+    qDebug() << "Context valid: " << window()->openglContext()->isValid();
+    qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();
+    qDebug() << "OpenGl information: VENDOR: " << (const char*)glGetString(GL_VENDOR);
+    qDebug() << " RENDERDER: " << (const char*)glGetString(GL_RENDERER);
+    qDebug() << " VERSION: " << (const char*)glGetString(GL_VERSION);
+    qDebug() << " GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+
 }
 
 void Game::cleanup()

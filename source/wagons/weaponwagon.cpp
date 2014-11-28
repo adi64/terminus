@@ -11,7 +11,7 @@ WeaponWagon::WeaponWagon()
 
 void WeaponWagon::render()
 {
-    qDebug() << "render EngineWagon";
+    qDebug() << "render WeaponWagon";
 }
 
 }

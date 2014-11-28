@@ -9,8 +9,9 @@ namespace terminus
 {
 
 
-Train::Train()
+Train::Train(Scene *scene)
     : m_hasEngine(false)
+    , m_scene(scene)
 {
     // Add engine
     addWagon<EngineWagon>();
@@ -98,6 +99,5 @@ void Train::calculateWagonOffset()
         accumulatedOffset += 0.5f * wagon->length();
     }
 }
-
 
 }

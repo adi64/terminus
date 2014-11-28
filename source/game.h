@@ -1,11 +1,15 @@
 #pragma once
 
+#include <memory>
+
 #include <QObject>
 #include <QQuickItem>
+
 
 namespace terminus
 {
 
+class Train;
 class Scene;
 
 class Game : public QQuickItem
@@ -22,6 +26,7 @@ public slots:
 protected:
 private:
     Scene* m_scene;
+    std::unique_ptr<Train> m_playerTrain;
 };
 
 }

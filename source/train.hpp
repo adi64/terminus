@@ -1,6 +1,7 @@
 #pragma once
 
 #include "wagons/abstractwagon.h"
+#include "wagons/enginewagon.h"
 
 #include <QDebug>
 
@@ -32,6 +33,10 @@ void Train::insertWagon(int targetPos)
 
     auto newWagon = std::unique_ptr<WagonType>(wagonRaw);
 
+    m_scene->addNode(newWagon.get());
+    qDebug() << "adding new wagon @" << newWagon.get();
+    qDebug() << "wagonRaw @" << wagonRaw;
+
     if(targetPos == -1)
     {
         m_wagons.push_back(std::move(newWagon));
@@ -56,6 +61,7 @@ void Train::insertWagon(int targetPos)
     }
 
     calculateWagonOffset();
+
 }
 
 }
