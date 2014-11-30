@@ -2,7 +2,11 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <algorithm>
 #include "geometry.h"
+
+#include <QDebug> //TODO remove in the end
 
 ResourceManager::ResourceManager()
 {
@@ -14,31 +18,35 @@ ResourceManager::~ResourceManager()
     //TODO delete m_geometryStorage contents
 }
 
-Geometry ResourceManager::loadGeometry(std::string name, std::string path)
+void ResourceManager::storeGeometry(std::string name, std::string path)
 {
-    std::vector<glm::vec3> indexBlocks;
+    Geometry geometry = loadGeometry(path);
+    setGeometry(name, &geometry);
+}
 
-    //first reading the obj file
+Geometry ResourceManager::loadGeometry(std::string path)
+{
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> texCoords;
+    std::vector<glm::vec3> normals;
+    std::vector<glm::ivec3> indexBlocks;
 
-    indexBlocks = parseObjFile(path);
+    //first reading the obj file and saving the data
+
+    parseObjFile(path, positions, texCoords, normals, indexBlocks);
 
     //now combining the 3 vectors into one vertex-buffer and generating an index-buffer for it
 
     std::vector<int> indexBuffer;
-    std::vector<Geometry::Vertex> vertexBuffer;
+    std::vector<GeoVertex::Vertex> vertexBuffer;
 
-    generateBuffers(indexBlocks, indexBuffer, vertexBuffer);
+    generateBuffers(positions, texCoords, normals, indexBlocks, indexBuffer, vertexBuffer);
 
     Geometry tempGeo(indexBuffer, vertexBuffer);
     return tempGeo;
 }
 
-std::vector<glm::vec3> ResourceManager::parseObjFile(std::string path){
-
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> texCoords;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec3> indexBlocks;
+void ResourceManager::parseObjFile(std::string path, std::vector<glm::vec3> positions, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals, std::vector<glm::ivec3> indexBlocks){
 
     std::ifstream objFile(path);
     std::string line;
@@ -70,7 +78,7 @@ std::vector<glm::vec3> ResourceManager::parseObjFile(std::string path){
         else if(lineHeader == "f")
         {
             glm::ivec3 indexA, indexB, indexC; //posIndex, texIndex, normIndex;
-            line.replace('/', '');
+            std::replace(line.begin(), line.end(), '/', ' ');
             //std::stringstream localStream(line);
             lineStream >> indexA.x >> indexA.y >> indexA.z >> indexB.x >> indexB.y >> indexB.z >> indexC.x >> indexC.y >> indexC.z;
             indexBlocks.push_back(indexA);
@@ -90,13 +98,11 @@ std::vector<glm::vec3> ResourceManager::parseObjFile(std::string path){
             //TODO use material;
         }
     }
-
-    return indexBlocks;
 }
 
-void ResourceManager::generateBuffers(std::vector<glm::vec3> indexBlocks, std::vector<int> indexBuffer, std::vector<Geometry::Vertex> vertexBuffer)
+void ResourceManager::generateBuffers(std::vector<glm::vec3> positions, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals, std::vector<glm::ivec3> indexBlocks, std::vector<int> indexBuffer, std::vector<GeoVertex::Vertex> vertexBuffer)
 {
-    std::map<glm::ivec, int> indexLookUp;
+    std::map<glm::ivec3, int> indexLookUp;
 
     for(int i = 0; i < indexBlocks.size(); i++)
     {
@@ -104,10 +110,10 @@ void ResourceManager::generateBuffers(std::vector<glm::vec3> indexBlocks, std::v
         {
             indexLookUp[indexBlocks[i]] = vertexBuffer.size();
 
-            Geometry::Vertex v;
-            v.position = indexBlocks[i].x;
-            v.texCoord = indexBlocks[i].y;
-            v.normal = indexBlocks[i].z;
+            GeoVertex::Vertex v;
+            v.position = positions[indexBlocks[i].x];
+            v.texCoord = texCoords[indexBlocks[i].y];
+            v.normal = normals[indexBlocks[i].z];
             vertexBuffer.push_back(v);
 
             indexBuffer.push_back(vertexBuffer.size() - 1);
@@ -119,12 +125,24 @@ void ResourceManager::generateBuffers(std::vector<glm::vec3> indexBlocks, std::v
     }
 }
 
-void ResourceManager::loadMaterial(std::string name, std::string path)
+void ResourceManager::loadMaterial(std::string path)
 {
     //TODO: parse the .mtl file
 }
 
-std::unique_ptr<Geometry> ResourceManager::getGeometry(std::string name)
+void ResourceManager::setGeometry(std::string name, Geometry * geometry)
+{
+    if(m_geometryStorage.count(name) == 0)
+    {
+        m_geometryStorage[name] = std::shared_ptr<std::unique_ptr<Geometry>>(new std::unique_ptr<Geometry>(geometry));
+    }
+    else
+    {
+        qDebug() << "Geometry was already stored";
+    }
+}
+
+std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
 {
     if(m_geometryStorage.count(name) == 0)
         m_geometryStorage[name] = std::shared_ptr<std::unique_ptr<Geometry>>(new std::unique_ptr<Geometry>(new Geometry()));

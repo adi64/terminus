@@ -3,9 +3,9 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <vector>
 #include <glm/glm.hpp>
-
-class Geometry;
+#include "geometry.h"
 
 class ResourceManager
 {
@@ -13,11 +13,22 @@ public:
     ResourceManager();
     virtual ~ResourceManager();
 
-    virtual Geometry loadGeometry(std::string name, std::string path);
-    virtual void loadMaterial(std::string name, std::string path);
-    virtual std::vector<glm::vec3> ResourceManager::parseObjFile(std::string path);
-    virtual void generateBuffers(std::vector<glm::vec3> indexBlocks, std::vector<int> indexBuffer, std::vector<Geometry::Vertex> vertexBuffer);
+    virtual void storeGeometry(std::string name, std::string path);
+    virtual Geometry loadGeometry(std::string path);
+    virtual void loadMaterial(std::string path);
+    virtual void ResourceManager::parseObjFile(std::string path,
+                                               std::vector<glm::vec3> positions,
+                                               std::vector<glm::vec3> texCoords,
+                                               std::vector<glm::vec3> normals,
+                                               std::vector<glm::ivec3> indexBlocks);
+    virtual void generateBuffers(std::vector<glm::vec3> positions,
+                                 std::vector<glm::vec3> texCoords,
+                                 std::vector<glm::vec3> normals,
+                                 std::vector<glm::ivec3> indexBlocks,
+                                 std::vector<int> indexBuffer,
+                                 std::vector<GeoVertex::Vertex> vertexBuffer);
 
+    virtual void ResourceManager::setGeometry(std::string name, Geometry * geometry);
     virtual std::shared_ptr<std::unique_ptr<Geometry>> getGeometry(std::string name);
 
 protected:
