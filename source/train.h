@@ -19,6 +19,7 @@ public:
 
     void removeWagon(int index);
     void moveWagon(int wagonPos, int targetPos);
+
 private:
     void calculateWagonOffset();
 

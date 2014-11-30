@@ -5,13 +5,14 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon()
+WeaponWagon::WeaponWagon(Scene *scene)
+    : m_scene(scene)
 {
 }
 
 void WeaponWagon::render()
 {
-    qDebug() << "render WeaponWagon";
+    qDebug() << "Trying to render WeaponWagon";
 }
 
 }

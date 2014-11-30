@@ -8,8 +8,10 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon();
+    WeaponWagon(Scene *scene);
     void render();
+protected:
+    Scene *m_scene;
 };
 
 }

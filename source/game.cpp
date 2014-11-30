@@ -20,9 +20,6 @@ Game::Game()
 
     m_scene = new Scene;
 
-    //Squircle* testSquircle = new Squircle;
-    //m_scene->addNode(testSquircle);
-
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
@@ -36,11 +33,12 @@ Game::~Game()
 
 void Game::sync()
 {
-    qDebug("sync viewport and stuff");
+    qDebug("sync viewport");
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
 
+    /* Debug Stuff
     // get context opengl-version
     qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
     qDebug() << "Context valid: " << window()->openglContext()->isValid();
@@ -49,6 +47,7 @@ void Game::sync()
     qDebug() << " RENDERDER: " << (const char*)glGetString(GL_RENDERER);
     qDebug() << " VERSION: " << (const char*)glGetString(GL_VERSION);
     qDebug() << " GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+    */
 
 }
 

@@ -13,7 +13,7 @@ Train::Train(Scene *scene)
     : m_hasEngine(false)
     , m_scene(scene)
 {
-    // Add engine
+    // Every train needs an engine
     addWagon<EngineWagon>();
 }
 
@@ -69,7 +69,7 @@ void Train::moveWagon(int wagonPos, int targetPos)
 
     if(targetPos == wagonPos)
     {
-        qDebug() << "Not moving a wagon to its old position";
+        qDebug() << "Wagon did not move";
         return;
     }
 

@@ -7,10 +7,10 @@
 namespace terminus
 {
 
-EngineWagon::EngineWagon()
+EngineWagon::EngineWagon(Scene *scene)
     : m_program(nullptr)
+    , m_scene(scene)
 {
-
 }
 
 
@@ -32,18 +32,6 @@ void EngineWagon::initCube()
     {
         2, 0, 6, 4, 5, 0, 1, 2, 3, 6, 7, 5, 3, 1
     };
-
-//    m_vbo = new GLuint[2];
-
-//    glGenBuffers(2, m_vbo);
-
-//    //VertexBuffer
-//    glBindBuffer(GL_ARRAY_BUFFER, m_vbo[0]);
-//    glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
-
-//    //IndexBuffer
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo[1]);
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 34 * sizeof(GLushort), indices, GL_STATIC_DRAW);
 
     static bool bufferObjectsInitialized = false;
     if(bufferObjectsInitialized)
@@ -73,10 +61,9 @@ void EngineWagon::initCube()
 }
 
 
-void EngineWagon::render(/*Camera* camera*/)
+void EngineWagon::render()
 {
-
-    qDebug() << "render EngineWagon";
+    qDebug() << "Trying to render EngineWagon";
 
     if (!m_program) {
         m_program = new QOpenGLShaderProgram();
@@ -86,16 +73,19 @@ void EngineWagon::render(/*Camera* camera*/)
 
         m_program->link();
     }
-    m_program->bind();
 
+    int mvp = m_program->uniformLocation("mvp");
+    glm::mat4 glm_mvp =  m_scene->camera().viewProjection();
+    //TODO FIXME
+    QMatrix4x4 matrix(glm_mvp[0][0],glm_mvp[0][1],glm_mvp[0][2],glm_mvp[0][3],
+                        glm_mvp[1][0],glm_mvp[1][1],glm_mvp[1][2],glm_mvp[1][3],
+                        glm_mvp[2][0],glm_mvp[2][1],glm_mvp[2][2],glm_mvp[2][3],
+                        glm_mvp[3][0],glm_mvp[3][1],glm_mvp[3][2],glm_mvp[3][3]);
+    m_program->setUniformValue(mvp, matrix);
 
     initCube();
 
-    //m_program->enableAttributeArray(a_vertex);
-    //glVertexAttribPointer(a_vertex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    m_program->bind();
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
 
@@ -103,9 +93,6 @@ void EngineWagon::render(/*Camera* camera*/)
 
     m_program->disableAttributeArray(0);
     m_program->release();
-
-    glEnable(GL_DEPTH_TEST);
-
 }
 
 float EngineWagon::length()

@@ -5,7 +5,6 @@ namespace terminus
 
 AbstractWagon::AbstractWagon()
 {
-
 }
 
 float AbstractWagon::length()

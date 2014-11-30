@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../scene.h"
 #include "../abstractgraphicsobject.h"
 
 namespace terminus
@@ -14,7 +15,6 @@ public:
 
 protected:
     float m_positionOffset;
-
 };
 
 }
