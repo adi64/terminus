@@ -85,6 +85,9 @@ void EngineWagon::render()
 
     initCube();
 
+    m_vbo->bind();
+    m_ibo->bind();
+
     m_program->bind();
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
