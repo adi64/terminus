@@ -6,11 +6,15 @@
 namespace terminus
 {
 
+class Scene;
+
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject();
+    AbstractGraphicsObject(Scene* scene);
     virtual void render() = 0;
+protected:
+    Scene *m_scene;
 };
 
 }

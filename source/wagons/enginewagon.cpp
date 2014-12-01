@@ -4,12 +4,14 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 
+#include "../scene.h"
+
 namespace terminus
 {
 
 EngineWagon::EngineWagon(Scene *scene)
-    : m_program(nullptr)
-    , m_scene(scene)
+    : AbstractWagon(scene)
+    , m_program(nullptr)
 {
 }
 

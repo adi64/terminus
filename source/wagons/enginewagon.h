@@ -17,7 +17,6 @@ public:
 
 protected:
     void initCube();
-    Scene *m_scene;
     QOpenGLShaderProgram *m_program;
     QOpenGLBuffer *m_vbo;
     QOpenGLBuffer *m_ibo;

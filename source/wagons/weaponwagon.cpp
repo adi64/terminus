@@ -2,11 +2,13 @@
 
 #include <QDebug>
 
+#include "../scene.h"
+
 namespace terminus
 {
 
 WeaponWagon::WeaponWagon(Scene *scene)
-    : m_scene(scene)
+    : AbstractWagon(scene)
 {
 }
 

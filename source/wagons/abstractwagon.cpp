@@ -3,7 +3,8 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon()
+AbstractWagon::AbstractWagon(Scene *scene)
+    : AbstractGraphicsObject(scene)
 {
 }
 

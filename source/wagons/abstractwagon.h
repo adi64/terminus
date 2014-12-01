@@ -1,15 +1,16 @@
 #pragma once
 
-#include "../scene.h"
 #include "../abstractgraphicsobject.h"
 
 namespace terminus
 {
 
+class Scene;
+
 class AbstractWagon : public AbstractGraphicsObject
 {
 public:
-    AbstractWagon();
+    AbstractWagon(Scene *scene);
     static float length();
     void setPositionOffset(float accumulatedOffset);
 
