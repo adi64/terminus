@@ -12,11 +12,11 @@ class EngineWagon : public AbstractWagon
 {
 public:
     EngineWagon(Scene *scene);
-    void render();
+    void render(QOpenGLFunctions& gl);
     static float length();
 
 protected:
-    void initCube();
+    void initCube(QOpenGLFunctions& gl);
     QOpenGLShaderProgram *m_program;
     QOpenGLBuffer *m_vbo;
     QOpenGLBuffer *m_ibo;

@@ -13,7 +13,8 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/scene.cpp \
-    source/train.cpp
+    source/train.cpp \
+    source/painter.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,4 +33,5 @@ HEADERS += \
     source/game.h \
     source/scene.h \
     source/train.h \
-    source/train.hpp
+    source/train.hpp \
+    source/painter.h

@@ -12,6 +12,7 @@ namespace terminus
 {
 
 class AbstractGraphicsObject;
+class Painter;
 
 class Scene : public QObject
 {
@@ -27,6 +28,7 @@ public slots:
 protected:
 private:
     Camera* m_camera;
+    Painter* m_painter;
     std::vector<AbstractGraphicsObject*> m_nodes;
 
 };

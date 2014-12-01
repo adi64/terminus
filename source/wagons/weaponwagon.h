@@ -9,7 +9,7 @@ class WeaponWagon : public AbstractWagon
 {
 public:
     WeaponWagon(Scene *scene);
-    void render();
+    void render(QOpenGLFunctions& gl);
 };
 
 }

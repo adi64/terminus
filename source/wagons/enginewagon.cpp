@@ -18,7 +18,7 @@ EngineWagon::EngineWagon(Scene *scene)
 }
 
 
-void EngineWagon::initCube()
+void EngineWagon::initCube(QOpenGLFunctions& gl)
 {
     static const GLfloat vertices[24] =
     {
@@ -46,26 +46,25 @@ void EngineWagon::initCube()
     m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     m_vbo->create();
     m_vbo->bind();
+    m_vbo->allocate(vertices, 24 * sizeof(GLfloat));
 
-    m_vbo->allocate(vertices, 24 * sizeof(float));
-
-    int a_vertex = m_program->attributeLocation("a_vertex");
-
-    m_program->enableAttributeArray(a_vertex);
-    m_program->setAttributeBuffer(a_vertex, GL_FLOAT, 0, 3);
+    auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
+    gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+    gl.glEnableVertexAttribArray(vertexAttribLocation);
 
     m_ibo = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
     m_ibo->create();
     m_ibo->bind();
+    m_ibo->allocate(indices, 14 * sizeof(GLfloat));
 
-    m_ibo->allocate(indices, 14 * sizeof(float));
+    m_ibo->release();
+    m_vbo->release();
 
     bufferObjectsInitialized = true;
-
 }
 
 
-void EngineWagon::render()
+void EngineWagon::render(QOpenGLFunctions& gl)
 {
     qDebug() << "Trying to render EngineWagon";
 
@@ -78,24 +77,25 @@ void EngineWagon::render()
         m_program->link();
     }
 
-    int mvp = m_program->uniformLocation("mvp");
-    glm::mat4 glm_mvp =  m_scene->camera().viewProjection();
-    QMatrix4x4 matrix(glm::value_ptr(glm_mvp));
-    m_program->setUniformValue(mvp, matrix);
+    m_program->bind();
 
-    initCube();
+    auto mvpLocation = m_program->uniformLocation("mvp");
+    auto mvp = QMatrix4x4(glm::value_ptr(m_scene->camera().viewProjection()));
+    m_program->setUniformValue(mvpLocation, mvp);
+
+    initCube(gl);
 
     m_vbo->bind();
     m_ibo->bind();
 
-    m_program->bind();
-
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
 
-    glDrawElements(GL_TRIANGLE_STRIP, 34, GL_UNSIGNED_SHORT, 0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 34);
 
     m_program->disableAttributeArray(0);
     m_program->release();
+    m_vbo->release();
+    m_ibo->release();
 }
 
 float EngineWagon::length()
