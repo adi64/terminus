@@ -11,11 +11,9 @@ namespace terminus
 {
 
 class ResourceManager
-{
+{  
 public:
-    ResourceManager();
-    virtual ~ResourceManager();
-
+    static ResourceManager* getInstance();
     virtual void storeGeometry(std::string name, std::string path);
     virtual Geometry loadGeometry(std::string path);
     virtual void loadMaterial(std::string path);
@@ -36,6 +34,10 @@ public:
 
 protected:
     std::map<std::string, std::shared_ptr<std::unique_ptr<Geometry>>> m_geometryStorage;
+    ResourceManager();
+    virtual ~ResourceManager();
+
+    ResourceManager* m_instance;
 };
 
 } // terminus

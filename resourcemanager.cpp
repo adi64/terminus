@@ -12,9 +12,20 @@
 namespace terminus
 {
 
+ResourceManager* ResourceManager::m_instance = nullptr;
+
+ResourceManager* ResourceManager::getInstance()
+{
+    if(m_instance == nullptr)
+    {
+        m_instance = new ResourceManager();
+    }
+
+    return m_instance;
+}
+
 ResourceManager::ResourceManager()
 {
-
 }
 
 ResourceManager::~ResourceManager()
