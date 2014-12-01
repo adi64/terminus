@@ -37,6 +37,8 @@ void Game::sync()
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
+    m_scene->camera().setEye(glm::vec3(0.0, 0.0, 4.0));
+
 
     /* Debug Stuff
     // get context opengl-version
