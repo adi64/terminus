@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <QObject>
 #include <QQuickItem>
@@ -24,9 +23,6 @@ public slots:
 protected:
 private:
     Scene* m_scene;
-    ResourceManager* m_resourceManager;
 };
 
 }
-
-#endif // GAME_H

@@ -1,5 +1,4 @@
-#ifndef SQUIRCLE_H
-#define SQUIRCLE_H
+#pragma once
 
 #include "abstractgraphicsobject.h"
 
@@ -18,5 +17,3 @@ private:
 };
 
 }
-
-#endif // SQUIRCLE_H

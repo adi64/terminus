@@ -37,7 +37,7 @@ protected:
     ResourceManager();
     virtual ~ResourceManager();
 
-    ResourceManager* m_instance;
+    static ResourceManager* m_instance;
 };
 
 } // terminus

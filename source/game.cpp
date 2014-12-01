@@ -1,22 +1,32 @@
 #include "game.h"
 
+#include <memory>
+
 #include <QQuickView>
 
 #include "scene.h"
 #include "resourcemanager.h"
 #include "squircle.h"
+#include "train.h"
+
+#include "wagons/enginewagon.h"
+#include "wagons/weaponwagon.h"
 
 namespace terminus
 {
 
 Game::Game()
 : m_scene(new Scene())
-, m_resourceManager(new ResourceManager())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     Squircle* testSquircle = new Squircle;
     m_scene->addNode(testSquircle);
+
+    auto playerTrain = std::unique_ptr<Train>(new Train);
+    playerTrain->addWagon<WeaponWagon>();
+    playerTrain->addWagon<WeaponWagon>();
+    playerTrain->moveWagon(1, 2);
 }
 
 Game::~Game()
