@@ -4,9 +4,13 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <unordered_map>
 #include "geometry.h"
 
 #include <QDebug> //TODO remove in the end
+
+namespace terminus
+{
 
 ResourceManager::ResourceManager()
 {
@@ -38,7 +42,7 @@ Geometry ResourceManager::loadGeometry(std::string path)
     //now combining the 3 vectors into one vertex-buffer and generating an index-buffer for it
 
     std::vector<int> indexBuffer;
-    std::vector<GeoVertex::Vertex> vertexBuffer;
+    std::vector<Vertex> vertexBuffer;
 
     generateBuffers(positions, texCoords, normals, indexBlocks, indexBuffer, vertexBuffer);
 
@@ -100,17 +104,17 @@ void ResourceManager::parseObjFile(std::string path, std::vector<glm::vec3> posi
     }
 }
 
-void ResourceManager::generateBuffers(std::vector<glm::vec3> positions, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals, std::vector<glm::ivec3> indexBlocks, std::vector<int> indexBuffer, std::vector<GeoVertex::Vertex> vertexBuffer)
+void ResourceManager::generateBuffers(std::vector<glm::vec3> positions, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals, std::vector<glm::ivec3> indexBlocks, std::vector<int> indexBuffer, std::vector<Vertex> vertexBuffer)
 {
-    std::map<glm::ivec3, int> indexLookUp;
+    std::unordered_map<glm::ivec3*, size_t> indexLookUp;
 
     for(int i = 0; i < indexBlocks.size(); i++)
     {
-        if(indexLookUp.count(indexBlocks[i]) == 0)
+        if(indexLookUp.count(&(indexBlocks[i])) == 0)
         {
-            indexLookUp[indexBlocks[i]] = vertexBuffer.size();
+            indexLookUp[&(indexBlocks[i])] = vertexBuffer.size();
 
-            GeoVertex::Vertex v;
+            Vertex v;
             v.position = positions[indexBlocks[i].x];
             v.texCoord = texCoords[indexBlocks[i].y];
             v.normal = normals[indexBlocks[i].z];
@@ -120,7 +124,7 @@ void ResourceManager::generateBuffers(std::vector<glm::vec3> positions, std::vec
         }
         else
         {
-            indexBuffer.push_back(indexLookUp[indexBlocks[i]]);
+            indexBuffer.push_back(indexLookUp[&(indexBlocks[i])]);
         }
     }
 }
@@ -148,3 +152,5 @@ std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::str
         m_geometryStorage[name] = std::shared_ptr<std::unique_ptr<Geometry>>(new std::unique_ptr<Geometry>(new Geometry()));
     return m_geometryStorage[name];
 }
+
+} // terminus
