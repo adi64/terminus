@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QQuickItem>
 
+class QTimer;
 
 namespace terminus
 {
@@ -25,8 +26,9 @@ public slots:
     void handleWindowChanged(QQuickWindow* win);
 protected:
 private:
-    Scene* m_scene;
+    Scene *m_scene;
     std::unique_ptr<Train> m_playerTrain;
+    QTimer *m_timer;
 };
 
 }

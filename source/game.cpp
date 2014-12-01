@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <QQuickView>
+#include <QTimer>
 
 #include "scene.h"
 #include "squircle.h"
@@ -19,6 +20,8 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     m_scene = new Scene;
+
+    m_timer = new QTimer();
 
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
     m_playerTrain->addWagon<WeaponWagon>();
@@ -68,6 +71,10 @@ void Game::handleWindowChanged(QQuickWindow *win)
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         win->setClearBeforeRendering(false);
+
+        // force redraw every 100 msec
+        connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
+        m_timer->start(100);
     }
 }
 
