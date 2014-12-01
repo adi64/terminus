@@ -8,6 +8,7 @@ namespace terminus
 {
 
 class Scene;
+class ResourceManager;
 
 class Game : public QQuickItem
 {
@@ -23,6 +24,7 @@ public slots:
 protected:
 private:
     Scene* m_scene;
+    ResourceManager* m_resourceManager;
 };
 
 }
