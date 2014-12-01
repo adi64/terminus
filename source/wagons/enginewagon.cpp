@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
 
 #include "../scene.h"
 
@@ -18,24 +19,9 @@ EngineWagon::EngineWagon(Scene *scene)
 }
 
 
+
 void EngineWagon::initCube(QOpenGLFunctions& gl)
 {
-    static const GLfloat vertices[24] =
-    {
-        -1.f, -1.f, -1.f, //0
-        -1.f, -1.f,  1.f, //1
-        -1.f,  1.f, -1.f, //2
-        -1.f,  1.f,  1.f, //3
-         1.f, -1.f, -1.f, //4
-         1.f, -1.f,  1.f, //5
-         1.f,  1.f, -1.f, //6
-         1.f,  1.f,  1.f  //7
-    };
-
-    static const GLubyte indices[14] =
-    {
-        2, 0, 6, 4, 5, 0, 1, 2, 3, 6, 7, 5, 3, 1
-    };
 
     static bool bufferObjectsInitialized = false;
     if(bufferObjectsInitialized)
@@ -43,24 +29,73 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
        return;
     }
 
+    std::vector<glm::vec3> v(vertices());
+    std::vector<unsigned short> i(indices());
+
+    m_vao = new QOpenGLVertexArrayObject();
+    m_vao->create();
+    m_vao->bind();
+
     m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     m_vbo->create();
-    m_vbo->bind();
-    m_vbo->allocate(vertices, 24 * sizeof(GLfloat));
+    m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
-    gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-    gl.glEnableVertexAttribArray(vertexAttribLocation);
+    m_vbo->bind();
+    m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
 
     m_ibo = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
     m_ibo->create();
-    m_ibo->bind();
-    m_ibo->allocate(indices, 14 * sizeof(GLfloat));
+    m_ibo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    m_ibo->release();
+    m_ibo->bind();
+    m_ibo->allocate(i.data(), i.size() * sizeof(unsigned char));
+
+
+    auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
+    gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+    gl.glEnableVertexAttribArray(vertexAttribLocation);
+
+    m_vao->release();
     m_vbo->release();
+    m_ibo->release();
 
     bufferObjectsInitialized = true;
+}
+
+const std::vector<glm::vec3> EngineWagon::vertices()
+{
+    std::vector<glm::vec3> data;
+    data.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
+    data.push_back(glm::vec3(-1.0f, -1.0f,  1.0f));
+    data.push_back(glm::vec3(-1.0f,  1.0f, -1.0f));
+    data.push_back(glm::vec3(-1.0f,  1.0f,  1.0f));
+    data.push_back(glm::vec3( 1.0f, -1.0f, -1.0f));
+    data.push_back(glm::vec3( 1.0f, -1.0f,  1.0f));
+    data.push_back(glm::vec3( 1.0f,  1.0f, -1.0f));
+    data.push_back(glm::vec3( 1.0f,  1.0f,  1.0f));
+
+    return data;
+}
+
+const std::vector<unsigned short> EngineWagon::indices()
+{
+    std::vector<unsigned short> data;
+    data.push_back(2);
+    data.push_back(0);
+    data.push_back(6);
+    data.push_back(4);
+    data.push_back(5);
+    data.push_back(0);
+    data.push_back(1);
+    data.push_back(2);
+    data.push_back(3);
+    data.push_back(6);
+    data.push_back(7);
+    data.push_back(5);
+    data.push_back(3);
+    data.push_back(1);
+
+    return data;
 }
 
 
@@ -85,17 +120,15 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     initCube(gl);
 
-    m_vbo->bind();
-    m_ibo->bind();
+    m_vao->bind();
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 34);
+    gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size() * 3, GL_UNSIGNED_SHORT, nullptr);
 
-    m_program->disableAttributeArray(0);
+    m_vao->release();
+
     m_program->release();
-    m_vbo->release();
-    m_ibo->release();
 }
 
 float EngineWagon::length()

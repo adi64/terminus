@@ -1,9 +1,14 @@
 #pragma once
 
 #include "abstractwagon.h"
-#include <QOpenGLShaderProgram>
+
+#include <vector>
+
+#include <glm/glm.hpp>
 
 class QOpenGLBuffer;
+class QOpenGLShaderProgram;
+class QOpenGLVertexArrayObject;
 
 namespace terminus
 {
@@ -20,6 +25,10 @@ protected:
     QOpenGLShaderProgram *m_program;
     QOpenGLBuffer *m_vbo;
     QOpenGLBuffer *m_ibo;
+    QOpenGLVertexArrayObject *m_vao;
+
+    static const std::vector<glm::vec3> vertices();
+    static const std::vector<unsigned short> indices();
 };
 
 }
