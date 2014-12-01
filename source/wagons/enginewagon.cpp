@@ -1,5 +1,7 @@
 #include "enginewagon.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
@@ -78,11 +80,7 @@ void EngineWagon::render()
 
     int mvp = m_program->uniformLocation("mvp");
     glm::mat4 glm_mvp =  m_scene->camera().viewProjection();
-    //TODO FIXME
-    QMatrix4x4 matrix(glm_mvp[0][0],glm_mvp[0][1],glm_mvp[0][2],glm_mvp[0][3],
-                        glm_mvp[1][0],glm_mvp[1][1],glm_mvp[1][2],glm_mvp[1][3],
-                        glm_mvp[2][0],glm_mvp[2][1],glm_mvp[2][2],glm_mvp[2][3],
-                        glm_mvp[3][0],glm_mvp[3][1],glm_mvp[3][2],glm_mvp[3][3]);
+    QMatrix4x4 matrix(glm::value_ptr(glm_mvp));
     m_program->setUniformValue(mvp, matrix);
 
     initCube();
