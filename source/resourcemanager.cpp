@@ -117,7 +117,7 @@ void ResourceManager::parseObjFile(std::string path, std::vector<glm::vec3> posi
 
 void ResourceManager::generateBuffers(std::vector<glm::vec3> positions, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals, std::vector<glm::ivec3> indexBlocks, std::vector<int> indexBuffer, std::vector<Vertex> vertexBuffer)
 {
-    std::unordered_map<glm::ivec3*, size_t> indexLookUp;
+    std::unordered_map<glm::ivec3*, size_t> indexLookUp; //no pointer! size_t --> unsigned int
 
     for(int i = 0; i < indexBlocks.size(); i++)
     {
