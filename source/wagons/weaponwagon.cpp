@@ -14,7 +14,6 @@ WeaponWagon::WeaponWagon(Scene *scene)
 
 void WeaponWagon::render(QOpenGLFunctions& gl)
 {
-    qDebug() << "Trying to render WeaponWagon";
 }
 
 }

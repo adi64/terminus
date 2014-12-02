@@ -65,14 +65,14 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
 const std::vector<glm::vec3> EngineWagon::vertices()
 {
     std::vector<glm::vec3> data;
-    data.push_back(glm::vec3(-1.0f, -1.0f, -1.0f)); //0
-    data.push_back(glm::vec3(-1.0f, -1.0f,  1.0f)); //1
-    data.push_back(glm::vec3(-1.0f,  1.0f, -1.0f)); //2
-    data.push_back(glm::vec3(-1.0f,  1.0f,  1.0f)); //3
-    data.push_back(glm::vec3( 1.0f, -1.0f, -1.0f)); //4
-    data.push_back(glm::vec3( 1.0f, -1.0f,  1.0f)); //5
-    data.push_back(glm::vec3( 1.0f,  1.0f, -1.0f)); //6
-    data.push_back(glm::vec3( 1.0f,  1.0f,  1.0f)); //7
+    data.push_back(glm::vec3(-3.0f, -1.0f, -1.0f)); //0
+    data.push_back(glm::vec3(-3.0f, -1.0f,  1.0f)); //1
+    data.push_back(glm::vec3(-3.0f,  1.0f, -1.0f)); //2
+    data.push_back(glm::vec3(-3.0f,  1.0f,  1.0f)); //3
+    data.push_back(glm::vec3( 3.0f, -1.0f, -1.0f)); //4
+    data.push_back(glm::vec3( 3.0f, -1.0f,  1.0f)); //5
+    data.push_back(glm::vec3( 3.0f,  1.0f, -1.0f)); //6
+    data.push_back(glm::vec3( 3.0f,  1.0f,  1.0f)); //7
 
     return data;
 }
@@ -101,8 +101,6 @@ const std::vector<unsigned short> EngineWagon::indices()
 
 void EngineWagon::render(QOpenGLFunctions& gl)
 {
-    qDebug() << "Trying to render EngineWagon";
-
     if (!m_program)
     {
         m_program = new QOpenGLShaderProgram();
@@ -124,8 +122,9 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     QMatrix4x4 model;
     model.setToIdentity();
-    //model.rotate(timer*2, QVector3D(1.0, 0.0, 0.0));
-    model.rotate(timer*1, QVector3D(0.0, 1.0, 0.0));
+    model.translate(QVector3D(-18.0, 0.0, 0.0));
+    model.translate(QVector3D(timer/10, 0.0, 0.0));
+    model.rotate(timer, QVector3D(1.0, 0.0, 0.0));
 
     QMatrix4x4 view;
     view.setToIdentity();
@@ -133,7 +132,7 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     QMatrix4x4 projection;
     projection.setToIdentity();
-    projection.perspective(45.0, 1.0, 0.1, 64.0);
+    projection.perspective(90.0, 4.0/3.0, 0.1, 64.0);
 
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();
