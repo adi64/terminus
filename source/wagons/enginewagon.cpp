@@ -41,19 +41,19 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
     m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     m_vbo->bind();
-    m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
+    //m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
+    m_vbo->allocate(v.data(), v.size() * sizeof(float) * 3);
+
+    auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
+    gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    gl.glEnableVertexAttribArray(vertexAttribLocation);
 
     m_ibo = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
     m_ibo->create();
     m_ibo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     m_ibo->bind();
-    m_ibo->allocate(i.data(), i.size() * sizeof(unsigned char));
-
-
-    auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
-    gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
-    gl.glEnableVertexAttribArray(vertexAttribLocation);
+    m_ibo->allocate(i.data(), i.size() * sizeof(unsigned short));
 
     m_vao->release();
     m_vbo->release();
@@ -65,14 +65,14 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
 const std::vector<glm::vec3> EngineWagon::vertices()
 {
     std::vector<glm::vec3> data;
-    data.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
-    data.push_back(glm::vec3(-1.0f, -1.0f,  1.0f));
-    data.push_back(glm::vec3(-1.0f,  1.0f, -1.0f));
-    data.push_back(glm::vec3(-1.0f,  1.0f,  1.0f));
-    data.push_back(glm::vec3( 1.0f, -1.0f, -1.0f));
-    data.push_back(glm::vec3( 1.0f, -1.0f,  1.0f));
-    data.push_back(glm::vec3( 1.0f,  1.0f, -1.0f));
-    data.push_back(glm::vec3( 1.0f,  1.0f,  1.0f));
+    data.push_back(glm::vec3(-1.0f, -1.0f, -1.0f)); //0
+    data.push_back(glm::vec3(-1.0f, -1.0f,  1.0f)); //1
+    data.push_back(glm::vec3(-1.0f,  1.0f, -1.0f)); //2
+    data.push_back(glm::vec3(-1.0f,  1.0f,  1.0f)); //3
+    data.push_back(glm::vec3( 1.0f, -1.0f, -1.0f)); //4
+    data.push_back(glm::vec3( 1.0f, -1.0f,  1.0f)); //5
+    data.push_back(glm::vec3( 1.0f,  1.0f, -1.0f)); //6
+    data.push_back(glm::vec3( 1.0f,  1.0f,  1.0f)); //7
 
     return data;
 }
@@ -124,7 +124,7 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     QMatrix4x4 model;
     model.setToIdentity();
-    model.rotate(timer*2, QVector3D(1.0, 0.0, 0.0));
+    //model.rotate(timer*2, QVector3D(1.0, 0.0, 0.0));
     model.rotate(timer*1, QVector3D(0.0, 1.0, 0.0));
 
     QMatrix4x4 view;
@@ -145,9 +145,7 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     m_vao->bind();
 
-    glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
-
-    gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size() * 3, GL_UNSIGNED_SHORT, nullptr);
+    gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size(), GL_UNSIGNED_SHORT, nullptr);
 
     m_vao->release();
 
