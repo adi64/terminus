@@ -1,7 +1,9 @@
 #pragma once
 
-
-#include <glm/glm.hpp>
+#include <QVector3D>
+#include <QVector2D>
+#include <QMatrix3x3>
+#include <QMatrix4x4>
 
 namespace terminus
 {
@@ -11,21 +13,21 @@ class Camera
 
 
 public:
-    Camera(const glm::vec3 & eye    = glm::vec3(0.0, 0.0, 1.0),
-           const glm::vec3 & center = glm::vec3(0.0, 0.0, 0.0),
-           const glm::vec3 & up     = glm::vec3(0.0, 1.0, 0.0) );
+    Camera(const QVector3D & eye    = QVector3D(0.0, 0.0, 1.0),
+           const QVector3D & center = QVector3D(0.0, 0.0, 0.0),
+           const QVector3D & up     = QVector3D(0.0, 1.0, 0.0) );
 
     virtual ~Camera();
 
     bool autoUpdating() const;
     void setAutoUpdating(bool b);
 
-    const glm::vec3 & eye() const;
-    void setEye(const glm::vec3 & eye);
-    const glm::vec3 & center() const;
-    void setCenter(const glm::vec3 & center);
-    const glm::vec3 & up() const;
-    void setUp(const glm::vec3 & up);
+    const QVector3D & eye() const;
+    void setEye(const QVector3D & eye);
+    const QVector3D & center() const;
+    void setCenter(const QVector3D & center);
+    const QVector3D & up() const;
+    void setUp(const QVector3D & up);
 
     float zNear() const;
     void setZNear(float zNear);
@@ -35,22 +37,22 @@ public:
     float fovy() const;
     void setFovy(float fovy);
 
-    const glm::ivec2 & viewport() const;
-    void setViewport(const glm::ivec2 & viewport);
+    const QVector2D & viewport() const; // should be int, but whatever
+    void setViewport(const QVector2D & viewport);
     void setViewport(int width, int height);
 
     float aspectRatio() const;
 
     // lazy matrices getters
 
-    const glm::mat4 & view() const;
-    const glm::mat4 & projection() const;
-    const glm::mat4 & viewProjection() const;
-    const glm::mat4 & viewInverted() const;
-    const glm::mat4 & projectionInverted() const;
-    const glm::mat4 & viewProjectionInverted() const;
+    const QMatrix4x4 & view() const;
+    const QMatrix4x4 & projection() const;
+    const QMatrix4x4 & viewProjection() const;
+    const QMatrix4x4 & viewInverted() const;
+    const QMatrix4x4 & projectionInverted() const;
+    const QMatrix4x4 & viewProjectionInverted() const;
 
-    const glm::mat3 & normal() const;
+    const QMatrix3x3 & normal() const;
 
     void update() const;
 
@@ -66,24 +68,24 @@ protected:
     mutable bool m_dirty;
     bool m_autoUpdate;
 
-    glm::vec3 m_eye;
-    glm::vec3 m_center;
-    glm::vec3 m_up;
+    QVector3D m_eye;
+    QVector3D m_center;
+    QVector3D m_up;
 
     float m_fovy;
     float m_aspect;
     float m_zNear;
     float m_zFar;
 
-    glm::ivec2 m_viewport;
+    QVector2D m_viewport;
 
-    mutable glm::mat4 m_view;
-    mutable glm::mat4 m_viewInverted;
-    mutable glm::mat4 m_projection;
-    mutable glm::mat4 m_projectionInverted;
-    mutable glm::mat4 m_viewProjection;
-    mutable glm::mat4 m_viewProjectionInverted;
-    mutable glm::mat3 m_normal;
+    mutable QMatrix4x4 m_view;
+    mutable QMatrix4x4 m_viewInverted;
+    mutable QMatrix4x4 m_projection;
+    mutable QMatrix4x4 m_projectionInverted;
+    mutable QMatrix4x4 m_viewProjection;
+    mutable QMatrix4x4 m_viewProjectionInverted;
+    mutable QMatrix3x3 m_normal;
 
     mutable bool m_viewChanged;
     mutable bool m_viewInvertedChanged;

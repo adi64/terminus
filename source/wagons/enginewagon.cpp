@@ -103,7 +103,8 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 {
     qDebug() << "Trying to render EngineWagon";
 
-    if (!m_program) {
+    if (!m_program)
+    {
         m_program = new QOpenGLShaderProgram();
 
         m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/enginewagon.vert");
@@ -114,9 +115,31 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     m_program->bind();
 
-    auto mvpLocation = m_program->uniformLocation("mvp");
-    auto mvp = QMatrix4x4(glm::value_ptr(m_scene->camera().viewProjection()));
-    m_program->setUniformValue(mvpLocation, mvp);
+    static float timer = 0.0;
+    if(timer >= 360.0)
+    {
+        timer = 0.0;
+    }
+    timer += 1.0;
+
+    QMatrix4x4 model;
+    model.setToIdentity();
+    model.rotate(timer*2, QVector3D(1.0, 0.0, 0.0));
+    model.rotate(timer*1, QVector3D(0.0, 1.0, 0.0));
+
+    QMatrix4x4 view;
+    view.setToIdentity();
+    view.lookAt(QVector3D(0.0, 0.0, 4.0), QVector3D(0.0, 0.0, 0.0), QVector3D(0.0, 1.0, 0.0));
+
+    QMatrix4x4 projection;
+    projection.setToIdentity();
+    projection.perspective(45.0, 1.0, 0.1, 64.0);
+
+    QMatrix4x4 modelViewProjection;
+    modelViewProjection.setToIdentity();
+    modelViewProjection = projection * view * model;
+
+    m_program->setUniformValue("mvp", modelViewProjection);
 
     initCube(gl);
 

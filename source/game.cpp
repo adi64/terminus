@@ -40,9 +40,9 @@ void Game::sync()
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    m_scene->camera().setEye(glm::vec3(0.5, 0.5, 4.0));
-    m_scene->camera().setCenter(glm::vec3(0.0,0.0,0.0));
-    m_scene->camera().setUp(glm::vec3(0.0,1.0,0.0));
+    m_scene->camera().setEye(QVector3D(0.0, 0.0, 10.0));
+    m_scene->camera().setCenter(QVector3D(0.0, 0.0, 0.0));
+    m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 
     /* Debug Stuff
     // get context opengl-version
@@ -72,9 +72,9 @@ void Game::handleWindowChanged(QQuickWindow *win)
         // and nothing would show.
         win->setClearBeforeRendering(false);
 
-        // force redraw every 100 msec
+        // force redraw every 20 msec
         connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
-        m_timer->start(100);
+        m_timer->start(1000 / 60);
     }
 }
 

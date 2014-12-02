@@ -40,7 +40,7 @@ void Scene::render()
 
     qDebug("Start rendering:");
 
-    glViewport(0, 0, m_camera->viewport().x, m_camera->viewport().y);
+    glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
