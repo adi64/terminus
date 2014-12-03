@@ -122,9 +122,10 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     QMatrix4x4 model;
     model.setToIdentity();
-    model.translate(QVector3D(-18.0, 0.0, 0.0));
-    model.translate(QVector3D(timer/10, 0.0, 0.0));
+    model.translate(QVector3D(-1.8, 0.0, 0.0));
+    model.translate(QVector3D(0.9 + abs(180 - timer)/100.0, 0.0, 0.0));
     model.rotate(timer, QVector3D(1.0, 0.0, 0.0));
+    model.rotate(timer * 2.0, QVector3D(0.0, 1.0, 0.0));
 
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();
