@@ -9,7 +9,6 @@ Camera::Camera(
 ,   const QVector3D & center
 ,   const QVector3D & up)
 : m_dirty(false)
-, m_autoUpdate(false)
 
 , m_eye(eye)
 , m_center(center)
@@ -33,21 +32,6 @@ Camera::~Camera()
 {
 }
 
-bool Camera::autoUpdating() const
-{
-    return m_autoUpdate;
-}
-
-void Camera::setAutoUpdating(bool b)
-{
-    m_autoUpdate = b;
-
-    if (m_dirty && m_autoUpdate)
-    {
-        update();
-    }
-}
-
 void Camera::invalidateMatrices() const
 {
     m_viewChanged = true;
@@ -67,12 +51,11 @@ void Camera::invalidateMatrices() const
     normal();
 }
 
-void Camera::dirty(bool update)
+void Camera::dirty()
 {
     m_dirty = true;
 
-    if (update || m_autoUpdate)
-        this->update();
+    this->update();
 }
 
 const QVector3D & Camera::eye() const
@@ -83,7 +66,9 @@ const QVector3D & Camera::eye() const
 void Camera::setEye(const QVector3D & eye)
 {
     if (eye == m_eye)
+    {
         return;
+    }
 
     m_eye = eye;
     dirty();
@@ -97,7 +82,9 @@ const QVector3D & Camera::center() const
 void Camera::setCenter(const QVector3D & center)
 {
     if (center == m_center)
+    {
         return;
+    }
 
     m_center = center;
     dirty();
@@ -111,7 +98,9 @@ const QVector3D & Camera::up() const
 void Camera::setUp(const QVector3D & up)
 {
     if (up == m_up)
+    {
         return;
+    }
 
     m_up = up;
     dirty();
@@ -125,7 +114,9 @@ float Camera::zNear() const
 void Camera::setZNear(const float zNear)
 {
     if (std::abs(zNear - m_zNear) < std::numeric_limits<float>::epsilon())
+    {
         return;
+    }
 
     m_zNear = zNear;
     assert(m_zNear > 0.0);
@@ -141,7 +132,9 @@ float Camera::zFar() const
 void Camera::setZFar(const float zFar)
 {
     if (std::abs(zFar - m_zFar) < std::numeric_limits<float>::epsilon())
+    {
         return;
+    }
 
     m_zFar = zFar;
     assert(m_zFar > m_zNear);
@@ -157,7 +150,9 @@ float Camera::fovy() const
 void Camera::setFovy(const float fovy)
 {
     if (std::abs(fovy - m_fovy) < std::numeric_limits<float>::epsilon())
+    {
         return;
+    }
 
     m_fovy = fovy;
     assert(m_fovy > 0.0);
@@ -178,7 +173,9 @@ void Camera::setViewport(int width, int height)
 void Camera::setViewport(const QVector2D & viewport)
 {
     if (viewport == m_viewport)
+    {
         return;
+    }
 
     m_aspect = static_cast<float>(viewport.x()) / std::max(static_cast<float>(viewport.y()), 1.f);
     m_viewport = viewport;
@@ -194,7 +191,9 @@ float Camera::aspectRatio() const
 void Camera::update() const
 {
     if (!m_dirty)
+    {
         return;
+    }
 
     // todo fixme - dirty is set to false here because otherwise invalidateMatrices() would call this in a loop
     m_dirty = false;
@@ -205,11 +204,15 @@ void Camera::update() const
 const QMatrix4x4 & Camera::view() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_viewChanged)
+    {
         m_view.setToIdentity();
         m_view.lookAt(m_eye, m_center, m_up);
+    }
 
     m_viewChanged = false;
 
@@ -219,11 +222,15 @@ const QMatrix4x4 & Camera::view() const
 const QMatrix4x4 & Camera::projection() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_projectionChanged)
+    {
         m_projection.setToIdentity();
         m_projection.perspective(m_fovy, m_aspect, m_zNear, m_zFar);
+    }
 
     m_projectionChanged = false;
 
@@ -233,10 +240,14 @@ const QMatrix4x4 & Camera::projection() const
 const QMatrix4x4 & Camera::viewProjection() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_viewProjectionChanged)
+    {
         m_viewProjection = projection() * view();
+    }
 
     m_viewProjectionChanged = false;
 
@@ -246,10 +257,14 @@ const QMatrix4x4 & Camera::viewProjection() const
 const QMatrix4x4 & Camera::viewInverted() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_viewInvertedChanged)
+    {
         m_viewInverted = view().inverted();
+    }
 
     m_viewInvertedChanged = false;
 
@@ -259,10 +274,14 @@ const QMatrix4x4 & Camera::viewInverted() const
 const QMatrix4x4 & Camera::projectionInverted() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_projectionInvertedChanged)
+    {
         m_projectionInverted = projection().inverted();
+    }
 
     m_projectionInvertedChanged = false;
 
@@ -272,10 +291,14 @@ const QMatrix4x4 & Camera::projectionInverted() const
 const QMatrix4x4 & Camera::viewProjectionInverted() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_viewProjectionInvertedChanged)
+    {
         m_viewProjectionInverted = viewProjection().inverted();
+    }
 
     m_viewProjectionInvertedChanged = false;
 
@@ -285,10 +308,14 @@ const QMatrix4x4 & Camera::viewProjectionInverted() const
 const QMatrix3x3 & Camera::normal() const
 {
     if (m_dirty)
+    {
         update();
+    }
 
     if (m_normalChanged)
+    {
         m_normal = view().normalMatrix();
+    }
 
     m_normalChanged = false;
 

@@ -19,9 +19,6 @@ public:
 
     virtual ~Camera();
 
-    bool autoUpdating() const;
-    void setAutoUpdating(bool b);
-
     const QVector3D & eye() const;
     void setEye(const QVector3D & eye);
     const QVector3D & center() const;
@@ -60,7 +57,7 @@ public:
 
 
 protected:
-    void dirty(bool update = true);
+    void dirty();
     void invalidateMatrices() const;
 
 

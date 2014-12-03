@@ -126,17 +126,9 @@ void EngineWagon::render(QOpenGLFunctions& gl)
     model.translate(QVector3D(timer/10, 0.0, 0.0));
     model.rotate(timer, QVector3D(1.0, 0.0, 0.0));
 
-    QMatrix4x4 view;
-    view.setToIdentity();
-    view.lookAt(QVector3D(0.0, 0.0, 4.0), QVector3D(0.0, 0.0, 0.0), QVector3D(0.0, 1.0, 0.0));
-
-    QMatrix4x4 projection;
-    projection.setToIdentity();
-    projection.perspective(90.0, 4.0/3.0, 0.1, 64.0);
-
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();
-    modelViewProjection = projection * view * model;
+    modelViewProjection = m_scene->camera().viewProjection() * model;
 
     m_program->setUniformValue("mvp", modelViewProjection);
 
