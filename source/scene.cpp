@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
+#include <QTime>
 
 #include "abstractgraphicsobject.h"
 #include "camera.h"
@@ -14,6 +15,7 @@ namespace terminus
 Scene::Scene()
 : m_camera(new Camera())
 , m_painter(new Painter())
+, m_timeStamp(nullptr)
 {
     m_nodes.clear();
 }
@@ -28,6 +30,11 @@ void Scene::addNode(AbstractGraphicsObject *node)
     m_nodes.push_back(node);
 }
 
+void Scene::setInitialTimeStamp(QTime *timeStamp)
+{
+    m_timeStamp = timeStamp;
+}
+
 void Scene::render()
 {
 
@@ -39,6 +46,8 @@ void Scene::render()
     }
 
     qDebug("Start rendering:");
+
+    auto elapsedMilliseconds = m_timeStamp->restart();
 
     glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
 
@@ -54,7 +63,7 @@ void Scene::render()
 
     for(AbstractGraphicsObject* node : m_nodes)
     {
-        node->render(*m_painter);
+        node->render(*m_painter, elapsedMilliseconds);
     }
 
     glDisable(GL_BLEND);

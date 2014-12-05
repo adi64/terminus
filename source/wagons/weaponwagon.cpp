@@ -89,7 +89,7 @@ const std::vector<unsigned short> WeaponWagon::indices()
 }
 
 
-void WeaponWagon::render(QOpenGLFunctions& gl)
+void WeaponWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 {
     if (!m_program)
     {
@@ -103,16 +103,12 @@ void WeaponWagon::render(QOpenGLFunctions& gl)
 
     m_program->bind();
 
-    if(m_timer >= 1.0f)
-    {
-        m_timer = 0.0f;
-    }
-    m_timer += 0.003f;
+    // TODO set fixed speed for whole train
+    m_position += QVector3D(elapsedMilliseconds * -0.001, 0.0, 0.0);
 
     QMatrix4x4 model;
     model.setToIdentity();
-    model.translate(QVector3D(-15.0f - m_positionOffset, 0.0, 0.0));
-    model.translate(QVector3D(m_timer * 30, 0.0, 0.0));
+    model.translate(m_position);
 
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();

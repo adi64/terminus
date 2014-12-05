@@ -17,7 +17,7 @@ class WeaponWagon : public AbstractWagon
 {
 public:
     WeaponWagon(Scene *scene);
-    void render(QOpenGLFunctions& gl);
+    void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
     float length() const; //todo
 
 protected:

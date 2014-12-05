@@ -6,6 +6,7 @@
 #include <QQuickItem>
 
 class QTimer;
+class QTime;
 
 namespace terminus
 {
@@ -29,6 +30,7 @@ private:
     Scene *m_scene;
     std::unique_ptr<Train> m_playerTrain;
     QTimer *m_timer;
+    QTime *m_timeStamp;
 };
 
 }

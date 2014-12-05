@@ -3,10 +3,11 @@
 #include <vector>
 
 #include <QObject>
+
 #include "camera.h"
 
-class Camera;
 class QOpenGLShaderProgram;
+class QTime;
 
 namespace terminus
 {
@@ -22,7 +23,9 @@ public:
     ~Scene();
 
     Camera & camera();
+
     void addNode(AbstractGraphicsObject* node);
+    void setInitialTimeStamp(QTime *timeStamp);
 public slots:
     void render();
 protected:
@@ -30,6 +33,7 @@ private:
     Camera* m_camera;
     Painter* m_painter;
     std::vector<AbstractGraphicsObject*> m_nodes;
+    QTime *m_timeStamp;
 
 };
 

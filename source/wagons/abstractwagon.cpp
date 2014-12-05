@@ -16,6 +16,9 @@ float AbstractWagon::length() const
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
+
+    // TODO FIXME temp fix whatever
+    setPosition(QVector3D(m_positionOffset, 0.0, 0.0));
 }
 
 }

@@ -4,6 +4,7 @@
 
 #include <QQuickView>
 #include <QTimer>
+#include <QTime>
 
 #include "scene.h"
 #include "squircle.h"
@@ -22,6 +23,10 @@ Game::Game()
     m_scene = new Scene;
 
     m_timer = new QTimer();
+    m_timeStamp = new QTime();
+    m_timeStamp->start();
+
+    m_scene->setInitialTimeStamp(m_timeStamp);
 
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
     m_playerTrain->addWagon<WeaponWagon>();
