@@ -2,6 +2,9 @@
 
 #include <QDebug>
 
+namespace terminus
+{
+
 IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std::string normalSpec)
 : m_validTexture(true)
 , m_validNormal(true)
@@ -102,3 +105,5 @@ bool IndexTriple::validNormal()
 {
     return m_validNormal;
 }
+
+} //terminus
