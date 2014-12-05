@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -15,6 +16,9 @@ struct Vertex{
 
 class Geometry
 {
+public:
+    static Geometry loadObj(std::string name);
+
 public:
     Geometry();//construct NULL-Object
     Geometry(std::vector<int> indexBuffer, std::vector<Vertex> vertexBuffer);    //TODO define constructor taking vertex and index buffers, material refs?
