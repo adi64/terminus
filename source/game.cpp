@@ -26,6 +26,16 @@ Game::Game()
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
 }
 
@@ -40,7 +50,7 @@ void Game::sync()
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    m_scene->camera().setEye(QVector3D(0.0, 0.0, 10.0));
+    m_scene->camera().setEye(QVector3D(0.0, 0.0, 50.0));
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 0.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 
@@ -72,7 +82,7 @@ void Game::handleWindowChanged(QQuickWindow *win)
         // and nothing would show.
         win->setClearBeforeRendering(false);
 
-        // force redraw every 20 msec
+        // force redraw
         connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }

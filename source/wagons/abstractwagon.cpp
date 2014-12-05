@@ -8,7 +8,7 @@ AbstractWagon::AbstractWagon(Scene *scene)
 {
 }
 
-float AbstractWagon::length()
+float AbstractWagon::length() const
 {
     return 1.f;
 }

@@ -1,7 +1,5 @@
 #include "enginewagon.h"
 
-#include <glm/gtc/type_ptr.hpp>
-
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
@@ -15,6 +13,8 @@ namespace terminus
 EngineWagon::EngineWagon(Scene *scene)
     : AbstractWagon(scene)
     , m_program(nullptr)
+    , m_initialized(false)
+    , m_timer(0.0f)
 {
 }
 
@@ -22,13 +22,6 @@ EngineWagon::EngineWagon(Scene *scene)
 
 void EngineWagon::initCube(QOpenGLFunctions& gl)
 {
-
-    static bool bufferObjectsInitialized = false;
-    if(bufferObjectsInitialized)
-    {
-       return;
-    }
-
     std::vector<glm::vec3> v(vertices());
     std::vector<unsigned short> i(indices());
 
@@ -41,8 +34,7 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
     m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     m_vbo->bind();
-    //m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
-    m_vbo->allocate(v.data(), v.size() * sizeof(float) * 3);
+    m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
 
     auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
     gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
@@ -59,7 +51,7 @@ void EngineWagon::initCube(QOpenGLFunctions& gl)
     m_vbo->release();
     m_ibo->release();
 
-    bufferObjectsInitialized = true;
+    m_initialized = true;
 }
 
 const std::vector<glm::vec3> EngineWagon::vertices()
@@ -113,19 +105,16 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     m_program->bind();
 
-    static float timer = 0.0;
-    if(timer >= 360.0)
+    if(m_timer >= 1.0f)
     {
-        timer = 0.0;
+        m_timer = 0.0f;
     }
-    timer += 1.0;
+    m_timer += 0.003f;
 
     QMatrix4x4 model;
     model.setToIdentity();
-    model.translate(QVector3D(-1.8, 0.0, 0.0));
-    model.translate(QVector3D(0.9 + abs(180 - timer)/100.0, 0.0, 0.0));
-    model.rotate(timer, QVector3D(1.0, 0.0, 0.0));
-    model.rotate(timer * 2.0, QVector3D(0.0, 1.0, 0.0));
+    model.translate(QVector3D(-15.0f - m_positionOffset, 0.0, 0.0));
+    model.translate(QVector3D(m_timer * 30, 0.0, 0.0));
 
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();
@@ -135,7 +124,8 @@ void EngineWagon::render(QOpenGLFunctions& gl)
 
     initCube(gl);
 
-    m_vao->bind();
+    if(m_initialized)
+        m_vao->bind();
 
     gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size(), GL_UNSIGNED_SHORT, nullptr);
 
@@ -144,10 +134,9 @@ void EngineWagon::render(QOpenGLFunctions& gl)
     m_program->release();
 }
 
-float EngineWagon::length()
+float EngineWagon::length() const
 {
-    //TODO change value later
-    return 1.5f;
+    return 6.0f;
 }
 
 }

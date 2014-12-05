@@ -11,7 +11,7 @@ class AbstractWagon : public AbstractGraphicsObject
 {
 public:
     AbstractWagon(Scene *scene);
-    static float length();
+    virtual float length() const; //TODO FIXME
     void setPositionOffset(float accumulatedOffset);
 
 protected:

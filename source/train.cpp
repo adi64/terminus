@@ -90,11 +90,11 @@ void Train::moveWagon(int wagonPos, int targetPos)
 
 void Train::calculateWagonOffset()
 {
-    float accumulatedOffset = -0.5f * EngineWagon::length();
+    float accumulatedOffset = -3.0f;
 
     for(auto& wagon : m_wagons)
     {
-        accumulatedOffset += 0.5f * wagon->length();
+        accumulatedOffset += 0.5f * wagon->length() + 0.1f;
         wagon->setPositionOffset(accumulatedOffset);
         accumulatedOffset += 0.5f * wagon->length();
     }
