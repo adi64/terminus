@@ -13,12 +13,12 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/scene.cpp \
-    source/squircle.cpp \
     source/train.cpp \
     source/geometry.cpp \
     source/resourcemanager.cpp \
     source/indextriple.cpp \
-    source/material.cpp
+    source/material.cpp \
+    source/painter.cpp
 
 RESOURCES += qml.qrc
 
@@ -36,10 +36,10 @@ HEADERS += \
     source/camera.h \
     source/game.h \
     source/scene.h \
-    source/squircle.h \
     source/train.h \
     source/train.hpp \
     source/geometry.h \
     source/resourcemanager.h \
     source/indextriple.h \
     source/material.h
+    source/painter.h

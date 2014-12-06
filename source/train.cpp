@@ -9,10 +9,11 @@ namespace terminus
 {
 
 
-Train::Train()
+Train::Train(Scene *scene)
     : m_hasEngine(false)
+    , m_scene(scene)
 {
-    // Add engine
+    // Every train needs an engine
     addWagon<EngineWagon>();
 }
 
@@ -68,7 +69,7 @@ void Train::moveWagon(int wagonPos, int targetPos)
 
     if(targetPos == wagonPos)
     {
-        qDebug() << "Not moving a wagon to its old position";
+        qDebug() << "Wagon did not move";
         return;
     }
 
@@ -89,15 +90,14 @@ void Train::moveWagon(int wagonPos, int targetPos)
 
 void Train::calculateWagonOffset()
 {
-    float accumulatedOffset = -0.5f * EngineWagon::length();
+    float accumulatedOffset = -3.0f;
 
     for(auto& wagon : m_wagons)
     {
-        accumulatedOffset += 0.5f * wagon->length();
+        accumulatedOffset += 0.5f * wagon->length() + 0.1f;
         wagon->setPositionOffset(accumulatedOffset);
         accumulatedOffset += 0.5f * wagon->length();
     }
 }
-
 
 }

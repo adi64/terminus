@@ -1,33 +1,20 @@
 #include "abstractgraphicsobject.h"
 
+#include <QDebug>
+#include "scene.h"
+
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject()
-: m_worldPosition()
-, m_rotation()
+AbstractGraphicsObject::AbstractGraphicsObject(Scene *scene)
+    : m_scene(scene)
+    , m_position(0.0, 0.0, 0.0)
 {
 }
 
-
-QVector3D AbstractGraphicsObject::getWorldPosition()
+void AbstractGraphicsObject::setPosition(const QVector3D &newPosition)
 {
-    return m_worldPosition;
-}
-
-QVector3D AbstractGraphicsObject::getRotation()
-{
-    return m_rotation;
-}
-
-void AbstractGraphicsObject::setWorldPosition(QVector3D newPosition)
-{
-    m_worldPosition = newPosition;
-}
-
-void AbstractGraphicsObject::setRotation(QVector3D newRotation)
-{
-    m_rotation = newRotation;
+    m_position = newPosition;
 }
 
 }
