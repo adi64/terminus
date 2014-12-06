@@ -17,7 +17,8 @@ SOURCES += \
     source/train.cpp \
     source/geometry.cpp \
     source/resourcemanager.cpp \
-    source/indextriple.cpp
+    source/indextriple.cpp \
+    source/material.cpp
 
 RESOURCES += qml.qrc
 
@@ -40,4 +41,5 @@ HEADERS += \
     source/train.hpp \
     source/geometry.h \
     source/resourcemanager.h \
-    source/indextriple.h
+    source/indextriple.h \
+    source/material.h

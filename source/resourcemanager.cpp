@@ -1,10 +1,5 @@
 #include "resourcemanager.h"
 
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <unordered_map>
 #include "geometry.h"
 
 #include <QDebug> //TODO remove in the end
@@ -65,8 +60,8 @@ void ResourceManager::setGeometry(std::string name, Geometry * geometry)
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
 {
-    if(m_geometryStorage.count(name) == 0)
-        m_geometryStorage[name] = std::shared_ptr<std::unique_ptr<Geometry>>(new std::unique_ptr<Geometry>(new Geometry()));
+    //if(m_geometryStorage.count(name) == 0)
+    //    m_geometryStorage[name] = std::shared_ptr<std::unique_ptr<Geometry>>(new std::unique_ptr<Geometry>(new Geometry()));
     return m_geometryStorage[name];
 }
 

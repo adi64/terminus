@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include <QVector3D>
 
 namespace terminus
 {
@@ -11,15 +11,15 @@ public:
     AbstractGraphicsObject();
     virtual void render() = 0;
 
-    glm::vec3 getWorldPosition();
-    glm::vec3 getRotation();
+    QVector3D getWorldPosition();
+    QVector3D getRotation();
 
-    void setWorldPosition(glm::vec3 newPosition);
-    void setRotation(glm::vec3 newRotation);
+    void setWorldPosition(QVector3D newPosition);
+    void setRotation(QVector3D newRotation);
 
 protected:
-    glm::vec3 m_worldPosition;
-    glm::vec3 m_rotation;
+    QVector3D m_worldPosition;
+    QVector3D m_rotation;
 };
 
 }

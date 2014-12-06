@@ -4,35 +4,40 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include <map>
+
+#include <QDebug>
+
+#include "indextriple.h"
 
 namespace terminus
 {
 
 
-static Geometry * Geometry::loadObj(std::string path){
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> texCoords;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::ivec3> indexBlocks;
+Geometry * Geometry::loadObj(std::string path){
+    std::vector<QVector3D> positions;
+    std::vector<QVector3D> texCoords;
+    std::vector<QVector3D> normals;
+    std::vector<IndexTriple> indexTriples;
 
     std::vector<unsigned int> indexBuffer;
     std::vector<Vertex> vertexBuffer;
 
     //parse file and fill buffers with positions, texCoords, normals and index triples
 
-    parseObjFile(path, positions, texCoords, normals, indexBlocks);
+    loadObjParse(path, positions, texCoords, normals, indexTriples);
 
     //use index triples to generate interleaved array buffer and single indices
 
-    generateBuffers(positions, texCoords, normals, indexBlocks, indexBuffer, vertexBuffer);
+    loadObjGenerate(positions, texCoords, normals, indexTriples, indexBuffer, vertexBuffer);
 
     return new Geometry(indexBuffer, vertexBuffer); //ownership is passed to caller
 }
-
-static void Geometry::loadObjParse(std::string path,
-                                   std::vector<glm::vec3> & positions,
-                                   std::vector<glm::vec3> & texCoords,
-                                   std::vector<glm::vec3> & normals,
+void Geometry::loadObjParse(std::string path,
+                                   std::vector<QVector3D> & positions,
+                                   std::vector<QVector3D> & texCoords,
+                                   std::vector<QVector3D> & normals,
                                    std::vector<IndexTriple> & indexTriples){
 
     std::ifstream objFile(path);
@@ -46,25 +51,28 @@ static void Geometry::loadObjParse(std::string path,
 
         if(lineHeader == "v")
         {
-            glm::vec3 position;
-            lineStream >> position.x >> position.y >> position.z;
+            float x,y,z;
+            lineStream >> x >> y >> z;
+            QVector3D position(x, y, z);
             positions.push_back(position);
         }
         else if(lineHeader == "vt")
         {
-            glm::vec3 texCoord;
-            lineStream >> texCoord.x >> texCoord.y >> texCoord.z;
+            float x,y,z;
+            lineStream >> x >> y >> z;
+            QVector3D texCoord(x, y, z);
             texCoords.push_back(texCoord);
         }
         else if(lineHeader == "vn")
         {
-            glm::vec3 normal;
-            lineStream >> normal.x >> normal.y >> normal.z;
+            float x,y,z;
+            lineStream >> x >> y >> z;
+            QVector3D normal(x, y, z);
             normals.push_back(normal);
         }
         else if(lineHeader == "f")
         {
-            std::regex indexPattern("([0-9]+)/([0-9]*)/([0-9]*)", std::regex::extended);
+            std::regex indexPattern("([0-9]+)(?:\/([0-9]*)(?:\/([0-9]*))?)?", std::regex::extended);
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
@@ -93,32 +101,32 @@ static void Geometry::loadObjParse(std::string path,
     }
 }
 
-static void Geometry::loadObjGenerate(std::vector<glm::vec3> & positions,
-                                      std::vector<glm::vec3> & texCoords,
-                                      std::vector<glm::vec3> & normals,
-                                      std::vector<IndexTriple> & indexBlocks,
-                                      std::vector<unsigned int> & indexBuffer,
-                                      std::vector<Vertex> & vertexBuffer)
+void Geometry::loadObjGenerate(std::vector<QVector3D> & positions,
+                                        std::vector<QVector3D> & texCoords,
+                                        std::vector<QVector3D> & normals,
+                                        std::vector<IndexTriple> & indexTriples,
+                                        std::vector<unsigned int> & indexBuffer,
+                                        std::vector<Vertex> & vertexBuffer)
 {
-    std::unordered_map<glm::ivec3, unsigned int> indexLookUp; //define less function on glm::ivec3
+    std::map<IndexTriple, unsigned int> indexLookUp;
 
-    for(unsigned int i = 0; i < indexBlocks.size(); i++)
+    for(unsigned int i = 0; i < indexTriples.size(); i++)
     {
-        if(indexLookUp.count(&(indexBlocks[i])) == 0)
+        if(indexLookUp.count(indexTriples[i]) == 0)
         {
-            indexLookUp[&(indexBlocks[i])] = vertexBuffer.size();
+            indexLookUp[indexTriples[i]] = vertexBuffer.size();
 
             Vertex v;
-            v.position = positions[indexBlocks[i].x];
-            v.texCoord = texCoords[indexBlocks[i].y];
-            v.normal = normals[indexBlocks[i].z];
+            v.position = positions[indexTriples[i].positionIndex()];
+            v.texCoord = texCoords[indexTriples[i].textureIndex()];
+            v.normal = normals[indexTriples[i].normalIndex()];
             vertexBuffer.push_back(v);
 
             indexBuffer.push_back(vertexBuffer.size() - 1);
         }
         else
         {
-            indexBuffer.push_back(indexLookUp[&(indexBlocks[i])]);
+            indexBuffer.push_back(indexLookUp[indexTriples[i]]);
         }
     }
 }
@@ -133,4 +141,9 @@ Geometry::Geometry(const std::vector<unsigned int> & indexBuffer, const std::vec
     //TODO allocate and fill VAO
 }
 
-} //terminus
+Geometry::~Geometry()
+{
+    //TODO release GPU resources
+}
+
+}//namespace terminus

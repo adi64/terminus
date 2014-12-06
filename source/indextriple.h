@@ -1,6 +1,6 @@
 #pragma once
 
-#
+#include <string>
 
 namespace terminus
 {
@@ -12,15 +12,15 @@ public:
     ~IndexTriple();
 
 public:
-    unsigned int positionIndex();
-    unsigned int textureIndex();
-    unsigned int normalIndex();
-    bool validTexture();
-    bool validNormal();
+    unsigned int positionIndex() const;
+    unsigned int textureIndex() const;
+    unsigned int normalIndex() const;
+    bool validTexture() const;
+    bool validNormal() const;
 
-    bool operator<(const IndexTriple compareTriple);
+    bool operator<(const IndexTriple & compareTriple) const;
 
-    bool operator==(const IndexTriple compareTriple);
+    bool operator==(const IndexTriple & compareTriple) const;
 
 protected:
     unsigned int m_positionIndex;

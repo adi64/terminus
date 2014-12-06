@@ -1,6 +1,10 @@
 #include "indextriple.h"
 
+#include <typeinfo>
 #include <QDebug>
+
+namespace terminus
+{
 
 IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std::string normalSpec)
 : m_validTexture(true)
@@ -20,7 +24,7 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
 
     try
     {
-        m_normalIndex = static_casdt<unsigned int>(std::stoi(normalSpec));
+        m_normalIndex = static_cast<unsigned int>(std::stoi(normalSpec));
     }
     catch (const std::invalid_argument& e)
     {
@@ -29,16 +33,21 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
     }
 }
 
-bool operator<(const IndexTriple)
+IndexTriple::~IndexTriple()
+{
+
+}
+
+bool IndexTriple::operator<(const IndexTriple & other) const
 {
     return true;
 }
 
-bool operator==(const compareTriple)
+bool IndexTriple::operator==(const IndexTriple & other) const
 {
-    return (positionIndex() == compareTriple.positionIndex()
-            && textureValid() == compareTriple.textureValid() && (!textureValid() || textureIndex() == compareTriple.textureIndex())
-            && normalValid() == compareTriple.normalValid() && (!normalValid() || normalIndex() == compareTriple.normalIndex()));
+    return (positionIndex() == other.positionIndex() &&
+            validTexture() == other.validTexture() && (!validTexture() || textureIndex() == other.textureIndex()) &&
+            validNormal() == other.validNormal() && (!validNormal() || normalIndex() == other.normalIndex()));
 /*
     bool posV = false;
     bool texV = false;
@@ -78,27 +87,29 @@ bool operator==(const compareTriple)
 }
 
 
-unsigned int IndexTriple::positionIndex()
+unsigned int IndexTriple::positionIndex() const
 {
     return m_positionIndex;
 }
 
-unsigned int IndexTriple::textureIndex()
+unsigned int IndexTriple::textureIndex() const
 {
     return m_textureIndex;
 }
 
-unsigned int IndexTriple::normalIndex()
+unsigned int IndexTriple::normalIndex() const
 {
     return m_normalIndex;
 }
 
-bool IndexTriple::validTexture()
+bool IndexTriple::validTexture() const
 {
     return m_validTexture;
 }
 
-bool IndexTriple::validNormal()
+bool IndexTriple::validNormal() const
 {
     return m_validNormal;
 }
+
+}//namespace terminus

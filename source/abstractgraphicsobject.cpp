@@ -10,22 +10,22 @@ AbstractGraphicsObject::AbstractGraphicsObject()
 }
 
 
-glm::vec3 AbstractGraphicsObject::getWorldPosition()
+QVector3D AbstractGraphicsObject::getWorldPosition()
 {
     return m_worldPosition;
 }
 
-glm::vec3 AbstractGraphicsObject::getRotation()
+QVector3D AbstractGraphicsObject::getRotation()
 {
     return m_rotation;
 }
 
-void AbstractGraphicsObject::setWorldPosition(glm::vec3 newPosition)
+void AbstractGraphicsObject::setWorldPosition(QVector3D newPosition)
 {
     m_worldPosition = newPosition;
 }
 
-void AbstractGraphicsObject::setRotation(glm::vec3 newRotation)
+void AbstractGraphicsObject::setRotation(QVector3D newRotation)
 {
     m_rotation = newRotation;
 }

@@ -2,30 +2,47 @@
 
 #include <string>
 #include <vector>
-#include <glm/glm.hpp>
+
+#include <QVector3D>
+
+#include "indextriple.h"
 
 namespace terminus
 {
 
 struct Vertex{
-    glm::vec3 position;
-    glm::vec3 texCoord;
-    glm::vec3 normal;
-    //TODO find ALL relevant fields
+    QVector3D position;
+    QVector3D texCoord;
+    QVector3D normal;
 };
 
 class Geometry
 {
 public:
-    static Geometry loadObj(std::string name);
+    static Geometry * loadObj(std::string name);
+protected:
+    static void loadObjParse(std::string path,
+                                        std::vector<QVector3D> & positions,
+                                        std::vector<QVector3D> & texCoords,
+                                        std::vector<QVector3D> & normals,
+                                        std::vector<IndexTriple> & indexTriples);
+    static void loadObjGenerate(std::vector<QVector3D> & positions,
+                                            std::vector<QVector3D> & texCoords,
+                                            std::vector<QVector3D> & normals,
+                                            std::vector<IndexTriple> & indexTriples,
+                                            std::vector<unsigned int> & indexBuffer,
+                                            std::vector<Vertex> & vertexBuffer);
+
+protected:
+    Geometry(); //construct NULL-Object --- what do we need this for?
+    Geometry(const std::vector<unsigned int> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
 
 public:
-    Geometry();//construct NULL-Object
-    Geometry(std::vector<int> indexBuffer, std::vector<Vertex> vertexBuffer);    //TODO define constructor taking vertex and index buffers, material refs?
+    ~Geometry();
 
 protected:
     std::vector<Vertex> m_vertexBuffer;
-    std::vector<int> m_indexBuffer;
+    std::vector<unsigned int> m_indexBuffer;
 };
 
 } //terminus
