@@ -36,7 +36,9 @@ void Train::insertWagon(int targetPos)
     if(targetPos == -1)
     {
         m_wagons.push_back(std::move(newWagon));
-    }else{
+    }
+    else
+    {
         if(targetPos >= m_wagons.size())
         {
             qDebug() << "targetPos >= " << m_wagons.size();

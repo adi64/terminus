@@ -7,6 +7,7 @@
 #include <QTime>
 
 #include "scene.h"
+#include "resources/resourcemanager.h"
 #include "train.h"
 #include "terrain.h"
 
@@ -17,6 +18,7 @@ namespace terminus
 {
 
 Game::Game()
+: m_scene(new Scene())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -57,8 +59,10 @@ void Game::sync()
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    /* Debug Stuff
+
+    //Debug Stuff
     // get context opengl-version
+    /*
     qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
     qDebug() << "Context valid: " << window()->openglContext()->isValid();
     qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();

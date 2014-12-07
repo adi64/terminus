@@ -14,6 +14,7 @@ namespace terminus
 class Train;
 class Scene;
 class Terrain;
+class ResourceManager;
 
 class Game : public QQuickItem
 {
