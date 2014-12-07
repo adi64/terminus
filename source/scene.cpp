@@ -59,7 +59,7 @@ void Scene::render()
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
+    glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
 
     for(AbstractGraphicsObject* node : m_nodes)
     {

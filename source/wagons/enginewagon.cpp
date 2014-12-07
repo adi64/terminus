@@ -106,6 +106,7 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_program->bind();
 
+    // TODO set fixed speed for whole train
     m_position += QVector3D(elapsedMilliseconds * -0.001, 0.0, 0.0);
 
     QMatrix4x4 model;
@@ -118,10 +119,10 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_program->setUniformValue("mvp", modelViewProjection);
 
-    initCube(gl);
+    if(!m_initialized)
+        initCube(gl);
 
-    if(m_initialized)
-        m_vao->bind();
+    m_vao->bind();
 
     gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size(), GL_UNSIGNED_SHORT, nullptr);
 
