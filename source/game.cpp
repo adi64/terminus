@@ -7,7 +7,7 @@
 #include <QTime>
 
 #include "scene.h"
-#include "squircle.h"
+#include "resources/resourcemanager.h"
 #include "train.h"
 
 #include "wagons/enginewagon.h"
@@ -17,6 +17,7 @@ namespace terminus
 {
 
 Game::Game()
+: m_scene(new Scene())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -51,8 +52,9 @@ void Game::sync()
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 0.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 
-    /* Debug Stuff
+    //Debug Stuff
     // get context opengl-version
+    /*
     qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
     qDebug() << "Context valid: " << window()->openglContext()->isValid();
     qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();

@@ -13,6 +13,7 @@ namespace terminus
 
 class Train;
 class Scene;
+class ResourceManager;
 
 class Game : public QQuickItem
 {
