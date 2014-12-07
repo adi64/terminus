@@ -14,11 +14,10 @@ SOURCES += \
     source/main.cpp \
     source/scene.cpp \
     source/train.cpp \
-    source/geometry.cpp \
-    source/resourcemanager.cpp \
-    source/indextriple.cpp \
-    source/material.cpp \
-    source/painter.cpp
+    source/resources/material.cpp \
+    source/resources/geometry.cpp \
+    source/resources/indextriple.cpp \
+    source/resources/resourcemanager.cpp \
 
 RESOURCES += qml.qrc
 
@@ -38,8 +37,13 @@ HEADERS += \
     source/scene.h \
     source/train.h \
     source/train.hpp \
-    source/geometry.h \
-    source/resourcemanager.h \
-    source/indextriple.h \
-    source/material.h
-    source/painter.h
+    source/resources/geometry.h \
+    source/resources/indextriple.h \
+    source/resources/resourcemanager.h \
+    source/resources/material.h
+
+OTHER_FILES += \
+    data/enginewagon.frag \
+    data/weaponwagon.frag \
+    data/enginewagon.vert \
+    data/weaponwagon.vert

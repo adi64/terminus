@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <QObject>
+#include <QOpenGLFunctions>
 
 #include "camera.h"
 
@@ -31,7 +32,7 @@ public slots:
 protected:
 private:
     Camera* m_camera;
-    Painter* m_painter;
+    QOpenGLFunctions m_gl;
     std::vector<AbstractGraphicsObject*> m_nodes;
     QTime *m_timeStamp;
 

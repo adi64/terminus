@@ -1,3 +1,5 @@
+#version 130
+
 uniform mat4 mvp;
 in vec3 a_vertex;
 

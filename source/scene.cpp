@@ -7,14 +7,13 @@
 
 #include "abstractgraphicsobject.h"
 #include "camera.h"
-#include "painter.h"
 
 namespace terminus
 {
 
 Scene::Scene()
 : m_camera(new Camera())
-, m_painter(new Painter())
+, m_gl()
 , m_timeStamp(nullptr)
 {
     m_nodes.clear();
@@ -38,11 +37,11 @@ void Scene::setInitialTimeStamp(QTime *timeStamp)
 void Scene::render()
 {
 
-    static bool painterInitialized = false;
-    if(!painterInitialized)
+    static bool glInitialized = false;
+    if(!glInitialized)
     {
-        m_painter->initialize();
-        painterInitialized = true;
+        m_gl.initializeOpenGLFunctions();
+        glInitialized = true;
     }
 
     qDebug("Start rendering:");
@@ -63,7 +62,7 @@ void Scene::render()
 
     for(AbstractGraphicsObject* node : m_nodes)
     {
-        node->render(*m_painter, elapsedMilliseconds);
+        node->render(m_gl, elapsedMilliseconds);
     }
 
     glDisable(GL_BLEND);
