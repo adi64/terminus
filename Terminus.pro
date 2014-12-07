@@ -35,3 +35,9 @@ HEADERS += \
     source/train.h \
     source/train.hpp \
     source/painter.h
+
+OTHER_FILES += \
+    data/enginewagon.frag \
+    data/weaponwagon.frag \
+    data/enginewagon.vert \
+    data/weaponwagon.vert
