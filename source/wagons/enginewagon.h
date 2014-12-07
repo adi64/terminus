@@ -4,8 +4,6 @@
 
 #include <vector>
 
-#include <glm/glm.hpp>
-
 class QOpenGLBuffer;
 class QOpenGLShaderProgram;
 class QOpenGLVertexArrayObject;
@@ -22,7 +20,7 @@ public:
 
 protected:
     void initCube(QOpenGLFunctions& gl);
-    static const std::vector<glm::vec3> vertices();
+    static const std::vector<QVector3D> vertices();
     static const std::vector<unsigned short> indices();
 
     QOpenGLShaderProgram *m_program;

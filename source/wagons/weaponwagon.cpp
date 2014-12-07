@@ -19,7 +19,7 @@ WeaponWagon::WeaponWagon(Scene *scene, Train *train)
 
 void WeaponWagon::initCube(QOpenGLFunctions& gl)
 {
-    std::vector<glm::vec3> v(vertices());
+    std::vector<QVector3D> v(vertices());
     std::vector<unsigned short> i(indices());
 
     m_vao = new QOpenGLVertexArrayObject();
@@ -31,7 +31,7 @@ void WeaponWagon::initCube(QOpenGLFunctions& gl)
     m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     m_vbo->bind();
-    m_vbo->allocate(v.data(), v.size() * sizeof(glm::vec3));
+    m_vbo->allocate(v.data(), v.size() * sizeof(QVector3D));
 
     auto vertexAttribLocation = m_program->attributeLocation("a_vertex");
     gl.glVertexAttribPointer(vertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
@@ -51,17 +51,17 @@ void WeaponWagon::initCube(QOpenGLFunctions& gl)
     m_initialized = true;
 }
 
-const std::vector<glm::vec3> WeaponWagon::vertices()
+const std::vector<QVector3D> WeaponWagon::vertices()
 {
-    std::vector<glm::vec3> data;
-    data.push_back(glm::vec3(-2.0f, -1.0f, -1.0f)); //0
-    data.push_back(glm::vec3(-2.0f, -1.0f,  1.0f)); //1
-    data.push_back(glm::vec3(-2.0f,  1.0f, -1.0f)); //2
-    data.push_back(glm::vec3(-2.0f,  1.0f,  1.0f)); //3
-    data.push_back(glm::vec3( 2.0f, -1.0f, -1.0f)); //4
-    data.push_back(glm::vec3( 2.0f, -1.0f,  1.0f)); //5
-    data.push_back(glm::vec3( 2.0f,  1.0f, -1.0f)); //6
-    data.push_back(glm::vec3( 2.0f,  1.0f,  1.0f)); //7
+    std::vector<QVector3D> data;
+    data.push_back(QVector3D(-2.0f, -1.0f, -1.0f)); //0
+    data.push_back(QVector3D(-2.0f, -1.0f,  1.0f)); //1
+    data.push_back(QVector3D(-2.0f,  1.0f, -1.0f)); //2
+    data.push_back(QVector3D(-2.0f,  1.0f,  1.0f)); //3
+    data.push_back(QVector3D( 2.0f, -1.0f, -1.0f)); //4
+    data.push_back(QVector3D( 2.0f, -1.0f,  1.0f)); //5
+    data.push_back(QVector3D( 2.0f,  1.0f, -1.0f)); //6
+    data.push_back(QVector3D( 2.0f,  1.0f,  1.0f)); //7
 
     return data;
 }
