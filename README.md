@@ -7,6 +7,7 @@ Game Programming Seminar 2014/15
 1. Clone repo
 2. Install/build dependencies
 3. Build Terminus
+4. Set run directory to project root
 
 ###Dependencies
 
