@@ -35,14 +35,6 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
 }
 

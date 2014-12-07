@@ -17,7 +17,7 @@ void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
 
-    // TODO FIXME temp fix whatever
+    // TODO check if still necessary after track is added
     setPosition(QVector3D(m_positionOffset, 0.0, 0.0));
 }
 

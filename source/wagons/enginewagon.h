@@ -18,7 +18,7 @@ class EngineWagon : public AbstractWagon
 public:
     EngineWagon(Scene *scene);
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
-    float length() const; //todo
+    float length() const;
 
 protected:
     void initCube(QOpenGLFunctions& gl);
