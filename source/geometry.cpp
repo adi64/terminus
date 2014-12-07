@@ -14,7 +14,6 @@
 namespace terminus
 {
 
-
 Geometry * Geometry::loadObj(std::string path){
     std::vector<QVector3D> positions;
     std::vector<QVector3D> texCoords;
@@ -23,6 +22,8 @@ Geometry * Geometry::loadObj(std::string path){
 
     std::vector<unsigned int> indexBuffer;
     std::vector<Vertex> vertexBuffer;
+
+    std::vector<Geometry *> geometryList;
 
     //parse file and fill buffers with positions, texCoords, normals and index triples
 
@@ -72,7 +73,7 @@ void Geometry::loadObjParse(std::string path,
         }
         else if(lineHeader == "f")
         {
-            std::regex indexPattern("([0-9]+)(?:\/([0-9]*)(?:\/([0-9]*))?)?", std::regex::extended);
+            std::regex indexPattern("([0-9]+)(?:\\/([0-9]*)(?:\\/([0-9]*))?)?", std::regex::extended);
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
@@ -86,18 +87,19 @@ void Geometry::loadObjParse(std::string path,
                 indexTriples.push_back(IndexTriple(match[1], match[2], match[3]));
             }
         }
-        else if(lineHeader == "mtllib")
-        {
-            std::string mtlFile;
-            lineStream >> mtlFile;
-            //TODO loadMaterial(mtlFile);
-        }
-        else if(lineHeader == "usemtl")
-        {
-            std::string mtlName;
-            lineStream >> mtlName;
-            //TODO use material;
-        }
+        //materials
+//        else if(lineHeader == "mtllib")
+//        {
+//            std::string mtlFile;
+//            lineStream >> mtlFile;
+//            //TODO loadMaterial(mtlFile);
+//        }
+//        else if(lineHeader == "usemtl")
+//        {
+//            std::string mtlName;
+//            lineStream >> mtlName;
+//            //TODO use material;
+//        }
     }
 }
 

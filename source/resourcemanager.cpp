@@ -28,23 +28,14 @@ ResourceManager::~ResourceManager()
     //TODO delete m_geometryStorage contents
 }
 
-void ResourceManager::storeGeometry(std::string name, std::string path)
-{
-    Geometry geometry = loadGeometry(path);
-    setGeometry(name, &geometry);
-}
-
-Geometry ResourceManager::loadGeometry(std::string path)
-{
-
-}
-
-
-
-void ResourceManager::loadMaterial(std::string path)
-{
-    //TODO: parse the .mtl file
-}
+//void ResourceManager::storeGeometry(std::string name, std::string path)
+//{
+//    setGeometry(name, Geometry.loadGeometry(path));
+//}
+//void ResourceManager::loadMaterial(std::string path)
+//{
+//    //TODO: parse the .mtl file
+//}
 
 void ResourceManager::setGeometry(std::string name, Geometry * geometry)
 {
