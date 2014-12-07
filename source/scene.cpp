@@ -61,7 +61,7 @@ void Scene::render()
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
 
-    for(AbstractGraphicsObject* node : m_nodes)
+    for(auto node : m_nodes)
     {
         node->render(*m_painter, elapsedMilliseconds);
     }

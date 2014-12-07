@@ -16,7 +16,7 @@ namespace terminus
 class EngineWagon : public AbstractWagon
 {
 public:
-    EngineWagon(Scene *scene);
+    EngineWagon(Scene *scene, Train *train);
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
     float length() const;
 
@@ -30,7 +30,6 @@ protected:
     QOpenGLBuffer *m_vbo;
     QOpenGLBuffer *m_ibo;
     QOpenGLVertexArrayObject *m_vao;
-    float m_timer;
 };
 
 }

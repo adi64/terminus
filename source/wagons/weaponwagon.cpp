@@ -10,11 +10,10 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(Scene *scene)
-    : AbstractWagon(scene)  
+WeaponWagon::WeaponWagon(Scene *scene, Train *train)
+    : AbstractWagon(scene, train)
     , m_program(nullptr)
     , m_initialized(false)
-    , m_timer(0.0f)
 {
 }
 

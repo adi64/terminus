@@ -7,8 +7,8 @@
 #include <QTime>
 
 #include "scene.h"
-#include "squircle.h"
 #include "train.h"
+#include "terrain.h"
 
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
@@ -26,14 +26,20 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
-    m_scene->setInitialTimeStamp(m_timeStamp);
+    m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
+    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
+
+
+    m_scene->setInitialTimeStamp(m_timeStamp);
+
+    m_scene->addNode(m_playerTrain.get());
+    m_scene->addNode(m_terrain.get());
 }
 
 Game::~Game()

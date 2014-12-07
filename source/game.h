@@ -13,6 +13,7 @@ namespace terminus
 
 class Train;
 class Scene;
+class Terrain;
 
 class Game : public QQuickItem
 {
@@ -31,6 +32,7 @@ private:
     std::unique_ptr<Train> m_playerTrain;
     QTimer *m_timer;
     QTime *m_timeStamp;
+    std::unique_ptr<Terrain> m_terrain;
 };
 
 }
