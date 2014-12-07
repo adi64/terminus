@@ -17,7 +17,7 @@ void Train::addWagon()
 template<typename WagonType>
 void Train::insertWagon(int targetPos)
 {
-    auto wagonRaw = new WagonType(m_scene);
+    auto wagonRaw = new WagonType(m_scene, this);
 
     bool creatingEngineWagon = false;
 
@@ -32,8 +32,6 @@ void Train::insertWagon(int targetPos)
     }
 
     auto newWagon = std::unique_ptr<WagonType>(wagonRaw);
-
-    m_scene->addNode(newWagon.get());
 
     if(targetPos == -1)
     {

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <QDebug>
+#include <QOpenGLFunctions>
 
 #include "wagons/enginewagon.h"
 
@@ -9,9 +10,11 @@ namespace terminus
 {
 
 
-Train::Train(Scene *scene)
-    : m_hasEngine(false)
-    , m_scene(scene)
+Train::Train(Scene *scene, Track *track)
+    : AbstractGraphicsObject(scene)
+    , m_hasEngine(false)
+    , m_track(track)
+    , m_velocity(0.001)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -88,13 +91,42 @@ void Train::moveWagon(int wagonPos, int targetPos)
     calculateWagonOffset();
 }
 
+void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+{
+    // move forward
+    m_travelledDistance += m_velocity * elapsedMilliseconds;
+
+    // TODO FIXME - this wraps the train
+    if(m_travelledDistance > 50.0)
+    {
+        m_travelledDistance = 0.0;
+    }
+
+    for(auto& wagon : m_wagons)
+    {
+        wagon->render(gl, elapsedMilliseconds);
+    }
+}
+
+Track *Train::track() const
+{
+    return m_track;
+}
+
+float Train::travelledDistance() const
+{
+    return m_travelledDistance;
+}
+
 void Train::calculateWagonOffset()
 {
+    const auto wagonGap = 0.3f;
+
     float accumulatedOffset = -3.0f;
 
     for(auto& wagon : m_wagons)
     {
-        accumulatedOffset += 0.5f * wagon->length() + 0.1f;
+        accumulatedOffset += 0.5f * wagon->length() + wagonGap;
         wagon->setPositionOffset(accumulatedOffset);
         accumulatedOffset += 0.5f * wagon->length();
     }

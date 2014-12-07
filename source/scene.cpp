@@ -54,13 +54,15 @@ void Scene::render()
     glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
+    glDepthFunc(GL_LEQUAL);
 
-    for(AbstractGraphicsObject* node : m_nodes)
+    glDisable(GL_CULL_FACE);
+    //glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
+
+    for(auto node : m_nodes)
     {
         node->render(m_gl, elapsedMilliseconds);
     }

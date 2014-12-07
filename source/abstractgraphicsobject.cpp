@@ -17,4 +17,9 @@ void AbstractGraphicsObject::setPosition(const QVector3D &newPosition)
     m_position = newPosition;
 }
 
+QVector3D AbstractGraphicsObject::position() const
+{
+    return m_position;
+}
+
 }

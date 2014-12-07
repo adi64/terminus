@@ -1,27 +1,36 @@
 #pragma once
 
-#include "abstractwagon.h"
+#include <memory>
 
-#include <vector>
+#include "abstractgraphicsobject.h"
 
-class QOpenGLBuffer;
 class QOpenGLShaderProgram;
+class QOpenGLBuffer;
 class QOpenGLVertexArrayObject;
 
 namespace terminus
 {
 
-class EngineWagon : public AbstractWagon
+class Track;
+
+class Terrain : public AbstractGraphicsObject
 {
 public:
-    EngineWagon(Scene *scene, Train *train);
+    Terrain(Scene *scene);
+    ~Terrain();
+
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
-    float length() const;
+
+    Track *playerTrack() const;
+    Track *enemyTrack() const;
 
 protected:
     void initCube(QOpenGLFunctions& gl);
     static const std::vector<QVector3D> vertices();
     static const std::vector<unsigned short> indices();
+
+    std::unique_ptr<Track> m_playerTrack;
+    std::unique_ptr<Track> m_enemyTrack;
 
     QOpenGLShaderProgram *m_program;
     bool m_initialized;

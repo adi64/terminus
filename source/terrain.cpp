@@ -1,23 +1,64 @@
-#include "weaponwagon.h"
+#include "terrain.h"
 
-#include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
+#include <QDebug>
 
-#include "../scene.h"
+#include "track.h"
+#include "scene.h"
 
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(Scene *scene, Train *train)
-    : AbstractWagon(scene, train)
+Terrain::Terrain(Scene *scene)
+    : AbstractGraphicsObject(scene)
+    , m_playerTrack(std::unique_ptr<Track>(new Track(scene)))
+    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene)))
     , m_program(nullptr)
     , m_initialized(false)
-{
+{   
+
 }
 
-void WeaponWagon::initCube(QOpenGLFunctions& gl)
+Terrain::~Terrain()
+{
+
+}
+
+Track *Terrain::playerTrack() const
+{
+    return m_playerTrack.get();
+}
+
+Track *Terrain::enemyTrack() const
+{
+    return m_enemyTrack.get();
+}
+
+
+const std::vector<QVector3D> Terrain::vertices()
+{
+    std::vector<QVector3D> data;
+    data.push_back(QVector3D(-100.0f, 0.0f, -100.0f)); //0
+    data.push_back(QVector3D(-100.0f, 0.0f,  100.0f)); //1
+    data.push_back(QVector3D( 100.0f, 0.0f, -100.0f)); //2
+    data.push_back(QVector3D( 100.0f, 0.0f,  100.0f)); //3
+
+    return data;
+}
+
+const std::vector<unsigned short> Terrain::indices()
+{
+    std::vector<unsigned short> data;
+    data.push_back(0);
+    data.push_back(2);
+    data.push_back(1);
+    data.push_back(3);
+    return data;
+}
+
+void Terrain::initCube(QOpenGLFunctions& gl)
 {
     std::vector<QVector3D> v(vertices());
     std::vector<unsigned short> i(indices());
@@ -51,58 +92,26 @@ void WeaponWagon::initCube(QOpenGLFunctions& gl)
     m_initialized = true;
 }
 
-const std::vector<QVector3D> WeaponWagon::vertices()
+void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 {
-    std::vector<QVector3D> data;
-    data.push_back(QVector3D(-2.0f, -1.0f, -1.0f)); //0
-    data.push_back(QVector3D(-2.0f, -1.0f,  1.0f)); //1
-    data.push_back(QVector3D(-2.0f,  1.0f, -1.0f)); //2
-    data.push_back(QVector3D(-2.0f,  1.0f,  1.0f)); //3
-    data.push_back(QVector3D( 2.0f, -1.0f, -1.0f)); //4
-    data.push_back(QVector3D( 2.0f, -1.0f,  1.0f)); //5
-    data.push_back(QVector3D( 2.0f,  1.0f, -1.0f)); //6
-    data.push_back(QVector3D( 2.0f,  1.0f,  1.0f)); //7
 
-    return data;
-}
+    // render tracks
+    m_playerTrack->render(gl, elapsedMilliseconds);
+    m_enemyTrack->render(gl, elapsedMilliseconds);
 
-const std::vector<unsigned short> WeaponWagon::indices()
-{
-    std::vector<unsigned short> data;
-    data.push_back(2);
-    data.push_back(0);
-    data.push_back(6);
-    data.push_back(4);
-    data.push_back(5);
-    data.push_back(0);
-    data.push_back(1);
-    data.push_back(2);
-    data.push_back(3);
-    data.push_back(6);
-    data.push_back(7);
-    data.push_back(5);
-    data.push_back(3);
-    data.push_back(1);
+    // render terrain
 
-    return data;
-}
-
-
-void WeaponWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
-{
     if (!m_program)
     {
         m_program = new QOpenGLShaderProgram();
 
-        m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/weaponwagon.vert");
-        m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/weaponwagon.frag");
+        m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/terrain.vert");
+        m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/terrain.frag");
 
         m_program->link();
     }
 
     m_program->bind();
-
-    m_position = position();
 
     QMatrix4x4 model;
     model.setToIdentity();
@@ -124,11 +133,6 @@ void WeaponWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     m_vao->release();
 
     m_program->release();
-}
-
-float WeaponWagon::length() const
-{
-    return 4.0f;
 }
 
 }
