@@ -44,4 +44,6 @@ OTHER_FILES += \
     data/enginewagon.frag \
     data/weaponwagon.frag \
     data/enginewagon.vert \
-    data/weaponwagon.vert
+    data/weaponwagon.vert \
+    data/terrain.frag \
+    data/terrain.vert

@@ -58,8 +58,10 @@ void Scene::render()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
+    glDepthFunc(GL_LEQUAL);
+
+    glDisable(GL_CULL_FACE);
+    //glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
 
     for(auto node : m_nodes)
     {

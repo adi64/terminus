@@ -94,7 +94,13 @@ void Train::moveWagon(int wagonPos, int targetPos)
 void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 {
     // move forward
-    m_travelledDistance += m_velocity;
+    m_travelledDistance += m_velocity * elapsedMilliseconds;
+
+    // TODO FIXME - this wraps the train
+    if(m_travelledDistance > 50.0)
+    {
+        m_travelledDistance = 0.0;
+    }
 
     for(auto& wagon : m_wagons)
     {
