@@ -20,7 +20,7 @@ void Track::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
 QVector3D Track::positionAt(double distance)
 {
     // TODO real implementation
-    return QVector3D(distance, 0.0, 0.0);
+    return QVector3D(distance, 1.0, 0.0);
 }
 
 QVector3D Track::tangentAt(double distance)
