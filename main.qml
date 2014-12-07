@@ -4,8 +4,8 @@ import terminus 1.0
 
 Item {
 
-    width: 320
-    height: 480
+    width: 1024
+    height: 768
 
     Game {
     }
@@ -23,7 +23,7 @@ Item {
         id: label
         color: "black"
         wrapMode: Text.WordWrap
-        text: "1.2 GigaWATs"
+        text: "Terminus 0.0.1 Alpha"
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: parent.bottom

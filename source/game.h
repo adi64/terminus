@@ -1,11 +1,17 @@
 #pragma once
 
+#include <memory>
+
 #include <QObject>
 #include <QQuickItem>
+
+class QTimer;
+class QTime;
 
 namespace terminus
 {
 
+class Train;
 class Scene;
 
 class Game : public QQuickItem
@@ -21,7 +27,10 @@ public slots:
     void handleWindowChanged(QQuickWindow* win);
 protected:
 private:
-    Scene* m_scene;
+    Scene *m_scene;
+    std::unique_ptr<Train> m_playerTrain;
+    QTimer *m_timer;
+    QTime *m_timeStamp;
 };
 
 }
