@@ -8,7 +8,6 @@
 
 #include "scene.h"
 #include "resourcemanager.h"
-#include "squircle.h"
 #include "train.h"
 
 #include "wagons/enginewagon.h"
