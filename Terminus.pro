@@ -14,7 +14,9 @@ SOURCES += \
     source/main.cpp \
     source/scene.cpp \
     source/train.cpp \
-    source/painter.cpp
+    source/painter.cpp \
+    source/terrain.cpp \
+    source/track.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,7 +36,9 @@ HEADERS += \
     source/scene.h \
     source/train.h \
     source/train.hpp \
-    source/painter.h
+    source/painter.h \
+    source/terrain.h \
+    source/track.h
 
 OTHER_FILES += \
     data/enginewagon.frag \
