@@ -8,6 +8,12 @@ Item {
     height: 768
 
     Game {
+        id: terminusGame
+        focus: true
+        Keys.onPressed: {
+            terminusGame.handleKeyboardEvent(event.key)
+            event.accepted = true
+        }
     }
 
     Rectangle {
