@@ -14,7 +14,6 @@ SOURCES += \
     source/main.cpp \
     source/scene.cpp \
     source/train.cpp \
-    source/painter.cpp \
     source/terrain.cpp \
     source/track.cpp \
     source/resources/material.cpp \
@@ -40,7 +39,6 @@ HEADERS += \
     source/scene.h \
     source/train.h \
     source/train.hpp \
-    source/painter.h \
     source/terrain.h \
     source/track.h \
     source/resources/geometry.h \
