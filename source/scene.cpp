@@ -44,8 +44,6 @@ void Scene::render()
         glInitialized = true;
     }
 
-    qDebug("Start rendering:");
-
     auto elapsedMilliseconds = m_timeStamp->restart();
 
     glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
