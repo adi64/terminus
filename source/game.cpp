@@ -5,6 +5,7 @@
 #include <QQuickView>
 #include <QTimer>
 #include <QTime>
+#include <QVector3D>
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
@@ -55,7 +56,6 @@ Game::~Game()
 
 void Game::sync()
 {
-    qDebug("sync viewport");
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
@@ -93,6 +93,48 @@ void Game::handleWindowChanged(QQuickWindow *win)
         connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
+}
+
+void Game::handleKeyboardEvent(Qt::Key key)
+{
+    qDebug() << "ermergerd keyboard event: " << key;
+    if(key == Qt::Key_W)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(0.0, 0.0, -1.0);
+        m_scene->camera().setEye(newEye);
+    }
+    if(key == Qt::Key_S)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(0.0, 0.0, 1.0);
+        m_scene->camera().setEye(newEye);
+    }
+    if(key == Qt::Key_A)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(-1.0, 0.0, 0.0);
+        m_scene->camera().setEye(newEye);
+    }
+    if(key == Qt::Key_D)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(1.0, 0.0, 0.0);
+        m_scene->camera().setEye(newEye);
+    }
+    if(key == Qt::Key_Space)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(0.0, 1.0, 0.0);
+        m_scene->camera().setEye(newEye);
+    }
+    if(key == Qt::Key_Control)
+    {
+        auto newEye = m_scene->camera().eye();
+        newEye += QVector3D(0.0, -1.0, 0.0);
+        m_scene->camera().setEye(newEye);
+    }
+    qDebug() << "Camera at " << m_scene->camera().eye() << " looking at " << m_scene->camera().center();
 }
 
 }

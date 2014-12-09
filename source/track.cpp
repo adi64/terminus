@@ -14,7 +14,7 @@ Track::Track(Scene *scene)
 
 void Track::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
 {
-    qDebug() << "TODO: Track::render()";
+    // TODO
 }
 
 QVector3D Track::positionAt(double distance)

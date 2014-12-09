@@ -27,6 +27,7 @@ public slots:
     void sync();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
+    void handleKeyboardEvent(Qt::Key key);
 protected:
 private:
     Scene *m_scene;
