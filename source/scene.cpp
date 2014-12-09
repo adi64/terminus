@@ -59,7 +59,7 @@ void Scene::render()
 
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
 
     for(auto node : m_nodes)
     {
