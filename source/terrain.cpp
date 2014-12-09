@@ -58,7 +58,7 @@ const std::vector<unsigned short> Terrain::indices()
     return data;
 }
 
-void Terrain::initCube(QOpenGLFunctions& gl)
+void Terrain::initTerrain(QOpenGLFunctions& gl)
 {
     std::vector<QVector3D> v(vertices());
     std::vector<unsigned short> i(indices());
@@ -115,7 +115,6 @@ void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     QMatrix4x4 model;
     model.setToIdentity();
-    model.translate(m_position);
 
     QMatrix4x4 modelViewProjection;
     modelViewProjection.setToIdentity();
@@ -124,7 +123,7 @@ void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     m_program->setUniformValue("mvp", modelViewProjection);
 
     if(!m_initialized)
-        initCube(gl);
+        initTerrain(gl);
 
     m_vao->bind();
 

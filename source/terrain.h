@@ -25,7 +25,7 @@ public:
     Track *enemyTrack() const;
 
 protected:
-    void initCube(QOpenGLFunctions& gl);
+    void initTerrain(QOpenGLFunctions& gl);
     static const std::vector<QVector3D> vertices();
     static const std::vector<unsigned short> indices();
 
