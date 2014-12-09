@@ -14,10 +14,10 @@ Camera::Camera(
 , m_center(center)
 , m_up(up)
 
-, m_fovy(40.f) // degrees!
-, m_aspect(1.f)
-, m_zNear(0.1f)
-, m_zFar(64.0f)
+, m_fovy(90.f) // degrees!
+, m_aspect(16.f / 9.f)
+, m_zNear(0.2f)
+, m_zFar(128.0f)
 , m_viewChanged(true)
 , m_viewInvertedChanged(true)
 , m_projectionChanged(true)
@@ -41,14 +41,6 @@ void Camera::invalidateMatrices() const
     m_viewProjectionChanged = true;
     m_viewProjectionInvertedChanged = true;
     m_normalChanged = true;
-
-    view();
-    viewInverted();
-    projection();
-    projectionInverted();
-    viewProjection();
-    viewProjectionInverted();
-    normal();
 }
 
 void Camera::dirty()
