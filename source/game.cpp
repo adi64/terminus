@@ -44,8 +44,8 @@ Game::Game()
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_terrain.get());
 
-    m_scene->camera().setEye(QVector3D(0.0, 2.0, 50.0));
-    m_scene->camera().setCenter(QVector3D(0.0, 0.0, 0.0));
+    m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
+    m_scene->camera().setCenter(QVector3D(0.0, 1.0, 0.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 }
 
