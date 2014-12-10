@@ -206,15 +206,40 @@ QVector2D Camera::rotation()
 void Camera::setMovement(QVector3D movement)
 {
     m_movement = movement;
-    setEye(eye() + movement);
-    setCenter(center()+ movement);
+
+    auto direction = (center() - eye()).normalized();
+    auto newEye = eye();
+    auto newCenter = center();
+    auto normal = QVector3D::normal(direction, up());
+
+    newEye += normal * movement.x();
+    newCenter += normal * movement.x();
+
+    newEye += up() * movement.y();
+    newCenter += up() * movement.y();
+
+    newEye += direction * -movement.z();
+    newCenter += direction * -movement.z();
+
+    setEye(newEye);
+    setCenter(newCenter);
 }
 
 void Camera::setRotation(QVector2D rotation)
 {
     m_rotation = rotation;
-    qDebug() << "I wanna rotate now!";
-    //setEye(eye() + rotation); TODO FIXME
+
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.rotate(-rotation.x(), 0.0, 1.0, 0.0);
+    //m.rotate(rotation.y, ) TODO
+
+    auto newCenter = center();
+    newCenter -= eye();
+    newCenter = m * newCenter;
+    newCenter += eye();
+
+    setCenter(newCenter);
 }
 
 const QMatrix4x4 & Camera::view() const
