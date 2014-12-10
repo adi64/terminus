@@ -122,12 +122,20 @@ void Game::keyPressEvent(Qt::Key key)
         movement.setX(1.0);
         m_scene->camera().setMovement(movement);
         break;
-    case Qt::Key_Q:
+    case Qt::Key_Left:
         rotation.setX(-5.0);
         m_scene->camera().setRotation(rotation);
         break;
-    case Qt::Key_E:
+    case Qt::Key_Right:
         rotation.setX(5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Up:
+        rotation.setY(5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Down:
+        rotation.setY(-5.0);
         m_scene->camera().setRotation(rotation);
         break;
     case Qt::Key_R:
@@ -166,12 +174,20 @@ void Game::keyReleaseEvent(Qt::Key key)
         movement.setX(0.0);
         m_scene->camera().setMovement(movement);
         break;
-    case Qt::Key_Q:
+    case Qt::Key_Left:
         rotation.setX(0.0);
         m_scene->camera().setRotation(rotation);
         break;
-    case Qt::Key_E:
+    case Qt::Key_Right:
         rotation.setX(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Up:
+        rotation.setY(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Down:
+        rotation.setY(0.0);
         m_scene->camera().setRotation(rotation);
         break;
     case Qt::Key_R:

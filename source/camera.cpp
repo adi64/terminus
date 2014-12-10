@@ -1,5 +1,6 @@
 #include "camera.h"
 #include <cassert>
+#include <QQuaternion>
 
 namespace terminus
 {
@@ -229,15 +230,18 @@ void Camera::setRotation(QVector2D rotation)
 {
     m_rotation = rotation;
 
-    QMatrix4x4 m;
-    m.setToIdentity();
-    m.rotate(-rotation.x(), 0.0, 1.0, 0.0);
-    //m.rotate(rotation.y, ) TODO
+    auto viewDirection = (center() - eye()).normalized();
+    auto viewNormal = QVector3D::normal(viewDirection, up());
 
-    auto newCenter = center();
-    newCenter -= eye();
-    newCenter = m * newCenter;
-    newCenter += eye();
+    // "x rotation" -> rotate around up vector
+    auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -rotation.x());
+
+    // "y rotation" -> rotation around "the vector pointing to the right"
+    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, rotation.y());
+
+    auto rotation_total = rotation_x * rotation_y;
+
+    auto newCenter = eye() + rotation_total.rotatedVector(viewDirection);
 
     setCenter(newCenter);
 }
