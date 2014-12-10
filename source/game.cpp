@@ -203,4 +203,21 @@ void Game::keyReleaseEvent(Qt::Key key)
     }
 }
 
+void Game::mouseMoveEvent(qreal x, qreal y)
+{
+    const double sensitivity = 0.5;
+
+    auto oldPosition = QVector2D(window()->width() / 2, window()->height() / 2);
+    auto offset = oldPosition - QVector2D(x, y);
+    auto rotation = offset * sensitivity;
+
+    // invert X
+    rotation *= QVector2D(-1.0, 1.0);
+
+    m_scene->camera().setRotation(rotation);
+
+    QPoint globalPosition = window()->mapToGlobal(QPoint(window()->width() / 2, window()->height() / 2));
+    QCursor::setPos(globalPosition);
+}
+
 }

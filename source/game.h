@@ -29,6 +29,7 @@ public slots:
     void handleWindowChanged(QQuickWindow* win);
     void keyPressEvent(Qt::Key key);
     void keyReleaseEvent(Qt::Key key);
+    void mouseMoveEvent(qreal x, qreal y);
 protected:
     Scene *m_scene;
     std::unique_ptr<Train> m_playerTrain;

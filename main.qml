@@ -20,6 +20,15 @@ Item {
         }
     }
 
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: "BlankCursor"
+        hoverEnabled: true
+        onPositionChanged: {
+            terminusGame.mouseMoveEvent(mouse.x, mouse.y);
+        }
+    }
+
     Rectangle {
         color: Qt.rgba(1, 1, 1, 0.7)
         radius: 10
