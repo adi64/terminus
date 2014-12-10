@@ -27,9 +27,9 @@ public slots:
     void sync();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
-    void handleKeyboardEvent(Qt::Key key);
+    void keyPressEvent(Qt::Key key);
+    void keyReleaseEvent(Qt::Key key);
 protected:
-private:
     Scene *m_scene;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;

@@ -99,46 +99,92 @@ void Game::handleWindowChanged(QQuickWindow *win)
     }
 }
 
-void Game::handleKeyboardEvent(Qt::Key key)
+void Game::keyPressEvent(Qt::Key key)
 {
-    qDebug() << "ermergerd keyboard event: " << key;
-    if(key == Qt::Key_W)
+    auto movement = m_scene->camera().movement();
+    auto rotation = m_scene->camera().rotation();
+
+    switch(key)
     {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(0.0, 0.0, -1.0);
-        m_scene->camera().setEye(newEye);
+    case Qt::Key_W:
+        movement.setZ(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_S:
+        movement.setZ(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_A:
+        movement.setX(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_D:
+        movement.setX(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Q:
+        rotation.setX(-5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_E:
+        rotation.setX(5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_R:
+        movement.setY(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_F:
+        movement.setY(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    default:
+        break;
     }
-    if(key == Qt::Key_S)
+}
+
+void Game::keyReleaseEvent(Qt::Key key)
+{
+    auto movement = m_scene->camera().movement();
+    auto rotation = m_scene->camera().rotation();
+
+    switch(key)
     {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(0.0, 0.0, 1.0);
-        m_scene->camera().setEye(newEye);
+    case Qt::Key_W:
+        movement.setZ(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_S:
+        movement.setZ(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_A:
+        movement.setX(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_D:
+        movement.setX(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Q:
+        rotation.setX(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_E:
+        rotation.setX(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_R:
+        movement.setY(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_F:
+        movement.setY(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    default:
+        break;
     }
-    if(key == Qt::Key_A)
-    {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(-1.0, 0.0, 0.0);
-        m_scene->camera().setEye(newEye);
-    }
-    if(key == Qt::Key_D)
-    {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(1.0, 0.0, 0.0);
-        m_scene->camera().setEye(newEye);
-    }
-    if(key == Qt::Key_Space)
-    {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(0.0, 1.0, 0.0);
-        m_scene->camera().setEye(newEye);
-    }
-    if(key == Qt::Key_Control)
-    {
-        auto newEye = m_scene->camera().eye();
-        newEye += QVector3D(0.0, -1.0, 0.0);
-        m_scene->camera().setEye(newEye);
-    }
-    qDebug() << "Camera at " << m_scene->camera().eye() << " looking at " << m_scene->camera().center();
 }
 
 }

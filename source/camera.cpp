@@ -193,6 +193,30 @@ void Camera::update() const
     invalidateMatrices();
 }
 
+QVector3D Camera::movement()
+{
+    return m_movement;
+}
+
+QVector2D Camera::rotation()
+{
+    return m_rotation;
+}
+
+void Camera::setMovement(QVector3D movement)
+{
+    m_movement = movement;
+    setEye(eye() + movement);
+    setCenter(center()+ movement);
+}
+
+void Camera::setRotation(QVector2D rotation)
+{
+    m_rotation = rotation;
+    qDebug() << "I wanna rotate now!";
+    //setEye(eye() + rotation); TODO FIXME
+}
+
 const QMatrix4x4 & Camera::view() const
 {
     if (m_dirty)

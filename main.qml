@@ -11,7 +11,11 @@ Item {
         id: terminusGame
         focus: true
         Keys.onPressed: {
-            terminusGame.handleKeyboardEvent(event.key)
+            terminusGame.keyPressEvent(event.key)
+            event.accepted = true
+        }
+        Keys.onReleased: {
+            terminusGame.keyReleaseEvent(event.key)
             event.accepted = true
         }
     }
@@ -29,7 +33,7 @@ Item {
         id: label
         color: "black"
         wrapMode: Text.WordWrap
-        text: "Terminus 0.0.1 Alpha"
+        text: "Terminus 0.0.2 Alpha - WASD movement, R/F up/down"
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: parent.bottom
