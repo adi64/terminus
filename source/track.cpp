@@ -6,10 +6,11 @@
 namespace terminus
 {
 
-Track::Track(Scene *scene)
+Track::Track(Scene *scene, QVector3D startPosition, QVector3D endPosition)
     : AbstractGraphicsObject(scene)
+    , m_startPosition(startPosition)
+    , m_endPosition(endPosition)
 {
-
 }
 
 void Track::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
@@ -20,7 +21,12 @@ void Track::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
 QVector3D Track::positionAt(double distance)
 {
     // TODO real implementation
-    return QVector3D(distance, 1.0, 0.0);
+    auto length = (m_endPosition - m_startPosition).length();
+    auto normalizedDistance = distance / length;
+
+    auto interpolatedPosition =
+        ((1.0 - normalizedDistance) * m_startPosition) + ((normalizedDistance) * m_endPosition);
+    return interpolatedPosition;
 }
 
 QVector3D Track::tangentAt(double distance)

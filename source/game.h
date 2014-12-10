@@ -32,6 +32,7 @@ protected:
 private:
     Scene *m_scene;
     std::unique_ptr<Train> m_playerTrain;
+    std::unique_ptr<Train> m_enemyTrain;
     QTimer *m_timer;
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
