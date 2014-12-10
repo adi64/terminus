@@ -42,7 +42,7 @@ Item {
         id: label
         color: "black"
         wrapMode: Text.WordWrap
-        text: "Terminus 0.0.2 Alpha - WASD movement, R/F up/down"
+        text: "Terminus 0.0.2 Alpha - WASD movement, FPS-style camera, 'q' quits"
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: parent.bottom

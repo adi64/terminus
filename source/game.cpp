@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QVector3D>
+#include <QApplication>
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
@@ -145,6 +146,9 @@ void Game::keyPressEvent(Qt::Key key)
     case Qt::Key_F:
         movement.setY(-1.0);
         m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Q:
+        QApplication::quit();
         break;
     default:
         break;
