@@ -10,6 +10,7 @@
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
+#include "resources/soundmanager.h"
 #include "train.h"
 #include "terrain.h"
 
@@ -44,6 +45,8 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
 
     m_scene->setInitialTimeStamp(m_timeStamp);
+
+    SoundManager::getInstance()->playBackgroundMusic();
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
