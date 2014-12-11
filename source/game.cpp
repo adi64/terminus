@@ -156,6 +156,9 @@ void Game::keyPressEvent(Qt::Key key)
     case Qt::Key_Escape:
         QApplication::quit();
         break;
+    case Qt::Key_U:
+        SoundManager::getInstance()->playSound("test.wav");
+        break;
     default:
         break;
     }
