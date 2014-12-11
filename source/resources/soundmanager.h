@@ -1,0 +1,4 @@
+#ifndef SOUNDMANAGER_H
+#define SOUNDMANAGER_H
+
+#endif // SOUNDMANAGER_H

@@ -2,7 +2,7 @@ TEMPLATE = app
 
 CONFIG += c++11
 
-QT += qml quick widgets
+QT += qml quick widgets multimedia
 
 SOURCES += \
     source/wagons/abstractwagon.cpp \
@@ -19,7 +19,8 @@ SOURCES += \
     source/resources/material.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
-    source/resources/resourcemanager.cpp
+    source/resources/resourcemanager.cpp \
+    source/resources/soundmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -44,7 +45,8 @@ HEADERS += \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/resourcemanager.h \
-    source/resources/material.h
+    source/resources/material.h \
+    source/resources/soundmanager.h
 
 OTHER_FILES += \
     data/enginewagon.frag \
