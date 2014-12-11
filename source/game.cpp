@@ -15,9 +15,6 @@
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
 
-#include "resources/soundmanager.h" //TODO remove
-#include <QDebug>
-
 namespace terminus
 {
 
@@ -32,10 +29,6 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
-    qDebug() << "before playing";
-    SoundManager::getInstance()->playSound("test");
-    qDebug() << "after playing";
-
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
@@ -45,9 +38,14 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
 
+    m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+
     m_scene->setInitialTimeStamp(m_timeStamp);
 
     m_scene->addNode(m_playerTrain.get());
+    m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
 
     m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
