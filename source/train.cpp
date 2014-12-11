@@ -13,8 +13,8 @@ namespace terminus
 Train::Train(Scene *scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
-    , m_track(track)
     , m_velocity(0.001)
+    , m_track(track)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -25,7 +25,7 @@ Train::~Train()
 
 }
 
-void Train::removeWagon(int index)
+void Train::removeWagon(unsigned int index)
 {
     if(index >= m_wagons.size())
     {
@@ -44,7 +44,7 @@ void Train::removeWagon(int index)
     calculateWagonOffset();
 }
 
-void Train::moveWagon(int wagonPos, int targetPos)
+void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
 {
     if(wagonPos >= m_wagons.size())
     {
