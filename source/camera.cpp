@@ -1,5 +1,6 @@
 #include "camera.h"
 #include <cassert>
+#include <QQuaternion>
 
 namespace terminus
 {
@@ -191,6 +192,58 @@ void Camera::update() const
     m_dirty = false;
 
     invalidateMatrices();
+}
+
+QVector3D Camera::movement()
+{
+    return m_movement;
+}
+
+QVector2D Camera::rotation()
+{
+    return m_rotation;
+}
+
+void Camera::setMovement(QVector3D movement)
+{
+    m_movement = movement;
+
+    auto direction = (center() - eye()).normalized();
+    auto newEye = eye();
+    auto newCenter = center();
+    auto normal = QVector3D::normal(direction, up());
+
+    newEye += normal * movement.x();
+    newCenter += normal * movement.x();
+
+    newEye += up() * movement.y();
+    newCenter += up() * movement.y();
+
+    newEye += direction * -movement.z();
+    newCenter += direction * -movement.z();
+
+    setEye(newEye);
+    setCenter(newCenter);
+}
+
+void Camera::setRotation(QVector2D rotation)
+{
+    m_rotation = rotation;
+
+    auto viewDirection = (center() - eye()).normalized();
+    auto viewNormal = QVector3D::normal(viewDirection, up());
+
+    // "x rotation" -> rotate around up vector
+    auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -rotation.x());
+
+    // "y rotation" -> rotation around "the vector pointing to the right"
+    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, rotation.y());
+
+    auto rotation_total = rotation_x * rotation_y;
+
+    auto newCenter = eye() + rotation_total.rotatedVector(viewDirection);
+
+    setCenter(newCenter);
 }
 
 const QMatrix4x4 & Camera::view() const

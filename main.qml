@@ -11,8 +11,21 @@ Item {
         id: terminusGame
         focus: true
         Keys.onPressed: {
-            terminusGame.handleKeyboardEvent(event.key)
+            terminusGame.keyPressEvent(event.key)
             event.accepted = true
+        }
+        Keys.onReleased: {
+            terminusGame.keyReleaseEvent(event.key)
+            event.accepted = true
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: "BlankCursor"
+        hoverEnabled: true
+        onPositionChanged: {
+            terminusGame.mouseMoveEvent(mouse.x, mouse.y);
         }
     }
 
@@ -29,7 +42,7 @@ Item {
         id: label
         color: "black"
         wrapMode: Text.WordWrap
-        text: "Terminus 0.0.1 Alpha"
+        text: "Terminus 0.0.2 Alpha - WASD movement, FPS-style camera, 'q' quits"
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: parent.bottom

@@ -55,6 +55,11 @@ public:
 
     void changed();
 
+    QVector3D movement();
+    QVector2D rotation();
+
+    void setMovement(QVector3D movement);
+    void setRotation(QVector2D rotation);
 
 protected:
     void dirty();
@@ -91,6 +96,9 @@ protected:
     mutable bool m_viewProjectionChanged;
     mutable bool m_viewProjectionInvertedChanged;
     mutable bool m_normalChanged;
+
+    QVector3D m_movement;
+    QVector2D m_rotation;
 
 };
 
