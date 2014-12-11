@@ -150,6 +150,9 @@ void Game::keyPressEvent(Qt::Key key)
     case Qt::Key_Q:
         QApplication::quit();
         break;
+    case Qt::Key_Escape:
+        QApplication::quit();
+        break;
     default:
         break;
     }
