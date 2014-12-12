@@ -1,5 +1,6 @@
 #include <QSoundEffect>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 #include "soundmanager.h"
 
@@ -8,6 +9,8 @@
 //TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 
 //if Android doesn't like QMultimedia -> try libVLC
+
+#define MAX_VOL 100
 
 namespace terminus
 {
@@ -49,8 +52,13 @@ void SoundManager::initialize()
     m_sounds["machine"] = soundFour;
 
     m_mediaPlayer = new QMediaPlayer();
-    mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
+    m_mediaPlaylist = new QMediaPlaylist();
+    mediaPlayer()->setPlaylist(mediaPlaylist());
     mediaPlayer()->setVolume(99);
+
+    mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
+    mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+
 }
 
 SoundManager::~SoundManager()
@@ -65,11 +73,25 @@ SoundManager::~SoundManager()
         delete it->second;                             //is second correct?
     }
 
+    mediaPlayer()->setMedia(nullptr);
     delete m_mediaPlayer;
 }
 
 void SoundManager::playSound(QString name)
 {
+    sound(name)->play();
+}
+
+void SoundManager::playSoundDistant(QString name, qreal distance)
+{
+    qreal relativeVolume = 1.0 - distance/MAX_VOL;
+
+    if(relativeVolume <= 0)
+    {
+        relativeVolume = 0.0;
+    }
+
+    sound(name)->setVolume(relativeVolume);
     sound(name)->play();
 }
 
@@ -103,6 +125,10 @@ std::map<QString, QSoundEffect *> SoundManager::sounds()
 QMediaPlayer * SoundManager::mediaPlayer()
 {
     return m_mediaPlayer;
+}
+
+QMediaPlaylist * SoundManager::mediaPlaylist(){
+    return m_mediaPlaylist;
 }
 
 }   //terminus

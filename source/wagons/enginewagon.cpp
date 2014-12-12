@@ -1,6 +1,6 @@
 #include "enginewagon.h"
 
-#include <QDebug>
+#include <QDebug>   //TODO remove
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
@@ -143,7 +143,7 @@ void EngineWagon::playSound()
 
     if(!localManager->sound("machine")->isPlaying())       //maybe defining the strings in a typedef?
     {
-        //localManager->playSound("machine");
+        localManager->playSoundDistant("machine", calculateDistance());
     }
 }
 
