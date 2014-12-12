@@ -154,7 +154,8 @@ void Game::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        m_scene->camera().setLocked(false);
+        m_scene->camera().toggleLocked();
+        m_scene->camera().setMovement(QVector3D(0.0, 0.0, 0.0));
         break;
     case Qt::Key_Escape:
         QApplication::quit();
