@@ -19,7 +19,8 @@ SOURCES += \
     source/resources/material.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
-    source/resources/resourcemanager.cpp
+    source/resources/resourcemanager.cpp \
+    source/skybox.cpp \
 
 RESOURCES += qml.qrc
 
@@ -44,7 +45,8 @@ HEADERS += \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/resourcemanager.h \
-    source/resources/material.h
+    source/resources/material.h \
+    source/skybox.h \
 
 OTHER_FILES += \
     data/enginewagon.frag \
