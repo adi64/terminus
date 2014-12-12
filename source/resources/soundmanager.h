@@ -24,6 +24,7 @@ protected:
 public:
     void playSound(QString name);
     void playBackgroundMusic();
+    void toggleBackgroundMusic();
 
 public:
     QSoundEffect * sound(QString name);

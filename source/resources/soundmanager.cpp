@@ -30,21 +30,25 @@ SoundManager::SoundManager()
 void SoundManager::initialize()
 {
     QSoundEffect * soundOne = new QSoundEffect();
-    soundOne->setSource(QUrl::fromLocalFile("sounds/test.wav"));
-    m_sounds["test"] = soundOne;
+    soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
+    m_sounds["alarm"] = soundOne;
 
     QSoundEffect * soundTwo = new QSoundEffect();
-    soundTwo->setSource(QUrl::fromLocalFile("sounds/beebomb.wav"));
-    m_sounds["beebomb"] = soundTwo;
+    soundTwo->setSource(QUrl::fromLocalFile("sounds/angriff.wav"));
+    m_sounds["angriff"] = soundTwo;
 
     QSoundEffect * soundThree = new QSoundEffect();
-    soundThree->setSource(QUrl::fromLocalFile("sounds/beesting.wav"));
-    soundThree->setLoopCount(3);
-    soundThree->setVolume(1.0);
-    m_sounds["beesting"] = soundThree;
+    soundThree->setSource(QUrl::fromLocalFile("sounds/shot.wav"));
+    m_sounds["shot"] = soundThree;
+
+    QSoundEffect * soundFour = new QSoundEffect();
+    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/Bipedm.wav"));
+    soundFour->setLoopCount(QSoundEffect::Infinite);
+    soundFour->setVolume(0.8);
+    m_sounds["Bipedm"] = soundFour;
 
     m_mediaPlayer = new QMediaPlayer();
-    mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Kalimba.mp3"));
+    mediaPlayer()->setMedia(QUrl::fromLocalFile("music/.mp3"));
     mediaPlayer()->setVolume(80);
 }
 
@@ -71,6 +75,18 @@ void SoundManager::playSound(QString name)
 void SoundManager::playBackgroundMusic()
 {
     mediaPlayer()->play();
+}
+
+void SoundManager::toggleBackgroundMusic()
+{
+    if(mediaPlayer()->state() == 1)
+    {
+        mediaPlayer()->pause();
+    }
+    else
+    {
+        mediaPlayer()->play();
+    }
 }
 
 QSoundEffect * SoundManager::sound(QString name)
