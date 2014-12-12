@@ -33,3 +33,7 @@ build
 *.qmlproject.user
 *.qmlproject.user.*
 Terminus.pro.user~
+
+# SoundFiles
+
+music/not_used
