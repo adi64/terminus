@@ -60,6 +60,7 @@ public:
 
     void setMovement(QVector3D movement);
     void setRotation(QVector2D rotation);
+    void setLocked(bool status);
 
 protected:
     void dirty();
@@ -99,6 +100,7 @@ protected:
 
     QVector3D m_movement;
     QVector2D m_rotation;
+    bool m_lockedToTrain;
 
 };
 
