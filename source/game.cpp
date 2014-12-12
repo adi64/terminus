@@ -46,7 +46,7 @@ Game::Game()
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    //SoundManager::getInstance()->playBackgroundMusic();
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());

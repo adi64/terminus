@@ -1,4 +1,4 @@
-#include <QSound>
+#include <QSoundEffect>
 #include <QMediaPlayer>
 
 #include "soundmanager.h"
@@ -29,13 +29,18 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    QSound * soundOne = new QSound("sounds/test.wav");
+    QSoundEffect * soundOne = new QSoundEffect();
+    soundOne->setSource(QUrl::fromLocalFile("sounds/test.wav"));
     m_sounds["test"] = soundOne;
 
-    QSound * soundTwo = new QSound("sounds/beebomb.wav");
+    QSoundEffect * soundTwo = new QSoundEffect();
+    soundTwo->setSource(QUrl::fromLocalFile("sounds/beebomb.wav"));
     m_sounds["beebomb"] = soundTwo;
 
-    QSound * soundThree = new QSound("sounds/beesting.wav");
+    QSoundEffect * soundThree = new QSoundEffect();
+    soundThree->setSource(QUrl::fromLocalFile("sounds/beesting.wav"));
+    soundThree->setLoopCount(3);
+    soundThree->setVolume(1.0);
     m_sounds["beesting"] = soundThree;
 
     m_mediaPlayer = new QMediaPlayer();
@@ -46,7 +51,7 @@ void SoundManager::initialize()
 SoundManager::~SoundManager()
 {
     //TODO delete m_sounds contents
-    std::map<QString, QSound *>::iterator it;    //use const auto instead
+    std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
 
     qDebug() << "am i called?";
 
@@ -60,9 +65,7 @@ SoundManager::~SoundManager()
 
 void SoundManager::playSound(QString name)
 {
-    qDebug() << "right before playing";
     sound(name)->play();
-    //QSound::play("sounds/bee.wav");
 }
 
 void SoundManager::playBackgroundMusic()
@@ -70,12 +73,12 @@ void SoundManager::playBackgroundMusic()
     mediaPlayer()->play();
 }
 
-QSound * SoundManager::sound(QString name)
+QSoundEffect * SoundManager::sound(QString name)
 {
     return m_sounds[name];
 }
 
-std::map<QString, QSound *> SoundManager::sounds()
+std::map<QString, QSoundEffect *> SoundManager::sounds()
 {
     return m_sounds;
 }
