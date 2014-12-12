@@ -46,7 +46,7 @@ Game::Game()
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
-    //SoundManager::getInstance()->playBackgroundMusic();
+    SoundManager::getInstance()->playBackgroundMusic();
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
@@ -157,7 +157,13 @@ void Game::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_U:
-        SoundManager::getInstance()->playSound("ugly");
+        SoundManager::getInstance()->playSound("test");
+        break;
+    case Qt::Key_I:
+        SoundManager::getInstance()->playSound("beebomb");
+        break;
+    case Qt::Key_O:
+        SoundManager::getInstance()->playSound("beesting");
         break;
     default:
         break;

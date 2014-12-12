@@ -32,8 +32,11 @@ void SoundManager::initialize()
     QSound * soundOne = new QSound("sounds/test.wav");
     m_sounds["test"] = soundOne;
 
-    QSound * soundTwo = new QSound("sounds/ugly.wav");
-    m_sounds["ugly"] = soundTwo;
+    QSound * soundTwo = new QSound("sounds/beebomb.wav");
+    m_sounds["beebomb"] = soundTwo;
+
+    QSound * soundThree = new QSound("sounds/beesting.wav");
+    m_sounds["beesting"] = soundThree;
 
     m_mediaPlayer = new QMediaPlayer();
     mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Kalimba.mp3"));
@@ -59,7 +62,7 @@ void SoundManager::playSound(QString name)
 {
     qDebug() << "right before playing";
     sound(name)->play();
-    //QSound::play(name);
+    //QSound::play("sounds/bee.wav");
 }
 
 void SoundManager::playBackgroundMusic()
