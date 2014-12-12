@@ -1,6 +1,6 @@
 #pragma once
 
-class QSound;
+class QSoundEffect;
 class QMediaPlayer;
 
 namespace terminus
@@ -25,12 +25,12 @@ public:
     void playBackgroundMusic();
 
 public:
-    QSound * sound(QString name);
-    std::map<QString, QSound *> sounds();    
+    QSoundEffect * sound(QString name);
+    std::map<QString, QSoundEffect *> sounds();
     QMediaPlayer * mediaPlayer();
 
 protected:
-    std::map<QString, QSound *> m_sounds;
+    std::map<QString, QSoundEffect *> m_sounds;
     QMediaPlayer * m_mediaPlayer;
 };
 
