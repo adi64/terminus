@@ -31,6 +31,8 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
+    SoundManager::getInstance()->playBackgroundMusic();
+
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
@@ -53,8 +55,6 @@ Game::Game()
     m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 1.0, 0.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
-
-    SoundManager::getInstance()->playBackgroundMusic();
 }
 
 Game::~Game()
@@ -157,13 +157,16 @@ void Game::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_U:
-        SoundManager::getInstance()->playSound("test");
+        SoundManager::getInstance()->playSound("angriff");
         break;
     case Qt::Key_I:
-        SoundManager::getInstance()->playSound("beebomb");
+        SoundManager::getInstance()->playSound("shot");
         break;
     case Qt::Key_O:
-        SoundManager::getInstance()->playSound("beesting");
+        SoundManager::getInstance()->playSound("alarm");
+        break;
+    case Qt::Key_M:
+        SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     default:
         break;
