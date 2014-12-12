@@ -46,7 +46,7 @@ Game::Game()
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    //SoundManager::getInstance()->playBackgroundMusic();
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
@@ -70,7 +70,7 @@ void Game::sync()
 
     //Debug Stuff
     // get context opengl-version
-    /*
+/*
     qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
     qDebug() << "Context valid: " << window()->openglContext()->isValid();
     qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();
@@ -78,7 +78,7 @@ void Game::sync()
     qDebug() << " RENDERDER: " << (const char*)glGetString(GL_RENDERER);
     qDebug() << " VERSION: " << (const char*)glGetString(GL_VERSION);
     qDebug() << " GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-    */
+*/
 
 }
 
@@ -157,7 +157,7 @@ void Game::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_U:
-        SoundManager::getInstance()->playSound("test.wav");
+        SoundManager::getInstance()->playSound("ugly");
         break;
     default:
         break;

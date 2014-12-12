@@ -32,6 +32,9 @@ void SoundManager::initialize()
     QSound * soundOne = new QSound("sounds/test.wav");
     m_sounds["test"] = soundOne;
 
+    QSound * soundTwo = new QSound("sounds/ugly.wav");
+    m_sounds["ugly"] = soundTwo;
+
     m_mediaPlayer = new QMediaPlayer();
     mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Kalimba.mp3"));
     mediaPlayer()->setVolume(50);
@@ -40,11 +43,11 @@ void SoundManager::initialize()
 SoundManager::~SoundManager()
 {
     //TODO delete m_sounds contents
-    std::map<QString, QSound *>::iterator it = sounds().begin();    //use const auto instead
+    std::map<QString, QSound *>::iterator it;    //use const auto instead
 
     qDebug() << "am i called?";
 
-    for(it; it != sounds().end(); it++)
+    for(it = sounds().begin(); it != sounds().end(); it++)
     {
         delete it->second;                                               //is second correct?
     }
