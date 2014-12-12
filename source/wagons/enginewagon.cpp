@@ -6,6 +6,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QVector3D>
 
+#include "../resources/soundmanager.h"
 #include "../scene.h"
 
 namespace terminus
@@ -127,6 +128,10 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     m_vao->release();
 
     m_program->release();
+
+    //making some noise now *Tuhhht Tuht*
+
+    playSound();
 }
 
 float EngineWagon::length() const
@@ -134,4 +139,14 @@ float EngineWagon::length() const
     return 6.0f;
 }
 
+void EngineWagon::playSound()
+{
+    auto localManager = SoundManager::getInstance();
+
+    if(!localManager->sound("beesting")->isPlaying())
+    {
+        localManager->playSound("beesting");
+    }
 }
+
+}//terminus

@@ -1,6 +1,7 @@
 #pragma once
 
-class QSoundEffect;
+#include <QSoundEffect>
+
 class QMediaPlayer;
 
 namespace terminus
@@ -30,7 +31,7 @@ public:
     QMediaPlayer * mediaPlayer();
 
 protected:
-    std::map<QString, QSoundEffect *> m_sounds;
+    std::map<QString, QSoundEffect *> m_sounds;     //use unique_ptr later
     QMediaPlayer * m_mediaPlayer;
 };
 

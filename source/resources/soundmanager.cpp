@@ -5,7 +5,7 @@
 
 #include <QDebug> //TODO remove
 
-//TODO use unique or shared pointer instead of standard pointer for QSound
+//TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 
 namespace terminus
 {
@@ -45,7 +45,7 @@ void SoundManager::initialize()
 
     m_mediaPlayer = new QMediaPlayer();
     mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Kalimba.mp3"));
-    mediaPlayer()->setVolume(50);
+    mediaPlayer()->setVolume(80);
 }
 
 SoundManager::~SoundManager()
@@ -57,7 +57,7 @@ SoundManager::~SoundManager()
 
     for(it = sounds().begin(); it != sounds().end(); it++)
     {
-        delete it->second;                                               //is second correct?
+        delete it->second;                             //is second correct?
     }
 
     delete m_mediaPlayer;
