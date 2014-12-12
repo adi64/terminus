@@ -129,9 +129,7 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_program->release();
 
-    //making some noise now *Tuhhht Tuht*
-
-    playSound();
+    playSound();    //sounds get played here for the moment
 }
 
 float EngineWagon::length() const
@@ -141,11 +139,11 @@ float EngineWagon::length() const
 
 void EngineWagon::playSound()
 {
-    auto localManager = SoundManager::getInstance();
+    SoundManager * localManager = SoundManager::getInstance();
 
-    if(!localManager->sound("beesting")->isPlaying())
+    if(!localManager->sound("machine")->isPlaying())       //maybe defining the strings in a typedef?
     {
-        localManager->playSound("beesting");
+        //localManager->playSound("machine");
     }
 }
 

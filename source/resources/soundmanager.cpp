@@ -7,6 +7,8 @@
 
 //TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 
+//if Android doesn't like QMultimedia -> try libVLC
+
 namespace terminus
 {
 
@@ -42,14 +44,13 @@ void SoundManager::initialize()
     m_sounds["shot"] = soundThree;
 
     QSoundEffect * soundFour = new QSoundEffect();
-    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/Bipedm.wav"));
-    soundFour->setLoopCount(QSoundEffect::Infinite);
-    soundFour->setVolume(0.8);
-    m_sounds["Bipedm"] = soundFour;
+    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/machine.wav"));
+    soundFour->setVolume(0.1);
+    m_sounds["machine"] = soundFour;
 
     m_mediaPlayer = new QMediaPlayer();
-    mediaPlayer()->setMedia(QUrl::fromLocalFile("music/.mp3"));
-    mediaPlayer()->setVolume(80);
+    mediaPlayer()->setMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
+    mediaPlayer()->setVolume(99);
 }
 
 SoundManager::~SoundManager()
