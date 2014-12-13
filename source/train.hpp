@@ -15,7 +15,7 @@ void Train::addWagon()
 }
 
 template<typename WagonType>
-void Train::insertWagon(unsigned int targetPos)
+void Train::insertWagon(int targetPos)
 {
     auto wagonRaw = new WagonType(m_scene, this);
 
@@ -39,7 +39,7 @@ void Train::insertWagon(unsigned int targetPos)
     }
     else
     {
-        if(targetPos >= m_wagons.size())
+        if(targetPos >= static_cast<int>(m_wagons.size()))
         {
             qDebug() << "targetPos >= " << m_wagons.size();
             return;
