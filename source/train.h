@@ -21,8 +21,8 @@ public:
     template<typename WagonType> void addWagon();
     template<typename WagonType> void insertWagon(int targetPos);
 
-    void removeWagon(int index);
-    void moveWagon(int wagonPos, int targetPos);
+    void removeWagon(unsigned int index);
+    void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
     void render(QOpenGLFunctions &gl, int elapsedMilliseconds);
 

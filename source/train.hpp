@@ -39,7 +39,7 @@ void Train::insertWagon(int targetPos)
     }
     else
     {
-        if(targetPos >= m_wagons.size())
+        if(targetPos >= static_cast<int>(m_wagons.size()))
         {
             qDebug() << "targetPos >= " << m_wagons.size();
             return;

@@ -20,7 +20,6 @@ void Track::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
 
 QVector3D Track::positionAt(double distance)
 {
-    // TODO real implementation
     auto length = (m_endPosition - m_startPosition).length();
     auto normalizedDistance = distance / length;
 
@@ -31,7 +30,6 @@ QVector3D Track::positionAt(double distance)
 
 QVector3D Track::tangentAt(double distance)
 {
-    // TODO real implementation
     return positionAt(distance).normalized();
 }
 
