@@ -5,10 +5,13 @@
 #include <QQuickView>
 #include <QTimer>
 #include <QTime>
+#include <QVector3D>
+#include <QApplication>
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
 #include "train.h"
+#include "terrain.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -30,14 +33,28 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
-    m_scene->setInitialTimeStamp(m_timeStamp);
+    m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene));
+    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
+
+    m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+
+    m_scene->setInitialTimeStamp(m_timeStamp);
+
+    m_scene->addNode(m_playerTrain.get());
+    m_scene->addNode(m_enemyTrain.get());
+    m_scene->addNode(m_terrain.get());
+
+    m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
+    m_scene->camera().setCenter(QVector3D(0.0, 1.0, 0.0));
+    m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 }
 
 Game::~Game()
@@ -47,13 +64,9 @@ Game::~Game()
 
 void Game::sync()
 {
-    qDebug("sync viewport");
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    m_scene->camera().setEye(QVector3D(0.0, 0.0, 50.0));
-    m_scene->camera().setCenter(QVector3D(0.0, 0.0, 0.0));
-    m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 
     //Debug Stuff
     // get context opengl-version
@@ -88,6 +101,136 @@ void Game::handleWindowChanged(QQuickWindow *win)
         connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
+}
+
+void Game::keyPressEvent(Qt::Key key)
+{
+    auto movement = m_scene->camera().movement();
+    auto rotation = m_scene->camera().rotation();
+
+    switch(key)
+    {
+    case Qt::Key_W:
+        movement.setZ(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_S:
+        movement.setZ(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_A:
+        movement.setX(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_D:
+        movement.setX(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Left:
+        rotation.setX(-5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Right:
+        rotation.setX(5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Up:
+        rotation.setY(5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Down:
+        rotation.setY(-5.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_R:
+        movement.setY(1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_F:
+        movement.setY(-1.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Q:
+        QApplication::quit();
+        break;
+    case Qt::Key_Space:
+        m_scene->camera().setLocked(false);
+        break;
+    case Qt::Key_Escape:
+        QApplication::quit();
+        break;
+    default:
+        break;
+    }
+}
+
+void Game::keyReleaseEvent(Qt::Key key)
+{
+    auto movement = m_scene->camera().movement();
+    auto rotation = m_scene->camera().rotation();
+
+    switch(key)
+    {
+    case Qt::Key_W:
+        movement.setZ(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_S:
+        movement.setZ(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_A:
+        movement.setX(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_D:
+        movement.setX(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_Left:
+        rotation.setX(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Right:
+        rotation.setX(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Up:
+        rotation.setY(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_Down:
+        rotation.setY(0.0);
+        m_scene->camera().setRotation(rotation);
+        break;
+    case Qt::Key_R:
+        movement.setY(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    case Qt::Key_F:
+        movement.setY(0.0);
+        m_scene->camera().setMovement(movement);
+        break;
+    default:
+        break;
+    }
+}
+
+void Game::mouseMoveEvent(qreal x, qreal y)
+{
+    const double sensitivity = 0.5;
+
+    auto oldPosition = QVector2D(window()->width() / 2, window()->height() / 2);
+    auto offset = oldPosition - QVector2D(x, y);
+    auto rotation = offset * sensitivity;
+
+    // invert X
+    rotation *= QVector2D(-1.0, 1.0);
+
+    m_scene->camera().setRotation(rotation);
+
+    QPoint globalPosition = window()->mapToGlobal(QPoint(window()->width() / 2, window()->height() / 2));
+    QCursor::setPos(globalPosition);
 }
 
 }

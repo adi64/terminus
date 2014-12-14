@@ -44,23 +44,24 @@ void Scene::render()
         glInitialized = true;
     }
 
-    qDebug("Start rendering:");
-
     auto elapsedMilliseconds = m_timeStamp->restart();
 
     glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW); //TODO check if still necessary after geometry loader
 
-    for(AbstractGraphicsObject* node : m_nodes)
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LESS);
+
+    for(auto node : m_nodes)
     {
         node->render(m_gl, elapsedMilliseconds);
     }
