@@ -15,6 +15,7 @@ class Train;
 class Scene;
 class Terrain;
 class ResourceManager;
+class SkyBox;
 
 class Game : public QQuickItem
 {
@@ -37,6 +38,7 @@ protected:
     QTimer *m_timer;
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
+    std::unique_ptr<SkyBox> m_skybox;
 };
 
 }

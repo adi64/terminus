@@ -1,6 +1,4 @@
-#version 150
-
-// Task_2_1 - ToDo Begin
+#version 130
 
 uniform mat4 cameraProjectionInverted;
 uniform mat4 cameraView;
