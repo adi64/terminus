@@ -62,6 +62,7 @@ public:
     void setRotation(QVector2D rotation);
 
     void toggleLocked();
+    void setLocked(bool value);
 
 protected:
     void dirty();

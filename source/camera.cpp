@@ -268,6 +268,11 @@ void Camera::toggleLocked()
     m_lockedToTrain = !m_lockedToTrain;
 }
 
+void Camera::setLocked(bool value)
+{
+    m_lockedToTrain = value;
+}
+
 const QMatrix4x4 & Camera::view() const
 {
     if (m_dirty)
