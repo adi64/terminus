@@ -2,6 +2,8 @@
 
 #include "geometry.h"
 
+#include <limits.h>
+
 #include <regex>
 #include <fstream>
 #include <string>
@@ -173,12 +175,12 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
                                          std::vector<IndexTriple> & indexTriples,
                                          std::string name)
 {
-    std::vector<unsigned int> indexBuffer;
+    std::vector<unsigned short> indexBuffer;
     std::vector<Vertex> vertexBuffer;
 
-    std::map<IndexTriple, unsigned int> indexLookUp;
+    std::map<IndexTriple, unsigned short> indexLookUp;
 
-    for(unsigned int i = 0; i < indexTriples.size(); i++)
+    for(unsigned int i = 0; i < indexTriples.size() && vertexBuffer.size() < USHRT_MAX; i++)
     {
         if(indexLookUp.count(indexTriples[i]) == 0)
         {
@@ -202,7 +204,7 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
             Vertex v {{vP.x(), vP.y(),vP.z()}, {vT.x(), vT.y(),vT.z()}, {vN.x(), vN.y(),vN.z()}};
             vertexBuffer.push_back(v);
 
-            indexBuffer.push_back(vertexBuffer.size() - 1);
+            indexBuffer.push_back(static_cast<unsigned short>(vertexBuffer.size() - 1));
         }
         else
         {

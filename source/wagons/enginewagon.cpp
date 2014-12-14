@@ -119,7 +119,6 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_program->setUniformValue("mvp", modelViewProjection);
 
-
     std::shared_ptr<std::unique_ptr<Geometry>> ico = ResourceManager::getInstance()->getGeometry("icosahedron_Icosphere");
     (**ico).setAttributes(*m_program);
     (**ico).draw(gl);

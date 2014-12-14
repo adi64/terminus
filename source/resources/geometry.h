@@ -24,7 +24,7 @@ class Geometry
 
 public:
     Geometry(); //construct NULL-Object --- what do we need this for?
-    Geometry(const std::vector<unsigned int> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
+    Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
     virtual ~Geometry();
 
     virtual void allocate();
@@ -39,10 +39,10 @@ protected:
     QOpenGLBuffer * m_vbo;
     QOpenGLBuffer * m_ibo;
 
-    unsigned int m_triangleCount;
+    unsigned int m_elementCount;
 
     std::vector<Vertex> m_vertexBuffer;
-    std::vector<unsigned int> m_indexBuffer;
+    std::vector<unsigned short> m_indexBuffer;
 };
 
 } //terminus

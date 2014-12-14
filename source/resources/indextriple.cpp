@@ -19,7 +19,6 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
     catch (const std::invalid_argument& e)
     {
         m_validTexture = false;
-        qDebug() << typeid(e).name();
     }
 
     try
@@ -29,7 +28,6 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
     catch (const std::invalid_argument& e)
     {
         m_validNormal = false;
-        qDebug() << typeid(e).name();
     }
 }
 
@@ -40,7 +38,9 @@ IndexTriple::~IndexTriple()
 
 bool IndexTriple::operator<(const IndexTriple & other) const
 {
-    return true;
+    return m_positionIndex < other.m_positionIndex ||
+            m_textureIndex < other.m_textureIndex ||
+            m_normalIndex < other.m_normalIndex;
 }
 
 bool IndexTriple::operator==(const IndexTriple & other) const
@@ -48,44 +48,7 @@ bool IndexTriple::operator==(const IndexTriple & other) const
     return (positionIndex() == other.positionIndex() &&
             validTexture() == other.validTexture() && (!validTexture() || textureIndex() == other.textureIndex()) &&
             validNormal() == other.validNormal() && (!validNormal() || normalIndex() == other.normalIndex()));
-/*
-    bool posV = false;
-    bool texV = false;
-    bool norV = false;
-
-    if(positionIndex == compareTriple.positionIndex)
-    {
-        posV = true;
-    }
-
-    if(validTexture)
-    {
-        if(textureIndex == compareTriple.textureIndex)
-        {
-            texV = true;
-        }
-    }
-    else
-    {
-        texV = true;
-    }
-
-    if(validNormal)
-    {
-        if(normalIndex == compareTriple.normalIndex)
-        {
-            norV = true;
-        }
-    }
-    else
-    {
-        norV = true;
-    }
-
-    return (posV && texV && norV);
-*/
 }
-
 
 int IndexTriple::positionIndex() const
 {

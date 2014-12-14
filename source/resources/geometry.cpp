@@ -17,7 +17,7 @@ Geometry::Geometry()
 {
 }
 
-Geometry::Geometry(const std::vector<unsigned int> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
+Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
 : m_indexBuffer(indexBuffer)
 , m_vertexBuffer(vertexBuffer)
 , m_isOnGPU(false)
@@ -25,7 +25,7 @@ Geometry::Geometry(const std::vector<unsigned int> & indexBuffer, const std::vec
 , m_vbo(nullptr)
 , m_ibo(nullptr)
 {
-    m_triangleCount = m_indexBuffer.size() / 3;
+    m_elementCount = m_indexBuffer.size();
 }
 
 Geometry::~Geometry()
@@ -103,7 +103,7 @@ void Geometry::draw(QOpenGLFunctions & gl)
     gl.glEnableVertexAttribArray(2); // normals
     gl.glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
 
-    gl.glDrawElements(GL_TRIANGLES, m_triangleCount, GL_UNSIGNED_SHORT, nullptr);
+    gl.glDrawElements(GL_TRIANGLES, m_elementCount, GL_UNSIGNED_SHORT, nullptr);
 }
 
 }//namespace terminus
