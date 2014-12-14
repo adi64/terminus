@@ -10,6 +10,7 @@
 #include "resources/resourcemanager.h"
 #include "train.h"
 
+#include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
 
@@ -20,6 +21,8 @@ Game::Game()
 : m_scene(new Scene())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
+
+    ResourceManager::getInstance()->loadResources();
 
     m_scene = new Scene;
 

@@ -8,8 +8,6 @@ namespace terminus
 class Material
 {
 public:
-    static Material * loadMTX(std::string path);
-public:
     Material();
 };
 

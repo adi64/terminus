@@ -1,11 +1,6 @@
 #include "geometry.h"
 
-#include <regex>
-#include <fstream>
 #include <string>
-#include <sstream>
-#include <algorithm>
-#include <map>
 
 #include <QDebug>
 
@@ -14,138 +9,101 @@
 namespace terminus
 {
 
-Geometry * Geometry::loadObj(std::string path){
-    std::vector<QVector3D> positions;
-    std::vector<QVector3D> texCoords;
-    std::vector<QVector3D> normals;
-    std::vector<IndexTriple> indexTriples;
-
-    std::vector<unsigned int> indexBuffer;
-    std::vector<Vertex> vertexBuffer;
-
-    std::vector<Geometry *> geometryList;
-
-    //parse file and fill buffers with positions, texCoords, normals and index triples
-
-    loadObjParse(path, positions, texCoords, normals, indexTriples);
-
-    //use index triples to generate interleaved array buffer and single indices
-
-    loadObjGenerate(positions, texCoords, normals, indexTriples, indexBuffer, vertexBuffer);
-
-    return new Geometry(indexBuffer, vertexBuffer); //ownership is passed to caller
-}
-void Geometry::loadObjParse(std::string path,
-                                   std::vector<QVector3D> & positions,
-                                   std::vector<QVector3D> & texCoords,
-                                   std::vector<QVector3D> & normals,
-                                   std::vector<IndexTriple> & indexTriples){
-
-    std::ifstream objFile(path);
-    std::string line;
-
-    while(std::getline(objFile, line))
-    {
-        std::string lineHeader;
-        std::stringstream lineStream(line);
-        lineStream >> lineHeader;
-
-        if(lineHeader == "v")
-        {
-            float x,y,z;
-            lineStream >> x >> y >> z;
-            QVector3D position(x, y, z);
-            positions.push_back(position);
-        }
-        else if(lineHeader == "vt")
-        {
-            float x,y,z;
-            lineStream >> x >> y >> z;
-            QVector3D texCoord(x, y, z);
-            texCoords.push_back(texCoord);
-        }
-        else if(lineHeader == "vn")
-        {
-            float x,y,z;
-            lineStream >> x >> y >> z;
-            QVector3D normal(x, y, z);
-            normals.push_back(normal);
-        }
-        else if(lineHeader == "f")
-        {
-            std::regex indexPattern("([0-9]+)(?:\\/([0-9]*)(?:\\/([0-9]*))?)?", std::regex::extended);
-            std::string indexSpec[3];
-            lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
-            for(int i = 0; i < 3; i++)
-            {
-                std::smatch match;
-                if(!std::regex_match(indexSpec[i], match, indexPattern))
-                {
-                    qDebug() << "FATAL: incorrect *.obj format";
-                    return;
-                }
-                indexTriples.push_back(IndexTriple(match[1], match[2], match[3]));
-            }
-        }
-        //materials
-//        else if(lineHeader == "mtllib")
-//        {
-//            std::string mtlFile;
-//            lineStream >> mtlFile;
-//            //TODO loadMaterial(mtlFile);
-//        }
-//        else if(lineHeader == "usemtl")
-//        {
-//            std::string mtlName;
-//            lineStream >> mtlName;
-//            //TODO use material;
-//        }
-    }
-}
-
-void Geometry::loadObjGenerate(std::vector<QVector3D> & positions,
-                                        std::vector<QVector3D> & texCoords,
-                                        std::vector<QVector3D> & normals,
-                                        std::vector<IndexTriple> & indexTriples,
-                                        std::vector<unsigned int> & indexBuffer,
-                                        std::vector<Vertex> & vertexBuffer)
-{
-    std::map<IndexTriple, unsigned int> indexLookUp;
-
-    for(unsigned int i = 0; i < indexTriples.size(); i++)
-    {
-        if(indexLookUp.count(indexTriples[i]) == 0)
-        {
-            indexLookUp[indexTriples[i]] = vertexBuffer.size();
-
-            Vertex v;
-            v.position = positions[indexTriples[i].positionIndex()];
-            v.texCoord = texCoords[indexTriples[i].textureIndex()];
-            v.normal = normals[indexTriples[i].normalIndex()];
-            vertexBuffer.push_back(v);
-
-            indexBuffer.push_back(vertexBuffer.size() - 1);
-        }
-        else
-        {
-            indexBuffer.push_back(indexLookUp[indexTriples[i]]);
-        }
-    }
-}
 Geometry::Geometry()
+: m_isOnGPU(false)
+//, m_vao(nullptr)
+, m_vbo(nullptr)
+, m_ibo(nullptr)
 {
 }
 
 Geometry::Geometry(const std::vector<unsigned int> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
 : m_indexBuffer(indexBuffer)
 , m_vertexBuffer(vertexBuffer)
+, m_isOnGPU(false)
+//, m_vao(nullptr)
+, m_vbo(nullptr)
+, m_ibo(nullptr)
 {
-    //TODO allocate and fill VAO
+    m_triangleCount = m_indexBuffer.size() / 3;
 }
 
 Geometry::~Geometry()
 {
-    //TODO release GPU resources
+    deallocate();
+}
+
+void Geometry::allocate()
+{
+     if(m_isOnGPU)
+         return;
+
+/*     m_vao = new QOpenGLVertexArrayObject();
+     m_vao->create();
+     m_vao->bind();*/
+
+     m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+     m_vbo->create();
+     m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
+     m_vbo->bind();
+     m_vbo->allocate(m_vertexBuffer.data(), m_vertexBuffer.size() * sizeof(Vertex));
+
+     m_ibo = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+     m_ibo->create();
+     m_ibo->setUsagePattern(QOpenGLBuffer::StaticDraw);
+     m_ibo->bind();
+     m_ibo->allocate(m_indexBuffer.data(), m_indexBuffer.size() * sizeof(unsigned short));
+
+     m_vbo->release();
+     m_ibo->release();
+
+//     m_vao->release();
+     m_isOnGPU = true;
+}
+
+void Geometry::deallocate()
+{
+    if(!m_isOnGPU)
+        return;
+
+    if(m_vbo)
+    {
+        m_vbo->destroy();
+        delete m_vbo;
+        m_vbo = nullptr;
+    }
+    if(m_ibo)
+    {
+        m_ibo->destroy();
+        delete m_ibo;
+        m_ibo = nullptr;
+    }
+    //deallocate m_vao
+    m_isOnGPU = false;
+}
+
+void Geometry::setAttributes(QOpenGLShaderProgram & program)
+{
+    program.bindAttributeLocation("a_vertex", 0);
+    program.bindAttributeLocation("a_texCoord", 1);
+    program.bindAttributeLocation("a_normal", 2);
+}
+
+void Geometry::draw(QOpenGLFunctions & gl)
+{
+    allocate();
+
+    m_vbo->bind();
+    m_ibo->bind();
+
+    gl.glEnableVertexAttribArray(0); // positions
+    gl.glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
+    gl.glEnableVertexAttribArray(1); // texture coordinates
+    gl.glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3])));
+    gl.glEnableVertexAttribArray(2); // normals
+    gl.glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
+
+    gl.glDrawElements(GL_TRIANGLES, m_triangleCount, GL_UNSIGNED_SHORT, nullptr);
 }
 
 }//namespace terminus

@@ -10,11 +10,11 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
 : m_validTexture(true)
 , m_validNormal(true)
 {
-    m_positionIndex = static_cast<unsigned int>(std::stoi(positionSpec));
+    m_positionIndex = std::stoi(positionSpec);
 
     try
     {
-        m_textureIndex = static_cast<unsigned int>(std::stoi(textureSpec));
+        m_textureIndex = std::stoi(textureSpec);
     }
     catch (const std::invalid_argument& e)
     {
@@ -24,7 +24,7 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
 
     try
     {
-        m_normalIndex = static_cast<unsigned int>(std::stoi(normalSpec));
+        m_normalIndex = std::stoi(normalSpec);
     }
     catch (const std::invalid_argument& e)
     {
@@ -87,17 +87,17 @@ bool IndexTriple::operator==(const IndexTriple & other) const
 }
 
 
-unsigned int IndexTriple::positionIndex() const
+int IndexTriple::positionIndex() const
 {
     return m_positionIndex;
 }
 
-unsigned int IndexTriple::textureIndex() const
+int IndexTriple::textureIndex() const
 {
     return m_textureIndex;
 }
 
-unsigned int IndexTriple::normalIndex() const
+int IndexTriple::normalIndex() const
 {
     return m_normalIndex;
 }

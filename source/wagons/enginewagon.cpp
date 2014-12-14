@@ -7,6 +7,8 @@
 #include <QVector3D>
 
 #include "../scene.h"
+#include "../resources/resourcemanager.h"
+#include "../resources/geometry.h"
 
 namespace terminus
 {
@@ -119,16 +121,23 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_program->setUniformValue("mvp", modelViewProjection);
 
-    if(!m_initialized)
-        initCube(gl);
 
-    m_vao->bind();
-
-    gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size(), GL_UNSIGNED_SHORT, nullptr);
-
-    m_vao->release();
+    std::shared_ptr<std::unique_ptr<Geometry>> ico = ResourceManager::getInstance()->getGeometry("icosahedron_Icosphere");
+    (**ico).setAttributes(*m_program);
+    (**ico).draw(gl);
 
     m_program->release();
+
+//    if(!m_initialized)
+//        initCube(gl);
+
+//    m_vao->bind();
+
+//    gl.glDrawElements(GL_TRIANGLE_STRIP, indices().size(), GL_UNSIGNED_SHORT, nullptr);
+
+//    m_vao->release();
+
+//    m_program->release();
 }
 
 float EngineWagon::length() const
