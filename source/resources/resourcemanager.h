@@ -33,12 +33,6 @@ protected:
     ResourceManager();
     virtual void putGeometry(std::string name, Geometry * geometry);
     virtual void loadObj(std::string path);
-//    virtual bool loadObjParse(std::string path,
-//                               std::vector<QVector3D> & positions,
-//                               std::vector<QVector3D> & texCoords,
-//                               std::vector<QVector3D> & normals,
-//                               std::vector<IndexTriple> & indexTriples,
-//                               std::string & objectName);
     virtual void loadObjGenerateAdd(std::vector<QVector3D> & positions,
                                      std::vector<QVector3D> & texCoords,
                                      std::vector<QVector3D> & normals,

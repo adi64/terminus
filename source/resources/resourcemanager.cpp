@@ -55,48 +55,14 @@ ResourceManager::ResourceManager()
 }
 
 ResourceManager::~ResourceManager()
-{ //fancy pointers will free heap space automatically
+{
 }
 
 void ResourceManager::loadResources(){
-    loadObj(std::string("data/icosahedron.obj"));
+    loadObj(std::string("data/base.obj"));
+    //TODO list files to load here
 }
 
-
-
-
-//void ResourceManager::loadObj(std::string path)
-//{
-//    std::vector<QVector3D> positions;
-//    std::vector<QVector3D> texCoords;
-//    std::vector<QVector3D> normals;
-//    std::vector<IndexTriple> indexTriples;
-
-//    std::vector<unsigned int> indexBuffer;
-//    std::vector<Vertex> vertexBuffer;
-//    std::string objectName;
-
-//    bool hasNext = false;
-//    do
-//    {
-//        //parse file and fill buffers with positions, texCoords, normals and index triples
-//        hasNext = loadObjParse(path, positions, texCoords, normals, indexTriples, objectName);
-
-//        if(objectName.length() > 0)
-//        {
-//            //use index triples to generate interleaved array buffer and single indices
-//            loadObjGenerate(positions, texCoords, normals, indexTriples, indexBuffer, vertexBuffer);
-
-//            std::string name = constructEntityName(path, objectName);
-
-//            putGeometry(name, new Geometry(indexBuffer, vertexBuffer));
-//        }
-
-//        indexBuffer.clear();
-//        vertexBuffer.clear();
-//    }
-//    while(hasNext);
-//}
 void ResourceManager::loadObj(std::string path)
 {
     std::vector<QVector3D> positions;

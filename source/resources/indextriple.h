@@ -11,7 +11,6 @@ public:
     IndexTriple(std::string positionSpec, std::string textureSpec, std::string normalSpec);
     ~IndexTriple();
 
-public:
     int positionIndex() const;
     int textureIndex() const;
     int normalIndex() const;

@@ -1,7 +1,6 @@
 #include "indextriple.h"
 
-#include <typeinfo>
-#include <QDebug>
+#include <stdexcept>
 
 namespace terminus
 {
@@ -33,7 +32,6 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
 
 IndexTriple::~IndexTriple()
 {
-
 }
 
 bool IndexTriple::operator<(const IndexTriple & other) const
