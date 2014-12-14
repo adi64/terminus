@@ -16,13 +16,13 @@ public:
 protected:
     static SoundManager * m_instance;
 
-public:
-    virtual ~SoundManager();
 protected:
     SoundManager();
     void initialize();
 
 public:
+    virtual ~SoundManager();
+
     void playSound(QString name);
     void playSoundDistant(QString name, qreal distance);
     void playBackgroundMusic();
