@@ -15,6 +15,7 @@ SkyBox::SkyBox(Scene *scene)
     : AbstractGraphicsObject(scene)
     , m_screenAlignedQuad(new ScreenAlignedQuad(scene))
     , m_initialized(false)
+    , m_program(nullptr)
 {
 
 }
@@ -44,7 +45,7 @@ void SkyBox::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
     m_program->bind();
 
     m_program->setUniformValue("cameraProjectionInverted", m_scene->camera().projectionInverted());
-    m_program->setUniformValue("cameraProjectionInverted", m_scene->camera().view());
+    m_program->setUniformValue("cameraView", m_scene->camera().view());
 
     m_screenAlignedQuad->render(gl, elapsedMilliseconds);
 
@@ -61,12 +62,17 @@ void SkyBox::initialize(QOpenGLFunctions &gl)
     m_imagePZ = new QImage("data/env_cube_pz.png");
 
     m_texture = new QOpenGLTexture(QOpenGLTexture::TargetCubeMap);
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeX, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imageNX->constBits());
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveX, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imagePX->constBits());
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeY, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imageNY->constBits());
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveY, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imagePY->constBits());
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeZ, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imageNZ->constBits());
-    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveZ, QOpenGLTexture::RGB, QOpenGLTexture::UInt32_RGBA8, m_imagePZ->constBits());
+
+    m_texture->create();
+    m_texture->bind();
+    m_texture->allocateStorage();
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeX, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imageNX->constBits());
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveX, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imagePX->constBits());
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeY, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imageNY->constBits());
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveY, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imagePY->constBits());
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapNegativeZ, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imageNZ->constBits());
+    m_texture->setData(0, 0, QOpenGLTexture::CubeMapPositiveZ, QOpenGLTexture::RGB, QOpenGLTexture::UInt32, m_imagePZ->constBits());
+    m_texture->release();
 
     m_initialized = true;
 }
