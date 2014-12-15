@@ -4,7 +4,6 @@
 
 class QImage;
 class QOpenGLTexture;
-class QOpenGLShaderProgram;
 class QOpenGLFunctions;
 
 namespace terminus

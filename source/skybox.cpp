@@ -2,11 +2,9 @@
 
 #include <QImage>
 #include <QOpenGLTexture>
-#include <QOpenGLShaderProgram>
 #include <QDebug>
 
 #include "scene.h"
-#include "screenalignedquad.h"
 #include "resources/resourcemanager.h"
 #include "resources/geometry.h"
 #include "resources/program.h"
