@@ -87,7 +87,6 @@ void SkyBox::initialize(QOpenGLFunctions &gl)
     gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGB, m_imageNZ->width(), m_imageNZ->height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, m_imageNZ->bits());
 
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-    qDebug() << "texture: " << m_texture;
 
     m_initialized = true;
 }

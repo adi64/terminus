@@ -16,16 +16,11 @@ void main()
 	// the fragment stage for accessing the various projection
 	// mappings.
 
-        //v_eye = ((cameraProjectionInverted * vec4(a_vertex, 1.0, 1.0))).xyz;
         v_eye = ((cameraProjectionInverted * vec4(a_vertex, 1.0, 1.0)) * cameraView).xyz;
 
-	
-
-	// Task_2_1 - ToDo End
-	
 	// Note: z is already at z = 1.0 (back plane in NDC)
 	
-        gl_Position = vec4(a_vertex, 0.99, 1.0);
+        gl_Position = vec4(a_vertex, 0.9999, 1.0);
 	vertPosition = a_vertex;
 }
   
