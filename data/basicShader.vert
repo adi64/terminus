@@ -6,7 +6,7 @@ uniform mat4 mProjection;
 uniform mat3 mModelNorm;
 uniform mat3 mViewNorm;
 
-uniform vec3 lightPosition;
+uniform vec3 lightDirection;
 
 in vec3 a_position;
 in vec3 a_texCoord;
@@ -22,8 +22,7 @@ void main()
     v_normal = mViewNorm * mModelNorm * a_normal;
     vec4 position = mView * mModel * vec4(a_position, 1.0);
     v_position = position.xyz / position.w;
-    vec4 light = mView * vec4(lightPosition, 1.0);
-    v_light = light.xyz / light.w;
+    v_light = mViewNorm * lightDirection;
     //screen space:
     gl_Position = mProjection * mView * mModel * vec4(a_position, 1.0);
 }

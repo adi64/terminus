@@ -20,6 +20,7 @@ SOURCES += \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
     source/resources/resourcemanager.cpp \
+    source/skybox.cpp \
     source/resources/program.cpp
 
 RESOURCES += qml.qrc
@@ -46,8 +47,12 @@ HEADERS += \
     source/resources/indextriple.h \
     source/resources/resourcemanager.h \
     source/resources/material.h \
-    source/resources/program.h
+    source/resources/program.h \
+    source/skybox.h
+
 
 OTHER_FILES += \
     data/basicShader.frag \
-    data/basicShader.vert
+    data/basicShader.vert \
+    data/envmap.frag \
+    data/envmap.vert

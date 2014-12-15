@@ -69,6 +69,7 @@ void ResourceManager::loadResources(){
     loadObj(std::string("data/base.obj"));
     loadMtl(std::string("data/base.mtl"));
     loadProgram(std::string("data/basicShader"));
+    loadProgram(std::string("data/envmap"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
@@ -126,7 +127,7 @@ void ResourceManager::loadObj(std::string path)
         }
         else if(lineHeader == "f")
         {
-            std::regex indexPattern("([0-9]+)(?:[/]([0-9]*)(?:[/]([0-9]*))?)?");
+            std::regex indexPattern("([-]?[0-9]+)(?:[/]([-]?[0-9]*)(?:[/]([-]?[0-9]*))?)?");
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
@@ -174,15 +175,15 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
             indexLookUp[indexTriples[i]] = vertexBuffer.size();
 
             int sP = positions.size(),
-                 iP = indexTriples[i].positionIndex() - 1,
+                 iP = indexTriples[i].positionIndex(),
                  sT = texCoords.size(),
-                 iT = indexTriples[i].textureIndex() - 1,
+                 iT = indexTriples[i].textureIndex(),
                  sN = normals.size(),
-                 iN = indexTriples[i].normalIndex() - 1;
+                 iN = indexTriples[i].normalIndex();
             //convert relative indices
-            iP = (iP < 0)? sP - iP : iP;
-            iT = (iT < 0)? sT - iT : iT;
-            iN = (iN < 0)? sN - iN : iN;
+            iP = (iP < 0)? sP + iP : iP - 1;
+            iT = (iT < 0)? sT + iT : iT - 1;
+            iN = (iN < 0)? sN + iN : iN - 1;
             //read vectors
             QVector3D vP = (0 <= iP && iP < sP)? positions.at(iP) : QVector3D(),
                       vT = (indexTriples[i].validTexture() && 0 <= iT && iT < sT)? texCoords.at(iT) : QVector3D(),

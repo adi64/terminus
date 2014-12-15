@@ -30,6 +30,7 @@ public:
     virtual void setUniform(std::string name, const QVector3D value);
     virtual void setUniform(std::string name, const QVector4D value);
     virtual void setUniform(std::string name, float value);
+    virtual void setUniform(std::string name, int value);
 private:
     std::string m_vertexSrc;
     std::string m_fragmentSrc;
