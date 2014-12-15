@@ -11,7 +11,7 @@
 namespace terminus
 {
 
-const int MAX_VOL = 100;
+constexpr int c_maxVol = 100;
 
 SoundManager * SoundManager::m_instance = nullptr;
 
@@ -80,7 +80,7 @@ void SoundManager::playSound(QString name)
 
 void SoundManager::playSoundDistant(QString name, qreal distance)
 {
-    qreal relativeVolume = 1.0 - distance/MAX_VOL;
+    qreal relativeVolume = 1.0 - distance/c_maxVol;
 
     if(relativeVolume <= 0)
     {
