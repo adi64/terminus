@@ -16,7 +16,9 @@ void main()
 	// the fragment stage for accessing the various projection
 	// mappings.
 
-        v_eye = ((cameraProjectionInverted * vec4(a_vertex, 1.0, 1.0))).xyz;
+        //v_eye = ((cameraProjectionInverted * vec4(a_vertex, 1.0, 1.0))).xyz;
+        v_eye = ((cameraProjectionInverted * vec4(a_vertex, 1.0, 1.0)) * cameraView).xyz;
+
 	
 
 	// Task_2_1 - ToDo End
