@@ -209,7 +209,8 @@ void Camera::setMovement(QVector3D movement)
     }
     else
     {
-        // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
+          // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
+          //for that camera has to get wagon->position()
     }
 }
 
@@ -240,9 +241,14 @@ void Camera::setRotation(QVector2D rotation)
     }
 }
 
-void Camera::setLocked(bool status)
+void Camera::toggleLocked()
 {
-    m_lockedToTrain = status;
+    m_lockedToTrain = !m_lockedToTrain;
+}
+
+void Camera::setLocked(bool value)
+{
+    m_lockedToTrain = value;
 }
 
 const QMatrix4x4 & Camera::view() const

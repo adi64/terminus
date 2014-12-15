@@ -10,6 +10,7 @@
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
+#include "resources/soundmanager.h"
 #include "train.h"
 #include "terrain.h"
 #include "skybox.h"
@@ -33,6 +34,8 @@ Game::Game()
     m_timer = new QTimer();
     m_timeStamp = new QTime();
     m_timeStamp->start();
+
+    SoundManager::getInstance()->playBackgroundMusic();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
@@ -74,7 +77,7 @@ void Game::sync()
 
     //Debug Stuff
     // get context opengl-version
-    /*
+/*
     qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
     qDebug() << "Context valid: " << window()->openglContext()->isValid();
     qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();
@@ -82,7 +85,7 @@ void Game::sync()
     qDebug() << " RENDERDER: " << (const char*)glGetString(GL_RENDERER);
     qDebug() << " VERSION: " << (const char*)glGetString(GL_VERSION);
     qDebug() << " GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-    */
+*/
 
 }
 
@@ -158,10 +161,22 @@ void Game::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        m_scene->camera().setLocked(false);
+        m_scene->camera().toggleLocked();
         break;
     case Qt::Key_Escape:
         QApplication::quit();
+        break;
+    case Qt::Key_U:
+        SoundManager::getInstance()->playSound("angriff");
+        break;
+    case Qt::Key_I:
+        SoundManager::getInstance()->playSound("shot");
+        break;
+    case Qt::Key_O:
+        SoundManager::getInstance()->playSound("alarm");
+        break;
+    case Qt::Key_M:
+        SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     default:
         break;
