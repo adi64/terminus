@@ -13,7 +13,9 @@
 #include "resources/soundmanager.h"
 #include "train.h"
 #include "terrain.h"
+#include "skybox.h"
 
+#include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
 
@@ -24,6 +26,8 @@ Game::Game()
 : m_scene(new Scene())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
+
+    ResourceManager::getInstance()->loadResources();
 
     m_scene = new Scene;
 
@@ -46,11 +50,14 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
 
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
+
     m_scene->setInitialTimeStamp(m_timeStamp);
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
+    m_scene->addNode(m_skybox.get());
 
     m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 1.0, 0.0));

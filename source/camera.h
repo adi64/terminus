@@ -5,6 +5,8 @@
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 
+#include "resources/program.h"
+
 namespace terminus
 {
 
@@ -40,7 +42,7 @@ public:
 
     float aspectRatio() const;
 
-    // lazy matrices getters
+    void setMatrices(Program & program, const QMatrix4x4 & model) const;
 
     const QMatrix4x4 & view() const;
     const QMatrix4x4 & projection() const;
@@ -48,10 +50,7 @@ public:
     const QMatrix4x4 & viewInverted() const;
     const QMatrix4x4 & projectionInverted() const;
     const QMatrix4x4 & viewProjectionInverted() const;
-
     const QMatrix3x3 & normal() const;
-
-    void update() const;
 
     void changed();
 
@@ -65,13 +64,13 @@ public:
     void setLocked(bool value);
 
 protected:
-    void dirty();
     void invalidateMatrices() const;
 
 
 protected:
-    mutable bool m_dirty;
-    bool m_autoUpdate;
+    QVector3D m_movement;
+    QVector2D m_rotation;
+    bool m_lockedToTrain;
 
     QVector3D m_eye;
     QVector3D m_center;
@@ -99,11 +98,6 @@ protected:
     mutable bool m_viewProjectionChanged;
     mutable bool m_viewProjectionInvertedChanged;
     mutable bool m_normalChanged;
-
-    QVector3D m_movement;
-    QVector2D m_rotation;
-    bool m_lockedToTrain;
-
 };
 
 
