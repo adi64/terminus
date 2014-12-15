@@ -21,7 +21,8 @@ SOURCES += \
     source/resources/indextriple.cpp \
     source/resources/resourcemanager.cpp \
     source/skybox.cpp \
-    source/screenalignedquad.cpp
+    source/screenalignedquad.cpp \
+    source/resources/program.cpp
 
 RESOURCES += qml.qrc
 
@@ -51,13 +52,7 @@ HEADERS += \
     source/screenalignedquad.h
 
 OTHER_FILES += \
-    data/enginewagon.frag \
-    data/enginewagon.vert \
-    data/weaponwagon.frag \
-    data/weaponwagon.vert \
-    data/terrain.frag \
-    data/terrain.vert
-
-DISTFILES += \
+    data/basicShader.frag \
+    data/basicShader.vert \
     data/envmap.frag \
     data/envmap.vert

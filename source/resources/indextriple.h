@@ -11,10 +11,9 @@ public:
     IndexTriple(std::string positionSpec, std::string textureSpec, std::string normalSpec);
     ~IndexTriple();
 
-public:
-    unsigned int positionIndex() const;
-    unsigned int textureIndex() const;
-    unsigned int normalIndex() const;
+    int positionIndex() const;
+    int textureIndex() const;
+    int normalIndex() const;
     bool validTexture() const;
     bool validNormal() const;
 
@@ -23,9 +22,9 @@ public:
     bool operator==(const IndexTriple & compareTriple) const;
 
 protected:
-    unsigned int m_positionIndex;
-    unsigned int m_textureIndex;
-    unsigned int m_normalIndex;
+    int m_positionIndex;
+    int m_textureIndex;
+    int m_normalIndex;
 
     bool m_validTexture;
     bool m_validNormal;

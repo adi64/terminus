@@ -1,6 +1,10 @@
 #pragma once
 
-#include <string>
+#include <map>
+
+#include <QVector4D>
+
+#include "program.h"
 
 namespace terminus
 {
@@ -8,9 +12,13 @@ namespace terminus
 class Material
 {
 public:
-    static Material * loadMTX(std::string path);
-public:
     Material();
+    Material(const std::map<std::string,QVector4D> & uniforms);
+    virtual ~Material();
+
+    virtual void setUniforms(Program & program);
+protected:
+    std::map<std::string,QVector4D> m_uniforms;
 };
 
 }//namespace terminus
