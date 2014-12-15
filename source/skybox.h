@@ -31,10 +31,6 @@ protected:
     QImage *m_imageNZ;
     QImage *m_imagePZ;
     GLuint m_texture;
-
-    QOpenGLShaderProgram *m_program;
-
-    ScreenAlignedQuad *m_screenAlignedQuad;
 };
 
 }

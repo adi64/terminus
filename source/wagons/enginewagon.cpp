@@ -33,7 +33,7 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     m_scene->camera().setMatrices(program, model);
     material.setUniforms(program);
-    program.setUniform(std::string("lightPosition"), QVector3D(3.0, 8.0, 3.0));
+    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
     geometry.setAttributes(program);
 
     geometry.draw(gl);

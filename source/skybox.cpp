@@ -7,15 +7,16 @@
 
 #include "scene.h"
 #include "screenalignedquad.h"
+#include "resources/resourcemanager.h"
+#include "resources/geometry.h"
+#include "resources/program.h"
 
 namespace terminus
 {
 
 SkyBox::SkyBox(Scene *scene)
     : AbstractGraphicsObject(scene)
-    , m_screenAlignedQuad(new ScreenAlignedQuad(scene))
     , m_initialized(false)
-    , m_program(nullptr)
 {
 
 }
@@ -32,31 +33,23 @@ void SkyBox::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
         initialize(gl);
     }
 
-    if (!m_program)
-    {
-        m_program = new QOpenGLShaderProgram();
+    Program & program =  **(ResourceManager::getInstance()->getProgram("envmap"));
+    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
 
-        m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/envmap.vert");
-        m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/envmap.frag");
-
-        m_program->link();
-    }
-
-    m_program->bind();
-
-    m_program->setUniformValue("cameraProjectionInverted", m_scene->camera().projectionInverted());
-    m_program->setUniformValue("cameraView", m_scene->camera().view());
-    m_program->setUniformValue("cubemap", 0);
+    program.bind();
+    m_scene->camera().setMatrices(program, QMatrix4x4());
+    program.setUniform(std::string("cubemap"), 0);
+    sQuad.setAttributes(program);
 
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glEnable(GL_TEXTURE_CUBE_MAP);
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 
-    m_screenAlignedQuad->render(gl, elapsedMilliseconds);
+    sQuad.draw(gl);
 
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
-    m_program->release();
+    program.release();
 }
 
 void SkyBox::initialize(QOpenGLFunctions &gl)

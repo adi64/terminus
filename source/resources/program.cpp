@@ -125,3 +125,11 @@ void Program::setUniform(std::string name, float value)
         m_program->setUniformValue(location, value);
     }
 }
+void Program::setUniform(std::string name, int value)
+{
+    int location;
+    if((location = m_program->uniformLocation(name.c_str())) >= 0)
+    {
+        m_program->setUniformValue(location, value);
+    }
+}
