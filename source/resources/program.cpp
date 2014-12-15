@@ -84,7 +84,7 @@ void Program::bindAttributeLocation(std::string name, int location)
 
 void Program::setUniform(std::string name, const QMatrix4x4 & value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -92,7 +92,7 @@ void Program::setUniform(std::string name, const QMatrix4x4 & value)
 }
 void Program::setUniform(std::string name, const QMatrix3x3 & value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -100,7 +100,7 @@ void Program::setUniform(std::string name, const QMatrix3x3 & value)
 }
 void Program::setUniform(std::string name, const QVector3D value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -108,7 +108,7 @@ void Program::setUniform(std::string name, const QVector3D value)
 }
 void Program::setUniform(std::string name, const QVector4D value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -116,7 +116,7 @@ void Program::setUniform(std::string name, const QVector4D value)
 }
 void Program::setUniform(std::string name, float value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -124,7 +124,7 @@ void Program::setUniform(std::string name, float value)
 }
 void Program::setUniform(std::string name, int value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
