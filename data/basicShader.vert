@@ -1,0 +1,29 @@
+#version 130
+
+uniform mat4 mModel;
+uniform mat4 mView;
+uniform mat4 mProjection;
+uniform mat3 mModelNorm;
+uniform mat3 mViewNorm;
+
+uniform vec3 lightPosition;
+
+in vec3 a_position;
+in vec3 a_texCoord;
+in vec3 a_normal;
+
+out vec3 v_normal;
+out vec3 v_position;
+out vec3 v_light;
+
+void main()
+{
+    //camera space:
+    v_normal = mViewNorm * mModelNorm * a_normal;
+    vec4 position = mView * mModel * vec4(a_position, 1.0);
+    v_position = position.xyz / position.w;
+    vec4 light = mView * vec4(lightPosition, 1.0);
+    v_light = light.xyz / light.w;
+    //screen space:
+    gl_Position = mProjection * mView * mModel * vec4(a_position, 1.0);
+}

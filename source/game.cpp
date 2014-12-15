@@ -14,6 +14,7 @@
 #include "terrain.h"
 #include "skybox.h"
 
+#include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
 
@@ -24,6 +25,8 @@ Game::Game()
 : m_scene(new Scene())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
+
+    ResourceManager::getInstance()->loadResources();
 
     m_scene = new Scene;
 
@@ -153,6 +156,9 @@ void Game::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_Q:
         QApplication::quit();
+        break;
+    case Qt::Key_Space:
+        m_scene->camera().setLocked(false);
         break;
     case Qt::Key_Escape:
         QApplication::quit();

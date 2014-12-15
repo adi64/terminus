@@ -21,7 +21,8 @@ SOURCES += \
     source/resources/indextriple.cpp \
     source/resources/resourcemanager.cpp \
     source/skybox.cpp \
-    source/screenalignedquad.cpp
+    source/screenalignedquad.cpp \
+    source/resources/program.cpp
 
 RESOURCES += qml.qrc
 
@@ -46,9 +47,7 @@ HEADERS += \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/resourcemanager.h \
-    source/resources/material.h \
-    source/skybox.h \
-    source/screenalignedquad.h
+    source/resources/material.h
 
 OTHER_FILES += \
     data/enginewagon.frag \
@@ -57,7 +56,3 @@ OTHER_FILES += \
     data/weaponwagon.vert \
     data/terrain.frag \
     data/terrain.vert
-
-DISTFILES += \
-    data/envmap.frag \
-    data/envmap.vert

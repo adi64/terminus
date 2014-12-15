@@ -3,46 +3,46 @@
 #include <string>
 #include <vector>
 
-#include <QVector3D>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+#include <QOpenGLFunctions>
 
 #include "indextriple.h"
+#include "program.h"
 
 namespace terminus
 {
 
 struct Vertex{
-    QVector3D position;
-    QVector3D texCoord;
-    QVector3D normal;
+    GLfloat position[3];
+    GLfloat texCoord[3];
+    GLfloat normal[3];
 };
 
 class Geometry
 {
-public:
-    static Geometry * loadObj(std::string name);
-protected:
-    static void loadObjParse(std::string path,
-                                        std::vector<QVector3D> & positions,
-                                        std::vector<QVector3D> & texCoords,
-                                        std::vector<QVector3D> & normals,
-                                        std::vector<IndexTriple> & indexTriples);
-    static void loadObjGenerate(std::vector<QVector3D> & positions,
-                                            std::vector<QVector3D> & texCoords,
-                                            std::vector<QVector3D> & normals,
-                                            std::vector<IndexTriple> & indexTriples,
-                                            std::vector<unsigned int> & indexBuffer,
-                                            std::vector<Vertex> & vertexBuffer);
 
-protected:
+public:
     Geometry(); //construct NULL-Object --- what do we need this for?
-    Geometry(const std::vector<unsigned int> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
+    Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
+    virtual ~Geometry();
 
-public:
-    ~Geometry();
+    virtual void allocate();
+    virtual void deallocate();
+
+    virtual void setAttributes(Program & program);
+    virtual void draw(QOpenGLFunctions & gl);
 
 protected:
+    bool m_isOnGPU;
+    //QOpenGLVertexArrayObject * m_vao;
+    QOpenGLBuffer * m_vbo;
+    QOpenGLBuffer * m_ibo;
+
+    unsigned int m_elementCount;
+
     std::vector<Vertex> m_vertexBuffer;
-    std::vector<unsigned int> m_indexBuffer;
+    std::vector<unsigned short> m_indexBuffer;
 };
 
 } //terminus
