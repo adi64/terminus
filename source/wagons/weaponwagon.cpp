@@ -42,7 +42,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
 float WeaponWagon::length() const
 {
-    return 4.0f;
+    return 5.0f;
 }
 
 } //namespace terminus

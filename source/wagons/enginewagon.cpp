@@ -43,7 +43,7 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
 float EngineWagon::length() const
 {
-    return 6.0f;
+    return 2.0f;
 }
 
 }
