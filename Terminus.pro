@@ -19,7 +19,8 @@ SOURCES += \
     source/resources/material.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
-    source/resources/resourcemanager.cpp
+    source/resources/resourcemanager.cpp \
+    source/resources/program.cpp
 
 RESOURCES += qml.qrc
 
@@ -44,12 +45,9 @@ HEADERS += \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/resourcemanager.h \
-    source/resources/material.h
+    source/resources/material.h \
+    source/resources/program.h
 
 OTHER_FILES += \
-    data/enginewagon.frag \
-    data/enginewagon.vert \
-    data/weaponwagon.frag \
-    data/weaponwagon.vert \
-    data/terrain.frag \
-    data/terrain.vert
+    data/basicShader.frag \
+    data/basicShader.vert
