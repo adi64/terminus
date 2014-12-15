@@ -1,12 +1,13 @@
 #include "terrain.h"
 
-#include <QOpenGLShaderProgram>
 #include <QDebug>
 
 #include "track.h"
 #include "scene.h"
 #include "resources/resourcemanager.h"
 #include "resources/geometry.h"
+#include "resources/material.h"
+#include "resources/program.h"
 
 namespace terminus
 {
@@ -15,7 +16,6 @@ Terrain::Terrain(Scene *scene)
     : AbstractGraphicsObject(scene)
     , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(0.0, 1.0, 0.0), QVector3D(500.0, 1.0, 0.0))))
     , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(0.0, 1.0, 20.0), QVector3D(500.0, 1.0, 20.0))))
-    , m_program(nullptr)
 {   
 
 }
@@ -42,33 +42,23 @@ void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     m_enemyTrack->render(gl, elapsedMilliseconds);
 
     // render terrain
-
-    if (!m_program)
-    {
-        m_program = new QOpenGLShaderProgram();
-
-        m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/terrain.vert");
-        m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/terrain.frag");
-
-        m_program->link();
-    }
-
-    m_program->bind();
-
     QMatrix4x4 model;
     model.setToIdentity();
 
-    QMatrix4x4 modelViewProjection;
-    modelViewProjection.setToIdentity();
-    modelViewProjection = m_scene->camera().viewProjection() * model;
+    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
+    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
 
-    m_program->setUniformValue("mvp", modelViewProjection);
+    program.bind();
 
-    std::shared_ptr<std::unique_ptr<Geometry>> plane = ResourceManager::getInstance()->getGeometry("base_Plane");
-    (**plane).setAttributes(*m_program);
-    (**plane).draw(gl);
+    m_scene->camera().setMatrices(program, model);
+    material.setUniforms(program);
+    program.setUniform(std::string("lightPosition"), QVector3D(3.0, 8.0, 3.0));
+    geometry.setAttributes(program);
 
-    m_program->release();
+    geometry.draw(gl);
+
+    program.release();
 }
 
 } //namespace terminus

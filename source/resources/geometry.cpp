@@ -3,6 +3,7 @@
 #include <string>
 
 #include <QDebug>
+#include <QOpenGLShaderProgram>
 
 #include "indextriple.h"
 
@@ -82,11 +83,11 @@ void Geometry::deallocate()
     m_isOnGPU = false;
 }
 
-void Geometry::setAttributes(QOpenGLShaderProgram & program)
+void Geometry::setAttributes(Program & program)
 {
-    program.bindAttributeLocation("a_vertex", 0);
-    program.bindAttributeLocation("a_texCoord", 1);
-    program.bindAttributeLocation("a_normal", 2);
+    program.program().bindAttributeLocation("a_vertex", 0);
+    program.program().bindAttributeLocation("a_texCoord", 1);
+    program.program().bindAttributeLocation("a_normal", 2);
 }
 
 void Geometry::draw(QOpenGLFunctions & gl)

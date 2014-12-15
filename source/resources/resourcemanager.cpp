@@ -28,27 +28,34 @@ ResourceManager * ResourceManager::getInstance()
     return m_instance;
 }
 
-std::string ResourceManager::constructEntityName(std::string path, std::string name)
+std::string ResourceManager::entityName(std::string path, std::string name)
 {
-    std::string entityName(path);
+    std::string ename = entityName(path);
 
-    size_t index = entityName.find_last_of("\\/");
-    if (std::string::npos != index)
-    {
-        entityName.erase(0, index + 1);
-    }
+    ename.append("_");
+    ename.append(name);
 
-    index = entityName.rfind('.');
-    if (std::string::npos != index)
-    {
-        entityName.erase(index);
-    }
-
-    entityName.append("_");
-    entityName.append(name);
-
-    return entityName;
+    return ename;
 }
+std::string ResourceManager::entityName(std::string path)
+{
+    std::string ename(path);
+
+    size_t index = ename.find_last_of("\\/");
+    if (std::string::npos != index)
+    {
+        ename.erase(0, index + 1);
+    }
+
+    index = ename.rfind('.');
+    if (std::string::npos != index)
+    {
+        ename.erase(index);
+    }
+
+    return ename;
+}
+
 
 ResourceManager::ResourceManager()
 {
@@ -60,8 +67,23 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::loadResources(){
     loadObj(std::string("data/base.obj"));
-    //TODO list files to load here
+    loadMtl(std::string("data/base.mtl"));
+    loadProgram(std::string("data/basicShader"));
 }
+
+std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
+{
+    return m_geometryStorage[name];
+}
+std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(std::string name)
+{
+    return m_materialStorage[name];
+}
+std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(std::string name)
+{
+    return m_programStorage[name];
+}
+
 
 void ResourceManager::loadObj(std::string path)
 {
@@ -123,7 +145,7 @@ void ResourceManager::loadObj(std::string path)
             if(objectName.length() > 0)
             {
                 //generate and save the geometry that was defined up to this line
-                loadObjGenerateAdd(positions, texCoords, normals, indexTriples, constructEntityName(path, objectName));
+                loadObjGenerateAdd(positions, texCoords, normals, indexTriples, entityName(path, objectName));
                 indexTriples.clear();
             }
             lineStream >> objectName;
@@ -131,10 +153,9 @@ void ResourceManager::loadObj(std::string path)
     }
     if(objectName.length() > 0)
     {
-        loadObjGenerateAdd(positions, texCoords, normals, indexTriples, constructEntityName(path, objectName));
+        loadObjGenerateAdd(positions, texCoords, normals, indexTriples, entityName(path, objectName));
     }
 }
-
 void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
                                          std::vector<QVector3D> & texCoords,
                                          std::vector<QVector3D> & normals,
@@ -183,17 +204,59 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
 
 void ResourceManager::loadMtl(std::string path)
 {
-    //TODO
+    std::map<std::string, QVector4D> uniforms;
+    std::string objectName;
+
+    std::ifstream mtlFile(path);
+    std::string line;
+
+    while(std::getline(mtlFile, line))
+    {
+        std::string lineHeader;
+
+        std::stringstream lineStream(line);
+        lineStream >> lineHeader;
+
+        if(lineHeader == "uniform"){
+            std::string name;
+            lineStream >> name;
+            float v[] = {0.f, 0.f, 0.f, 0.f};
+
+            for(int i = 0; i < 4; i++)
+            {
+                lineStream >> v[i];
+                if(!lineStream.good())
+                {
+                    break;
+                }
+            }
+            uniforms[name] = QVector4D(v[0], v[1], v[2], v[3]);
+        }
+        else if(lineHeader == "newmtl")
+        {
+            if(objectName.length() > 0)
+            {
+                putMaterial(entityName(path, objectName), new Material(uniforms));
+                uniforms.clear();
+            }
+            lineStream >> objectName;
+        }
+    }
+    if(objectName.length() > 0)
+    {
+        putMaterial(entityName(path, objectName), new Material(uniforms));
+    }
 }
 
-std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
+void ResourceManager::loadProgram(std::string path)
 {
-    return m_geometryStorage[name];
+    std::string vSrc(path);
+    std::string fSrc(path);
+    vSrc.append(".vert");
+    fSrc.append(".frag");
+    putProgram(entityName(path), new Program(vSrc, fSrc));
 }
-std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(std::string name)
-{
-    return m_materialStorage[name];
-}
+
 void ResourceManager::putGeometry(std::string name, Geometry * geometry)
 {
     if(m_geometryStorage.count(name) == 0)
@@ -216,6 +279,18 @@ void ResourceManager::putMaterial(std::string name, Material * material)
     {
         std::unique_ptr<Material> newPtr(material);
         (*m_materialStorage[name]) = std::move(newPtr);
+    }
+}
+void ResourceManager::putProgram(std::string name, Program * program)
+{
+    if(m_programStorage.count(name) == 0)
+    {
+        m_programStorage[name] = std::shared_ptr<std::unique_ptr<Program>>(new std::unique_ptr<Program>(program));
+    }
+    else
+    {
+        std::unique_ptr<Program> newPtr(program);
+        (*m_programStorage[name]) = std::move(newPtr);
     }
 }
 

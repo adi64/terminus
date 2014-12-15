@@ -4,8 +4,6 @@
 
 #include "abstractgraphicsobject.h"
 
-class QOpenGLShaderProgram;
-
 namespace terminus
 {
 
@@ -25,8 +23,6 @@ public:
 protected:
     std::unique_ptr<Track> m_playerTrack;
     std::unique_ptr<Track> m_enemyTrack;
-
-    QOpenGLShaderProgram *m_program;
 };
 
 }

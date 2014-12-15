@@ -5,10 +5,10 @@
 
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
-#include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 
 #include "indextriple.h"
+#include "program.h"
 
 namespace terminus
 {
@@ -30,8 +30,8 @@ public:
     virtual void allocate();
     virtual void deallocate();
 
-    virtual void setAttributes(QOpenGLShaderProgram & program);
-    virtual void draw(QOpenGLFunctions& gl);
+    virtual void setAttributes(Program & program);
+    virtual void draw(QOpenGLFunctions & gl);
 
 protected:
     bool m_isOnGPU;

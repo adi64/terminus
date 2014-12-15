@@ -1,53 +1,44 @@
 #include "enginewagon.h"
 
 #include <QDebug>
-#include <QOpenGLShaderProgram>
+#include <QMatrix4x4>
 #include <QVector3D>
 
 #include "../scene.h"
 #include "../resources/resourcemanager.h"
 #include "../resources/geometry.h"
+#include "../resources/material.h"
+#include "../resources/program.h"
 
 namespace terminus
 {
 
 EngineWagon::EngineWagon(Scene *scene, Train *train)
-    : AbstractWagon(scene, train)
-    , m_program(nullptr)
+: AbstractWagon(scene, train)
 {
 }
 
 void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 {
-    if (!m_program)
-    {
-        m_program = new QOpenGLShaderProgram();
-
-        m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/enginewagon.vert");
-        m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/enginewagon.frag");
-
-        m_program->link();
-    }
-
-    m_program->bind();
-
     m_position = position();
-
     QMatrix4x4 model;
     model.setToIdentity();
     model.translate(m_position);
 
-    QMatrix4x4 modelViewProjection;
-    modelViewProjection.setToIdentity();
-    modelViewProjection = m_scene->camera().viewProjection() * model;
+    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
+    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Icosahedron"));
 
-    m_program->setUniformValue("mvp", modelViewProjection);
+    program.bind();
 
-    std::shared_ptr<std::unique_ptr<Geometry>> ico = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
-    (**ico).setAttributes(*m_program);
-    (**ico).draw(gl);
+    m_scene->camera().setMatrices(program, model);
+    material.setUniforms(program);
+    program.setUniform(std::string("lightPosition"), QVector3D(3.0, 8.0, 3.0));
+    geometry.setAttributes(program);
 
-    m_program->release();
+    geometry.draw(gl);
+
+    program.release();
 }
 
 float EngineWagon::length() const

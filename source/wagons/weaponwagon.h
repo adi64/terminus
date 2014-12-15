@@ -2,8 +2,6 @@
 
 #include "abstractwagon.h"
 
-class QOpenGLShaderProgram;
-
 namespace terminus
 {
 
@@ -13,9 +11,6 @@ public:
     WeaponWagon(Scene *scene, Train *train);
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
     float length() const;
-
-protected:
-    QOpenGLShaderProgram *m_program;
 };
 
 }
