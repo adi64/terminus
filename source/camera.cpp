@@ -231,8 +231,8 @@ void Camera::setMovement(QVector3D movement)
     }
     else
     {
-        setEye(QVector3D(0.0, 10.0, 0.0));  // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
-        setCenter(QVector3D(20.0, 0.0, 0.0));   //for that camera has to get wagon->position()
+          // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
+          //for that camera has to get wagon->position()
     }
 }
 
