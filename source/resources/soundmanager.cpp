@@ -4,16 +4,14 @@
 
 #include "soundmanager.h"
 
-#include <QDebug> //TODO remove
-
 //TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 
 //if Android doesn't like QMultimedia -> try libVLC
 
-#define MAX_VOL 100
-
 namespace terminus
 {
+
+const int MAX_VOL = 100;
 
 SoundManager * SoundManager::m_instance = nullptr;
 
@@ -65,8 +63,6 @@ SoundManager::~SoundManager()
 {
     //TODO delete m_sounds contents
     std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
-
-    qDebug() << "am i called?";
 
     for(it = sounds().begin(); it != sounds().end(); it++)
     {
