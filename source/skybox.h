@@ -30,7 +30,7 @@ protected:
     QImage *m_imagePY;
     QImage *m_imageNZ;
     QImage *m_imagePZ;
-    QOpenGLTexture *m_texture;
+    GLuint m_texture;
 
     QOpenGLShaderProgram *m_program;
 

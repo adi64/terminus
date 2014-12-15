@@ -1,6 +1,5 @@
 #version 130
 
-uniform sampler2D envmap;
 uniform samplerCube cubemap;
 
 uniform int mapping;
@@ -20,6 +19,6 @@ void main()
 	//debug: show eye vector
 	//color = vec4(eye,0.5);
 
-        //fragColor = color;
-        fragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        fragColor = color;
+        //fragColor = vec4(1.0, 0.0, 1.0, 1.0);
 }
