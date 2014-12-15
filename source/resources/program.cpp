@@ -32,9 +32,6 @@ void Program::allocate()
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, m_vertexSrc.c_str());
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, m_fragmentSrc.c_str());
 
-
-    qDebug() << m_program->link() << m_program->log();
-
     m_isOnGPU = true;
 }
 void Program::deallocate()
@@ -87,7 +84,7 @@ void Program::bindAttributeLocation(std::string name, int location)
 
 void Program::setUniform(std::string name, const QMatrix4x4 & value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -95,7 +92,7 @@ void Program::setUniform(std::string name, const QMatrix4x4 & value)
 }
 void Program::setUniform(std::string name, const QMatrix3x3 & value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -103,7 +100,7 @@ void Program::setUniform(std::string name, const QMatrix3x3 & value)
 }
 void Program::setUniform(std::string name, const QVector3D value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -111,7 +108,7 @@ void Program::setUniform(std::string name, const QVector3D value)
 }
 void Program::setUniform(std::string name, const QVector4D value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -119,7 +116,7 @@ void Program::setUniform(std::string name, const QVector4D value)
 }
 void Program::setUniform(std::string name, float value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
@@ -127,7 +124,7 @@ void Program::setUniform(std::string name, float value)
 }
 void Program::setUniform(std::string name, int value)
 {
-    int location;
+    int location = 0;
     if((location = m_program->uniformLocation(name.c_str())) >= 0)
     {
         m_program->setUniformValue(location, value);
