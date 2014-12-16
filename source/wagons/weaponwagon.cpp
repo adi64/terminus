@@ -54,7 +54,7 @@ float WeaponWagon::length() const
 
 void WeaponWagon::shoot()
 {
-    if(m_shots.size() > 15)
+    if(m_shots.size() > 10)
     {
         for(auto shot : m_shots)
         {
