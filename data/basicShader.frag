@@ -1,4 +1,4 @@
-#version 130
+precision mediump float;
 
 uniform vec4 fSpecularity;
 uniform vec4 cEmit;
@@ -6,15 +6,15 @@ uniform vec4 cDiffuse;
 uniform vec4 cSpecular;
 uniform vec4 fAlpha;
 
-in vec3 v_normal;
-in vec3 v_position;
-in vec3 v_light;
+varying vec3 v_normal;
+varying vec3 v_position;
+varying vec3 v_light;
 
 void main()
 {
     vec3 l = normalize(v_light);
     vec3 n = normalize(v_normal);
-    vec3 h = normalize(v_light - 2*v_position);
+    vec3 h = normalize(v_light - 2.0*v_position);
 
     vec3 emit = cEmit.rgb;
 
@@ -27,6 +27,5 @@ void main()
 
     vec3 color = emit + diffuse + specular;
 
-    //gl_FragColor = vec4(, 1.0);
     gl_FragColor = vec4(clamp(color, 0.0, 1.0), fAlpha.r);
 }

@@ -32,6 +32,8 @@ void Program::allocate()
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, m_vertexSrc.c_str());
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, m_fragmentSrc.c_str());
 
+    m_program->link();
+
     m_isOnGPU = true;
 }
 void Program::deallocate()
