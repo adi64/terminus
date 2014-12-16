@@ -12,6 +12,8 @@ public:
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
     float length() const;
     void playSound();
+
+    void shoot() override;
 };
 
 }

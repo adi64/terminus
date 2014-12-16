@@ -132,4 +132,12 @@ void Train::calculateWagonOffset()
     }
 }
 
+void Train::shoot()
+{
+    for(auto& wagon : m_wagons)
+    {
+        wagon->shoot();
+    }
+}
+
 }

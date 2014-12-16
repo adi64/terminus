@@ -39,4 +39,8 @@ QVector3D AbstractWagon::position() const
     return m_train->track()->positionAt(travelledDistance);
 }
 
+void AbstractWagon::shoot()
+{
+}
+
 }

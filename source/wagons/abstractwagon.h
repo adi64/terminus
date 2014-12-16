@@ -17,6 +17,8 @@ public:
     void setPositionOffset(float accumulatedOffset);
     QVector3D position() const;
 
+    virtual void shoot();
+
 protected:
     float m_positionOffset;
     float m_weight;

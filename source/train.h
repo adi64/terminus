@@ -29,6 +29,8 @@ public:
     Track *track() const;
     float travelledDistance() const;
 
+    void shoot();
+
 private:
     void calculateWagonOffset();
 

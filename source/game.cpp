@@ -171,6 +171,7 @@ void Game::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_I:
         SoundManager::getInstance()->playSound("shot");
+        m_playerTrain->shoot();
         break;
     case Qt::Key_O:
         SoundManager::getInstance()->playSound("alarm");
@@ -229,7 +230,7 @@ void Game::keyReleaseEvent(Qt::Key key)
     case Qt::Key_F:
         movement.setY(0.0);
         m_scene->camera().setMovement(movement);
-        break;
+        break;     
     default:
         break;
     }
