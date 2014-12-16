@@ -32,12 +32,12 @@ void SkyBox::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
     }
 
     Program & program =  **(ResourceManager::getInstance()->getProgram("envmap"));
-    //Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
+    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
 
     program.bind();
     m_scene->camera().setMatrices(program, QMatrix4x4());
     program.setUniform(std::string("cubemap"), 0);
-    //sQuad.setAttributes(program);
+    sQuad.setAttributes(program);
 
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glEnable(GL_TEXTURE_CUBE_MAP);
