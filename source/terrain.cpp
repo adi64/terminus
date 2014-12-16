@@ -46,17 +46,17 @@ void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     model.setToIdentity();
 
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
+    //Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
+    //Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
 
     program.bind();
 
     m_scene->camera().setMatrices(program, model);
-    material.setUniforms(program);
+    //material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-    geometry.setAttributes(program);
+    //geometry.setAttributes(program);
 
-    geometry.draw(gl);
+    //geometry.draw(gl);
 
     program.release();
 }

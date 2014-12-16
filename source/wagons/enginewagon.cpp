@@ -26,17 +26,17 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     model.translate(m_position);
 
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Icosahedron"));
+    //Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
+    //Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Icosahedron"));
 
     program.bind();
 
     m_scene->camera().setMatrices(program, model);
-    material.setUniforms(program);
+    //material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-    geometry.setAttributes(program);
+    //geometry.setAttributes(program);
 
-    geometry.draw(gl);
+    //geometry.draw(gl);
 
     program.release();
 }

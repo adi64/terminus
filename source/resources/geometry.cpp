@@ -19,12 +19,13 @@ Geometry::Geometry()
 }
 
 Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
-: m_indexBuffer(indexBuffer)
-, m_vertexBuffer(vertexBuffer)
-, m_isOnGPU(false)
-//, m_vao(nullptr)
+: m_isOnGPU(false)
 , m_vbo(nullptr)
 , m_ibo(nullptr)
+, m_vertexBuffer(vertexBuffer)
+, m_indexBuffer(indexBuffer)
+//, m_vao(nullptr)
+
 {
     m_elementCount = m_indexBuffer.size();
 }

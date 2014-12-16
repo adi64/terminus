@@ -65,11 +65,12 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::loadResources(){
-    loadObj(std::string("data/base.obj"));
-    loadMtl(std::string("data/base.mtl"));
-    loadProgram(std::string("data/basicShader"));
-    loadProgram(std::string("data/envmap"));
+void ResourceManager::loadResources()
+{
+    loadObj(std::string(":/data/base.obj"));
+    loadMtl(std::string(":/data/base.mtl"));
+    loadProgram(std::string(":/data/basicShader"));
+    loadProgram(std::string(":/data/envmap"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)

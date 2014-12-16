@@ -9,7 +9,8 @@ Camera::Camera(
     const QVector3D & eye
 ,   const QVector3D & center
 ,   const QVector3D & up)
-: m_eye(eye)
+: m_lockedToTrain(true)
+, m_eye(eye)
 , m_center(center)
 , m_up(up)
 
@@ -24,8 +25,6 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
-
-, m_lockedToTrain(true)
 {
 }
 
