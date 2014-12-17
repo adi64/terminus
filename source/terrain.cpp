@@ -14,8 +14,8 @@ namespace terminus
 
 Terrain::Terrain(Scene *scene)
     : AbstractGraphicsObject(scene)
-    , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(0.0, 1.0, 0.0), QVector3D(500.0, 1.0, 0.0))))
-    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(0.0, 1.0, 20.0), QVector3D(500.0, 1.0, 20.0))))
+    , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 0.0), QVector3D(500.0, 1.0, 0.0))))
+    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 20.0), QVector3D(500.0, 1.0, 20.0))))
 {   
 
 }

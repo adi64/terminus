@@ -14,10 +14,10 @@ Camera::Camera(
 , m_center(center)
 , m_up(up)
 
-, m_fovy(90.f) // degrees!
+, m_fovy(70.f) // degrees!
 , m_aspect(16.f / 9.f)
 , m_zNear(0.2f)
-, m_zFar(128.0f)
+, m_zFar(1024.0f)
 , m_viewChanged(true)
 , m_viewInvertedChanged(true)
 , m_projectionChanged(true)
