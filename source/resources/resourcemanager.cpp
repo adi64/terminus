@@ -67,6 +67,7 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::loadResources(){
     loadObj(std::string("data/base.obj"));
+    loadObj(std::string("data/terrain.obj"));
     loadMtl(std::string("data/base.mtl"));
     loadProgram(std::string("data/basicShader"));
     loadProgram(std::string("data/envmap"));
