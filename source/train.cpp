@@ -116,6 +116,17 @@ void Train::render(QOpenGLFunctions& gl) const
     }
 }
 
+AbstractWagon *Train::wagonAt(unsigned int index) const
+{
+    if(index >= m_wagons.size())
+    {
+        qDebug() << index << " > " << m_wagons.size();
+        return nullptr;
+    }
+
+    return m_wagons.at(index).get();
+}
+
 Track *Train::track() const
 {
     return m_track;

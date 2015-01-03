@@ -2,6 +2,8 @@
 #include <cassert>
 #include <QQuaternion>
 
+#include "abstractgraphicsobject.h"
+
 namespace terminus
 {
 
@@ -9,7 +11,7 @@ Camera::Camera(
     const QVector3D & eye
 ,   const QVector3D & center
 ,   const QVector3D & up)
-: m_lockedToTrain(true)
+: m_lockedToTrain(false)
 , m_eye(eye)
 , m_center(center)
 , m_up(up)
@@ -250,6 +252,15 @@ void Camera::setLocked(bool value)
     m_lockedToTrain = value;
 }
 
+void Camera::lockToObject(AbstractGraphicsObject *object)
+{
+    m_lockedCenterOffset = QVector3D(0.0, 0.0, 4.0);
+    m_lockedEyeOffset = QVector3D(4.0, 2.0, 6.0);
+
+    m_lockedObject = object;
+    setLocked(true);
+}
+
 const QMatrix4x4 & Camera::view() const
 {
     if (m_viewChanged)
@@ -327,6 +338,15 @@ const QMatrix3x3 & Camera::normal() const
     m_normalChanged = false;
 
     return m_normal;
+}
+
+void Camera::update()
+{
+    if(m_lockedToTrain)
+    {
+        setEye(m_lockedObject->position() + m_lockedEyeOffset);
+        setCenter(m_lockedObject->position() + m_lockedCenterOffset);
+    }
 }
 
 void Camera::setMatrices(Program & program, const QMatrix4x4 & model) const

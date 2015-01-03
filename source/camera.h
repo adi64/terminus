@@ -10,6 +10,8 @@
 namespace terminus
 {
 
+class AbstractGraphicsObject;
+
 class Camera
 {
 
@@ -53,6 +55,7 @@ public:
     const QMatrix3x3 & normal() const;
 
     void changed();
+    void update();
 
     QVector3D movement();
     QVector2D rotation();
@@ -62,6 +65,7 @@ public:
 
     void toggleLocked();
     void setLocked(bool value);
+    void lockToObject(AbstractGraphicsObject *object);
 
 protected:
     void invalidateMatrices() const;
@@ -98,6 +102,10 @@ protected:
     mutable bool m_viewProjectionChanged;
     mutable bool m_viewProjectionInvertedChanged;
     mutable bool m_normalChanged;
+
+    QVector3D m_lockedCenterOffset;
+    QVector3D m_lockedEyeOffset;
+    AbstractGraphicsObject *m_lockedObject;
 };
 
 

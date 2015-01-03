@@ -27,6 +27,7 @@ public:
     void update(int elapsedMilliseconds);
     void render(QOpenGLFunctions &gl) const override;
 
+    AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
     float travelledDistance() const;
 
