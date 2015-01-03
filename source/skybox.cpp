@@ -16,7 +16,12 @@ SkyBox::SkyBox(Scene *scene)
     : AbstractGraphicsObject(scene)
     , m_initialized(false)
 {
-
+    m_imageNX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_nx.png"));
+    m_imagePX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_px.png"));
+    m_imageNY = std::unique_ptr<QImage>(new QImage(":/data/env_cube_ny.png"));
+    m_imagePY = std::unique_ptr<QImage>(new QImage(":/data/env_cube_py.png"));
+    m_imageNZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_nz.png"));
+    m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
 }
 
 SkyBox::~SkyBox()
@@ -26,17 +31,15 @@ SkyBox::~SkyBox()
 
 void SkyBox::update(int elapsedMilliseconds)
 {
+}
+
+void SkyBox::render(QOpenGLFunctions &gl) const
+{
     if(!m_initialized)
     {
         initialize(gl);
     }
 
-    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
-    sQuad.update();
-}
-
-void SkyBox::render(QOpenGLFunctions &gl) const
-{
     Program & program =  **(ResourceManager::getInstance()->getProgram("envmap"));
     Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
 
@@ -55,15 +58,8 @@ void SkyBox::render(QOpenGLFunctions &gl) const
     program.release();
 }
 
-void SkyBox::initialize(QOpenGLFunctions &gl)
+void SkyBox::initialize(QOpenGLFunctions &gl) const
 {
-    m_imageNX = new QImage(":/data/env_cube_nx.png");
-    m_imagePX = new QImage(":/data/env_cube_px.png");
-    m_imageNY = new QImage(":/data/env_cube_ny.png");
-    m_imagePY = new QImage(":/data/env_cube_py.png");
-    m_imageNZ = new QImage(":/data/env_cube_nz.png");
-    m_imagePZ = new QImage(":/data/env_cube_pz.png");
-
     m_texture = -1;
     gl.glGenTextures(1, &m_texture);
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);

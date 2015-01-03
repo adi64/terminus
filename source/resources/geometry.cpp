@@ -35,7 +35,7 @@ Geometry::~Geometry()
     deallocate();
 }
 
-void Geometry::allocate()
+void Geometry::allocate() const
 {
      if(m_isOnGPU)
          return;
@@ -63,7 +63,7 @@ void Geometry::allocate()
      m_isOnGPU = true;
 }
 
-void Geometry::deallocate()
+void Geometry::deallocate() const
 {
     if(!m_isOnGPU)
         return;
@@ -91,13 +91,16 @@ void Geometry::setAttributes(Program & program)
     program.program().bindAttributeLocation("a_normal", 2);
 }
 
-void Geometry::update()
-{
-    allocate();
-}
-
 void Geometry::draw(QOpenGLFunctions & gl) const
 {
+    allocate();
+
+    if(!m_isOnGPU)
+    {
+        qDebug() << "Geometry is not on GPU! Call update() / allocate() first!";
+        return;
+    }
+
     m_vbo->bind();
     m_ibo->bind();
 

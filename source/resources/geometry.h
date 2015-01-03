@@ -27,18 +27,16 @@ public:
     Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
     virtual ~Geometry();
 
-    virtual void allocate();
-    virtual void deallocate();
-
     virtual void setAttributes(Program & program);
-    virtual void update();
     virtual void draw(QOpenGLFunctions & gl) const;
 
 protected:
-    bool m_isOnGPU;
-    //QOpenGLVertexArrayObject * m_vao;
-    QOpenGLBuffer * m_vbo;
-    QOpenGLBuffer * m_ibo;
+    virtual void allocate() const;
+    virtual void deallocate() const;
+
+    mutable bool m_isOnGPU;
+    mutable QOpenGLBuffer * m_vbo;
+    mutable QOpenGLBuffer * m_ibo;
 
     unsigned int m_elementCount;
 

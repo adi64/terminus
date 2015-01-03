@@ -16,7 +16,7 @@ public:
     virtual float weight() const;
     void setPositionOffset(float accumulatedOffset);
     QVector3D position() const;
-    void update(int elapsedMilliseconds);
+    void update(int elapsedMilliseconds) override;
 
 protected:
     float m_positionOffset;
