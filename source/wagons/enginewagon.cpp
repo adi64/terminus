@@ -19,20 +19,15 @@ EngineWagon::EngineWagon(Scene *scene, Train *train)
 {
 }
 
-void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+void EngineWagon::render(QOpenGLFunctions& gl)
 {
-    m_position = position();
-    QMatrix4x4 model;
-    model.setToIdentity();
-    model.translate(m_position);
-
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Icosahedron"));
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, model);
+    m_scene->camera().setMatrices(program, m_modelMatrix);
     material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
     geometry.setAttributes(program);

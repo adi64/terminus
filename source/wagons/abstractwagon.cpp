@@ -1,6 +1,7 @@
 #include "abstractwagon.h"
 
 #include <QVector3D>
+#include <QMatrix4x4>
 
 #include "../train.h"
 #include "../track.h"
@@ -37,6 +38,13 @@ QVector3D AbstractWagon::position() const
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
     return m_train->track()->positionAt(travelledDistance);
+}
+
+void AbstractWagon::update(int elapsedMilliseconds)
+{
+    m_position = position();
+    m_modelMatrix.setToIdentity();
+    m_modelMatrix.translate(m_position);
 }
 
 }

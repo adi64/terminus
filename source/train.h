@@ -24,7 +24,8 @@ public:
     void removeWagon(unsigned int index);
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
-    void render(QOpenGLFunctions &gl, int elapsedMilliseconds);
+    void update(int elapsedMilliseconds);
+    void render(QOpenGLFunctions &gl);
 
     Track *track() const;
     float travelledDistance() const;

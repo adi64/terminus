@@ -26,6 +26,7 @@ public:
     ~Game();
 public slots:
     void sync();
+    void render();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
     void keyPressEvent(Qt::Key key);

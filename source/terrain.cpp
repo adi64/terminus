@@ -34,24 +34,26 @@ Track *Terrain::enemyTrack() const
     return m_enemyTrack.get();
 }
 
-void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+void Terrain::update(int elapsedMilliseconds)
+{
+    m_modelMatrix.setToIdentity();
+
+    // update tracks
+    m_playerTrack->update(elapsedMilliseconds);
+    m_enemyTrack->update(elapsedMilliseconds);
+}
+
+void Terrain::render(QOpenGLFunctions& gl)
 {
 
-    // render tracks
-    m_playerTrack->render(gl, elapsedMilliseconds);
-    m_enemyTrack->render(gl, elapsedMilliseconds);
-
     // render terrain
-    QMatrix4x4 model;
-    model.setToIdentity();
-
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, model);
+    m_scene->camera().setMatrices(program, m_modelMatrix);
     material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
     geometry.setAttributes(program);
@@ -59,6 +61,10 @@ void Terrain::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     geometry.draw(gl);
 
     program.release();
+
+    // render tracks
+    m_playerTrack->render(gl);
+    m_enemyTrack->render(gl);
 }
 
 } //namespace terminus

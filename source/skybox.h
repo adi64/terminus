@@ -17,7 +17,8 @@ public:
     SkyBox(Scene *scene);
     ~SkyBox();
 
-    void render(QOpenGLFunctions & gl, int elapsedMilliseconds);
+    void update(int elapsedMilliseconds);
+    void render(QOpenGLFunctions & gl);
 protected:
     void initialize(QOpenGLFunctions & gl);
 

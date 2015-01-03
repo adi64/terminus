@@ -91,7 +91,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+void Train::update(int elapsedMilliseconds)
 {
     // move forward
     m_travelledDistance += m_velocity * elapsedMilliseconds;
@@ -104,7 +104,15 @@ void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     for(auto& wagon : m_wagons)
     {
-        wagon->render(gl, elapsedMilliseconds);
+        wagon->update(elapsedMilliseconds);
+    }
+}
+
+void Train::render(QOpenGLFunctions& gl)
+{
+    for(auto& wagon : m_wagons)
+    {
+        wagon->render(gl);
     }
 }
 

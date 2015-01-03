@@ -24,7 +24,12 @@ SkyBox::~SkyBox()
 
 }
 
-void SkyBox::render(QOpenGLFunctions &gl, int elapsedMilliseconds)
+void SkyBox::update(int elapsedMilliseconds)
+{
+
+}
+
+void SkyBox::render(QOpenGLFunctions &gl)
 {
     if(!m_initialized)
     {

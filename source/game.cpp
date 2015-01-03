@@ -92,6 +92,8 @@ void Game::sync()
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
+    m_scene->update();
+
 
     //Debug Stuff
     // get context opengl-version
@@ -107,6 +109,11 @@ void Game::sync()
 
 }
 
+void Game::render()
+{
+    m_scene->render();
+}
+
 void Game::cleanup()
 {
     qDebug("cleanup");
@@ -115,7 +122,7 @@ void Game::cleanup()
 void Game::handleWindowChanged(QQuickWindow *win)
 {
     if (win) {
-        connect(win, SIGNAL(beforeRendering()), m_scene, SLOT(render()), Qt::DirectConnection);
+        connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
         connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
         connect(win, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
         // If we allow QML to do the clearing, they would clear what we paint

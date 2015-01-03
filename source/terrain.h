@@ -15,7 +15,8 @@ public:
     Terrain(Scene *scene);
     ~Terrain();
 
-    void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
+    void update(int elapsedMilliseconds);
+    void render(QOpenGLFunctions& gl);
 
     Track *playerTrack() const;
     Track *enemyTrack() const;

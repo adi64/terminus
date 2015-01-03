@@ -10,7 +10,8 @@ class Track : public AbstractGraphicsObject
 public:
     Track(Scene *scene, QVector3D startPosition, QVector3D endPosition);
 
-    void render(QOpenGLFunctions &gl, int elapsedMilliseconds);
+    void render(QOpenGLFunctions &gl);
+    void update(int elapsedMilliseconds);
     QVector3D positionAt(double distance);
     QVector3D tangentAt(double distance);
 
