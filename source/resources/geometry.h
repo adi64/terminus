@@ -35,8 +35,8 @@ protected:
     virtual void deallocate() const;
 
     mutable bool m_isOnGPU;
-    mutable QOpenGLBuffer * m_vbo;
-    mutable QOpenGLBuffer * m_ibo;
+    mutable QOpenGLBuffer *m_vbo;
+    mutable QOpenGLBuffer *m_ibo;
 
     unsigned int m_elementCount;
 

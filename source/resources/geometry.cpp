@@ -24,7 +24,6 @@ Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::v
 , m_ibo(nullptr)
 , m_vertexBuffer(vertexBuffer)
 , m_indexBuffer(indexBuffer)
-//, m_vao(nullptr)
 
 {
     m_elementCount = m_indexBuffer.size();
@@ -39,10 +38,6 @@ void Geometry::allocate() const
 {
      if(m_isOnGPU)
          return;
-
-/*     m_vao = new QOpenGLVertexArrayObject();
-     m_vao->create();
-     m_vao->bind();*/
 
      m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
      m_vbo->create();
@@ -59,7 +54,6 @@ void Geometry::allocate() const
      m_vbo->release();
      m_ibo->release();
 
-//     m_vao->release();
      m_isOnGPU = true;
 }
 
@@ -80,7 +74,6 @@ void Geometry::deallocate() const
         delete m_ibo;
         m_ibo = nullptr;
     }
-    //deallocate m_vao
     m_isOnGPU = false;
 }
 
@@ -94,12 +87,6 @@ void Geometry::setAttributes(Program & program)
 void Geometry::draw(QOpenGLFunctions & gl) const
 {
     allocate();
-
-    if(!m_isOnGPU)
-    {
-        qDebug() << "Geometry is not on GPU! Call update() / allocate() first!";
-        return;
-    }
 
     m_vbo->bind();
     m_ibo->bind();
