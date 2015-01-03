@@ -9,9 +9,9 @@ class EngineWagon : public AbstractWagon
 {
 public:
     EngineWagon(Scene *scene, Train *train);
-    void render(QOpenGLFunctions& gl);
+    void render(QOpenGLFunctions& gl) const override;
     float length() const;
-    void playSound();
+    void playSound() const;
 };
 
 }

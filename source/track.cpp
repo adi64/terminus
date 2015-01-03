@@ -18,7 +18,7 @@ void Track::update(int elapsedMilliseconds)
     // TODO
 }
 
-void Track::render(QOpenGLFunctions &gl)
+void Track::render(QOpenGLFunctions &gl) const
 {
     // TODO
 }

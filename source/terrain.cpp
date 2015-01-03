@@ -38,12 +38,15 @@ void Terrain::update(int elapsedMilliseconds)
 {
     m_modelMatrix.setToIdentity();
 
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
+    geometry.update();
+
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
     m_enemyTrack->update(elapsedMilliseconds);
 }
 
-void Terrain::render(QOpenGLFunctions& gl)
+void Terrain::render(QOpenGLFunctions& gl) const
 {
 
     // render terrain

@@ -12,7 +12,7 @@ AbstractGraphicsObject::AbstractGraphicsObject(Scene *scene)
 {
 }
 
-qreal AbstractGraphicsObject::calculateDistance()
+qreal AbstractGraphicsObject::calculateDistance() const
 {
     return (m_scene->camera().eye() - m_position).length(); //just the dirty way, has to be improved
 }

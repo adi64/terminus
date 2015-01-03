@@ -108,7 +108,7 @@ void Train::update(int elapsedMilliseconds)
     }
 }
 
-void Train::render(QOpenGLFunctions& gl)
+void Train::render(QOpenGLFunctions& gl) const
 {
     for(auto& wagon : m_wagons)
     {

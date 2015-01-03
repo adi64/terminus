@@ -19,7 +19,7 @@ EngineWagon::EngineWagon(Scene *scene, Train *train)
 {
 }
 
-void EngineWagon::render(QOpenGLFunctions& gl)
+void EngineWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
@@ -39,7 +39,7 @@ void EngineWagon::render(QOpenGLFunctions& gl)
     playSound();    //sounds get played here for the moment
 }
 
-void EngineWagon::playSound()
+void EngineWagon::playSound() const
 {
     SoundManager * localManager = SoundManager::getInstance();
 

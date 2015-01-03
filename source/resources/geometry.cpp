@@ -91,10 +91,13 @@ void Geometry::setAttributes(Program & program)
     program.program().bindAttributeLocation("a_normal", 2);
 }
 
-void Geometry::draw(QOpenGLFunctions & gl)
+void Geometry::update()
 {
     allocate();
+}
 
+void Geometry::draw(QOpenGLFunctions & gl) const
+{
     m_vbo->bind();
     m_ibo->bind();
 

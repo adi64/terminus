@@ -16,7 +16,7 @@ WeaponWagon::WeaponWagon(Scene *scene, Train *train)
 {
 }
 
-void WeaponWagon::render(QOpenGLFunctions& gl)
+void WeaponWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Blue"));

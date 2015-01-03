@@ -31,7 +31,8 @@ public:
     virtual void deallocate();
 
     virtual void setAttributes(Program & program);
-    virtual void draw(QOpenGLFunctions & gl);
+    virtual void update();
+    virtual void draw(QOpenGLFunctions & gl) const;
 
 protected:
     bool m_isOnGPU;

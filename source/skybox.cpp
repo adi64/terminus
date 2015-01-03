@@ -26,16 +26,17 @@ SkyBox::~SkyBox()
 
 void SkyBox::update(int elapsedMilliseconds)
 {
-
-}
-
-void SkyBox::render(QOpenGLFunctions &gl)
-{
     if(!m_initialized)
     {
         initialize(gl);
     }
 
+    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
+    sQuad.update();
+}
+
+void SkyBox::render(QOpenGLFunctions &gl) const
+{
     Program & program =  **(ResourceManager::getInstance()->getProgram("envmap"));
     Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
 

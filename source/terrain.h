@@ -16,7 +16,7 @@ public:
     ~Terrain();
 
     void update(int elapsedMilliseconds);
-    void render(QOpenGLFunctions& gl);
+    void render(QOpenGLFunctions& gl) const override;
 
     Track *playerTrack() const;
     Track *enemyTrack() const;

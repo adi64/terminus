@@ -18,7 +18,7 @@ public:
     ~SkyBox();
 
     void update(int elapsedMilliseconds);
-    void render(QOpenGLFunctions & gl);
+    void render(QOpenGLFunctions & gl) const override;
 protected:
     void initialize(QOpenGLFunctions & gl);
 
