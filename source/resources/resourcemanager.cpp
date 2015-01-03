@@ -5,12 +5,13 @@
 #include <limits.h>
 
 #include <regex>
-#include <fstream>
 #include <string>
 #include <sstream>
 #include <algorithm>
 #include <map>
 
+#include <QFile>
+#include <QString>
 #include <QDebug> //TODO remove in the end
 
 namespace terminus
@@ -65,11 +66,12 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::loadResources(){
-    loadObj(std::string("data/base.obj"));
-    loadMtl(std::string("data/base.mtl"));
-    loadProgram(std::string("data/basicShader"));
-    loadProgram(std::string("data/envmap"));
+void ResourceManager::loadResources()
+{
+    loadObj(std::string(":/data/base.obj"));
+    loadMtl(std::string(":/data/base.mtl"));
+    loadProgram(std::string(":/data/basicShader"));
+    loadProgram(std::string(":/data/envmap"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
@@ -95,13 +97,18 @@ void ResourceManager::loadObj(std::string path)
 
     std::string objectName;
 
-    std::ifstream objFile(path);
-    std::string line;
+    QFile objFile(path.c_str());
+    if (!objFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "FATAL: *.obj file can not be opened";
+        return;
+    }
+    QTextStream objStream(&objFile);
 
-    while(std::getline(objFile, line))
+    while(!objStream.atEnd())
     {
         std::string lineHeader;
-        std::stringstream lineStream(line);
+        std::stringstream lineStream(objStream.readLine().toStdString());
         lineStream >> lineHeader;
 
         if(lineHeader == "v")
@@ -208,14 +215,18 @@ void ResourceManager::loadMtl(std::string path)
     std::map<std::string, QVector4D> uniforms;
     std::string objectName;
 
-    std::ifstream mtlFile(path);
-    std::string line;
+    QFile mtlFile(path.c_str());
+    if (!mtlFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "FATAL: *.obj file can not be opened";
+        return;
+    }
+    QTextStream mtlStream(&mtlFile);
 
-    while(std::getline(mtlFile, line))
+    while(!mtlStream.atEnd())
     {
         std::string lineHeader;
-
-        std::stringstream lineStream(line);
+        std::stringstream lineStream(mtlStream.readLine().toStdString());
         lineStream >> lineHeader;
 
         if(lineHeader == "uniform"){

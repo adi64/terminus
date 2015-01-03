@@ -13,7 +13,7 @@ namespace terminus
 Train::Train(Scene *scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
-    , m_velocity(0.001)
+    , m_velocity(0.02)
     , m_track(track)
 {
     // Every train needs an engine
@@ -97,7 +97,7 @@ void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     m_travelledDistance += m_velocity * elapsedMilliseconds;
 
     // TODO FIXME - this wraps the train
-    if(m_travelledDistance > 50.0)
+    if(m_travelledDistance > 400.0)
     {
         m_travelledDistance = 0.0;
     }

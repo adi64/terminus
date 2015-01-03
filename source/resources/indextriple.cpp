@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include <cstdlib>
+
 namespace terminus
 {
 
@@ -9,25 +11,14 @@ IndexTriple::IndexTriple(std::string positionSpec, std::string textureSpec, std:
 : m_validTexture(true)
 , m_validNormal(true)
 {
-    m_positionIndex = std::stoi(positionSpec);
+    char * next = nullptr;
+    m_positionIndex = static_cast<int>(strtol(positionSpec.c_str(), &next, 0));
 
-    try
-    {
-        m_textureIndex = std::stoi(textureSpec);
-    }
-    catch (const std::invalid_argument& e)
-    {
-        m_validTexture = false;
-    }
+    m_textureIndex = static_cast<int>(strtol(textureSpec.c_str(), &next, 0));
+    m_validTexture = textureSpec.c_str() != next;
 
-    try
-    {
-        m_normalIndex = std::stoi(normalSpec);
-    }
-    catch (const std::invalid_argument& e)
-    {
-        m_validNormal = false;
-    }
+    m_normalIndex = static_cast<int>(strtol(normalSpec.c_str(), &next, 0));
+    m_validNormal = normalSpec.c_str() != next;
 }
 
 IndexTriple::~IndexTriple()

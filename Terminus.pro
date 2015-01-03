@@ -51,10 +51,3 @@ HEADERS += \
     source/resources/soundmanager.h \
     source/resources/program.h \
     source/skybox.h
-
-
-OTHER_FILES += \
-    data/basicShader.frag \
-    data/basicShader.vert \
-    data/envmap.frag \
-    data/envmap.vert

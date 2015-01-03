@@ -28,7 +28,7 @@ Item {
             terminusGame.mouseMoveEvent(mouse.x, mouse.y);
         }
     }
-
+/*
     Rectangle {
         color: Qt.rgba(1, 1, 1, 0.7)
         radius: 10
@@ -48,4 +48,5 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: 20
     }
+*/
 }

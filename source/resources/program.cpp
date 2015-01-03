@@ -4,15 +4,15 @@
 #include <QOpenGLShaderProgram>
 
 Program::Program()
-: m_isOnGPU(false)
+: m_program(nullptr)
 , m_isBound(false)
-, m_program(nullptr)
+, m_isOnGPU(false)
 {
 }
 Program::Program(std::string vertexSrc, std::string fragmentSrc)
-: m_isOnGPU(false)
+: m_program(nullptr)
 , m_isBound(false)
-, m_program(nullptr)
+, m_isOnGPU(false)
 , m_vertexSrc(vertexSrc)
 , m_fragmentSrc(fragmentSrc)
 {
@@ -31,6 +31,8 @@ void Program::allocate()
     m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, m_vertexSrc.c_str());
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, m_fragmentSrc.c_str());
+
+    m_program->link();
 
     m_isOnGPU = true;
 }
