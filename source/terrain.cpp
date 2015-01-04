@@ -14,8 +14,12 @@ namespace terminus
 
 Terrain::Terrain(Scene *scene)
     : AbstractGraphicsObject(scene)
+/*
     , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 0.0), QVector3D(500.0, 1.0, 0.0))))
     , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 20.0), QVector3D(500.0, 1.0, 20.0))))
+*/
+    , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, -10.0), QVector3D(100.0, 1.0, -10.0))))
+    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, 10.0), QVector3D(100.0, 1.0, 10.0))))
 {   
 
 }
@@ -37,6 +41,9 @@ Track *Terrain::enemyTrack() const
 void Terrain::update(int elapsedMilliseconds)
 {
     m_modelMatrix.setToIdentity();
+    m_modelMatrix.setToIdentity();
+    m_modelMatrix.translate(5.0, 0.0, 0.0);
+    m_modelMatrix.scale(2.3);
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
@@ -45,11 +52,10 @@ void Terrain::update(int elapsedMilliseconds)
 
 void Terrain::render(QOpenGLFunctions& gl) const
 {
-
     // render terrain
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Plane"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_Terrain"));
 
     program.bind();
 
