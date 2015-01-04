@@ -212,6 +212,9 @@ void Camera::setMovement(QVector3D movement)
     {
           // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
           //for that camera has to get wagon->position()
+
+        // for now, dirty rotation around placed center
+        m_lockedEyeOffset = m_lockedEyeOffset + movement;
     }
 }
 

@@ -15,5 +15,6 @@
         <file>data/env_cube_pz.png</file>
         <file>data/envmap.frag</file>
         <file>data/envmap.vert</file>
+        <file>data/terrain.obj</file>
     </qresource>
 </RCC>

@@ -27,4 +27,9 @@ QVector3D AbstractGraphicsObject::position() const
     return m_position;
 }
 
+QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
+{
+    return m_modelMatrix;
+}
+
 }

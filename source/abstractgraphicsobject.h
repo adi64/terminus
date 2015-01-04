@@ -20,6 +20,7 @@ public:
 
     void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
+    QMatrix4x4 modelMatrix() const;
 protected:
     Scene *m_scene;
     QVector3D m_position;
