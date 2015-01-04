@@ -27,6 +27,8 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
+, m_lockedCenterOffset(QVector3D(0.0, 1.0, 0.0))
+, m_lockedEyeOffset(QVector3D(0.0, 2.0, -2.0))
 {
 }
 
@@ -278,11 +280,13 @@ void Camera::setLocked(bool value)
     m_lockedToTrain = value;
 }
 
+bool Camera::isLocked() const
+{
+    return m_lockedToTrain;
+}
+
 void Camera::lockToObject(AbstractGraphicsObject *object)
 {
-    m_lockedCenterOffset = QVector3D(0.0, 1.0, 0.0);
-    m_lockedEyeOffset = QVector3D(0.0, 2.0, -2.0);
-
     m_lockedObject = object;
     setLocked(true);
 }

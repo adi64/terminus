@@ -30,6 +30,7 @@ public:
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
     float travelledDistance() const;
+    unsigned int size() const;
 
 private:
     void calculateWagonOffset();

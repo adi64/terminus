@@ -137,6 +137,11 @@ float Train::travelledDistance() const
     return m_travelledDistance;
 }
 
+unsigned int Train::size() const
+{
+    return m_wagons.size();
+}
+
 void Train::calculateWagonOffset()
 {
     const auto wagonGap = 0.3f;

@@ -65,6 +65,7 @@ public:
 
     void toggleLocked();
     void setLocked(bool value);
+    bool isLocked() const;
     void lockToObject(AbstractGraphicsObject *object);
 
 protected:

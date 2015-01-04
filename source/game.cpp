@@ -141,6 +141,9 @@ void Game::keyPressEvent(Qt::Key key)
     auto movement = m_scene->camera().movement();
     auto rotation = m_scene->camera().rotation();
 
+    // TODO FIXME: find a proper place to store locked wagon index
+    static auto lockedWagonIndex = 0;
+
     switch(key)
     {
     case Qt::Key_W:
@@ -203,6 +206,20 @@ void Game::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_M:
         SoundManager::getInstance()->toggleBackgroundMusic();
+        break;
+    case Qt::Key_Plus:
+        if(m_scene->camera().isLocked() && (lockedWagonIndex + 1) < m_playerTrain->size())
+        {
+            lockedWagonIndex++;
+            m_scene->camera().lockToObject(m_playerTrain->wagonAt(lockedWagonIndex));
+        }
+        break;
+    case Qt::Key_Minus:
+        if(m_scene->camera().isLocked() && lockedWagonIndex > 0)
+        {
+            lockedWagonIndex--;
+            m_scene->camera().lockToObject(m_playerTrain->wagonAt(lockedWagonIndex));
+        }
         break;
     default:
         break;
