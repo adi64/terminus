@@ -20,11 +20,12 @@ public:
 
     void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
+    QVector3D eulerAngles() const;
     QMatrix4x4 modelMatrix() const;
 protected:
     Scene *m_scene;
     QVector3D m_position;
-
+    QVector3D m_eulerAngles;
     QMatrix4x4 m_modelMatrix;
 };
 

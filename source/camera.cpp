@@ -212,9 +212,6 @@ void Camera::setMovement(QVector3D movement)
     {
           // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
           //for that camera has to get wagon->position()
-
-        // for now, dirty rotation around placed center
-        m_lockedEyeOffset = m_lockedEyeOffset + movement;
     }
 }
 
@@ -242,6 +239,32 @@ void Camera::setRotation(QVector2D rotation)
     else
     {
         // TODO Camera Center should stay the same and eye should change
+
+        // move along the "object x axis"
+
+        // where does the "x vector" of that object really point to?
+
+        auto objectLocalX = QVector3D(1.0, 0.0, 0.0);
+        auto objectLocalZ = QVector3D(0.0, 0.0, 1.0);
+
+        // "x rotation" -> rotate around up vector
+        auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -1.0 * m_lockedObject->eulerAngles().x());
+
+        // "y rotation" -> rotation around "the vector pointing to the right"
+        auto rotation_y = QQuaternion::fromAxisAndAngle(objectLocalZ, m_lockedObject->eulerAngles().y());
+
+        auto rotation_total = rotation_x * rotation_y;
+        auto objectGlobalX = rotation_total.rotatedVector(objectLocalX);
+
+        auto newLockedEyeOffset = m_lockedEyeOffset + (objectGlobalX * rotation.x() * 0.15) + (up() * rotation.y() * -0.15);
+
+        // stop at object's bounds
+        // TODO FIXME: this needs the object's AABB and at the moment does not use object-local coordinates
+        if(newLockedEyeOffset.x() > -3.0 && newLockedEyeOffset.x() < 3.0 && newLockedEyeOffset.y() > 0.0 && newLockedEyeOffset.y() < 4.0)
+        {
+            m_lockedEyeOffset = newLockedEyeOffset;
+        }
+
     }
 }
 
@@ -257,8 +280,8 @@ void Camera::setLocked(bool value)
 
 void Camera::lockToObject(AbstractGraphicsObject *object)
 {
-    m_lockedCenterOffset = QVector3D(0.0, 0.0, 4.0);
-    m_lockedEyeOffset = QVector3D(4.0, 2.0, 6.0);
+    m_lockedCenterOffset = QVector3D(0.0, 1.0, 0.0);
+    m_lockedEyeOffset = QVector3D(0.0, 2.0, -2.0);
 
     m_lockedObject = object;
     setLocked(true);

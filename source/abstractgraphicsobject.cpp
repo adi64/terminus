@@ -27,6 +27,11 @@ QVector3D AbstractGraphicsObject::position() const
     return m_position;
 }
 
+QVector3D AbstractGraphicsObject::eulerAngles() const
+{
+    return m_eulerAngles;
+}
+
 QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 {
     return m_modelMatrix;
