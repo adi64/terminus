@@ -13,6 +13,9 @@ class AbstractGraphicsObject
 public:
     AbstractGraphicsObject(Scene* scene);
     virtual void render(QOpenGLFunctions & gl, int elapsedMilliseconds) = 0;
+
+    qreal calculateDistance();
+
     void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
 protected:

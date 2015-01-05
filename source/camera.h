@@ -59,7 +59,9 @@ public:
 
     void setMovement(QVector3D movement);
     void setRotation(QVector2D rotation);
-    void setLocked(bool status);
+
+    void toggleLocked();
+    void setLocked(bool value);
 
 protected:
     void invalidateMatrices() const;

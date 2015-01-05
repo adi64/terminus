@@ -6,6 +6,7 @@
 
 #include "../scene.h"
 #include "../resources/resourcemanager.h"
+#include "../resources/soundmanager.h"
 #include "../resources/geometry.h"
 #include "../resources/material.h"
 #include "../resources/program.h"
@@ -39,6 +40,18 @@ void EngineWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
     geometry.draw(gl);
 
     program.release();
+
+    playSound();    //sounds get played here for the moment
+}
+
+void EngineWagon::playSound()
+{
+    SoundManager * localManager = SoundManager::getInstance();
+
+    if(!localManager->sound("machine")->isPlaying())        //maybe defining the strings in a typedef?
+    {
+      localManager->playSoundDistant("machine", calculateDistance());
+    }
 }
 
 float EngineWagon::length() const

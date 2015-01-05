@@ -11,6 +11,7 @@ public:
     EngineWagon(Scene *scene, Train *train);
     void render(QOpenGLFunctions& gl, int elapsedMilliseconds);
     float length() const;
+    void playSound();
 };
 
 }

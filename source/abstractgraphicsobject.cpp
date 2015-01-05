@@ -12,6 +12,11 @@ AbstractGraphicsObject::AbstractGraphicsObject(Scene *scene)
 {
 }
 
+qreal AbstractGraphicsObject::calculateDistance()
+{
+    return (m_scene->camera().eye() - m_position).length(); //just the dirty way, has to be improved
+}
+
 void AbstractGraphicsObject::setPosition(const QVector3D &newPosition)
 {
     m_position = newPosition;
