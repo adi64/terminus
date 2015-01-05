@@ -66,10 +66,10 @@ ResourceManager::~ResourceManager()
 {
 }
 
-
 void ResourceManager::loadResources()
 {
     loadObj(std::string(":/data/base.obj"));
+    loadObj(std::string(":/data/terrain.obj"));
     loadMtl(std::string(":/data/base.mtl"));
     loadObj(std::string(":/data/terrain.obj"));
     loadProgram(std::string(":/data/basicShader"));

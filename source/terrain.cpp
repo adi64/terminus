@@ -14,10 +14,6 @@ namespace terminus
 
 Terrain::Terrain(Scene *scene)
     : AbstractGraphicsObject(scene)
-/*
-    , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 0.0), QVector3D(500.0, 1.0, 0.0))))
-    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-500.0, 1.0, 20.0), QVector3D(500.0, 1.0, 20.0))))
-*/
     , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, -10.0), QVector3D(100.0, 1.0, -10.0))))
     , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, 10.0), QVector3D(100.0, 1.0, 10.0))))
 {   
@@ -41,12 +37,8 @@ Track *Terrain::enemyTrack() const
 void Terrain::update(int elapsedMilliseconds)
 {
     m_modelMatrix.setToIdentity();
-    m_modelMatrix.setToIdentity();
     m_modelMatrix.translate(5.0, 0.0, 0.0);
     m_modelMatrix.scale(2.3);
-
-    // dirty hack just to make the terrain "longer"
-    m_modelMatrix.scale(5.0, 1.0, 1.0);
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
