@@ -97,7 +97,7 @@ void Train::update(int elapsedMilliseconds)
     m_travelledDistance += m_velocity * elapsedMilliseconds;
 
     // TODO FIXME - this wraps the train
-    if(m_travelledDistance > 400.0)
+    if(m_travelledDistance > 50.0)
     {
         m_travelledDistance = 0.0;
     }
