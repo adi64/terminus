@@ -35,7 +35,7 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    //SoundManager::getInstance()->playBackgroundMusic();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
