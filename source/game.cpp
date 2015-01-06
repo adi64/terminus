@@ -208,7 +208,7 @@ void Game::keyPressEvent(Qt::Key key)
         SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     case Qt::Key_Plus:
-        if(m_scene->camera().isLocked() && (lockedWagonIndex + 1) < m_playerTrain->size())
+        if(m_scene->camera().isLocked() && ((lockedWagonIndex + 1) < m_playerTrain->size()))
         {
             lockedWagonIndex++;
             m_scene->camera().lockToObject(m_playerTrain->wagonAt(lockedWagonIndex));
