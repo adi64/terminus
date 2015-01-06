@@ -2,6 +2,8 @@
 #include <cassert>
 #include <QQuaternion>
 
+#include "abstractgraphicsobject.h"
+
 namespace terminus
 {
 
@@ -9,7 +11,7 @@ Camera::Camera(
     const QVector3D & eye
 ,   const QVector3D & center
 ,   const QVector3D & up)
-: m_lockedToTrain(true)
+: m_lockedToTrain(false)
 , m_eye(eye)
 , m_center(center)
 , m_up(up)
@@ -25,6 +27,8 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
+, m_lockedCenterOffset(QVector3D(0.0, 1.0, 0.0))
+, m_lockedEyeOffset(QVector3D(0.0, 2.0, -2.0))
 {
 }
 
@@ -237,6 +241,32 @@ void Camera::setRotation(QVector2D rotation)
     else
     {
         // TODO Camera Center should stay the same and eye should change
+
+        // move along the "object x axis"
+
+        // where does the "x vector" of that object really point to?
+
+        auto objectLocalX = QVector3D(1.0, 0.0, 0.0);
+        auto objectLocalZ = QVector3D(0.0, 0.0, 1.0);
+
+        // "x rotation" -> rotate around up vector
+        auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -1.0 * m_lockedObject->eulerAngles().x());
+
+        // "y rotation" -> rotation around "the vector pointing to the right"
+        auto rotation_y = QQuaternion::fromAxisAndAngle(objectLocalZ, m_lockedObject->eulerAngles().y());
+
+        auto rotation_total = rotation_x * rotation_y;
+        auto objectGlobalX = rotation_total.rotatedVector(objectLocalX);
+
+        auto newLockedEyeOffset = m_lockedEyeOffset + (objectGlobalX * rotation.x() * 0.15) + (up() * rotation.y() * -0.15);
+
+        // stop at object's bounds
+        // TODO FIXME: this needs the object's AABB and at the moment does not use object-local coordinates
+        if(newLockedEyeOffset.x() > -3.0 && newLockedEyeOffset.x() < 3.0 && newLockedEyeOffset.y() > 0.0 && newLockedEyeOffset.y() < 4.0)
+        {
+            m_lockedEyeOffset = newLockedEyeOffset;
+        }
+
     }
 }
 
@@ -248,6 +278,17 @@ void Camera::toggleLocked()
 void Camera::setLocked(bool value)
 {
     m_lockedToTrain = value;
+}
+
+bool Camera::isLocked() const
+{
+    return m_lockedToTrain;
+}
+
+void Camera::lockToObject(AbstractGraphicsObject *object)
+{
+    m_lockedObject = object;
+    setLocked(true);
 }
 
 const QMatrix4x4 & Camera::view() const
@@ -327,6 +368,15 @@ const QMatrix3x3 & Camera::normal() const
     m_normalChanged = false;
 
     return m_normal;
+}
+
+void Camera::update()
+{
+    if(m_lockedToTrain)
+    {
+        setEye(m_lockedObject->position() + m_lockedEyeOffset);
+        setCenter(m_lockedObject->position() + m_lockedCenterOffset);
+    }
 }
 
 void Camera::setMatrices(Program & program, const QMatrix4x4 & model) const
