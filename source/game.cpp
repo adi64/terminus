@@ -44,9 +44,27 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->moveWagon(1, 2);
 
     m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
 
@@ -59,8 +77,8 @@ Game::Game()
     m_scene->addNode(m_terrain.get());
     m_scene->addNode(m_skybox.get());
 
-    m_scene->camera().setEye(QVector3D(0.0, 1.0, 20.0));
-    m_scene->camera().setCenter(QVector3D(0.0, 1.0, 0.0));
+    m_scene->camera().setEye(QVector3D(-30.0, 10.0, 20.0));
+    m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
 }
 
@@ -73,6 +91,8 @@ void Game::sync()
 {
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
+
+    m_scene->update();
 
 
     //Debug Stuff
@@ -89,6 +109,11 @@ void Game::sync()
 
 }
 
+void Game::render()
+{
+    m_scene->render();
+}
+
 void Game::cleanup()
 {
     qDebug("cleanup");
@@ -97,7 +122,7 @@ void Game::cleanup()
 void Game::handleWindowChanged(QQuickWindow *win)
 {
     if (win) {
-        connect(win, SIGNAL(beforeRendering()), m_scene, SLOT(render()), Qt::DirectConnection);
+        connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
         connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
         connect(win, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
         // If we allow QML to do the clearing, they would clear what we paint

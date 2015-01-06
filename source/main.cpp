@@ -1,3 +1,7 @@
+#include <string>
+#include <fstream>
+#include <iostream>
+
 #include <QApplication>
 #include <QQuickView>
 

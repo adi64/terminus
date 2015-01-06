@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "abstractgraphicsobject.h"
 
 class QImage;
@@ -17,19 +18,19 @@ public:
     SkyBox(Scene *scene);
     ~SkyBox();
 
-    void render(QOpenGLFunctions & gl, int elapsedMilliseconds);
+    void update(int elapsedMilliseconds);
+    void render(QOpenGLFunctions & gl) const override;
 protected:
-    void initialize(QOpenGLFunctions & gl);
+    void initialize(QOpenGLFunctions & gl) const;
 
-    bool m_initialized;
-
-    QImage *m_imageNX;
-    QImage *m_imagePX;
-    QImage *m_imageNY;
-    QImage *m_imagePY;
-    QImage *m_imageNZ;
-    QImage *m_imagePZ;
-    GLuint m_texture;
+    mutable bool m_initialized;
+    std::unique_ptr<QImage> m_imageNX;
+    std::unique_ptr<QImage> m_imagePX;
+    std::unique_ptr<QImage> m_imageNY;
+    std::unique_ptr<QImage> m_imagePY;
+    std::unique_ptr<QImage> m_imageNZ;
+    std::unique_ptr<QImage> m_imagePZ;
+    mutable GLuint m_texture;
 };
 
 }

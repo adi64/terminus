@@ -13,7 +13,7 @@ namespace terminus
 Train::Train(Scene *scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
-    , m_velocity(0.001)
+    , m_velocity(0.02)
     , m_track(track)
 {
     // Every train needs an engine
@@ -91,7 +91,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+void Train::update(int elapsedMilliseconds)
 {
     // move forward
     m_travelledDistance += m_velocity * elapsedMilliseconds;
@@ -104,7 +104,15 @@ void Train::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
 
     for(auto& wagon : m_wagons)
     {
-        wagon->render(gl, elapsedMilliseconds);
+        wagon->update(elapsedMilliseconds);
+    }
+}
+
+void Train::render(QOpenGLFunctions& gl) const
+{
+    for(auto& wagon : m_wagons)
+    {
+        wagon->render(gl);
     }
 }
 

@@ -1,7 +1,6 @@
 #include "weaponwagon.h"
 
 #include <QDebug>
-#include <QMatrix4x4>
 
 #include "../scene.h"
 #include "../resources/resourcemanager.h"
@@ -17,20 +16,15 @@ WeaponWagon::WeaponWagon(Scene *scene, Train *train)
 {
 }
 
-void WeaponWagon::render(QOpenGLFunctions& gl, int elapsedMilliseconds)
+void WeaponWagon::render(QOpenGLFunctions& gl) const
 {
-    m_position = position();
-    QMatrix4x4 model;
-    model.setToIdentity();
-    model.translate(m_position);
-
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Blue"));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Wagon"));
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, model);
+    m_scene->camera().setMatrices(program, m_modelMatrix);
     material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
     geometry.setAttributes(program);

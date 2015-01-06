@@ -23,12 +23,13 @@ public:
     Scene();
     ~Scene();
 
+    void update();
+    void render();
+
     Camera & camera();
 
     void addNode(AbstractGraphicsObject* node);
     void setInitialTimeStamp(QTime *timeStamp);
-public slots:
-    void render();
 protected:
 private:
     Camera* m_camera;
