@@ -32,20 +32,20 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    /*QSoundEffect * soundOne = new QSoundEffect();
-    soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
+    QSoundEffect * soundOne = new QSoundEffect();
+    soundOne->setSource(QUrl::fromLocalFile(":/sounds/alarm.wav"));
     m_sounds["alarm"] = soundOne;
 
     QSoundEffect * soundTwo = new QSoundEffect();
-    soundTwo->setSource(QUrl::fromLocalFile("sounds/angriff.wav"));
+    soundTwo->setSource(QUrl::fromLocalFile(":/sounds/angriff.wav"));
     m_sounds["angriff"] = soundTwo;
 
     QSoundEffect * soundThree = new QSoundEffect();
-    soundThree->setSource(QUrl::fromLocalFile("sounds/shot.wav"));
+    soundThree->setSource(QUrl::fromLocalFile(":/sounds/shot.wav"));
     m_sounds["shot"] = soundThree;
 
     QSoundEffect * soundFour = new QSoundEffect();
-    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/machine.wav"));
+    soundFour->setSource(QUrl::fromLocalFile(":/sounds/engine/machine.wav"));
     soundFour->setVolume(0.1);
     m_sounds["machine"] = soundFour;
 
@@ -54,15 +54,15 @@ void SoundManager::initialize()
     mediaPlayer()->setPlaylist(mediaPlaylist());
     mediaPlayer()->setVolume(99);
 
-    mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
+    mediaPlaylist()->addMedia(QUrl::fromLocalFile(":/music/Level0107.mp3"));
     mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-*/
+
 }
 
 SoundManager::~SoundManager()
 {
     //TODO delete m_sounds contents
-  /*  std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
+    std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
 
     for(it = sounds().begin(); it != sounds().end(); it++)
     {
@@ -70,42 +70,42 @@ SoundManager::~SoundManager()
     }
 
     mediaPlayer()->setMedia(nullptr);
-    delete m_mediaPlayer;*/
+    delete m_mediaPlayer;
 }
 
 void SoundManager::playSound(QString name)
 {
-    //sound(name)->play();
+    sound(name)->play();
 }
 
 void SoundManager::playSoundDistant(QString name, qreal distance)
 {
-    //qreal relativeVolume = 1.0 - distance/c_maxVol;
+    qreal relativeVolume = 1.0 - distance/c_maxVol;
 
-    /*if(relativeVolume <= 0)
+    if(relativeVolume <= 0)
     {
         relativeVolume = 0.0;
     }
 
     sound(name)->setVolume(relativeVolume);
-    sound(name)->play();*/
+    sound(name)->play();
 }
 
 void SoundManager::playBackgroundMusic()
 {
-    //mediaPlayer()->play();
+    mediaPlayer()->play();
 }
 
 void SoundManager::toggleBackgroundMusic()
 {
-    /*if(mediaPlayer()->state() == 1)
+    if(mediaPlayer()->state() == 1)
     {
         mediaPlayer()->pause();
     }
     else
     {
         mediaPlayer()->play();
-    }*/
+    }
 }
 
 QSoundEffect * SoundManager::sound(QString name)
