@@ -23,7 +23,7 @@ public:
 
     qreal calculateDistance() const;
 
-    void setPosition(const QVector3D& newPosition);
+    virtual void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
     virtual QVector3D eulerAngles() const;
     virtual QVector3D scaling() const;

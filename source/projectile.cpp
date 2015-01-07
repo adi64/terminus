@@ -1,4 +1,4 @@
-#include "bullet.h"
+#include "projectile.h"
 
 #include <QDebug>
 
@@ -13,7 +13,7 @@
 namespace terminus
 {
 
-Bullet::Bullet(Scene *scene)
+Projectile::Projectile(Scene *scene)
     : AbstractGraphicsObject(scene)
 {   
     auto shape = new btSphereShape(1.0);
@@ -36,19 +36,34 @@ Bullet::Bullet(Scene *scene)
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }
 
-void Bullet::update(int elapsedMilliseconds)
+void Projectile::setPosition(const QVector3D &newPosition)
+{
+    AbstractGraphicsObject::setPosition(newPosition);
+
+    qDebug() << "TODO: Set new Position of projectile";
+}
+
+void Projectile::update(int elapsedMilliseconds)
 {
     AbstractGraphicsObject::update(elapsedMilliseconds);
+
+
+    btTransform transform;
+    m_bullet_rigidBody->getMotionState()->getWorldTransform(transform);
+
+    auto rigidBodyPosition = transform.getOrigin();
+
+    setPosition(QVector3D(rigidBodyPosition.getX(), rigidBodyPosition.getY(), rigidBodyPosition.getZ()));
 
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
-        qDebug() << "bullet is old, please delete";
+        // please delete
     }
 }
 
 
-void Bullet::render(QOpenGLFunctions& gl) const
+void Projectile::render(QOpenGLFunctions& gl) const
 {
     // render terrain
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
@@ -67,7 +82,7 @@ void Bullet::render(QOpenGLFunctions& gl) const
     program.release();
 }
 
-unsigned int Bullet::maxAgeInMilliseconds() const
+unsigned int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
 }

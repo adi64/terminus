@@ -7,6 +7,7 @@
 #include "../resources/geometry.h"
 #include "../resources/material.h"
 #include "../resources/program.h"
+#include "../projectile.h"
 
 namespace terminus
 {
@@ -14,6 +15,15 @@ namespace terminus
 WeaponWagon::WeaponWagon(Scene *scene, Train *train)
 : AbstractWagon(scene, train)
 {
+}
+
+void WeaponWagon::primaryAction()
+{
+    qDebug() << "adding projectile";
+    auto projectile = new Projectile(m_scene);
+    projectile->setPosition(position() + QVector3D(0.0, 6.0, 2.0));
+
+    m_scene->addNode(projectile);
 }
 
 void WeaponWagon::render(QOpenGLFunctions& gl) const

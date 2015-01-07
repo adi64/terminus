@@ -15,6 +15,11 @@ AbstractWagon::AbstractWagon(Scene *scene, Train *train)
 {
 }
 
+void AbstractWagon::primaryAction()
+{
+
+}
+
 float AbstractWagon::length() const
 {
     return 1.f;

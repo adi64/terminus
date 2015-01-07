@@ -12,6 +12,9 @@ class AbstractWagon : public AbstractGraphicsObject
 {
 public:
     AbstractWagon(Scene *scene, Train *train);
+
+    virtual void primaryAction();
+
     virtual float length() const;
     virtual float weight() const;
     void setPositionOffset(float accumulatedOffset);

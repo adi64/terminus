@@ -7,10 +7,12 @@
 namespace terminus
 {
 
-class Bullet : public AbstractGraphicsObject
+class Projectile : public AbstractGraphicsObject
 {
 public:
-    Bullet(Scene *scene);
+    Projectile(Scene *scene);
+
+    void setPosition(const QVector3D &newPosition) override;
 
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
