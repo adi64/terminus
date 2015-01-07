@@ -33,19 +33,19 @@ SoundManager::SoundManager()
 void SoundManager::initialize()
 {
     QSoundEffect * soundOne = new QSoundEffect();
-    soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
+    soundOne->setSource(QUrl::fromLocalFile(":/sounds/alarm.wav"));
     m_sounds["alarm"] = soundOne;
 
     QSoundEffect * soundTwo = new QSoundEffect();
-    soundTwo->setSource(QUrl::fromLocalFile("sounds/angriff.wav"));
+    soundTwo->setSource(QUrl::fromLocalFile(":/sounds/angriff.wav"));
     m_sounds["angriff"] = soundTwo;
 
     QSoundEffect * soundThree = new QSoundEffect();
-    soundThree->setSource(QUrl::fromLocalFile("sounds/shot.wav"));
+    soundThree->setSource(QUrl::fromLocalFile(":/sounds/shot.wav"));
     m_sounds["shot"] = soundThree;
 
     QSoundEffect * soundFour = new QSoundEffect();
-    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/machine.wav"));
+    soundFour->setSource(QUrl::fromLocalFile(":/sounds/engine/machine.wav"));
     soundFour->setVolume(0.1);
     m_sounds["machine"] = soundFour;
 
@@ -54,7 +54,7 @@ void SoundManager::initialize()
     mediaPlayer()->setPlaylist(mediaPlaylist());
     mediaPlayer()->setVolume(99);
 
-    mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
+    mediaPlaylist()->addMedia(QUrl::fromLocalFile(":/music/Level0107.mp3"));
     mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 
 }

@@ -14,6 +14,7 @@
 #include "train.h"
 #include "terrain.h"
 #include "skybox.h"
+#include "eventhandler.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -24,6 +25,7 @@ namespace terminus
 
 Game::Game()
 : m_scene(new Scene())
+, m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -94,20 +96,6 @@ void Game::sync()
     m_scene->camera().setViewport(window()->width(), window()->height());
 
     m_scene->update();
-
-
-    //Debug Stuff
-    // get context opengl-version
-/*
-    qDebug() << "Widget OpenGl: " << window()->format().majorVersion() << "." << window()->format().minorVersion();
-    qDebug() << "Context valid: " << window()->openglContext()->isValid();
-    qDebug() << "Really used OpenGl: " << window()->openglContext()->format().majorVersion() << "." << window()->openglContext()->format().minorVersion();
-    qDebug() << "OpenGl information: VENDOR: " << (const char*)glGetString(GL_VENDOR);
-    qDebug() << " RENDERDER: " << (const char*)glGetString(GL_RENDERER);
-    qDebug() << " VERSION: " << (const char*)glGetString(GL_VERSION);
-    qDebug() << " GLSL VERSION: " << (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-*/
-
 }
 
 void Game::render()
@@ -138,161 +126,42 @@ void Game::handleWindowChanged(QQuickWindow *win)
 
 void Game::keyPressEvent(Qt::Key key)
 {
-    auto movement = m_scene->camera().movement();
-    auto rotation = m_scene->camera().rotation();
-
-    // TODO FIXME: find a proper place to store locked wagon index
-    static auto lockedWagonIndex = 0;
-
-    switch(key)
-    {
-    case Qt::Key_W:
-        movement.setZ(-1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_S:
-        movement.setZ(1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_A:
-        movement.setX(-1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_D:
-        movement.setX(1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_Left:
-        rotation.setX(-5.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Right:
-        rotation.setX(5.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Up:
-        rotation.setY(5.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Down:
-        rotation.setY(-5.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_R:
-        movement.setY(1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_F:
-        movement.setY(-1.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_Q:
-        QApplication::quit();
-        break;
-    case Qt::Key_Space:
-        m_scene->camera().toggleLocked();
-        break;
-    case Qt::Key_Escape:
-        QApplication::quit();
-        break;
-    case Qt::Key_U:
-        SoundManager::getInstance()->playSound("angriff");
-        break;
-    case Qt::Key_I:
-        SoundManager::getInstance()->playSound("shot");
-        break;
-    case Qt::Key_O:
-        SoundManager::getInstance()->playSound("alarm");
-        break;
-    case Qt::Key_M:
-        SoundManager::getInstance()->toggleBackgroundMusic();
-        break;
-    case Qt::Key_Plus:
-        if(m_scene->camera().isLocked() && ((lockedWagonIndex + 1) < m_playerTrain->size()))
-        {
-            lockedWagonIndex++;
-            m_scene->camera().lockToObject(m_playerTrain->wagonAt(lockedWagonIndex));
-        }
-        break;
-    case Qt::Key_Minus:
-        if(m_scene->camera().isLocked() && lockedWagonIndex > 0)
-        {
-            lockedWagonIndex--;
-            m_scene->camera().lockToObject(m_playerTrain->wagonAt(lockedWagonIndex));
-        }
-        break;
-    default:
-        break;
-    }
+    m_eventHandler->keyPressEvent(key);
 }
 
 void Game::keyReleaseEvent(Qt::Key key)
 {
-    auto movement = m_scene->camera().movement();
-    auto rotation = m_scene->camera().rotation();
-
-    switch(key)
-    {
-    case Qt::Key_W:
-        movement.setZ(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_S:
-        movement.setZ(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_A:
-        movement.setX(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_D:
-        movement.setX(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_Left:
-        rotation.setX(0.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Right:
-        rotation.setX(0.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Up:
-        rotation.setY(0.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Down:
-        rotation.setY(0.0);
-        m_scene->camera().setRotation(rotation);
-        break;
-    case Qt::Key_R:
-        movement.setY(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    case Qt::Key_F:
-        movement.setY(0.0);
-        m_scene->camera().setMovement(movement);
-        break;
-    default:
-        break;
-    }
+    m_eventHandler->keyReleaseEvent(key);
 }
 
 void Game::mouseMoveEvent(qreal x, qreal y)
 {
-    const double sensitivity = 0.5;
+    m_eventHandler->mouseMoveEvent(x, y);
+}
 
-    auto oldPosition = QVector2D(window()->width() / 2, window()->height() / 2);
-    auto offset = oldPosition - QVector2D(x, y);
-    auto rotation = offset * sensitivity;
+void Game::touchMoveEvent(qreal x, qreal y)
+{
+    m_eventHandler->touchMoveEvent(x, y);
+}
 
-    // invert X
-    rotation *= QVector2D(-1.0, 1.0);
+void Game::gyroMoveEvent(qreal x, qreal y)
+{
+    m_eventHandler->gyroMoveEvent(x, y);
+}
 
-    m_scene->camera().setRotation(rotation);
+void Game::flickEvent(qreal velo)
+{
+    m_eventHandler->flickEvent(velo);
+}
 
-    QPoint globalPosition = window()->mapToGlobal(QPoint(window()->width() / 2, window()->height() / 2));
-    QCursor::setPos(globalPosition);
+Scene *Game::scene() const
+{
+    return m_scene;
+}
+
+Train *Game::playerTrain() const
+{
+    return m_playerTrain.get();
 }
 
 }
