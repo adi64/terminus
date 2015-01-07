@@ -15,12 +15,10 @@ public:
     virtual float length() const;
     virtual float weight() const;
     void setPositionOffset(float accumulatedOffset);
-    QVector3D position() const;
-    void update(int elapsedMilliseconds) override;
+    QVector3D position() const override;
 
 protected:
     float m_positionOffset;
-    float m_weight;
     Train *m_train;
 };
 

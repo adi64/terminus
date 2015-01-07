@@ -13,11 +13,6 @@ Track::Track(Scene *scene, QVector3D startPosition, QVector3D endPosition)
 {
 }
 
-void Track::update(int elapsedMilliseconds)
-{
-    // TODO
-}
-
 void Track::render(QOpenGLFunctions &gl) const
 {
     // TODO

@@ -22,7 +22,8 @@ SOURCES += \
     source/resources/resourcemanager.cpp \
     source/resources/soundmanager.cpp \
     source/skybox.cpp \
-    source/resources/program.cpp
+    source/resources/program.cpp \
+    source/bullet.cpp
 
 RESOURCES += qml.qrc
 
@@ -54,4 +55,5 @@ HEADERS += \
     source/resources/material.h \
     source/resources/soundmanager.h \
     source/resources/program.h \
-    source/skybox.h
+    source/skybox.h \
+    source/bullet.h

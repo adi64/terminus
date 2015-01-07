@@ -10,6 +10,8 @@
 class QOpenGLShaderProgram;
 class QTime;
 
+class btDiscreteDynamicsWorld;
+
 namespace terminus
 {
 
@@ -20,13 +22,14 @@ class Scene : public QObject
 {
     Q_OBJECT
 public:
-    Scene();
+    Scene(btDiscreteDynamicsWorld *bulletWorld);
     ~Scene();
 
     void update(int elapsedMilliseconds);
     void render();
 
     Camera & camera();
+    btDiscreteDynamicsWorld* bullet_world();
 
     void addNode(AbstractGraphicsObject* node);
     void setInitialTimeStamp(QTime *timeStamp);
@@ -36,6 +39,7 @@ private:
     QOpenGLFunctions m_gl;
     std::vector<AbstractGraphicsObject*> m_nodes;
     QTime *m_timeStamp;
+    btDiscreteDynamicsWorld *m_bullet_world;
 
 };
 

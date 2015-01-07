@@ -24,15 +24,6 @@ SkyBox::SkyBox(Scene *scene)
     m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
 }
 
-SkyBox::~SkyBox()
-{
-
-}
-
-void SkyBox::update(int elapsedMilliseconds)
-{
-}
-
 void SkyBox::render(QOpenGLFunctions &gl) const
 {
     if(!m_initialized)

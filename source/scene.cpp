@@ -5,16 +5,19 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 
+#include <bullet/btBulletDynamicsCommon.h>
+
 #include "abstractgraphicsobject.h"
 #include "camera.h"
 
 namespace terminus
 {
 
-Scene::Scene()
+Scene::Scene(btDiscreteDynamicsWorld *bulletWorld)
 : m_camera(new Camera())
 , m_gl()
 , m_timeStamp(nullptr)
+, m_bullet_world(bulletWorld)
 {
     m_nodes.clear();
 }
@@ -84,6 +87,11 @@ void Scene::render()
 Camera & Scene::camera()
 {
     return *m_camera;
+}
+
+btDiscreteDynamicsWorld *Scene::bullet_world()
+{
+    return m_bullet_world;
 }
 
 } // namespace terminus

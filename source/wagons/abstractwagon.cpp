@@ -40,11 +40,4 @@ QVector3D AbstractWagon::position() const
     return m_train->track()->positionAt(travelledDistance);
 }
 
-void AbstractWagon::update(int elapsedMilliseconds)
-{
-    m_position = position();
-    m_modelMatrix.setToIdentity();
-    m_modelMatrix.translate(m_position);
-}
-
 }

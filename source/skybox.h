@@ -16,9 +16,7 @@ class SkyBox : public AbstractGraphicsObject
 {
 public:
     SkyBox(Scene *scene);
-    ~SkyBox();
 
-    void update(int elapsedMilliseconds);
     void render(QOpenGLFunctions & gl) const override;
 protected:
     void initialize(QOpenGLFunctions & gl) const;

@@ -1,6 +1,9 @@
 #include "abstractgraphicsobject.h"
 
 #include <QDebug>
+
+#include <bullet/btBulletDynamicsCommon.h>
+
 #include "scene.h"
 
 namespace terminus
@@ -9,7 +12,19 @@ namespace terminus
 AbstractGraphicsObject::AbstractGraphicsObject(Scene *scene)
     : m_scene(scene)
     , m_position(0.0, 0.0, 0.0)
+    , m_eulerAngles(0.0, 0.0, 0.0)
+    , m_scaling(1.0, 1.0, 1.0)
 {
+}
+
+void AbstractGraphicsObject::update(int elapsedMilliseconds)
+{
+    auto angles = eulerAngles();
+
+    m_modelMatrix.setToIdentity();
+    m_modelMatrix.translate(position());
+    m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
+    m_modelMatrix.scale(scaling());
 }
 
 qreal AbstractGraphicsObject::calculateDistance() const
@@ -32,9 +47,19 @@ QVector3D AbstractGraphicsObject::eulerAngles() const
     return m_eulerAngles;
 }
 
+QVector3D AbstractGraphicsObject::scaling() const
+{
+    return m_scaling;
+}
+
 QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 {
     return m_modelMatrix;
+}
+
+bool AbstractGraphicsObject::canCollide() const
+{
+    return true;
 }
 
 }

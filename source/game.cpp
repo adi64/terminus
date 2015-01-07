@@ -23,8 +23,7 @@ namespace terminus
 {
 
 Game::Game()
-: m_scene(new Scene())
-, m_timer(new QTimer())
+: m_timer(new QTimer())
 , m_timeStamp(new QTime())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -56,8 +55,7 @@ Game::Game()
                 );
     m_bullet_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-
-
+    m_scene = new Scene(m_bullet_dynamicsWorld.get());
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -108,13 +106,13 @@ Game::Game()
 
 
     // physics tests
+
     btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
 
     btCollisionShape* fallShape = new btSphereShape(1);
 
     btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-    btRigidBody::btRigidBodyConstructionInfo
-            groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+    btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
     btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
     m_bullet_dynamicsWorld->addRigidBody(groundRigidBody);
 
