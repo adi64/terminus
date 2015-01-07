@@ -40,6 +40,8 @@ protected:
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+    qreal m_vol;
+    qreal m_vol2;
 };
 
 }

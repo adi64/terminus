@@ -35,7 +35,10 @@ Game::Game()
     m_timeStamp = new QTime();
     m_timeStamp->start();
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    m_vol = 0.5;
+    m_vol2 = 0.5;
+
+    //SoundManager::getInstance()->playBackgroundMusic();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
@@ -199,10 +202,27 @@ void Game::keyPressEvent(Qt::Key key)
         SoundManager::getInstance()->playSound("angriff");
         break;
     case Qt::Key_I:
-        SoundManager::getInstance()->playSound("shot");
+        SoundManager::getInstance()->run(m_vol, QString("shot.wav"));
         break;
     case Qt::Key_O:
-        SoundManager::getInstance()->playSound("alarm");
+        //SoundManager::getInstance()->playSound("alarm");
+        SoundManager::getInstance()->run2(m_vol2, QString("alarm.wav"));
+        break;
+    case Qt::Key_5:
+        //SoundManager::getInstance()->playSound("alarm");
+        m_vol -= 0.05;
+        break;
+    case Qt::Key_6:
+        //SoundManager::getInstance()->playSound("alarm");
+        m_vol += 0.05;
+        break;
+    case Qt::Key_7:
+        //SoundManager::getInstance()->playSound("alarm");
+        m_vol2 -= 0.05;
+        break;
+    case Qt::Key_8:
+        //SoundManager::getInstance()->playSound("alarm");
+        m_vol2 += 0.05;
         break;
     case Qt::Key_M:
         SoundManager::getInstance()->toggleBackgroundMusic();
