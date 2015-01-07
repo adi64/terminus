@@ -24,16 +24,40 @@ namespace terminus
 
 Game::Game()
 : m_scene(new Scene())
+, m_timer(new QTimer())
+, m_timeStamp(new QTime())
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
 
-    m_scene = new Scene;
-
-    m_timer = new QTimer();
-    m_timeStamp = new QTime();
     m_timeStamp->start();
+
+
+    // Set up bullet
+    // Build the broadphase
+    m_bullet_broadphase = std::unique_ptr<btBroadphaseInterface>(new btDbvtBroadphase());
+
+    // Set up the collision configuration and dispatcher
+    m_bullet_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
+    m_bullet_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_bullet_collisionConfiguration.get()));
+
+    // The actual physics solver
+    m_bullet_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
+
+    // The world.
+    m_bullet_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(
+                new btDiscreteDynamicsWorld(
+                    m_bullet_dispatcher.get(),
+                    m_bullet_broadphase.get(),
+                    m_bullet_solver.get(),
+                    m_bullet_collisionConfiguration.get()
+                    )
+                );
+    m_bullet_dynamicsWorld->setGravity(btVector3(0, -10, 0));
+
+
+
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -81,6 +105,27 @@ Game::Game()
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
     m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
+
+
+    // physics tests
+    btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+
+    btCollisionShape* fallShape = new btSphereShape(1);
+
+    btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+    btRigidBody::btRigidBodyConstructionInfo
+            groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+    btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
+    m_bullet_dynamicsWorld->addRigidBody(groundRigidBody);
+
+    btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+    btScalar mass = 1;
+    btVector3 fallInertia(0, 0, 0);
+    fallShape->calculateLocalInertia(mass, fallInertia);
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, fallShape, fallInertia);
+
+    m_fallRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(fallRigidBodyCI));
+    m_bullet_dynamicsWorld->addRigidBody(m_fallRigidBody.get());
 }
 
 Game::~Game()
@@ -90,10 +135,21 @@ Game::~Game()
 
 void Game::sync()
 {
+    auto elapsedMilliseconds = m_timeStamp->restart();
+
+    // physics
+    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
+
+    btTransform trans;
+    m_fallRigidBody->getMotionState()->getWorldTransform(trans);
+
+    qDebug() << "sphere height: " << trans.getOrigin().getY();
+
+
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    m_scene->update();
+    m_scene->update(elapsedMilliseconds);
 
 
     //Debug Stuff

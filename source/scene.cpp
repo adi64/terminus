@@ -34,10 +34,8 @@ void Scene::setInitialTimeStamp(QTime *timeStamp)
     m_timeStamp = timeStamp;
 }
 
-void Scene::update()
+void Scene::update(int elapsedMilliseconds)
 {
-    auto elapsedMilliseconds = m_timeStamp->restart();
-
     for(auto node : m_nodes)
     {
         node->update(elapsedMilliseconds);

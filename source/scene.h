@@ -23,7 +23,7 @@ public:
     Scene();
     ~Scene();
 
-    void update();
+    void update(int elapsedMilliseconds);
     void render();
 
     Camera & camera();

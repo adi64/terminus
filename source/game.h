@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QQuickItem>
 
+#include <bullet/btBulletDynamicsCommon.h>
+
 class QTimer;
 class QTime;
 
@@ -40,6 +42,15 @@ protected:
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+
+    // bullet
+    std::unique_ptr<btBroadphaseInterface> m_bullet_broadphase;
+    std::unique_ptr<btDefaultCollisionConfiguration> m_bullet_collisionConfiguration;
+    std::unique_ptr<btCollisionDispatcher> m_bullet_dispatcher;
+    std::unique_ptr<btSequentialImpulseConstraintSolver> m_bullet_solver;
+    std::unique_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
+
+    std::unique_ptr<btRigidBody> m_fallRigidBody;
 };
 
 }
