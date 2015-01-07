@@ -24,7 +24,6 @@ EventHandler::EventHandler(Game *game)
 void EventHandler::keyPressEvent(Qt::Key key)
 {
     auto movement = m_game->scene()->camera().movement();
-    auto rotation = m_game->scene()->camera().rotation();
 
     switch(key)
     {
@@ -44,30 +43,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
         movement.setX(1.0);
         m_game->scene()->camera().setMovement(movement);
         break;
-    case Qt::Key_Left:
-        rotation.setX(-5.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Right:
-        rotation.setX(5.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Up:
-        rotation.setY(5.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Down:
-        rotation.setY(-5.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_R:
-        movement.setY(1.0);
-        m_game->scene()->camera().setMovement(movement);
-        break;
-    case Qt::Key_F:
-        movement.setY(-1.0);
-        m_game->scene()->camera().setMovement(movement);
-        break;
     case Qt::Key_Q:
         QApplication::quit();
         break;
@@ -76,18 +51,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_Escape:
         QApplication::quit();
-        break;
-    case Qt::Key_U:
-        SoundManager::getInstance()->playSound("angriff");
-        break;
-    case Qt::Key_I:
-        SoundManager::getInstance()->playSound("shot");
-        break;
-    case Qt::Key_O:
-        SoundManager::getInstance()->playSound("alarm");
-        break;
-    case Qt::Key_M:
-        SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
@@ -111,7 +74,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
 void EventHandler::keyReleaseEvent(Qt::Key key)
 {
     auto movement = m_game->scene()->camera().movement();
-    auto rotation = m_game->scene()->camera().rotation();
 
     switch(key)
     {
@@ -129,30 +91,6 @@ void EventHandler::keyReleaseEvent(Qt::Key key)
         break;
     case Qt::Key_D:
         movement.setX(0.0);
-        m_game->scene()->camera().setMovement(movement);
-        break;
-    case Qt::Key_Left:
-        rotation.setX(0.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Right:
-        rotation.setX(0.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Up:
-        rotation.setY(0.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_Down:
-        rotation.setY(0.0);
-        m_game->scene()->camera().setRotation(rotation);
-        break;
-    case Qt::Key_R:
-        movement.setY(0.0);
-        m_game->scene()->camera().setMovement(movement);
-        break;
-    case Qt::Key_F:
-        movement.setY(0.0);
         m_game->scene()->camera().setMovement(movement);
         break;
     default:
