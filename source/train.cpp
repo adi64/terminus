@@ -142,11 +142,6 @@ unsigned int Train::size() const
     return m_wagons.size();
 }
 
-bool Train::canCollide() const
-{
-    return false;
-}
-
 void Train::calculateWagonOffset()
 {
     const auto wagonGap = 0.3f;

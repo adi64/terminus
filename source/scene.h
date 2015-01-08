@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include <QObject>
 #include <QOpenGLFunctions>
@@ -22,7 +23,7 @@ class Scene : public QObject
 {
     Q_OBJECT
 public:
-    Scene(btDiscreteDynamicsWorld *bulletWorld);
+    Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld);
     ~Scene();
 
     void update(int elapsedMilliseconds);
@@ -39,7 +40,7 @@ private:
     QOpenGLFunctions m_gl;
     std::vector<AbstractGraphicsObject*> m_nodes;
     QTime *m_timeStamp;
-    btDiscreteDynamicsWorld *m_bullet_world;
+    std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
 
 };
 

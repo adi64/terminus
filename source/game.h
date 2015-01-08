@@ -56,9 +56,7 @@ protected:
     std::unique_ptr<btDefaultCollisionConfiguration> m_bullet_collisionConfiguration;
     std::unique_ptr<btCollisionDispatcher> m_bullet_dispatcher;
     std::unique_ptr<btSequentialImpulseConstraintSolver> m_bullet_solver;
-    std::unique_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
-
-    std::unique_ptr<btRigidBody> m_fallRigidBody;
+    std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
 };
 
 }

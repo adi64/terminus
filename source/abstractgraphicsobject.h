@@ -6,8 +6,6 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 namespace terminus
 {
 
@@ -28,14 +26,12 @@ public:
     virtual QVector3D eulerAngles() const;
     virtual QVector3D scaling() const;
     virtual QMatrix4x4 modelMatrix() const;
-    virtual bool canCollide() const;
 protected:
     Scene *m_scene;
     QVector3D m_position;
     QVector3D m_eulerAngles;
     QVector3D m_scaling;
     QMatrix4x4 m_modelMatrix;
-    std::unique_ptr<btRigidBody> m_bullet_rigidBody;
 };
 
 }

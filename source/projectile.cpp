@@ -14,12 +14,12 @@ namespace terminus
 {
 
 Projectile::Projectile(Scene *scene)
-    : AbstractGraphicsObject(scene)
+    : AbstractPhysicsObject(scene)
 {   
     auto shape = new btSphereShape(1.0);
 
-    auto rotationQuaternion = btQuaternion(eulerAngles().x(), eulerAngles().y(), eulerAngles().z(), 1.0);
-    auto positionVector = btVector3(position().x(), position().y(), position().z());
+    auto rotationQuaternion = btQuaternion(0.0, 0.0, 0.0, 1.0);
+    auto positionVector = btVector3(m_position.x(), m_position.y(), m_position.z());
 
     auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
 
@@ -36,41 +36,9 @@ Projectile::Projectile(Scene *scene)
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }
 
-void Projectile::setPosition(const QVector3D &newPosition)
-{
-    AbstractGraphicsObject::setPosition(newPosition);
-
-    /*
-    btTransform worldTransform;
-
-    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->getMotionState()->getWorldTransform(worldTransform);
-
-    worldTransform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
-
-    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->getMotionState()->setWorldTransform(worldTransform);
-
-
-
-    qDebug() << "TODO: Set new Position of projectile";
-    */
-}
-
-void Projectile::applyForce(const QVector3D &force)
-{
-    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->applyCentralForce(btVector3(force.x(), force.y(), force.z()));
-}
-
 void Projectile::update(int elapsedMilliseconds)
 {
-    AbstractGraphicsObject::update(elapsedMilliseconds);
-
-
-    btTransform transform;
-    m_bullet_rigidBody->getMotionState()->getWorldTransform(transform);
-
-    auto rigidBodyPosition = transform.getOrigin();
-
-    setPosition(QVector3D(rigidBodyPosition.getX(), rigidBodyPosition.getY(), rigidBodyPosition.getZ()));
+    AbstractPhysicsObject::update(elapsedMilliseconds);
 
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
@@ -78,7 +46,6 @@ void Projectile::update(int elapsedMilliseconds)
         // please delete
     }
 }
-
 
 void Projectile::render(QOpenGLFunctions& gl) const
 {

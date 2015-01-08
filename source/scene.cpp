@@ -13,18 +13,20 @@
 namespace terminus
 {
 
-Scene::Scene(btDiscreteDynamicsWorld *bulletWorld)
+Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld)
 : m_camera(new Camera())
 , m_gl()
 , m_timeStamp(nullptr)
 , m_bullet_world(bulletWorld)
 {
     m_nodes.clear();
+    qDebug() << m_bullet_world.use_count();
 }
 
 Scene::~Scene()
 {
     delete m_camera;
+    m_camera = nullptr;
 }
 
 void Scene::addNode(AbstractGraphicsObject *node)
@@ -91,7 +93,7 @@ Camera & Scene::camera()
 
 btDiscreteDynamicsWorld *Scene::bullet_world()
 {
-    return m_bullet_world;
+    return m_bullet_world.get();
 }
 
 } // namespace terminus

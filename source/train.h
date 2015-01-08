@@ -32,8 +32,6 @@ public:
     float travelledDistance() const;
     unsigned int size() const;
 
-    bool canCollide() const override;
-
 private:
     void calculateWagonOffset();
 

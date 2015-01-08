@@ -2,20 +2,20 @@
 
 #include <memory>
 
-#include "abstractgraphicsobject.h"
+#include "abstractphysicsobject.h"
+#include "track.h"
 
 namespace terminus
 {
 
 class Track;
 
-class Terrain : public AbstractGraphicsObject
+class Terrain : public AbstractPhysicsObject
 {
 public:
     Terrain(Scene *scene);
-    ~Terrain();
 
-    void update(int elapsedMilliseconds);
+    void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
 
     Track *playerTrack() const;

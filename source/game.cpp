@@ -57,7 +57,7 @@ Game::Game()
                 );
     m_bullet_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    m_scene = new Scene(m_bullet_dynamicsWorld.get());
+    m_scene = new Scene(m_bullet_dynamicsWorld);
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -105,32 +105,12 @@ Game::Game()
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
     m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
-
-
-    // physics tests
-
-    btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-
-    btCollisionShape* fallShape = new btSphereShape(1);
-
-    btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-    btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
-    btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
-    m_bullet_dynamicsWorld->addRigidBody(groundRigidBody);
-
-    btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-    btScalar mass = 1;
-    btVector3 fallInertia(0, 0, 0);
-    fallShape->calculateLocalInertia(mass, fallInertia);
-    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, fallShape, fallInertia);
-
-    m_fallRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(fallRigidBodyCI));
-    m_bullet_dynamicsWorld->addRigidBody(m_fallRigidBody.get());
 }
 
 Game::~Game()
 {
     delete m_scene;
+    m_scene = nullptr;
 }
 
 void Game::sync()
@@ -139,12 +119,6 @@ void Game::sync()
 
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
-
-    btTransform trans;
-    m_fallRigidBody->getMotionState()->getWorldTransform(trans);
-
-    qDebug() << "sphere height: " << trans.getOrigin().getY();
-
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());

@@ -2,8 +2,6 @@
 
 #include <QDebug>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include "scene.h"
 
 namespace terminus
@@ -55,11 +53,6 @@ QVector3D AbstractGraphicsObject::scaling() const
 QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 {
     return m_modelMatrix;
-}
-
-bool AbstractGraphicsObject::canCollide() const
-{
-    return true;
 }
 
 }
