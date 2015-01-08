@@ -28,9 +28,12 @@ SOURCES += \
 
 RESOURCES += qml.qrc
 
+INCLUDEPATH += ../bullet/install/include
 INCLUDEPATH += ../bullet/install/include/bullet
 
-LIBS += -L../bullet/install/lib -lBulletDynamics -lBulletCollision -lLinearMath
+BULLET_LIB_PATH = $$_PRO_FILE_PWD_/../bullet/install/lib
+
+LIBS += -L$$BULLET_LIB_PATH -lBulletDynamics -lBulletCollision -lLinearMath
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
