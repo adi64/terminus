@@ -13,6 +13,7 @@ public:
     Projectile(Scene *scene);
 
     void setPosition(const QVector3D &newPosition) override;
+    void applyForce(const QVector3D &force);
 
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;

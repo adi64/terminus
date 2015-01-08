@@ -40,7 +40,24 @@ void Projectile::setPosition(const QVector3D &newPosition)
 {
     AbstractGraphicsObject::setPosition(newPosition);
 
+    /*
+    btTransform worldTransform;
+
+    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->getMotionState()->getWorldTransform(worldTransform);
+
+    worldTransform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
+
+    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->getMotionState()->setWorldTransform(worldTransform);
+
+
+
     qDebug() << "TODO: Set new Position of projectile";
+    */
+}
+
+void Projectile::applyForce(const QVector3D &force)
+{
+    static_cast<btRigidBody*>(m_bullet_rigidBody.get())->applyCentralForce(btVector3(force.x(), force.y(), force.z()));
 }
 
 void Projectile::update(int elapsedMilliseconds)

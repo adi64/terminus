@@ -22,6 +22,7 @@ void WeaponWagon::primaryAction()
     qDebug() << "adding projectile";
     auto projectile = new Projectile(m_scene);
     projectile->setPosition(position() + QVector3D(0.0, 6.0, 2.0));
+    projectile->applyForce(QVector3D(0.0, 300.0, 500.0));
 
     m_scene->addNode(projectile);
 }
