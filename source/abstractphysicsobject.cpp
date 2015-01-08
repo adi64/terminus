@@ -42,9 +42,6 @@ void AbstractPhysicsObject::applyForce(const QVector3D &force)
 
 void AbstractPhysicsObject::setPosition(const QVector3D &newPosition)
 {
-
-    qDebug() << "setting new position: " << newPosition;
-
     AbstractGraphicsObject::setPosition(newPosition);
 
     btTransform worldTransform;

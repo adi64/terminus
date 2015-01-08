@@ -23,7 +23,7 @@ Terrain::Terrain(Scene *scene)
 
     auto shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
 
-    auto rotationQuaternion = btQuaternion(0.0, 0.0, 0.0, 1.0);
+    auto rotationQuaternion = btQuaternion(m_eulerAngles.x(), m_eulerAngles.y(), m_eulerAngles.z(), 1.0);
     auto positionVector = btVector3(m_position.x(), m_position.y(), m_position.z());
 
     auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));

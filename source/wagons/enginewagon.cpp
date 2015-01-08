@@ -17,6 +17,24 @@ namespace terminus
 EngineWagon::EngineWagon(Scene *scene, Train *train)
 : AbstractWagon(scene, train)
 {
+    auto shape = new btSphereShape(1.0);
+
+    auto rotationQuaternion = btQuaternion(m_eulerAngles.x(), m_eulerAngles.y(), m_eulerAngles.z(), 1.0);
+    auto positionVector = btVector3(m_position.x(), m_position.y(), m_position.z());
+
+    auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
+
+    auto mass = btScalar(1000.0);
+
+    auto inertia = btVector3(0.0, 0.0, 0.0);
+
+    shape->calculateLocalInertia(mass, inertia);
+
+    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, shape, inertia);
+
+    m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
+
+    m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }
 
 void EngineWagon::render(QOpenGLFunctions& gl) const

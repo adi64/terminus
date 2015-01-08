@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../abstractgraphicsobject.h"
+#include "../abstractphysicsobject.h"
 
 namespace terminus
 {
@@ -8,12 +8,14 @@ namespace terminus
 class Scene;
 class Train;
 
-class AbstractWagon : public AbstractGraphicsObject
+class AbstractWagon : public AbstractPhysicsObject
 {
 public:
     AbstractWagon(Scene *scene, Train *train);
 
     virtual void primaryAction();
+
+    virtual void update(int elapsedMilliseconds) override;
 
     virtual float length() const;
     virtual float weight() const;

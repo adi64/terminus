@@ -10,7 +10,7 @@ namespace terminus
 {
 
 AbstractWagon::AbstractWagon(Scene *scene, Train *train)
-    : AbstractGraphicsObject(scene)
+    : AbstractPhysicsObject(scene)
     , m_train(train)
 {
 }
@@ -18,6 +18,23 @@ AbstractWagon::AbstractWagon(Scene *scene, Train *train)
 void AbstractWagon::primaryAction()
 {
 
+}
+
+void AbstractWagon::update(int elapsedMilliseconds)
+{
+    //AbstractPhysicsObject::update(elapsedMilliseconds);
+
+    // compatibility for physics
+    setPosition(position());
+
+    auto angles = eulerAngles();
+
+    m_modelMatrix.setToIdentity();
+    m_modelMatrix.translate(position());
+    m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
+    m_modelMatrix.scale(scaling());
+
+    qDebug() << "my position: " << position() << "phys: " << AbstractPhysicsObject::position();
 }
 
 float AbstractWagon::length() const
