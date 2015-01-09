@@ -2,6 +2,7 @@
 
 #include <QOpenGLFunctions>
 #include <QVector3D>
+#include <QMatrix4x4>
 
 namespace terminus
 {
@@ -12,15 +13,20 @@ class AbstractGraphicsObject
 {
 public:
     AbstractGraphicsObject(Scene* scene);
-    virtual void render(QOpenGLFunctions & gl, int elapsedMilliseconds) = 0;
+    virtual void update(int elapsedMilliseconds) = 0;
+    virtual void render(QOpenGLFunctions & gl) const = 0;
 
-    qreal calculateDistance();
+    qreal calculateDistance() const;
 
     void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
+    QVector3D eulerAngles() const;
+    QMatrix4x4 modelMatrix() const;
 protected:
     Scene *m_scene;
     QVector3D m_position;
+    QVector3D m_eulerAngles;
+    QMatrix4x4 m_modelMatrix;
 };
 
 }

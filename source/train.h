@@ -24,10 +24,13 @@ public:
     void removeWagon(unsigned int index);
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
-    void render(QOpenGLFunctions &gl, int elapsedMilliseconds);
+    void update(int elapsedMilliseconds);
+    void render(QOpenGLFunctions &gl) const override;
 
+    AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
     float travelledDistance() const;
+    unsigned int size() const;
 
 private:
     void calculateWagonOffset();

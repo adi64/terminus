@@ -5,13 +5,12 @@
 #include <limits.h>
 
 #include <regex>
+#include <fstream>
 #include <string>
 #include <sstream>
 #include <algorithm>
 #include <map>
 
-#include <QFile>
-#include <QString>
 #include <QDebug> //TODO remove in the end
 
 namespace terminus
@@ -100,20 +99,13 @@ void ResourceManager::loadObj(std::string path)
 
     std::string objectName;
 
-    std::regex indexPattern("([-]?[0-9]+)(?:[/]([-]?[0-9]*)(?:[/]([-]?[0-9]*))?)?");
+    std::ifstream objFile(path);
+    std::string line;
 
-    QFile objFile(path.c_str());
-    if (!objFile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug() << "FATAL: *.obj file can not be opened";
-        return;
-    }
-    QTextStream objStream(&objFile);
-
-    while(!objStream.atEnd())
+    while(std::getline(objFile, line))
     {
         std::string lineHeader;
-        std::stringstream lineStream(objStream.readLine().toStdString());
+        std::stringstream lineStream(line);
         lineStream >> lineHeader;
 
         if(lineHeader == "v")
@@ -139,6 +131,7 @@ void ResourceManager::loadObj(std::string path)
         }
         else if(lineHeader == "f")
         {
+            std::regex indexPattern("([-]?[0-9]+)(?:[/]([-]?[0-9]*)(?:[/]([-]?[0-9]*))?)?");
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
@@ -219,18 +212,14 @@ void ResourceManager::loadMtl(std::string path)
     std::map<std::string, QVector4D> uniforms;
     std::string objectName;
 
-    QFile mtlFile(path.c_str());
-    if (!mtlFile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug() << "FATAL: *.obj file can not be opened";
-        return;
-    }
-    QTextStream mtlStream(&mtlFile);
+    std::ifstream mtlFile(path);
+    std::string line;
 
-    while(!mtlStream.atEnd())
+    while(std::getline(mtlFile, line))
     {
         std::string lineHeader;
-        std::stringstream lineStream(mtlStream.readLine().toStdString());
+
+        std::stringstream lineStream(line);
         lineStream >> lineHeader;
 
         if(lineHeader == "uniform"){

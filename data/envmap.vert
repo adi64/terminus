@@ -1,10 +1,9 @@
 uniform mat4 mProjectionInv;
 uniform mat4 mView;
 
-attribute vec3 a_vertex;
+in vec3 a_vertex;
 
-
-varying vec3 v_eye;
+out vec3 v_eye;
 
 void main()
 {

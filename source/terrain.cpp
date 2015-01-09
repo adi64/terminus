@@ -48,9 +48,9 @@ void Terrain::update(int elapsedMilliseconds)
 void Terrain::render(QOpenGLFunctions& gl) const
 {
     // render terrain
-    Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
+    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_Terrain"));
 
     for(int iX = 0; iX < m_levelGen.patchesX(); iX++)
     {

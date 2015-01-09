@@ -23,7 +23,8 @@ SOURCES += \
     source/resources/soundmanager.cpp \
     source/skybox.cpp \
     source/resources/program.cpp \
-    source/levelgenerator.cpp
+    source/levelgenerator.cpp \
+    source/eventhandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -52,4 +53,5 @@ HEADERS += \
     source/resources/soundmanager.h \
     source/resources/program.h \
     source/skybox.h \
+    source/eventhandler.h
     source/levelgenerator.h

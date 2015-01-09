@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtSensors 5.3
 import terminus 1.0
 
 Item {
@@ -29,23 +30,62 @@ Item {
         }
     }
 
-    Rectangle {
-        color: Qt.rgba(1, 1, 1, 0.7)
-        radius: 10
-        border.width: 1
-        border.color: "white"
-        anchors.fill: label
-        anchors.margins: -10
+    PinchArea {
+        id: pinch
+        anchors.fill: parent
+        onPinchStarted: {
+
+        }
+        onPinchFinished: {
+
+        }
+
+        //TODO implement pinch interaction
     }
 
-    Text {
-        id: label
-        color: "black"
-        wrapMode: Text.WordWrap
-        text: "Terminus 0.0.2 Alpha - 'Space' to unlock: WASD movement, FPS-style camera, 'q' quits"
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.margins: 20
+    MultiPointTouchArea {
+        id: multitouch
+        anchors.fill: parent
+        minimumTouchPoints: 1
+        touchPoints: [
+            TouchPoint { id: touch1 },
+            TouchPoint { id: touch2 }
+        ]
+
+        property int flicked: 0
+
+        function sendEvent()
+        {
+            if(touch1.previousX - touch1.x > 80 || touch1.previousX - touch1.x < -80)
+            {
+                if(flicked === 0)
+                {
+                    terminusGame.flickEvent(touch1.previousX - touch1.x);
+                    flicked = 1;
+                }
+            }
+            else
+            {
+                if(flicked === 0)
+                {
+                    terminusGame.touchMoveEvent(touch1.previousX - touch1.x, touch1.previousY - touch1.y);
+                }
+            }
+        }
+
+        onTouchUpdated: {
+            sendEvent()
+        }
+        onReleased:
+            flicked = 0
+    }
+
+    Gyroscope {
+        id: gyro
+        dataRate: 100
+        active: true
+        onReadingChanged: {
+            terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
+        }
     }
 }

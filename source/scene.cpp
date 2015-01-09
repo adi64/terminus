@@ -34,6 +34,19 @@ void Scene::setInitialTimeStamp(QTime *timeStamp)
     m_timeStamp = timeStamp;
 }
 
+void Scene::update()
+{
+    auto elapsedMilliseconds = m_timeStamp->restart();
+
+    for(auto node : m_nodes)
+    {
+        node->update(elapsedMilliseconds);
+    }
+
+    // camera updates after all other nodes because it can follow the position of other nodes
+    m_camera->update();
+}
+
 void Scene::render()
 {
 
@@ -43,8 +56,6 @@ void Scene::render()
         m_gl.initializeOpenGLFunctions();
         glInitialized = true;
     }
-
-    auto elapsedMilliseconds = m_timeStamp->restart();
 
     glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
 
@@ -63,7 +74,7 @@ void Scene::render()
 
     for(auto node : m_nodes)
     {
-        node->render(m_gl, elapsedMilliseconds);
+        node->render(m_gl);
     }
 
     glDisable(GL_BLEND);
