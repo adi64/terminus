@@ -93,7 +93,7 @@ Game::~Game()
 void Game::sync()
 {
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
-    m_scene->camera().setViewport(window()->width(), window()->height());
+    m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
 
     m_scene->update();
 }

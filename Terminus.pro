@@ -2,7 +2,7 @@ TEMPLATE = app
 
 CONFIG += c++11
 
-QT += qml quick widgets multimedia
+QT += qml quick widgets multimedia sensors
 
 SOURCES += \
     source/wagons/abstractwagon.cpp \
