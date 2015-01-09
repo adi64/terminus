@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "abstractgraphicsobject.h"
+#include "levelgenerator.h"
 
 namespace terminus
 {
@@ -23,6 +24,8 @@ public:
 protected:
     std::unique_ptr<Track> m_playerTrack;
     std::unique_ptr<Track> m_enemyTrack;
+
+    LevelGenerator m_levelGen;
 };
 
 }

@@ -22,7 +22,8 @@ SOURCES += \
     source/resources/resourcemanager.cpp \
     source/resources/soundmanager.cpp \
     source/skybox.cpp \
-    source/resources/program.cpp
+    source/resources/program.cpp \
+    source/levelgenerator.cpp
 
 RESOURCES += qml.qrc
 
@@ -50,11 +51,5 @@ HEADERS += \
     source/resources/material.h \
     source/resources/soundmanager.h \
     source/resources/program.h \
-    source/skybox.h
-
-
-OTHER_FILES += \
-    data/basicShader.frag \
-    data/basicShader.vert \
-    data/envmap.frag \
-    data/envmap.vert
+    source/skybox.h \
+    source/levelgenerator.h
