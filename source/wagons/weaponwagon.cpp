@@ -32,6 +32,8 @@ WeaponWagon::WeaponWagon(Scene *scene, Train *train)
 
     m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
+    m_bullet_rigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
+
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }
 
@@ -40,7 +42,7 @@ void WeaponWagon::primaryAction()
     qDebug() << "adding projectile";
     auto projectile = new Projectile(m_scene);
     projectile->setPosition(position() + QVector3D(0.0, 1.0, 2.2));
-    projectile->applyForce(QVector3D(0.0, 300.0, 300.0));
+    projectile->applyForce(QVector3D(0.0, 100.0, 300.0));
 
     m_scene->addNode(projectile);
 }

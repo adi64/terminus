@@ -34,6 +34,8 @@ EngineWagon::EngineWagon(Scene *scene, Train *train)
 
     m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
+    m_bullet_rigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
+
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }
 
