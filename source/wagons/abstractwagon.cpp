@@ -10,7 +10,7 @@ namespace terminus
 {
 
 AbstractWagon::AbstractWagon(Scene *scene, Train *train)
-    : AbstractPhysicsObject(scene)
+    : KinematicPhysicsObject(scene)
     , m_train(train)
 {
 }
@@ -33,8 +33,6 @@ void AbstractWagon::update(int elapsedMilliseconds)
     m_modelMatrix.translate(position());
     m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
     m_modelMatrix.scale(scaling());
-
-    qDebug() << "my position: " << position() << "phys: " << AbstractPhysicsObject::position();
 }
 
 float AbstractWagon::length() const

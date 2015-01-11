@@ -14,7 +14,7 @@ namespace terminus
 {
 
 Projectile::Projectile(Scene *scene)
-    : AbstractPhysicsObject(scene)
+    : DynamicPhysicsObject(scene)
 {   
     auto shape = new btSphereShape(1.0);
 
@@ -38,7 +38,7 @@ Projectile::Projectile(Scene *scene)
 
 void Projectile::update(int elapsedMilliseconds)
 {
-    AbstractPhysicsObject::update(elapsedMilliseconds);
+    DynamicPhysicsObject::update(elapsedMilliseconds);
 
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())

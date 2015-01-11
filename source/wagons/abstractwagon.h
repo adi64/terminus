@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../abstractphysicsobject.h"
+#include "../kinematicphysicsobject.h"
 
 namespace terminus
 {
@@ -8,7 +8,7 @@ namespace terminus
 class Scene;
 class Train;
 
-class AbstractWagon : public AbstractPhysicsObject
+class AbstractWagon : public KinematicPhysicsObject
 {
 public:
     AbstractWagon(Scene *scene, Train *train);

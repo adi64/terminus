@@ -2,12 +2,12 @@
 
 #include <memory>
 
-#include "abstractphysicsobject.h"
+#include "dynamicphysicsobject.h"
 
 namespace terminus
 {
 
-class Projectile : public AbstractPhysicsObject
+class Projectile : public DynamicPhysicsObject
 {
 public:
     Projectile(Scene *scene);

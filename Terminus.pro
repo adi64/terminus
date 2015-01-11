@@ -25,7 +25,9 @@ SOURCES += \
     source/resources/program.cpp \
     source/eventhandler.cpp \
     source/projectile.cpp \
-    source/abstractphysicsobject.cpp
+    source/abstractphysicsobject.cpp \
+    source/dynamicphysicsobject.cpp \
+    source/kinematicphysicsobject.cpp
 
 RESOURCES += qml.qrc
 
@@ -63,4 +65,6 @@ HEADERS += \
     source/skybox.h \
     source/eventhandler.h \
     source/projectile.h \
-    source/abstractphysicsobject.h
+    source/abstractphysicsobject.h \
+    source/dynamicphysicsobject.h \
+    source/kinematicphysicsobject.h

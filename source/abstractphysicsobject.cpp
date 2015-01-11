@@ -27,12 +27,7 @@ AbstractPhysicsObject::~AbstractPhysicsObject()
 
 void AbstractPhysicsObject::update(int elapsedMilliseconds)
 {
-    auto angles = eulerAngles();
-
-    m_modelMatrix.setToIdentity();
-    m_modelMatrix.translate(position());
-    m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
-    m_modelMatrix.scale(scaling());
+    AbstractGraphicsObject::update(elapsedMilliseconds);
 }
 
 void AbstractPhysicsObject::applyForce(const QVector3D &force)
