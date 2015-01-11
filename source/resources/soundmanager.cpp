@@ -35,21 +35,25 @@ void SoundManager::initialize()
 {
     QSoundEffect * soundOne = new QSoundEffect();
     soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
+    soundOne->setCategory(QString("eins"));
     m_sounds["alarm"] = soundOne;
 
     QSoundEffect * soundTwo = new QSoundEffect();
     soundTwo->setVolume(0.05);
     soundTwo->setSource(QUrl::fromLocalFile("sounds/angriff.wav"));
+    soundTwo->setCategory(QString("zwei"));
     m_sounds["angriff"] = soundTwo;
 
     QSoundEffect * soundThree = new QSoundEffect();
     soundThree->setVolume(0.9);
     soundThree->setSource(QUrl::fromLocalFile("sounds/shot.wav"));
+    soundThree->setCategory(QString("drei"));
     m_sounds["shot"] = soundThree;
 
     QSoundEffect * soundFour = new QSoundEffect();
     soundFour->setSource(QUrl::fromLocalFile("sounds/engin/machine.wav"));
     soundFour->setVolume(0.1);
+    soundFour->setCategory(QString("vier"));
     m_sounds["machine"] = soundFour;
 
     m_mediaPlayer = new QMediaPlayer();
@@ -68,16 +72,9 @@ void SoundManager::run(qreal vol, QString file)
     if(m_sourceFile.open(QIODevice::ReadOnly))
     {
         m_sourceFile.seek(44);
-        //QByteArray audio_data = sourceFile.readAll();
-        //sourceFile.close();
-
-        //QBuffer * audio_buffer = new QBuffer(&audio_data);
-        //audio_buffer.open(QIODevice::ReadOnly);
-        //qDebug() << audio_buffer->size();
-
         QAudioFormat format;
 
-        format.setSampleSize(16); //TODO
+        format.setSampleSize(16);
         format.setSampleRate(11025);
         format.setChannelCount(1);
         format.setCodec("audio/pcm");
