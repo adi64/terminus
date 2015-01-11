@@ -34,6 +34,21 @@ void Scene::addNode(AbstractGraphicsObject *node)
     m_nodes.push_back(node);
 }
 
+void Scene::deleteNode(AbstractGraphicsObject *node)
+{
+    for(auto iterator = m_nodes.begin(); iterator != m_nodes.end(); ++iterator)
+    {
+        if(*iterator == node)
+        {
+            qDebug() << "Found node " << node << " - deleting";
+            m_nodes.erase(iterator);
+            return;
+        }
+    }
+
+    qDebug() << "Could not find node " << node;
+}
+
 void Scene::setInitialTimeStamp(QTime *timeStamp)
 {
     m_timeStamp = timeStamp;

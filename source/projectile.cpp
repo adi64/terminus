@@ -44,7 +44,13 @@ void Projectile::update(int elapsedMilliseconds)
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
-        // please delete
+        // delete node
+
+        // TODO FIXME this requires event synchronization,
+        // otherwise it will mess up the Scene::update routine
+
+        //m_scene->deleteNode(this);
+        //delete(this);
     }
 }
 

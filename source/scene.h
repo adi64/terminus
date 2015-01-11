@@ -33,6 +33,8 @@ public:
     btDiscreteDynamicsWorld* bullet_world();
 
     void addNode(AbstractGraphicsObject* node);
+    void deleteNode(AbstractGraphicsObject* node);
+
     void setInitialTimeStamp(QTime *timeStamp);
 protected:
 private:
