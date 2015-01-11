@@ -17,8 +17,6 @@ public:
     virtual void update(int elapsedMilliseconds) override;
 
     void applyForce(const QVector3D &force);
-
-    virtual void setPosition(const QVector3D& newPosition) override;
 };
 
 }

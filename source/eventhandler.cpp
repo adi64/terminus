@@ -58,10 +58,10 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_I:
         SoundManager::getInstance()->playSound("shot");
-        if(m_game->scene()->camera().isLocked())
-        {
+        //if(m_game->scene()->camera().isLocked())
+        //{
             m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
-        }
+        //}
         break;
     case Qt::Key_O:
         SoundManager::getInstance()->playSound("alarm");

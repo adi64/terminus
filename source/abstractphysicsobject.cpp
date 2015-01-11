@@ -39,11 +39,9 @@ void AbstractPhysicsObject::setPosition(const QVector3D &newPosition)
 {
     AbstractGraphicsObject::setPosition(newPosition);
 
-    btTransform worldTransform;
-    m_bullet_rigidBody->getMotionState()->getWorldTransform(worldTransform);
-
-    worldTransform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
-    m_bullet_rigidBody->getMotionState()->setWorldTransform(worldTransform);
+    btTransform transform = m_bullet_rigidBody->getCenterOfMassTransform();
+    transform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
+    m_bullet_rigidBody->setCenterOfMassTransform(transform);
 }
 
 QVector3D AbstractPhysicsObject::position() const

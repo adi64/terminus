@@ -15,8 +15,6 @@ public:
     KinematicPhysicsObject(Scene* scene);
 
     virtual void update(int elapsedMilliseconds) override;
-
-    virtual void setPosition(const QVector3D& newPosition) override;
 };
 
 }

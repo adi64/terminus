@@ -29,9 +29,4 @@ void DynamicPhysicsObject::applyForce(const QVector3D &force)
     m_bullet_rigidBody->applyCentralForce(btVector3(force.x(), force.y(), force.z()));
 }
 
-void DynamicPhysicsObject::setPosition(const QVector3D &newPosition)
-{
-    qDebug() << "You cannot set the position of a DynamicPhysicsObject!";
-}
-
 }

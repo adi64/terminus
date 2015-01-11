@@ -24,15 +24,4 @@ void KinematicPhysicsObject::update(int elapsedMilliseconds)
     m_modelMatrix.scale(scaling());
 }
 
-void KinematicPhysicsObject::setPosition(const QVector3D &newPosition)
-{
-    AbstractGraphicsObject::setPosition(newPosition);
-
-    btTransform worldTransform;
-    m_bullet_rigidBody->getMotionState()->getWorldTransform(worldTransform);
-
-    worldTransform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
-    m_bullet_rigidBody->getMotionState()->setWorldTransform(worldTransform);
-}
-
 }
