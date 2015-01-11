@@ -9,12 +9,10 @@
 namespace terminus
 {
 
-class Scene;
-
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {
 public:
-    AbstractPhysicsObject(Scene* scene);
+    AbstractPhysicsObject(const std::shared_ptr<Scene> &scene);
     ~AbstractPhysicsObject();
 
     virtual void update(int elapsedMilliseconds) override;

@@ -7,12 +7,20 @@
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(Scene *scene)
+AbstractGraphicsObject::AbstractGraphicsObject(const std::shared_ptr<Scene> &scene)
     : m_scene(scene)
     , m_position(0.0, 0.0, 0.0)
     , m_eulerAngles(0.0, 0.0, 0.0)
     , m_scaling(1.0, 1.0, 1.0)
 {
+}
+
+AbstractGraphicsObject::~AbstractGraphicsObject()
+{
+    // do not delete this destructor, even if it is empty
+    // otherwise std::shared_ptr<IncompleteType> in the header will break
+    //
+    // ... :D
 }
 
 void AbstractGraphicsObject::update(int elapsedMilliseconds)

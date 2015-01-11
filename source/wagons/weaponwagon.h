@@ -8,7 +8,7 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon(Scene *scene, Train *train);
+    WeaponWagon(const std::shared_ptr<Scene> &scene, Train *train);
 
     void primaryAction() override;
 

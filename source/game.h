@@ -7,6 +7,8 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
+#include "scene.h"
+
 class QTimer;
 class QTime;
 
@@ -14,7 +16,7 @@ namespace terminus
 {
 
 class Train;
-class Scene;
+//class Scene;
 class EventHandler;
 class Terrain;
 class ResourceManager;
@@ -42,7 +44,7 @@ public slots:
     void gyroMoveEvent(qreal x, qreal y);
     void flickEvent(qreal velo);
 protected:
-    Scene *m_scene;
+    std::shared_ptr<Scene> m_scene;
     std::unique_ptr<EventHandler> m_eventHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;

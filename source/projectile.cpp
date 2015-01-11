@@ -13,8 +13,9 @@
 namespace terminus
 {
 
-Projectile::Projectile(Scene *scene)
+Projectile::Projectile(const std::shared_ptr<Scene> &scene)
     : DynamicPhysicsObject(scene)
+    , m_ageInMilliseconds(0)
 {   
     auto shape = new btSphereShape(1.0);
 

@@ -7,12 +7,10 @@
 namespace terminus
 {
 
-class Scene;
-
 class DynamicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    DynamicPhysicsObject(Scene* scene);
+    DynamicPhysicsObject(const std::shared_ptr<Scene> &scene);
 
     virtual void update(int elapsedMilliseconds) override;
 

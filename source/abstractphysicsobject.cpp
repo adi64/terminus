@@ -9,7 +9,7 @@
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(Scene *scene)
+AbstractPhysicsObject::AbstractPhysicsObject(const std::shared_ptr<Scene> &scene)
     : AbstractGraphicsObject(scene)
 {
 }
@@ -17,12 +17,10 @@ AbstractPhysicsObject::AbstractPhysicsObject(Scene *scene)
 AbstractPhysicsObject::~AbstractPhysicsObject()
 {
     // TODO FIXME: this breaks on teardown because m_scene pointer is dangling
-    /*
-    if(m_scene && m_scene->bullet_world() && m_bullet_rigidBody.get())
-    {
-        m_scene->bullet_world()->removeRigidBody(m_bullet_rigidBody.get());
-    }
-    */
+//    if(m_scene.get() && m_scene->bullet_world() && m_bullet_rigidBody.get())
+//    {
+//        m_scene->bullet_world()->removeRigidBody(m_bullet_rigidBody.get());
+//    }
 }
 
 void AbstractPhysicsObject::update(int elapsedMilliseconds)

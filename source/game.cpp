@@ -57,7 +57,7 @@ Game::Game()
                 );
     m_bullet_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    m_scene = new Scene(m_bullet_dynamicsWorld);
+    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld));
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -109,8 +109,10 @@ Game::Game()
 
 Game::~Game()
 {
-    delete m_scene;
-    m_scene = nullptr;
+    // do not delete this destructor, even if it is empty
+    // otherwise std::shared_ptr<IncompleteType> in the header will break
+    //
+    // ... :D
 }
 
 void Game::sync()
@@ -184,7 +186,7 @@ void Game::flickEvent(qreal velo)
 
 Scene *Game::scene() const
 {
-    return m_scene;
+    return m_scene.get();
 }
 
 Train *Game::playerTrain() const

@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(Scene *scene, Train *train)
+WeaponWagon::WeaponWagon(const std::shared_ptr<Scene> &scene, Train *train)
 : AbstractWagon(scene, train)
 {
     auto shape = new btBoxShape(btVector3(2.5, 1.0, 1.0));

@@ -6,15 +6,16 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 
+#include "scene.h"
+
 namespace terminus
 {
-
-class Scene;
 
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject(Scene* scene);
+    AbstractGraphicsObject(const std::shared_ptr<Scene>& scene);
+    virtual ~AbstractGraphicsObject();
 
     virtual void update(int elapsedMilliseconds);
     virtual void render(QOpenGLFunctions & gl) const = 0;
@@ -27,7 +28,7 @@ public:
     virtual QVector3D scaling() const;
     virtual QMatrix4x4 modelMatrix() const;
 protected:
-    Scene *m_scene;
+    std::shared_ptr<Scene> m_scene;
     QVector3D m_position;
     QVector3D m_eulerAngles;
     QVector3D m_scaling;

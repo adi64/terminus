@@ -4,14 +4,12 @@
 
 namespace terminus
 {
-
-class Scene;
 class Train;
 
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(Scene *scene, Train *train);
+    AbstractWagon(const std::shared_ptr<Scene> &scene, Train *train);
 
     virtual void primaryAction();
 
