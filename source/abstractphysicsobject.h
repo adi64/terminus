@@ -15,8 +15,6 @@ public:
     AbstractPhysicsObject(const std::shared_ptr<Scene> &scene);
     ~AbstractPhysicsObject();
 
-    virtual void update(int elapsedMilliseconds) override;
-
     void applyForce(const QVector3D &force);
 
     virtual void setPosition(const QVector3D& newPosition) override;

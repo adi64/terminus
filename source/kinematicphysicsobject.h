@@ -11,8 +11,6 @@ class KinematicPhysicsObject : public AbstractPhysicsObject
 {
 public:
     KinematicPhysicsObject(const std::shared_ptr<Scene> &scene);
-
-    virtual void update(int elapsedMilliseconds) override;
 };
 
 }
