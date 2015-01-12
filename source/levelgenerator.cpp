@@ -4,14 +4,13 @@
 #include <QVector4D>
 #include <QDebug>
 
+#include "mathutil.h"
+#include "perlinnoise.h"
+
 namespace terminus
 {
 
-float LevelGenerator::smoothstep(float e0, float e1, float x)
-{
-    x = std::min(std::max((x - e0)/(e1 - e0), 0.f), 1.f);
-    return x*x*x*(x*(x*6.f - 15.f) + 10.f);
-}
+
 
 LevelGenerator::LevelGenerator()
 : m_patchCountS(15)
@@ -157,7 +156,7 @@ void LevelGenerator::generateLevelTracks(){
         return;
 
     std::vector<QVector2D> controlPoints;
-    for(float x = 0.f; x < m_totalVertexCountS * m_vertexWidth; x += 16.f)
+    for(float x = 0.f; x < m_totalVertexCountS * m_vertexWidth; x += 64.f)
     {
         float z = static_cast<float>(rand() % 1000) / 1000.f * m_totalVertexCountT * m_vertexHeight;
         controlPoints.push_back(QVector2D(x, z));
@@ -173,44 +172,87 @@ void LevelGenerator::generateLevelTexImage(){
         return;
     generateLevelTracks();
 
+    m_noiseX = std::unique_ptr<PerlinNoise>(new PerlinNoise()); //use explicit seed?
+    m_noiseY = std::unique_ptr<PerlinNoise>(new PerlinNoise()); //use explicit seed?
+    m_noiseZ = std::unique_ptr<PerlinNoise>(new PerlinNoise()); //use explicit seed?
+
+    float scale = 0.1f;
 
     for(int iT = 0; iT < m_totalVertexCountT; iT++)
     {
         for(int iS = 0; iS < m_totalVertexCountS; iS++)
         {
-            setLevelTexture(iS, iT, 0.f, 0.f, 0.f, 0.f);
+            setTexComponent(iS, iT, 3, 0.f);
+            float dispScale = 0.5f;
+            float dX = m_noiseX->noise(iS * dispScale, iT * dispScale) * 0.125f,
+                    dZ = m_noiseZ->noise(iS * dispScale, iT * dispScale) * 0.125f;
+            setTexComponent(iS, iT, 0, dX);
+            setTexComponent(iS, iT, 2, dZ);
         }
     }
-
     for(float param = 0.0; param <= m_trackSpline->length(); param += 0.025)
     {
         setTrackEnvironment(m_trackSpline->getPosition(param));
     }
+    for(int iT = 0; iT < m_totalVertexCountT; iT++)
+    {
+        for(int iS = 0; iS < m_totalVertexCountS; iS++)
+        {
+            QVector2D point = vertexIDToPosition(QPoint(iS, iT));
+            float dX = getTexComponent(iS, iT, 0),
+                    dZ = getTexComponent(iS, iT, 2),
+                    fTrack = getTexComponent(iS, iT, 3);
+            point += QVector2D(dX, dZ);
+            float h = terrainHeight(point.x(), point.y(), fTrack);
+            setTexComponent(iS, iT, 1, h);
+        }
+    }
 
     m_texGenerated = true;
 }
-void LevelGenerator::setLevelTexture(int s, int t, float dx, float dy, float dz, float w)
+
+void LevelGenerator::setTexComponent(int s, int t, int component, float value)
 {
-    if(s < 0 || t < 0 || s >= totalVertexCountS() || t >= totalVertexCountT())
+    if(s < 0 || t < 0 || s >= totalVertexCountS() || t >= totalVertexCountT() || component < 0 || component >= 4)
         return;
 
-    int texelIndex = (t * totalVertexCountS() + s) * 4;
-    m_levelTexData[texelIndex]     = dx / 200.f + 0.5f;
-    m_levelTexData[texelIndex + 1] = dy / 200.f + 0.5f;
-    m_levelTexData[texelIndex + 2] = dz / 200.f + 0.5f;
-    m_levelTexData[texelIndex + 3] = w;
+    int texelIndex = (t * totalVertexCountS() + s) * 4 + component;
+    if(component == 3)
+    {
+        m_levelTexData[texelIndex] = value;
+    }
+    else
+    {
+        m_levelTexData[texelIndex] = value / 200.f + 0.5f;
+    }
 }
 
-QVector4D LevelGenerator::getLevelTexture(int s, int t)
+float LevelGenerator::getTexComponent(int s, int t, int component)
 {
-    if(s < 0 || t < 0 || s >= totalVertexCountS() || t >= totalVertexCountT())
-        return QVector4D();
+    if(s < 0 || t < 0 || s >= totalVertexCountS() || t >= totalVertexCountT() || component < 0 || component >= 4)
+        return 0.f;
 
-    int texelIndex = (t * totalVertexCountS() + s) * 4;
-    return QVector4D((m_levelTexData[texelIndex] - 0.5f) * 200,
-                      (m_levelTexData[texelIndex + 1] - 0.5f) * 200,
-                      (m_levelTexData[texelIndex + 2] - 0.5f) * 200,
-                       m_levelTexData[texelIndex + 3]);
+    int texelIndex = (t * totalVertexCountS() + s) * 4 + component;
+    if(component == 3)
+    {
+        return m_levelTexData[texelIndex];
+    }
+    else
+    {
+        return (m_levelTexData[texelIndex] - 0.5f) * 200.f;
+    }
+}
+
+float LevelGenerator::terrainHeight(float x, float z, float fTrack){
+    float trackHeight = 10.f;
+    float zMid = totalVertexCountT() * vertexHeight() / 2.f;
+    float fToBorder = MathUtil::smoothstep(36.f, 73.f, fabs(z - zMid));
+    float scale = 0.025f; //basic structure
+    float height = fToBorder * 20.f + m_noiseZ->noise(scale * x, scale * z) * (40.f + fToBorder * 20.f);
+    float fRockyness = MathUtil::smoothstep(20.f, 40.f, height);
+    scale = 0.2; //details
+    height += m_noiseZ->noise(scale * x, scale * z) * (1.f + fRockyness * 9.f);
+    return MathUtil::mix(height, trackHeight, fTrack);
 }
 
 void LevelGenerator::setTrackEnvironment(const QVector2D & pointOnTrack)
@@ -222,10 +264,14 @@ void LevelGenerator::setTrackEnvironment(const QVector2D & pointOnTrack)
         for(int iS = vid.x() - radius; iS <= vid.x() + radius; iS++)
         {
             QVector2D point = vertexIDToPosition(QPoint(iS, iT));
-            QVector4D displacement = getLevelTexture(iS, iT);
-            float dist = pointOnTrack.distanceToPoint(point);
-            float height = 1.f - smoothstep(0.f, 16.f, dist);
-            setLevelTexture(iS, iT, 0.f, fmax(displacement.y(), height * 8.f), 0.f, 0.f);
+            float dX = getTexComponent(iS, iT, 0),
+                    dZ = getTexComponent(iS, iT, 2);
+            float fTrack = getTexComponent(iS, iT, 3);
+
+            float dist = MathUtil::distance(point.x() + dX, point.y() + dZ,
+                                            pointOnTrack.x(), pointOnTrack.y());
+            fTrack = fmax(1.f - MathUtil::smoothstep(0.f, 16.f, dist), fTrack);
+            setTexComponent(iS, iT, 3, fTrack);
         }
     }
 }

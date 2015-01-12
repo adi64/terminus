@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 uniform vec4 fSpecularity;
 uniform vec4 cEmit;
@@ -14,7 +14,7 @@ void main()
 {
     vec3 l = normalize(v_light);
     vec3 n = normalize(v_normal);
-    vec3 h = normalize(v_light - 2.0*v_position);
+    vec3 h = normalize(v_light - 2.0 * v_position);
 
     vec3 emit = cEmit.rgb;
 

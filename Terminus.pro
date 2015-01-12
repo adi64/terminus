@@ -25,7 +25,9 @@ SOURCES += \
     source/resources/program.cpp \
     source/levelgenerator.cpp \
     source/eventhandler.cpp \
-    source/catmullromspline.cpp
+    source/catmullromspline.cpp \
+    source/perlinnoise.cpp \
+    source/mathutil.cpp
 
 RESOURCES += qml.qrc
 
@@ -55,5 +57,7 @@ HEADERS += \
     source/resources/program.h \
     source/skybox.h \
     source/eventhandler.h \
-    source/catmullromspline.h
+    source/catmullromspline.h \
+    source/perlinnoise.h \
+    source/mathutil.h
     source/levelgenerator.h

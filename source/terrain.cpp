@@ -49,7 +49,7 @@ void Terrain::render(QOpenGLFunctions& gl) const
 {
     // render terrain
     Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
+    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Violet"));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
 
     for(int iX = 0; iX < m_levelGen.patchCountS(); iX++)

@@ -1,20 +1,20 @@
 #pragma once
 
-#include "catmullromspline.h"
-
 #include <vector>
 #include <memory>
 
 #include <QOpenGLFunctions>
 #include <QSize>
+#include <QVector3D>
+
+#include "catmullromspline.h"
+#include "perlinnoise.h"
 
 namespace terminus
 {
 
 class LevelGenerator
 {
-protected:
-    static float smoothstep(float e0, float e1, float x);
 public:
     LevelGenerator();
     virtual ~LevelGenerator();
@@ -44,9 +44,10 @@ public:
 protected:
     virtual void generateLevelTracks();
     virtual void generateLevelTexImage();
+    virtual float terrainHeight(float s, float t, float fTrack);
     virtual void setTrackEnvironment(const QVector2D & pointOnTrack);
-    virtual void setLevelTexture(int s, int t, float dx, float dy, float dz, float w);
-    virtual QVector4D getLevelTexture(int s, int t);
+    virtual void setTexComponent(int s, int t, int component, float value);
+    virtual float getTexComponent(int s, int t, int component);
 
 protected:
     int m_patchCountS, m_patchCountT;
@@ -54,6 +55,9 @@ protected:
     float m_vertexWidth, m_vertexHeight;
 
     bool m_texGenerated;
+    std::unique_ptr<PerlinNoise> m_noiseX;
+    std::unique_ptr<PerlinNoise> m_noiseY;
+    std::unique_ptr<PerlinNoise> m_noiseZ;
     int m_totalVertexCountS, m_totalVertexCountT;
     std::vector<GLfloat> m_levelTexData;
 

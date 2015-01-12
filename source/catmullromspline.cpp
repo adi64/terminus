@@ -57,34 +57,25 @@ float CatmullRomSpline::ctlPointDistance(int i) const
 
 int CatmullRomSpline::getIndex(float t) const
 {
-//    int knotCount = m_knotSequence.size(),
-//         diff = knotCount,
-//         i = 1;
-//    while(diff > 0)
-//    {
-//        diff = diff / 2;
-//        if(t < m_knotSequence[i])
-//        {
-//            i -= diff;
-//        }
-//        else if(t > m_knotSequence[i+1])
-//        {
-//            i += diff;
-//        }
-//        else
-//        {
-//            return i;
-//        }
-//    }
-//    return 1;// error!
-    for(int i = 1; i < m_knotSequence.size() - 1; i++)
+    int searchBegin = 0,
+         searchEnd = m_knotSequence.size();
+    while(searchBegin < searchEnd)
     {
-        if(t >= m_knotSequence[i] && t < m_knotSequence[i+1])
+        int i = searchBegin + (searchEnd - searchBegin) / 2;
+        if(t < m_knotSequence[i])
+        {
+            searchEnd = i;
+        }
+        else if(t > m_knotSequence[i+1])
+        {
+            searchBegin = i;
+        }
+        else
         {
             return i;
         }
     }
-    return 1;
+    return 1; //ERROR
 }
 
 QVector2D CatmullRomSpline::spline(int i1, float t) const
