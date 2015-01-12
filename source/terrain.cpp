@@ -48,13 +48,13 @@ void Terrain::update(int elapsedMilliseconds)
 void Terrain::render(QOpenGLFunctions& gl) const
 {
     // render terrain
-    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
+    Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Green"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_Terrain"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
 
-    for(int iX = 0; iX < m_levelGen.patchesX(); iX++)
+    for(int iX = 0; iX < m_levelGen.patchCountS(); iX++)
     {
-        for(int iZ = 0; iZ < m_levelGen.patchesZ(); iZ++)
+        for(int iZ = 0; iZ < m_levelGen.patchCountT(); iZ++)
         {
             program.bind();
 
@@ -64,14 +64,14 @@ void Terrain::render(QOpenGLFunctions& gl) const
             m_scene->camera().setMatrices(program, m_modelMatrix);
 
             program.setUniform("levelMap", 0);
-            QVector4D texInfo(static_cast<float>(iX * (m_levelGen.patchVerticesX()-1)),
-                              static_cast<float>(iZ * (m_levelGen.patchVerticesZ()-1)),
-                              static_cast<float>(m_levelGen.levelTexWidth()),
-                              static_cast<float>(m_levelGen.levelTexHeight()));
-            QVector4D posInfo(m_levelGen.patchVertLengthX(),
-                              m_levelGen.patchVertLengthZ(),
-                              iX * m_levelGen.patchLengthX(),
-                              iZ * m_levelGen.patchLengthZ());
+            QVector4D texInfo(static_cast<float>(iX * (m_levelGen.vertexCountS() - 1)),
+                              static_cast<float>(iZ * (m_levelGen.vertexCountT() - 1)),
+                              static_cast<float>(m_levelGen.totalVertexCountS()),
+                              static_cast<float>(m_levelGen.totalVertexCountT()));
+            QVector4D posInfo(m_levelGen.vertexWidth(),
+                              m_levelGen.vertexHeight(),
+                              iX * m_levelGen.patchWidth(),
+                              iZ * m_levelGen.patchHeight());
             program.setUniform("texInfo", texInfo);
             program.setUniform("posInfo", posInfo);
 
