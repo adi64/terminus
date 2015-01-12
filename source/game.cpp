@@ -15,6 +15,7 @@
 #include "terrain.h"
 #include "skybox.h"
 #include "eventhandler.h"
+#include "deferredactionhandler.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -26,7 +27,7 @@ namespace terminus
 Game::Game()
 : m_scene(new Scene())
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
-, m_actionList(std::unique_ptr<ActionList>(new ActionList()))
+, m_deferredActionHandler(std::unique_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -94,14 +95,7 @@ Game::~Game()
 void Game::sync()
 {
     // process sceduled events
-    std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    for (auto &action : (*m_actionList))
-    {
-        action();
-    }
-    m_actionList->clear();
-    actionListLock.unlock();
-
+    m_deferredActionHandler->processDeferredActions();
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
@@ -173,13 +167,6 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
-}
-
-void Game::scheduleEvent(std::function<void ()> event)
-{
-    std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    m_actionList->push_back(event);
-    actionListLock.unlock();
 }
 
 }
