@@ -40,7 +40,8 @@ public:
     virtual QPoint positionToVertexID(const QVector2D & pos) const;
     virtual QVector2D vertexIDToPosition(const QPoint & vid) const;
 
-    //getLevelTrack
+    virtual std::vector<QVector3D> playerTrack();
+    virtual std::vector<QVector3D> enemyTrack();
 protected:
     virtual void generateLevelTracks();
     virtual void generateLevelTexImage();

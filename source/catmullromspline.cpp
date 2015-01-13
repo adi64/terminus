@@ -6,7 +6,7 @@ namespace terminus
 CatmullRomSpline::CatmullRomSpline(const std::vector<QVector2D> & controlPoints)
 : m_controlPoints(controlPoints)
 {
-    //assert(m_controlPoints.size() >= 4);
+    //assert(m_controlPoints.size() >= 2);
     calculateKnotSequence();
 }
 
@@ -21,9 +21,7 @@ QVector2D CatmullRomSpline::getPosition(float param) const
     if(param > length())
         return m_controlPoints[m_controlPoints.size() - 2];
     float t = m_tBegin + param;
-    int iBegin = getIndex(t);
-    QVector2D p = spline(iBegin, t);
-    return p;
+    return spline(getIndex(t), t);
 }
 
 float CatmullRomSpline::length() const
@@ -75,7 +73,7 @@ int CatmullRomSpline::getIndex(float t) const
             return i;
         }
     }
-    return 1; //ERROR
+    return 0; //ERROR
 }
 
 QVector2D CatmullRomSpline::spline(int i1, float t) const

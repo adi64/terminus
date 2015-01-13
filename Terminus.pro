@@ -27,7 +27,8 @@ SOURCES += \
     source/eventhandler.cpp \
     source/catmullromspline.cpp \
     source/perlinnoise.cpp \
-    source/mathutil.cpp
+    source/mathutil.cpp \
+    source/polyline.cpp
 
 RESOURCES += qml.qrc
 
@@ -59,5 +60,6 @@ HEADERS += \
     source/eventhandler.h \
     source/catmullromspline.h \
     source/perlinnoise.h \
-    source/mathutil.h
+    source/mathutil.h \
+    source/polyline.h
     source/levelgenerator.h

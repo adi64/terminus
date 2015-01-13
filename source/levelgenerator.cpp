@@ -151,6 +151,27 @@ QVector2D LevelGenerator::vertexIDToPosition(const QPoint & tex) const
     return QVector2D(x, y);
 }
 
+std::vector<QVector3D> LevelGenerator::playerTrack()
+{
+    generateLevelTracks();
+
+    std::vector<QVector3D> points;
+    for(float param = 0.0; param <= m_trackSpline->length(); param += 0.025)
+    {
+        QVector2D pointInPlane = m_trackSpline->getPosition(param);
+        points.push_back(QVector3D(pointInPlane.x(), 10.f, pointInPlane.y()));
+    }
+    return points;
+}
+
+std::vector<QVector3D> LevelGenerator::enemyTrack()
+{
+    std::vector<QVector3D> points;
+    points.push_back(QVector3D(0.f, 0.f, 0.f));
+    points.push_back(QVector3D(100.f, 0.f, 0.f));
+    return points;
+}
+
 void LevelGenerator::generateLevelTracks(){
     if(m_tracksGenerated)
         return;

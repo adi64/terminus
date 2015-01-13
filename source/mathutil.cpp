@@ -15,9 +15,14 @@ float MathUtil::clamp(float xMin, float xMax, float x)
 {
     return fmin(fmax(x, xMin), xMax);
 }
+float MathUtil::linstep(float e0, float e1, float x)
+{
+    return clamp(0.f, 1.f, (x - e0)/(e1 - e0));
+}
+
 float MathUtil::smoothstep(float e0, float e1, float x)
 {
-    x = clamp(0.f, 1.f, (x - e0)/(e1 - e0));
+    x = linstep(e0, e1, x);
     return x*x*x*(x*(x*6.f - 15.f) + 10.f);
 }
 

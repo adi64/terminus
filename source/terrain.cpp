@@ -13,11 +13,11 @@ namespace terminus
 {
 
 Terrain::Terrain(Scene *scene)
-    : AbstractGraphicsObject(scene)
-    , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, -10.0), QVector3D(100.0, 1.0, -10.0))))
-    , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, 10.0), QVector3D(100.0, 1.0, 10.0))))
+    : AbstractGraphicsObject(scene)\
 {   
     m_levelGen.generateLevel();
+    m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_levelGen.playerTrack()));
+    m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_levelGen.enemyTrack()));
 }
 
 Terrain::~Terrain()
@@ -37,8 +37,8 @@ Track *Terrain::enemyTrack() const
 void Terrain::update(int elapsedMilliseconds)
 {
     m_modelMatrix.setToIdentity();
-    m_modelMatrix.translate(5.0, 0.0, 0.0);
-    m_modelMatrix.scale(2.3);
+//    m_modelMatrix.translate(5.0, 0.0, 0.0);
+//    m_modelMatrix.scale(2.3);
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
