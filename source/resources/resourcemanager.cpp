@@ -1,9 +1,7 @@
 #include "resourcemanager.h"
-
 #include "geometry.h"
 
 #include <limits.h>
-
 #include <regex>
 #include <string>
 #include <sstream>
@@ -25,39 +23,32 @@ ResourceManager * ResourceManager::getInstance()
     {
         m_instance = new ResourceManager();
     }
-
     return m_instance;
 }
 
 std::string ResourceManager::entityName(std::string path, std::string name)
 {
     std::string ename = entityName(path);
-
     ename.append("_");
     ename.append(name);
-
     return ename;
 }
+
 std::string ResourceManager::entityName(std::string path)
 {
     std::string ename(path);
-
     size_t index = ename.find_last_of("\\/");
     if (std::string::npos != index)
     {
         ename.erase(0, index + 1);
     }
-
     index = ename.rfind('.');
     if (std::string::npos != index)
     {
         ename.erase(index);
     }
-
     return ename;
 }
-
-
 ResourceManager::ResourceManager()
 {
 }
@@ -74,21 +65,23 @@ void ResourceManager::loadResources()
     loadObj(std::string(":/data/terrain.obj"));
     loadProgram(std::string(":/data/basicShader"));
     loadProgram(std::string(":/data/envmap"));
+    loadProgram(std::string(":/data/terrain"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
 {
     return m_geometryStorage[name];
 }
+
 std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(std::string name)
 {
     return m_materialStorage[name];
 }
+
 std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(std::string name)
 {
     return m_programStorage[name];
 }
-
 
 void ResourceManager::loadObj(std::string path)
 {
@@ -96,9 +89,7 @@ void ResourceManager::loadObj(std::string path)
     std::vector<QVector3D> texCoords;
     std::vector<QVector3D> normals;
     std::vector<IndexTriple> indexTriples;
-
     std::string objectName;
-
     QFile objFile(path.c_str());
     if (!objFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -107,12 +98,13 @@ void ResourceManager::loadObj(std::string path)
     }
     QTextStream objStream(&objFile);
 
+    std::regex indexPattern("([-]?[0-9]+)(?:[/]([-]?[0-9]*)(?:[/]([-]?[0-9]*))?)?");
+
     while(!objStream.atEnd())
     {
         std::string lineHeader;
         std::stringstream lineStream(objStream.readLine().toStdString());
         lineStream >> lineHeader;
-
         if(lineHeader == "v")
         {
             float x,y,z;
@@ -136,7 +128,7 @@ void ResourceManager::loadObj(std::string path)
         }
         else if(lineHeader == "f")
         {
-            std::regex indexPattern("([-]?[0-9]+)(?:[/]([-]?[0-9]*)(?:[/]([-]?[0-9]*))?)?");
+
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
@@ -166,6 +158,7 @@ void ResourceManager::loadObj(std::string path)
         loadObjGenerateAdd(positions, texCoords, normals, indexTriples, entityName(path, objectName));
     }
 }
+
 void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
                                          std::vector<QVector3D> & texCoords,
                                          std::vector<QVector3D> & normals,
@@ -174,33 +167,28 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
 {
     std::vector<unsigned short> indexBuffer;
     std::vector<Vertex> vertexBuffer;
-
     std::map<IndexTriple, unsigned short> indexLookUp;
-
     for(unsigned int i = 0; i < indexTriples.size() && vertexBuffer.size() < USHRT_MAX; i++)
     {
         if(indexLookUp.count(indexTriples[i]) == 0)
         {
             indexLookUp[indexTriples[i]] = vertexBuffer.size();
-
             int sP = positions.size(),
-                 iP = indexTriples[i].positionIndex(),
-                 sT = texCoords.size(),
-                 iT = indexTriples[i].textureIndex(),
-                 sN = normals.size(),
-                 iN = indexTriples[i].normalIndex();
+                    iP = indexTriples[i].positionIndex(),
+                    sT = texCoords.size(),
+                    iT = indexTriples[i].textureIndex(),
+                    sN = normals.size(),
+                    iN = indexTriples[i].normalIndex();
             //convert relative indices
             iP = (iP < 0)? sP + iP : iP - 1;
             iT = (iT < 0)? sT + iT : iT - 1;
             iN = (iN < 0)? sN + iN : iN - 1;
             //read vectors
             QVector3D vP = (0 <= iP && iP < sP)? positions.at(iP) : QVector3D(),
-                      vT = (indexTriples[i].validTexture() && 0 <= iT && iT < sT)? texCoords.at(iT) : QVector3D(),
-                      vN = (indexTriples[i].validNormal() && 0 <= iN && iN < sN)? normals.at(iN) : QVector3D();
-
+                    vT = (indexTriples[i].validTexture() && 0 <= iT && iT < sT)? texCoords.at(iT) : QVector3D(),
+                    vN = (indexTriples[i].validNormal() && 0 <= iN && iN < sN)? normals.at(iN) : QVector3D();
             Vertex v {{vP.x(), vP.y(),vP.z()}, {vT.x(), vT.y(),vT.z()}, {vN.x(), vN.y(),vN.z()}};
             vertexBuffer.push_back(v);
-
             indexBuffer.push_back(static_cast<unsigned short>(vertexBuffer.size() - 1));
         }
         else
@@ -208,7 +196,6 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
             indexBuffer.push_back(indexLookUp[indexTriples[i]]);
         }
     }
-
     putGeometry(name, new Geometry(indexBuffer, vertexBuffer));
 }
 
@@ -216,7 +203,6 @@ void ResourceManager::loadMtl(std::string path)
 {
     std::map<std::string, QVector4D> uniforms;
     std::string objectName;
-
     QFile mtlFile(path.c_str());
     if (!mtlFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -224,18 +210,15 @@ void ResourceManager::loadMtl(std::string path)
         return;
     }
     QTextStream mtlStream(&mtlFile);
-
     while(!mtlStream.atEnd())
     {
         std::string lineHeader;
         std::stringstream lineStream(mtlStream.readLine().toStdString());
         lineStream >> lineHeader;
-
         if(lineHeader == "uniform"){
             std::string name;
             lineStream >> name;
             float v[] = {0.f, 0.f, 0.f, 0.f};
-
             for(int i = 0; i < 4; i++)
             {
                 lineStream >> v[i];
@@ -283,6 +266,7 @@ void ResourceManager::putGeometry(std::string name, Geometry * geometry)
         (*m_geometryStorage[name]) = std::move(newPtr);
     }
 }
+
 void ResourceManager::putMaterial(std::string name, Material * material)
 {
     if(m_materialStorage.count(name) == 0)
@@ -295,6 +279,7 @@ void ResourceManager::putMaterial(std::string name, Material * material)
         (*m_materialStorage[name]) = std::move(newPtr);
     }
 }
+
 void ResourceManager::putProgram(std::string name, Program * program)
 {
     if(m_programStorage.count(name) == 0)

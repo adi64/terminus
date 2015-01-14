@@ -21,7 +21,7 @@ public:
 
 protected:
     Game *m_game;
-    int m_lockedWagonIndex; //TODO Move to train
+    unsigned int m_lockedWagonIndex; //TODO Move to train
 };
 
 }
