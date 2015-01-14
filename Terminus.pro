@@ -32,6 +32,9 @@ SOURCES += \
 
 RESOURCES += qml.qrc
 
+RC_FILE = data/myapp.rc
+ICON = data/terminus.ico
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
