@@ -1,15 +1,11 @@
 #include "track.h"
 
-#include <QDebug>
-#include <QVector3D>
-
 namespace terminus
 {
 
-Track::Track(Scene *scene, QVector3D startPosition, QVector3D endPosition)
-    : AbstractGraphicsObject(scene)
-    , m_startPosition(startPosition)
-    , m_endPosition(endPosition)
+Track::Track(Scene *scene, std::unique_ptr<Polyline> controlPoints)
+: AbstractGraphicsObject(scene)
+, m_course(std::move(controlPoints))
 {
 }
 
@@ -23,19 +19,19 @@ void Track::render(QOpenGLFunctions &gl) const
     // TODO
 }
 
-QVector3D Track::positionAt(double distance)
+QVector3D Track::positionAt(float distance)
 {
-    auto length = (m_endPosition - m_startPosition).length();
-    auto normalizedDistance = distance / length;
-
-    auto interpolatedPosition =
-        ((1.0 - normalizedDistance) * m_startPosition) + ((normalizedDistance) * m_endPosition);
-    return interpolatedPosition;
+    return m_course->getPosition(distance);
 }
 
-QVector3D Track::tangentAt(double distance)
+QVector3D Track::tangentAt(float distance)
 {
-    return positionAt(distance).normalized();
+    return m_course->getTangent(distance);
 }
 
+float Track::length()
+{
+    return m_course->length();
 }
+
+}//namespace terminus
