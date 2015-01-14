@@ -52,7 +52,7 @@ void Polyline::calculateKnotSequence()
 
 int Polyline::getIndex(float distance) const
 {
-    for(int i = 0; i < m_knotSequence.size() - 1; i++)
+    for(unsigned int i = 0; i < m_knotSequence.size() - 1; i++)
     {
         if(distance >= m_knotSequence[i] && distance < m_knotSequence[i + 1])
         {
