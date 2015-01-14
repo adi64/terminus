@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
+#include "track.h"
 #include "wagons/enginewagon.h"
 
 namespace terminus
@@ -97,7 +98,7 @@ void Train::update(int elapsedMilliseconds)
     m_travelledDistance += m_velocity * elapsedMilliseconds;
 
     // TODO FIXME - this wraps the train
-    if(m_travelledDistance > 50.0)
+    if(m_travelledDistance > m_track->length())
     {
         m_travelledDistance = 0.0;
     }

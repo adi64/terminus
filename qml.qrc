@@ -16,6 +16,8 @@
         <file>data/envmap.frag</file>
         <file>data/envmap.vert</file>
         <file>data/terrain.obj</file>
+        <file>data/terrain.frag</file>
+        <file>data/terrain.vert</file>
         <file>music/Level0107.mp3</file>
         <file>sounds/alarm.wav</file>
         <file>sounds/angriff.wav</file>
