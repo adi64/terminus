@@ -12,6 +12,29 @@ namespace terminus
 AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
 {
+    m_bullet_collisionShape = std::unique_ptr<btCollisionShape>(new btSphereShape(1.0f));
+
+    auto rotationQuaternion = btQuaternion(0.0f, 0.0f, 0.0f, 1.0f);
+    auto positionVector = btVector3(0.0f, 0.0f, 0.0f);
+
+    auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
+
+    // zero mass --> unlimited mass, does not move
+    auto mass = btScalar(0.0f);
+
+    auto inertia = btVector3(0.0f, 0.0f, 0.0f);
+
+    m_bullet_collisionShape->calculateLocalInertia(mass, inertia);
+
+    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, m_bullet_collisionShape.get(), inertia);
+
+    m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
+
+    // we should not add the rigid body to the scene right now
+    // because fundamental changes to it (collision shape, mass, ...)
+    // can not be done while the object is added to the scene
+    //
+    // therefore every object should do this itself after setting the correct values
 }
 
 AbstractPhysicsObject::~AbstractPhysicsObject()

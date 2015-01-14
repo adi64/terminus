@@ -12,6 +12,7 @@ namespace terminus
 KinematicPhysicsObject::KinematicPhysicsObject(std::shared_ptr<Scene> scene)
     : AbstractPhysicsObject(scene)
 {
+    m_bullet_rigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
 }
 
 }

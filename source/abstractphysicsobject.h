@@ -22,6 +22,7 @@ public:
     virtual QVector3D eulerAngles() const override;
 protected:
     std::unique_ptr<btRigidBody> m_bullet_rigidBody;
+    std::unique_ptr<btCollisionShape> m_bullet_collisionShape;
 };
 
 }

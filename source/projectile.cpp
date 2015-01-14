@@ -17,22 +17,11 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     : DynamicPhysicsObject(scene)
     , m_ageInMilliseconds(0)
 {   
-    auto shape = new btSphereShape(1.0);
+    auto myShape = new btSphereShape(1.0);
+    m_bullet_rigidBody->setCollisionShape(myShape);
+    m_bullet_collisionShape.reset(myShape);
 
-    auto rotationQuaternion = btQuaternion(m_eulerAngles.x(), m_eulerAngles.y(), m_eulerAngles.z(), 1.0);
-    auto positionVector = btVector3(m_position.x(), m_position.y(), m_position.z());
-
-    auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
-
-    auto mass = btScalar(1.0);
-
-    auto inertia = btVector3(0.0, 0.0, 0.0);
-
-    shape->calculateLocalInertia(mass, inertia);
-
-    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, shape, inertia);
-
-    m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
+    m_bullet_rigidBody->setMassProps(1.0f, btVector3(0.0f, 0.0f, 0.0f));
 
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }

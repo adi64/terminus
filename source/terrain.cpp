@@ -13,30 +13,20 @@ namespace terminus
 {
 
 Terrain::Terrain(std::shared_ptr<Scene> scene)
-    : AbstractPhysicsObject(scene)
+    : KinematicPhysicsObject(scene)
     , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, -10.0), QVector3D(100.0, 1.0, -10.0))))
     , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, 10.0), QVector3D(100.0, 1.0, 10.0))))
 {   
-    m_position = QVector3D(5.0, 0.0, 0.0);
-    m_scaling = QVector3D(2.3, 2.3, 2.3);
+    setPosition(QVector3D(5.0f, 0.0f, 0.0f));
+    m_scaling = QVector3D(2.3f, 2.3f, 2.3f);
 
+    // infinite plane
+    auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
+    m_bullet_rigidBody->setCollisionShape(myShape);
+    m_bullet_collisionShape.reset(myShape);
 
-    auto shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-
-    auto rotationQuaternion = btQuaternion(m_eulerAngles.x(), m_eulerAngles.y(), m_eulerAngles.z(), 1.0);
-    auto positionVector = btVector3(m_position.x(), m_position.y(), m_position.z());
-
-    auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
-
-    auto mass = btScalar(0.0);
-
-    auto inertia = btVector3(0.0, 0.0, 0.0);
-
-    shape->calculateLocalInertia(mass, inertia);
-
-    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, shape, inertia);
-
-    m_bullet_rigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
+    // zero mass --> unlimited mass, does not move
+    m_bullet_rigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
 
     m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
 }

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "abstractphysicsobject.h"
+#include "kinematicphysicsobject.h"
 #include "track.h"
 
 namespace terminus
@@ -10,7 +10,7 @@ namespace terminus
 
 class Track;
 
-class Terrain : public AbstractPhysicsObject
+class Terrain : public KinematicPhysicsObject
 {
 public:
     Terrain(std::shared_ptr<Scene> scene);
