@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-Terrain::Terrain(const std::shared_ptr<Scene> &scene)
+Terrain::Terrain(std::shared_ptr<Scene> scene)
     : AbstractPhysicsObject(scene)
     , m_playerTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, -10.0), QVector3D(100.0, 1.0, -10.0))))
     , m_enemyTrack(std::unique_ptr<Track>(new Track(scene, QVector3D(-15.0, 1.0, 10.0), QVector3D(100.0, 1.0, 10.0))))

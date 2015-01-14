@@ -13,7 +13,7 @@
 namespace terminus
 {
 
-Projectile::Projectile(const std::shared_ptr<Scene> &scene)
+Projectile::Projectile(std::shared_ptr<Scene> scene)
     : DynamicPhysicsObject(scene)
     , m_ageInMilliseconds(0)
 {   

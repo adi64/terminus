@@ -9,7 +9,7 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon(const std::shared_ptr<Scene> &scene, Train *train)
+AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
     , m_train(train)
 {

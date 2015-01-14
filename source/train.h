@@ -15,7 +15,7 @@ class Track;
 class Train : public AbstractGraphicsObject
 {
 public:
-    Train(const std::shared_ptr<Scene> &scene, Track *track);
+    Train(std::shared_ptr<Scene> scene, Track *track);
     ~Train();
 
     template<typename WagonType> void addWagon();

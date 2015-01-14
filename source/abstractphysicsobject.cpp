@@ -9,7 +9,7 @@
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(const std::shared_ptr<Scene> &scene)
+AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
 {
 }

@@ -10,7 +10,7 @@ namespace terminus
 {
 
 
-Train::Train(const std::shared_ptr<Scene> &scene, Track *track)
+Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
     , m_velocity(0.02)

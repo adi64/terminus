@@ -6,7 +6,7 @@
 namespace terminus
 {
 
-Track::Track(const std::shared_ptr<Scene> &scene, QVector3D startPosition, QVector3D endPosition)
+Track::Track(std::shared_ptr<Scene> scene, QVector3D startPosition, QVector3D endPosition)
     : AbstractGraphicsObject(scene)
     , m_startPosition(startPosition)
     , m_endPosition(endPosition)

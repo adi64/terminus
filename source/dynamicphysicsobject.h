@@ -10,7 +10,7 @@ namespace terminus
 class DynamicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    DynamicPhysicsObject(const std::shared_ptr<Scene> &scene);
+    DynamicPhysicsObject(std::shared_ptr<Scene> scene);
 
     void applyForce(const QVector3D &force);
 };

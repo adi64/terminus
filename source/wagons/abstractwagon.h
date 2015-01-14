@@ -9,7 +9,7 @@ class Train;
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(const std::shared_ptr<Scene> &scene, Train *train);
+    AbstractWagon(std::shared_ptr<Scene> scene, Train *train);
 
     virtual void primaryAction();
 

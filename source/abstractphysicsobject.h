@@ -12,7 +12,7 @@ namespace terminus
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {
 public:
-    AbstractPhysicsObject(const std::shared_ptr<Scene> &scene);
+    AbstractPhysicsObject(std::shared_ptr<Scene> scene);
     ~AbstractPhysicsObject();
 
     void applyForce(const QVector3D &force);

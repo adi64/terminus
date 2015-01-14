@@ -14,7 +14,7 @@ namespace terminus
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject(const std::shared_ptr<Scene>& scene);
+    AbstractGraphicsObject(std::shared_ptr<Scene> scene);
     virtual ~AbstractGraphicsObject();
 
     virtual void update(int elapsedMilliseconds);

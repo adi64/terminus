@@ -14,7 +14,7 @@
 namespace terminus
 {
 
-EngineWagon::EngineWagon(const std::shared_ptr<Scene> &scene, Train *train)
+EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
     auto shape = new btSphereShape(1.0);

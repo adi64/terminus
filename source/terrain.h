@@ -13,7 +13,7 @@ class Track;
 class Terrain : public AbstractPhysicsObject
 {
 public:
-    Terrain(const std::shared_ptr<Scene> &scene);
+    Terrain(std::shared_ptr<Scene> scene);
 
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;

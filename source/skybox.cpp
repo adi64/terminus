@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-SkyBox::SkyBox(const std::shared_ptr<Scene> &scene)
+SkyBox::SkyBox(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
     , m_initialized(false)
 {

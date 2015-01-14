@@ -8,7 +8,7 @@ namespace terminus
 class Track : public AbstractGraphicsObject
 {
 public:
-    Track(const std::shared_ptr<Scene> &scene, QVector3D startPosition, QVector3D endPosition);
+    Track(std::shared_ptr<Scene> scene, QVector3D startPosition, QVector3D endPosition);
 
     void render(QOpenGLFunctions &gl) const override;
     QVector3D positionAt(double distance);

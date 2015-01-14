@@ -7,7 +7,7 @@
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(const std::shared_ptr<Scene> &scene)
+AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
     : m_scene(scene)
     , m_position(0.0, 0.0, 0.0)
     , m_eulerAngles(0.0, 0.0, 0.0)
