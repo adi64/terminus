@@ -16,11 +16,7 @@ AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
 
 AbstractPhysicsObject::~AbstractPhysicsObject()
 {
-    // TODO FIXME: this breaks on teardown because m_scene pointer is dangling
-//    if(m_scene.get() && m_scene->bullet_world() && m_bullet_rigidBody.get())
-//    {
-//        m_scene->bullet_world()->removeRigidBody(m_bullet_rigidBody.get());
-//    }
+    m_scene->bullet_world()->removeRigidBody(m_bullet_rigidBody.get());
 }
 
 void AbstractPhysicsObject::applyForce(const QVector3D &force)

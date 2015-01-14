@@ -166,23 +166,26 @@ void Game::flickEvent(qreal velo)
 
 void Game::setupBulletWorld()
 {
+    // these objects must not be deleted before m_bullet_dynamicsWorld
+    // -- so as a temporary hack, we won't delete them at all
+
     // Build the broadphase
-    m_bullet_broadphase = std::unique_ptr<btBroadphaseInterface>(new btDbvtBroadphase());
+    m_bullet_broadphase = new btDbvtBroadphase();
 
     // Set up the collision configuration and dispatcher
-    m_bullet_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
-    m_bullet_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_bullet_collisionConfiguration.get()));
+    m_bullet_collisionConfiguration = new btDefaultCollisionConfiguration();
+    m_bullet_dispatcher = new btCollisionDispatcher(m_bullet_collisionConfiguration);
 
     // The actual physics solver
-    m_bullet_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
+    m_bullet_solver = new btSequentialImpulseConstraintSolver;
 
     // The world.
     m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
                 new btDiscreteDynamicsWorld(
-                    m_bullet_dispatcher.get(),
-                    m_bullet_broadphase.get(),
-                    m_bullet_solver.get(),
-                    m_bullet_collisionConfiguration.get()
+                    m_bullet_dispatcher,
+                    m_bullet_broadphase,
+                    m_bullet_solver,
+                    m_bullet_collisionConfiguration
                     )
                 );
 
