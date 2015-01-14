@@ -35,8 +35,9 @@ INCLUDEPATH += ../bullet/install/include
 INCLUDEPATH += ../bullet/install/include/bullet
 
 BULLET_LIB_PATH = $$_PRO_FILE_PWD_/../bullet/install/lib
+BULLET_BIN_PATH = $$_PRO_FILE_PWD_/../bullet/install/bin
 
-LIBS += -L$$BULLET_LIB_PATH -lBulletDynamics -lBulletCollision -lLinearMath
+LIBS += -L$$BULLET_LIB_PATH -L$$BULLET_BIN_PATH -lBulletDynamics -lBulletCollision -lLinearMath
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
