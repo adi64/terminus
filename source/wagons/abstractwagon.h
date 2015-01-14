@@ -6,7 +6,7 @@ namespace terminus
 {
 class Train;
 
-class AbstractWagon : public AbstractGraphicsObject
+class AbstractWagon : public KinematicPhysicsObject
 {
 public:
     AbstractWagon(std::shared_ptr<Scene> scene, Train *train);
@@ -17,14 +17,12 @@ public:
 
     virtual float length() const;
     virtual float weight() const;
-    void setPositionOffset(float accumulatedOffset);
-    QVector3D position() const override;
-    QVector3D tangent() const;
-    void update(int elapsedMilliseconds) override;
+    virtual void setPositionOffset(float accumulatedOffset);
+    virtual QVector3D position() const override;
+    virtual QVector3D tangent() const;
 
 protected:
     float m_positionOffset;
-    float m_weight;
     Train *m_train;
 };
 

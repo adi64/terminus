@@ -27,6 +27,10 @@ public:
     virtual QVector3D eulerAngles() const;
     virtual QVector3D scaling() const;
     virtual QMatrix4x4 modelMatrix() const;
+
+protected:
+    virtual void setEulerAngles(const QVector3D & angles);
+
 protected:
     std::shared_ptr<Scene> m_scene;
     QVector3D m_position;

@@ -64,9 +64,10 @@ QVector3D AbstractPhysicsObject::position() const
 
 QVector3D AbstractPhysicsObject::eulerAngles() const
 {
-    auto pos = m_bullet_rigidBody->getWorldTransform().getRotation();
-    return QVector3D(pos.getX(), pos.getY(), pos.getZ());
-    qDebug() << "are these euler angles really correct?";
+//    auto pos = m_bullet_rigidBody->getWorldTransform().getRotation();
+//    return QVector3D(pos.getX(), pos.getY(), pos.getZ());
+//    qDebug() << "are these euler angles really correct?"; // No, they are not! (TODO)
+    return m_eulerAngles;
 }
 
 }

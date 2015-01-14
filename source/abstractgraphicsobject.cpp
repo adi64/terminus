@@ -63,4 +63,10 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
+void AbstractGraphicsObject::setEulerAngles(const QVector3D & angles)
+{
+    m_eulerAngles = angles;
+}
+
+
 }

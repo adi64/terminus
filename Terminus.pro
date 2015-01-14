@@ -74,7 +74,7 @@ HEADERS += \
     source/catmullromspline.h \
     source/perlinnoise.h \
     source/mathutil.h \
-    source/polyline.h
+    source/polyline.h \
     source/level.h \
     source/projectile.h \
     source/abstractphysicsobject.h \
