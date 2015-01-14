@@ -14,11 +14,12 @@ uniform vec4 posInfo;//x - triangle width; y - triangle height; z - patch displa
 
 attribute vec3 a_position;
 attribute vec3 a_texCoord;
-attribute vec3 a_normal;
+attribute vec3 a_normal; // x - encoded texCoord offset 0; y - encoded texCoord offset 1; z - shading factor [0.0, 1.0[
 
-varying vec3 v_normal;// x - encoded texCoord offset 0; y - encoded texCoord offset 1
+varying vec3 v_normal;
 varying vec3 v_position;
 varying vec3 v_light;
+varying float v_shade;
 //varying vec2 v_tc;
 
 vec2 dec(float offset)
@@ -47,6 +48,7 @@ void main()
     vec3 normal = normalize( cross(
                     baseV0 + dispV0 - dispVertex,
                     baseV1 + dispV1 - dispVertex));
+    v_shade = mod(normal.z * 10.0, 1.0);
 //    vec3 position = vec3(posInfo.z, 0.0, posInfo.w) + a_position;
 //    vec3 normal = vec3(0.0, 1.0, 0.0);
 //    v_tc = (a_texCoord.xy + texInfo.xy) / texInfo.zw;

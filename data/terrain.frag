@@ -11,6 +11,7 @@ uniform vec4 fAlpha;
 varying vec3 v_normal;
 varying vec3 v_position;
 varying vec3 v_light;
+varying float v_shade;
 //varying vec2 v_tc;
 
 void main()
@@ -19,9 +20,9 @@ void main()
     vec3 n = normalize(v_normal);
     vec3 h = normalize(v_light - 2.0 * v_position);
 
-    vec3 emit = cEmit.rgb;
+    vec3 emit = cEmit.rgb * (0.7 + 0.3 * v_shade);
 
-    float fDiffuse = clamp(dot(l, n), 0.0, 1.0);
+    float fDiffuse = clamp(dot(l, n), 0.0, 1.0) * (0.9 + 0.1 * v_shade);
     vec3 diffuse = cDiffuse.rgb * fDiffuse;
 
     float fSpecular = clamp(dot(h, n), 0.0, 1.0);
