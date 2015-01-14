@@ -14,9 +14,9 @@ namespace terminus
 {
 
 Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld)
-: m_camera(new Camera())
+: m_camera(std::unique_ptr<Camera>(new Camera()))
 , m_gl()
-, m_timeStamp(nullptr)
+, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
 {
     m_nodes.clear();
@@ -25,8 +25,6 @@ Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld)
 
 Scene::~Scene()
 {
-    delete m_camera;
-    m_camera = nullptr;
 }
 
 void Scene::addNode(AbstractGraphicsObject *node)
@@ -49,8 +47,9 @@ void Scene::deleteNode(AbstractGraphicsObject *node)
     qDebug() << "Could not find node " << node;
 }
 
-void Scene::setInitialTimeStamp(QTime *timeStamp)
+void Scene::setInitialTimeStamp(const std::shared_ptr<QTime>& timeStamp)
 {
+    m_timeStamp.reset();
     m_timeStamp = timeStamp;
 }
 
@@ -103,7 +102,7 @@ void Scene::render()
 
 Camera & Scene::camera()
 {
-    return *m_camera;
+    return *(m_camera.get());
 }
 
 btDiscreteDynamicsWorld *Scene::bullet_world()

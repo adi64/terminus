@@ -17,7 +17,6 @@ namespace terminus
 {
 
 class AbstractGraphicsObject;
-class Painter;
 
 class Scene : public QObject
 {
@@ -35,13 +34,13 @@ public:
     void addNode(AbstractGraphicsObject* node);
     void deleteNode(AbstractGraphicsObject* node);
 
-    void setInitialTimeStamp(QTime *timeStamp);
+    void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
 protected:
 private:
-    Camera* m_camera;
+    std::unique_ptr<Camera> m_camera;
     QOpenGLFunctions m_gl;
     std::vector<AbstractGraphicsObject*> m_nodes;
-    QTime *m_timeStamp;
+    std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
 
 };

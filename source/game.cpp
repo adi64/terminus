@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <memory>
+#include <functional>
 
 #include <QQuickView>
 #include <QTimer>
@@ -24,8 +25,8 @@ namespace terminus
 {
 
 Game::Game()
-: m_timer(new QTimer())
-, m_timeStamp(new QTime())
+: m_timer(std::unique_ptr<QTimer>(new QTimer()))
+, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -34,28 +35,7 @@ Game::Game()
 
     m_timeStamp->start();
 
-
-    // Set up bullet
-    // Build the broadphase
-    m_bullet_broadphase = std::unique_ptr<btBroadphaseInterface>(new btDbvtBroadphase());
-
-    // Set up the collision configuration and dispatcher
-    m_bullet_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
-    m_bullet_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_bullet_collisionConfiguration.get()));
-
-    // The actual physics solver
-    m_bullet_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
-
-    // The world.
-    m_bullet_dynamicsWorld = std::unique_ptr<btDiscreteDynamicsWorld>(
-                new btDiscreteDynamicsWorld(
-                    m_bullet_dispatcher.get(),
-                    m_bullet_broadphase.get(),
-                    m_bullet_solver.get(),
-                    m_bullet_collisionConfiguration.get()
-                    )
-                );
-    m_bullet_dynamicsWorld->setGravity(btVector3(0, -10, 0));
+    setupBulletWorld();
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld));
 
@@ -149,7 +129,7 @@ void Game::handleWindowChanged(QQuickWindow *win)
         win->setClearBeforeRendering(false);
 
         // force redraw
-        connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
+        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
 }
@@ -182,6 +162,31 @@ void Game::gyroMoveEvent(qreal x, qreal y)
 void Game::flickEvent(qreal velo)
 {
     m_eventHandler->flickEvent(velo);
+}
+
+void Game::setupBulletWorld()
+{
+    // Build the broadphase
+    m_bullet_broadphase = std::unique_ptr<btBroadphaseInterface>(new btDbvtBroadphase());
+
+    // Set up the collision configuration and dispatcher
+    m_bullet_collisionConfiguration = std::unique_ptr<btDefaultCollisionConfiguration>(new btDefaultCollisionConfiguration());
+    m_bullet_dispatcher = std::unique_ptr<btCollisionDispatcher>(new btCollisionDispatcher(m_bullet_collisionConfiguration.get()));
+
+    // The actual physics solver
+    m_bullet_solver = std::unique_ptr<btSequentialImpulseConstraintSolver>(new btSequentialImpulseConstraintSolver);
+
+    // The world.
+    m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
+                new btDiscreteDynamicsWorld(
+                    m_bullet_dispatcher.get(),
+                    m_bullet_broadphase.get(),
+                    m_bullet_solver.get(),
+                    m_bullet_collisionConfiguration.get()
+                    )
+                );
+
+    m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
 }
 
 Scene *Game::scene() const
