@@ -71,7 +71,6 @@ public:
 protected:
     void invalidateMatrices() const;
 
-
 protected:
     QVector3D m_movement;
     QVector2D m_rotation;

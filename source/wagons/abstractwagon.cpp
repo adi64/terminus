@@ -52,9 +52,12 @@ void AbstractWagon::update(int elapsedMilliseconds)
     m_position = position();
     QVector3D t = tangent();
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
+    m_eulerAngles = QVector3D(0.0f, angleY, 0.0f);
     m_modelMatrix.setToIdentity();
     m_modelMatrix.translate(m_position);
-    m_modelMatrix.rotate(angleY, 0.f, 1.f, 0.f);
+    m_modelMatrix.rotate(m_eulerAngles.x(), 1.f, 0.f, 0.f);
+    m_modelMatrix.rotate(m_eulerAngles.y(), 0.f, 1.f, 0.f);
+    m_modelMatrix.rotate(m_eulerAngles.z(), 0.f, 0.f, 1.f);
 }
 
 }
