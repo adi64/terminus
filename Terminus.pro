@@ -27,7 +27,8 @@ SOURCES += \
     source/projectile.cpp \
     source/abstractphysicsobject.cpp \
     source/dynamicphysicsobject.cpp \
-    source/kinematicphysicsobject.cpp
+    source/kinematicphysicsobject.cpp \
+    source/deferredactionhandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -68,4 +69,5 @@ HEADERS += \
     source/projectile.h \
     source/abstractphysicsobject.h \
     source/dynamicphysicsobject.h \
-    source/kinematicphysicsobject.h
+    source/kinematicphysicsobject.h \
+    source/deferredactionhandler.h

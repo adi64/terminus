@@ -16,6 +16,7 @@
 #include "terrain.h"
 #include "skybox.h"
 #include "eventhandler.h"
+#include "deferredactionhandler.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -28,6 +29,7 @@ Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
+, m_deferredActionHandler(std::unique_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -97,6 +99,9 @@ Game::~Game()
 
 void Game::sync()
 {
+    // process sceduled events
+    m_deferredActionHandler->processDeferredActions();
+
     auto elapsedMilliseconds = m_timeStamp->restart();
 
     // physics

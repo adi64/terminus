@@ -20,6 +20,7 @@ class EventHandler;
 class Terrain;
 class ResourceManager;
 class SkyBox;
+class DeferredActionHandler;
 
 class Game : public QQuickItem
 {
@@ -47,6 +48,7 @@ protected:
 
     std::shared_ptr<Scene> m_scene;
     std::unique_ptr<EventHandler> m_eventHandler;
+    std::unique_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;
