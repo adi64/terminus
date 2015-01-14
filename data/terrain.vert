@@ -24,13 +24,12 @@ varying float v_shade;
 
 vec2 dec(float offset)
 {
-    return vec2(floor( mod( offset,     3.0)) - 1,
-                 floor( mod( offset/3.0, 3.0)) - 1);
+    return vec2(floor(mod(offset, 3.0)) - 1.0, floor(mod(offset/3.0, 3.0)) - 1.0);
 }
 
 vec3 getDisplacement(vec2 coord)
 {
-    return texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0).xyz * 200.0 - 100.0;
+    return texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz * 200.0 - 100.0;
 }
 
 void main()
