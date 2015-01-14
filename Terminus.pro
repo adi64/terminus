@@ -28,7 +28,8 @@ SOURCES += \
     source/perlinnoise.cpp \
     source/mathutil.cpp \
     source/polyline.cpp \
-    source/level.cpp
+    source/level.cpp \
+    source/deferredactionhandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -64,8 +65,9 @@ HEADERS += \
     source/catmullromspline.h \
     source/perlinnoise.h \
     source/mathutil.h \
-    source/polyline.h
-    source/level.h
+    source/polyline.h \
+    source/level.h \
+    source/deferredactionhandler.h
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \

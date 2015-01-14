@@ -15,6 +15,7 @@
 #include "terrain.h"
 #include "skybox.h"
 #include "eventhandler.h"
+#include "deferredactionhandler.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -26,6 +27,7 @@ namespace terminus
 Game::Game()
 : m_scene(new Scene())
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
+, m_deferredActionHandler(std::unique_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -92,6 +94,9 @@ Game::~Game()
 
 void Game::sync()
 {
+    // process sceduled events
+    m_deferredActionHandler->processDeferredActions();
+
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef __APPLE__
         m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
