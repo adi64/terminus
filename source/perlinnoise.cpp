@@ -73,8 +73,8 @@ int PerlinNoise::gradientIndex(int iX, int iY)
 {
     iY %= m_gradientCount;
     iX %= m_gradientCount;
-    iY = (iY < 0) ? m_gradientCount - iY : iY;
-    iX = (iX < 0) ? m_gradientCount - iX : iX;
+    iY = (iY < 0) ? m_gradientCount + iY : iY;
+    iX = (iX < 0) ? m_gradientCount + iX : iX;
     return iY * m_gradientCount + iX;
 }
 
