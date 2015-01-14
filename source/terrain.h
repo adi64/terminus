@@ -2,8 +2,11 @@
 
 #include <memory>
 
+#include <QOpenGLTexture>
+
+
 #include "abstractgraphicsobject.h"
-#include "levelgenerator.h"
+#include "level.h"
 
 namespace terminus
 {
@@ -23,10 +26,19 @@ public:
     Track *enemyTrack() const;
 
 protected:
+    void renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const;
+
+    void allocateTerrainMap(QOpenGLFunctions & gl) const;
+    void deallocateTerrainMap(QOpenGLFunctions & gl) const;
+
+protected:
+    Level m_level;
+
     std::unique_ptr<Track> m_playerTrack;
     std::unique_ptr<Track> m_enemyTrack;
 
-    LevelGenerator m_levelGen;
+    mutable bool m_terrainMapOnGPU;
+    mutable GLuint m_terrainMap;
 };
 
 }

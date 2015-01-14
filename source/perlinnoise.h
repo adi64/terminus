@@ -20,14 +20,15 @@ public:
     virtual unsigned int seed();
     virtual float noise(float x, float y);
 
-protected:
     virtual float symmetricRnd();
     virtual float asymmetricRnd();
 
+protected:
     virtual float dotGradient(int iX, int iY, float x, float y);
 
     virtual int gradientIndex(int iX, int iY);
     virtual void generateGradients();
+
 protected:
     unsigned int m_seed;
     std::default_random_engine m_rng;

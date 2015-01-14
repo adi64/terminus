@@ -1,5 +1,7 @@
 precision highp float;
 
+uniform sampler2D levelMap;
+
 uniform vec4 fSpecularity;
 uniform vec4 cEmit;
 uniform vec4 cDiffuse;
@@ -9,6 +11,7 @@ uniform vec4 fAlpha;
 varying vec3 v_normal;
 varying vec3 v_position;
 varying vec3 v_light;
+//varying vec2 v_tc;
 
 void main()
 {
@@ -28,4 +31,5 @@ void main()
     vec3 color = emit + diffuse + specular;
 
     gl_FragColor = vec4(color, fAlpha.r);
+    //gl_FragColor = vec4(texture2D(levelMap, v_tc).rgb, fAlpha.r);
 }

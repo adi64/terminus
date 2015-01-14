@@ -23,12 +23,12 @@ SOURCES += \
     source/resources/soundmanager.cpp \
     source/skybox.cpp \
     source/resources/program.cpp \
-    source/levelgenerator.cpp \
     source/eventhandler.cpp \
     source/catmullromspline.cpp \
     source/perlinnoise.cpp \
     source/mathutil.cpp \
-    source/polyline.cpp
+    source/polyline.cpp \
+    source/level.cpp
 
 RESOURCES += qml.qrc
 
@@ -62,4 +62,4 @@ HEADERS += \
     source/perlinnoise.h \
     source/mathutil.h \
     source/polyline.h
-    source/levelgenerator.h
+    source/level.h

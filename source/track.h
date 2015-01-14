@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 
 #include <QVector3D>
 
@@ -14,7 +13,7 @@ namespace terminus
 class Track : public AbstractGraphicsObject
 {
 public:
-    Track(Scene *scene, const std::vector<QVector3D> & controlPoints);
+    Track(Scene *scene, std::unique_ptr<Polyline> controlPoints);
 
     void update(int elapsedMilliseconds);
     void render(QOpenGLFunctions &gl) const override;
@@ -23,7 +22,7 @@ public:
     float length();
 
 protected:
-    Polyline m_course;
+    std::unique_ptr<Polyline> m_course;
 };
 
 }
