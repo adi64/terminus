@@ -9,15 +9,17 @@
 
 #include "abstractgraphicsobject.h"
 #include "camera.h"
+#include "deferredactionhandler.h"
 
 namespace terminus
 {
 
-Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld)
+Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
 : m_camera(std::unique_ptr<Camera>(new Camera()))
 , m_gl()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
+, m_deferredActionHandler(deferredActionHandler)
 {
     m_nodes.clear();
     qDebug() << m_bullet_world.use_count();
@@ -108,6 +110,11 @@ Camera & Scene::camera()
 btDiscreteDynamicsWorld *Scene::bullet_world()
 {
     return m_bullet_world.get();
+}
+
+void Scene::scheduleAction(DeferredAction event)
+{
+    m_deferredActionHandler->scheduleAction(event);
 }
 
 } // namespace terminus

@@ -48,7 +48,7 @@ protected:
 
     std::shared_ptr<Scene> m_scene;
     std::unique_ptr<EventHandler> m_eventHandler;
-    std::unique_ptr<DeferredActionHandler> m_deferredActionHandler;
+    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;

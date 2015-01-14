@@ -29,7 +29,7 @@ Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
-, m_deferredActionHandler(std::unique_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -39,7 +39,7 @@ Game::Game()
 
     setupBulletWorld();
 
-    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld));
+    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -99,7 +99,7 @@ Game::~Game()
 
 void Game::sync()
 {
-    // process sceduled events
+    // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
     auto elapsedMilliseconds = m_timeStamp->restart();

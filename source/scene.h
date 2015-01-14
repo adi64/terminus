@@ -7,6 +7,7 @@
 #include <QOpenGLFunctions>
 
 #include "camera.h"
+#include "deferredactionhandler.h"
 
 class QOpenGLShaderProgram;
 class QTime;
@@ -22,7 +23,7 @@ class Scene : public QObject
 {
     Q_OBJECT
 public:
-    Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld);
+    Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler);
     ~Scene();
 
     void update(int elapsedMilliseconds);
@@ -30,6 +31,7 @@ public:
 
     Camera & camera();
     btDiscreteDynamicsWorld* bullet_world();
+    void scheduleAction(DeferredAction event);
 
     void addNode(AbstractGraphicsObject* node);
     void deleteNode(AbstractGraphicsObject* node);
@@ -42,7 +44,7 @@ private:
     std::vector<AbstractGraphicsObject*> m_nodes;
     std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
-
+    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
 };
 
 

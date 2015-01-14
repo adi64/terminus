@@ -18,7 +18,7 @@ class DeferredActionHandler
 public:
     DeferredActionHandler(Game *game);
 
-    void scheduleAction(DeferredAction event);
+    void scheduleAction(const DeferredAction &event);
     void processDeferredActions();
 protected:
     Game *m_game;
