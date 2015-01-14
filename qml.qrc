@@ -23,7 +23,5 @@
         <file>sounds/angriff.wav</file>
         <file>sounds/shot.wav</file>
         <file>sounds/engine/machine.wav</file>
-        <file>data/terminus.ico</file>
-        <file>data/myapp.rc</file>
     </qresource>
 </RCC>
