@@ -17,6 +17,7 @@ class EventHandler;
 class Terrain;
 class ResourceManager;
 class SkyBox;
+class DeferredActionHandler;
 
 class Game : public QQuickItem
 {
@@ -42,12 +43,14 @@ public slots:
 protected:
     Scene *m_scene;
     std::unique_ptr<EventHandler> m_eventHandler;
+    std::unique_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;
     QTimer *m_timer;
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+
 };
 
 }
