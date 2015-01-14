@@ -24,7 +24,6 @@ EventHandler::EventHandler(Game *game)
 void EventHandler::keyPressEvent(Qt::Key key)
 {
     auto movement = m_game->scene()->camera().movement();
-    auto rotation = m_game->scene()->camera().rotation();
 
     switch(key)
     {
@@ -87,7 +86,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
 void EventHandler::keyReleaseEvent(Qt::Key key)
 {
     auto movement = m_game->scene()->camera().movement();
-    auto rotation = m_game->scene()->camera().rotation();
 
     switch(key)
     {

@@ -24,6 +24,11 @@ SOURCES += \
     source/skybox.cpp \
     source/resources/program.cpp \
     source/eventhandler.cpp \
+    source/catmullromspline.cpp \
+    source/perlinnoise.cpp \
+    source/mathutil.cpp \
+    source/polyline.cpp \
+    source/level.cpp
     source/deferredactionhandler.cpp
 
 RESOURCES += qml.qrc
@@ -54,4 +59,9 @@ HEADERS += \
     source/resources/program.h \
     source/skybox.h \
     source/eventhandler.h \
+    source/catmullromspline.h \
+    source/perlinnoise.h \
+    source/mathutil.h \
+    source/polyline.h
+    source/level.h
     source/deferredactionhandler.h

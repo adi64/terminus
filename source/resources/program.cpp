@@ -10,11 +10,12 @@ Program::Program()
 {
 }
 Program::Program(std::string vertexSrc, std::string fragmentSrc)
-: m_program(nullptr)
+: m_vertexSrc(vertexSrc)
+, m_fragmentSrc(fragmentSrc)
+, m_program(nullptr)
 , m_isBound(false)
 , m_isOnGPU(false)
-, m_vertexSrc(vertexSrc)
-, m_fragmentSrc(fragmentSrc)
+
 {
 }
 
