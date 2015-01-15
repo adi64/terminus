@@ -66,11 +66,11 @@ float Level::vertexHeight() const
 }
 float Level::patchWidth() const
 {
-    return static_cast<float>(m_vertexCountS - 1) * m_vertexWidth;
+    return static_cast<float>(vertexCountS() - 1) * vertexWidth();
 }
 float Level::patchHeight() const
 {
-    return static_cast<float>(m_vertexCountT - 1) * m_vertexHeight;
+    return static_cast<float>(vertexCountT() - 1) * vertexHeight();
 }
 int Level::totalVertexCountS() const
 {
@@ -82,16 +82,16 @@ int Level::totalVertexCountT() const
 }
 int Level::totalWidth() const
 {
-    return m_totalVertexCountS * m_vertexWidth;
+    return totalVertexCountS() * vertexWidth();
 }
 int Level::totalHeight() const
 {
-    return m_totalVertexCountT * m_vertexHeight;
+    return totalVertexCountT() * vertexHeight();
 }
 QPoint Level::positionToVertexID(float x, float z) const
 {
     int t = round(z / vertexHeight());
-    int s = round((x - (t % 2 == 0 ? 0.f : 0.5f)) / vertexWidth());
+    int s = round( x / vertexWidth() - (t % 2 == 0 ? 0.5f : 0.f));
     return QPoint(s, t);
 }
 QPoint Level::positionToPatchID(float x, float z) const
@@ -102,8 +102,8 @@ QPoint Level::positionToPatchID(float x, float z) const
 }
 QVector2D Level::vertexIDToPosition(int s, int t) const
 {
-    float x = s * vertexWidth() + (t % 2 == 0 ? 0.f : 0.5f);
-    float z = t * vertexHeight();
+    float x = (static_cast<float>(s) + (t % 2 == 0 ? 0.5f : 0.f)) * vertexWidth();//TODO find out why that works
+    float z = static_cast<float>(t) * vertexHeight();
     return QVector2D(x, z);
 }
 
@@ -122,7 +122,7 @@ std::unique_ptr<Polyline> Level::playerTrack()
     for(float param = 0.0; param <= m_playerTrack->length(); param += 0.1)
     {
         QVector2D pointInPlane = m_playerTrack->getPosition(param);
-        points.push_back(QVector3D(pointInPlane.x(), m_trackHeight, pointInPlane.y()));
+        points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
     }
     return std::unique_ptr<Polyline>(new Polyline(points));
 }
@@ -135,17 +135,22 @@ std::unique_ptr<Polyline> Level::enemyTrack()
     for(float param = 0.0; param <= m_enemyTrack->length(); param += 0.1)
     {
         QVector2D pointInPlane = m_enemyTrack->getPosition(param);
-        points.push_back(QVector3D(pointInPlane.x(), m_trackHeight, pointInPlane.y()));
+        points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
     }
     return std::unique_ptr<Polyline>(new Polyline(points));
+}
+
+float Level::trackHeight()
+{
+    return m_trackHeight;
 }
 
 void Level::generateTracks(){
     if(m_tracksGenerated)
         return;
 
-    float playerBaseZ = totalHeight() / 2.f + patchHeight() / 4.f,
-            playerDiffZ = patchHeight() / 2.f;
+    float playerBaseZ = totalHeight() / 2.f + patchHeight() / 2.f,
+            playerDiffZ = patchHeight();
     float enemyMinDist = 16.f,
             enemyDiffZ = patchHeight();
     float xStep = 64.f,
@@ -154,7 +159,7 @@ void Level::generateTracks(){
 
     std::vector<QVector2D> playerPoints;
     std::vector<QVector2D> enemyPoints;
-    for(float x = xBegin; x < xEnd; x += xStep)
+    for(float x = xBegin - xStep; x < xEnd + xStep; x += xStep)
     {
         float zPlayer = playerBaseZ + m_noiseX.symmetricRnd() * playerDiffZ;
         float zEnemy = zPlayer - (enemyMinDist + m_noiseX.asymmetricRnd() * enemyDiffZ);
@@ -172,8 +177,6 @@ void Level::generateTerrainMap(){
     if(m_texGenerated)
         return;
     generateTracks();
-
-//    m_terrainMapData = std::unique_ptr<GLfloat[]>(new GLfloat[totalVertexCountS() * totalVertexCountT() * 4]);
 
     for(int iT = 0; iT < m_totalVertexCountT; iT++)
     {
@@ -210,7 +213,7 @@ void Level::generateTerrainMap(){
 }
 QVector2D Level::terrainDisplacement(float x, float z){
     float scale = 0.5f,
-            influence = 0.125,
+            influence = 0.4,
             dX = m_noiseX.noise(x * scale, z * scale) * influence,
             dZ = m_noiseZ.noise(x * scale, z * scale) * influence;
     return QVector2D(dX, dZ);
@@ -247,19 +250,25 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 float Level::terrainHeight(float x, float z, float fTrack){
     float mountainBase = 20.f,
             mountainDiff = 60.f,
-            valleyBase = 0.f,
-            valleyDiff = 40.f,
+            valleyBase = -10.f,
+            valleyDiff = 20.f,
             landscapeFreq = 0.025f;
     float rockBegin = 20.f,
             rockEnd = 40.f,
             rockFreq = 0.2f,
             rockMinInfluence = 1.f,
             rockMaxInfluence = 10.f;
+    float groundTrackInfluence = 0.1f,
+            groundTerrainInfluence = 1.f,
+            groundRockInfluence = 2.f,
+            groundFreq = 1.f;
+    float borderBegin = patchHeight() / 2.f,
+            borderEnd = patchHeight();
 
     float center = totalHeight() / 2.f, //fmin(totalWidth(), totalHeight()) / 2.f,
             dXBorder = x - MathUtil::clamp(center, totalWidth() - center, x),
             dZBorder = z - center,  //MathUtil::clamp(center, totalHeight() - center, z),
-            fToBorder = MathUtil::smoothstep(patchHeight() / 2.f, patchHeight(), sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
+            fToBorder = MathUtil::smoothstep(borderBegin, borderEnd, sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
 
     float height = MathUtil::mix(valleyBase, mountainBase, fToBorder)
                     + m_noiseZ.noise(landscapeFreq * x, landscapeFreq * z)
@@ -268,7 +277,11 @@ float Level::terrainHeight(float x, float z, float fTrack){
     float fRockyness = MathUtil::smoothstep(rockBegin, rockEnd, height);
     float rockOffset = m_noiseZ.noise(rockFreq * x, rockFreq * z)
                         * MathUtil::mix(rockMinInfluence, rockMaxInfluence, fRockyness);
-    return MathUtil::mix(height + rockOffset, m_trackHeight, fTrack);
+
+    float groundOffset = m_noiseZ.noise(groundFreq * x, groundFreq * z)
+                * MathUtil::mix(MathUtil::mix(groundTerrainInfluence, groundRockInfluence, fRockyness), groundTrackInfluence, fTrack);
+
+    return MathUtil::mix(height + rockOffset, trackHeight(), fTrack) + groundOffset;
 }
 
 int Level::tMapIndex(int s, int t)

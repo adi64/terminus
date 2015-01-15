@@ -44,6 +44,8 @@ public:
     virtual std::unique_ptr<Polyline> enemyTrack();
 
 protected:
+    virtual float trackHeight();
+
     virtual void generateTracks();
 
     virtual void generateTerrainMap();

@@ -18,6 +18,7 @@ Terrain::Terrain(Scene *scene)
     , m_terrainMapOnGPU(false)
 {   
     m_level.generateLevel();
+
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
 }
@@ -109,7 +110,7 @@ void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
 
     gl.glGenTextures(1, &m_terrainMap);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
+    gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
