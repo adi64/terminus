@@ -149,10 +149,11 @@ void Level::generateTracks(){
     if(m_tracksGenerated)
         return;
 
-    float playerBaseZ = totalHeight() / 2.f + patchHeight() / 2.f,
-            playerDiffZ = patchHeight();
-    float enemyMinDist = 16.f,
-            enemyDiffZ = patchHeight();
+    float minDist = 32.f,
+            playerMinZ = totalHeight() / 2.f - patchHeight() * 0.125,
+            playerMaxZ = totalHeight() / 2.f + patchHeight(),
+            enemyMinZ = totalHeight() / 2.f - patchHeight(),
+            enemyMaxZ = totalHeight() / 2.f + patchHeight() * 0.125;
     float xStep = 64.f,
             xBegin = totalHeight() / 2.f,
             xEnd = totalWidth() - totalHeight() / 2.f;
@@ -161,10 +162,11 @@ void Level::generateTracks(){
     std::vector<QVector2D> enemyPoints;
     for(float x = xBegin - xStep; x < xEnd + xStep; x += xStep)
     {
-        float zPlayer = playerBaseZ + m_noiseX.symmetricRnd() * playerDiffZ;
-        float zEnemy = zPlayer - (enemyMinDist + m_noiseX.asymmetricRnd() * enemyDiffZ);
-        playerPoints.push_back(QVector2D(x, zPlayer));
-        enemyPoints.push_back(QVector2D(x, zEnemy));
+        float zPlayer = MathUtil::mix(playerMinZ, playerMaxZ, m_noiseX.asymmetricRnd());
+        float zEnemy = MathUtil::mix(enemyMinZ, enemyMaxZ, m_noiseX.asymmetricRnd());
+        float distanceCorrect = minDist - fmin(zPlayer - zEnemy, minDist);
+        playerPoints.push_back(QVector2D(x, zPlayer + distanceCorrect / 2.f));
+        enemyPoints.push_back(QVector2D(x, zEnemy + distanceCorrect / 2.f));
     }
 
     m_playerTrack = std::unique_ptr<CatmullRomSpline>(new CatmullRomSpline(playerPoints));
@@ -250,8 +252,8 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 float Level::terrainHeight(float x, float z, float fTrack){
     float mountainBase = 20.f,
             mountainDiff = 60.f,
-            valleyBase = -10.f,
-            valleyDiff = 20.f,
+            valleyBase = 0.f,
+            valleyDiff = 40.f,
             landscapeFreq = 0.025f;
     float rockBegin = 20.f,
             rockEnd = 40.f,
@@ -262,8 +264,8 @@ float Level::terrainHeight(float x, float z, float fTrack){
             groundTerrainInfluence = 1.f,
             groundRockInfluence = 2.f,
             groundFreq = 1.f;
-    float borderBegin = patchHeight() / 2.f,
-            borderEnd = patchHeight();
+    float borderBegin = patchHeight() * 0.375f,
+            borderEnd = patchHeight() * 0.75f;
 
     float center = totalHeight() / 2.f, //fmin(totalWidth(), totalHeight()) / 2.f,
             dXBorder = x - MathUtil::clamp(center, totalWidth() - center, x),
