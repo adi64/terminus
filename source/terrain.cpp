@@ -115,7 +115,7 @@ void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
     #ifdef GL_RGBA16F
         gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
     #else
-        gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F_EXT, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
+        gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
     #endif
 
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
