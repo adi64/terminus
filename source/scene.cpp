@@ -40,7 +40,6 @@ void Scene::deleteNode(AbstractGraphicsObject *node)
     {
         if(*iterator == node)
         {
-            qDebug() << "Found node " << node << " - deleting";
             m_nodes.erase(iterator);
             return;
         }

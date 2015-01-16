@@ -28,12 +28,24 @@ void WeaponWagon::primaryAction()
 {
     auto scene = m_scene;
 
+    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
+    auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
+
+    QMatrix4x4 rotationMatrix;
+    rotationMatrix.setToIdentity();
+    rotationMatrix.rotate(- eulerAngles().x(), 1.f, 0.f, 0.f);
+    rotationMatrix.rotate(- eulerAngles().y(), 0.f, 1.f, 0.f);
+    rotationMatrix.rotate(- eulerAngles().z(), 0.f, 0.f, 1.f);
+
+    QVector3D worldProjectilePosition = position() + (QVector4D(relativeProjectilePosition, 1.0f) * rotationMatrix).toVector3DAffine();
+    QVector3D worldProjectileForce = (QVector4D(relativeProjectileForce, 1.0f) * rotationMatrix).toVector3DAffine();
+
     m_scene->scheduleAction(
-        [scene, this]()
+        [scene, worldProjectilePosition, worldProjectileForce, this]()
         {
             auto projectile = new Projectile(scene);
-            projectile->setPosition(this->position() + QVector3D(0.0, 1.0, 2.2));
-            projectile->applyForce(QVector3D(0.0, 100.0, 300.0));
+            projectile->setPosition(worldProjectilePosition);
+            projectile->applyForce(worldProjectileForce);
             scene->addNode(projectile);
         }
     );
