@@ -241,25 +241,10 @@ void Camera::setRotation(QVector2D rotation)
     }
     else
     {
-
-//        auto objectLocalX = QVector3D(1.0, 0.0, 0.0);
-//        auto objectLocalZ = QVector3D(0.0, 0.0, 1.0);
-
-//        // "x rotation" -> rotate around up vector
-//        auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -1.0 * m_lockedObject->eulerAngles().x());
-
-//        // "y rotation" -> rotation around "the vector pointing to the right"
-//        auto rotation_y = QQuaternion::fromAxisAndAngle(objectLocalZ, m_lockedObject->eulerAngles().y());
-
-//        auto rotation_total = rotation_x * rotation_y;
-//        auto objectGlobalX = rotation_total.rotatedVector(objectLocalX);
-
-//        auto newLockedEyeOffset = m_lockedEyeOffset + (objectGlobalX * rotation.x() * 0.15) + (up() * rotation.y() * -0.15);
-
         auto newLockedEyeOffset = m_lockedEyeOffset + QVector3D(rotation.x() * 0.15f, rotation.y() * -0.15f, 0.f);
 
         // stop at object's bounds
-        // TODO FIXME: this needs the object's AABB and at the moment does not use object-local coordinates
+        // TODO FIXME: this needs the object's AABB
         m_lockedEyeOffset = QVector3D(MathUtil::clamp(-3.f, 3.f, newLockedEyeOffset.x()),
                                         MathUtil::clamp(0.f, 4.f, newLockedEyeOffset.y()),
                                         MathUtil::clamp(-3.f, 3.f, newLockedEyeOffset.z()));
@@ -370,34 +355,8 @@ void Camera::update()
 {
     if(m_lockedToTrain)
     {
-
-        /*
-        auto objectLocalX = QVector3D(1.0, 0.0, 0.0);
-        auto objectLocalZ = QVector3D(0.0, 0.0, 1.0);
-
-        // "x rotation" -> rotate around up vector
-        auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -1.0 * m_lockedObject->eulerAngles().x());
-
-        // "y rotation" -> rotation around "the vector pointing to the right"
-        auto rotation_y = QQuaternion::fromAxisAndAngle(objectLocalZ, m_lockedObject->eulerAngles().y());
-
-        auto rotation_total = rotation_x * rotation_y;
-        auto objectGlobalX = rotation_total.rotatedVector(objectLocalX);
-
-        auto newLockedEyeOffset = m_lockedEyeOffset + (objectGlobalX * rotation.x() * 0.15) + (up() * rotation.y() * -0.15);
-        */
-
-        // TODO FIXME: transform m_lockedEyeOffset so that it uses m_lockedObject.eulerAngles()
-
-        //m_lockedObject->update(); //make sure that model matrix is available
         setCenter(m_lockedObject->position() + m_lockedCenterOffset);
-
-        QMatrix4x4 rotationMatrix;
-        rotationMatrix.setToIdentity();
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().x(), 1.f, 0.f, 0.f);
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().y(), 0.f, 1.f, 0.f);
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().z(), 0.f, 0.f, 1.f);
-        QVector3D worldEyeOffset = (QVector4D(m_lockedEyeOffset, 1.f) * rotationMatrix).toVector3DAffine();
+        QVector3D worldEyeOffset = m_lockedObject->rotation().rotatedVector(m_lockedEyeOffset);
         setEye(m_lockedObject->position() + worldEyeOffset);
     }
 }

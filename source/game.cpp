@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <memory>
+#include <functional>
 
 #include <QQuickView>
 #include <QTimer>
@@ -25,19 +26,20 @@ namespace terminus
 {
 
 Game::Game()
-: m_scene(new Scene())
+: m_timer(std::unique_ptr<QTimer>(new QTimer()))
+, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
-, m_deferredActionHandler(std::unique_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
 
-    m_scene = new Scene;
-
-    m_timer = new QTimer();
-    m_timeStamp = new QTime();
     m_timeStamp->start();
+
+    setupBulletWorld();
+
+    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
     SoundManager::getInstance()->playBackgroundMusic();
 
@@ -89,18 +91,26 @@ Game::Game()
 
 Game::~Game()
 {
-    delete m_scene;
+    // do not delete this destructor, even if it is empty
+    // otherwise std::shared_ptr<IncompleteType> in the header will break
+    //
+    // ... :D
 }
 
 void Game::sync()
 {
-    // process sceduled events
+    // process scheduled events
     m_deferredActionHandler->processDeferredActions();
+
+    auto elapsedMilliseconds = m_timeStamp->restart();
+
+    // physics
+    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     m_scene->camera().setViewport(window()->width(), window()->height());
 
-    m_scene->update();
+    m_scene->update(elapsedMilliseconds);
 }
 
 void Game::render()
@@ -124,7 +134,7 @@ void Game::handleWindowChanged(QQuickWindow *win)
         win->setClearBeforeRendering(false);
 
         // force redraw
-        connect(m_timer, &QTimer::timeout, win, &QQuickWindow::update);
+        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
 }
@@ -159,9 +169,37 @@ void Game::flickEvent(qreal velo)
     m_eventHandler->flickEvent(velo);
 }
 
+void Game::setupBulletWorld()
+{
+    // these objects must not be deleted before m_bullet_dynamicsWorld
+    // -- so as a temporary hack, we won't delete them at all
+
+    // Build the broadphase
+    m_bullet_broadphase = new btDbvtBroadphase();
+
+    // Set up the collision configuration and dispatcher
+    m_bullet_collisionConfiguration = new btDefaultCollisionConfiguration();
+    m_bullet_dispatcher = new btCollisionDispatcher(m_bullet_collisionConfiguration);
+
+    // The actual physics solver
+    m_bullet_solver = new btSequentialImpulseConstraintSolver;
+
+    // The world.
+    m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
+                new btDiscreteDynamicsWorld(
+                    m_bullet_dispatcher,
+                    m_bullet_broadphase,
+                    m_bullet_solver,
+                    m_bullet_collisionConfiguration
+                    )
+                );
+
+    m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
+}
+
 Scene *Game::scene() const
 {
-    return m_scene;
+    return m_scene.get();
 }
 
 Train *Game::playerTrain() const

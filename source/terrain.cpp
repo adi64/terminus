@@ -35,14 +35,23 @@
 namespace terminus
 {
 
-Terrain::Terrain(Scene *scene)
-    : AbstractGraphicsObject(scene)
+Terrain::Terrain(std::shared_ptr<Scene> scene)
+    : KinematicPhysicsObject(scene)
     , m_terrainMapOnGPU(false)
 {   
     m_level.generateLevel();
-
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
+    
+    // infinite plane
+    auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
+    m_btRigidBody->setCollisionShape(myShape);
+    m_btCollisionShape.reset(myShape);
+
+    // zero mass --> unlimited mass, does not move
+    m_btRigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
+
+    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
 
 Terrain::~Terrain()
@@ -61,8 +70,7 @@ Track *Terrain::enemyTrack() const
 
 void Terrain::update(int elapsedMilliseconds)
 {
-    m_modelMatrix.setToIdentity();
-    m_modelMatrix.scale(m_level.scale());
+    AbstractPhysicsObject::update(elapsedMilliseconds);
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
@@ -73,7 +81,7 @@ void Terrain::render(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_scene->camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
-    int radius = 3;
+    int radius = 5;
 
     for(int iX = std::max(0, pid.x() - radius); iX < std::min(m_level.patchCountS(), pid.x() + radius); iX++)
     {
@@ -133,11 +141,7 @@ void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
 
     gl.glGenTextures(1, &m_terrainMap);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-
-    glGetString(GL_RENDERER);
-
     gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
-
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

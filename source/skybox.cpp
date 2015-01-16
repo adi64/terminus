@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-SkyBox::SkyBox(Scene *scene)
+SkyBox::SkyBox(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
     , m_initialized(false)
 {
@@ -22,15 +22,6 @@ SkyBox::SkyBox(Scene *scene)
     m_imagePY = std::unique_ptr<QImage>(new QImage(":/data/env_cube_py.png"));
     m_imageNZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_nz.png"));
     m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
-}
-
-SkyBox::~SkyBox()
-{
-
-}
-
-void SkyBox::update(int elapsedMilliseconds)
-{
 }
 
 void SkyBox::render(QOpenGLFunctions &gl) const
