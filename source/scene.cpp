@@ -5,23 +5,28 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 
+#include <bullet/btBulletDynamicsCommon.h>
+
 #include "abstractgraphicsobject.h"
 #include "camera.h"
+#include "deferredactionhandler.h"
 
 namespace terminus
 {
 
-Scene::Scene()
-: m_camera(new Camera())
+Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
+: m_camera(std::unique_ptr<Camera>(new Camera()))
 , m_gl()
-, m_timeStamp(nullptr)
+, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
+, m_bullet_world(bulletWorld)
+, m_deferredActionHandler(deferredActionHandler)
 {
     m_nodes.clear();
+    qDebug() << m_bullet_world.use_count();
 }
 
 Scene::~Scene()
 {
-    delete m_camera;
 }
 
 void Scene::addNode(AbstractGraphicsObject *node)
@@ -29,15 +34,28 @@ void Scene::addNode(AbstractGraphicsObject *node)
     m_nodes.push_back(node);
 }
 
-void Scene::setInitialTimeStamp(QTime *timeStamp)
+void Scene::deleteNode(AbstractGraphicsObject *node)
 {
+    for(auto iterator = m_nodes.begin(); iterator != m_nodes.end(); ++iterator)
+    {
+        if(*iterator == node)
+        {
+            m_nodes.erase(iterator);
+            return;
+        }
+    }
+
+    qDebug() << "Could not find node " << node;
+}
+
+void Scene::setInitialTimeStamp(const std::shared_ptr<QTime>& timeStamp)
+{
+    m_timeStamp.reset();
     m_timeStamp = timeStamp;
 }
 
-void Scene::update()
+void Scene::update(int elapsedMilliseconds)
 {
-    auto elapsedMilliseconds = m_timeStamp->restart();
-
     for(auto node : m_nodes)
     {
         node->update(elapsedMilliseconds);
@@ -85,7 +103,17 @@ void Scene::render()
 
 Camera & Scene::camera()
 {
-    return *m_camera;
+    return *(m_camera.get());
+}
+
+btDiscreteDynamicsWorld *Scene::bullet_world()
+{
+    return m_bullet_world.get();
+}
+
+void Scene::scheduleAction(DeferredAction event)
+{
+    m_deferredActionHandler->scheduleAction(event);
 }
 
 } // namespace terminus

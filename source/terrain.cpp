@@ -1,6 +1,5 @@
 #include "terrain.h"
 
-#include <QPoint>
 #include <QDebug>
 
 #include "track.h"
@@ -13,13 +12,23 @@
 namespace terminus
 {
 
-Terrain::Terrain(Scene *scene)
-    : AbstractGraphicsObject(scene)
+Terrain::Terrain(std::shared_ptr<Scene> scene)
+    : KinematicPhysicsObject(scene)
     , m_terrainMapOnGPU(false)
 {   
     m_level.generateLevel();
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
+    
+    // infinite plane
+    auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
+    m_btRigidBody->setCollisionShape(myShape);
+    m_btCollisionShape.reset(myShape);
+
+    // zero mass --> unlimited mass, does not move
+    m_btRigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
+
+    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
 
 Terrain::~Terrain()
@@ -38,7 +47,7 @@ Track *Terrain::enemyTrack() const
 
 void Terrain::update(int elapsedMilliseconds)
 {
-    m_modelMatrix.setToIdentity();
+    AbstractPhysicsObject::update(elapsedMilliseconds);
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
