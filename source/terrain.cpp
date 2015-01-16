@@ -3,12 +3,34 @@
 #include <QPoint>
 #include <QDebug>
 
+#include <string>
+
 #include "track.h"
 #include "scene.h"
 #include "resources/resourcemanager.h"
 #include "resources/geometry.h"
 #include "resources/material.h"
 #include "resources/program.h"
+
+#define TEXFORMAT GL_RGBA
+#ifdef Q_OS_LINUX
+    #ifndef Q_OS_ANDROID
+        #undef TEXFORMAT
+        #define TEXFORMAT GL_RGBA16F
+    #endif
+#endif
+#ifdef Q_OS_WIN32
+    #ifndef Q_OS_WINPHONE
+        #undef TEXFORMAT
+        #define TEXFORMAT GL_RGBA16F
+    #endif
+#endif
+#ifdef Q_OS_MAC
+    #ifndef Q_OS_IOS
+        #undef TEXFORMAT
+        #define TEXFORMAT GL_RGBA16F
+    #endif
+#endif
 
 namespace terminus
 {
@@ -112,11 +134,9 @@ void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
     gl.glGenTextures(1, &m_terrainMap);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 
-    #ifdef GL_RGBA16F
-        gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
-    #else
-        gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
-    #endif
+    glGetString(GL_RENDERER);
+
+    gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
 
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
