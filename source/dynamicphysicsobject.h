@@ -12,7 +12,9 @@ class DynamicPhysicsObject : public AbstractPhysicsObject
 public:
     DynamicPhysicsObject(std::shared_ptr<Scene> scene);
 
-    void applyForce(const QVector3D &force);
+    virtual void update(int elapsedMilliseconds) override;
+
+    virtual void applyForce(const QVector3D & force);
 };
 
 }

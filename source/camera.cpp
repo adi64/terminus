@@ -355,15 +355,8 @@ void Camera::update()
 {
     if(m_lockedToTrain)
     {
-        //m_lockedObject->update(); //make sure that model matrix is available
         setCenter(m_lockedObject->position() + m_lockedCenterOffset);
-
-        QMatrix4x4 rotationMatrix;
-        rotationMatrix.setToIdentity();
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().x(), 1.f, 0.f, 0.f);
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().y(), 0.f, 1.f, 0.f);
-        rotationMatrix.rotate(- m_lockedObject->eulerAngles().z(), 0.f, 0.f, 1.f);
-        QVector3D worldEyeOffset = (QVector4D(m_lockedEyeOffset, 1.f) * rotationMatrix).toVector3DAffine();
+        QVector3D worldEyeOffset = m_lockedObject->rotation().rotatedVector(m_lockedEyeOffset);
         setEye(m_lockedObject->position() + worldEyeOffset);
     }
 }

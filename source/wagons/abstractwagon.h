@@ -18,8 +18,6 @@ public:
     virtual float length() const;
     virtual float weight() const;
     virtual void setPositionOffset(float accumulatedOffset);
-    virtual QVector3D position() const override;
-    virtual QVector3D tangent() const;
 
 protected:
     float m_positionOffset;

@@ -18,12 +18,12 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     , m_ageInMilliseconds(0)
 {   
     auto myShape = new btSphereShape(1.0);
-    m_bullet_rigidBody->setCollisionShape(myShape);
-    m_bullet_collisionShape.reset(myShape);
+    m_btRigidBody->setCollisionShape(myShape);
+    m_btCollisionShape.reset(myShape);
 
-    m_bullet_rigidBody->setMassProps(1.0f, btVector3(0.0f, 0.0f, 0.0f));
+    m_btRigidBody->setMassProps(1.0f, btVector3(0.0f, 0.0f, 0.0f));
 
-    m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
+    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
 
 void Projectile::update(int elapsedMilliseconds)
@@ -48,7 +48,7 @@ void Projectile::render(QOpenGLFunctions& gl) const
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, m_modelMatrix);
+    m_scene->camera().setMatrices(program, modelMatrix());
     material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
     geometry.setAttributes(program);

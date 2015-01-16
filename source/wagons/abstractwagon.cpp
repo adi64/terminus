@@ -23,23 +23,14 @@ void AbstractWagon::primaryAction()
 
 void AbstractWagon::update(int elapsedMilliseconds)
 {
-    //AbstractPhysicsObject::update(elapsedMilliseconds);
+    auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
-    // compatibility for physics
-    setPosition(position());
-
-    QVector3D t = tangent();
+    QVector3D t = m_train->track()->tangentAt(travelledDistance);
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
-    setEulerAngles(QVector3D(0.0f, angleY, 0.0f));
+    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 1.0, 0.0f), angleY));
 
-    auto angles = eulerAngles();
-    m_modelMatrix.setToIdentity();
-    m_modelMatrix.translate(position());
-    m_modelMatrix.rotate(angles.x(), 1.f, 0.f, 0.f);
-    m_modelMatrix.rotate(angles.y(), 0.f, 1.f, 0.f);
-    m_modelMatrix.rotate(angles.z(), 0.f, 0.f, 1.f);
-    //m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
-    m_modelMatrix.scale(scaling());
+    setPosition(m_train->track()->positionAt(travelledDistance));
+    KinematicPhysicsObject::update(elapsedMilliseconds);
 }
 
 float AbstractWagon::length() const
@@ -56,21 +47,6 @@ float AbstractWagon::weight() const
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
-
-    // TODO check if still necessary after track is added
-    setPosition(QVector3D(m_positionOffset, 0.0, 0.0));
-}
-
-QVector3D AbstractWagon::position() const
-{
-    auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
-    return m_train->track()->positionAt(travelledDistance);
-}
-
-QVector3D AbstractWagon::tangent() const
-{
-    auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
-    return m_train->track()->tangentAt(travelledDistance);
 }
 
 }//namespace terminus

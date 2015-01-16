@@ -22,13 +22,13 @@ Terrain::Terrain(std::shared_ptr<Scene> scene)
     
     // infinite plane
     auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
-    m_bullet_rigidBody->setCollisionShape(myShape);
-    m_bullet_collisionShape.reset(myShape);
+    m_btRigidBody->setCollisionShape(myShape);
+    m_btCollisionShape.reset(myShape);
 
     // zero mass --> unlimited mass, does not move
-    m_bullet_rigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
+    m_btRigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
 
-    m_scene->bullet_world()->addRigidBody(m_bullet_rigidBody.get());
+    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
 
 Terrain::~Terrain()

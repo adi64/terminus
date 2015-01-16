@@ -1,5 +1,6 @@
 #include "abstractgraphicsobject.h"
 
+#include <QQuaternion>
 #include <QDebug>
 
 #include "scene.h"
@@ -8,10 +9,11 @@ namespace terminus
 {
 
 AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
-    : m_scene(scene)
-    , m_position(0.0, 0.0, 0.0)
-    , m_eulerAngles(0.0, 0.0, 0.0)
-    , m_scaling(1.0, 1.0, 1.0)
+: m_scene(scene)
+, m_position(0.0, 0.0, 0.0)
+, m_rotation(0.0, 0.0, 0.0, 1.0)
+, m_scale(1.0, 1.0, 1.0)
+, m_modelMatrixChanged(false)
 {
 }
 
@@ -25,48 +27,53 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
 
 void AbstractGraphicsObject::update(int elapsedMilliseconds)
 {
-    auto angles = eulerAngles();
-
-    m_modelMatrix.setToIdentity();
-    m_modelMatrix.translate(position());
-    m_modelMatrix.rotate(angles.x(), angles.y(), angles.z());
-    m_modelMatrix.scale(scaling());
-}
-
-qreal AbstractGraphicsObject::calculateDistance() const
-{
-    return (m_scene->camera().eye() - m_position).length(); //just the dirty way, has to be improved
-}
-
-void AbstractGraphicsObject::setPosition(const QVector3D &newPosition)
-{
-    m_position = newPosition;
 }
 
 QVector3D AbstractGraphicsObject::position() const
 {
     return m_position;
 }
-
-QVector3D AbstractGraphicsObject::eulerAngles() const
+QQuaternion AbstractGraphicsObject::rotation() const
 {
-    return m_eulerAngles;
+    return m_rotation;
 }
-
-QVector3D AbstractGraphicsObject::scaling() const
+QVector3D AbstractGraphicsObject::scale() const
 {
-    return m_scaling;
+    return m_scale;
 }
 
 QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 {
+    if(m_modelMatrixChanged)
+    {
+        m_modelMatrix.setToIdentity();
+        m_modelMatrix.translate(position());
+        m_modelMatrix.rotate(rotation());
+        m_modelMatrix.scale(scale());
+        m_modelMatrixChanged = false;
+    }
     return m_modelMatrix;
 }
 
-void AbstractGraphicsObject::setEulerAngles(const QVector3D & angles)
+void AbstractGraphicsObject::setPosition(const QVector3D & position)
 {
-    m_eulerAngles = angles;
+    m_position = position;
+    m_modelMatrixChanged = true;
 }
-
+void AbstractGraphicsObject::setRotation(const QQuaternion &eulerAngles)
+{
+    m_rotation = eulerAngles;
+    m_modelMatrixChanged = true;
+}
+void AbstractGraphicsObject::setScale(const QVector3D & scale)
+{
+    m_scale = scale;
+    m_modelMatrixChanged = true;
+}
+void AbstractGraphicsObject::setScale(float scale)
+{
+    m_scale = QVector3D(scale, scale, scale);
+    m_modelMatrixChanged = true;
+}
 
 }

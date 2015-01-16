@@ -15,14 +15,11 @@ public:
     AbstractPhysicsObject(std::shared_ptr<Scene> scene);
     ~AbstractPhysicsObject();
 
-    void applyForce(const QVector3D &force);
+    virtual void moveTo(const QVector3D & newPosition);
 
-    virtual void setPosition(const QVector3D& newPosition) override;
-    virtual QVector3D position() const override;
-    virtual QVector3D eulerAngles() const override;
 protected:
-    std::unique_ptr<btRigidBody> m_bullet_rigidBody;
-    std::unique_ptr<btCollisionShape> m_bullet_collisionShape;
+    std::unique_ptr<btRigidBody> m_btRigidBody;
+    std::unique_ptr<btCollisionShape> m_btCollisionShape;
 };
 
 }
