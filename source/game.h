@@ -17,6 +17,7 @@ class EventHandler;
 class Terrain;
 class ResourceManager;
 class SkyBox;
+class SnowStorm;
 class DeferredActionHandler;
 
 class Game : public QQuickItem
@@ -50,6 +51,7 @@ protected:
     QTime *m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+    std::unique_ptr<SnowStorm> m_snowStorm;
 
 };
 

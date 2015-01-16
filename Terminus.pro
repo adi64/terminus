@@ -29,7 +29,8 @@ SOURCES += \
     source/mathutil.cpp \
     source/polyline.cpp \
     source/level.cpp \
-    source/deferredactionhandler.cpp
+    source/deferredactionhandler.cpp \
+    source/snowstorm.cpp
 
 RESOURCES += qml.qrc
 
@@ -64,4 +65,7 @@ HEADERS += \
     source/mathutil.h \
     source/polyline.h \
     source/level.h \
-    source/deferredactionhandler.h
+    source/deferredactionhandler.h \
+    source/snowstorm.h
+
+DISTFILES += \
