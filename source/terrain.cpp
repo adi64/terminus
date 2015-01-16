@@ -40,6 +40,7 @@ Track *Terrain::enemyTrack() const
 void Terrain::update(int elapsedMilliseconds)
 {
     m_modelMatrix.setToIdentity();
+    m_modelMatrix.scale(m_level.scale());
 
     // update tracks
     m_playerTrack->update(elapsedMilliseconds);
@@ -50,7 +51,7 @@ void Terrain::render(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_scene->camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
-    int radius = 5;
+    int radius = 3;
 
     for(int iX = std::max(0, pid.x() - radius); iX < std::min(m_level.patchCountS(), pid.x() + radius); iX++)
     {
@@ -83,12 +84,12 @@ void Terrain::renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(iX * (m_level.vertexCountS() - 1)),
                       static_cast<float>(iZ * (m_level.vertexCountT() - 1)),
-                      static_cast<float>(m_level.totalVertexCountS()),
-                      static_cast<float>(m_level.totalVertexCountT()));
-    QVector4D posInfo(m_level.vertexWidth(),
-                      m_level.vertexHeight(),
-                      iX * m_level.patchWidth(),
-                      iZ * m_level.patchHeight());
+                      static_cast<float>(m_level.totalVertexCountS() - 1),
+                      static_cast<float>(m_level.totalVertexCountT() - 1));
+    QVector4D posInfo(m_level.vertexWidthUnscaled(),
+                      m_level.vertexHeightUnscaled(),
+                      iX * m_level.patchWidthUnscaled(),
+                      iZ * m_level.patchHeightUnscaled());
     program.setUniform("texInfo", texInfo);
     program.setUniform("posInfo", posInfo);
 

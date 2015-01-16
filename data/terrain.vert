@@ -30,7 +30,8 @@ vec2 dec(float offset)
 //extract displacement vector from the terrain map
 vec3 getDisplacement(vec2 coord)
 {
-    return texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz * 200.0 - 100.0;
+    vec3 raw = texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz;
+    return vec3(raw.x - 0.5, raw.y * 200.0, raw.z - 0.5);
 }
 
 void main()
