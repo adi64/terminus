@@ -40,6 +40,7 @@ Terrain::Terrain(std::shared_ptr<Scene> scene)
     , m_terrainMapOnGPU(false)
 {   
     m_level.generateLevel();
+    setScale(m_level.scale());
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
     
@@ -81,8 +82,8 @@ void Terrain::render(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_scene->camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
-    int radius = 5;
 
+    int radius = 5;
     for(int iX = std::max(0, pid.x() - radius); iX < std::min(m_level.patchCountS(), pid.x() + radius); iX++)
     {
         for(int iZ = std::max(0, pid.y() - radius); iZ < std::min(m_level.patchCountT(), pid.y() + radius); iZ++)
@@ -109,7 +110,7 @@ void Terrain::renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const
     material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 
-    m_scene->camera().setMatrices(program, m_modelMatrix);
+    m_scene->camera().setMatrices(program, modelMatrix());
 
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(iX * (m_level.vertexCountS() - 1)),

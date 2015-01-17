@@ -14,7 +14,7 @@ varying float v_shade;
 void main()
 {
     //modify material colors for more variety among triangles
-    vec3 emit = cEmit.rgb * mix(0.7, 1.0, v_shade);
+    vec3 emit = cEmit.rgb * mix(0.8, 1.0, v_shade);
     vec3 diffuse = cDiffuse.rgb * mix(0.9, 1.0, v_shade);
     vec3 specular = cSpecular.rgb;
 

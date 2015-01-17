@@ -70,9 +70,7 @@ protected:
     float m_vertexWidth, m_vertexHeight;
     float m_scale;
 
-    PerlinNoise m_noiseX;
-    PerlinNoise m_noiseY;
-    PerlinNoise m_noiseZ;
+    PerlinNoise m_noise;
 
     bool m_tracksGenerated;
     float m_trackHeight;// might become a PerlinNoise instance...

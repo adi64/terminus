@@ -18,11 +18,9 @@ Level::Level()
 , m_vertexWidth(1.f)
 , m_vertexHeight(sqrt(3.f)/2.f)
 , m_scale(4.f)
-, m_noiseX(/*seed*/)
-, m_noiseY(/*seed*/)
-, m_noiseZ(/*seed*/)
+, m_noise(/*seed*/)
 , m_tracksGenerated(false)
-, m_trackHeight(50.f)
+, m_trackHeight(100.f)
 , m_texGenerated(false)
 , m_terrainMapData(totalVertexCountS() * totalVertexCountT() * 4, 0.f)
 {
@@ -181,10 +179,10 @@ void Level::generateTracks(){
         return;
 
     float minDist = 32.f,
-            playerMinZ = totalHeight() / 2.f - 20.f,
+            playerMinZ = totalHeight() / 2.f + 25.f,
             playerMaxZ = totalHeight() / 2.f + 100.f,
             enemyMinZ = totalHeight() / 2.f - 100.f,
-            enemyMaxZ = totalHeight() / 2.f + 20.f;
+            enemyMaxZ = totalHeight() / 2.f - 25.f;
     float xStep = 64.f,
             xBegin = totalHeight() / 2.f - xStep,
             xEnd = totalWidth() - totalHeight() / 2.f + xStep;
@@ -193,8 +191,8 @@ void Level::generateTracks(){
     std::vector<QVector2D> enemyPoints;
     for(float x = xBegin; x < xEnd; x += xStep)
     {
-        float zPlayer = MathUtil::mix(playerMinZ, playerMaxZ, m_noiseX.asymmetricRnd());
-        float zEnemy = MathUtil::mix(enemyMinZ, enemyMaxZ, m_noiseX.asymmetricRnd());
+        float zPlayer = MathUtil::mix(playerMinZ, playerMaxZ, m_noise.asymmetricRnd());
+        float zEnemy = MathUtil::mix(enemyMinZ, enemyMaxZ, m_noise.asymmetricRnd());
         float distanceCorrect = - fmin(zPlayer - zEnemy - minDist, 0);
         playerPoints.push_back(QVector2D(x, zPlayer + distanceCorrect / 2.f));
         enemyPoints.push_back(QVector2D(x, zEnemy - distanceCorrect / 2.f));
@@ -242,9 +240,9 @@ void Level::generateTerrainMap(){
 }
 QVector2D Level::terrainDisplacement(float x, float z){
     float scale = 0.5f,
-            influence = 0.4 * vertexWidth(),
-            dX = m_noiseX.noise(x * scale, z * scale) * influence,
-            dZ = m_noiseZ.noise(x * scale, z * scale) * influence;
+            influence = 0.5f,
+            dX = m_noise.noise(0, x * scale, z * scale) * influence * vertexWidth(),
+            dZ = m_noise.noise(2, x * scale, z * scale) * influence * vertexHeight();
     return QVector2D(dX, dZ);
 }
 
@@ -276,13 +274,13 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 }
 
 float Level::terrainHeight(float x, float z, float fTrack){
-    float mountainBase = 100.f,
-            mountainDiff = 150.f,
-            valleyBase = 10.f,
-            valleyDiff = 30.f,
+    float mountainBase = 150.f,
+            mountainDiff = 120.f,
+            valleyBase = 40.f,
+            valleyDiff = 80.f,
             landscapeFreq = 0.01f;
-    float rockBegin = 10.f,
-            rockEnd = 150.f,
+    float rockBegin = 60.f,
+            rockEnd = 200.f,
             rockFreq = 0.05f,
             rockMinInfluence = 5.f,
             rockMaxInfluence = 20.f;
@@ -290,23 +288,23 @@ float Level::terrainHeight(float x, float z, float fTrack){
             groundTerrainInfluence = 2.f,
             groundRockInfluence = 5.f,
             groundFreq = 1.f;
-    float borderBegin = 25.f,
-            borderEnd = 150.f;
+    float borderBegin = 12.5f,
+            borderEnd = 125.f;
 
     float center = totalHeight() / 2.f, //fmin(totalWidth(), totalHeight()) / 2.f,
             dXBorder = x - MathUtil::clamp(center, totalWidth() - center, x),
             dZBorder = z - center,  //MathUtil::clamp(center, totalHeight() - center, z),
-            fToBorder = MathUtil::linstep(borderBegin, borderEnd, sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
+            fToBorder = MathUtil::smoothstep(borderBegin, borderEnd, sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
 
     float height = MathUtil::mix(valleyBase, mountainBase, fToBorder)
-                    + m_noiseZ.noise(landscapeFreq * x, landscapeFreq * z)
+                    + m_noise.noise(1, landscapeFreq * x, landscapeFreq * z)
                     * MathUtil::mix(valleyDiff, mountainDiff, fToBorder);
 
     float fRockyness = MathUtil::smoothstep(rockBegin, rockEnd, height);
-    float rockOffset = m_noiseZ.noise(rockFreq * x, rockFreq * z)
+    float rockOffset = m_noise.noise(1, rockFreq * x, rockFreq * z)
                         * MathUtil::mix(rockMinInfluence, rockMaxInfluence, fRockyness);
 
-    float groundOffset = m_noiseZ.noise(groundFreq * x, groundFreq * z)
+    float groundOffset = m_noise.noise(1, groundFreq * x, groundFreq * z)
                 * MathUtil::mix(MathUtil::mix(groundTerrainInfluence, groundRockInfluence, fRockyness), groundTrackInfluence, fTrack);
     return MathUtil::mix(height + rockOffset, trackHeight(), fTrack) + groundOffset;
 }
