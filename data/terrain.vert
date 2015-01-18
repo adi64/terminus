@@ -54,8 +54,9 @@ void main()
                     baseV0 + dispV0 - dispVertex,
                     baseV1 + dispV1 - dispVertex));
     //use pseudo pseudorandom function on normal to provide a face specific factor to fragment shader
-    v_color = smoothstep(0.25, 0.3, abs(normal.y));
     v_shade = mod(normal.y * 10000.0 , 1.0);
+    //steepness dependent factor to distinguish snowy and rocky triangles
+    v_color = smoothstep(0.3, 0.325, abs(normal.y));
 
     //---camera space---
     //transform the relevant vectors for phong model in fragment shader

@@ -100,7 +100,7 @@ void Terrain::renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const
 {
     // render terrain
     Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_White"));
+    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Terrain"));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
 
     allocateTerrainMap(gl);
