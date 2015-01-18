@@ -240,7 +240,7 @@ void Level::generateTerrainMap(){
 }
 QVector2D Level::terrainDisplacement(float x, float z){
     float scale = 0.5f,
-            influence = 0.5f,
+            influence = 0.75f,
             dX = m_noise.noise(0, x * scale, z * scale) * influence * vertexWidth(),
             dZ = m_noise.noise(2, x * scale, z * scale) * influence * vertexHeight();
     return QVector2D(dX, dZ);

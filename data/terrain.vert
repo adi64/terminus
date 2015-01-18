@@ -19,7 +19,9 @@ attribute vec3 a_normal; // x - encoded offset to adjacent vertex 0; y - encoded
 varying vec3 v_normal;
 varying vec3 v_position;
 varying vec3 v_light;
+varying float v_color;
 varying float v_shade;
+
 
 //decode packet adjacent-vertex-offset
 vec2 dec(float offset)
@@ -52,7 +54,8 @@ void main()
                     baseV0 + dispV0 - dispVertex,
                     baseV1 + dispV1 - dispVertex));
     //use pseudo pseudorandom function on normal to provide a face specific factor to fragment shader
-    v_shade = mod(normal.z * 10000.0 , 1.0);
+    v_color = smoothstep(0.25, 0.3, abs(normal.y));
+    v_shade = mod(normal.y * 10000.0 , 1.0);
 
     //---camera space---
     //transform the relevant vectors for phong model in fragment shader
