@@ -1,10 +1,13 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.0
 import QtSensors 5.3
 import terminus 1.0
 
 Item
 {
+    width: Screen.desktopAvailableWidth
+    height: Screen.desktopAvailableHeight
 
     Game
     {
