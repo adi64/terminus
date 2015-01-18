@@ -41,7 +41,7 @@ Game::Game()
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
-    //SoundManager::getInstance()->playBackgroundMusic();
+    SoundManager::getInstance()->playBackgroundMusic();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
