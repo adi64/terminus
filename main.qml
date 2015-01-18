@@ -5,11 +5,12 @@ import terminus 1.0
 
 Item {
 
-    width: 1024
-    height: 768
+    width: 1334
+    height: 750
 
     Game {
         id: terminusGame
+        anchors.fill: parent
         focus: true
         Keys.onPressed: {
             terminusGame.keyPressEvent(event.key)
@@ -56,7 +57,7 @@ Item {
 
         function sendEvent()
         {
-            if(touch1.previousX - touch1.x > 80 || touch1.previousX - touch1.x < -80)
+            if(touch1.previousX - touch1.x > 60 || touch1.previousX - touch1.x < -60)
             {
                 if(flicked === 0)
                 {
@@ -82,7 +83,7 @@ Item {
 
     Gyroscope {
         id: gyro
-        dataRate: 100
+        dataRate: 50
         active: true
         onReadingChanged: {
             terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)

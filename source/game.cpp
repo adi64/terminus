@@ -108,7 +108,11 @@ void Game::sync()
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
-    m_scene->camera().setViewport(window()->width(), window()->height());
+    #ifdef __APPLE__
+        m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
+    #else
+        m_scene->camera().setViewport(window()->width(), window()->height());
+    #endif
 
     m_scene->update(elapsedMilliseconds);
 }

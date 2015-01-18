@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QQuickItem>
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include "bullet/btBulletDynamicsCommon.h"
 
 #include "scene.h"
 

@@ -2,9 +2,6 @@
 
 #include <QDebug>
 
-
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include "scene.h"
 
 namespace terminus

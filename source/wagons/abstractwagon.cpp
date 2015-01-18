@@ -3,6 +3,8 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 
+#include <math.h>
+
 #include "../train.h"
 #include "../track.h"
 #include "../mathutil.h"
