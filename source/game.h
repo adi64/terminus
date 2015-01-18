@@ -5,6 +5,10 @@
 #include <QObject>
 #include <QQuickItem>
 
+#include "bullet/btBulletDynamicsCommon.h"
+
+#include "scene.h"
+
 class QTimer;
 class QTime;
 
@@ -12,7 +16,6 @@ namespace terminus
 {
 
 class Train;
-class Scene;
 class EventHandler;
 class Terrain;
 class ResourceManager;
@@ -42,17 +45,28 @@ public slots:
     void gyroMoveEvent(qreal x, qreal y);
     void flickEvent(qreal velo);
 protected:
-    Scene *m_scene;
+    void setupBulletWorld(void);
+
+    std::shared_ptr<Scene> m_scene;
     std::unique_ptr<EventHandler> m_eventHandler;
-    std::unique_ptr<DeferredActionHandler> m_deferredActionHandler;
+    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;
-    QTimer *m_timer;
-    QTime *m_timeStamp;
+    std::unique_ptr<QTimer> m_timer;
+    std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
     std::unique_ptr<SnowStorm> m_snowStorm;
 
+    // bullet
+    // these objects must not be deleted before m_bullet_dynamicsWorld
+    // -- so as a temporary hack, we won't delete them at all
+    btBroadphaseInterface* m_bullet_broadphase;
+    btDefaultCollisionConfiguration* m_bullet_collisionConfiguration;
+    btCollisionDispatcher* m_bullet_dispatcher;
+    btSequentialImpulseConstraintSolver* m_bullet_solver;
+
+    std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
 };
 
 }

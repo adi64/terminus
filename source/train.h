@@ -15,7 +15,7 @@ class Track;
 class Train : public AbstractGraphicsObject
 {
 public:
-    Train(Scene *scene, Track *track);
+    Train(std::shared_ptr<Scene> scene, Track *track);
     ~Train();
 
     template<typename WagonType> void addWagon();
@@ -24,7 +24,7 @@ public:
     void removeWagon(unsigned int index);
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
-    void update(int elapsedMilliseconds);
+    void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions &gl) const override;
 
     AbstractWagon *wagonAt(unsigned int index) const;

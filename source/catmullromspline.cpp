@@ -1,5 +1,7 @@
 #include "catmullromspline.h"
 
+#include <math.h>
+
 namespace terminus
 {
 

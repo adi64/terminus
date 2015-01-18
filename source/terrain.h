@@ -2,10 +2,9 @@
 
 #include <memory>
 
-#include <QOpenGLTexture>
-
-
 #include "abstractgraphicsobject.h"
+#include "kinematicphysicsobject.h"
+#include "track.h"
 #include "level.h"
 
 namespace terminus
@@ -13,13 +12,13 @@ namespace terminus
 
 class Track;
 
-class Terrain : public AbstractGraphicsObject
+class Terrain : public KinematicPhysicsObject
 {
 public:
-    Terrain(Scene *scene);
+    Terrain(std::shared_ptr<Scene> scene);
     ~Terrain();
 
-    void update(int elapsedMilliseconds);
+    void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
 
     Track *playerTrack() const;
