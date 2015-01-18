@@ -5,7 +5,7 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include "bullet/btBulletDynamicsCommon.h"
 
 #include "abstractgraphicsobject.h"
 #include "camera.h"
@@ -22,7 +22,6 @@ Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_p
 , m_deferredActionHandler(deferredActionHandler)
 {
     m_nodes.clear();
-    qDebug() << m_bullet_world.use_count();
 }
 
 Scene::~Scene()

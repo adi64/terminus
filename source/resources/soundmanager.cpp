@@ -54,9 +54,8 @@ void SoundManager::initialize()
     mediaPlayer()->setPlaylist(mediaPlaylist());
     mediaPlayer()->setVolume(99);
 
-    //mediaPlaylist()->addMedia(QUrl(":music/Level0107.mp3"));
+    mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
     mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-
 }
 
 SoundManager::~SoundManager()

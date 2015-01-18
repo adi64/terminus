@@ -1,7 +1,5 @@
 #pragma once
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include "abstractphysicsobject.h"
 
 namespace terminus
