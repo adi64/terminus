@@ -47,12 +47,12 @@ protected:
     void setupBulletWorld(void);
 
     std::shared_ptr<Scene> m_scene;
-    std::unique_ptr<EventHandler> m_eventHandler;
-    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Train> m_playerTrain;
     std::unique_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
+    std::unique_ptr<EventHandler> m_eventHandler;
+    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
 
