@@ -185,7 +185,7 @@ RC_FILE = data/myapp.rc
 
 INCLUDEPATH += source/bullet
 
-LIBS += -ldl
+unix:LIBS += -ldl
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
