@@ -1,17 +1,15 @@
 #include "track.h"
 
+#include <QDebug>
+#include <QVector3D>
+
 namespace terminus
 {
 
-Track::Track(Scene *scene, std::unique_ptr<Polyline> controlPoints)
+Track::Track(std::shared_ptr<Scene> scene, std::unique_ptr<Polyline> controlPoints)
 : AbstractGraphicsObject(scene)
 , m_course(std::move(controlPoints))
 {
-}
-
-void Track::update(int elapsedMilliseconds)
-{
-    // TODO
 }
 
 void Track::render(QOpenGLFunctions &gl) const

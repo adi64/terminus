@@ -52,6 +52,19 @@ void EventHandler::keyPressEvent(Qt::Key key)
     case Qt::Key_Escape:
         QApplication::quit();
         break;
+    case Qt::Key_U:
+        SoundManager::getInstance()->playSound("angriff");
+        break;
+    case Qt::Key_I:
+        SoundManager::getInstance()->playSound("shot");
+        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        break;
+    case Qt::Key_O:
+        SoundManager::getInstance()->playSound("alarm");
+        break;
+    case Qt::Key_M:
+        SoundManager::getInstance()->toggleBackgroundMusic();
+        break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
         {

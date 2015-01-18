@@ -12,7 +12,7 @@ DeferredActionHandler::DeferredActionHandler(Game *game)
 
 }
 
-void DeferredActionHandler::scheduleAction(DeferredAction event)
+void DeferredActionHandler::scheduleAction(const DeferredAction& event)
 {
     std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
     m_actionList->push_back(event);

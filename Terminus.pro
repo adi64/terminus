@@ -29,12 +29,23 @@ SOURCES += \
     source/mathutil.cpp \
     source/polyline.cpp \
     source/level.cpp \
+    source/projectile.cpp \
+    source/abstractphysicsobject.cpp \
+    source/dynamicphysicsobject.cpp \
+    source/kinematicphysicsobject.cpp \
     source/deferredactionhandler.cpp
 
 RESOURCES += qml.qrc
 
 RC_FILE = data/myapp.rc
-ICON = data/terminus.icns
+
+INCLUDEPATH += ../bullet/install/include
+INCLUDEPATH += ../bullet/install/include/bullet
+
+BULLET_LIB_PATH = $$_PRO_FILE_PWD_/../bullet/install/lib
+BULLET_BIN_PATH = $$_PRO_FILE_PWD_/../bullet/install/bin
+
+LIBS += -L$$BULLET_LIB_PATH -L$$BULLET_BIN_PATH -lBulletDynamics -lBulletCollision -lLinearMath
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -67,6 +78,10 @@ HEADERS += \
     source/mathutil.h \
     source/polyline.h \
     source/level.h \
+    source/projectile.h \
+    source/abstractphysicsobject.h \
+    source/dynamicphysicsobject.h \
+    source/kinematicphysicsobject.h \
     source/deferredactionhandler.h
 
 DISTFILES += \
