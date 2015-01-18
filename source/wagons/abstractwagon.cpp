@@ -29,9 +29,10 @@ void AbstractWagon::update(int elapsedMilliseconds)
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
-    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0f, 1.0, 0.0f), angleY));
+    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
-    setPosition(m_train->track()->positionAt(travelledDistance));
+    QVector3D trackOffset(0.f, 1.2f, 0.f);
+    setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::update(elapsedMilliseconds);
 }
 
@@ -43,7 +44,7 @@ float AbstractWagon::length() const
 float AbstractWagon::weight() const
 {
     // weight in metric tons
-    return 1.0f;
+    return 1.f;
 }
 
 void AbstractWagon::setPositionOffset(float accumulatedOffset)

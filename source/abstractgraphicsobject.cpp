@@ -11,7 +11,7 @@ namespace terminus
 AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 : m_scene(scene)
 , m_position(0.0, 0.0, 0.0)
-, m_rotation(0.0, 0.0, 0.0, 1.0)
+, m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
 , m_modelMatrixChanged(false)
 {

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <random>
+#include <map>
 
 #include <QVector2D>
 
@@ -18,16 +19,18 @@ public:
     virtual ~PerlinNoise();
 
     virtual unsigned int seed();
-    virtual float noise(float x, float y);
+    virtual float noise(int layer, float x, float y);
 
     virtual float symmetricRnd();
     virtual float asymmetricRnd();
 
 protected:
-    virtual float dotGradient(int iX, int iY, float x, float y);
+    virtual float dotGradient(int layer, int iX, int iY, float x, float y);
 
     virtual int gradientIndex(int iX, int iY);
-    virtual void generateGradients();
+    virtual void generateGradients(int layer);
+
+    virtual std::vector<QVector2D> & gradients(int layer);
 
 protected:
     unsigned int m_seed;
@@ -36,7 +39,7 @@ protected:
     std::uniform_real_distribution<float> m_distAsym;
 
     int m_gradientCount;
-    std::vector<QVector2D> m_gradients;
+    std::map<int,std::vector<QVector2D>> m_gradientGrid;
 };
 
 }//namespace terminus
