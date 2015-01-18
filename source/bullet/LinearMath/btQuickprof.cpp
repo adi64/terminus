@@ -15,6 +15,7 @@
 
 #include "btQuickprof.h"
 #include <chrono>
+#include <Qt>
 
 #ifndef BT_NO_PROFILE
 
@@ -49,11 +50,14 @@ static btClock gProfileClock;
 #include <time.h>
 #else //_WIN32
 #include <sys/time.h>
+#endif //_WIN32
+
+#ifndef Q_OS_WIN64
 unsigned long long GetTickCount64()
 {
     return (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch())).count();
 }
-#endif //_WIN32
+#endif
 
 #define mymin(a,b) (a > b ? a : b)
 
