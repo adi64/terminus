@@ -32,7 +32,7 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    QSoundEffect * soundOne = new QSoundEffect();
+    /*QSoundEffect * soundOne = new QSoundEffect();
     soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
     m_sounds["alarm"] = soundOne;
 
@@ -55,13 +55,13 @@ void SoundManager::initialize()
     mediaPlayer()->setVolume(99);
 
     mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
-    mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);*/
 }
 
 SoundManager::~SoundManager()
 {
     //TODO delete m_sounds contents
-    std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
+    /*std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
 
     for(it = sounds().begin(); it != sounds().end(); it++)
     {
@@ -69,17 +69,17 @@ SoundManager::~SoundManager()
     }
 
     mediaPlayer()->setMedia(nullptr);
-    delete m_mediaPlayer;
+    delete m_mediaPlayer;*/
 }
 
 void SoundManager::playSound(QString name)
 {
-    sound(name)->play();
+    //sound(name)->play();
 }
 
 void SoundManager::playSoundDistant(QString name, qreal distance)
 {
-    qreal relativeVolume = 1.0 - distance/c_maxVol;
+    /*qreal relativeVolume = 1.0 - distance/c_maxVol;
 
     if(relativeVolume <= 0)
     {
@@ -87,43 +87,43 @@ void SoundManager::playSoundDistant(QString name, qreal distance)
     }
 
     sound(name)->setVolume(relativeVolume);
-    sound(name)->play();
+    sound(name)->play();*/
 }
 
 void SoundManager::playBackgroundMusic()
 {
-    mediaPlayer()->play();
+    //mediaPlayer()->play();
 }
 
 void SoundManager::toggleBackgroundMusic()
 {
-    if(mediaPlayer()->state() == 1)
+    /*if(mediaPlayer()->state() == 1)
     {
         mediaPlayer()->pause();
     }
     else
     {
         mediaPlayer()->play();
-    }
+    }*/
 }
 
 QSoundEffect * SoundManager::sound(QString name)
 {
-    return m_sounds[name];
+    //return m_sounds[name];
 }
 
 std::map<QString, QSoundEffect *> SoundManager::sounds()
 {
-    return m_sounds;
+    //return m_sounds;
 }
 
 QMediaPlayer * SoundManager::mediaPlayer()
 {
-    return m_mediaPlayer;
+    //return m_mediaPlayer;
 }
 
 QMediaPlaylist * SoundManager::mediaPlaylist(){
-    return m_mediaPlaylist;
+    //return m_mediaPlaylist;
 }
 
 }   //terminus

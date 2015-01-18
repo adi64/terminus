@@ -5,7 +5,7 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include "bullet/btBulletDynamicsCommon.h"
 
 #include "abstractgraphicsobject.h"
 #include "camera.h"

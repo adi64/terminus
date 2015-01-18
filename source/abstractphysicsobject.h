@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include "bullet/btBulletDynamicsCommon.h"
 
 #include "abstractgraphicsobject.h"
 
