@@ -76,7 +76,7 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
 
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
     m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
 
     m_scene->setInitialTimeStamp(m_timeStamp);

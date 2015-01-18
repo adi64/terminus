@@ -11,7 +11,7 @@ namespace terminus
 class SnowStorm : public AbstractGraphicsObject
 {
 public:
-    SnowStorm(Scene * scene);
+    SnowStorm(std::shared_ptr<Scene> scene);
     virtual ~SnowStorm();
 
     void update(int elapsedMilliseconds);

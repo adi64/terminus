@@ -11,7 +11,7 @@
 namespace terminus
 {
 
-SnowStorm::SnowStorm(Scene *scene)
+SnowStorm::SnowStorm(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
     , m_width(2048)
     , m_flakes(width() * width())
@@ -60,8 +60,8 @@ void SnowStorm::initializeFlakes()
     {
         for(unsigned int y = 0; y <= flakes().size() / width(); y++)
         {
-            flakes().at(x+y) = m_noise.noise(static_cast<float>(x), static_cast<float>(y));
-            //std::cout << flakes().at(x+y) << " | ";
+            flakes().at(x+y) = m_noise.noise(0, static_cast<float>(x), static_cast<float>(y));
+            std::cout << flakes().at(x+y) << " | ";
         }
     }
 }
