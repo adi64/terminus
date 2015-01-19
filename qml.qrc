@@ -23,5 +23,7 @@
         <file>sounds/angriff.wav</file>
         <file>sounds/shot.wav</file>
         <file>sounds/engine/machine.wav</file>
+        <file>data/engine.obj</file>
+        <file>data/weapon.obj</file>
     </qresource>
 </RCC>

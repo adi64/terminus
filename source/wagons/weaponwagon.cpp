@@ -49,7 +49,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Blue"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Wagon"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("weapon_weapon"));
 
     program.bind();
 
