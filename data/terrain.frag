@@ -16,6 +16,9 @@ varying vec3 v_light;
 varying float v_color;
 varying float v_shade;
 
+float zfar = 1024.0;
+float znear = 0.2;
+
 void main()
 {
     //modify material colors for more variety among triangles
@@ -37,6 +40,15 @@ void main()
     vec3 specular = cSpecular * fSpecular;
 
     vec3 color = cAmbient + diffuse + specular;
+
+    //adjusting mist
+    vec4 mistColor = vec4(0.35, 0.35, 0.5, 1.0);
+    float depth = gl_FragCoord.z;
+    float density = 3.0;
+    float linDepth = - znear * depth / (zfar * depth - zfar - znear * depth);       //lineraize depth value
+    float mistiness = 1 - exp(-pow(density * linDepth, 2));
+
+    color = mix(color, mistColor, mistiness);
 
     //use material specific transparency
     gl_FragColor = vec4(color, fAlpha.r);

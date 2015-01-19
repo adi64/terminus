@@ -56,12 +56,11 @@ void SnowStorm::render(QOpenGLFunctions &gl) const
 
 void SnowStorm::initializeFlakes()
 {
-    for(unsigned int x = 0; x <= flakes().size() / width(); x++)
+    for(unsigned int x = 0; x < flakes().size() / width(); x++)
     {
-        for(unsigned int y = 0; y <= flakes().size() / width(); y++)
+        for(unsigned int y = 0; y < flakes().size() / width(); y++)
         {
-            flakes().at(x+y) = m_noise.noise(0, static_cast<float>(x), static_cast<float>(y));
-            std::cout << flakes().at(x+y) << " | ";
+            flakes()[x * width() + y] = m_noise.noise(0, static_cast<float>(x)* 0.01f, static_cast<float>(y) * 0.01f);       //0.01f is used to shift the position from gradient position
         }
     }
 }
@@ -70,7 +69,7 @@ void SnowStorm::initializeTextures(QOpenGLFunctions &gl) const
 {
     m_texture = -1;
     gl.glGenTextures(1, &m_texture);
-    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+    gl.glBindTexture(GL_TEXTURE_2D, m_texture);
 
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
