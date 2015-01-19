@@ -1,54 +1,63 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.0
 import QtSensors 5.3
 import terminus 1.0
 
-Item {
+Item
+{
+    width: Screen.desktopAvailableWidth
+    height: Screen.desktopAvailableHeight
 
-    width: 1334
-    height: 750
-
-    Game {
+    Game
+    {
         id: terminusGame
         anchors.fill: parent
         focus: true
-        Keys.onPressed: {
+        Keys.onPressed:
+        {
             terminusGame.keyPressEvent(event.key)
             event.accepted = true
         }
-        Keys.onReleased: {
+        Keys.onReleased:
+        {
             terminusGame.keyReleaseEvent(event.key)
             event.accepted = true
         }
     }
 
-    MouseArea {
+    MouseArea
+    {
         anchors.fill: parent
         cursorShape: "BlankCursor"
         hoverEnabled: true
-        onPositionChanged: {
+        onPositionChanged:
+        {
             terminusGame.mouseMoveEvent(mouse.x, mouse.y);
         }
     }
 
-    PinchArea {
+    PinchArea
+    {
         id: pinch
         anchors.fill: parent
-        onPinchStarted: {
-
+        onPinchStarted:
+        {
         }
-        onPinchFinished: {
-
+        onPinchFinished:
+        {
         }
 
         //TODO implement pinch interaction
     }
 
-    MultiPointTouchArea {
+    MultiPointTouchArea
+    {
         id: multitouch
         anchors.fill: parent
         minimumTouchPoints: 1
-        touchPoints: [
+        touchPoints:
+        [
             TouchPoint { id: touch1 },
             TouchPoint { id: touch2 }
         ]
@@ -74,18 +83,23 @@ Item {
             }
         }
 
-        onTouchUpdated: {
+        onTouchUpdated:
+        {
             sendEvent()
         }
         onReleased:
+        {
             flicked = 0
+        }
     }
 
-    Gyroscope {
+    Gyroscope
+    {
         id: gyro
         dataRate: 50
         active: true
-        onReadingChanged: {
+        onReadingChanged:
+        {
             terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
         }
     }

@@ -11,8 +11,7 @@ Game Programming Seminar 2014/15
 
 ###Dependencies
 
-1. Qt5.3.2 for OpenGL
-2. more dependencies
+1. Qt >= 5.4 for OpenGL
 
 ###System requirements
 
