@@ -17,6 +17,7 @@ namespace terminus
 EventHandler::EventHandler(Game *game)
     : m_game(game)
     , m_lockedWagonIndex(0)
+    , m_flicked(false)
 {
 
 }
@@ -151,23 +152,51 @@ void EventHandler::gyroMoveEvent(qreal x, qreal y)
     m_game->scene()->camera().setRotation(rotation);
 }
 
-void EventHandler::flickEvent(qreal velo)
+void EventHandler::flickEvent(qreal startx, qreal x)
 {
-    if(velo > 0)
+    auto direction = x - startx;
+    auto distance = abs(direction);
+    #ifdef Q_OS_MAC
+        auto width = m_game->window()->width() * 2;
+    #else
+        auto width = m_game->window()->width();
+    #endif
+
+    auto threshold = width * 0.2;
+
+    if(direction > 0)
     {
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
         {
-            m_lockedWagonIndex++;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+            m_flickDirection = direction;
+            m_flicked = (distance > threshold);
         }
     }
     else
     {
         if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
         {
+            m_flickDirection = direction;
+            m_flicked = (distance > threshold);
+        }
+    }
+}
+
+void EventHandler::flickReset()
+{
+    if(m_flicked)
+    {
+        if(m_flickDirection > 0)
+        {
+            m_lockedWagonIndex++;
+            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+        }
+        else
+        {
             m_lockedWagonIndex--;
             m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
+        m_flicked = false;
     }
 }
 

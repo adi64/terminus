@@ -28,8 +28,8 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
-, m_lockedCenterOffset(QVector3D(0.0, 1.0, 0.0))
-, m_lockedEyeOffset(QVector3D(0.0, 2.0, -2.0))
+, m_lockedCenterOffset(QVector3D(0.0, 2.5, 0.0))
+, m_lockedEyeOffset(QVector3D(0.0, 2.5, -3.0))
 {
 }
 

@@ -53,43 +53,43 @@ Item
 
     MultiPointTouchArea
     {
-        id: multitouch
-        anchors.fill: parent
+        id: touchMove
+        anchors.top: parent.top
+        height: parent.height * 0.6
+        width: parent.width
         minimumTouchPoints: 1
         touchPoints:
         [
-            TouchPoint { id: touch1 },
-            TouchPoint { id: touch2 }
+            TouchPoint { id: touchM1 },
+            TouchPoint { id: touchM2 }
         ]
-
-        property int flicked: 0
-
-        function sendEvent()
-        {
-            if(touch1.previousX - touch1.x > 60 || touch1.previousX - touch1.x < -60)
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.flickEvent(touch1.previousX - touch1.x);
-                    flicked = 1;
-                }
-            }
-            else
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.touchMoveEvent(touch1.previousX - touch1.x, touch1.previousY - touch1.y);
-                }
-            }
-        }
 
         onTouchUpdated:
         {
-            sendEvent()
+            terminusGame.touchMoveEvent(touchM1.previousX - touchM1.x, touchM1.previousY - touchM1.y);
+        }
+    }
+
+    MultiPointTouchArea
+    {
+        id: flick
+        anchors.bottom: parent.bottom
+        height: parent.height * 0.4
+        width: parent.width
+        minimumTouchPoints: 1
+        touchPoints:
+        [
+            TouchPoint { id: touchF1 },
+            TouchPoint { id: touchF2 }
+        ]
+
+        onTouchUpdated:
+        {
+            terminusGame.flickEvent(touchF1.startX, touchF1.x);
         }
         onReleased:
         {
-            flicked = 0
+            terminusGame.flickReset();
         }
     }
 
