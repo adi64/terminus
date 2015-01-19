@@ -15,6 +15,9 @@ namespace terminus
 WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
+    m_program = ResourceManager::getInstance()->getProgram("basicShader");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_Wagon");
+    m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
     auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
     m_btRigidBody->setCollisionShape(myShape);
     m_btCollisionShape.reset(myShape);
@@ -45,22 +48,9 @@ void WeaponWagon::primaryAction()
     );
 }
 
-void WeaponWagon::render(QOpenGLFunctions& gl) const
+void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 {
-    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Blue"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Wagon"));
-
-    program.bind();
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-    material.setUniforms(program);
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-    geometry.setAttributes(program);
-
-    geometry.draw(gl);
-
-    program.release();
 }
 
 float WeaponWagon::length() const

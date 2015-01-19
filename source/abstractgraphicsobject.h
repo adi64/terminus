@@ -8,6 +8,9 @@
 #include <QMatrix4x4>
 
 #include "scene.h"
+#include "resources/geometry.h"
+#include "resources/material.h"
+#include "resources/program.h"
 
 namespace terminus
 {
@@ -19,7 +22,9 @@ public:
     virtual ~AbstractGraphicsObject();
 
     virtual void update(int elapsedMilliseconds);
-    virtual void render(QOpenGLFunctions & gl) const = 0;
+    virtual void render(QOpenGLFunctions & gl) const;
+    virtual void preRender(QOpenGLFunctions & gl, Program & program) const;
+    virtual void postRender(QOpenGLFunctions & gl, Program & program) const;
 
     virtual QVector3D position() const;
     virtual QQuaternion rotation() const;
@@ -35,10 +40,13 @@ protected:
 protected:
     std::shared_ptr<Scene> m_scene;
 
+    std::shared_ptr<std::unique_ptr<Program>> m_program;
+    std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;
+    std::shared_ptr<std::unique_ptr<Material>> m_material;
+
     QVector3D m_position;
     QQuaternion m_rotation;
     QVector3D m_scale;
-
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;
 };

@@ -9,7 +9,7 @@ class EngineWagon : public AbstractWagon
 {
 public:
     EngineWagon(std::shared_ptr<Scene> scene, Train *train);
-    void render(QOpenGLFunctions& gl) const override;
+    void preRender(QOpenGLFunctions& gl, Program & m_program) const override;
     float length() const;
     void playSound() const;
 };

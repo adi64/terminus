@@ -12,7 +12,7 @@ public:
 
     void primaryAction() override;
 
-    void render(QOpenGLFunctions& gl) const override;
+    void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
 };
 

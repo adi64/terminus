@@ -36,9 +36,13 @@ namespace terminus
 {
 
 Terrain::Terrain(std::shared_ptr<Scene> scene)
-    : KinematicPhysicsObject(scene)
-    , m_terrainMapOnGPU(false)
+: KinematicPhysicsObject(scene)
+, m_terrainMapOnGPU(false)
 {   
+    m_program = ResourceManager::getInstance()->getProgram("terrain");
+    m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
+    m_material = ResourceManager::getInstance()->getMaterial("base_Terrain");
+
     m_level.generateLevel();
     setScale(m_level.scale());
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
@@ -88,49 +92,41 @@ void Terrain::render(QOpenGLFunctions& gl) const
     {
         for(int iZ = std::max(0, pid.y() - radius); iZ < std::min(m_level.patchCountT(), pid.y() + radius); iZ++)
         {
-            renderPatch(gl, iX, iZ);
+            m_currentPatchX = iX;
+            m_currentPatchZ = iZ;
+            AbstractGraphicsObject::render(gl);
         }
     }
+
     // render tracks
     m_playerTrack->render(gl);
     m_enemyTrack->render(gl);
 }
 
-void Terrain::renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const
+void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
 {
-    // render terrain
-    Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Terrain"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
-
-    allocateTerrainMap(gl);
-
-    program.bind();
-
-    material.setUniforms(program);
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-
+    program.setUniform("lightDirection", QVector3D(100.0, 20.0, -100.0));
     program.setUniform("levelMap", 0);
-    QVector4D texInfo(static_cast<float>(iX * (m_level.vertexCountS() - 1)),
-                      static_cast<float>(iZ * (m_level.vertexCountT() - 1)),
+    QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
+                      static_cast<float>(m_currentPatchZ * (m_level.vertexCountT() - 1)),
                       static_cast<float>(m_level.totalVertexCountS() - 1),
                       static_cast<float>(m_level.totalVertexCountT() - 1));
     QVector4D posInfo(m_level.vertexWidthUnscaled(),
                       m_level.vertexHeightUnscaled(),
-                      iX * m_level.patchWidthUnscaled(),
-                      iZ * m_level.patchHeightUnscaled());
+                      m_currentPatchX * m_level.patchWidthUnscaled(),
+                      m_currentPatchZ * m_level.patchHeightUnscaled());
     program.setUniform("texInfo", texInfo);
     program.setUniform("posInfo", posInfo);
 
+    allocateTerrainMap(gl);
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    geometry.setAttributes(program);//it seems that setUniform()-calls fail after this point...
-    geometry.draw(gl);
-    gl.glBindTexture(GL_TEXTURE_2D, 0);
+}
 
-    program.release();
+void Terrain::postRender(QOpenGLFunctions & gl, Program & program) const
+{
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
