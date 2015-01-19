@@ -17,6 +17,8 @@ namespace terminus
 EventHandler::EventHandler(Game *game)
     : m_game(game)
     , m_lockedWagonIndex(0)
+    , m_flicked(false)
+    , m_flickResetted(false)
 {
 
 }
@@ -151,23 +153,62 @@ void EventHandler::gyroMoveEvent(qreal x, qreal y)
     m_game->scene()->camera().setRotation(rotation);
 }
 
-void EventHandler::flickEvent(qreal velo)
+void EventHandler::flickEvent(qreal startx, qreal x)
 {
-    if(velo > 0)
+    if(m_flickResetted)
+    {
+        m_flickResetted = false;
+        return;
+    }
+
+    #ifdef Q_OS_MAC
+        auto width = m_game->window()->width() * 2;
+    #else
+        auto width = m_game->window()->width();
+    #endif
+    auto direction = (x - startx) / (0.2f * width);
+    auto distance = abs(x - startx);
+
+    auto threshold = width * 0.2;
+
+    m_game->scene()->camera().setMovement(QVector3D(direction, 0.0f, 0.0f));
+
+    if(direction > 0)
     {
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
+        {
+            m_flickDirection = direction;
+            m_flicked = (distance > threshold);
+        }
+    }
+    if(direction < 0)
+    {
+        if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
+        {
+            m_flickDirection = direction;
+            m_flicked = (distance > threshold);
+        }
+    }
+}
+
+void EventHandler::flickReset()
+{
+    m_game->scene()->camera().setMovement(QVector3D(0.f, 0.f, 0.f));
+    m_flickResetted = true;
+
+    if(m_flicked)
+    {
+        if(m_flickDirection > 0)
         {
             m_lockedWagonIndex++;
             m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
-    }
-    else
-    {
-        if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
+        if(m_flickDirection < 0)
         {
             m_lockedWagonIndex--;
             m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
+        m_flicked = false;
     }
 }
 

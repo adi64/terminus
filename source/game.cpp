@@ -41,7 +41,7 @@ Game::Game()
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    //SoundManager::getInstance()->playBackgroundMusic();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
@@ -168,9 +168,14 @@ void Game::gyroMoveEvent(qreal x, qreal y)
     m_eventHandler->gyroMoveEvent(x, y);
 }
 
-void Game::flickEvent(qreal velo)
+void Game::flickEvent(qreal startX, qreal x)
 {
-    m_eventHandler->flickEvent(velo);
+    m_eventHandler->flickEvent(startX, x);
+}
+
+void Game::flickReset()
+{
+    m_eventHandler->flickReset();
 }
 
 void Game::setupBulletWorld()

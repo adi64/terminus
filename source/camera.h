@@ -105,6 +105,7 @@ protected:
 
     QVector3D m_lockedCenterOffset;
     QVector3D m_lockedEyeOffset;
+    QVector3D m_lockedFlickOffset;
     AbstractGraphicsObject *m_lockedObject;
 };
 
