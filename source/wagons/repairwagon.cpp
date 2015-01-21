@@ -33,7 +33,7 @@ void RepairWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Violet"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("weapon_weapon"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("repair_repair"));
 
     program.bind();
 
@@ -49,7 +49,7 @@ void RepairWagon::render(QOpenGLFunctions& gl) const
 
 float RepairWagon::length() const
 {
-    return 4.0f;
+    return 7.5f;
 }
 
 } //namespace terminus
