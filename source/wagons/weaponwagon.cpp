@@ -59,7 +59,11 @@ void WeaponWagon::update(int elapsedMilliseconds)
 {
     if(m_accumulate)
     {
-        m_elapsedMilliseconds += elapsedMilliseconds;
+        if(m_elapsedMilliseconds < 3000)
+        {
+            m_elapsedMilliseconds += elapsedMilliseconds;
+        }
+
         m_force = QVector3D(0.f, m_elapsedMilliseconds/4, 1000 + m_elapsedMilliseconds * 2);
     }
     AbstractWagon::update(elapsedMilliseconds);
