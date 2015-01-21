@@ -34,7 +34,6 @@ void WeaponWagon::primaryAction()
         auto scene = m_scene;
 
         auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
-        //auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
         auto relativeProjectileForce = m_force;
 
         QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
