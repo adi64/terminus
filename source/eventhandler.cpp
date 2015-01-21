@@ -218,7 +218,7 @@ void EventHandler::touchChargeFire()
     auto wagon = dynamic_cast<WeaponWagon*>(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
     if(wagon != nullptr)
     {
-        wagon->setAccumulate(true);
+        wagon->setChargeProjectile(true);
         SoundManager::getInstance()->playSound("shot");
     }
 }

@@ -15,7 +15,8 @@ namespace terminus
 WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 , m_elapsedMilliseconds(0)
-, m_accumulate(false)
+, m_chargeProjectile(false)
+, m_reloadProjectile(false)
 {
     auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
     m_btRigidBody->setCollisionShape(myShape);
@@ -28,36 +29,43 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 
 void WeaponWagon::primaryAction()
 {
-    auto scene = m_scene;
+    if(!m_reloadProjectile)
+    {
+        auto scene = m_scene;
 
-    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
-    //auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
-    auto relativeProjectileForce = m_force;
+        auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
+        //auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
+        auto relativeProjectileForce = m_force;
 
-    QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
-    QVector3D worldProjectileForce = rotation().rotatedVector(relativeProjectileForce);
+        QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+        QVector3D worldProjectileForce = rotation().rotatedVector(relativeProjectileForce);
 
-    m_scene->scheduleAction(
-        [scene, worldProjectilePosition, worldProjectileForce, this]()
-        {
-            auto projectile = new Projectile(scene);
-            projectile->moveTo(worldProjectilePosition);
-            projectile->applyForce(worldProjectileForce);
-            scene->addNode(projectile);
-        }
-    );
-    m_accumulate = false;
-    m_elapsedMilliseconds = 0;
+        m_scene->scheduleAction(
+            [scene, worldProjectilePosition, worldProjectileForce, this]()
+            {
+                auto projectile = new Projectile(scene);
+                projectile->moveTo(worldProjectilePosition);
+                projectile->applyForce(worldProjectileForce);
+                scene->addNode(projectile);
+            }
+        );
+
+        m_elapsedMilliseconds = 0;
+        qDebug() << "Projectile fired!";
+    }
+
+    m_chargeProjectile = false;
+    m_reloadProjectile = true;
 }
 
-void WeaponWagon::setAccumulate(bool accumulate)
+void WeaponWagon::setChargeProjectile(bool charge)
 {
-    m_accumulate = accumulate;
+    m_chargeProjectile = charge;
 }
 
 void WeaponWagon::update(int elapsedMilliseconds)
 {
-    if(m_accumulate)
+    if(m_chargeProjectile && !m_reloadProjectile)
     {
         if(m_elapsedMilliseconds < 3000)
         {
@@ -65,6 +73,16 @@ void WeaponWagon::update(int elapsedMilliseconds)
         }
 
         m_force = QVector3D(0.f, m_elapsedMilliseconds/4, 1000 + m_elapsedMilliseconds * 2);
+    }
+    if(m_reloadProjectile)
+    {
+        m_elapsedMilliseconds += elapsedMilliseconds;
+        if(m_elapsedMilliseconds > 5000)
+        {
+            m_reloadProjectile = false;
+            m_elapsedMilliseconds = 0;
+            qDebug() << "Reload complete!";
+        }
     }
     AbstractWagon::update(elapsedMilliseconds);
 }

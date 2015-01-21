@@ -11,7 +11,7 @@ public:
     WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
 
     void primaryAction() override;
-    void setAccumulate(bool accumulate);
+    void setChargeProjectile(bool charge);
 
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
@@ -19,7 +19,8 @@ public:
 
 protected:
     int m_elapsedMilliseconds;
-    bool m_accumulate;
+    bool m_chargeProjectile;
+    bool m_reloadProjectile;
     QVector3D m_force;
 };
 
