@@ -178,6 +178,16 @@ void Game::flickReset()
     m_eventHandler->flickReset();
 }
 
+void Game::touchChargeFire()
+{
+    m_eventHandler->touchChargeFire();
+}
+
+void Game::touchFire()
+{
+    m_eventHandler->touchFire();
+}
+
 void Game::setupBulletWorld()
 {
     // these objects must not be deleted before m_bullet_dynamicsWorld

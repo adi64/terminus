@@ -14,6 +14,8 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
+, m_elapsedMilliseconds(0)
+, m_accumulate(false)
 {
     auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
     m_btRigidBody->setCollisionShape(myShape);
@@ -29,7 +31,8 @@ void WeaponWagon::primaryAction()
     auto scene = m_scene;
 
     auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
-    auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
+    //auto relativeProjectileForce = QVector3D(0.0f, 200.0f, 300.0f);
+    auto relativeProjectileForce = m_force;
 
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
     QVector3D worldProjectileForce = rotation().rotatedVector(relativeProjectileForce);
@@ -43,6 +46,23 @@ void WeaponWagon::primaryAction()
             scene->addNode(projectile);
         }
     );
+    m_accumulate = false;
+    m_elapsedMilliseconds = 0;
+}
+
+void WeaponWagon::setAccumulate(bool accumulate)
+{
+    m_accumulate = accumulate;
+}
+
+void WeaponWagon::update(int elapsedMilliseconds)
+{
+    if(m_accumulate)
+    {
+        m_elapsedMilliseconds += elapsedMilliseconds;
+        m_force = QVector3D(0.f, m_elapsedMilliseconds/4, 1000 + m_elapsedMilliseconds * 2);
+    }
+    AbstractWagon::update(elapsedMilliseconds);
 }
 
 void WeaponWagon::render(QOpenGLFunctions& gl) const
@@ -65,7 +85,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 
 float WeaponWagon::length() const
 {
-    return 5.0f;
+    return 4.0f;
 }
 
 } //namespace terminus

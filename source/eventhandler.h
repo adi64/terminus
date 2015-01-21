@@ -19,6 +19,8 @@ public:
     void gyroMoveEvent(qreal x, qreal y);
     void flickEvent(qreal startx, qreal x);
     void flickReset();
+    void touchChargeFire();
+    void touchFire();
 
 protected:
     Game *m_game;

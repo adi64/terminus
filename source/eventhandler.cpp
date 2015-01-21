@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "resources/soundmanager.h"
 #include "train.h"
+#include "wagons/weaponwagon.h"
 
 
 namespace terminus
@@ -210,6 +211,21 @@ void EventHandler::flickReset()
         }
         m_flicked = false;
     }
+}
+
+void EventHandler::touchChargeFire()
+{
+    auto wagon = dynamic_cast<WeaponWagon*>(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+    if(wagon != nullptr)
+    {
+        wagon->setAccumulate(true);
+        SoundManager::getInstance()->playSound("shot");
+    }
+}
+
+void EventHandler::touchFire()
+{
+    m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
 }
 
 }
