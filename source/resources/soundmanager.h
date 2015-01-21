@@ -16,11 +16,6 @@ class SoundManager : public QObject
 
     Q_OBJECT
 
-public:
-    static SoundManager * getInstance();
-protected:
-    static SoundManager * m_instance;
-
 protected:
     SoundManager();
     void initialize();
@@ -28,27 +23,20 @@ protected:
 public:
     virtual ~SoundManager();
 
+    static SoundManager * getInstance();
+
     void playSound(QString name);
     void playSoundDistant(QString name, qreal distance);
     void playBackgroundMusic();
     void toggleBackgroundMusic();
 
-public:
     QSoundEffect * sound(QString name);
     std::map<QString, QSoundEffect *> sounds();
     QMediaPlayer * mediaPlayer();
     QMediaPlaylist * mediaPlaylist();
 
-    void run(qreal vol, QString file);
-    void run2(qreal vol, QString file);
-
-public slots:
-    void handleStateChanged(QAudio::State newState);
-    void handleStateChanged2(QAudio::State newState);
-
-
-
 protected:
+    static SoundManager * m_instance;
     std::map<QString, QSoundEffect *> m_sounds;     //use unique_ptr later
     QMediaPlayer * m_mediaPlayer;
     QMediaPlaylist * m_mediaPlaylist;
