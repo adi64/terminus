@@ -27,19 +27,14 @@ public:
 
     void playSound(QString name);
     void playSoundDistant(QString name, qreal distance);
-    void playBackgroundMusic();
     void toggleBackgroundMusic();
 
     QSoundEffect * sound(QString name);
     std::map<QString, QSoundEffect *> sounds();
-    QMediaPlayer * mediaPlayer();
-    QMediaPlaylist * mediaPlaylist();
 
 protected:
     static SoundManager * m_instance;
     std::map<QString, QSoundEffect *> m_sounds;     //use unique_ptr later
-    QMediaPlayer * m_mediaPlayer;
-    QMediaPlaylist * m_mediaPlaylist;
 
     QFile m_sourceFile;
     QAudioOutput * m_audio;

@@ -19,8 +19,6 @@
         <file>data/terrain.frag</file>
         <file>data/terrain.vert</file>
         <file>music/Level0107.mp3</file>
-        <file>sounds/alarm.wav</file>
-        <file>sounds/angriff.wav</file>
         <file>sounds/shot.wav</file>
         <file>sounds/engine/machine.wav</file>
         <file>data/engine.obj</file>
