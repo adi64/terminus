@@ -1,32 +1,46 @@
 #pragma once
 
+#include <memory>
+
 #include <QOpenGLFunctions>
 #include <QVector3D>
+#include <QQuaternion>
 #include <QMatrix4x4>
+
+#include "scene.h"
 
 namespace terminus
 {
 
-class Scene;
-
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject(Scene* scene);
-    virtual void update(int elapsedMilliseconds) = 0;
+    AbstractGraphicsObject(std::shared_ptr<Scene> scene);
+    virtual ~AbstractGraphicsObject();
+
+    virtual void update(int elapsedMilliseconds);
     virtual void render(QOpenGLFunctions & gl) const = 0;
 
-    qreal calculateDistance() const;
-
-    void setPosition(const QVector3D& newPosition);
     virtual QVector3D position() const;
-    QVector3D eulerAngles() const;
-    QMatrix4x4 modelMatrix() const;
+    virtual QQuaternion rotation() const;
+    virtual QVector3D scale() const;
+    virtual QMatrix4x4 modelMatrix() const;
+
 protected:
-    Scene *m_scene;
+    virtual void setPosition(const QVector3D & position);
+    virtual void setRotation(const QQuaternion & eulerAngles);
+    virtual void setScale(const QVector3D & scale);
+    virtual void setScale(float scale);
+
+protected:
+    std::shared_ptr<Scene> m_scene;
+
     QVector3D m_position;
-    QVector3D m_eulerAngles;
-    QMatrix4x4 m_modelMatrix;
+    QQuaternion m_rotation;
+    QVector3D m_scale;
+
+    mutable bool m_modelMatrixChanged;
+    mutable QMatrix4x4 m_modelMatrix;
 };
 
 }

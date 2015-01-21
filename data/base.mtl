@@ -39,3 +39,14 @@ uniform cEmit 0.100000 0.000000 0.200000
 uniform cDiffuse 0.480000 0.080000 0.800000
 uniform cSpecular 0.800000 0.500000 1.000000
 uniform fAlpha 1.000000
+
+newmtl Terrain
+uniform fSpecularitySnow 512
+uniform cAmbientSnow 0.100000 0.125000 0.175000
+uniform cDiffuseSnow 0.800000 0.850000 0.950000
+uniform cSpecularSnow 0.950000 1.000000 1.000000
+uniform fSpecularityRock 16
+uniform cAmbientRock 0.076500 0.076000 0.075000
+uniform cDiffuseRock 0.315000 0.310000 0.300000
+uniform cSpecularRock 0.150000 0.100000 0.100000
+uniform fAlpha 1.000000

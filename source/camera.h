@@ -71,7 +71,6 @@ public:
 protected:
     void invalidateMatrices() const;
 
-
 protected:
     QVector3D m_movement;
     QVector2D m_rotation;
@@ -106,6 +105,7 @@ protected:
 
     QVector3D m_lockedCenterOffset;
     QVector3D m_lockedEyeOffset;
+    QVector3D m_lockedFlickOffset;
     AbstractGraphicsObject *m_lockedObject;
 };
 

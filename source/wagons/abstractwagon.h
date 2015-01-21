@@ -1,26 +1,26 @@
 #pragma once
 
-#include "../abstractgraphicsobject.h"
+#include "../kinematicphysicsobject.h"
 
 namespace terminus
 {
-
-class Scene;
 class Train;
 
-class AbstractWagon : public AbstractGraphicsObject
+class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(Scene *scene, Train *train);
+    AbstractWagon(std::shared_ptr<Scene> scene, Train *train);
+
+    virtual void primaryAction();
+
+    virtual void update(int elapsedMilliseconds) override;
+
     virtual float length() const;
     virtual float weight() const;
-    void setPositionOffset(float accumulatedOffset);
-    QVector3D position() const;
-    void update(int elapsedMilliseconds) override;
+    virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
     float m_positionOffset;
-    float m_weight;
     Train *m_train;
 };
 

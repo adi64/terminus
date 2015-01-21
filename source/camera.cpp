@@ -3,6 +3,7 @@
 #include <QQuaternion>
 
 #include "abstractgraphicsobject.h"
+#include "mathutil.h"
 
 namespace terminus
 {
@@ -27,8 +28,9 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
-, m_lockedCenterOffset(QVector3D(0.0, 1.0, 0.0))
-, m_lockedEyeOffset(QVector3D(0.0, 2.0, -2.0))
+, m_lockedCenterOffset(QVector3D(0.0, 2.5, 0.0))
+, m_lockedEyeOffset(QVector3D(0.0, 2.5, -3.0))
+, m_lockedFlickOffset(QVector3D(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -102,7 +104,7 @@ float Camera::zNear() const
 
 void Camera::setZNear(const float zNear)
 {
-    if (std::abs(zNear - m_zNear) < std::numeric_limits<float>::epsilon())
+    if (abs(zNear - m_zNear) < std::numeric_limits<float>::epsilon())
     {
         return;
     }
@@ -120,7 +122,7 @@ float Camera::zFar() const
 
 void Camera::setZFar(const float zFar)
 {
-    if (std::abs(zFar - m_zFar) < std::numeric_limits<float>::epsilon())
+    if (abs(zFar - m_zFar) < std::numeric_limits<float>::epsilon())
     {
         return;
     }
@@ -138,7 +140,7 @@ float Camera::fovy() const
 
 void Camera::setFovy(const float fovy)
 {
-    if (std::abs(fovy - m_fovy) < std::numeric_limits<float>::epsilon())
+    if (abs(fovy - m_fovy) < std::numeric_limits<float>::epsilon())
     {
         return;
     }
@@ -212,8 +214,7 @@ void Camera::setMovement(QVector3D movement)
     }
     else
     {
-          // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
-          //for that camera has to get wagon->position()
+        m_lockedFlickOffset = movement;
     }
 }
 
@@ -240,33 +241,13 @@ void Camera::setRotation(QVector2D rotation)
     }
     else
     {
-        // TODO Camera Center should stay the same and eye should change
-
-        // move along the "object x axis"
-
-        // where does the "x vector" of that object really point to?
-
-        auto objectLocalX = QVector3D(1.0, 0.0, 0.0);
-        auto objectLocalZ = QVector3D(0.0, 0.0, 1.0);
-
-        // "x rotation" -> rotate around up vector
-        auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -1.0 * m_lockedObject->eulerAngles().x());
-
-        // "y rotation" -> rotation around "the vector pointing to the right"
-        auto rotation_y = QQuaternion::fromAxisAndAngle(objectLocalZ, m_lockedObject->eulerAngles().y());
-
-        auto rotation_total = rotation_x * rotation_y;
-        auto objectGlobalX = rotation_total.rotatedVector(objectLocalX);
-
-        auto newLockedEyeOffset = m_lockedEyeOffset + (objectGlobalX * rotation.x() * 0.15) + (up() * rotation.y() * -0.15);
+        auto newLockedEyeOffset = m_lockedEyeOffset + QVector3D(rotation.x() * 0.15f, rotation.y() * -0.15f, 0.f);
 
         // stop at object's bounds
-        // TODO FIXME: this needs the object's AABB and at the moment does not use object-local coordinates
-        if(newLockedEyeOffset.x() > -3.0 && newLockedEyeOffset.x() < 3.0 && newLockedEyeOffset.y() > 0.0 && newLockedEyeOffset.y() < 4.0)
-        {
-            m_lockedEyeOffset = newLockedEyeOffset;
-        }
-
+        // TODO FIXME: this needs the object's AABB
+        m_lockedEyeOffset = QVector3D(MathUtil::clamp(-1.5f, 1.5f, newLockedEyeOffset.x()),
+                                        MathUtil::clamp(0.f, 4.f, newLockedEyeOffset.y()),
+                                        MathUtil::clamp(-3.f, 3.f, newLockedEyeOffset.z()));
     }
 }
 
@@ -374,8 +355,10 @@ void Camera::update()
 {
     if(m_lockedToTrain)
     {
-        setEye(m_lockedObject->position() + m_lockedEyeOffset);
-        setCenter(m_lockedObject->position() + m_lockedCenterOffset);
+        QVector3D worldCenterOffset = m_lockedObject->rotation().rotatedVector(m_lockedCenterOffset + m_lockedFlickOffset);
+        setCenter(m_lockedObject->position() + worldCenterOffset);
+        QVector3D worldEyeOffset = m_lockedObject->rotation().rotatedVector(m_lockedEyeOffset + m_lockedFlickOffset);
+        setEye(m_lockedObject->position() + worldEyeOffset);
     }
 }
 

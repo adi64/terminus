@@ -4,13 +4,14 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
+#include "track.h"
 #include "wagons/enginewagon.h"
 
 namespace terminus
 {
 
 
-Train::Train(Scene *scene, Track *track)
+Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
     , m_velocity(0.02)
@@ -97,7 +98,7 @@ void Train::update(int elapsedMilliseconds)
     m_travelledDistance += m_velocity * elapsedMilliseconds;
 
     // TODO FIXME - this wraps the train
-    if(m_travelledDistance > 50.0)
+    if(m_travelledDistance > m_track->length())
     {
         m_travelledDistance = 0.0;
     }
