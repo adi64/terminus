@@ -35,11 +35,6 @@ public:
 protected:
     static SoundManager * m_instance;
     std::map<QString, QSoundEffect *> m_sounds;     //use unique_ptr later
-
-    QFile m_sourceFile;
-    QAudioOutput * m_audio;
-    QFile m_sourceFile2;
-    QAudioOutput * m_audio2;
 };
 
 }  //terminus

@@ -34,15 +34,15 @@ SoundManager::SoundManager()
 void SoundManager::initialize()
 {
     QSoundEffect * soundShot = new QSoundEffect();
-    soundShot->setSource(QUrl::fromLocalFile(":/sounds/shot.wav"));
+    soundShot->setSource(QUrl::fromLocalFile(":/data/sounds/shot.wav"));
     m_sounds["shot"] = soundShot;
 
     QSoundEffect * soundEngine = new QSoundEffect();
-    soundEngine->setSource(QUrl::fromLocalFile(":/sounds/engine/machine.wav"));
+    soundEngine->setSource(QUrl::fromLocalFile(":/data/sounds/hover.wav"));
     m_sounds["machine"] = soundEngine;
 
     QSoundEffect * soundBackgroundMusic = new QSoundEffect();
-    soundBackgroundMusic->setSource(QUrl::fromLocalFile(":/sounds/shot.wav"));
+    soundBackgroundMusic->setSource(QUrl::fromLocalFile(":/data/sounds/level.wav"));
     soundBackgroundMusic->setLoopCount(QSoundEffect::Infinite);
     soundBackgroundMusic->setMuted(false);
     m_sounds["music"] = soundBackgroundMusic;

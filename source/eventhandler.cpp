@@ -219,13 +219,13 @@ void EventHandler::touchChargeFire()
     if(wagon != nullptr)
     {
         wagon->setChargeProjectile(true);
-        SoundManager::getInstance()->playSound("shot");
     }
 }
 
 void EventHandler::touchFire()
 {
     m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+    SoundManager::getInstance()->playSound("shot");
 }
 
 }
