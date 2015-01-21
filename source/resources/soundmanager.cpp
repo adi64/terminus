@@ -41,13 +41,11 @@ void SoundManager::initialize()
     soundEngine->setSource(QUrl::fromLocalFile(":/sounds/engine/machine.wav"));
     m_sounds["machine"] = soundEngine;
 
-    m_mediaPlayer = new QMediaPlayer();
-    m_mediaPlaylist = new QMediaPlaylist();
-    mediaPlayer()->setPlaylist(mediaPlaylist());
-    mediaPlayer()->setVolume(99);
-
-    mediaPlaylist()->addMedia(QUrl::fromLocalFile(":/music/Level0107.mp3"));
-    mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    QSoundEffect * soundBackgroundMusic = new QSoundEffect();
+    soundBackgroundMusic->setSource(QUrl::fromLocalFile(":/sounds/shot.wav"));
+    soundBackgroundMusic->setLoopCount(QSoundEffect::Infinite);
+    soundBackgroundMusic->setMuted(false);
+    m_sounds["music"] = soundBackgroundMusic;
 }
 
 SoundManager::~SoundManager()
@@ -59,9 +57,6 @@ SoundManager::~SoundManager()
     {
         delete it->second;                             //is second correct?
     }
-
-    mediaPlayer()->setMedia(nullptr);
-    delete m_mediaPlayer;
 }
 
 void SoundManager::playSound(QString name)
@@ -82,21 +77,9 @@ void SoundManager::playSoundDistant(QString name, qreal distance)
     sound(name)->play();
 }
 
-void SoundManager::playBackgroundMusic()
-{
-    mediaPlayer()->play();
-}
-
 void SoundManager::toggleBackgroundMusic()
 {
-    if(mediaPlayer()->state() == 1)
-    {
-        mediaPlayer()->pause();
-    }
-    else
-    {
-        mediaPlayer()->play();
-    }
+    sound("music")->setMuted(!sound("music")->isMuted());
 }
 
 QSoundEffect * SoundManager::sound(QString name)
@@ -107,15 +90,6 @@ QSoundEffect * SoundManager::sound(QString name)
 std::map<QString, QSoundEffect *> SoundManager::sounds()
 {
     return m_sounds;
-}
-
-QMediaPlayer * SoundManager::mediaPlayer()
-{
-    return m_mediaPlayer;
-}
-
-QMediaPlaylist * SoundManager::mediaPlaylist(){
-    return m_mediaPlaylist;
 }
 
 }   //terminus
