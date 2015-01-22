@@ -66,7 +66,16 @@ Item
 
         onTouchUpdated:
         {
-            terminusGame.touchMoveEvent(touchM1.previousX - touchM1.x, touchM1.previousY - touchM1.y);
+            //terminusGame.touchMoveEvent(touchM1.previousX - touchM1.x, touchM1.previousY - touchM1.y);
+        }
+        onPressed:
+        {
+            terminusGame.touchChargeFire();
+        }
+
+        onReleased:
+        {
+            terminusGame.touchFire();
         }
     }
 

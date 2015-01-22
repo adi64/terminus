@@ -15,6 +15,7 @@ namespace terminus
 AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
     , m_train(train)
+    , m_health(maxHealth())
 {
 }
 
@@ -34,6 +35,24 @@ void AbstractWagon::update(int elapsedMilliseconds)
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::update(elapsedMilliseconds);
+}
+
+float AbstractWagon::maxHealth() const
+{
+    return 100.f;
+}
+
+float AbstractWagon::currentHealth()
+{
+    return m_health;
+}
+
+void AbstractWagon::setHealth(float health)
+{
+    if(health <= maxHealth())
+    {
+        m_health = health;
+    }
 }
 
 float AbstractWagon::length() const

@@ -44,6 +44,8 @@ public slots:
     void gyroMoveEvent(qreal x, qreal y);
     void flickEvent(qreal startX, qreal x);
     void flickReset();
+    void touchChargeFire();
+    void touchFire();
 protected:
     void setupBulletWorld(void);
 

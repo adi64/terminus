@@ -41,7 +41,7 @@ Game::Game()
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
-    //SoundManager::getInstance()->playBackgroundMusic();
+    SoundManager::getInstance()->playSound("music");
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
@@ -176,6 +176,16 @@ void Game::flickEvent(qreal startX, qreal x)
 void Game::flickReset()
 {
     m_eventHandler->flickReset();
+}
+
+void Game::touchChargeFire()
+{
+    m_eventHandler->touchChargeFire();
+}
+
+void Game::touchFire()
+{
+    m_eventHandler->touchFire();
 }
 
 void Game::setupBulletWorld()

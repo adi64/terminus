@@ -30,7 +30,7 @@ void EngineWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
     Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("base_Icosahedron"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("engine_engine"));
 
     program.bind();
 
@@ -58,7 +58,7 @@ void EngineWagon::playSound() const
 
 float EngineWagon::length() const
 {
-    return 2.0f;
+    return 6.8f;
 }
 
 }
