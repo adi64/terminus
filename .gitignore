@@ -23,6 +23,9 @@ ui_*.h
 Makefile*
 *-build-*
 
+local.properties
+gradle.properties
+
 build
 
 # QtCreator

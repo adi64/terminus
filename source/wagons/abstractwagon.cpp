@@ -15,7 +15,7 @@ namespace terminus
 AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
     , m_train(train)
-    , m_health(100.f)
+    , m_health(maxHealth())
 {
 }
 
@@ -49,7 +49,10 @@ float AbstractWagon::currentHealth()
 
 void AbstractWagon::setHealth(float health)
 {
-    m_health = health;
+    if(health <= maxHealth())
+    {
+        m_health = health;
+    }
 }
 
 float AbstractWagon::length() const
