@@ -31,35 +31,49 @@ void WeaponWagon::primaryAction()
 {
     if(!m_reloadProjectile)
     {
-        auto scene = m_scene;
-
-        auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
         auto relativeProjectileForce = m_force;
 
-        QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
         QVector3D worldProjectileForce = rotation().rotatedVector(relativeProjectileForce);
 
-        m_scene->scheduleAction(
-            [scene, worldProjectilePosition, worldProjectileForce, this]()
-            {
-                auto projectile = new Projectile(scene);
-                projectile->moveTo(worldProjectilePosition);
-                projectile->applyForce(worldProjectileForce);
-                scene->addNode(projectile);
-            }
-        );
+        fire(worldProjectileForce);
 
         m_elapsedMilliseconds = 0;
-        qDebug() << "Projectile fired!";
     }
 
     m_chargeProjectile = false;
     m_reloadProjectile = true;
 }
 
+void WeaponWagon::primaryActionDebug()
+{
+    QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * 1000.0;
+
+    fire(worldProjectileForce);
+}
+
 void WeaponWagon::setChargeProjectile(bool charge)
 {
     m_chargeProjectile = charge;
+}
+
+void WeaponWagon::fire(QVector3D force)
+{
+    auto scene = m_scene;
+
+    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
+
+    QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+    QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * 1000.0;
+
+    m_scene->scheduleAction(
+        [scene, worldProjectilePosition, worldProjectileForce, this]()
+        {
+            auto projectile = new Projectile(scene);
+            projectile->moveTo(worldProjectilePosition);
+            projectile->applyForce(worldProjectileForce);
+            scene->addNode(projectile);
+        }
+    );
 }
 
 void WeaponWagon::update(int elapsedMilliseconds)
