@@ -60,7 +60,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_I:
         SoundManager::getInstance()->playSound("shot");
-        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
         break;
     case Qt::Key_O:
         SoundManager::getInstance()->playSound("alarm");
