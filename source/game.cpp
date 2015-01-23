@@ -25,12 +25,24 @@
 namespace terminus
 {
 
+// HACK TODO FIXME
+static Game* globalGameInstance = nullptr;
+
+// HACK TODO FIXME
+void btCollisionCallbackWrapper(btDynamicsWorld *world, btScalar timeStep)
+{
+    globalGameInstance->btTickCallback(world, timeStep);
+}
+
 Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
+    // HACK TODO FIXME
+    globalGameInstance = this;
+
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
@@ -214,6 +226,9 @@ void Game::setupBulletWorld()
                 );
 
     m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
+
+    // HACK TODO FIXME
+    m_bullet_dynamicsWorld->setInternalTickCallback(&btCollisionCallbackWrapper);
 }
 
 Scene *Game::scene() const
@@ -224,6 +239,36 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
+}
+
+void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+
+    for (int i=0;i<numManifolds;i++)
+    {
+        btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject* obA = contactManifold->getBody0();
+        const btCollisionObject* obB = contactManifold->getBody1();
+
+        auto obAPos = obA->getWorldTransform().getOrigin();
+        auto obBPos = obB->getWorldTransform().getOrigin();
+
+        int numContacts = contactManifold->getNumContacts();
+        for (int j=0;j<numContacts;j++)
+        {
+            qDebug() << "btCollisionObjects at " << obAPos.x() << obAPos.y() << obAPos.z() << " and " << obBPos.x() << obBPos.y() << obBPos.z() << " collide";
+
+            btManifoldPoint& pt = contactManifold->getContactPoint(j);
+            if (pt.getDistance()<0.f)
+            {
+                const btVector3& ptA = pt.getPositionWorldOnA();
+                const btVector3& ptB = pt.getPositionWorldOnB();
+                const btVector3& normalOnB = pt.m_normalWorldOnB;
+            }
+        }
+    }
+
 }
 
 }
