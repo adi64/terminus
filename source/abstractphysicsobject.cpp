@@ -43,7 +43,6 @@ AbstractPhysicsObject::~AbstractPhysicsObject()
     m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
     m_scene->removeCollisionMapping(m_btRigidBody.get());
 }
-}
 
 void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
 {
