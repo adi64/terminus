@@ -37,21 +37,7 @@ Item
         }
     }
 
-    PinchArea
-    {
-        id: pinch
-        anchors.fill: parent
-        onPinchStarted:
-        {
-        }
-        onPinchFinished:
-        {
-        }
-
-        //TODO implement pinch interaction
-    }
-
-    MultiPointTouchArea
+    MultiPointTouchArea //Button?
     {
         id: touchMove
         anchors.top: parent.top
@@ -63,11 +49,6 @@ Item
             TouchPoint { id: touchM1 },
             TouchPoint { id: touchM2 }
         ]
-
-        onTouchUpdated:
-        {
-            //terminusGame.touchMoveEvent(touchM1.previousX - touchM1.x, touchM1.previousY - touchM1.y);
-        }
         onPressed:
         {
             terminusGame.touchChargeFire();
@@ -82,9 +63,7 @@ Item
     MultiPointTouchArea
     {
         id: flick
-        anchors.bottom: parent.bottom
-        height: parent.height * 0.4
-        width: parent.width
+        anchors.fill: parent
         minimumTouchPoints: 1
         touchPoints:
         [
@@ -94,11 +73,27 @@ Item
 
         onTouchUpdated:
         {
-            terminusGame.flickEvent(touchF1.startX, touchF1.x);
+            terminusGame.flickEvent(touchF1.startX, touchF1.x); //add previous for speed
         }
         onReleased:
         {
             terminusGame.flickReset();
+        }
+    }
+
+    OrientationSensor {
+        id: orientation
+        dataRate: 50
+        active: true
+        onReadingChanged: {
+            if (reading.orientation === OrientationReading.LeftUp)
+            {
+                gyro.orientation_multiplier = 1
+            }
+            if (reading.orientation === OrientationReading.RightUp)
+            {
+                gyro.orientation_multiplier = -1
+            }
         }
     }
 
@@ -107,9 +102,12 @@ Item
         id: gyro
         dataRate: 50
         active: true
+
+        property int orientation_multiplier: 1
+
         onReadingChanged:
         {
-            terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
+            terminusGame.gyroMoveEvent(gyro.reading.x * orientation_multiplier, gyro.reading.y * orientation_multiplier)
         }
     }
 }
