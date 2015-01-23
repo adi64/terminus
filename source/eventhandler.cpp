@@ -7,7 +7,6 @@
 #include "game.h"
 #include "camera.h"
 #include "scene.h"
-#include "resources/soundmanager.h"
 #include "train.h"
 #include "wagons/weaponwagon.h"
 
@@ -55,18 +54,8 @@ void EventHandler::keyPressEvent(Qt::Key key)
     case Qt::Key_Escape:
         QApplication::quit();
         break;
-    case Qt::Key_U:
-        SoundManager::getInstance()->playSound("angriff");
-        break;
     case Qt::Key_I:
-        SoundManager::getInstance()->playSound("shot");
         m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
-        break;
-    case Qt::Key_O:
-        SoundManager::getInstance()->playSound("alarm");
-        break;
-    case Qt::Key_M:
-        SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
@@ -225,7 +214,6 @@ void EventHandler::touchChargeFire()
 void EventHandler::touchFire()
 {
     m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
-    SoundManager::getInstance()->playSound("shot");
 }
 
 }

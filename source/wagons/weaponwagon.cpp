@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "../scene.h"
+#include "../resources/soundmanager.h"
 #include "../resources/resourcemanager.h"
 #include "../resources/geometry.h"
 #include "../resources/material.h"
@@ -72,6 +73,8 @@ void WeaponWagon::fire(QVector3D force)
             scene->addNode(projectile);
         }
     );
+
+    SoundManager::getInstance()->playSound("shot");
 }
 
 void WeaponWagon::update(int elapsedMilliseconds)
@@ -125,7 +128,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 
 float WeaponWagon::length() const
 {
-    return 4.0f;
+    return 7.5f;
 }
 
 } //namespace terminus
