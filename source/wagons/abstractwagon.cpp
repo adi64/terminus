@@ -54,9 +54,11 @@ float AbstractWagon::currentHealth() const
 
 void AbstractWagon::setHealth(float health)
 {
+    auto oldHealth = currentHealth();
     if(health <= maxHealth())
     {
         m_health = health;
+        qDebug() << "health: " << oldHealth << " -> " << health;
     }
 }
 

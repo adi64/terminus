@@ -31,9 +31,7 @@ void WeaponWagon::primaryAction()
 {
     if(!m_reloadProjectile)
     {
-        auto relativeProjectileForce = m_force;
-
-        QVector3D worldProjectileForce = rotation().rotatedVector(relativeProjectileForce);
+        QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * m_force;
 
         fire(worldProjectileForce);
 
@@ -85,7 +83,7 @@ void WeaponWagon::update(int elapsedMilliseconds)
             m_elapsedMilliseconds += elapsedMilliseconds;
         }
 
-        m_force = QVector3D(0.f, m_elapsedMilliseconds/4, 1000 + m_elapsedMilliseconds * 2);
+        m_force = m_elapsedMilliseconds / 4.0f;
     }
     if(m_reloadProjectile)
     {
