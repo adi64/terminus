@@ -103,7 +103,14 @@ void WeaponWagon::update(int elapsedMilliseconds)
 void WeaponWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Blue"));
+
+    std::string materialName = "base_Blue";
+    if(currentHealth() <= 0.0f)
+    {
+        materialName = "base_Orange";
+    }
+    Material & material = **(ResourceManager::getInstance()->getMaterial(materialName));
+
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("weapon_weapon"));
 
     program.bind();

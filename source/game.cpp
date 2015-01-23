@@ -17,6 +17,7 @@
 #include "skybox.h"
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
+#include "projectile.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -257,21 +258,30 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
         int numContacts = contactManifold->getNumContacts();
         for (int j=0;j<numContacts;j++)
         {
-            qDebug() << "btCollisionObjects at " << obAPos.x() << obAPos.y() << obAPos.z() << " and " << obBPos.x() << obBPos.y() << obBPos.z() << " collide";
+            //qDebug() << "btCollisionObjects at " << obAPos.x() << obAPos.y() << obAPos.z() << " and " << obBPos.x() << obBPos.y() << obBPos.z() << " collide";
 
             auto ago1 = m_scene->getGraphicsObjectForCollisionObject(obA);
             auto ago2 = m_scene->getGraphicsObjectForCollisionObject(obB);
 
+            // the following code is ugly as sin
+            // hide yo kids, hide yo wife
+
             auto wagon1 = dynamic_cast<AbstractWagon*>(ago1);
-            if(wagon1 != nullptr)
-            {
-                qDebug() << "first collision object is an AbstractWagon!";
-            }
+
+            auto projectile1 = dynamic_cast<Projectile*>(ago1);
 
             auto wagon2 = dynamic_cast<AbstractWagon*>(ago2);
-            if(wagon2 != nullptr)
+
+            auto projectile2 = dynamic_cast<Projectile*>(ago2);
+
+            if(wagon1 != nullptr && projectile2 != nullptr)
             {
-                qDebug() << "second collision object is an AbstractWagon!";
+                wagon1->setHealth(wagon1->currentHealth() - projectile2->damage());
+            }
+
+            if(wagon2 != nullptr && projectile1 != nullptr)
+            {
+                wagon2->setHealth(wagon2->currentHealth() - projectile1->damage());
             }
 
             btManifoldPoint& pt = contactManifold->getContactPoint(j);
