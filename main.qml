@@ -37,7 +37,7 @@ Item
         }
     }
 
-    MultiPointTouchArea //Button?
+    MultiPointTouchArea
     {
         id: touchMove
         anchors.top: parent.top
@@ -49,6 +49,7 @@ Item
             TouchPoint { id: touchM1 },
             TouchPoint { id: touchM2 }
         ]
+
         onPressed:
         {
             terminusGame.touchChargeFire();
@@ -63,7 +64,9 @@ Item
     MultiPointTouchArea
     {
         id: flick
-        anchors.fill: parent
+        anchors.bottom: parent.bottom
+        height: parent.height * 0.4
+        width: parent.width
         minimumTouchPoints: 1
         touchPoints:
         [
@@ -73,7 +76,7 @@ Item
 
         onTouchUpdated:
         {
-            terminusGame.flickEvent(touchF1.startX, touchF1.x); //add previous for speed
+            terminusGame.flickEvent(touchF1.startX, touchF1.x);
         }
         onReleased:
         {
