@@ -259,6 +259,21 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
         {
             qDebug() << "btCollisionObjects at " << obAPos.x() << obAPos.y() << obAPos.z() << " and " << obBPos.x() << obBPos.y() << obBPos.z() << " collide";
 
+            auto ago1 = m_scene->getGraphicsObjectForCollisionObject(obA);
+            auto ago2 = m_scene->getGraphicsObjectForCollisionObject(obB);
+
+            auto wagon1 = dynamic_cast<AbstractWagon*>(ago1);
+            if(wagon1 != nullptr)
+            {
+                qDebug() << "first collision object is an AbstractWagon!";
+            }
+
+            auto wagon2 = dynamic_cast<AbstractWagon*>(ago2);
+            if(wagon2 != nullptr)
+            {
+                qDebug() << "second collision object is an AbstractWagon!";
+            }
+
             btManifoldPoint& pt = contactManifold->getContactPoint(j);
             if (pt.getDistance()<0.f)
             {
