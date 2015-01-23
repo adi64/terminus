@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "../scene.h"
+#include "../resources/soundmanager.h"
 #include "../resources/resourcemanager.h"
 #include "../resources/geometry.h"
 #include "../resources/material.h"
@@ -51,6 +52,7 @@ void WeaponWagon::primaryAction()
 
         m_elapsedMilliseconds = 0;
         qDebug() << "Projectile fired!";
+        SoundManager::getInstance()->playSound("shot");
     }
 
     m_chargeProjectile = false;
@@ -106,7 +108,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 
 float WeaponWagon::length() const
 {
-    return 4.0f;
+    return 7.5f;
 }
 
 } //namespace terminus

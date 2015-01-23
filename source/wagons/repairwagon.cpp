@@ -1,23 +1,21 @@
-#include "enginewagon.h"
+#include "repairwagon.h"
 
 #include <QDebug>
-#include <QMatrix4x4>
-#include <QVector3D>
 
 #include "../scene.h"
 #include "../resources/resourcemanager.h"
-#include "../resources/soundmanager.h"
 #include "../resources/geometry.h"
 #include "../resources/material.h"
 #include "../resources/program.h"
+#include "../projectile.h"
 
 namespace terminus
 {
 
-EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
+RepairWagon::RepairWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
-    auto myShape = new btSphereShape(1.0);
+    auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
     m_btRigidBody->setCollisionShape(myShape);
     m_btCollisionShape.reset(myShape);
 
@@ -26,11 +24,16 @@ EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
     m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
 
-void EngineWagon::render(QOpenGLFunctions& gl) const
+void RepairWagon::primaryAction()
+{
+
+}
+
+void RepairWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("engine_engine"));
+    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Violet"));
+    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("repair_repair"));
 
     program.bind();
 
@@ -42,23 +45,11 @@ void EngineWagon::render(QOpenGLFunctions& gl) const
     geometry.draw(gl);
 
     program.release();
-
-    playSound();    //sounds get played here for the moment
 }
 
-void EngineWagon::playSound() const
+float RepairWagon::length() const
 {
-    SoundManager * localManager = SoundManager::getInstance();
-
-    if(!localManager->sound("machine")->isPlaying())        //maybe defining the strings in a typedef?
-    {
-        localManager->playSound("machine");
-    }
+    return 7.5f;
 }
 
-float EngineWagon::length() const
-{
-    return 6.0f;
-}
-
-}
+} //namespace terminus
