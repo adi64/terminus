@@ -37,20 +37,6 @@ Item
         }
     }
 
-    PinchArea
-    {
-        id: pinch
-        anchors.fill: parent
-        onPinchStarted:
-        {
-        }
-        onPinchFinished:
-        {
-        }
-
-        //TODO implement pinch interaction
-    }
-
     MultiPointTouchArea
     {
         id: touchMove
@@ -64,10 +50,6 @@ Item
             TouchPoint { id: touchM2 }
         ]
 
-        onTouchUpdated:
-        {
-            //terminusGame.touchMoveEvent(touchM1.previousX - touchM1.x, touchM1.previousY - touchM1.y);
-        }
         onPressed:
         {
             terminusGame.touchChargeFire();
@@ -102,14 +84,33 @@ Item
         }
     }
 
+    OrientationSensor {
+        id: orientation
+        dataRate: 50
+        active: true
+        onReadingChanged: {
+            if (reading.orientation === OrientationReading.LeftUp)
+            {
+                gyro.orientation_multiplier = 1
+            }
+            if (reading.orientation === OrientationReading.RightUp)
+            {
+                gyro.orientation_multiplier = -1
+            }
+        }
+    }
+
     Gyroscope
     {
         id: gyro
         dataRate: 50
         active: true
+
+        property int orientation_multiplier: 1
+
         onReadingChanged:
         {
-            terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
+            terminusGame.gyroMoveEvent(gyro.reading.x * orientation_multiplier, gyro.reading.y * orientation_multiplier)
         }
     }
 }
