@@ -59,17 +59,16 @@ void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
 
-    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
+    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 3.0f);
 
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
-    QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * 1000.0;
 
     m_scene->scheduleAction(
-        [scene, worldProjectilePosition, worldProjectileForce, this]()
+        [scene, worldProjectilePosition, force, this]()
         {
             auto projectile = new Projectile(scene);
             projectile->moveTo(worldProjectilePosition);
-            projectile->applyForce(worldProjectileForce);
+            projectile->applyForce(force);
             scene->addNode(projectile);
         }
     );

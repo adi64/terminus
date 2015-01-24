@@ -23,9 +23,12 @@ void AIPlayer::update(int elapsedMilliseconds)
         if(focusedWeaponWagon)
         {
             auto targetWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
-            auto aimDirection = targetWagon->position() - focusedWeaponWagon->position();
-            auto localForce = aimDirection * 100.0f;
-            auto globalForce = focusedWeaponWagon->rotation().rotatedVector(localForce);
+            auto aimDirection = (targetWagon->position() - focusedWeaponWagon->position());
+
+            // more up force
+            aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
+
+            auto globalForce = aimDirection * 8.0f;
 
             focusedWeaponWagon->fire(globalForce);
         }
