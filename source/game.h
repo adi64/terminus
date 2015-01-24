@@ -16,7 +16,6 @@ namespace terminus
 {
 
 class Train;
-class EventHandler;
 class Terrain;
 class ResourceManager;
 class SkyBox;
@@ -37,15 +36,7 @@ public slots:
     void render();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
-    void keyPressEvent(Qt::Key key);
-    void keyReleaseEvent(Qt::Key key);
-    void mouseMoveEvent(qreal x, qreal y);
-    void touchMoveEvent(qreal x, qreal y);
-    void gyroMoveEvent(qreal x, qreal y);
-    void flickEvent(qreal startX, qreal x);
-    void flickReset();
-    void touchChargeFire();
-    void touchFire();
+
 protected:
     void setupBulletWorld(void);
 
@@ -54,7 +45,6 @@ protected:
     std::unique_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
-    std::unique_ptr<EventHandler> m_eventHandler;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;

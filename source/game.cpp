@@ -15,7 +15,6 @@
 #include "train.h"
 #include "terrain.h"
 #include "skybox.h"
-#include "eventhandler.h"
 #include "deferredactionhandler.h"
 
 #include "resources/resourcemanager.h"
@@ -28,7 +27,6 @@ namespace terminus
 Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
-, m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -141,51 +139,6 @@ void Game::handleWindowChanged(QQuickWindow *win)
         connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
-}
-
-void Game::keyPressEvent(Qt::Key key)
-{
-    m_eventHandler->keyPressEvent(key);
-}
-
-void Game::keyReleaseEvent(Qt::Key key)
-{
-    m_eventHandler->keyReleaseEvent(key);
-}
-
-void Game::mouseMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler->mouseMoveEvent(x, y);
-}
-
-void Game::touchMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler->touchMoveEvent(x, y);
-}
-
-void Game::gyroMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler->gyroMoveEvent(x, y);
-}
-
-void Game::flickEvent(qreal startX, qreal x)
-{
-    m_eventHandler->flickEvent(startX, x);
-}
-
-void Game::flickReset()
-{
-    m_eventHandler->flickReset();
-}
-
-void Game::touchChargeFire()
-{
-    m_eventHandler->touchChargeFire();
-}
-
-void Game::touchFire()
-{
-    m_eventHandler->touchFire();
 }
 
 void Game::setupBulletWorld()

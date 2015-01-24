@@ -15,42 +15,41 @@
 namespace terminus
 {
 
-EventHandler::EventHandler(Game *game)
-    : m_game(game)
-    , m_lockedWagonIndex(0)
+EventHandler::EventHandler()
+    : m_lockedWagonIndex(0)
     , m_flicked(false)
     , m_flickResetted(false)
 {
 
 }
 
-void EventHandler::keyPressEvent(Qt::Key key)
+void EventHandler::keyPressEvent(Qt::Key key, Game *game)
 {
-    auto movement = m_game->scene()->camera().movement();
+    auto movement = game->scene()->camera().movement();
 
     switch(key)
     {
     case Qt::Key_W:
         movement.setZ(-1.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_S:
         movement.setZ(1.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_A:
         movement.setX(-1.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_D:
         movement.setX(1.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_Q:
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        m_game->scene()->camera().toggleLocked();
+        game->scene()->camera().toggleLocked();
         break;
     case Qt::Key_Escape:
         QApplication::quit();
@@ -60,7 +59,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_I:
         SoundManager::getInstance()->playSound("shot");
-        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
         break;
     case Qt::Key_O:
         SoundManager::getInstance()->playSound("alarm");
@@ -69,17 +68,17 @@ void EventHandler::keyPressEvent(Qt::Key key)
         SoundManager::getInstance()->toggleBackgroundMusic();
         break;
     case Qt::Key_Plus:
-        if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
+        if(game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < game->playerTrain()->size()))
         {
             m_lockedWagonIndex++;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+            game->scene()->camera().lockToObject(game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
         break;
     case Qt::Key_Minus:
-        if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
+        if(game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
         {
             m_lockedWagonIndex--;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+            game->scene()->camera().lockToObject(game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
         break;
     default:
@@ -87,51 +86,51 @@ void EventHandler::keyPressEvent(Qt::Key key)
     }
 }
 
-void EventHandler::keyReleaseEvent(Qt::Key key)
+void EventHandler::keyReleaseEvent(Qt::Key key, Game *game)
 {
-    auto movement = m_game->scene()->camera().movement();
+    auto movement = game->scene()->camera().movement();
 
     switch(key)
     {
     case Qt::Key_W:
         movement.setZ(0.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_S:
         movement.setZ(0.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_A:
         movement.setX(0.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     case Qt::Key_D:
         movement.setX(0.0);
-        m_game->scene()->camera().setMovement(movement);
+        game->scene()->camera().setMovement(movement);
         break;
     default:
         break;
     }
 }
 
-void EventHandler::mouseMoveEvent(qreal x, qreal y)
+void EventHandler::mouseMoveEvent(qreal x, qreal y, Game *game)
 {
     const double sensitivity = 0.5;
 
-    auto oldPosition = QVector2D(m_game->window()->width() / 2, m_game->window()->height() / 2);
+    auto oldPosition = QVector2D(game->window()->width() / 2, game->window()->height() / 2);
     auto offset = oldPosition - QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->scene()->camera().setRotation(rotation);
+    game->scene()->camera().setRotation(rotation);
 
-    QPoint globalPosition = m_game->window()->mapToGlobal(QPoint(m_game->window()->width() / 2, m_game->window()->height() / 2));
+    QPoint globalPosition = game->window()->mapToGlobal(QPoint(game->window()->width() / 2, game->window()->height() / 2));
     QCursor::setPos(globalPosition);
 }
 
-void EventHandler::touchMoveEvent(qreal x, qreal y)
+void EventHandler::touchMoveEvent(qreal x, qreal y, Game *game)
 {
     const double sensitivity = 0.05;
 
@@ -141,20 +140,20 @@ void EventHandler::touchMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->scene()->camera().setRotation(rotation);
+    game->scene()->camera().setRotation(rotation);
 }
 
-void EventHandler::gyroMoveEvent(qreal x, qreal y)
+void EventHandler::gyroMoveEvent(qreal x, qreal y, Game *game)
 {
     const double sensitivity = 0.005;
 
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    m_game->scene()->camera().setRotation(rotation);
+    game->scene()->camera().setRotation(rotation);
 }
 
-void EventHandler::flickEvent(qreal startx, qreal x)
+void EventHandler::flickEvent(qreal startx, qreal x, Game *game)
 {
     if(m_flickResetted)
     {
@@ -163,20 +162,20 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
 
     #ifdef Q_OS_MAC
-        auto width = m_game->window()->width() * 2;
+        auto width = game->window()->width() * 2;
     #else
-        auto width = m_game->window()->width();
+        auto width = game->window()->width();
     #endif
     auto direction = (x - startx) / (0.2f * width);
     auto distance = abs(x - startx);
 
     auto threshold = width * 0.2;
 
-    m_game->scene()->camera().setMovement(QVector3D(direction, 0.0f, 0.0f));
+    game->scene()->camera().setMovement(QVector3D(direction, 0.0f, 0.0f));
 
     if(direction > 0)
     {
-        if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
+        if(game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < game->playerTrain()->size()))
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -184,7 +183,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
     if(direction < 0)
     {
-        if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
+        if(game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -192,9 +191,9 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
 }
 
-void EventHandler::flickReset()
+void EventHandler::flickReset(Game *game)
 {
-    m_game->scene()->camera().setMovement(QVector3D(0.f, 0.f, 0.f));
+    game->scene()->camera().setMovement(QVector3D(0.f, 0.f, 0.f));
     m_flickResetted = true;
 
     if(m_flicked)
@@ -202,29 +201,29 @@ void EventHandler::flickReset()
         if(m_flickDirection > 0)
         {
             m_lockedWagonIndex++;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+            game->scene()->camera().lockToObject(game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
         if(m_flickDirection < 0)
         {
             m_lockedWagonIndex--;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+            game->scene()->camera().lockToObject(game->playerTrain()->wagonAt(m_lockedWagonIndex));
         }
         m_flicked = false;
     }
 }
 
-void EventHandler::touchChargeFire()
+void EventHandler::touchChargeFire(Game *game)
 {
-    auto wagon = dynamic_cast<WeaponWagon*>(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+    auto wagon = dynamic_cast<WeaponWagon*>(game->playerTrain()->wagonAt(m_lockedWagonIndex));
     if(wagon != nullptr)
     {
         wagon->setChargeProjectile(true);
     }
 }
 
-void EventHandler::touchFire()
+void EventHandler::touchFire(Game *game)
 {
-    m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+    game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
     SoundManager::getInstance()->playSound("shot");
 }
 
