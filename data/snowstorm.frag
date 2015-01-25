@@ -12,6 +12,7 @@ void main()
         snow.a = smoothstep(0.0, 1.0, snow.a);
     }
     snow.a = pow(snow.a, 8);
+    snow.a = 0.0;
 
     gl_FragColor = vec4(1- snow.rgb, snow.a);
 }
