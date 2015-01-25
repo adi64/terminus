@@ -34,6 +34,7 @@ public:
     Train *playerTrain() const;
 
     void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
 public slots:
     void sync();
     void render();
