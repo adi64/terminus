@@ -16,7 +16,7 @@ varying vec3 v_light;
 varying float v_color;
 varying float v_shade;
 
-float zfar = 1024.0;
+float zfar = 1024.0;        //yeah, this shouldn't be hardcoded in the end, but its for Early Access and i don't have time right now
 float znear = 0.2;
 
 void main()
