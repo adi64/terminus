@@ -234,40 +234,33 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
 
-    for (int i=0;i<numManifolds;i++)
+    for (int i=0; i < numManifolds; ++i)
     {
-        btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
-        const btCollisionObject* obA = contactManifold->getBody0();
-        const btCollisionObject* obB = contactManifold->getBody1();
+        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        auto body0 = contactManifold->getBody0();
+        auto body1 = contactManifold->getBody1();
 
-        auto obAPos = obA->getWorldTransform().getOrigin();
-        auto obBPos = obB->getWorldTransform().getOrigin();
+        auto numContacts = contactManifold->getNumContacts();
 
-        int numContacts = contactManifold->getNumContacts();
         if(numContacts > 0)
         {
-            auto ago1 = m_scene->getGraphicsObjectForCollisionObject(obA);
-            auto ago2 = m_scene->getGraphicsObjectForCollisionObject(obB);
+            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            // the following code is ugly as sin
-            // hide yo kids, hide yo wife
+            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
+            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
 
-            auto wagon1 = dynamic_cast<AbstractWagon*>(ago1);
+            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
+            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
 
-            auto projectile1 = dynamic_cast<Projectile*>(ago1);
-
-            auto wagon2 = dynamic_cast<AbstractWagon*>(ago2);
-
-            auto projectile2 = dynamic_cast<Projectile*>(ago2);
-
-            if(wagon1 != nullptr && projectile2 != nullptr)
+            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
             {
-                wagon1->setHealth(wagon1->currentHealth() - projectile2->damage());
+                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
             }
 
-            if(wagon2 != nullptr && projectile1 != nullptr)
+            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
             {
-                wagon2->setHealth(wagon2->currentHealth() - projectile1->damage());
+                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
             }
         }
     }
