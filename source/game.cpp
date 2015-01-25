@@ -105,7 +105,6 @@ void Game::sync()
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
-    //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef Q_OS_MAC
         m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
     #else
