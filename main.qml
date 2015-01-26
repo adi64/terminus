@@ -55,34 +55,74 @@ Item
                 id: enemyStatus
                 color: "transparent"
 
-                property int wagons: 1
+                property int wagons: 5
 
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: parent.height * 0.01
-                width: parent.width * 0.1 * wagons
-                height: parent.height * 0.1
+                width: (parent.width * 0.04) * wagons
+                height: parent.height * 0.03
 
                 function initStatus()
                 {
                     for(var i = 0; i < wagons; i++)
                     {
-                        Qt.createQmlObject('import QtQuick 1.0; Rectangle {color: "red"; width: 20; height: 20}',
-                         parentItem, "dynamicSnippet1");
+                        var qml =  'import QtQuick 2.3; '
+                                +  'Rectangle{'
+                                +   'id: enemyWagon' + i.toString() + ';'
+                                +   'anchors.top: parent.top;'
+                                +   'anchors.right: parent.right;'
+                                +   'anchors.rightMargin: (parent.parent.width * 0.04) * ' + i.toString() + ';'
+                                +   'width: parent.parent.width * 0.03;'
+                                +   'height: parent.height;'
+                                +   'property real health: 100;'
+                                +   'color: health === 100? "green" : (health > 25? "yellow" : "red");'
+                                +  '}'
+                        Qt.createQmlObject(qml, enemyStatus, "enemyStatus");
                     }
                 }
 
-                Rectangle
+                Component.onCompleted:
                 {
-                    id: wagon1
-                    anchors.top: parent.top
-                    anchors.right: parent.right
-                    anchors.margins: 0.01
-                    width: parent.width / parent.wagons
-                    height: parent.height
+                    initStatus();
+                }
+            }
 
-                    property real health: 100
-                    color: "green"
+            Rectangle
+            {
+                id: playerStatus
+                color: "transparent"
+
+                property int wagons: 5
+
+                anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.margins: parent.height * 0.01
+                width: (parent.width * 0.04) * wagons
+                height: parent.height * 0.03
+
+                function initStatus()
+                {
+                    for(var i = 0; i < wagons; i++)
+                    {
+                        var qml =  'import QtQuick 2.3; '
+                                +  'Rectangle{'
+                                +   'id: playerWagon' + i.toString() + ';'
+                                +   'anchors.bottom: parent.bottom;'
+                                +   'anchors.right: parent.right;'
+                                +   'anchors.rightMargin: (parent.parent.width * 0.04) * ' + i.toString() + ';'
+                                +   'width: parent.parent.width * 0.03;'
+                                +   'height: parent.height;'
+                                +   'property real health: 100;'
+                                +   'color: health === 100? "green" : (health > 25? "yellow" : "red");'
+                                +  '}'
+                        Qt.createQmlObject(qml, playerStatus, "playerStatus");
+                    }
+                }
+
+                Component.onCompleted:
+                {
+                    initStatus();
                 }
             }
 
