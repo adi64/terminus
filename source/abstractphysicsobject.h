@@ -16,6 +16,7 @@ public:
     ~AbstractPhysicsObject();
 
     virtual void moveTo(const QVector3D & newPosition);
+    virtual void onCollisionWith(AbstractPhysicsObject* other);
 
 protected:
     std::unique_ptr<btRigidBody> m_btRigidBody;

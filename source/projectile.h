@@ -16,6 +16,7 @@ public:
     void render(QOpenGLFunctions& gl) const override;
 
     virtual float damage() const;
+    virtual void onCollisionWith(AbstractPhysicsObject* other) override;
 
 protected:
     virtual unsigned int maxAgeInMilliseconds() const;
