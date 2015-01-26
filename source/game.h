@@ -22,6 +22,7 @@ class ResourceManager;
 class SkyBox;
 class SnowStorm;
 class DeferredActionHandler;
+class AIPlayer;
 
 class Game : public QQuickItem
 {
@@ -56,6 +57,7 @@ protected:
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
     std::shared_ptr<Train> m_enemyTrain;
+    std::unique_ptr<AIPlayer> m_enemyAI;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<EventHandler> m_eventHandler;

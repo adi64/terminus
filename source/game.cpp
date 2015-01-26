@@ -18,6 +18,7 @@
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
 #include "projectile.h"
+#include "aiplayer.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -49,7 +50,7 @@ Game::Game()
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack(), true));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -63,7 +64,7 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack(), false));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
@@ -78,6 +79,8 @@ Game::Game()
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
     //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
+
+    m_enemyAI = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
@@ -117,6 +120,8 @@ void Game::sync()
     #else
         m_scene->camera().setViewport(window()->width(), window()->height());
     #endif
+
+    m_enemyAI->update(elapsedMilliseconds);
 
     m_scene->update(elapsedMilliseconds);
 }

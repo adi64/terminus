@@ -179,7 +179,8 @@ SOURCES += \
     source/bullet/LinearMath/btVector3.cpp \
     source/bullet/clew/clew.c \
     source/snowstorm.cpp \
-    source/wagons/repairwagon.cpp
+    source/wagons/repairwagon.cpp \
+    source/aiplayer.cpp
 
 RESOURCES += qml.qrc
 
@@ -449,7 +450,8 @@ HEADERS += \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
     source/snowstorm.h \
-    source/wagons/repairwagon.h
+    source/wagons/repairwagon.h \
+    source/aiplayer.h
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \
