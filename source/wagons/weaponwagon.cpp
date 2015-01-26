@@ -38,7 +38,7 @@ void WeaponWagon::primaryAction()
 
     if(!m_reloadProjectile)
     {
-        auto force = 1000.0;
+        auto force = 2000.0;
 
         auto aimDeviation = getAimDeviation();
 
@@ -55,7 +55,11 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_normalizedAimVector * 1000.0;
+    auto force = 2000.0;
+
+    auto aimDeviation = getAimDeviation();
+
+    QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
     fire(worldProjectileForce);
 }
@@ -167,9 +171,8 @@ QVector3D WeaponWagon::getAimDeviation() const
 
     auto globalX = QVector3D::normal(localX, globalY);
 
-    // deviation adds up to 25% absolute deviation per axis
-    auto aimDeviationFactorX = 0.5 - ((float)rand() / (4.0 * (float)RAND_MAX));
-    auto aimDeviationFactorY = 0.5 - ((float)rand() / (2.0 * (float)RAND_MAX));
+    auto aimDeviationFactorX = 0.5 * (0.5 - ((float)rand() / (float)RAND_MAX));
+    auto aimDeviationFactorY = 0.25 * (0.5 - ((float)rand() / (float)RAND_MAX));
 
     auto aimDeviation = globalX * aimDeviationFactorX + globalY * aimDeviationFactorY;
 
