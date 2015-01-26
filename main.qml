@@ -14,15 +14,21 @@ Item
         id: terminus
         anchors.fill: parent
 
+        Component.onCompleted:
+        {
+            terminus.setUI(ui);
+        }
+
         UserInterface
         {
             id: ui
             anchors.fill: parent
             focus: true
 
-            Component.onCompleted:
+            onStatusChanged:
             {
-                ui.setGame(terminus);
+                actionStatus.actionfactor = status
+                reticle.factor = (1.0/(0.5 + status)) * 0.2
             }
 
             Keys.onPressed:
@@ -208,10 +214,10 @@ Item
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
 
-                property real scale: 0.1
+                property real factor: 0.2
 
-                height: parent.height * scale
-                width: parent.height * scale
+                height: parent.height * factor
+                width: parent.height * factor
 
                 Rectangle
                 {
@@ -281,21 +287,19 @@ Item
 
                     MultiPointTouchArea
                     {
-                        id: fire
+                        id: fire //TODO rename to primary action
                         anchors.fill: parent
 
                         onPressed:
                         {
                             ui.touchChargeFire();
                             actionButton.color = "red"
-                            reticle.scale = 0.05
                         }
 
                         onReleased:
                         {
                             ui.touchFire();
                             actionButton.color = "yellow"
-                            reticle.scale = 0.2
                         }
                     }
 
@@ -323,11 +327,13 @@ Item
                     Rectangle
                     {
                         id: actionStatus
-                        property real status: 0
                         color: "steelblue"
+                        opacity: 1.0
+                        property real actionfactor: 0.0
                         anchors.bottom: parent.bottom
+                        anchors.verticalCenter: parent.verticalCenter
                         width: parent.width
-                        height: parent.height * status
+                        height: parent.height * actionfactor
                     }
                 }
             }

@@ -17,17 +17,13 @@ UserInterface::UserInterface()
     : m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler))
     , m_lockedWagonIndex(0)
     , m_currentWagon(nullptr)
+    , m_wagonStatus(0.f)
 {
-    connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
+
 }
 
 UserInterface::~UserInterface()
 {
-}
-
-void UserInterface::setGame(Game *game)
-{
-    m_eventHandler->setGame(game);
 }
 
 void UserInterface::keyPressEvent(Qt::Key key)
@@ -85,31 +81,40 @@ void UserInterface::touchFire()
     m_eventHandler->touchFire();
 }
 
-void UserInterface::sync()
+void UserInterface::setStatus(float status)
 {
+    m_wagonStatus = status;
+}
+
+float UserInterface::status() const
+{
+    return m_wagonStatus;
+}
+
+void UserInterface::sync(Game *game)
+{
+    m_eventHandler->setGame(game);
     m_lockedWagonIndex = m_eventHandler->lockedWagonIndex();
-    m_game = m_eventHandler->game();
-    m_currentWagon = m_game->playerTrain()->wagonAt(m_lockedWagonIndex);
+    m_currentWagon = game->playerTrain()->wagonAt(m_lockedWagonIndex);
     auto wagon = dynamic_cast<WeaponWagon*>(m_currentWagon);
     if(wagon != nullptr)
     {
-        m_wagonStatus = wagon->reloadTime();
-        if(m_wagonStatus != 0)
-        {
+        auto reload = static_cast<float>(wagon->reloadTime());
+        auto charge = static_cast<float>(wagon->chargeTime());
 
-        }
-        else
+        if(reload > 0)
         {
-            m_wagonStatus = wagon->chargeTime();
+            m_wagonStatus = (reload / 5000);
+            statusChanged();
+            qDebug() << "Status changed to " << m_wagonStatus;
         }
+        if(charge > 0)
+        {
+            m_wagonStatus = (charge / 3000);
+            statusChanged();
+            qDebug() << "Status changed to " << m_wagonStatus;
+        }
+
     }
 }
-
-void UserInterface::handleWindowChanged(QQuickWindow *win)
-{
-    if (win) {
-        connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-    }
-}
-
 }

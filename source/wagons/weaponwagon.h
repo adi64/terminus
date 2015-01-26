@@ -20,8 +20,8 @@ public:
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
     float length() const;
-    unsigned int chargeTime();
-    unsigned int reloadTime();
+    unsigned int chargeTime() const;
+    unsigned int reloadTime() const;
 
 protected:
     bool m_chargeProjectile;

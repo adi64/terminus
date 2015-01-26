@@ -16,16 +16,10 @@ namespace terminus
 
 EventHandler::EventHandler()
     : m_lockedWagonIndex(0)
-    , m_game(nullptr)
     , m_flicked(false)
     , m_flickResetted(false)
 {
 
-}
-
-Game *EventHandler::game()
-{
-    return m_game;
 }
 
 void EventHandler::setGame(Game *game)
@@ -71,6 +65,9 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_I:
         m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
+        break;
+    case Qt::Key_O:
+        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
         break;
     case Qt::Key_Plus:
         switchWagonLeft();

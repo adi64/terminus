@@ -12,7 +12,6 @@ class EventHandler
 public:
     EventHandler();
 
-    Game *game();
     void setGame(Game *game);
     unsigned int lockedWagonIndex();
     void keyPressEvent(Qt::Key key);

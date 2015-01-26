@@ -112,6 +112,8 @@ void Game::sync()
     #endif
 
     m_scene->update(elapsedMilliseconds);
+
+    m_ui->sync(this);
 }
 
 void Game::render()
@@ -181,6 +183,11 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
+}
+
+void Game::setUI(UserInterface *ui)
+{
+    m_ui = ui;
 }
 
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)

@@ -132,12 +132,12 @@ float WeaponWagon::length() const
     return 7.5f;
 }
 
-unsigned int WeaponWagon::chargeTime()
+unsigned int WeaponWagon::chargeTime() const
 {
     return m_chargeTime;
 }
 
-unsigned int WeaponWagon::reloadTime()
+unsigned int WeaponWagon::reloadTime() const
 {
     return m_reloadTime;
 }

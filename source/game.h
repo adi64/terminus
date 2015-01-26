@@ -9,6 +9,7 @@
 
 #include "scene.h"
 #include "train.h"
+#include "userinterface.h"
 
 class QTimer;
 class QTime;
@@ -32,8 +33,11 @@ public:
     Scene *scene() const;
     Train *playerTrain() const;
 
+    Q_INVOKABLE void setUI(UserInterface *ui);
+
     void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
+
 public slots:
     void sync();
     void render();
@@ -51,6 +55,8 @@ protected:
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+
+    UserInterface *m_ui;
 
     // bullet
     // these objects must not be deleted before m_bullet_dynamicsWorld
