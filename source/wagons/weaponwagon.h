@@ -27,7 +27,7 @@ protected:
     int m_elapsedMilliseconds;
     bool m_chargeProjectile;
     bool m_reloadProjectile;
-    QVector3D m_force;
+    float m_force;
 };
 
 }
