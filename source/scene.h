@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 #include <QObject>
 #include <QOpenGLFunctions>
@@ -13,6 +14,7 @@ class QOpenGLShaderProgram;
 class QTime;
 
 class btDiscreteDynamicsWorld;
+class btCollisionObject;
 
 namespace terminus
 {
@@ -36,6 +38,10 @@ public:
     void addNode(AbstractGraphicsObject* node);
     void deleteNode(AbstractGraphicsObject* node);
 
+    void addCollisionMapping(const btCollisionObject* collisionObject, AbstractGraphicsObject* graphicsObject);
+    void removeCollisionMapping(const btCollisionObject* collisionObject);
+    AbstractGraphicsObject *getGraphicsObjectForCollisionObject(const btCollisionObject* collisionObject) const;
+
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
 protected:
 private:
@@ -45,6 +51,7 @@ private:
     std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
+    std::unordered_map<const btCollisionObject*, AbstractGraphicsObject*> m_collisionMap;
 };
 
 
