@@ -21,6 +21,7 @@
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
+#include "wagons/repairwagon.h"
 
 namespace terminus
 {
@@ -41,35 +42,32 @@ Game::Game()
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    SoundManager::getInstance()->playSound("music");
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
     m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->moveWagon(1, 2);
 
     m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
@@ -168,9 +166,24 @@ void Game::gyroMoveEvent(qreal x, qreal y)
     m_eventHandler->gyroMoveEvent(x, y);
 }
 
-void Game::flickEvent(qreal velo)
+void Game::flickEvent(qreal startX, qreal x)
 {
-    m_eventHandler->flickEvent(velo);
+    m_eventHandler->flickEvent(startX, x);
+}
+
+void Game::flickReset()
+{
+    m_eventHandler->flickReset();
+}
+
+void Game::touchChargeFire()
+{
+    m_eventHandler->touchChargeFire();
+}
+
+void Game::touchFire()
+{
+    m_eventHandler->touchFire();
 }
 
 void Game::setupBulletWorld()

@@ -28,8 +28,9 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
-, m_lockedCenterOffset(QVector3D(0.0, 1.0, 0.0))
-, m_lockedEyeOffset(QVector3D(0.0, 2.0, -2.0))
+, m_lockedCenterOffset(QVector3D(0.0, 2.5, 0.0))
+, m_lockedEyeOffset(QVector3D(0.0, 2.5, -3.0))
+, m_lockedFlickOffset(QVector3D(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -213,8 +214,7 @@ void Camera::setMovement(QVector3D movement)
     }
     else
     {
-          // no movement just jump from wagon to wagon (arrows, numbers) and zoom (wasd?)
-          //for that camera has to get wagon->position()
+        m_lockedFlickOffset = movement;
     }
 }
 
@@ -245,7 +245,7 @@ void Camera::setRotation(QVector2D rotation)
 
         // stop at object's bounds
         // TODO FIXME: this needs the object's AABB
-        m_lockedEyeOffset = QVector3D(MathUtil::clamp(-3.f, 3.f, newLockedEyeOffset.x()),
+        m_lockedEyeOffset = QVector3D(MathUtil::clamp(-1.5f, 1.5f, newLockedEyeOffset.x()),
                                         MathUtil::clamp(0.f, 4.f, newLockedEyeOffset.y()),
                                         MathUtil::clamp(-3.f, 3.f, newLockedEyeOffset.z()));
     }
@@ -355,8 +355,9 @@ void Camera::update()
 {
     if(m_lockedToTrain)
     {
-        setCenter(m_lockedObject->position() + m_lockedCenterOffset);
-        QVector3D worldEyeOffset = m_lockedObject->rotation().rotatedVector(m_lockedEyeOffset);
+        QVector3D worldCenterOffset = m_lockedObject->rotation().rotatedVector(m_lockedCenterOffset + m_lockedFlickOffset);
+        setCenter(m_lockedObject->position() + worldCenterOffset);
+        QVector3D worldEyeOffset = m_lockedObject->rotation().rotatedVector(m_lockedEyeOffset + m_lockedFlickOffset);
         setEye(m_lockedObject->position() + worldEyeOffset);
     }
 }

@@ -40,13 +40,13 @@ void EngineWagon::playSound() const
 
     if(!localManager->sound("machine")->isPlaying())        //maybe defining the strings in a typedef?
     {
-        localManager->playSoundDistant("machine", (m_scene->camera().eye() - m_position).length());
+        localManager->playSound("machine");
     }
 }
 
 float EngineWagon::length() const
 {
-    return 2.f;
+    return 6.0f;
 }
 
 }

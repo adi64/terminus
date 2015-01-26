@@ -37,59 +37,66 @@ Item
         }
     }
 
-    PinchArea
+    MultiPointTouchArea
     {
-        id: pinch
-        anchors.fill: parent
-        onPinchStarted:
+        id: touchMove
+        anchors.top: parent.top
+        height: parent.height * 0.6
+        width: parent.width
+        minimumTouchPoints: 1
+        touchPoints:
+        [
+            TouchPoint { id: touchM1 },
+            TouchPoint { id: touchM2 }
+        ]
+
+        onPressed:
         {
-        }
-        onPinchFinished:
-        {
+            terminusGame.touchChargeFire();
         }
 
-        //TODO implement pinch interaction
+        onReleased:
+        {
+            terminusGame.touchFire();
+        }
     }
 
     MultiPointTouchArea
     {
-        id: multitouch
-        anchors.fill: parent
+        id: flick
+        anchors.bottom: parent.bottom
+        height: parent.height * 0.4
+        width: parent.width
         minimumTouchPoints: 1
         touchPoints:
         [
-            TouchPoint { id: touch1 },
-            TouchPoint { id: touch2 }
+            TouchPoint { id: touchF1 },
+            TouchPoint { id: touchF2 }
         ]
-
-        property int flicked: 0
-
-        function sendEvent()
-        {
-            if(touch1.previousX - touch1.x > 60 || touch1.previousX - touch1.x < -60)
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.flickEvent(touch1.previousX - touch1.x);
-                    flicked = 1;
-                }
-            }
-            else
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.touchMoveEvent(touch1.previousX - touch1.x, touch1.previousY - touch1.y);
-                }
-            }
-        }
 
         onTouchUpdated:
         {
-            sendEvent()
+            terminusGame.flickEvent(touchF1.startX, touchF1.x);
         }
         onReleased:
         {
-            flicked = 0
+            terminusGame.flickReset();
+        }
+    }
+
+    OrientationSensor {
+        id: orientation
+        dataRate: 50
+        active: true
+        onReadingChanged: {
+            if (reading.orientation === OrientationReading.LeftUp)
+            {
+                gyro.orientation_multiplier = 1
+            }
+            if (reading.orientation === OrientationReading.RightUp)
+            {
+                gyro.orientation_multiplier = -1
+            }
         }
     }
 
@@ -98,9 +105,12 @@ Item
         id: gyro
         dataRate: 50
         active: true
+
+        property int orientation_multiplier: 1
+
         onReadingChanged:
         {
-            terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
+            terminusGame.gyroMoveEvent(gyro.reading.x * orientation_multiplier, gyro.reading.y * orientation_multiplier)
         }
     }
 }

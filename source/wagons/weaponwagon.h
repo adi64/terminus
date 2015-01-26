@@ -15,6 +15,12 @@ public:
 
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
+
+protected:
+    int m_elapsedMilliseconds;
+    bool m_chargeProjectile;
+    bool m_reloadProjectile;
+    QVector3D m_force;
 };
 
 }

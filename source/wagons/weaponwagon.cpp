@@ -55,7 +55,7 @@ void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 
 float WeaponWagon::length() const
 {
-    return 5.0f;
+    return 7.5f;
 }
 
 } //namespace terminus

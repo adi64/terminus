@@ -42,7 +42,10 @@ public slots:
     void mouseMoveEvent(qreal x, qreal y);
     void touchMoveEvent(qreal x, qreal y);
     void gyroMoveEvent(qreal x, qreal y);
-    void flickEvent(qreal velo);
+    void flickEvent(qreal startX, qreal x);
+    void flickReset();
+    void touchChargeFire();
+    void touchFire();
 protected:
     void setupBulletWorld(void);
 
