@@ -19,7 +19,7 @@ class Train : public AbstractGraphicsObject
 public:
     static const float base_velocity;
 public:
-    Train(std::shared_ptr<Scene> scene, Track *track);
+    Train(std::shared_ptr<Scene> scene, Track *track, bool playerControlled);
     ~Train();
 
     template<typename WagonType> void addWagon();
@@ -41,6 +41,7 @@ public:
     float travelledDistance() const;
     QVector3D headPosition() const;
     unsigned int size() const;
+    bool isPlayerControlled() const;
 
 protected:
     void calculateWagonOffset();
@@ -49,7 +50,7 @@ protected:
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
     bool m_isRunning;
     bool m_hasEngine;
-
+    bool m_playerControlled;
 
     float m_velocity;
     std::shared_ptr<Train> m_followedTrain;
