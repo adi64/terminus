@@ -35,7 +35,14 @@ void RepairWagon::primaryAction()
 void RepairWagon::render(QOpenGLFunctions& gl) const
 {
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Violet"));
+
+    std::string materialName = "base_Violet";
+    if(isDisabled())
+    {
+        materialName = "base_Gray";
+    }
+
+    Material & material = **(ResourceManager::getInstance()->getMaterial(materialName));
     Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("repair_repair"));
 
     program.bind();

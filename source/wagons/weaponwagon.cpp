@@ -129,7 +129,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
     std::string materialName = "base_Blue";
     if(isDisabled())
     {
-        materialName = "base_Orange";
+        materialName = "base_Gray";
     }
     Material & material = **(ResourceManager::getInstance()->getMaterial(materialName));
 
