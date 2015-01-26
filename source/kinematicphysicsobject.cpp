@@ -21,6 +21,7 @@ void KinematicPhysicsObject::update(int elapsedMilliseconds)
     btTransform transform = m_btRigidBody->getCenterOfMassTransform();
     transform.setOrigin(btVector3(pos.x(), pos.y(), pos.z()));
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
+    m_btRigidBody->setCenterOfMassTransform(transform);
 
     AbstractPhysicsObject::update(elapsedMilliseconds);
 }

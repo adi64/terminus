@@ -178,7 +178,8 @@ SOURCES += \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
     source/bullet/clew/clew.c \
-    source/userinterface.cpp
+    source/userinterface.cpp \
+    source/wagons/repairwagon.cpp
 
 RESOURCES += qml.qrc
 
@@ -447,7 +448,8 @@ HEADERS += \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
-    source/userinterface.h
+    source/userinterface.h \
+    source/wagons/repairwagon.h
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \
