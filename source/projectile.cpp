@@ -1,6 +1,7 @@
 #include "projectile.h"
 
 #include <QDebug>
+#include <QVector3D>
 
 #include "scene.h"
 #include "resources/resourcemanager.h"
@@ -21,6 +22,8 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     m_btCollisionShape.reset(myShape);
 
     m_btRigidBody->setMassProps(1.0f, btVector3(0.0f, 0.0f, 0.0f));
+
+    m_scale = QVector3D(0.3, 0.3, 0.3);
 
     m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
 }
