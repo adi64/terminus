@@ -213,7 +213,6 @@ void EventHandler::touchChargeFire(Game *game)
 void EventHandler::touchFire(Game *game)
 {
     game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
-    SoundManager::getInstance()->playSound("shot");
 }
 
 }
