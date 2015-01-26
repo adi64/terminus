@@ -28,24 +28,12 @@
 namespace terminus
 {
 
-// HACK TODO FIXME
-static Game* globalGameInstance = nullptr;
-
-// HACK TODO FIXME
-void btCollisionCallbackWrapper(btDynamicsWorld *world, btScalar timeStep)
-{
-    globalGameInstance->btTickCallback(world, timeStep);
-}
-
 Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
-    // HACK TODO FIXME
-    globalGameInstance = this;
-
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
@@ -85,6 +73,7 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->follow(m_playerTrain);
 
     m_enemyAI = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
@@ -231,8 +220,10 @@ void Game::setupBulletWorld()
 
     m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
 
-    // HACK TODO FIXME
-    m_bullet_dynamicsWorld->setInternalTickCallback(&btCollisionCallbackWrapper);
+    // set world user info (void*) to pointer to this game instance
+    // so we can (indirectly) call a member of Game without having global state or a singleton
+    m_bullet_dynamicsWorld->setInternalTickCallback(&Game::btStaticTickCallback);
+    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
 }
 
 Scene *Game::scene() const
@@ -249,46 +240,44 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
 
-    for (int i=0;i<numManifolds;i++)
+    for (int i=0; i < numManifolds; ++i)
     {
-        btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
-        const btCollisionObject* obA = contactManifold->getBody0();
-        const btCollisionObject* obB = contactManifold->getBody1();
+        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        auto body0 = contactManifold->getBody0();
+        auto body1 = contactManifold->getBody1();
 
-        auto obAPos = obA->getWorldTransform().getOrigin();
-        auto obBPos = obB->getWorldTransform().getOrigin();
+        auto numContacts = contactManifold->getNumContacts();
 
-        int numContacts = contactManifold->getNumContacts();
         if(numContacts > 0)
         {
-            //qDebug() << "btCollisionObjects at " << obAPos.x() << obAPos.y() << obAPos.z() << " and " << obBPos.x() << obBPos.y() << obBPos.z() << " collide";
+            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            auto ago1 = m_scene->getGraphicsObjectForCollisionObject(obA);
-            auto ago2 = m_scene->getGraphicsObjectForCollisionObject(obB);
+            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
+            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
 
-            // the following code is ugly as sin
-            // hide yo kids, hide yo wife
+            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
+            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
 
-            auto wagon1 = dynamic_cast<AbstractWagon*>(ago1);
-
-            auto projectile1 = dynamic_cast<Projectile*>(ago1);
-
-            auto wagon2 = dynamic_cast<AbstractWagon*>(ago2);
-
-            auto projectile2 = dynamic_cast<Projectile*>(ago2);
-
-            if(wagon1 != nullptr && projectile2 != nullptr)
+            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
             {
-                wagon1->setHealth(wagon1->currentHealth() - projectile2->damage());
+                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
             }
 
-            if(wagon2 != nullptr && projectile1 != nullptr)
+            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
             {
-                wagon2->setHealth(wagon2->currentHealth() - projectile1->damage());
+                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
             }
         }
     }
 
+}
+
+void Game::btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    // retrieve instance pointer from user info (void*)
+    auto gameInstance = static_cast<Game*>(world->getWorldUserInfo());
+    gameInstance->btTickCallback(world, timeStep);
 }
 
 }

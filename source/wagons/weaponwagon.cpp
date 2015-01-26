@@ -30,6 +30,11 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 
 void WeaponWagon::primaryAction()
 {
+    if(isDisabled())
+    {
+        return;
+    }
+
     if(!m_reloadProjectile)
     {
         QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * m_force;
@@ -105,7 +110,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
 
     std::string materialName = "base_Blue";
-    if(currentHealth() <= 0.0f)
+    if(isDisabled())
     {
         materialName = "base_Orange";
     }
