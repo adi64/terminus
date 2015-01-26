@@ -15,9 +15,10 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
-, m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
+, m_chargeTime(0)
 , m_reloadProjectile(false)
+, m_reloadTime(0)
 {
     auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
     m_btRigidBody->setCollisionShape(myShape);
@@ -36,7 +37,7 @@ void WeaponWagon::primaryAction()
 
         fire(worldProjectileForce);
 
-        m_elapsedMilliseconds = 0;
+        m_chargeTime = 0;
     }
 
     m_chargeProjectile = false;
@@ -81,20 +82,20 @@ void WeaponWagon::update(int elapsedMilliseconds)
 {
     if(m_chargeProjectile && !m_reloadProjectile)
     {
-        if(m_elapsedMilliseconds < 3000)
+        if(m_chargeTime < 3000)
         {
-            m_elapsedMilliseconds += elapsedMilliseconds;
+            m_chargeTime += elapsedMilliseconds;
         }
 
-        m_force = m_elapsedMilliseconds / 4.0f;
+        m_force = m_chargeTime / 4.0f;
     }
     if(m_reloadProjectile)
     {
-        m_elapsedMilliseconds += elapsedMilliseconds;
-        if(m_elapsedMilliseconds > 5000)
+        m_reloadTime += elapsedMilliseconds;
+        if(m_reloadTime > 5000)
         {
             m_reloadProjectile = false;
-            m_elapsedMilliseconds = 0;
+            m_reloadTime = 0;
             qDebug() << "Reload complete!";
         }
     }
@@ -129,6 +130,16 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 float WeaponWagon::length() const
 {
     return 7.5f;
+}
+
+unsigned int WeaponWagon::chargeTime()
+{
+    return m_chargeTime;
+}
+
+unsigned int WeaponWagon::reloadTime()
+{
+    return m_reloadTime;
 }
 
 } //namespace terminus

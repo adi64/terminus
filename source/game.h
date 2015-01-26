@@ -8,6 +8,7 @@
 #include "bullet/btBulletDynamicsCommon.h"
 
 #include "scene.h"
+#include "train.h"
 
 class QTimer;
 class QTime;
@@ -15,7 +16,6 @@ class QTime;
 namespace terminus
 {
 
-class Train;
 class Terrain;
 class ResourceManager;
 class SkyBox;

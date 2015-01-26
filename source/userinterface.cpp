@@ -8,12 +8,15 @@
 
 #include "game.h"
 #include "eventhandler.h"
+#include "wagons/weaponwagon.h"
 
 namespace terminus
 {
 
 UserInterface::UserInterface()
     : m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler))
+    , m_lockedWagonIndex(0)
+    , m_currentWagon(nullptr)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 }
@@ -84,42 +87,28 @@ void UserInterface::touchFire()
 
 void UserInterface::sync()
 {
-    //m_deferredActionHandler->processDeferredActions();
+    m_lockedWagonIndex = m_eventHandler->lockedWagonIndex();
+    m_game = m_eventHandler->game();
+    m_currentWagon = m_game->playerTrain()->wagonAt(m_lockedWagonIndex);
+    auto wagon = dynamic_cast<WeaponWagon*>(m_currentWagon);
+    if(wagon != nullptr)
+    {
+        m_wagonStatus = wagon->reloadTime();
+        if(m_wagonStatus != 0)
+        {
 
-    //auto elapsedMilliseconds = m_timeStamp->restart();
-
-    #ifdef Q_OS_MAC
-        //m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
-    #else
-        //m_scene->camera().setViewport(window()->width(), window()->height());
-    #endif
-
-    //m_scene->update(elapsedMilliseconds);
-}
-
-void UserInterface::render()
-{
-    //m_scene->render();
-}
-
-void UserInterface::cleanup()
-{
-
+        }
+        else
+        {
+            m_wagonStatus = wagon->chargeTime();
+        }
+    }
 }
 
 void UserInterface::handleWindowChanged(QQuickWindow *win)
 {
     if (win) {
-        connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
         connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-        connect(win, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
-        // If we allow QML to do the clearing, they would clear what we paint
-        // and nothing would show.
-        win->setClearBeforeRendering(false);
-
-        // force redraw
-        //connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        //m_timer->start(1000 / 60);
     }
 }
 

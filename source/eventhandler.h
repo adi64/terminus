@@ -12,7 +12,9 @@ class EventHandler
 public:
     EventHandler();
 
+    Game *game();
     void setGame(Game *game);
+    unsigned int lockedWagonIndex();
     void keyPressEvent(Qt::Key key);
     void keyReleaseEvent(Qt::Key key);
     void mouseMoveEvent(qreal x, qreal y);
@@ -26,7 +28,7 @@ public:
     void touchFire();
 
 protected:
-    unsigned int m_lockedWagonIndex; //TODO Move to train
+    unsigned int m_lockedWagonIndex;
     Game *m_game;
     bool m_flicked;
     bool m_flickResetted;

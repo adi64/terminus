@@ -23,9 +23,19 @@ EventHandler::EventHandler()
 
 }
 
+Game *EventHandler::game()
+{
+    return m_game;
+}
+
 void EventHandler::setGame(Game *game)
 {
     m_game = game;
+}
+
+unsigned int EventHandler::lockedWagonIndex()
+{
+    return m_lockedWagonIndex;
 }
 
 void EventHandler::keyPressEvent(Qt::Key key)

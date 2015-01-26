@@ -12,6 +12,8 @@ namespace terminus
 {
 
 class EventHandler;
+class Train;
+class AbstractWagon;
 
 class UserInterface : public QQuickItem
 {
@@ -21,7 +23,6 @@ public:
     UserInterface();
     ~UserInterface();
 
-    // Reference to game is sent with every signal because it cant be sent when UI is initialized
     Q_INVOKABLE void setGame(Game *game);
     Q_INVOKABLE void keyPressEvent(Qt::Key key);
     Q_INVOKABLE void keyReleaseEvent(Qt::Key key);
@@ -37,12 +38,14 @@ public:
 
 protected slots:
     void sync();
-    void render();
-    void cleanup();
     void handleWindowChanged(QQuickWindow* win);
 
 protected:
     std::unique_ptr<EventHandler> m_eventHandler;
+    unsigned int m_lockedWagonIndex;
+    Game *m_game;
+    AbstractWagon *m_currentWagon;
+    float m_wagonStatus;
 };
 
 }

@@ -107,7 +107,7 @@ void Scene::render()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW); //TODO check if still necessary after geometry loader
+    glFrontFace(GL_CCW);
 
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
