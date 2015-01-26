@@ -22,49 +22,64 @@ UserInterface::~UserInterface()
 {
 }
 
-void UserInterface::keyPressEvent(Qt::Key key, Game *game)
+void UserInterface::setGame(Game *game)
 {
-    m_eventHandler->keyPressEvent(key, game);
+    m_eventHandler->setGame(game);
 }
 
-void UserInterface::keyReleaseEvent(Qt::Key key, Game *game)
+void UserInterface::keyPressEvent(Qt::Key key)
 {
-    m_eventHandler->keyReleaseEvent(key, game);
+    m_eventHandler->keyPressEvent(key);
 }
 
-void UserInterface::mouseMoveEvent(qreal x, qreal y, Game *game)
+void UserInterface::keyReleaseEvent(Qt::Key key)
 {
-    m_eventHandler->mouseMoveEvent(x, y, game);
+    m_eventHandler->keyReleaseEvent(key);
 }
 
-void UserInterface::touchMoveEvent(qreal x, qreal y, Game *game)
+void UserInterface::mouseMoveEvent(qreal x, qreal y)
 {
-    m_eventHandler->touchMoveEvent(x, y, game);
+    m_eventHandler->mouseMoveEvent(x, y);
 }
 
-void UserInterface::gyroMoveEvent(qreal x, qreal y, Game *game)
+void UserInterface::touchMoveEvent(qreal x, qreal y)
 {
-    m_eventHandler->gyroMoveEvent(x, y, game);
+    m_eventHandler->touchMoveEvent(x, y);
 }
 
-void UserInterface::flickEvent(qreal startX, qreal x, Game *game)
+void UserInterface::gyroMoveEvent(qreal x, qreal y)
 {
-    m_eventHandler->flickEvent(startX, x, game);
+    m_eventHandler->gyroMoveEvent(x, y);
 }
 
-void UserInterface::flickReset(Game *game)
+void UserInterface::switchWagonLeft()
 {
-    m_eventHandler->flickReset(game);
+    m_eventHandler->switchWagonLeft();
 }
 
-void UserInterface::touchChargeFire(Game *game)
+void UserInterface::switchWagonRight()
 {
-    m_eventHandler->touchChargeFire(game);
+    m_eventHandler->switchWagonRight();
 }
 
-void UserInterface::touchFire(Game *game)
+/*void UserInterface::flickEvent(qreal startX, qreal x)
 {
-    m_eventHandler->touchFire(game);
+    m_eventHandler->flickEvent(startX, x);
+}
+
+void UserInterface::flickReset()
+{
+    m_eventHandler->flickReset();
+}*/
+
+void UserInterface::touchChargeFire()
+{
+    m_eventHandler->touchChargeFire();
+}
+
+void UserInterface::touchFire()
+{
+    m_eventHandler->touchFire();
 }
 
 void UserInterface::sync()

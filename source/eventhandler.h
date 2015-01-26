@@ -12,18 +12,22 @@ class EventHandler
 public:
     EventHandler();
 
-    void keyPressEvent(Qt::Key key, Game *game);
-    void keyReleaseEvent(Qt::Key key, Game *game);
-    void mouseMoveEvent(qreal x, qreal y, Game *game);
-    void touchMoveEvent(qreal x, qreal y, Game *game);
-    void gyroMoveEvent(qreal x, qreal y, Game *game);
-    void flickEvent(qreal startx, qreal x, Game *game);
-    void flickReset(Game *game);
-    void touchChargeFire(Game *game);
-    void touchFire(Game *game);
+    void setGame(Game *game);
+    void keyPressEvent(Qt::Key key);
+    void keyReleaseEvent(Qt::Key key);
+    void mouseMoveEvent(qreal x, qreal y);
+    void touchMoveEvent(qreal x, qreal y);
+    void gyroMoveEvent(qreal x, qreal y);
+    //void flickEvent(qreal startx, qreal x);
+    //void flickReset();
+    void switchWagonLeft();
+    void switchWagonRight();
+    void touchChargeFire();
+    void touchFire();
 
 protected:
     unsigned int m_lockedWagonIndex; //TODO Move to train
+    Game *m_game;
     bool m_flicked;
     bool m_flickResetted;
     qreal m_flickDirection;
