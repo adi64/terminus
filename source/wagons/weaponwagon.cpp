@@ -18,13 +18,13 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Wagon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
-    auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
 
-    m_btRigidBody->setMassProps(1000.0f, btVector3(0.0f, 0.0f, 0.0f));
+    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+}
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+WeaponWagon::~WeaponWagon()
+{
+    deallocatePhysics();
 }
 
 void WeaponWagon::primaryAction()

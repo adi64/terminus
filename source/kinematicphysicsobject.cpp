@@ -10,7 +10,6 @@ namespace terminus
 KinematicPhysicsObject::KinematicPhysicsObject(std::shared_ptr<Scene> scene)
     : AbstractPhysicsObject(scene)
 {
-    m_btRigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
 }
 
 void KinematicPhysicsObject::update(int elapsedMilliseconds)
@@ -23,6 +22,12 @@ void KinematicPhysicsObject::update(int elapsedMilliseconds)
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
 
     AbstractPhysicsObject::update(elapsedMilliseconds);
+}
+
+void KinematicPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
+{
+    AbstractPhysicsObject::initializePhysics(collisionShape, mass);
+    m_btRigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
 }
 
 }

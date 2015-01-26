@@ -9,6 +9,7 @@ class WeaponWagon : public AbstractWagon
 {
 public:
     WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    virtual ~WeaponWagon();
 
     void primaryAction() override;
 

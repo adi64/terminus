@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 #include "track.h"
 #include "scene.h"
 #include "resources/resourcemanager.h"
@@ -48,19 +50,24 @@ Terrain::Terrain(std::shared_ptr<Scene> scene)
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
     
-    // infinite plane
-    auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
+    auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
+                                               m_level.heightMapSizeT(),
+                                               m_level.heightMapData(),
+                                               1.f /*ignored for PHY_FLOAT*/,
+                                               0.f, 200.f,
+                                               1 /*y axix*/,
+                                               PHY_ScalarType::PHY_FLOAT,
+                                               false);
 
-    // zero mass --> unlimited mass, does not move
-    m_btRigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
+    shape->setLocalScaling(btVector3(m_level.heightMapScaleS(), 1.f, m_level.heightMapScaleT()));
+    initializePhysics(shape, 1.f);
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+    setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
 }
 
 Terrain::~Terrain()
 {
+    deallocatePhysics();
 }
 
 Track *Terrain::playerTrack() const
@@ -75,9 +82,15 @@ Track *Terrain::enemyTrack() const
 
 void Terrain::update(int elapsedMilliseconds)
 {
+    QVector3D pos = position();
+    QQuaternion rot = rotation();
+
+    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
+    transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
+    transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
+
     AbstractPhysicsObject::update(elapsedMilliseconds);
 
-    // update tracks
     m_playerTrack->update(elapsedMilliseconds);
     m_enemyTrack->update(elapsedMilliseconds);
 }

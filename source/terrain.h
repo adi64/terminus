@@ -16,7 +16,7 @@ class Terrain : public KinematicPhysicsObject
 {
 public:
     Terrain(std::shared_ptr<Scene> scene);
-    ~Terrain();
+    virtual ~Terrain();
 
     virtual void update(int elapsedMilliseconds) override;
     virtual void render(QOpenGLFunctions& gl) const override;

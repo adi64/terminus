@@ -16,7 +16,6 @@ public:
     virtual void update(int elapsedMilliseconds) override;
 
     virtual float length() const;
-    virtual float weight() const;
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:

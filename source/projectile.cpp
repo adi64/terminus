@@ -19,13 +19,12 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
-    auto myShape = new btSphereShape(1.0);
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
+    initializePhysics(new btSphereShape(1.0), 1.f);
+}
 
-    m_btRigidBody->setMassProps(1.0f, btVector3(0.0f, 0.0f, 0.0f));
-
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+Projectile::~Projectile()
+{
+    deallocatePhysics();
 }
 
 void Projectile::update(int elapsedMilliseconds)
@@ -48,7 +47,7 @@ void Projectile::preRender(QOpenGLFunctions & gl, Program & program) const
 
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
-    return 5000;
+    return 50000;
 }
 
 } //namespace terminus
