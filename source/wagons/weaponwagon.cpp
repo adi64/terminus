@@ -41,7 +41,11 @@ void WeaponWagon::primaryAction()
 
     if(!m_reloadProjectile)
     {
-        QVector3D worldProjectileForce = m_normalizedAimVector * m_force;
+        auto force = 2000.0;
+
+        auto aimDeviation = getAimDeviation();
+
+        QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
         fire(worldProjectileForce);
 
@@ -54,7 +58,11 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_normalizedAimVector * 1000.0;
+    auto force = 2000.0;
+
+    auto aimDeviation = getAimDeviation();
+
+    QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
     fire(worldProjectileForce);
 }
@@ -99,12 +107,10 @@ void WeaponWagon::update(int elapsedMilliseconds)
 {
     if(m_chargeProjectile && !m_reloadProjectile)
     {
-        if(m_elapsedMilliseconds < 3000)
+        if(m_elapsedMilliseconds < maxChargeMilliseconds())
         {
             m_elapsedMilliseconds += elapsedMilliseconds;
         }
-
-        m_force = m_elapsedMilliseconds / 4.0f;
     }
     if(m_reloadProjectile)
     {
@@ -140,6 +146,32 @@ void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 float WeaponWagon::length() const
 {
     return 7.5f;
+}
+
+int WeaponWagon::maxChargeMilliseconds() const
+{
+    return 3000;
+}
+
+QVector3D WeaponWagon::getAimDeviation() const
+{
+    auto localX = QVector3D(1.0, 0.0, 0.0);
+
+    auto globalY = QVector3D(0.0, 1.0, 0.0);
+
+    auto globalX = QVector3D::normal(localX, globalY);
+
+    auto aimDeviationFactorX = 0.5 * (0.5 - ((float)rand() / (float)RAND_MAX));
+    auto aimDeviationFactorY = 0.25 * (0.5 - ((float)rand() / (float)RAND_MAX));
+
+    auto aimDeviation = globalX * aimDeviationFactorX + globalY * aimDeviationFactorY;
+
+    // but only a bit of that will be applied - depending on charge
+    auto appliedDeviationFactor = 1.0 - ((float)m_elapsedMilliseconds / (float)maxChargeMilliseconds());
+
+    auto appliedDeviation = aimDeviation * appliedDeviationFactor;
+
+    return appliedDeviation;
 }
 
 } //namespace terminus

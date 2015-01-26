@@ -27,10 +27,12 @@ public:
     float length() const;
 
 protected:
+    int maxChargeMilliseconds() const;
+    QVector3D getAimDeviation() const;
+protected:
     int m_elapsedMilliseconds;
     bool m_chargeProjectile;
     bool m_reloadProjectile;
-    float m_force;
     QVector3D m_normalizedAimVector;
 };
 
