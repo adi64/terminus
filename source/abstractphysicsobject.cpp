@@ -37,12 +37,6 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
 
     m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
     m_scene->addCollisionMapping(m_btRigidBody.get(), this);
-
-    // we should not add the rigid body to the scene right now
-    // because fundamental changes to it (collision shape, mass, ...)
-    // can not be done while the object is added to the scene
-    //
-    // therefore every object should do this itself after setting the correct values
 }
 
 void AbstractPhysicsObject::deallocatePhysics()

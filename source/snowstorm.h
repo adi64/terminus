@@ -15,7 +15,8 @@ public:
     virtual ~SnowStorm();
 
     void update(int elapsedMilliseconds);
-    void render(QOpenGLFunctions & gl) const override;
+    virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void postRender(QOpenGLFunctions & gl, Program & program) const override;
 
     int width();
     std::vector<float> & flakes();

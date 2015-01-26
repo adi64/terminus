@@ -18,6 +18,8 @@ SnowStorm::SnowStorm(std::shared_ptr<Scene> scene)
     , m_noise()
     , m_initialized(false)
 {
+    m_program = ResourceManager::getInstance()->getProgram("snowstorm");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_ScreenQuad");
     initializeFlakes();
 }
 
@@ -29,29 +31,20 @@ void SnowStorm::update(int elapsedMilliseconds)
 {
 }
 
-void SnowStorm::render(QOpenGLFunctions &gl) const
+void SnowStorm::preRender(QOpenGLFunctions & gl, Program & program) const
 {
     if(!m_initialized)
     {
         initializeTextures(gl);
     }
-
-    Program & program =  **(ResourceManager::getInstance()->getProgram("snowstorm"));
-    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
-
-    program.bind();
-    m_scene->camera().setMatrices(program, QMatrix4x4());
-    sQuad.setAttributes(program);
-
     gl.glActiveTexture(GL_TEXTURE0);
-    //gl.glEnable(GL_TEXTURE_CUBE_MAP);
     gl.glBindTexture(GL_TEXTURE_2D, m_texture);
+}
 
-    sQuad.draw(gl);
-
+void SnowStorm::postRender(QOpenGLFunctions & gl, Program & program) const
+{
+    gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);
-
-    program.release();
 }
 
 void SnowStorm::initializeFlakes()
