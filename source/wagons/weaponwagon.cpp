@@ -9,6 +9,7 @@
 #include "../resources/material.h"
 #include "../resources/program.h"
 #include "../projectile.h"
+#include "../train.h"
 
 namespace terminus
 {
@@ -121,6 +122,13 @@ void WeaponWagon::update(int elapsedMilliseconds)
         materialName = "base_Orange";
     }
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
+    AbstractWagon::update(elapsedMilliseconds);
+
+    if(m_train->isPlayerControlled())
+    {
+        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
+    }
+
     AbstractWagon::update(elapsedMilliseconds);
 }
 

@@ -21,6 +21,7 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
     initializePhysics(new btSphereShape(1.0), 1.f);
+    setScale(0.3f); //TODO scale collision sphere as well
 }
 
 Projectile::~Projectile()
@@ -62,7 +63,7 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
-    return 50000;
+    return 5000;
 }
 
 } //namespace terminus
