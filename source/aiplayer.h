@@ -18,6 +18,7 @@ protected:
     std::shared_ptr<Train> m_myTrain;
     std::shared_ptr<Train> m_enemyTrain;
     int m_focusedWagonIndex;
+    int m_chargingMilliseconds;
 };
 
 }
