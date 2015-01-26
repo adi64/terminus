@@ -28,6 +28,9 @@ AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
 
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
+    // TODO FIXME add this to the initializePhysics() (or so) method
+    m_scene->addCollisionMapping(m_btRigidBody.get(), this);
+
     // we should not add the rigid body to the scene right now
     // because fundamental changes to it (collision shape, mass, ...)
     // can not be done while the object is added to the scene
@@ -38,6 +41,7 @@ AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
 AbstractPhysicsObject::~AbstractPhysicsObject()
 {
     m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
+    m_scene->removeCollisionMapping(m_btRigidBody.get());
 }
 
 void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)

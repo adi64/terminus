@@ -10,6 +10,9 @@ varying vec3 v_normal;
 varying vec3 v_position;
 varying vec3 v_light;
 
+float zfar = 1024.0;        //yeah, this shouldn't be hardcoded in the end, but its for Early Access and i don't have time right now
+float znear = 0.2;
+
 void main()
 {
     vec3 l = normalize(v_light);
@@ -26,6 +29,15 @@ void main()
     vec3 specular = cSpecular.rgb * fSpecular;
 
     vec3 color = emit + diffuse + specular;
+
+    //adjusting mist
+    vec4 mistColor = vec4(0.35, 0.35, 0.5, 1.0);
+    float depth = gl_FragCoord.z;
+    float density = 3.0;
+    float linDepth = - znear * depth / (zfar * depth - zfar - znear * depth);       //lineraize depth value
+    float mistiness = 1 - exp(-pow(density * linDepth, 2));
+
+    color = mix(color, mistColor, mistiness);
 
     gl_FragColor = vec4(clamp(color, 0.0, 1.0), fAlpha.r);
 }

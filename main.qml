@@ -1,92 +1,116 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.0
 import QtSensors 5.3
 import terminus 1.0
 
-Item {
+Item
+{
+    width: Screen.desktopAvailableWidth
+    height: Screen.desktopAvailableHeight
 
-    width: 1334
-    height: 750
-
-    Game {
+    Game
+    {
         id: terminusGame
         anchors.fill: parent
         focus: true
-        Keys.onPressed: {
+        Keys.onPressed:
+        {
             terminusGame.keyPressEvent(event.key)
             event.accepted = true
         }
-        Keys.onReleased: {
+        Keys.onReleased:
+        {
             terminusGame.keyReleaseEvent(event.key)
             event.accepted = true
         }
     }
 
-    MouseArea {
+    MouseArea
+    {
         anchors.fill: parent
         cursorShape: "BlankCursor"
         hoverEnabled: true
-        onPositionChanged: {
+        onPositionChanged:
+        {
             terminusGame.mouseMoveEvent(mouse.x, mouse.y);
         }
     }
 
-    PinchArea {
-        id: pinch
-        anchors.fill: parent
-        onPinchStarted: {
-
-        }
-        onPinchFinished: {
-
-        }
-
-        //TODO implement pinch interaction
-    }
-
-    MultiPointTouchArea {
-        id: multitouch
-        anchors.fill: parent
+    MultiPointTouchArea
+    {
+        id: touchMove
+        anchors.top: parent.top
+        height: parent.height * 0.6
+        width: parent.width
         minimumTouchPoints: 1
-        touchPoints: [
-            TouchPoint { id: touch1 },
-            TouchPoint { id: touch2 }
+        touchPoints:
+        [
+            TouchPoint { id: touchM1 },
+            TouchPoint { id: touchM2 }
         ]
 
-        property int flicked: 0
-
-        function sendEvent()
+        onPressed:
         {
-            if(touch1.previousX - touch1.x > 60 || touch1.previousX - touch1.x < -60)
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.flickEvent(touch1.previousX - touch1.x);
-                    flicked = 1;
-                }
-            }
-            else
-            {
-                if(flicked === 0)
-                {
-                    terminusGame.touchMoveEvent(touch1.previousX - touch1.x, touch1.previousY - touch1.y);
-                }
-            }
+            terminusGame.touchChargeFire();
         }
 
-        onTouchUpdated: {
-            sendEvent()
-        }
         onReleased:
-            flicked = 0
+        {
+            terminusGame.touchFire();
+        }
     }
 
-    Gyroscope {
-        id: gyro
+    MultiPointTouchArea
+    {
+        id: flick
+        anchors.bottom: parent.bottom
+        height: parent.height * 0.4
+        width: parent.width
+        minimumTouchPoints: 1
+        touchPoints:
+        [
+            TouchPoint { id: touchF1 },
+            TouchPoint { id: touchF2 }
+        ]
+
+        onTouchUpdated:
+        {
+            terminusGame.flickEvent(touchF1.startX, touchF1.x);
+        }
+        onReleased:
+        {
+            terminusGame.flickReset();
+        }
+    }
+
+    OrientationSensor {
+        id: orientation
         dataRate: 50
         active: true
         onReadingChanged: {
-            terminusGame.gyroMoveEvent(gyro.reading.x, gyro.reading.y)
+            if (reading.orientation === OrientationReading.LeftUp)
+            {
+                gyro.orientation_multiplier = 1
+            }
+            if (reading.orientation === OrientationReading.RightUp)
+            {
+                gyro.orientation_multiplier = -1
+            }
+        }
+    }
+
+    Gyroscope
+    {
+        id: gyro
+        dataRate: 50
+        active: true
+
+        property int orientation_multiplier: 1
+
+        onReadingChanged:
+        {
+            terminusGame.gyroMoveEvent(gyro.reading.x * orientation_multiplier, gyro.reading.y * orientation_multiplier)
         }
     }
 }

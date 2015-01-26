@@ -56,6 +56,11 @@ void Projectile::render(QOpenGLFunctions& gl) const
     program.release();
 }
 
+float Projectile::damage() const
+{
+    return 30.0f;
+}
+
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
