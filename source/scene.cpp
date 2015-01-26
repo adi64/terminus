@@ -20,6 +20,7 @@ Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_p
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
 , m_deferredActionHandler(deferredActionHandler)
+, m_collisionMap()
 {
     m_nodes.clear();
 }
@@ -45,6 +46,29 @@ void Scene::deleteNode(AbstractGraphicsObject *node)
     }
 
     qDebug() << "Could not find node " << node;
+}
+
+void Scene::addCollisionMapping(const btCollisionObject *collisionObject, AbstractGraphicsObject *graphicsObject)
+{
+    auto newPair = std::pair<const btCollisionObject*, AbstractGraphicsObject*>(collisionObject, graphicsObject);
+    m_collisionMap.insert(newPair);
+}
+
+void Scene::removeCollisionMapping(const btCollisionObject *collisionObject)
+{
+    m_collisionMap.erase(collisionObject);
+}
+
+AbstractGraphicsObject *Scene::getGraphicsObjectForCollisionObject(const btCollisionObject *collisionObject) const
+{
+    try
+    {
+        return m_collisionMap.at(collisionObject);
+    } catch(std::exception e)
+    {
+        qDebug() << "could not find AbstractGraphicsObject for collisionObject " << collisionObject;
+        return nullptr;
+    }
 }
 
 void Scene::setInitialTimeStamp(const std::shared_ptr<QTime>& timeStamp)

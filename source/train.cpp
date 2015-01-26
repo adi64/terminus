@@ -6,15 +6,16 @@
 
 #include "track.h"
 #include "wagons/enginewagon.h"
+#include "mathutil.h"
 
 namespace terminus
 {
-
+const float Train::base_velocity = 0.02;
 
 Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
-    , m_velocity(0.02)
+    , m_velocity(base_velocity)
     , m_track(track)
 {
     // Every train needs an engine
@@ -94,6 +95,12 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
 
 void Train::update(int elapsedMilliseconds)
 {
+    if(m_followedTrain)
+    {
+        float dX = m_followedTrain->headPosition().x() - headPosition().x();
+        m_velocity = MathUtil::mix(base_velocity * 0.5, base_velocity * 1.5, MathUtil::linstep(-50.f, 50.f, dX));
+    }
+
     // move forward
     m_travelledDistance += m_velocity * elapsedMilliseconds;
 
@@ -133,9 +140,28 @@ Track *Train::track() const
     return m_track;
 }
 
+void Train::follow(std::shared_ptr<Train> train)
+{
+    m_followedTrain = train;
+}
+
+float Train::velocity() const
+{
+    return m_velocity;
+}
+void Train::setVelocity(float velocity)
+{
+    m_velocity = velocity;
+}
+
 float Train::travelledDistance() const
 {
     return m_travelledDistance;
+}
+
+QVector3D Train::headPosition() const
+{
+    return m_track->positionAt(travelledDistance());
 }
 
 unsigned int Train::size() const

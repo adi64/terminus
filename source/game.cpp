@@ -17,10 +17,12 @@
 #include "skybox.h"
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
+#include "projectile.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
+#include "wagons/repairwagon.h"
 
 #include "snowstorm.h"
 
@@ -43,38 +45,36 @@ Game::Game()
 
     m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
 
-    SoundManager::getInstance()->playBackgroundMusic();
+    SoundManager::getInstance()->playSound("music");
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->moveWagon(1, 2);
 
-    m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->follow(m_playerTrain);
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
     m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
@@ -112,7 +112,7 @@ void Game::sync()
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
-    #ifdef __APPLE__
+    #ifdef Q_OS_MAC
         m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
     #else
         m_scene->camera().setViewport(window()->width(), window()->height());
@@ -172,9 +172,24 @@ void Game::gyroMoveEvent(qreal x, qreal y)
     m_eventHandler->gyroMoveEvent(x, y);
 }
 
-void Game::flickEvent(qreal velo)
+void Game::flickEvent(qreal startX, qreal x)
 {
-    m_eventHandler->flickEvent(velo);
+    m_eventHandler->flickEvent(startX, x);
+}
+
+void Game::flickReset()
+{
+    m_eventHandler->flickReset();
+}
+
+void Game::touchChargeFire()
+{
+    m_eventHandler->touchChargeFire();
+}
+
+void Game::touchFire()
+{
+    m_eventHandler->touchFire();
 }
 
 void Game::setupBulletWorld()
@@ -203,6 +218,11 @@ void Game::setupBulletWorld()
                 );
 
     m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
+
+    // set world user info (void*) to pointer to this game instance
+    // so we can (indirectly) call a member of Game without having global state or a singleton
+    m_bullet_dynamicsWorld->setInternalTickCallback(&Game::btStaticTickCallback);
+    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
 }
 
 Scene *Game::scene() const
@@ -213,6 +233,50 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
+}
+
+void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+
+    for (int i=0; i < numManifolds; ++i)
+    {
+        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        auto body0 = contactManifold->getBody0();
+        auto body1 = contactManifold->getBody1();
+
+        auto numContacts = contactManifold->getNumContacts();
+
+        if(numContacts > 0)
+        {
+            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+
+            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
+            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
+
+            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
+            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
+
+            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            {
+                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
+            }
+
+            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
+            {
+                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+            }
+        }
+    }
+
+}
+
+void Game::btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    // retrieve instance pointer from user info (void*)
+    auto gameInstance = static_cast<Game*>(world->getWorldUserInfo());
+    gameInstance->btTickCallback(world, timeStep);
 }
 
 }

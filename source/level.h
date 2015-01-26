@@ -65,8 +65,8 @@ protected:
     virtual float tMapGetW(int i) const;
 
 protected:
-    int m_patchCountS, m_patchCountT;
     int m_vertexCountS, m_vertexCountT;
+    int m_patchCountS, m_patchCountT;
     float m_vertexWidth, m_vertexHeight;
     float m_scale;
 
@@ -74,11 +74,12 @@ protected:
 
     bool m_tracksGenerated;
     float m_trackHeight;// might become a PerlinNoise instance...
-    std::unique_ptr<CatmullRomSpline> m_playerTrack;
-    std::unique_ptr<CatmullRomSpline> m_enemyTrack;
 
     bool m_texGenerated;
     std::vector<GLfloat> m_terrainMapData;
+
+    std::unique_ptr<CatmullRomSpline> m_playerTrack;
+    std::unique_ptr<CatmullRomSpline> m_enemyTrack;
 };
 
 }
