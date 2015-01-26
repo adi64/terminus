@@ -77,7 +77,7 @@ Game::Game()
     m_enemyTrain->follow(m_playerTrain);
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
-    m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
+    //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
@@ -85,7 +85,7 @@ Game::Game()
     m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
     m_scene->addNode(m_skybox.get());
-    m_scene->addNode(m_snowStorm.get());
+    //m_scene->addNode(m_snowStorm.get());
 
     m_scene->camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
