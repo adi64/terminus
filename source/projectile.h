@@ -15,6 +15,8 @@ public:
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
 
+    virtual float damage() const;
+
 protected:
     virtual unsigned int maxAgeInMilliseconds() const;
     unsigned int m_ageInMilliseconds;

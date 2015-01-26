@@ -17,6 +17,7 @@
 #include "skybox.h"
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
+#include "projectile.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
@@ -46,7 +47,7 @@ Game::Game()
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -60,7 +61,7 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::unique_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
@@ -71,6 +72,7 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->follow(m_playerTrain);
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
@@ -212,6 +214,11 @@ void Game::setupBulletWorld()
                 );
 
     m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
+
+    // set world user info (void*) to pointer to this game instance
+    // so we can (indirectly) call a member of Game without having global state or a singleton
+    m_bullet_dynamicsWorld->setInternalTickCallback(&Game::btStaticTickCallback);
+    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
 }
 
 Scene *Game::scene() const
@@ -222,6 +229,50 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
+}
+
+void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+
+    for (int i=0; i < numManifolds; ++i)
+    {
+        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        auto body0 = contactManifold->getBody0();
+        auto body1 = contactManifold->getBody1();
+
+        auto numContacts = contactManifold->getNumContacts();
+
+        if(numContacts > 0)
+        {
+            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+
+            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
+            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
+
+            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
+            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
+
+            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            {
+                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
+            }
+
+            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
+            {
+                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+            }
+        }
+    }
+
+}
+
+void Game::btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    // retrieve instance pointer from user info (void*)
+    auto gameInstance = static_cast<Game*>(world->getWorldUserInfo());
+    gameInstance->btTickCallback(world, timeStep);
 }
 
 }

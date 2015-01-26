@@ -11,7 +11,11 @@ public:
     WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
 
     void primaryAction() override;
+    void primaryActionDebug() override;
+
     void setChargeProjectile(bool charge);
+
+    void fire(QVector3D force);
 
     void update(int elapsedMilliseconds) override;
     void render(QOpenGLFunctions& gl) const override;
@@ -21,7 +25,7 @@ protected:
     int m_elapsedMilliseconds;
     bool m_chargeProjectile;
     bool m_reloadProjectile;
-    QVector3D m_force;
+    float m_force;
 };
 
 }
