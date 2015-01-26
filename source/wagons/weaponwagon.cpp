@@ -38,7 +38,11 @@ void WeaponWagon::primaryAction()
 
     if(!m_reloadProjectile)
     {
-        QVector3D worldProjectileForce = m_normalizedAimVector * m_force;
+        auto force = 1000.0;
+
+        auto aimDeviation = getAimDeviation();
+
+        QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
         fire(worldProjectileForce);
 
@@ -100,8 +104,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
         {
             m_elapsedMilliseconds += elapsedMilliseconds;
         }
-
-        m_force = m_elapsedMilliseconds / 4.0f;
     }
     if(m_reloadProjectile)
     {
@@ -155,6 +157,28 @@ float WeaponWagon::length() const
 int WeaponWagon::maxChargeMilliseconds() const
 {
     return 3000;
+}
+
+QVector3D WeaponWagon::getAimDeviation() const
+{
+    auto localX = QVector3D(1.0, 0.0, 0.0);
+
+    auto globalY = QVector3D(0.0, 1.0, 0.0);
+
+    auto globalX = QVector3D::normal(localX, globalY);
+
+    // deviation adds up to 25% absolute deviation per axis
+    auto aimDeviationFactorX = 0.5 - ((float)rand() / (4.0 * (float)RAND_MAX));
+    auto aimDeviationFactorY = 0.5 - ((float)rand() / (2.0 * (float)RAND_MAX));
+
+    auto aimDeviation = globalX * aimDeviationFactorX + globalY * aimDeviationFactorY;
+
+    // but only a bit of that will be applied - depending on charge
+    auto appliedDeviationFactor = 1.0 - ((float)m_elapsedMilliseconds / (float)maxChargeMilliseconds());
+
+    auto appliedDeviation = aimDeviation * appliedDeviationFactor;
+
+    return appliedDeviation;
 }
 
 } //namespace terminus
