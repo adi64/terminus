@@ -23,6 +23,8 @@ Level::Level()
 , m_trackHeight(100.f)
 , m_texGenerated(false)
 , m_terrainMapData(totalVertexCountS() * totalVertexCountT() * 4, 0.f)
+, m_heightGenerated(false)
+, m_heightMapData(heightMapSizeS() * heightMapSizeS(), 0.f)
 {
 }
 
@@ -30,11 +32,18 @@ Level::~Level()
 {
 }
 
-void Level::generateLevel(){
-    m_tracksGenerated = false;
-    m_texGenerated = false;
+void Level::generateLevel()
+{
     generateTracks();
     generateTerrainMap();
+    generateHeightMap();
+}
+
+void Level::resetLevel()
+{
+    m_tracksGenerated = false;
+    m_texGenerated = false;
+    m_heightGenerated = false;
 }
 
 int Level::vertexCountS() const
@@ -108,7 +117,7 @@ float Level::scale() const
 QPoint Level::positionToVertexID(float x, float z) const
 {
     int t = round(z / vertexHeight());
-    int s = round( x / vertexWidth() - (t % 2 == 0 ? 0.f : 0.5f));
+    int s = round(x / vertexWidth() - (t % 2 == 0 ? 0.f : 0.5f));
     return QPoint(s, t);
 }
 QPoint Level::positionToPatchID(float x, float z) const
@@ -126,8 +135,6 @@ QVector2D Level::vertexIDToPosition(int s, int t) const
 
 const void * Level::terrainMapData() const
 {
-    //generateTerrainMap(); TODO mechanism to assure previous generateLevel() call
-
     return m_terrainMapData.data();
 }
 
@@ -167,6 +174,27 @@ std::unique_ptr<Polyline> Level::enemyTrack() const
         points.push_back(QVector3D(totalWidth(), 0.f, 0.f));
     }
     return std::unique_ptr<Polyline>(new Polyline(points));
+}
+
+const void * Level::heightMapData() const
+{
+   return m_heightMapData.data();
+}
+int Level::heightMapSizeS() const
+{
+    return totalVertexCountS() / 2;
+}
+int Level::heightMapSizeT() const
+{
+    return (totalVertexCountT() + 1) / 2;
+}
+float Level::heightMapScaleS() const
+{
+    return vertexWidth() * 2.f;
+}
+float Level::heightMapScaleT() const
+{
+    return vertexHeight() * 2.f;
 }
 
 float Level::trackHeight() const
@@ -332,6 +360,25 @@ void Level::tMapSetW(int i, float w)
 float Level::tMapGetW(int i) const
 {
     return m_terrainMapData[i + 3];
+}
+
+void Level::generateHeightMap()
+{
+    if(m_heightGenerated)
+        return;
+    generateTerrainMap();
+
+    for(int iT = 0; iT < heightMapSizeT(); iT++)
+    {
+        for(int iS = 0; iS < heightMapSizeS(); iS++)
+        {
+            int i = tMapIndex(2 * iS, 2 * iT);
+            QVector3D offset = tMapGetXYZ(i);
+            m_heightMapData[iT * heightMapSizeT() + iS] = offset.z();
+        }
+    }
+
+    m_heightGenerated = true;
 }
 
 }//namespace terminus

@@ -9,7 +9,6 @@
 #include "../resources/material.h"
 #include "../resources/program.h"
 #include "../projectile.h"
-#include "../train.h"
 
 namespace terminus
 {
@@ -20,13 +19,16 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
 {
-    auto myShape = new btBoxShape(btVector3(2.5, 1.0, 1.0));
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
+    m_program = ResourceManager::getInstance()->getProgram("basicShader");
+    m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
+    m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
-    m_btRigidBody->setMassProps(1000.0f, btVector3(0.0f, 0.0f, 0.0f));
+    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+}
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+WeaponWagon::~WeaponWagon()
+{
+    deallocatePhysics();
 }
 
 void WeaponWagon::primaryAction()
@@ -113,12 +115,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
             qDebug() << "Reload complete!";
         }
     }
-
-    if(m_train->isPlayerControlled())
-    {
-        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
-    }
-
     AbstractWagon::update(elapsedMilliseconds);
 }
 
@@ -127,7 +123,7 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
     Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
 
     std::string materialName = "base_Blue";
-    if(isDisabled())
+    if(currentHealth() <= 0.0f)
     {
         materialName = "base_Orange";
     }

@@ -14,9 +14,8 @@ namespace terminus
 
 AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
-    , m_health(maxHealth())
-    , m_disabled(false)
     , m_train(train)
+    , m_health(maxHealth())
 {
 }
 
