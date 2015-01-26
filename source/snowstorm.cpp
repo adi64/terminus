@@ -5,7 +5,7 @@
 #include "resources/geometry.h"
 #include "resources/program.h"
 
-#include <qDebug>
+#include <QDebug>
 #include <iostream>
 
 namespace terminus

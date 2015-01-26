@@ -115,32 +115,18 @@ void WeaponWagon::update(int elapsedMilliseconds)
             qDebug() << "Reload complete!";
         }
     }
-    AbstractWagon::update(elapsedMilliseconds);
-}
-
-void WeaponWagon::render(QOpenGLFunctions& gl) const
-{
-    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-
     std::string materialName = "base_Blue";
     if(currentHealth() <= 0.0f)
     {
         materialName = "base_Orange";
     }
-    Material & material = **(ResourceManager::getInstance()->getMaterial(materialName));
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+    AbstractWagon::update(elapsedMilliseconds);
+}
 
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("weapon_weapon"));
-
-    program.bind();
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-    material.setUniforms(program);
+void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+{
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-    geometry.setAttributes(program);
-
-    geometry.draw(gl);
-
-    program.release();
 }
 
 float WeaponWagon::length() const

@@ -9,6 +9,7 @@ class WeaponWagon : public AbstractWagon
 {
 public:
     WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    ~WeaponWagon();
 
     void primaryAction() override;
     void primaryActionDebug() override;
@@ -22,7 +23,7 @@ public:
     bool isReloading() const;
 
     void update(int elapsedMilliseconds) override;
-    void render(QOpenGLFunctions& gl) const override;
+    void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
 
 protected:

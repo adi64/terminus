@@ -19,6 +19,10 @@ void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
     m_btRigidBody->setCenterOfMassTransform(transform);
 }
 
+void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject* other)
+{
+}
+
 void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
 {
     auto inertia = btVector3(0.0f, 0.0f, 0.0f);
