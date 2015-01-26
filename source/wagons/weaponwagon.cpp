@@ -81,7 +81,7 @@ void WeaponWagon::update(int elapsedMilliseconds)
 {
     if(m_chargeProjectile && !m_reloadProjectile)
     {
-        if(m_elapsedMilliseconds < 3000)
+        if(m_elapsedMilliseconds < maxChargeMilliseconds())
         {
             m_elapsedMilliseconds += elapsedMilliseconds;
         }
@@ -129,6 +129,11 @@ void WeaponWagon::render(QOpenGLFunctions& gl) const
 float WeaponWagon::length() const
 {
     return 7.5f;
+}
+
+int WeaponWagon::maxChargeMilliseconds() const
+{
+    return 3000;
 }
 
 } //namespace terminus

@@ -22,6 +22,8 @@ public:
     float length() const;
 
 protected:
+    int maxChargeMilliseconds() const;
+protected:
     int m_elapsedMilliseconds;
     bool m_chargeProjectile;
     bool m_reloadProjectile;
