@@ -18,7 +18,7 @@ EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
+    m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);

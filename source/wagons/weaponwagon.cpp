@@ -16,7 +16,7 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_Wagon");
+    m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
@@ -46,6 +46,11 @@ void WeaponWagon::primaryAction()
             scene->addNode(projectile);
         }
     );
+}
+
+void WeaponWagon::setChargeProjectile(bool charge)
+{
+    m_chargeProjectile = charge;
 }
 
 void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const

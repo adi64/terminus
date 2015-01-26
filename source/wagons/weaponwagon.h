@@ -13,6 +13,8 @@ public:
 
     void primaryAction() override;
 
+    void setChargeProjectile(bool charge);
+
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
 
