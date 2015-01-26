@@ -53,8 +53,8 @@ protected:
     void setupBulletWorld(void);
 
     std::shared_ptr<Scene> m_scene;
-    std::unique_ptr<Train> m_playerTrain;
-    std::unique_ptr<Train> m_enemyTrain;
+    std::shared_ptr<Train> m_playerTrain;
+    std::shared_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<EventHandler> m_eventHandler;
