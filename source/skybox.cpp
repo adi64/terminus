@@ -13,9 +13,12 @@ namespace terminus
 {
 
 SkyBox::SkyBox(std::shared_ptr<Scene> scene)
-    : AbstractGraphicsObject(scene)
-    , m_initialized(false)
+: AbstractGraphicsObject(scene)
+, m_cubeMapOnGPU(false)
 {
+    m_program = ResourceManager::getInstance()->getProgram("envmap");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_ScreenQuad");
+
     m_imageNX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_nx.png"));
     m_imagePX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_px.png"));
     m_imageNY = std::unique_ptr<QImage>(new QImage(":/data/env_cube_ny.png"));
@@ -24,36 +27,27 @@ SkyBox::SkyBox(std::shared_ptr<Scene> scene)
     m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
 }
 
-void SkyBox::render(QOpenGLFunctions &gl) const
+void SkyBox::preRender(QOpenGLFunctions & gl, Program & program) const
 {
-    if(!m_initialized)
-    {
-        initialize(gl);
-    }
-
-    Program & program =  **(ResourceManager::getInstance()->getProgram("envmap"));
-    Geometry & sQuad = **(ResourceManager::getInstance()->getGeometry("base_ScreenQuad"));
-
-    program.bind();
-    m_scene->camera().setMatrices(program, QMatrix4x4());
-    sQuad.setAttributes(program);
+    allocateCubeMap(gl);
 
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glEnable(GL_TEXTURE_CUBE_MAP);
-    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
-
-    sQuad.draw(gl);
-
-    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-
-    program.release();
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 }
-
-void SkyBox::initialize(QOpenGLFunctions &gl) const
+void SkyBox::postRender(QOpenGLFunctions & gl, Program & program) const
 {
-    m_texture = -1;
-    gl.glGenTextures(1, &m_texture);
-    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+}
+void SkyBox::allocateCubeMap(QOpenGLFunctions &gl) const
+{
+    if(m_cubeMapOnGPU)
+        return;
+
+    m_cubeMap = -1;
+    gl.glGenTextures(1, &m_cubeMap);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -71,8 +65,17 @@ void SkyBox::initialize(QOpenGLFunctions &gl) const
 
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
-    m_initialized = true;
+    m_cubeMapOnGPU = true;
 }
 
+void SkyBox::deallocateCubeMap(QOpenGLFunctions & gl) const
+{
+    if(!m_cubeMapOnGPU)
+        return;
+
+    gl.glDeleteTextures(1, &m_cubeMap);
+
+    m_cubeMapOnGPU = false;
+}
 
 }

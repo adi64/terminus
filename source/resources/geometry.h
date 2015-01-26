@@ -6,6 +6,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLFunctions>
+#include <QVector3D>
 
 #include "indextriple.h"
 #include "program.h"
@@ -25,12 +26,17 @@ class Geometry
 public:
     Geometry(); //construct NULL-Object --- what do we need this for?
     Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
+    Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer, const QVector3D & minBBox, const QVector3D & maxBBox);
     virtual ~Geometry();
+
+    virtual QVector3D bBoxMin() const;
+    virtual QVector3D bBoxMax() const;
 
     virtual void setAttributes(Program & program);
     virtual void draw(QOpenGLFunctions & gl) const;
 
 protected:
+    virtual void calculateBBox();
     virtual void allocate() const;
     virtual void deallocate() const;
 
@@ -42,6 +48,8 @@ protected:
 
     std::vector<Vertex> m_vertexBuffer;
     std::vector<unsigned short> m_indexBuffer;
+    QVector3D m_bBoxMin;
+    QVector3D m_bBoxMax;
 };
 
 } //terminus
