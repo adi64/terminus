@@ -26,7 +26,10 @@ RepairWagon::RepairWagon(std::shared_ptr<Scene> scene, Train *train)
 
 void RepairWagon::primaryAction()
 {
-
+    if(isDisabled())
+    {
+        return;
+    }
 }
 
 void RepairWagon::render(QOpenGLFunctions& gl) const
