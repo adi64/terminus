@@ -7,7 +7,6 @@
 #include "game.h"
 #include "camera.h"
 #include "scene.h"
-#include "resources/soundmanager.h"
 #include "train.h"
 #include "wagons/weaponwagon.h"
 
@@ -56,7 +55,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_I:
-        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
         break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))

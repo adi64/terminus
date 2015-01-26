@@ -12,12 +12,6 @@ AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
 {
 }
 
-void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
-{
-    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
-    transform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
-    m_btRigidBody->setCenterOfMassTransform(transform);
-}
 
 void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
 {
@@ -26,16 +20,33 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
 
     auto rotationQuaternion = btQuaternion(0.0f, 0.0f, 0.0f, 1.0f);
     auto positionVector = btVector3(0.0f, 0.0f, 0.0f);
+
     auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
     m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+    // TODO FIXME add this to the initializePhysics() (or so) method
+    m_scene->addCollisionMapping(m_btRigidBody.get(), this);
+
+    // we should not add the rigid body to the scene right now
+    // because fundamental changes to it (collision shape, mass, ...)
+    // can not be done while the object is added to the scene
+    //
+    // therefore every object should do this itself after setting the correct values
 }
 
 void AbstractPhysicsObject::deallocatePhysics()
 {
     m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
+    m_scene->removeCollisionMapping(m_btRigidBody.get());
+}
+
+void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
+{
+    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
+    transform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
+    m_btRigidBody->setCenterOfMassTransform(transform);
 }
 
 }

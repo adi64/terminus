@@ -24,6 +24,11 @@ void AbstractWagon::primaryAction()
 
 }
 
+void AbstractWagon::primaryActionDebug()
+{
+
+}
+
 void AbstractWagon::update(int elapsedMilliseconds)
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
@@ -42,16 +47,18 @@ float AbstractWagon::maxHealth() const
     return 100.f;
 }
 
-float AbstractWagon::currentHealth()
+float AbstractWagon::currentHealth() const
 {
     return m_health;
 }
 
 void AbstractWagon::setHealth(float health)
 {
+    auto oldHealth = currentHealth();
     if(health <= maxHealth())
     {
         m_health = health;
+        qDebug() << "health: " << oldHealth << " -> " << health;
     }
 }
 
