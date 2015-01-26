@@ -29,7 +29,6 @@ RepairWagon::~RepairWagon()
 
 void RepairWagon::primaryAction()
 {
-
 }
 
 void RepairWagon::preRender(QOpenGLFunctions& gl, Program & program) const

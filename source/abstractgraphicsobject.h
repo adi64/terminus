@@ -26,6 +26,10 @@ public:
     virtual void preRender(QOpenGLFunctions & gl, Program & program) const;
     virtual void postRender(QOpenGLFunctions & gl, Program & program) const;
 
+    virtual QVector3D worldUp();
+    virtual QVector3D worldFront();
+    virtual QVector3D worldRight();
+
     virtual QVector3D position() const;
     virtual QQuaternion rotation() const;
     virtual QVector3D scale() const;

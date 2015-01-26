@@ -72,6 +72,21 @@ void AbstractGraphicsObject::postRender(QOpenGLFunctions & gl, Program & program
 {
 }
 
+QVector3D AbstractGraphicsObject::worldUp()
+{
+    return m_rotation.rotatedVector(QVector3D(0.f, 1.f, 0.f)).normalized();
+}
+
+QVector3D AbstractGraphicsObject::worldFront()
+{
+    return m_rotation.rotatedVector(QVector3D(1.f, 0.f, 0.f)).normalized();
+}
+
+QVector3D AbstractGraphicsObject::worldRight()
+{
+    return m_rotation.rotatedVector(QVector3D(0.f, 0.f, 1.f)).normalized();
+}
+
 QVector3D AbstractGraphicsObject::position() const
 {
     return m_position;
