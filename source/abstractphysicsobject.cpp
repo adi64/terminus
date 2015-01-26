@@ -51,4 +51,9 @@ void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
     m_btRigidBody->setCenterOfMassTransform(transform);
 }
 
+void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
+{
+    // Don't do anything special here, movement will be handled by bullet
+}
+
 }
