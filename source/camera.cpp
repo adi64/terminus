@@ -348,7 +348,7 @@ void Camera::update()
         auto center = m_lockedObject->position() + m_lockedObject->rotation().rotatedVector(m_lockedCenterOffset + m_lockedFlickOffset);
         setCenter(center);
 
-        QQuaternion lockedObjectAngle = m_lockedObject->rotation() * QQuaternion::fromAxisAndAngle(m_lockedObject->worldFront(), -20.f);
+        QQuaternion lockedObjectAngle = m_lockedObject->rotation() * QQuaternion::fromAxisAndAngle(m_lockedObject->worldFront(), 0.f);
         auto vA = m_lockedEyeAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized(),
               vB = lockedObjectAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized();
         float angle = acos(QVector3D::dotProduct(vA, vB));
