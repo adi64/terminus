@@ -17,33 +17,21 @@ namespace terminus
 EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
 {
-    auto myShape = new btSphereShape(1.0);
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
+    m_program = ResourceManager::getInstance()->getProgram("basicShader");
+    m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
+    m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
-    m_btRigidBody->setMassProps(1000.0f, btVector3(0.0f, 0.0f, 0.0f));
-
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+    initializePhysics(new btSphereShape(1.0), 1000.f);
 }
 
-void EngineWagon::render(QOpenGLFunctions& gl) const
+EngineWagon::~EngineWagon()
 {
-    Program & program = **(ResourceManager::getInstance()->getProgram("basicShader"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Orange"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("engine_engine"));
+    deallocatePhysics();
+}
 
-    program.bind();
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-    material.setUniforms(program);
+void EngineWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+{
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-    geometry.setAttributes(program);
-
-    geometry.draw(gl);
-
-    program.release();
-
-    playSound();    //sounds get played here for the moment
 }
 
 void EngineWagon::playSound() const

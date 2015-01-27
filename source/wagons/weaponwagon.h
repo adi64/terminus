@@ -9,19 +9,21 @@ class WeaponWagon : public AbstractWagon
 {
 public:
     WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    virtual ~WeaponWagon();
 
     void primaryAction() override;
     void primaryActionDebug() override;
 
     void setChargeProjectile(bool charge);
 
-    void fire(QVector3D force);
-
     void update(int elapsedMilliseconds) override;
-    void render(QOpenGLFunctions& gl) const override;
+    void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
     unsigned int chargeTime() const;
     unsigned int reloadTime() const;
+
+protected:
+    void fire(QVector3D force);
 
 protected:
     bool m_chargeProjectile;

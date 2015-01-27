@@ -10,16 +10,18 @@ namespace terminus
 {
 
 class AbstractPhysicsObject : public AbstractGraphicsObject
-{
+{    
 public:
     AbstractPhysicsObject(std::shared_ptr<Scene> scene);
-    ~AbstractPhysicsObject();
 
     virtual void moveTo(const QVector3D & newPosition);
 
 protected:
+    virtual void initializePhysics(btCollisionShape * collisionShape, btScalar mass);
+    virtual void deallocatePhysics();
+
+protected:
     std::unique_ptr<btRigidBody> m_btRigidBody;
-    std::unique_ptr<btCollisionShape> m_btCollisionShape;
 };
 
 }

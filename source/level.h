@@ -22,6 +22,7 @@ public:
     virtual ~Level();
 
     virtual void generateLevel();
+    virtual void resetLevel();
 
     virtual int vertexCountS() const;
     virtual int vertexCountT() const;
@@ -48,6 +49,12 @@ public:
     virtual std::unique_ptr<Polyline> playerTrack() const;
     virtual std::unique_ptr<Polyline> enemyTrack() const;
 
+    virtual const void * heightMapData() const;
+    virtual int heightMapSizeS() const;
+    virtual int heightMapSizeT() const;
+    virtual float heightMapScaleS() const;
+    virtual float heightMapScaleT() const;
+
 protected:
     virtual float trackHeight() const;
 
@@ -64,6 +71,8 @@ protected:
     virtual void tMapSetW(int i, float w);
     virtual float tMapGetW(int i) const;
 
+    virtual void generateHeightMap();
+
 protected:
     int m_vertexCountS, m_vertexCountT;
     int m_patchCountS, m_patchCountT;
@@ -77,6 +86,9 @@ protected:
 
     bool m_texGenerated;
     std::vector<GLfloat> m_terrainMapData;
+
+    bool m_heightGenerated;
+    std::vector<float> m_heightMapData;
 
     std::unique_ptr<CatmullRomSpline> m_playerTrack;
     std::unique_ptr<CatmullRomSpline> m_enemyTrack;
