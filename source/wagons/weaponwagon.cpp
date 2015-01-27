@@ -134,7 +134,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
         materialName = "base_Gray";
     }
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
-    AbstractWagon::update(elapsedMilliseconds);
 
     if(m_train->isPlayerControlled())
     {
