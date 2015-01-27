@@ -7,7 +7,7 @@
 
 #include "bullet/btBulletDynamicsCommon.h"
 
-#include "abstractgraphicsobject.h"
+#include "abstractphysicsobject.h"
 #include "camera.h"
 #include "deferredactionhandler.h"
 
@@ -48,9 +48,9 @@ void Scene::deleteNode(AbstractGraphicsObject *node)
     qDebug() << "Could not find node " << node;
 }
 
-void Scene::addCollisionMapping(const btCollisionObject *collisionObject, AbstractGraphicsObject *graphicsObject)
+void Scene::addCollisionMapping(const btCollisionObject *collisionObject, AbstractPhysicsObject *graphicsObject)
 {
-    auto newPair = std::pair<const btCollisionObject*, AbstractGraphicsObject*>(collisionObject, graphicsObject);
+    auto newPair = std::pair<const btCollisionObject*, AbstractPhysicsObject*>(collisionObject, graphicsObject);
     m_collisionMap.insert(newPair);
 }
 
@@ -59,12 +59,13 @@ void Scene::removeCollisionMapping(const btCollisionObject *collisionObject)
     m_collisionMap.erase(collisionObject);
 }
 
-AbstractGraphicsObject *Scene::getGraphicsObjectForCollisionObject(const btCollisionObject *collisionObject) const
+AbstractPhysicsObject *Scene::getGraphicsObjectForCollisionObject(const btCollisionObject *collisionObject) const
 {
     try
     {
         return m_collisionMap.at(collisionObject);
-    } catch(std::exception e)
+    }
+    catch(std::exception e)
     {
         qDebug() << "could not find AbstractGraphicsObject for collisionObject " << collisionObject;
         return nullptr;

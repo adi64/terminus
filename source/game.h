@@ -20,7 +20,9 @@ namespace terminus
 class Terrain;
 class ResourceManager;
 class SkyBox;
+class SnowStorm;
 class DeferredActionHandler;
+class AIPlayer;
 
 class Game : public QQuickItem
 {
@@ -50,11 +52,13 @@ protected:
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
     std::shared_ptr<Train> m_enemyTrain;
+    std::unique_ptr<AIPlayer> m_enemyAI;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+    std::unique_ptr<SnowStorm> m_snowStorm;
 
     UserInterface *m_ui;
 

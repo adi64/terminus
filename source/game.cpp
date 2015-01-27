@@ -17,11 +17,14 @@
 #include "skybox.h"
 #include "deferredactionhandler.h"
 #include "projectile.h"
+#include "aiplayer.h"
 
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
 #include "wagons/repairwagon.h"
+
+#include "snowstorm.h"
 
 namespace terminus
 {
@@ -45,7 +48,7 @@ Game::Game()
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack(), true));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -59,7 +62,7 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack(), false));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
@@ -72,7 +75,10 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
 
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
+    //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
+
+    m_enemyAI = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
@@ -80,6 +86,7 @@ Game::Game()
     m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
     m_scene->addNode(m_skybox.get());
+    //m_scene->addNode(m_snowStorm.get());
 
     m_scene->camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
@@ -110,6 +117,8 @@ void Game::sync()
     #else
         m_scene->camera().setViewport(window()->width(), window()->height());
     #endif
+
+    m_enemyAI->update(elapsedMilliseconds);
 
     m_scene->update(elapsedMilliseconds);
 
@@ -204,23 +213,13 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 
         if(numContacts > 0)
         {
-            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
-            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
-
-            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
-            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
-
-            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
             {
-                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
-            }
-
-            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
-            {
-                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+                physicsObject0->onCollisionWith(physicsObject1);
+                physicsObject1->onCollisionWith(physicsObject0);
             }
         }
     }

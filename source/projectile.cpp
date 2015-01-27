@@ -7,6 +7,7 @@
 #include "resources/geometry.h"
 #include "resources/material.h"
 #include "resources/program.h"
+#include "wagons/abstractwagon.h"
 
 namespace terminus
 {
@@ -20,6 +21,7 @@ Projectile::Projectile(std::shared_ptr<Scene> scene)
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
     initializePhysics(new btSphereShape(1.0), 1.f);
+    setScale(0.3f); //TODO scale collision sphere as well
 }
 
 Projectile::~Projectile()
@@ -50,9 +52,18 @@ float Projectile::damage() const
     return 30.0f;
 }
 
+void Projectile::onCollisionWith(AbstractPhysicsObject *other)
+{
+    auto otherWagon = dynamic_cast<AbstractWagon*>(other);
+    if(otherWagon)
+    {
+        otherWagon->setHealth(otherWagon->currentHealth() - damage());
+    }
+}
+
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
-    return 50000;
+    return 5000;
 }
 
 } //namespace terminus

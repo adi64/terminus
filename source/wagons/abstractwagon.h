@@ -21,11 +21,14 @@ public:
     virtual void setHealth(float health);
 
     virtual float length() const;
+    virtual float weight() const;
+    virtual bool isDisabled() const;
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
     float m_positionOffset;
     float m_health;
+    bool m_disabled;
     Train *m_train;
 };
 

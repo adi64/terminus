@@ -18,6 +18,8 @@
         <file>data/terrain.obj</file>
         <file>data/terrain.frag</file>
         <file>data/terrain.vert</file>
+        <file>data/snowstorm.frag</file>
+        <file>data/snowstorm.vert</file>
         <file>data/engine.obj</file>
         <file>data/weapon.obj</file>
         <file>data/sounds/hover.wav</file>

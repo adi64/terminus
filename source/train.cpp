@@ -12,11 +12,12 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(std::shared_ptr<Scene> scene, Track *track)
+Train::Train(std::shared_ptr<Scene> scene, Track *track, bool playerControlled)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
     , m_velocity(base_velocity)
     , m_track(track)
+    , m_playerControlled(playerControlled)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -167,6 +168,11 @@ QVector3D Train::headPosition() const
 unsigned int Train::size() const
 {
     return m_wagons.size();
+}
+
+bool Train::isPlayerControlled() const
+{
+    return m_playerControlled;
 }
 
 void Train::calculateWagonOffset()

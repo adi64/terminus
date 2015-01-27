@@ -9,6 +9,7 @@
 #include "../resources/material.h"
 #include "../resources/program.h"
 #include "../projectile.h"
+#include "../train.h"
 
 namespace terminus
 {
@@ -34,24 +35,20 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
+    if(isDisabled())
+    {
+        return;
+    }
+
     if(!m_reloadProjectile)
     {
-        auto scene = m_scene;
+        auto force = 2000.f;
 
-        auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
+        auto aimDeviation = getAimDeviation();
 
-        QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
-        QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * m_force;
+        QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
-        m_scene->scheduleAction(
-            [scene, worldProjectilePosition, worldProjectileForce, this]()
-            {
-                auto projectile = new Projectile(scene);
-                projectile->moveTo(worldProjectilePosition);
-                projectile->applyForce(worldProjectileForce);
-                scene->addNode(projectile);
-            }
-        );
+        fire(worldProjectileForce);
 
         m_chargeTime = 0;
         SoundManager::getInstance()->playSound("shot");
@@ -63,7 +60,11 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * 1000.0;
+    auto force = 2000.0;
+
+    auto aimDeviation = getAimDeviation();
+
+    QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
 
     fire(worldProjectileForce);
 }
@@ -73,13 +74,19 @@ void WeaponWagon::setChargeProjectile(bool charge)
     m_chargeProjectile = charge;
 }
 
+void WeaponWagon::setAimVector(const QVector3D &aimVector)
+{
+    m_normalizedAimVector = aimVector.normalized();
+}
+
 void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
 
-    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
+    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 3.0f);
 
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+
     m_scene->scheduleAction(
         [scene, worldProjectilePosition, force, this]()
         {
@@ -89,20 +96,28 @@ void WeaponWagon::fire(QVector3D force)
             scene->addNode(projectile);
         }
     );
+}
 
-    SoundManager::getInstance()->playSound("shot");
+bool WeaponWagon::isReloading() const
+{
+    return m_reloadProjectile;
 }
 
 void WeaponWagon::update(int elapsedMilliseconds)
 {
     if(m_chargeProjectile && !m_reloadProjectile)
     {
-        if(m_chargeTime < 3000)
+        if(m_chargeTime < maxChargeMilliseconds())
         {
-            m_chargeTime += elapsedMilliseconds;
+            if(m_chargeTime + elapsedMilliseconds > maxChargeMilliseconds())
+            {
+                m_chargeTime = maxChargeMilliseconds();
+            }
+            else
+            {
+                m_chargeTime += elapsedMilliseconds;
+            }
         }
-
-        m_force = m_chargeTime / 4.0f;
     }
     if(m_reloadProjectile)
     {
@@ -111,9 +126,21 @@ void WeaponWagon::update(int elapsedMilliseconds)
         {
             m_reloadProjectile = false;
             m_reloadTime = 0;
-            qDebug() << "Reload complete!";
         }
     }
+    std::string materialName = "base_Blue";
+    if(currentHealth() <= 0.0f)
+    {
+        materialName = "base_Gray";
+    }
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+    AbstractWagon::update(elapsedMilliseconds);
+
+    if(m_train->isPlayerControlled())
+    {
+        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
+    }
+
     AbstractWagon::update(elapsedMilliseconds);
 }
 
@@ -135,6 +162,32 @@ unsigned int WeaponWagon::chargeTime() const
 unsigned int WeaponWagon::reloadTime() const
 {
     return m_reloadTime;
+}
+
+unsigned int WeaponWagon::maxChargeMilliseconds() const
+{
+    return 3000;
+}
+
+QVector3D WeaponWagon::getAimDeviation() const
+{
+    auto localX = QVector3D(1.0, 0.0, 0.0);
+
+    auto globalY = QVector3D(0.0, 1.0, 0.0);
+
+    auto globalX = QVector3D::normal(localX, globalY);
+
+    auto aimDeviationFactorX = 0.5 * (0.5 - (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)));
+    auto aimDeviationFactorY = 0.25 * (0.5 - (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)));
+
+    auto aimDeviation = globalX * aimDeviationFactorX + globalY * aimDeviationFactorY;
+
+    // but only a bit of that will be applied - depending on charge
+    auto appliedDeviationFactor = 1.0 - (static_cast<float>(m_chargeTime) / static_cast<float>(maxChargeMilliseconds()));
+
+    auto appliedDeviation = aimDeviation * appliedDeviationFactor;
+
+    return appliedDeviation;
 }
 
 } //namespace terminus

@@ -26,9 +26,12 @@ RepairWagon::~RepairWagon()
     deallocatePhysics();
 }
 
-
 void RepairWagon::primaryAction()
 {
+    if(isDisabled())
+    {
+        return;
+    }
 }
 
 void RepairWagon::preRender(QOpenGLFunctions& gl, Program & program) const
