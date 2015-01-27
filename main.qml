@@ -25,10 +25,38 @@ Item
             anchors.fill: parent
             focus: true
 
-            onStatusChanged:
+            function switchText()
             {
-                actionStatus.actionfactor = status
-                reticle.factor = (1.0/(0.5 + status)) * 0.2
+                if(wagonType === "WeaponWagon")
+                {
+                    actionButtonText.text = "Fire!";
+                    actionButton.color = "steelblue";
+                }
+                if(wagonType === "RepairWagon")
+                {
+                    actionButtonText.text = "Repair!";
+                    actionButton.color = "grey";
+                }
+                if(wagonType === "EngineWagon")
+                {
+                    actionButtonText.text = "Faster!";
+                    actionButton.color = "grey";
+                }
+            }
+
+            onChargeChanged:
+            {
+                actionStatusBarProgress.actionfactor = charge;
+                reticle.factor = (1.0/(0.5 + charge)) * 0.2;
+            }
+            onReloadChanged:
+            {
+                actionStatusBarProgress.actionfactor = reload;
+                actionStatusBarProgress.color = "yellow";
+            }
+            onWagonTypeChanged:
+            {
+                switchText();
             }
 
             Keys.onPressed:
@@ -61,12 +89,12 @@ Item
                 id: enemyStatus
                 color: "transparent"
 
-                property int wagons: 5
+                property int wagons: 11
 
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: parent.height * 0.01
-                width: (parent.width * 0.04) * wagons
+                width: (parent.width * 0.035) * wagons
                 height: parent.height * 0.03
 
                 function initStatus()
@@ -75,14 +103,13 @@ Item
                     {
                         var qml =  'import QtQuick 2.3; '
                                 +  'Rectangle{'
-                                +   'id: enemyWagon' + i.toString() + ';'
+                                +   'opacity: 0.8;'
                                 +   'anchors.top: parent.top;'
                                 +   'anchors.right: parent.right;'
-                                +   'anchors.rightMargin: (parent.parent.width * 0.04) * ' + i.toString() + ';'
+                                +   'anchors.rightMargin: (parent.parent.width * 0.035) * ' + i.toString() + ';'
                                 +   'width: parent.parent.width * 0.03;'
                                 +   'height: parent.height;'
-                                +   'property real health: 100;'
-                                +   'color: health === 100? "green" : (health > 25? "yellow" : "red");'
+                                +   'color: [0, 3, 7].indexOf(' + i + ') > -1? (' + i + ' !== 0? "purple" : "orange") : "blue";'
                                 +  '}'
                         Qt.createQmlObject(qml, enemyStatus, "enemyStatus");
                     }
@@ -99,12 +126,12 @@ Item
                 id: playerStatus
                 color: "transparent"
 
-                property int wagons: 5
+                property int wagons: 13
 
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: parent.height * 0.01
-                width: (parent.width * 0.04) * wagons
+                width: (parent.width * 0.035) * wagons
                 height: parent.height * 0.03
 
                 function initStatus()
@@ -113,14 +140,13 @@ Item
                     {
                         var qml =  'import QtQuick 2.3; '
                                 +  'Rectangle{'
-                                +   'id: playerWagon' + i.toString() + ';'
+                                +   'opacity: 0.8;'
                                 +   'anchors.bottom: parent.bottom;'
                                 +   'anchors.right: parent.right;'
-                                +   'anchors.rightMargin: (parent.parent.width * 0.04) * ' + i.toString() + ';'
+                                +   'anchors.rightMargin: (parent.parent.width * 0.035) * ' + i.toString() + ';'
                                 +   'width: parent.parent.width * 0.03;'
                                 +   'height: parent.height;'
-                                +   'property real health: 100;'
-                                +   'color: health === 100? "green" : (health > 25? "yellow" : "red");'
+                                +   'color: [0, 3, 6, 9].indexOf(' + i + ') > -1? (' + i + ' !== 0? "purple" : "orange") : "blue";'
                                 +  '}'
                         Qt.createQmlObject(qml, playerStatus, "playerStatus");
                     }
@@ -145,7 +171,7 @@ Item
                 Rectangle
                 {
                     id: wagonSwitchLeft
-                    color: "steelblue"
+                    color: "transparent"
                     opacity: 0.8
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -163,21 +189,18 @@ Item
                         }
                     }
 
-                    Text
+                    Image
                     {
-                        id: switchLeftText
-                        text: "<--"
-                        font.family: "Helvetica"
-                        font.pointSize: 36
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
+                        id: leftArrow
+                        source: "/data/arrow.png"
+                        anchors.fill: parent
                     }
                 }
 
                 Rectangle
                 {
                     id: wagonSwitchRight
-                    color: "steelblue"
+                    color: "transparent"
                     opacity: 0.8
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
@@ -195,14 +218,11 @@ Item
                         }
                     }
 
-                    Text
+                    Image
                     {
-                        id: switchRightText
-                        text: "-->"
-                        font.family: "Helvetica"
-                        font.pointSize: 36
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
+                        id: rightArrow
+                        source: "/data/arrow2.png"
+                        anchors.fill: parent
                     }
                 }
             }
@@ -287,19 +307,19 @@ Item
 
                     MultiPointTouchArea
                     {
-                        id: fire //TODO rename to primary action
+                        id: primaryAction
                         anchors.fill: parent
 
                         onPressed:
                         {
                             ui.touchChargeFire();
-                            actionButton.color = "red"
+                            actionButton.opacity = 0.9
                         }
 
                         onReleased:
                         {
                             ui.touchFire();
-                            actionButton.color = "yellow"
+                            actionButton.opacity = 0.8
                         }
                     }
 
@@ -326,12 +346,12 @@ Item
 
                     Rectangle
                     {
-                        id: actionStatus
+                        id: actionStatusBarProgress
                         color: "steelblue"
-                        opacity: 1.0
+                        opacity: 0.8
                         property real actionfactor: 0.0
                         anchors.bottom: parent.bottom
-                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
                         width: parent.width
                         height: parent.height * actionfactor
                     }

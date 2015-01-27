@@ -24,5 +24,7 @@
         <file>data/sounds/level.wav</file>
         <file>data/sounds/shot.wav</file>
         <file>data/repair.obj</file>
+        <file>data/arrow.png</file>
+        <file>data/arrow2.png</file>
     </qresource>
 </RCC>

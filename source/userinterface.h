@@ -18,7 +18,9 @@ class AbstractWagon;
 class UserInterface : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(float status READ status WRITE setStatus NOTIFY statusChanged)
+    Q_PROPERTY(float charge READ charge NOTIFY chargeChanged)
+    Q_PROPERTY(float reload READ reload NOTIFY reloadChanged)
+    Q_PROPERTY(QString wagonType READ wagonType NOTIFY wagonTypeChanged)
 
 public:
     UserInterface();
@@ -37,18 +39,23 @@ public:
     /*Q_INVOKABLE void flickEvent(qreal startX, qreal x);
     Q_INVOKABLE void flickReset();*/
 
-    Q_INVOKABLE void setStatus(float status);
-    Q_INVOKABLE float status() const;
+    Q_INVOKABLE float charge() const;
+    Q_INVOKABLE float reload() const;
+    Q_INVOKABLE QString wagonType() const;
     Q_INVOKABLE void sync(Game *game);
 
 signals:
-    void statusChanged();
+    void chargeChanged();
+    void reloadChanged();
+    void wagonTypeChanged();
 
 protected:
     std::unique_ptr<EventHandler> m_eventHandler;
     unsigned int m_lockedWagonIndex;
     AbstractWagon *m_currentWagon;
-    float m_wagonStatus;
+    float m_charge;
+    float m_reload;
+    QString m_wagonType;
 };
 
 }
