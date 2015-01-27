@@ -47,6 +47,7 @@ Item
             onChargeChanged:
             {
                 actionStatusBarProgress.actionfactor = charge;
+                actionStatusBarProgress.color = "steelblue";
                 reticle.factor = (1.0/(0.5 + charge)) * 0.2;
             }
             onReloadChanged:
@@ -385,8 +386,8 @@ Item
 
                 onReadingChanged:
                 {
-                    ui.gyroMoveEvent(gyro.reading.x * orientation_multiplier
-                                     , gyro.reading.y * orientation_multiplier)
+                    ui.gyroMoveEvent(gyro.reading.x * 2 * orientation_multiplier
+                                     , gyro.reading.y * 2 * orientation_multiplier)
                 }
             }
 
