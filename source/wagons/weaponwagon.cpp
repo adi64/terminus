@@ -137,7 +137,8 @@ void WeaponWagon::update(int elapsedMilliseconds)
 
     if(m_train->isPlayerControlled())
     {
-        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
+        auto todoFixmeCompensation = rotation().rotatedVector(QVector3D(-1.0f, 0.0f, 0.0f));
+        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye() + todoFixmeCompensation).normalized();
     }
 
     AbstractWagon::update(elapsedMilliseconds);
