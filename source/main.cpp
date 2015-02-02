@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl(QStringLiteral("qrc:/terminus/main.qml")));
+    view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     //view.show();
     view.showFullScreen();
 

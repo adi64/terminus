@@ -180,7 +180,12 @@ SOURCES += \
     source/bullet/clew/clew.c \
     source/wagons/repairwagon.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    shaders.qrc \
+    materials.qrc \
+    models.qrc \
+    sounds.qrc \
+    textures.qrc
 
 RC_FILE = data/myapp.rc
 
