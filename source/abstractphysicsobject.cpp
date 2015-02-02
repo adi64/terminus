@@ -10,35 +10,32 @@ namespace terminus
 AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
     : AbstractGraphicsObject(scene)
 {
-    m_btCollisionShape = std::unique_ptr<btCollisionShape>(new btSphereShape(1.0f));
+}
+
+void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
+{
+    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
+    transform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
+    m_btRigidBody->setCenterOfMassTransform(transform);
+}
+
+void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
+{
+    auto inertia = btVector3(0.0f, 0.0f, 0.0f);
+    collisionShape->calculateLocalInertia(mass, inertia);
 
     auto rotationQuaternion = btQuaternion(0.0f, 0.0f, 0.0f, 1.0f);
     auto positionVector = btVector3(0.0f, 0.0f, 0.0f);
 
     auto motionState = new btDefaultMotionState(btTransform(rotationQuaternion, positionVector));
-
-    // zero mass --> unlimited mass, does not move
-    auto mass = btScalar(0.0f);
-
-    auto inertia = btVector3(0.0f, 0.0f, 0.0f);
-
-    m_btCollisionShape->calculateLocalInertia(mass, inertia);
-
-    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, m_btCollisionShape.get(), inertia);
-
+    auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    // TODO FIXME add this to the initializePhysics() (or so) method
+    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
     m_scene->addCollisionMapping(m_btRigidBody.get(), this);
-
-    // we should not add the rigid body to the scene right now
-    // because fundamental changes to it (collision shape, mass, ...)
-    // can not be done while the object is added to the scene
-    //
-    // therefore every object should do this itself after setting the correct values
 }
 
-AbstractPhysicsObject::~AbstractPhysicsObject()
+void AbstractPhysicsObject::deallocatePhysics()
 {
     m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
     m_scene->removeCollisionMapping(m_btRigidBody.get());
@@ -51,9 +48,16 @@ void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
     m_btRigidBody->setCenterOfMassTransform(transform);
 }
 
+/*!
+ * \brief Gets called on collision with another AbstractPhysicsObject
+ * \param other AbstractPhysicsObject that we collided with
+ *
+ * This default implementation does nothing and only exists so that subclasses can override it with custom functionality (like dealing damage).
+ * Movement changes are handled by bullet.
+ */
 void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
 {
-    // Don't do anything special here, movement will be handled by bullet
+
 }
 
 }

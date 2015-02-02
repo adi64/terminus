@@ -104,8 +104,8 @@ protected:
     mutable bool m_normalChanged;
 
     QVector3D m_lockedCenterOffset;
-    QVector3D m_lockedEyeOffset;
     QVector3D m_lockedFlickOffset;
+    QQuaternion m_lockedEyeAngle;
     AbstractGraphicsObject *m_lockedObject;
 };
 

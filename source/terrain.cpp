@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 #include "track.h"
 #include "scene.h"
 #include "resources/resourcemanager.h"
@@ -36,27 +38,36 @@ namespace terminus
 {
 
 Terrain::Terrain(std::shared_ptr<Scene> scene)
-    : KinematicPhysicsObject(scene)
-    , m_terrainMapOnGPU(false)
+: KinematicPhysicsObject(scene)
+, m_terrainMapOnGPU(false)
 {   
+    m_program = ResourceManager::getInstance()->getProgram("terrain");
+    m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
+    m_material = ResourceManager::getInstance()->getMaterial("base_Terrain");
+
     m_level.generateLevel();
     setScale(m_level.scale());
     m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
     
-    // infinite plane
-    auto myShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1.0f);
-    m_btRigidBody->setCollisionShape(myShape);
-    m_btCollisionShape.reset(myShape);
+    auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
+                                               m_level.heightMapSizeT(),
+                                               m_level.heightMapData(),
+                                               1.f /*ignored for PHY_FLOAT*/,
+                                               0.f, 200.f,
+                                               1 /*y axix*/,
+                                               PHY_ScalarType::PHY_FLOAT,
+                                               false);
 
-    // zero mass --> unlimited mass, does not move
-    m_btRigidBody->setMassProps(0.0f, btVector3(0.0f, 0.0f, 0.0f));
+    shape->setLocalScaling(btVector3(m_level.heightMapScaleS(), 1.f, m_level.heightMapScaleT()));
+    initializePhysics(shape, 1.f);
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
+    setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
 }
 
 Terrain::~Terrain()
 {
+    deallocatePhysics();
 }
 
 Track *Terrain::playerTrack() const
@@ -71,9 +82,15 @@ Track *Terrain::enemyTrack() const
 
 void Terrain::update(int elapsedMilliseconds)
 {
+    QVector3D pos = position();
+    QQuaternion rot = rotation();
+
+    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
+    transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
+    transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
+
     AbstractPhysicsObject::update(elapsedMilliseconds);
 
-    // update tracks
     m_playerTrack->update(elapsedMilliseconds);
     m_enemyTrack->update(elapsedMilliseconds);
 }
@@ -88,49 +105,41 @@ void Terrain::render(QOpenGLFunctions& gl) const
     {
         for(int iZ = std::max(0, pid.y() - radius); iZ < std::min(m_level.patchCountT(), pid.y() + radius); iZ++)
         {
-            renderPatch(gl, iX, iZ);
+            m_currentPatchX = iX;
+            m_currentPatchZ = iZ;
+            AbstractGraphicsObject::render(gl);
         }
     }
+
     // render tracks
     m_playerTrack->render(gl);
     m_enemyTrack->render(gl);
 }
 
-void Terrain::renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const
+void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
 {
-    // render terrain
-    Program & program = **(ResourceManager::getInstance()->getProgram("terrain"));
-    Material & material = **(ResourceManager::getInstance()->getMaterial("base_Terrain"));
-    Geometry & geometry = **(ResourceManager::getInstance()->getGeometry("terrain_patch"));
-
-    allocateTerrainMap(gl);
-
-    program.bind();
-
-    material.setUniforms(program);
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-
+    program.setUniform("lightDirection", QVector3D(100.0, 20.0, -100.0));
     program.setUniform("levelMap", 0);
-    QVector4D texInfo(static_cast<float>(iX * (m_level.vertexCountS() - 1)),
-                      static_cast<float>(iZ * (m_level.vertexCountT() - 1)),
+    QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
+                      static_cast<float>(m_currentPatchZ * (m_level.vertexCountT() - 1)),
                       static_cast<float>(m_level.totalVertexCountS() - 1),
                       static_cast<float>(m_level.totalVertexCountT() - 1));
     QVector4D posInfo(m_level.vertexWidthUnscaled(),
                       m_level.vertexHeightUnscaled(),
-                      iX * m_level.patchWidthUnscaled(),
-                      iZ * m_level.patchHeightUnscaled());
+                      m_currentPatchX * m_level.patchWidthUnscaled(),
+                      m_currentPatchZ * m_level.patchHeightUnscaled());
     program.setUniform("texInfo", texInfo);
     program.setUniform("posInfo", posInfo);
 
+    allocateTerrainMap(gl);
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    geometry.setAttributes(program);//it seems that setUniform()-calls fail after this point...
-    geometry.draw(gl);
-    gl.glBindTexture(GL_TEXTURE_2D, 0);
+}
 
-    program.release();
+void Terrain::postRender(QOpenGLFunctions & gl, Program & program) const
+{
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const

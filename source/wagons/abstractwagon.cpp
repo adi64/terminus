@@ -65,12 +65,6 @@ float AbstractWagon::length() const
     return 1.f;
 }
 
-float AbstractWagon::weight() const
-{
-    // weight in metric tons
-    return 1.f;
-}
-
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
