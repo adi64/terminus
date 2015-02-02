@@ -9,13 +9,13 @@
 #include "../resources/material.h"
 #include "../resources/program.h"
 #include "../projectile.h"
+#include "../timer.h"
 
 namespace terminus
 {
 
 WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 : AbstractWagon(scene, train)
-, m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
 {
@@ -24,6 +24,8 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+
+    m_reloadTimer = scene->timer().allocateTimer();
 }
 
 WeaponWagon::~WeaponWagon()
@@ -49,10 +51,11 @@ void WeaponWagon::primaryAction()
                 projectile->moveTo(worldProjectilePosition);
                 projectile->applyForce(worldProjectileForce);
                 scene->addNode(projectile);
+                return false;
             }
         );
 
-        m_elapsedMilliseconds = 0;
+        m_scene->timer().reset(m_reloadTimer);
         qDebug() << "Projectile fired!";
         SoundManager::getInstance()->playSound("shot");
     }
@@ -87,34 +90,30 @@ void WeaponWagon::fire(QVector3D force)
             projectile->moveTo(worldProjectilePosition);
             projectile->applyForce(force);
             scene->addNode(projectile);
+            return false;
         }
     );
 
     SoundManager::getInstance()->playSound("shot");
 }
 
-void WeaponWagon::update(int elapsedMilliseconds)
+void WeaponWagon::update()
 {
+    float elapsed = Timer::seconds(m_scene->timer().get(m_reloadTimer));
+
     if(m_chargeProjectile && !m_reloadProjectile)
     {
-        if(m_elapsedMilliseconds < 3000)
-        {
-            m_elapsedMilliseconds += elapsedMilliseconds;
-        }
-
-        m_force = m_elapsedMilliseconds / 4.0f;
+        m_force = elapsed * 250.f;
     }
     if(m_reloadProjectile)
     {
-        m_elapsedMilliseconds += elapsedMilliseconds;
-        if(m_elapsedMilliseconds > 5000)
+        if(elapsed > 5.f)
         {
             m_reloadProjectile = false;
-            m_elapsedMilliseconds = 0;
             qDebug() << "Reload complete!";
         }
     }
-    AbstractWagon::update(elapsedMilliseconds);
+    AbstractWagon::update();
 }
 
 void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const

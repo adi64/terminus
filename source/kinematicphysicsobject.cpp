@@ -12,7 +12,7 @@ KinematicPhysicsObject::KinematicPhysicsObject(std::shared_ptr<Scene> scene)
 {
 }
 
-void KinematicPhysicsObject::update(int elapsedMilliseconds)
+void KinematicPhysicsObject::update()
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -22,7 +22,7 @@ void KinematicPhysicsObject::update(int elapsedMilliseconds)
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
     m_btRigidBody->setCenterOfMassTransform(transform);
 
-    AbstractPhysicsObject::update(elapsedMilliseconds);
+    AbstractPhysicsObject::update();
 }
 
 void KinematicPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)

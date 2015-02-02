@@ -4,8 +4,6 @@
 #include <functional>
 
 #include <QQuickView>
-#include <QTimer>
-#include <QTime>
 #include <QVector3D>
 #include <QApplication>
 
@@ -18,7 +16,7 @@
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
 #include "projectile.h"
-
+#include "timer.h"
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
@@ -28,16 +26,12 @@ namespace terminus
 {
 
 Game::Game()
-: m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
-, m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
+: m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
-
-    m_timeStamp->start();
 
     setupBulletWorld();
 
@@ -76,8 +70,6 @@ Game::Game()
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
-    m_scene->setInitialTimeStamp(m_timeStamp);
-
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
@@ -102,10 +94,8 @@ void Game::sync()
     // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
-    auto elapsedMilliseconds = m_timeStamp->restart();
-
     // physics
-    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
+    m_bullet_dynamicsWorld->stepSimulation(Timer::seconds(m_scene->timer().get(std::string("frame"))), 10);
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef Q_OS_MAC
@@ -114,7 +104,7 @@ void Game::sync()
         m_scene->camera().setViewport(window()->width(), window()->height());
     #endif
 
-    m_scene->update(elapsedMilliseconds);
+    m_scene->update();
 }
 
 void Game::render()
@@ -138,8 +128,8 @@ void Game::handleWindowChanged(QQuickWindow *win)
         win->setClearBeforeRendering(false);
 
         // force redraw
-        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        m_timer->start(1000 / 60);
+        connect(&m_timer, &QTimer::timeout, win, &QQuickWindow::update);
+        m_timer.start(1000 / 60);
     }
 }
 

@@ -4,13 +4,14 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
+#include "mathutil.h"
+#include "timer.h"
 #include "track.h"
 #include "wagons/enginewagon.h"
-#include "mathutil.h"
 
 namespace terminus
 {
-const float Train::base_velocity = 0.02;
+const float Train::base_velocity = 20.f;
 
 Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
@@ -93,7 +94,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::update(int elapsedMilliseconds)
+void Train::update()
 {
     if(m_followedTrain)
     {
@@ -102,7 +103,7 @@ void Train::update(int elapsedMilliseconds)
     }
 
     // move forward
-    m_travelledDistance += m_velocity * elapsedMilliseconds;
+    m_travelledDistance += m_velocity * Timer::seconds(m_scene->timer().get(std::string("frame")));
 
     // TODO FIXME - this wraps the train
     if(m_travelledDistance > m_track->length())
@@ -112,7 +113,7 @@ void Train::update(int elapsedMilliseconds)
 
     for(auto& wagon : m_wagons)
     {
-        wagon->update(elapsedMilliseconds);
+        wagon->update();
     }
 }
 

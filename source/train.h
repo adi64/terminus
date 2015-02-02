@@ -28,7 +28,7 @@ public:
     void removeWagon(unsigned int index);
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
-    void update(int elapsedMilliseconds) override;
+    void update() override;
     void render(QOpenGLFunctions &gl) const override;
 
     AbstractWagon *wagonAt(unsigned int index) const;

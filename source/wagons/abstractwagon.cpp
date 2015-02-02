@@ -29,7 +29,7 @@ void AbstractWagon::primaryActionDebug()
 
 }
 
-void AbstractWagon::update(int elapsedMilliseconds)
+void AbstractWagon::update()
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
@@ -39,7 +39,7 @@ void AbstractWagon::update(int elapsedMilliseconds)
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
-    KinematicPhysicsObject::update(elapsedMilliseconds);
+    KinematicPhysicsObject::update();
 }
 
 float AbstractWagon::maxHealth() const

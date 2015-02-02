@@ -21,7 +21,7 @@ public:
     AbstractGraphicsObject(std::shared_ptr<Scene> scene);
     virtual ~AbstractGraphicsObject();
 
-    virtual void update(int elapsedMilliseconds);
+    virtual void update();
     virtual void render(QOpenGLFunctions & gl) const;
     virtual void preRender(QOpenGLFunctions & gl, Program & program) const;
     virtual void postRender(QOpenGLFunctions & gl, Program & program) const;

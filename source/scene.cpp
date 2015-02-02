@@ -17,7 +17,6 @@ namespace terminus
 Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
 : m_camera(std::unique_ptr<Camera>(new Camera()))
 , m_gl()
-, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
 , m_deferredActionHandler(deferredActionHandler)
 , m_collisionMap()
@@ -71,21 +70,21 @@ AbstractGraphicsObject *Scene::getGraphicsObjectForCollisionObject(const btColli
     }
 }
 
-void Scene::setInitialTimeStamp(const std::shared_ptr<QTime>& timeStamp)
+void Scene::update()
 {
-    m_timeStamp.reset();
-    m_timeStamp = timeStamp;
-}
+    if(!timer().isAllocated(std::string("frame")))
+    {
+        timer().allocateTimer(std::string("frame"));
+    }
 
-void Scene::update(int elapsedMilliseconds)
-{
     for(auto node : m_nodes)
     {
-        node->update(elapsedMilliseconds);
+        node->update();
     }
 
     // camera updates after all other nodes because it can follow the position of other nodes
     m_camera->update();
+    timer().reset(std::string("frame"));
 }
 
 void Scene::render()
@@ -127,6 +126,11 @@ void Scene::render()
 Camera & Scene::camera()
 {
     return *(m_camera.get());
+}
+
+Timer &  Scene::timer()
+{
+    return m_timer;
 }
 
 btDiscreteDynamicsWorld *Scene::bullet_world()

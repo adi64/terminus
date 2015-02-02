@@ -25,7 +25,7 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
     // ... :D
 }
 
-void AbstractGraphicsObject::update(int elapsedMilliseconds)
+void AbstractGraphicsObject::update()
 {
 }
 

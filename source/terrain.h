@@ -18,7 +18,7 @@ public:
     Terrain(std::shared_ptr<Scene> scene);
     virtual ~Terrain();
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void update() override;
     virtual void render(QOpenGLFunctions& gl) const override;
     virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
     virtual void postRender(QOpenGLFunctions & gl, Program & program) const override;

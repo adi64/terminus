@@ -4,13 +4,11 @@
 
 #include <QObject>
 #include <QQuickItem>
+#include <QTimer>
 
 #include "bullet/btBulletDynamicsCommon.h"
 
 #include "scene.h"
-
-class QTimer;
-class QTime;
 
 namespace terminus
 {
@@ -52,11 +50,12 @@ public slots:
 protected:
     void setupBulletWorld(void);
 
+protected:
+    QTimer m_timer;
+
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
     std::shared_ptr<Train> m_enemyTrain;
-    std::unique_ptr<QTimer> m_timer;
-    std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<EventHandler> m_eventHandler;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;

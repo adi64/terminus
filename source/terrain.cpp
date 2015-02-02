@@ -80,7 +80,7 @@ Track *Terrain::enemyTrack() const
     return m_enemyTrack.get();
 }
 
-void Terrain::update(int elapsedMilliseconds)
+void Terrain::update()
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -89,10 +89,10 @@ void Terrain::update(int elapsedMilliseconds)
     transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
 
-    AbstractPhysicsObject::update(elapsedMilliseconds);
+    AbstractPhysicsObject::update();
 
-    m_playerTrack->update(elapsedMilliseconds);
-    m_enemyTrack->update(elapsedMilliseconds);
+    m_playerTrack->update();
+    m_enemyTrack->update();
 }
 
 void Terrain::render(QOpenGLFunctions& gl) const
