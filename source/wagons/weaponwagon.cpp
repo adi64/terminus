@@ -9,6 +9,7 @@
 #include "../resources/material.h"
 #include "../resources/program.h"
 #include "../projectile.h"
+#include "../train.h"
 
 namespace terminus
 {
@@ -35,22 +36,9 @@ void WeaponWagon::primaryAction()
 {
     if(!m_reloadProjectile)
     {
-        auto scene = m_scene;
-
-        auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 2.0f);
-
-        QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
         QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * m_force;
 
-        m_scene->scheduleAction(
-            [scene, worldProjectilePosition, worldProjectileForce, this]()
-            {
-                auto projectile = new Projectile(scene);
-                projectile->moveTo(worldProjectilePosition);
-                projectile->applyForce(worldProjectileForce);
-                scene->addNode(projectile);
-            }
-        );
+        fire(worldProjectileForce);
 
         m_elapsedMilliseconds = 0;
         qDebug() << "Projectile fired!";
@@ -78,13 +66,17 @@ void WeaponWagon::fire(QVector3D force)
     auto scene = m_scene;
 
     auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
-
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+
+    auto relativeProjectileStartVelocity = QVector3D(1.0f, 0.0f, 0.0f) * m_train->velocity() * 1000.0f;
+    auto worldProjectileStartVelocity = rotation().rotatedVector(relativeProjectileStartVelocity);
+
     m_scene->scheduleAction(
-        [scene, worldProjectilePosition, force, this]()
+        [=]()
         {
             auto projectile = new Projectile(scene);
             projectile->moveTo(worldProjectilePosition);
+            projectile->setLinearVelocity(worldProjectileStartVelocity);
             projectile->applyForce(force);
             scene->addNode(projectile);
         }

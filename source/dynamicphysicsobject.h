@@ -13,6 +13,7 @@ public:
     virtual void update(int elapsedMilliseconds) override;
 
     virtual void applyForce(const QVector3D & force);
+    virtual void setLinearVelocity(const QVector3D & velocity);
 };
 
 }
