@@ -41,13 +41,6 @@ void AbstractPhysicsObject::deallocatePhysics()
     m_scene->removeCollisionMapping(m_btRigidBody.get());
 }
 
-void AbstractPhysicsObject::moveTo(const QVector3D & newPosition)
-{
-    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
-    transform.setOrigin(btVector3(newPosition.x(), newPosition.y(), newPosition.z()));
-    m_btRigidBody->setCenterOfMassTransform(transform);
-}
-
 /*!
  * \brief Gets called on collision with another AbstractPhysicsObject
  * \param other AbstractPhysicsObject that we collided with
