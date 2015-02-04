@@ -15,6 +15,7 @@ public:
     AbstractPhysicsObject(std::shared_ptr<Scene> scene);
 
     virtual void moveTo(const QVector3D & newPosition);
+    virtual void onCollisionWith(AbstractPhysicsObject* other);
 
 protected:
     virtual void initializePhysics(btCollisionShape * collisionShape, btScalar mass);

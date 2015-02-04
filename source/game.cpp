@@ -245,23 +245,13 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 
         if(numContacts > 0)
         {
-            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
-            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
-
-            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
-            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
-
-            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
             {
-                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
-            }
-
-            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
-            {
-                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+                physicsObject0->onCollisionWith(physicsObject1);
+                physicsObject1->onCollisionWith(physicsObject0);
             }
         }
     }

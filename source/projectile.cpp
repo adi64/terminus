@@ -7,6 +7,7 @@
 #include "resources/geometry.h"
 #include "resources/material.h"
 #include "resources/program.h"
+#include "wagons/abstractwagon.h"
 
 namespace terminus
 {
@@ -48,6 +49,15 @@ void Projectile::preRender(QOpenGLFunctions & gl, Program & program) const
 float Projectile::damage() const
 {
     return 30.0f;
+}
+
+void Projectile::onCollisionWith(AbstractPhysicsObject *other)
+{
+    auto otherWagon = dynamic_cast<AbstractWagon*>(other);
+    if(otherWagon)
+    {
+        otherWagon->setHealth(otherWagon->currentHealth() - damage());
+    }
 }
 
 unsigned int Projectile::maxAgeInMilliseconds() const
