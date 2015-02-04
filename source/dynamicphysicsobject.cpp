@@ -29,4 +29,9 @@ void DynamicPhysicsObject::applyForce(const QVector3D &force)
     m_btRigidBody->applyCentralForce(btVector3(force.x(), force.y(), force.z()));
 }
 
+void DynamicPhysicsObject::setLinearVelocity(const QVector3D &velocity)
+{
+    m_btRigidBody->setLinearVelocity(btVector3(velocity.x(), velocity.y(), velocity.z()));
+}
+
 }
