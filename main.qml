@@ -47,7 +47,7 @@ Item
             onChargeChanged:
             {
                 actionStatusBarProgress.actionfactor = charge;
-                reticle.factor = (1.0/(0.5 + charge)) * 0.2;
+                reticle.factor = (1.0 / (0.5 + charge)) * 0.2;
             }
             onReloadChanged:
             {
