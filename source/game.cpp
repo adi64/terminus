@@ -132,7 +132,7 @@ void Game::sync()
     m_scene->update(elapsedMilliseconds);
 }
 
-void Game::render()
+void Game::render() const
 {
     m_scene->render();
 }
