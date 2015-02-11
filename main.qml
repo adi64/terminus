@@ -72,6 +72,7 @@ Item
 
             MouseArea
             {
+                id: mouseCamera
                 anchors.fill: parent
                 cursorShape: "BlankCursor"
                 hoverEnabled: true
