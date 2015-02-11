@@ -5,9 +5,9 @@
 #include <memory>
 #include <vector>
 
-#include "abstractgraphicsobject.h"
+#include "../abstractgraphicsobject.h"
 #include "wagons/abstractwagon.h"
-#include "scene.h"
+#include "../../scene.h"
 
 namespace terminus
 {

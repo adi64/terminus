@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "abstractgraphicsobject.h"
-#include "kinematicphysicsobject.h"
+#include "../physics/kinematicphysicsobject.h"
 #include "track.h"
 #include "level.h"
 

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "dynamicphysicsobject.h"
+#include "../physics/dynamicphysicsobject.h"
 
 namespace terminus
 {

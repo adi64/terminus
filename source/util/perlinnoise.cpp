@@ -1,8 +1,8 @@
 #include "perlinnoise.h"
 
-#include "mathutil.h"
-
 #include <chrono>
+
+#include "mathutil.h"
 
 namespace terminus
 {

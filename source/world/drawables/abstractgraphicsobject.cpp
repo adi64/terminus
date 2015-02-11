@@ -3,7 +3,7 @@
 #include <QQuaternion>
 #include <QDebug>
 
-#include "scene.h"
+#include "../scene.h"
 
 namespace terminus
 {

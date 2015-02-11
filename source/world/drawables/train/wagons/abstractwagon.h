@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../kinematicphysicsobject.h"
+#include "../../../physics/kinematicphysicsobject.h"
 
 namespace terminus
 {

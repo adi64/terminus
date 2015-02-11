@@ -4,8 +4,8 @@
 #include <QVector4D>
 #include <QDebug>
 
-#include "mathutil.h"
-#include "perlinnoise.h"
+#include "../../util/mathutil.h"
+#include "../../util/perlinnoise.h"
 
 namespace terminus
 {

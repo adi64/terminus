@@ -4,12 +4,12 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include "../scene.h"
-#include "../resources/resourcemanager.h"
-#include "../resources/soundmanager.h"
-#include "../resources/geometry.h"
-#include "../resources/material.h"
-#include "../resources/program.h"
+#include "../../../scene.h"
+#include "../../../../resources/resourcemanager.h"
+#include "../../../../resources/soundmanager.h"
+#include "../../../../resources/geometry.h"
+#include "../../../../resources/material.h"
+#include "../../../../resources/program.h"
 
 namespace terminus
 {

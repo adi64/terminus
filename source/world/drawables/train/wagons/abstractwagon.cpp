@@ -6,8 +6,8 @@
 #include <math.h>
 
 #include "../train.h"
-#include "../track.h"
-#include "../mathutil.h"
+#include "../../track.h"
+#include "../../../../util/mathutil.h"
 
 namespace terminus
 {

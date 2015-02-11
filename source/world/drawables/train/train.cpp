@@ -4,9 +4,9 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
-#include "track.h"
+#include "../track.h"
 #include "wagons/enginewagon.h"
-#include "mathutil.h"
+#include "../../../util/mathutil.h"
 
 namespace terminus
 {

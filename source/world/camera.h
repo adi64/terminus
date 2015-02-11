@@ -5,7 +5,7 @@
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 
-#include "resources/program.h"
+#include "../resources/program.h"
 
 namespace terminus
 {

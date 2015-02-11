@@ -2,13 +2,13 @@
 
 #include <QDebug>
 
-#include "../scene.h"
-#include "../resources/soundmanager.h"
-#include "../resources/resourcemanager.h"
-#include "../resources/geometry.h"
-#include "../resources/material.h"
-#include "../resources/program.h"
-#include "../projectile.h"
+#include "../../../scene.h"
+#include "../../../../resources/resourcemanager.h"
+#include "../../../../resources/geometry.h"
+#include "../../../../resources/material.h"
+#include "../../../../resources/program.h"
+#include "../../../../resources/soundmanager.h"
+#include "../../projectile.h"
 #include "../train.h"
 
 namespace terminus

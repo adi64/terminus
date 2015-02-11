@@ -5,7 +5,7 @@
 #include <QVector3D>
 
 #include "abstractgraphicsobject.h"
-#include "polyline.h"
+#include "../../util/polyline.h"
 
 namespace terminus
 {

@@ -9,20 +9,20 @@
 #include <QVector3D>
 #include <QApplication>
 
-#include "scene.h"
+#include "world/scene.h"
 #include "resources/resourcemanager.h"
 #include "resources/soundmanager.h"
-#include "train.h"
-#include "terrain.h"
-#include "skybox.h"
+#include "world/drawables/train/train.h"
+#include "world/drawables/terrain.h"
+#include "world/drawables/skybox.h"
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
-#include "projectile.h"
+#include "world/drawables/projectile.h"
 
 #include "resources/resourcemanager.h"
-#include "wagons/enginewagon.h"
-#include "wagons/weaponwagon.h"
-#include "wagons/repairwagon.h"
+#include "world/drawables/train/wagons/enginewagon.h"
+#include "world/drawables/train/wagons/weaponwagon.h"
+#include "world/drawables/train/wagons/repairwagon.h"
 
 namespace terminus
 {

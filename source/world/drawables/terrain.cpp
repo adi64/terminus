@@ -8,11 +8,11 @@
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
 #include "track.h"
-#include "scene.h"
-#include "resources/resourcemanager.h"
-#include "resources/geometry.h"
-#include "resources/material.h"
-#include "resources/program.h"
+#include "../scene.h"
+#include "../../resources/resourcemanager.h"
+#include "../../resources/geometry.h"
+#include "../../resources/material.h"
+#include "../../resources/program.h"
 
 #define TEXFORMAT GL_RGBA
 #ifdef Q_OS_LINUX
