@@ -89,7 +89,7 @@ void Scene::update(int elapsedMilliseconds)
     m_camera->update();
 }
 
-void Scene::render()
+void Scene::render() const
 {
 
     static bool glInitialized = false;

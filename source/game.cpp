@@ -32,12 +32,15 @@ Game::Game()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_paused(true)
+, m_setupComplete(false)
 {
+
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
 
-    m_timeStamp->start();
+    m_timeStamp->restart();
 
     setupBulletWorld();
 
@@ -99,10 +102,22 @@ Game::~Game()
 
 void Game::sync()
 {
+    // check if it's our first frame
+    if(!m_setupComplete)
+    {
+        m_setupComplete = true;
+        m_paused = false;
+        m_timeStamp->restart();
+    }
+
     // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
     auto elapsedMilliseconds = m_timeStamp->restart();
+    if(m_paused)
+    {
+       elapsedMilliseconds = 0;
+    }
 
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
@@ -117,7 +132,7 @@ void Game::sync()
     m_scene->update(elapsedMilliseconds);
 }
 
-void Game::render()
+void Game::render() const
 {
     m_scene->render();
 }
@@ -186,6 +201,16 @@ void Game::touchChargeFire()
 void Game::touchFire()
 {
     m_eventHandler->touchFire();
+}
+
+void Game::setPaused(bool paused)
+{
+    m_paused = paused;
+}
+
+void Game::togglePaused()
+{
+    m_paused = !m_paused;
 }
 
 void Game::setupBulletWorld()
