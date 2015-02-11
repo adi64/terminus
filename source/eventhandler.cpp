@@ -57,6 +57,9 @@ void EventHandler::keyPressEvent(Qt::Key key)
     case Qt::Key_I:
         m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
         break;
+    case Qt::Key_P:
+        m_game->togglePaused();
+        break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
         {
