@@ -19,12 +19,14 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 , m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
+, m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+    setWeapon(new Weapon(m_scene));
 }
 
 WeaponWagon::~WeaponWagon()
@@ -63,6 +65,7 @@ void WeaponWagon::setChargeProjectile(bool charge)
 
 void WeaponWagon::fire(QVector3D force)
 {
+    /*
     auto scene = m_scene;
 
     auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
@@ -80,7 +83,8 @@ void WeaponWagon::fire(QVector3D force)
             projectile->applyForce(force);
             scene->addNode(projectile);
         }
-    );
+    );*/
+    weapon()->fire();
 
     SoundManager::getInstance()->playSound("shot");
 }
@@ -107,11 +111,22 @@ void WeaponWagon::update(int elapsedMilliseconds)
         }
     }
     AbstractWagon::update(elapsedMilliseconds);
+    weapon()->update(elapsedMilliseconds, position(), rotation());
 }
 
 void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
+}
+
+void WeaponWagon::setWeapon(Weapon * weapon)
+{
+    m_weapon.reset(weapon);
+}
+
+Weapon * WeaponWagon::weapon()
+{
+    return m_weapon.get();
 }
 
 float WeaponWagon::length() const
