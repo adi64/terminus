@@ -535,7 +535,15 @@ DISTFILES += \
     source/bullet/BulletSoftBody/CMakeLists.txt \
     source/bullet/LinearMath/CMakeLists.txt \
     source/bullet/CMakeLists.txt \
-    source/qml/main.qml
+    source/qml/main.qml \
+    source/qml/EnemyStatusBar.qml \
+    source/qml/PlayerStatusBar.qml \
+    source/qml/Reticle.qml \
+    source/qml/WagonActionArea.qml \
+    source/qml/WagonSwitchArea.qml \
+    source/qml/PlayerWagonStatus.qml \
+    source/qml/EnemyWagonStatus.qml \
+    source/qml/StatusBarContainer.qml
 
 RC_FILE = data/myapp.rc
 
