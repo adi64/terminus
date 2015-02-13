@@ -5,16 +5,15 @@
 namespace terminus
 {
 
-class WeaponWagon;
-class AbstractTurret;
-class AbstractBarrel;
+class Turret;
+class Barrel;
 
-class Abstractweapon : public KinematicPhysicsObject
+class Weapon : public KinematicPhysicsObject
 {
 
 public:
-    Abstractweapon(std::shared_ptr<Scene> scene);
-    virtual ~Abstractweapon();
+    Weapon(std::shared_ptr<Scene> scene);
+    virtual ~Weapon();
 
 public:
     float damage();
@@ -37,8 +36,8 @@ protected:
     int m_magazineSize;
 
 protected:
-    std::unique_ptr<AbstractTurret> m_turret;
-    std::unique_ptr<AbstractBarrel> m_barrel;
+    std::unique_ptr<Turret> m_turret;
+    std::unique_ptr<Barrel> m_barrel;
 
 };
 

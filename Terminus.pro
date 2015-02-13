@@ -437,9 +437,9 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/world/drawables/train/weapons/abstractweapon.h \
     source/world/drawables/train/weapons/turret.h \
-    source/world/drawables/train/weapons/barrel.h
+    source/world/drawables/train/weapons/barrel.h \
+    source/world/drawables/train/weapons/weapon.h
 
 RESOURCES += qml.qrc \
     shaders.qrc \

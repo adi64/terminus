@@ -1,4 +1,4 @@
-#include "abstractweapon.h"
+#include "Weapon.h"
 
 #include <world/physics/kinematicphysicsobject.h>
 #include <world/drawables/train/weapons/turret.h>
@@ -7,7 +7,7 @@
 namespace terminus
 {
 
-Abstractweapon::Abstractweapon(std::shared_ptr<Scene> scene)
+Weapon::Weapon(std::shared_ptr<Scene> scene)
  : KinematicPhysicsObject(scene)
  , m_damage(0.0)
  , m_reloadTime(0.0)
@@ -20,56 +20,56 @@ Abstractweapon::Abstractweapon(std::shared_ptr<Scene> scene)
 
 }
 
-Abstractweapon::~Abstractweapon()
+Weapon::~Weapon()
 {
 }
 
-float Abstractweapon::damage()
+float Weapon::damage()
 {
     return m_damage;
 }
 
-float Abstractweapon::reloadTime()
+float Weapon::reloadTime()
 {
     return m_reloadTime;
 }
 
-float Abstractweapon::scattering()
+float Weapon::scattering()
 {
     return m_scattering();
 }
 
-float Abstractweapon::thrust()
+float Weapon::thrust()
 {
     return m_thrust;
 }
 
-int Abstractweapon::magazineSize()
+int Weapon::magazineSize()
 {
     return m_magazineSize;
 }
 
-void Abstractweapon::setDamage(float amount)
+void Weapon::setDamage(float amount)
 {
     m_damage = amount;
 }
 
-void Abstractweapon::setReloadTime(float amount)
+void Weapon::setReloadTime(float amount)
 {
     m_reloadTime = amount;
 }
 
-void Abstractweapon::setScattering(float amount)
+void Weapon::setScattering(float amount)
 {
     m_scattering = amount;
 }
 
-void Abstractweapon::setThrust(float amount)
+void Weapon::setThrust(float amount)
 {
     m_thrust = amount;
 }
 
-void Abstractweapon::setMagazineSize(int amount)
+void Weapon::setMagazineSize(int amount)
 {
     m_magazineSize = amount;
 }
