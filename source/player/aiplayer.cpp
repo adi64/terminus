@@ -8,10 +8,9 @@
 namespace terminus
 {
 
-AIPlayer::AIPlayer(std::shared_ptr<Train> myTrain, std::shared_ptr<Train> enemyTrain)
-    : m_myTrain(myTrain)
+AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain)
+    : AbstractPlayer(train)
     , m_enemyTrain(enemyTrain)
-    , m_focusedWagonIndex(0)
     , m_chargingMilliseconds(0)
 {
 
@@ -20,13 +19,13 @@ AIPlayer::AIPlayer(std::shared_ptr<Train> myTrain, std::shared_ptr<Train> enemyT
 void AIPlayer::update(int elapsedMilliseconds)
 {
 
-    if(m_myTrain->wagonAt(m_focusedWagonIndex)->isDisabled())
+    if(m_train->wagonAt(m_selectedWagonIndex)->isDisabled())
     {
         switchWagon();
         return;
     }
 
-    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_myTrain->wagonAt(m_focusedWagonIndex));
+    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedWeaponWagon)
     {
         if(!focusedWeaponWagon->isReloading())
@@ -40,7 +39,7 @@ void AIPlayer::update(int elapsedMilliseconds)
         return;
     }
 
-    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_myTrain->wagonAt(m_focusedWagonIndex));
+    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedRepairWagon)
     {
         qDebug() << "repairing...";
@@ -61,19 +60,19 @@ void AIPlayer::switchWagon()
     if(rand() % 2 == 0)
     {
         // go left
-        if(m_focusedWagonIndex + 1 < m_myTrain->size())
+        if(m_selectedWagonIndex + 1 < m_train->size())
         {
-            m_focusedWagonIndex++;
-            qDebug() << "switching to wagon " << m_focusedWagonIndex;
+            m_selectedWagonIndex++;
+            qDebug() << "switching to wagon " << m_selectedWagonIndex;
         }
     }
     else
     {
         // go right
-        if(m_focusedWagonIndex - 1 >= 0)
+        if(m_selectedWagonIndex - 1 >= 0)
         {
-            m_focusedWagonIndex--;
-            qDebug() << "switching to wagon " << m_focusedWagonIndex;
+            m_selectedWagonIndex--;
+            qDebug() << "switching to wagon " << m_selectedWagonIndex;
         }
     }
 }

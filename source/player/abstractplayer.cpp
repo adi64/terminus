@@ -5,9 +5,9 @@
 
 terminus::AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
     : m_train(train)
-    , m_selectedWagon(0)
+    , m_selectedWagonIndex(0)
 {
-    m_camera.lockToObject(train->wagonAt(m_selectedWagon));
+    m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
 terminus::Camera &terminus::AbstractPlayer::camera()
@@ -20,7 +20,7 @@ const terminus::Train &terminus::AbstractPlayer::train()
     return (*m_train);
 }
 
-unsigned int terminus::AbstractPlayer::selectedWagon() const
+unsigned int terminus::AbstractPlayer::selectedWagonIndex() const
 {
-    return m_selectedWagon;
+    return m_selectedWagonIndex;
 }

@@ -16,12 +16,12 @@ public:
 
     Camera &camera();
     const Train &train();
-    unsigned int selectedWagon() const;
+    unsigned int selectedWagonIndex() const;
 
 protected:
     Camera m_camera;
     std::shared_ptr<Train> m_train;
 
-    unsigned int m_selectedWagon;
+    unsigned int m_selectedWagonIndex;
 };
 }
