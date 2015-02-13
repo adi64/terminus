@@ -5,9 +5,9 @@
 #include <QObject>
 #include <QQuickItem>
 
-#include "bullet/btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 
-#include "scene.h"
+#include <world/scene.h>
 
 class QTimer;
 class QTime;

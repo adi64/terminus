@@ -5,10 +5,10 @@
 #include <QQuickWindow>
 
 #include "game.h"
-#include "camera.h"
-#include "scene.h"
-#include "train.h"
-#include "wagons/weaponwagon.h"
+#include <world/camera.h>
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 
 
 namespace terminus

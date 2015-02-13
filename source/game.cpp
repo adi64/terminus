@@ -9,20 +9,21 @@
 #include <QVector3D>
 #include <QApplication>
 
-#include "scene.h"
-#include "resources/resourcemanager.h"
-#include "resources/soundmanager.h"
-#include "train.h"
-#include "terrain.h"
-#include "skybox.h"
+#include <resources/resourcemanager.h>
+#include <resources/resourcemanager.h>
+#include <resources/soundmanager.h>
+
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/skybox.h>
+#include <world/drawables/projectile.h>
+#include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
-#include "projectile.h"
-
-#include "resources/resourcemanager.h"
-#include "wagons/enginewagon.h"
-#include "wagons/weaponwagon.h"
-#include "wagons/repairwagon.h"
 
 namespace terminus
 {
@@ -122,7 +123,6 @@ void Game::sync()
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
-    //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef Q_OS_MAC
         m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
     #else
