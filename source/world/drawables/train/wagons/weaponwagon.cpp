@@ -34,9 +34,14 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
+    if(isDisabled())
+    {
+        return;
+    }
+
     if(!m_reloadProjectile)
     {
-        QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * m_force;
+        QVector3D worldProjectileForce = m_normalizedAimVector * m_force;
 
         fire(worldProjectileForce);
 
@@ -51,7 +56,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = QVector3D(m_scene->camera().center() - m_scene->camera().eye()) * 1000.0;
+    QVector3D worldProjectileForce = m_normalizedAimVector * 1000.0;
 
     fire(worldProjectileForce);
 }
@@ -61,28 +66,35 @@ void WeaponWagon::setChargeProjectile(bool charge)
     m_chargeProjectile = charge;
 }
 
+void WeaponWagon::setAimVector(const QVector3D &aimVector)
+{
+    m_normalizedAimVector = aimVector.normalized();
+}
+
 void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
 
-    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
+    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 3.0f);
+
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
-    auto relativeProjectileStartVelocity = QVector3D(1.0f, 0.0f, 0.0f) * m_train->velocity() * 1000.0f;
-    auto worldProjectileStartVelocity = rotation().rotatedVector(relativeProjectileStartVelocity);
-
     m_scene->scheduleAction(
-        [=]()
+        [scene, worldProjectilePosition, force, this]()
         {
             auto projectile = new Projectile(scene);
             projectile->moveTo(worldProjectilePosition);
-            projectile->setLinearVelocity(worldProjectileStartVelocity);
             projectile->applyForce(force);
             scene->addNode(projectile);
         }
     );
 
     SoundManager::getInstance()->playSound("shot");
+}
+
+bool WeaponWagon::isReloading() const
+{
+    return m_reloadProjectile;
 }
 
 void WeaponWagon::update(int elapsedMilliseconds)
@@ -106,6 +118,12 @@ void WeaponWagon::update(int elapsedMilliseconds)
             qDebug() << "Reload complete!";
         }
     }
+
+    if(m_train->isPlayerControlled())
+    {
+        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
+    }
+
     AbstractWagon::update(elapsedMilliseconds);
 }
 

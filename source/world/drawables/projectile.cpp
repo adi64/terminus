@@ -62,7 +62,7 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
-    return 50000;
+    return 5000;
 }
 
 } //namespace terminus
