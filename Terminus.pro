@@ -179,9 +179,9 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/world/drawables/train/weapons/abstractweapon.cpp \
     source/world/drawables/train/weapons/turret.cpp \
-    source/world/drawables/train/weapons/barrel.cpp
+    source/world/drawables/train/weapons/barrel.cpp \
+    source/world/drawables/train/weapons/weapon.cpp
 
 HEADERS += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
