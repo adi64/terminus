@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "../../bullet/btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 
-#include "../drawables/abstractgraphicsobject.h"
+#include <world/drawables/abstractgraphicsobject.h>
 
 namespace terminus
 {

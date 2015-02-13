@@ -1,7 +1,9 @@
 #pragma once
 
-#include "wagons/abstractwagon.h"
-#include "wagons/enginewagon.h"
+#include "train.h"
+
+#include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/train/wagons/enginewagon.h>
 
 #include <QDebug>
 

@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include "../scene.h"
+#include <world/scene.h>
 
 namespace terminus
 {

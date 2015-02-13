@@ -5,9 +5,9 @@
 
 #include <math.h>
 
-#include "../train.h"
-#include "../../track.h"
-#include "../../../../util/mathutil.h"
+#include <world/drawables/train/train.h>
+#include <world/drawables/track.h>
+#include <util/mathutil.h>
 
 namespace terminus
 {

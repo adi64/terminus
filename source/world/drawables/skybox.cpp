@@ -4,10 +4,10 @@
 #include <QOpenGLTexture>
 #include <QDebug>
 
-#include "../scene.h"
-#include "../../resources/resourcemanager.h"
-#include "../../resources/geometry.h"
-#include "../../resources/program.h"
+#include <world/scene.h>
+#include <resources/resourcemanager.h>
+#include <resources/geometry.h>
+#include <resources/program.h>
 
 namespace terminus
 {

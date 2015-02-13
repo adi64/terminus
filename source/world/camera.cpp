@@ -2,8 +2,8 @@
 #include <cassert>
 #include <QQuaternion>
 
-#include "drawables/abstractgraphicsobject.h"
-#include "../util/mathutil.h"
+#include <world/drawables/abstractgraphicsobject.h>
+#include <util/mathutil.h>
 
 namespace terminus
 {

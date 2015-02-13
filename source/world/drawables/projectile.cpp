@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-#include "../scene.h"
-#include "../../resources/resourcemanager.h"
-#include "../../resources/geometry.h"
-#include "../../resources/material.h"
-#include "../../resources/program.h"
-#include "train/wagons/abstractwagon.h"
+#include <world/scene.h>
+#include <resources/resourcemanager.h>
+#include <resources/geometry.h>
+#include <resources/material.h>
+#include <resources/program.h>
+#include <world/drawables/train/wagons/abstractwagon.h>
 
 namespace terminus
 {

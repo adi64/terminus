@@ -2,8 +2,8 @@
 
 #include <memory>
 
+#include <world/physics/kinematicphysicsobject.h>
 #include "abstractgraphicsobject.h"
-#include "../physics/kinematicphysicsobject.h"
 #include "track.h"
 #include "level.h"
 

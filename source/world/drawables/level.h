@@ -8,9 +8,9 @@
 #include <QSize>
 #include <QVector3D>
 
-#include "../../util/polyline.h"
-#include "../../util/catmullromspline.h"
-#include "../../util/perlinnoise.h"
+#include <util/polyline.h>
+#include <util/catmullromspline.h>
+#include <util/perlinnoise.h>
 
 namespace terminus
 {

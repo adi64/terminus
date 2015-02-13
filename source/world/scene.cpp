@@ -5,11 +5,11 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 
-#include "../bullet/btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 
-#include "physics/abstractphysicsobject.h"
 #include "camera.h"
-#include "../deferredactionhandler.h"
+#include <world/physics/abstractphysicsobject.h>
+#include <deferredactionhandler.h>
 
 namespace terminus
 {

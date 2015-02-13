@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 #include "abstractgraphicsobject.h"
 
 class QImage;

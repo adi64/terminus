@@ -7,7 +7,7 @@
 
 #include "game.h"
 
-#include "resources/resourcemanager.h"
+#include <resources/resourcemanager.h>
 
 int main(int argc, char *argv[])
 {

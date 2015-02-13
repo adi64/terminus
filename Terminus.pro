@@ -533,7 +533,9 @@ DISTFILES += \
 
 RC_FILE = data/myapp.rc
 
-INCLUDEPATH += source/bullet
+INCLUDEPATH += \
+    source/bullet \
+    source
 
 unix:LIBS += -ldl
 

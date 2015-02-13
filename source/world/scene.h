@@ -8,7 +8,7 @@
 #include <QOpenGLFunctions>
 
 #include "camera.h"
-#include "../deferredactionhandler.h"
+#include <deferredactionhandler.h>
 
 class QOpenGLShaderProgram;
 class QTime;
