@@ -16,6 +16,12 @@ public:
     virtual ~Weapon();
 
 public:
+    void fire();
+    virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
+
+    QVector3D weaponOffset();
+
+public:
     float damage();
     float reloadTime();
     float scattering();
