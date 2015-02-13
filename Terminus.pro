@@ -178,7 +178,9 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
+    source/main.cpp \
+    source/player/abstractplayer.cpp \
+    source/player/localplayer.cpp
 
 HEADERS += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
@@ -433,7 +435,9 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/player/abstractplayer.h \
+    source/player/localplayer.h
 
 RESOURCES += qml.qrc \
     shaders.qrc \
