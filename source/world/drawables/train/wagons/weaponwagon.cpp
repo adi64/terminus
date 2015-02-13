@@ -56,7 +56,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_normalizedAimVector * 1000.0;
+    QVector3D worldProjectileForce = m_normalizedAimVector * 4000.0;
 
     fire(worldProjectileForce);
 }
@@ -75,7 +75,7 @@ void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
 
-    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 3.0f);
+    auto relativeProjectilePosition = QVector3D(0.0f, 0.5f, 4.0f);
 
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
