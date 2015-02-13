@@ -177,8 +177,7 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
-    source/bullet/clew/clew.c \
-    source/weapons/abstractweapon.cpp
+    source/bullet/clew/clew.c
 
 RESOURCES += qml.qrc
 
@@ -446,8 +445,7 @@ HEADERS += \
     source/bullet/LinearMath/btTransformUtil.h \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
-    source/bullet/btBulletDynamicsCommon.h \
-    source/weapons/abstractweapon.h
+    source/bullet/btBulletDynamicsCommon.h
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \
