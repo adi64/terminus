@@ -1,27 +1,5 @@
 <RCC>
-    <qresource prefix="/terminus">
-        <file>main.qml</file>
-    </qresource>
     <qresource prefix="/">
-        <file>data/base.mtl</file>
-        <file>data/base.obj</file>
-        <file>data/basicShader.frag</file>
-        <file>data/basicShader.vert</file>
-        <file>data/env_cube_nx.png</file>
-        <file>data/env_cube_ny.png</file>
-        <file>data/env_cube_nz.png</file>
-        <file>data/env_cube_px.png</file>
-        <file>data/env_cube_py.png</file>
-        <file>data/env_cube_pz.png</file>
-        <file>data/envmap.frag</file>
-        <file>data/envmap.vert</file>
-        <file>data/terrain.obj</file>
-        <file>data/terrain.frag</file>
-        <file>data/terrain.vert</file>
-        <file>music/Level0107.mp3</file>
-        <file>sounds/alarm.wav</file>
-        <file>sounds/angriff.wav</file>
-        <file>sounds/shot.wav</file>
-        <file>sounds/engine/machine.wav</file>
+        <file>source/qml/main.qml</file>
     </qresource>
 </RCC>

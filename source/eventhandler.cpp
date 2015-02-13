@@ -5,10 +5,10 @@
 #include <QQuickWindow>
 
 #include "game.h"
-#include "camera.h"
-#include "scene.h"
-#include "resources/soundmanager.h"
-#include "train.h"
+#include <world/camera.h>
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 
 
 namespace terminus
@@ -54,18 +54,11 @@ void EventHandler::keyPressEvent(Qt::Key key)
     case Qt::Key_Escape:
         QApplication::quit();
         break;
-    case Qt::Key_U:
-        SoundManager::getInstance()->playSound("angriff");
-        break;
     case Qt::Key_I:
-        SoundManager::getInstance()->playSound("shot");
-        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
         break;
-    case Qt::Key_O:
-        SoundManager::getInstance()->playSound("alarm");
-        break;
-    case Qt::Key_M:
-        SoundManager::getInstance()->toggleBackgroundMusic();
+    case Qt::Key_P:
+        m_game->togglePaused();
         break;
     case Qt::Key_Plus:
         if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
@@ -210,6 +203,20 @@ void EventHandler::flickReset()
         }
         m_flicked = false;
     }
+}
+
+void EventHandler::touchChargeFire()
+{
+    auto wagon = dynamic_cast<WeaponWagon*>(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
+    if(wagon != nullptr)
+    {
+        wagon->setChargeProjectile(true);
+    }
+}
+
+void EventHandler::touchFire()
+{
+    m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
 }
 
 }

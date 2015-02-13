@@ -5,9 +5,9 @@
 #include <QObject>
 #include <QQuickItem>
 
-#include "bullet/btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 
-#include "scene.h"
+#include <world/scene.h>
 
 class QTimer;
 class QTime;
@@ -32,9 +32,25 @@ public:
 
     Scene *scene() const;
     Train *playerTrain() const;
+
+    void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
 public slots:
+    /*!
+     * \brief Update game world, taking elapsed time into account
+     *
+     * This updates all dynamic elements in the game.
+     * All calculation should be done in this step so that this method transforms one valid game state into another one.
+     */
     void sync();
-    void render();
+
+    /*!
+     * \brief Render game world
+     *
+     * This renders the current state of all objects. Object state should not be changed here.
+     * \sa sync()
+     */
+    void render() const;
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
     void keyPressEvent(Qt::Key key);
@@ -44,18 +60,30 @@ public slots:
     void gyroMoveEvent(qreal x, qreal y);
     void flickEvent(qreal startX, qreal x);
     void flickReset();
+    void touchChargeFire();
+    void touchFire();
+
+    /*!
+     * \brief Pause or continue ingame time
+     * \param paused Whether the game should be paused or not
+     */
+    void setPaused(bool paused);
+    void togglePaused();
 protected:
     void setupBulletWorld(void);
 
     std::shared_ptr<Scene> m_scene;
-    std::unique_ptr<Train> m_playerTrain;
-    std::unique_ptr<Train> m_enemyTrain;
+    std::shared_ptr<Train> m_playerTrain;
+    std::shared_ptr<Train> m_enemyTrain;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<EventHandler> m_eventHandler;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+
+    bool m_paused;
+    bool m_setupComplete;
 
     // bullet
     // these objects must not be deleted before m_bullet_dynamicsWorld

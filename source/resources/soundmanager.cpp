@@ -1,8 +1,9 @@
-#include <QSoundEffect>
+#include "soundmanager.h"
+
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
-#include "soundmanager.h"
+#include <QDebug>
 
 //TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 
@@ -32,30 +33,19 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    QSoundEffect * soundOne = new QSoundEffect();
-    soundOne->setSource(QUrl::fromLocalFile("sounds/alarm.wav"));
-    m_sounds["alarm"] = soundOne;
+    QSoundEffect * soundShot = new QSoundEffect();
+    soundShot->setSource(QUrl::fromLocalFile(":/data/sounds/shot.wav"));
+    m_sounds["shot"] = soundShot;
 
-    QSoundEffect * soundTwo = new QSoundEffect();
-    soundTwo->setSource(QUrl::fromLocalFile("sounds/angriff.wav"));
-    m_sounds["angriff"] = soundTwo;
+    QSoundEffect * soundEngine = new QSoundEffect();
+    soundEngine->setSource(QUrl::fromLocalFile(":/data/sounds/hover.wav"));
+    m_sounds["machine"] = soundEngine;
 
-    QSoundEffect * soundThree = new QSoundEffect();
-    soundThree->setSource(QUrl::fromLocalFile("sounds/shot.wav"));
-    m_sounds["shot"] = soundThree;
-
-    QSoundEffect * soundFour = new QSoundEffect();
-    soundFour->setSource(QUrl::fromLocalFile("sounds/engin/machine.wav"));
-    soundFour->setVolume(0.1);
-    m_sounds["machine"] = soundFour;
-
-    m_mediaPlayer = new QMediaPlayer();
-    m_mediaPlaylist = new QMediaPlaylist();
-    mediaPlayer()->setPlaylist(mediaPlaylist());
-    mediaPlayer()->setVolume(99);
-
-    mediaPlaylist()->addMedia(QUrl::fromLocalFile("music/Level0107.mp3"));
-    mediaPlaylist()->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    QSoundEffect * soundBackgroundMusic = new QSoundEffect();
+    soundBackgroundMusic->setSource(QUrl::fromLocalFile(":/data/sounds/level.wav"));
+    soundBackgroundMusic->setLoopCount(QSoundEffect::Infinite);
+    soundBackgroundMusic->setMuted(false);
+    m_sounds["music"] = soundBackgroundMusic;
 }
 
 SoundManager::~SoundManager()
@@ -67,9 +57,6 @@ SoundManager::~SoundManager()
     {
         delete it->second;                             //is second correct?
     }
-
-    mediaPlayer()->setMedia(nullptr);
-    delete m_mediaPlayer;
 }
 
 void SoundManager::playSound(QString name)
@@ -90,21 +77,9 @@ void SoundManager::playSoundDistant(QString name, qreal distance)
     sound(name)->play();
 }
 
-void SoundManager::playBackgroundMusic()
-{
-    mediaPlayer()->play();
-}
-
 void SoundManager::toggleBackgroundMusic()
 {
-    if(mediaPlayer()->state() == 1)
-    {
-        mediaPlayer()->pause();
-    }
-    else
-    {
-        mediaPlayer()->play();
-    }
+    sound("music")->setMuted(!sound("music")->isMuted());
 }
 
 QSoundEffect * SoundManager::sound(QString name)
@@ -115,15 +90,6 @@ QSoundEffect * SoundManager::sound(QString name)
 std::map<QString, QSoundEffect *> SoundManager::sounds()
 {
     return m_sounds;
-}
-
-QMediaPlayer * SoundManager::mediaPlayer()
-{
-    return m_mediaPlayer;
-}
-
-QMediaPlaylist * SoundManager::mediaPlaylist(){
-    return m_mediaPlaylist;
 }
 
 }   //terminus

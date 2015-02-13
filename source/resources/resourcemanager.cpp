@@ -1,5 +1,4 @@
 #include "resourcemanager.h"
-#include "geometry.h"
 
 #include <limits.h>
 #include <regex>
@@ -11,6 +10,8 @@
 #include <QFile>
 #include <QString>
 #include <QDebug> //TODO remove in the end
+
+#include "geometry.h"
 
 namespace terminus
 {
@@ -61,6 +62,9 @@ void ResourceManager::loadResources()
 {
     loadObj(std::string(":/data/base.obj"));
     loadObj(std::string(":/data/terrain.obj"));
+    loadObj(std::string(":/data/engine.obj"));
+    loadObj(std::string(":/data/weapon.obj"));
+    loadObj(std::string(":/data/repair.obj"));
     loadMtl(std::string(":/data/base.mtl"));
     loadObj(std::string(":/data/terrain.obj"));
     loadProgram(std::string(":/data/basicShader"));
@@ -168,6 +172,8 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
     std::vector<unsigned short> indexBuffer;
     std::vector<Vertex> vertexBuffer;
     std::map<IndexTriple, unsigned short> indexLookUp;
+    QVector3D bBoxMin;
+    QVector3D bBoxMax;
     for(unsigned int i = 0; i < indexTriples.size() && vertexBuffer.size() < USHRT_MAX; i++)
     {
         if(indexLookUp.count(indexTriples[i]) == 0)
@@ -185,8 +191,14 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
             iN = (iN < 0)? sN + iN : iN - 1;
             //read vectors
             QVector3D vP = (0 <= iP && iP < sP)? positions.at(iP) : QVector3D(),
-                    vT = (indexTriples[i].validTexture() && 0 <= iT && iT < sT)? texCoords.at(iT) : QVector3D(),
-                    vN = (indexTriples[i].validNormal() && 0 <= iN && iN < sN)? normals.at(iN) : QVector3D();
+                      vT = (indexTriples[i].validTexture() && 0 <= iT && iT < sT)? texCoords.at(iT) : QVector3D(),
+                      vN = (indexTriples[i].validNormal() && 0 <= iN && iN < sN)? normals.at(iN) : QVector3D();
+            bBoxMin.setX(fmin(vP.x(), bBoxMin.x()));
+            bBoxMin.setY(fmin(vP.y(), bBoxMin.y()));
+            bBoxMin.setZ(fmin(vP.z(), bBoxMin.z()));
+            bBoxMax.setX(fmax(vP.x(), bBoxMax.x()));
+            bBoxMax.setY(fmax(vP.y(), bBoxMax.y()));
+            bBoxMax.setZ(fmax(vP.z(), bBoxMax.z()));
             Vertex v {{vP.x(), vP.y(),vP.z()}, {vT.x(), vT.y(),vT.z()}, {vN.x(), vN.y(),vN.z()}};
             vertexBuffer.push_back(v);
             indexBuffer.push_back(static_cast<unsigned short>(vertexBuffer.size() - 1));
@@ -196,7 +208,7 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
             indexBuffer.push_back(indexLookUp[indexTriples[i]]);
         }
     }
-    putGeometry(name, new Geometry(indexBuffer, vertexBuffer));
+    putGeometry(name, new Geometry(indexBuffer, vertexBuffer, bBoxMin, bBoxMax));
 }
 
 void ResourceManager::loadMtl(std::string path)
