@@ -178,7 +178,10 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
+    source/main.cpp \
+    source/world/drawables/train/weapons/abstractweapon.cpp \
+    source/world/drawables/train/weapons/turret.cpp \
+    source/world/drawables/train/weapons/barrel.cpp
 
 HEADERS += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
@@ -433,7 +436,10 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/world/drawables/train/weapons/abstractweapon.h \
+    source/world/drawables/train/weapons/turret.h \
+    source/world/drawables/train/weapons/barrel.h
 
 RESOURCES += qml.qrc \
     shaders.qrc \
