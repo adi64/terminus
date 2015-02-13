@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QQuickItem>
 
-#include "scene.h"
+#include <world/scene.h>
 
 namespace terminus
 {

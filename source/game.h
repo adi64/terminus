@@ -5,10 +5,11 @@
 #include <QObject>
 #include <QQuickItem>
 
-#include "bullet/btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 
-#include "scene.h"
-#include "train.h"
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+
 #include "userinterface.h"
 
 class QTimer;
@@ -41,10 +42,30 @@ public:
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
 
 public slots:
+    /*!
+     * \brief Update game world, taking elapsed time into account
+     *
+     * This updates all dynamic elements in the game.
+     * All calculation should be done in this step so that this method transforms one valid game state into another one.
+     */
     void sync();
-    void render();
+
+    /*!
+     * \brief Render game world
+     *
+     * This renders the current state of all objects. Object state should not be changed here.
+     * \sa sync()
+     */
+    void render() const;
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
+
+    /*!
+     * \brief Pause or continue ingame time
+     * \param paused Whether the game should be paused or not
+     */
+    void setPaused(bool paused);
+    void togglePaused();
 
 protected:
     void setupBulletWorld(void);
@@ -61,6 +82,9 @@ protected:
     std::unique_ptr<SnowStorm> m_snowStorm;
 
     UserInterface *m_ui;
+
+    bool m_paused;
+    bool m_setupComplete;
 
     // bullet
     // these objects must not be deleted before m_bullet_dynamicsWorld

@@ -5,10 +5,10 @@
 #include <QQuickWindow>
 
 #include "game.h"
-#include "camera.h"
-#include "scene.h"
-#include "train.h"
-#include "wagons/weaponwagon.h"
+#include <world/camera.h>
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 
 
 namespace terminus
@@ -68,6 +68,9 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_O:
         m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryAction();
+        break;
+    case Qt::Key_P:
+        m_game->togglePaused();
         break;
     case Qt::Key_Plus:
         switchWagonLeft();

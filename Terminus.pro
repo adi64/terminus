@@ -5,35 +5,6 @@ CONFIG += c++11
 QT += qml quick widgets multimedia sensors
 
 SOURCES += \
-    source/wagons/abstractwagon.cpp \
-    source/wagons/enginewagon.cpp \
-    source/wagons/weaponwagon.cpp \
-    source/abstractgraphicsobject.cpp \
-    source/camera.cpp \
-    source/game.cpp \
-    source/main.cpp \
-    source/scene.cpp \
-    source/train.cpp \
-    source/terrain.cpp \
-    source/track.cpp \
-    source/resources/material.cpp \
-    source/resources/geometry.cpp \
-    source/resources/indextriple.cpp \
-    source/resources/resourcemanager.cpp \
-    source/resources/soundmanager.cpp \
-    source/skybox.cpp \
-    source/resources/program.cpp \
-    source/eventhandler.cpp \
-    source/catmullromspline.cpp \
-    source/perlinnoise.cpp \
-    source/mathutil.cpp \
-    source/polyline.cpp \
-    source/level.cpp \
-    source/projectile.cpp \
-    source/abstractphysicsobject.cpp \
-    source/dynamicphysicsobject.cpp \
-    source/kinematicphysicsobject.cpp \
-    source/deferredactionhandler.cpp \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
     source/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.cpp \
     source/bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.cpp \
@@ -178,60 +149,41 @@ SOURCES += \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
     source/bullet/clew/clew.c \
+    source/player/aiplayer.cpp \
+    source/resources/geometry.cpp \
+    source/resources/indextriple.cpp \
+    source/resources/material.cpp \
+    source/resources/program.cpp \
+    source/resources/resourcemanager.cpp \
+    source/resources/soundmanager.cpp \
+    source/util/catmullromspline.cpp \
+    source/util/mathutil.cpp \
+    source/util/perlinnoise.cpp \
+    source/util/polyline.cpp \
+    source/world/drawables/train/wagons/abstractwagon.cpp \
+    source/world/drawables/train/wagons/enginewagon.cpp \
+    source/world/drawables/train/wagons/repairwagon.cpp \
+    source/world/drawables/train/wagons/weaponwagon.cpp \
+    source/world/drawables/train/train.cpp \
+    source/world/drawables/abstractgraphicsobject.cpp \
+    source/world/drawables/level.cpp \
+    source/world/drawables/projectile.cpp \
+    source/world/drawables/skybox.cpp \
+    source/world/drawables/terrain.cpp \
+    source/world/drawables/track.cpp \
+    source/world/drawables/snowstorm.cpp \
+    source/world/physics/abstractphysicsobject.cpp \
+    source/world/physics/dynamicphysicsobject.cpp \
+    source/world/physics/kinematicphysicsobject.cpp \
+    source/world/camera.cpp \
+    source/world/scene.cpp \
     source/userinterface.cpp \
-    source/snowstorm.cpp \
-    source/wagons/repairwagon.cpp \
-    source/aiplayer.cpp
-
-RESOURCES += qml.qrc \
-    shaders.qrc \
-    materials.qrc \
-    models.qrc \
-    sounds.qrc \
-    textures.qrc
-
-RC_FILE = data/myapp.rc
-
-INCLUDEPATH += source/bullet
-
-unix:LIBS += -ldl
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-include(deployment.pri)
+    source/deferredactionhandler.cpp \
+    source/eventhandler.cpp \
+    source/game.cpp \
+    source/main.cpp
 
 HEADERS += \
-    source/wagons/abstractwagon.h \
-    source/wagons/enginewagon.h \
-    source/wagons/weaponwagon.h \
-    source/abstractgraphicsobject.h \
-    source/camera.h \
-    source/game.h \
-    source/scene.h \
-    source/train.h \
-    source/train.hpp \
-    source/terrain.h \
-    source/track.h \
-    source/resources/geometry.h \
-    source/resources/indextriple.h \
-    source/resources/resourcemanager.h \
-    source/resources/material.h \
-    source/resources/soundmanager.h \
-    source/resources/program.h \
-    source/skybox.h \
-    source/eventhandler.h \
-    source/catmullromspline.h \
-    source/perlinnoise.h \
-    source/mathutil.h \
-    source/polyline.h \
-    source/level.h \
-    source/projectile.h \
-    source/abstractphysicsobject.h \
-    source/dynamicphysicsobject.h \
-    source/kinematicphysicsobject.h \
-    source/deferredactionhandler.h \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
     source/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h \
     source/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h \
@@ -455,10 +407,46 @@ HEADERS += \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
+    source/player/aiplayer.h \
+    source/resources/geometry.h \
+    source/resources/indextriple.h \
+    source/resources/material.h \
+    source/resources/program.h \
+    source/resources/resourcemanager.h \
+    source/resources/soundmanager.h \
+    source/util/catmullromspline.h \
+    source/util/mathutil.h \
+    source/util/perlinnoise.h \
+    source/util/polyline.h \
+    source/world/drawables/train/wagons/abstractwagon.h \
+    source/world/drawables/train/wagons/enginewagon.h \
+    source/world/drawables/train/wagons/repairwagon.h \
+    source/world/drawables/train/wagons/weaponwagon.h \
+    source/world/drawables/train/train.h \
+    source/world/drawables/train/train.hpp \
+    source/world/drawables/abstractgraphicsobject.h \
+    source/world/drawables/level.h \
+    source/world/drawables/projectile.h \
+    source/world/drawables/skybox.h \
+    source/world/drawables/terrain.h \
+    source/world/drawables/track.h \
+    source/world/drawables/snowstorm.h \
+    source/world/physics/abstractphysicsobject.h \
+    source/world/physics/dynamicphysicsobject.h \
+    source/world/physics/kinematicphysicsobject.h \
+    source/world/camera.h \
+    source/world/scene.h \
     source/userinterface.h \
-    source/snowstorm.h \
-    source/wagons/repairwagon.h \
-    source/aiplayer.h
+    source/deferredactionhandler.h \
+    source/eventhandler.h \
+    source/game.h
+
+RESOURCES += qml.qrc \
+    shaders.qrc \
+    materials.qrc \
+    models.qrc \
+    sounds.qrc \
+    textures.qrc
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \
@@ -546,6 +534,21 @@ DISTFILES += \
     source/bullet/BulletDynamics/CMakeLists.txt \
     source/bullet/BulletSoftBody/CMakeLists.txt \
     source/bullet/LinearMath/CMakeLists.txt \
-    source/bullet/CMakeLists.txt
+    source/bullet/CMakeLists.txt \
+    source/qml/main.qml
+
+RC_FILE = data/myapp.rc
+
+INCLUDEPATH += \
+    source/bullet \
+    source
+
+unix:LIBS += -ldl
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
+# Default rules for deployment.
+include(deployment.pri)
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

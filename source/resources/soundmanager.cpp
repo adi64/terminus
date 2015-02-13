@@ -1,9 +1,9 @@
+#include "soundmanager.h"
+
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
 #include <QDebug>
-
-#include "soundmanager.h"
 
 //TODO use unique or shared pointer instead of standard pointer for QSoundEffect
 

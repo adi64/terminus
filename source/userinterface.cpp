@@ -6,11 +6,12 @@
 #include <QDebug>
 #include <QQuickView>
 
+#include <world/drawables/train/wagons/weaponwagon.h>
+#include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+
 #include "game.h"
 #include "eventhandler.h"
-#include "wagons/weaponwagon.h"
-#include "wagons/enginewagon.h"
-#include "wagons/repairwagon.h"
 
 namespace terminus
 {

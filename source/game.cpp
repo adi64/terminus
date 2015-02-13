@@ -9,22 +9,25 @@
 #include <QVector3D>
 #include <QApplication>
 
-#include "scene.h"
-#include "resources/resourcemanager.h"
-#include "resources/soundmanager.h"
-#include "train.h"
-#include "terrain.h"
-#include "skybox.h"
+#include <player/aiplayer.h>
+
+#include <resources/resourcemanager.h>
+#include <resources/resourcemanager.h>
+#include <resources/soundmanager.h>
+
+#include <world/scene.h>
+#include <world/drawables/snowstorm.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/skybox.h>
+#include <world/drawables/projectile.h>
+#include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+
+#include "eventhandler.h"
 #include "deferredactionhandler.h"
-#include "projectile.h"
-#include "aiplayer.h"
 
-#include "resources/resourcemanager.h"
-#include "wagons/enginewagon.h"
-#include "wagons/weaponwagon.h"
-#include "wagons/repairwagon.h"
-
-#include "snowstorm.h"
 
 namespace terminus
 {
@@ -33,12 +36,15 @@ Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_paused(true)
+, m_setupComplete(false)
 {
+
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
 
-    m_timeStamp->start();
+    m_timeStamp->restart();
 
     setupBulletWorld();
 
@@ -100,10 +106,22 @@ Game::~Game()
 
 void Game::sync()
 {
+    // check if it's our first frame
+    if(!m_setupComplete)
+    {
+        m_setupComplete = true;
+        m_paused = false;
+        m_timeStamp->restart();
+    }
+
     // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
     auto elapsedMilliseconds = m_timeStamp->restart();
+    if(m_paused)
+    {
+       elapsedMilliseconds = 0;
+    }
 
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
@@ -121,7 +139,7 @@ void Game::sync()
     m_ui->sync(this);
 }
 
-void Game::render()
+void Game::render() const
 {
     m_scene->render();
 }
@@ -145,6 +163,16 @@ void Game::handleWindowChanged(QQuickWindow *win)
         connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
         m_timer->start(1000 / 60);
     }
+}
+
+void Game::setPaused(bool paused)
+{
+    m_paused = paused;
+}
+
+void Game::togglePaused()
+{
+    m_paused = !m_paused;
 }
 
 void Game::setupBulletWorld()
