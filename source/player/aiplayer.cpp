@@ -78,7 +78,7 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     auto aimDirection = (m_targetEnemyWagon->position() - focusedWagon->position());
 
     // more up force
-    aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
+    aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.01f);
 
     auto normalizedAimDirection = aimDirection.normalized();
 
