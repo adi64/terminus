@@ -15,7 +15,8 @@ namespace terminus
 {
 
 Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
-: m_gl()
+: m_activeCamera(nullptr)
+, m_gl()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
 , m_deferredActionHandler(deferredActionHandler)

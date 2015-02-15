@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-const int c_maxVol = 100;
+constexpr int c_maxVol = 100;
 
 SoundManager * SoundManager::m_instance = nullptr;
 

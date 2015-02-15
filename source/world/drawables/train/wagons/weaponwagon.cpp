@@ -35,21 +35,16 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
-    if(isDisabled())
+    if(isDisabled() || m_reloadProjectile)
     {
         return;
     }
 
-    if(!m_reloadProjectile)
-    {
-        QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * m_force;
+    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * m_force;
+    SoundManager::getInstance()->playSound("shot");
+    fire(worldProjectileForce);
 
-        fire(worldProjectileForce);
-
-        m_elapsedMilliseconds = 0;
-        SoundManager::getInstance()->playSound("shot");
-    }
-
+    m_elapsedMilliseconds = 0;
     m_chargeProjectile = false;
     m_reloadProjectile = true;
 }
@@ -110,7 +105,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
         {
             m_reloadProjectile = false;
             m_elapsedMilliseconds = 0;
-            qDebug() << "Reload complete!";
         }
     }
 
