@@ -19,19 +19,18 @@ class AbstractPlayer
 public:
     AbstractPlayer(std::shared_ptr<Train> train);
 
-    Camera &camera();
+    std::shared_ptr<Camera> camera();
     const Train &train();
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
     void primaryAction();
     void primaryActionDebug();
-    virtual QVector3D normalizedAimVector() const;
 
     virtual void update(int elapsedMilliseconds);
 
 protected:
-    Camera m_camera;
+    std::shared_ptr<Camera> m_camera;
     std::shared_ptr<Train> m_train;
 
     unsigned int m_selectedWagonIndex;

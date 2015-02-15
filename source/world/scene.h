@@ -33,7 +33,7 @@ public:
     void render() const;
 
     Camera & camera();
-    void setActiveCamera(Camera &camera);
+    void setActiveCamera(std::shared_ptr<Camera> camera);
     btDiscreteDynamicsWorld* bullet_world();
     void scheduleAction(DeferredAction event);
 
@@ -47,7 +47,7 @@ public:
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
 protected:
 private:
-    Camera *m_activeCamera;
+    std::shared_ptr<Camera> m_activeCamera;
     mutable QOpenGLFunctions m_gl;
     std::vector<AbstractGraphicsObject*> m_nodes;
     std::shared_ptr<QTime> m_timeStamp;

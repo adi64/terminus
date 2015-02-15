@@ -42,7 +42,7 @@ void WeaponWagon::primaryAction()
 
     if(!m_reloadProjectile)
     {
-        QVector3D worldProjectileForce = m_normalizedAimVector * m_force;
+        QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * m_force;
 
         fire(worldProjectileForce);
 
@@ -56,7 +56,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_normalizedAimVector * 4000.0;
+    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * 4000.0;
 
     fire(worldProjectileForce);
 }
@@ -64,11 +64,6 @@ void WeaponWagon::primaryActionDebug()
 void WeaponWagon::setChargeProjectile(bool charge)
 {
     m_chargeProjectile = charge;
-}
-
-void WeaponWagon::setAimVector(const QVector3D &aimVector)
-{
-    m_normalizedAimVector = aimVector.normalized();
 }
 
 void WeaponWagon::fire(QVector3D force)
@@ -117,11 +112,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
             m_elapsedMilliseconds = 0;
             qDebug() << "Reload complete!";
         }
-    }
-
-    if(m_train->isPlayerControlled())
-    {
-        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
     }
 
     AbstractWagon::update(elapsedMilliseconds);

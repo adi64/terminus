@@ -4,13 +4,15 @@
 #include <world/drawables/train/train.h>
 
 terminus::AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
-    : m_train(train)
+    : m_camera(std::shared_ptr<Camera>(new Camera))
+    , m_train(train)
     , m_selectedWagonIndex(0)
 {
-    m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
+    m_train->setPlayerCamera(m_camera);
+    m_camera->lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
-terminus::Camera &terminus::AbstractPlayer::camera()
+std::shared_ptr<terminus::Camera> terminus::AbstractPlayer::camera()
 {
     return m_camera;
 }
@@ -27,19 +29,19 @@ unsigned int terminus::AbstractPlayer::selectedWagonIndex() const
 
 void terminus::AbstractPlayer::switchToNextWagon()
 {
-    if(m_camera.isLocked() && (m_selectedWagonIndex + 1 < m_train->size()))
+    if(m_camera->isLocked() && (m_selectedWagonIndex + 1 < m_train->size()))
     {
         m_selectedWagonIndex++;
-        m_camera.lockToObject(m_train->wagonAt(m_selectedWagonIndex));
+        m_camera->lockToObject(m_train->wagonAt(m_selectedWagonIndex));
     }
 }
 
 void terminus::AbstractPlayer::switchToPreviousWagon()
 {
-    if(m_camera.isLocked() && (m_selectedWagonIndex > 0))
+    if(m_camera->isLocked() && (m_selectedWagonIndex > 0))
     {
         m_selectedWagonIndex--;
-        m_camera.lockToObject(m_train->wagonAt(m_selectedWagonIndex));
+        m_camera->lockToObject(m_train->wagonAt(m_selectedWagonIndex));
     }
 }
 
@@ -53,12 +55,7 @@ void terminus::AbstractPlayer::primaryActionDebug()
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
-QVector3D terminus::AbstractPlayer::normalizedAimVector() const
-{
-    return (m_camera.center() - m_camera.eye()).normalized();
-}
-
 void terminus::AbstractPlayer::update(int elapsedMilliseconds)
 {
-    m_camera.update();
+    m_camera->update();
 }

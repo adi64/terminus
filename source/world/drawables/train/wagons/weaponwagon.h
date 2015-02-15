@@ -16,8 +16,6 @@ public:
 
     void setChargeProjectile(bool charge);
 
-    void setAimVector(const QVector3D& aimVector);
-
     bool isReloading() const;
 
     void update(int elapsedMilliseconds) override;
@@ -38,7 +36,6 @@ protected:
     bool m_chargeProjectile;
     bool m_reloadProjectile;
     float m_force;
-    QVector3D m_normalizedAimVector;
 };
 
 }

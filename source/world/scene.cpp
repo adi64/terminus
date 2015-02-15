@@ -129,9 +129,9 @@ Camera & Scene::camera()
     return *m_activeCamera;
 }
 
-void Scene::setActiveCamera(Camera &camera)
+void Scene::setActiveCamera(std::shared_ptr<Camera> camera)
 {
-    m_activeCamera = &camera;
+    m_activeCamera = camera;
 }
 
 btDiscreteDynamicsWorld *Scene::bullet_world()

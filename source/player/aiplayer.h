@@ -11,7 +11,7 @@ namespace terminus
 
 class WeaponWagon;
 
-class AIPlayer : AbstractPlayer
+class AIPlayer : public AbstractPlayer
 {
 public:
     AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain);
@@ -23,6 +23,7 @@ protected:
 protected:
     std::shared_ptr<Train> m_enemyTrain;
     int m_chargingMilliseconds;
+    AbstractWagon* m_targetEnemyWagon;
 };
 
 }

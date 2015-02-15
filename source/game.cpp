@@ -22,6 +22,7 @@
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/wagons/repairwagon.h>
 
+#include <player/abstractplayer.h>
 #include <player/aiplayer.h>
 #include <player/localplayer.h>
 
@@ -54,7 +55,7 @@ Game::Game()
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack(), true));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -68,7 +69,7 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack(), false));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();

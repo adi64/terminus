@@ -13,13 +13,14 @@ namespace terminus
 {
 
 class Track;
+class Camera;
 
 class Train : public AbstractGraphicsObject
 {
 public:
     static const float base_velocity;
 public:
-    Train(std::shared_ptr<Scene> scene, Track *track, bool playerControlled);
+    Train(std::shared_ptr<Scene> scene, Track *track);
     ~Train();
 
     template<typename WagonType> void addWagon();
@@ -43,6 +44,9 @@ public:
     unsigned int size() const;
     bool isPlayerControlled() const;
 
+    Camera &playerCamera() const;
+    void setPlayerCamera(std::shared_ptr<Camera> camera);
+
 protected:
     void calculateWagonOffset();
 
@@ -50,13 +54,14 @@ protected:
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
     bool m_isRunning;
     bool m_hasEngine;
-    bool m_playerControlled;
 
     float m_velocity;
     std::shared_ptr<Train> m_followedTrain;
 
     float m_travelledDistance;
     Track *m_track;
+
+    std::shared_ptr<Camera> m_playerCamera;
 };
 
 }

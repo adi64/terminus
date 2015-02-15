@@ -12,6 +12,7 @@ AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTra
     : AbstractPlayer(train)
     , m_enemyTrain(enemyTrain)
     , m_chargingMilliseconds(0)
+    , m_targetEnemyWagon(nullptr)
 {
 
 }
@@ -68,8 +69,24 @@ void AIPlayer::switchWagon()
 
 void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
 {
-    // charge for a random amount of time in range 1000-2000ms
-    auto chargingThreshold = (rand() % 1000) + 1000; // this will be overwritten on each frame
+    // find target
+    if(!m_targetEnemyWagon)
+    {
+        m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
+    }
+
+    auto aimDirection = (m_targetEnemyWagon->position() - focusedWagon->position());
+
+    // more up force
+    aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
+
+    auto normalizedAimDirection = aimDirection.normalized();
+
+    // set camera position accordingly
+    m_camera->setEye(m_camera->center() - normalizedAimDirection);
+
+    // charge time depends on how near we are to the enemy train (3sec max charge, 200m max train distance)
+    auto chargingThreshold = (aimDirection.length() / 200.0f) * 3000.0f;
     if(m_chargingMilliseconds < chargingThreshold)
     {
         focusedWagon->setChargeProjectile(true);
@@ -77,18 +94,12 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     }
     else
     {
-        auto targetWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
-        auto aimDirection = (targetWagon->position() - focusedWagon->position());
-
-        // more up force
-        aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
-
-        aimDirection.normalize();
-
-        focusedWagon->setAimVector(aimDirection);
-
+        // fire
         focusedWagon->primaryAction();
         m_chargingMilliseconds = 0;
+
+        // next target
+        //m_targetEnemyWagon = m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
     }
 }
 
