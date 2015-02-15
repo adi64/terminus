@@ -21,6 +21,9 @@ class Terrain;
 class ResourceManager;
 class SkyBox;
 class DeferredActionHandler;
+class AbstractPlayer;
+class AIPlayer;
+class LocalPlayer;
 
 class Game : public QQuickItem
 {
@@ -28,10 +31,16 @@ class Game : public QQuickItem
 
 public:
     Game();
+
+    /*!
+     * Do not delete this destructor, even if it is empty
+     * - otherwise std::shared_ptr<IncompleteType> in the header will break
+     */
     ~Game();
 
     Scene *scene() const;
     Train *playerTrain() const;
+    AbstractPlayer *localPlayer() const;
 
     void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
@@ -75,6 +84,8 @@ protected:
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
     std::shared_ptr<Train> m_enemyTrain;
+    std::unique_ptr<LocalPlayer> m_localPlayer;
+    std::unique_ptr<AIPlayer> m_aiPlayer;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::unique_ptr<EventHandler> m_eventHandler;
