@@ -16,7 +16,7 @@ class AIPlayer : AbstractPlayer
 public:
     AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain);
 
-    void update(int elapsedMilliseconds);
+    virtual void update(int elapsedMilliseconds) override;
 protected:
     void switchWagon();
     void chargeAndFire(WeaponWagon* focusedWagon, int elapsedMilliseconds);

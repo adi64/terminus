@@ -18,6 +18,7 @@ AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTra
 
 void AIPlayer::update(int elapsedMilliseconds)
 {
+    AbstractPlayer::update(elapsedMilliseconds);
 
     if(m_train->wagonAt(m_selectedWagonIndex)->isDisabled())
     {
@@ -42,7 +43,6 @@ void AIPlayer::update(int elapsedMilliseconds)
     auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedRepairWagon)
     {
-        qDebug() << "repairing...";
         focusedRepairWagon->primaryAction();
 
         // repair wagon has no cooldown yet
@@ -52,28 +52,17 @@ void AIPlayer::update(int elapsedMilliseconds)
 
     // nothing was done at this point -- switch wagons
     switchWagon();
-
 }
 
 void AIPlayer::switchWagon()
 {
     if(rand() % 2 == 0)
     {
-        // go left
-        if(m_selectedWagonIndex + 1 < m_train->size())
-        {
-            m_selectedWagonIndex++;
-            qDebug() << "switching to wagon " << m_selectedWagonIndex;
-        }
+        switchToNextWagon();
     }
     else
     {
-        // go right
-        if(m_selectedWagonIndex - 1 >= 0)
-        {
-            m_selectedWagonIndex--;
-            qDebug() << "switching to wagon " << m_selectedWagonIndex;
-        }
+        switchToPreviousWagon();
     }
 }
 
@@ -83,22 +72,18 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     auto chargingThreshold = (rand() % 1000) + 1000; // this will be overwritten on each frame
     if(m_chargingMilliseconds < chargingThreshold)
     {
-        qDebug() << "charging weapon... (" << m_chargingMilliseconds << " ms)";
         focusedWagon->setChargeProjectile(true);
         m_chargingMilliseconds += elapsedMilliseconds;
     }
     else
     {
-        // fire!
-        qDebug() << "firing weapon after " << m_chargingMilliseconds << " ms charging";
-
         auto targetWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
         auto aimDirection = (targetWagon->position() - focusedWagon->position());
 
         // more up force
         aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
 
-        qDebug() << "aim direction: " << aimDirection;
+        aimDirection.normalize();
 
         focusedWagon->setAimVector(aimDirection);
 

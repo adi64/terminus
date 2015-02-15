@@ -19,6 +19,7 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
 , m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
+, m_force(0.0f)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
@@ -46,7 +47,6 @@ void WeaponWagon::primaryAction()
         fire(worldProjectileForce);
 
         m_elapsedMilliseconds = 0;
-        qDebug() << "Projectile fired!";
         SoundManager::getInstance()->playSound("shot");
     }
 
@@ -106,7 +106,7 @@ void WeaponWagon::update(int elapsedMilliseconds)
             m_elapsedMilliseconds += elapsedMilliseconds;
         }
 
-        m_force = m_elapsedMilliseconds / 4.0f;
+        m_force = m_elapsedMilliseconds * 2.0;
     }
     if(m_reloadProjectile)
     {

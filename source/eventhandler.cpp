@@ -9,6 +9,7 @@
 #include <world/scene.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
+#include <player/abstractplayer.h>
 
 
 namespace terminus
@@ -55,24 +56,16 @@ void EventHandler::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_I:
-        m_game->playerTrain()->wagonAt(m_lockedWagonIndex)->primaryActionDebug();
+        m_game->localPlayer()->primaryActionDebug();
         break;
     case Qt::Key_P:
         m_game->togglePaused();
         break;
     case Qt::Key_Plus:
-        if(m_game->scene()->camera().isLocked() && ((m_lockedWagonIndex + 1) < m_game->playerTrain()->size()))
-        {
-            m_lockedWagonIndex++;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
-        }
+        m_game->localPlayer()->switchToNextWagon();
         break;
     case Qt::Key_Minus:
-        if(m_game->scene()->camera().isLocked() && m_lockedWagonIndex > 0)
-        {
-            m_lockedWagonIndex--;
-            m_game->scene()->camera().lockToObject(m_game->playerTrain()->wagonAt(m_lockedWagonIndex));
-        }
+        m_game->localPlayer()->switchToPreviousWagon();
         break;
     default:
         break;

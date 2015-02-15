@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include <QVector3D>
+
 #include <world/camera.h>
 
 namespace terminus
@@ -9,6 +11,9 @@ namespace terminus
 
 class Train;
 
+/*!
+ * \brief Base class for interacting with a train and a camera
+ */
 class AbstractPlayer
 {
 public:
@@ -17,6 +22,13 @@ public:
     Camera &camera();
     const Train &train();
     unsigned int selectedWagonIndex() const;
+    void switchToNextWagon();
+    void switchToPreviousWagon();
+    void primaryAction();
+    void primaryActionDebug();
+    virtual QVector3D normalizedAimVector() const;
+
+    virtual void update(int elapsedMilliseconds);
 
 protected:
     Camera m_camera;

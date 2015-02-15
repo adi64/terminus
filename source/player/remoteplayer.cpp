@@ -1,11 +1,11 @@
-#include "localplayer.h"
+#include "remoteplayer.h"
 
 #include <world/camera.h>
 
 namespace terminus
 {
 
-LocalPlayer::LocalPlayer(std::shared_ptr<Train> train)
+RemotePlayer::RemotePlayer(std::shared_ptr<Train> train)
     : AbstractPlayer(train)
 {
 
