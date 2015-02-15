@@ -85,7 +85,7 @@ Game::Game()
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
-    m_scene->setActiveCamera(m_localPlayer->camera());
+    m_scene->setActiveCamera(m_aiPlayer->camera());
 
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
