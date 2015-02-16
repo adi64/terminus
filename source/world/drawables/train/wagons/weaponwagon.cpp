@@ -119,7 +119,7 @@ void WeaponWagon::update(int elapsedMilliseconds)
     std::string materialName = "base_Blue";
     if(currentHealth() <= 0.0f)
     {
-        materialName = "base_Gray";
+        materialName = "base_Grey";
     }
 
     m_material = ResourceManager::getInstance()->getMaterial(materialName);

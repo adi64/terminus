@@ -16,7 +16,6 @@
 #include <resources/soundmanager.h>
 
 #include <world/scene.h>
-#include <world/drawables/snowstorm.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/terrain.h>
 #include <world/drawables/skybox.h>
@@ -84,8 +83,7 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
 
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
-    //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));

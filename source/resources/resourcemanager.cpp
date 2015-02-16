@@ -70,7 +70,6 @@ void ResourceManager::loadResources()
     loadProgram(std::string(":/data/basicShader"));
     loadProgram(std::string(":/data/envmap"));
     loadProgram(std::string(":/data/terrain"));
-    loadProgram(std::string(":/data/snowstorm"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)

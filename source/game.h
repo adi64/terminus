@@ -21,7 +21,6 @@ namespace terminus
 class Terrain;
 class ResourceManager;
 class SkyBox;
-class SnowStorm;
 class DeferredActionHandler;
 class AbstractPlayer;
 class AIPlayer;
@@ -88,7 +87,6 @@ protected:
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
-    std::unique_ptr<SnowStorm> m_snowStorm;
 
     UserInterface *m_ui;
 
