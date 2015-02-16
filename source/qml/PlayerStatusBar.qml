@@ -3,72 +3,77 @@ import QtQuick 2.3
 Rectangle
 {
     id: playerStatus
-    color: "white"
+    color: "transparent"
 
-    property int wagons: 13
+    property int wagons: 8
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.margins: parent.height * 0.01
-    width: parent.width * 0.5
-    height: parent.height * 0.03
+    width: parent.width
+    height: parent.height / 9
+
+    Image
+    {
+        source: "qrc:/data/PlayerStatus.png"
+        anchors.fill: parent
+    }
 
     Rectangle
     {
         id: playerStatusContainer
         color: "transparent"
-
-        anchors.fill: parent
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width - (parent.width / 9)
+        height: parent.height
 
         PlayerWagonStatus
         {
             id: ewagon0
             wagonIndex: 0
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon1
             wagonIndex: 1
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon2
             wagonIndex: 2
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon3
             wagonIndex: 3
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon4
             wagonIndex: 4
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon5
             wagonIndex: 5
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon6
             wagonIndex: 6
+            totalWagons: wagons
         }
         PlayerWagonStatus
         {
             id: ewagon7
             wagonIndex: 7
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon8
-            wagonIndex: 8
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon9
-            wagonIndex: 9
+            totalWagons: wagons
         }
     }
 }

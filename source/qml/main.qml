@@ -89,7 +89,7 @@ Item
 
             WagonActionArea
             {
-                visible: Qt.platform.os === ("android" || "ios")? true : false
+                //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onCharge:
                 {
                     ui.touchChargeFire()
@@ -102,7 +102,7 @@ Item
 
             WagonSwitchArea
             {
-                visible: Qt.platform.os === ("android" || "ios")? true : false
+                //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onSwitchToNextWagon:
                 {
                     ui.switchToNextWagon()

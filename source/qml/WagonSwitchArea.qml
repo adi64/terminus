@@ -6,27 +6,31 @@ Rectangle
     color: "transparent"
     anchors.bottom: parent.bottom
     anchors.left: parent.left
-    anchors.margins: parent.height * 0.01
-    width: parent.width * 0.25
-    height: parent.height * 0.3
+    width: parent.width / 4
+    height: parent.height / 3
 
     signal switchToNextWagon
     signal switchToPreviousWagon
+
+    Image
+    {
+        source: "qrc:/data/SwitchArea.png"
+        anchors.fill: parent
+    }
 
     Rectangle
     {
         id: wagonSwitchLeft
         color: "transparent"
-        opacity: 0.8
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        width: parent.width * 0.45
-        height: parent.height
+        anchors.leftMargin: parent.width * 0.05
+        width: parent.width * 0.4
+        height: parent.height * 0.9
 
         Image
         {
-            id: leftArrow
-            source: "/data/arrow.png"
+            source: "qrc:/data/NextButton.png"
             anchors.fill: parent
         }
 
@@ -45,16 +49,15 @@ Rectangle
     {
         id: wagonSwitchRight
         color: "transparent"
-        opacity: 0.8
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
+        anchors.rightMargin: parent.width * 0.05
         width: parent.width * 0.45
-        height: parent.height
+        height: parent.height * .9
 
         Image
         {
-            id: rightArrow
-            source: "/data/arrow2.png"
+            source: "qrc:/data/PrevButton.png"
             anchors.fill: parent
         }
 
