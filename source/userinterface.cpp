@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QQuickView>
 
+#include <player/abstractplayer.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/wagons/enginewagon.h>
 #include <world/drawables/train/wagons/repairwagon.h>
@@ -55,14 +56,14 @@ void UserInterface::gyroMoveEvent(qreal x, qreal y)
     m_eventHandler->gyroMoveEvent(x, y);
 }
 
-void UserInterface::switchWagonLeft()
+void UserInterface::switchToNextWagon()
 {
-    m_eventHandler->switchWagonLeft();
+    m_eventHandler->switchToNextWagon();
 }
 
-void UserInterface::switchWagonRight()
+void UserInterface::switchToPreviousWagon()
 {
-    m_eventHandler->switchWagonRight();
+    m_eventHandler->switchToPreviousWagon();
 }
 
 /*void UserInterface::flickEvent(qreal startX, qreal x)
@@ -103,9 +104,8 @@ QString UserInterface::wagonType() const
 void UserInterface::sync(Game *game)
 {
     m_eventHandler->setGame(game);
-    m_lockedWagonIndex = m_eventHandler->lockedWagonIndex();
     auto oldWagon = m_currentWagon;
-    m_currentWagon = game->playerTrain()->wagonAt(m_lockedWagonIndex);
+    m_currentWagon = game->playerTrain()->wagonAt(game->localPlayer()->selectedWagonIndex());
 
     auto wagon = dynamic_cast<WeaponWagon*>(m_currentWagon);
     if(wagon != nullptr)

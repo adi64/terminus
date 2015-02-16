@@ -4,25 +4,26 @@
 
 #include <world/drawables/train/train.h>
 
+#include "abstractplayer.h"
+
 namespace terminus
 {
 
 class WeaponWagon;
 
-class AIPlayer
+class AIPlayer : public AbstractPlayer
 {
 public:
-    AIPlayer(std::shared_ptr<Train> myTrain, std::shared_ptr<Train> enemyTrain);
+    AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain);
 
-    void update(int elapsedMilliseconds);
+    virtual void update(int elapsedMilliseconds) override;
 protected:
     void switchWagon();
     void chargeAndFire(WeaponWagon* focusedWagon, int elapsedMilliseconds);
 protected:
-    std::shared_ptr<Train> m_myTrain;
     std::shared_ptr<Train> m_enemyTrain;
-    int m_focusedWagonIndex;
     int m_chargingMilliseconds;
+    AbstractWagon* m_targetEnemyWagon;
 };
 
 }

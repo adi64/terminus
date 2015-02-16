@@ -12,13 +12,12 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(std::shared_ptr<Scene> scene, Track *track, bool playerControlled)
+Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
     , m_velocity(base_velocity)
     , m_travelledDistance(0.0f)
     , m_track(track)
-    , m_playerControlled(playerControlled)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -130,7 +129,7 @@ AbstractWagon *Train::wagonAt(unsigned int index) const
 {
     if(index >= m_wagons.size())
     {
-        qDebug() << index << " > " << m_wagons.size();
+        qDebug() << "Index: " << index << " > " << m_wagons.size() << " Wagons";
         return nullptr;
     }
 
@@ -171,9 +170,14 @@ unsigned int Train::size() const
     return m_wagons.size();
 }
 
-bool Train::isPlayerControlled() const
+Camera &Train::playerCamera() const
 {
-    return m_playerControlled;
+    return (*m_playerCamera);
+}
+
+void Train::setPlayerCamera(std::shared_ptr<Camera> camera)
+{
+    m_playerCamera = camera;
 }
 
 void Train::calculateWagonOffset()

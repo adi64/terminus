@@ -8,25 +8,26 @@
 namespace terminus
 {
 
-AIPlayer::AIPlayer(std::shared_ptr<Train> myTrain, std::shared_ptr<Train> enemyTrain)
-    : m_myTrain(myTrain)
+AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain)
+    : AbstractPlayer(train)
     , m_enemyTrain(enemyTrain)
-    , m_focusedWagonIndex(0)
     , m_chargingMilliseconds(0)
+    , m_targetEnemyWagon(nullptr)
 {
 
 }
 
 void AIPlayer::update(int elapsedMilliseconds)
 {
+    AbstractPlayer::update(elapsedMilliseconds);
 
-    if(m_myTrain->wagonAt(m_focusedWagonIndex)->isDisabled())
+    if(m_train->wagonAt(m_selectedWagonIndex)->isDisabled())
     {
         switchWagon();
         return;
     }
 
-    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_myTrain->wagonAt(m_focusedWagonIndex));
+    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedWeaponWagon)
     {
         if(!focusedWeaponWagon->isReloading())
@@ -40,7 +41,7 @@ void AIPlayer::update(int elapsedMilliseconds)
         return;
     }
 
-    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_myTrain->wagonAt(m_focusedWagonIndex));
+    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedRepairWagon)
     {
         focusedRepairWagon->primaryAction();
@@ -59,24 +60,32 @@ void AIPlayer::switchWagon()
 {
     if(rand() % 2 == 0)
     {
-        // go left
-        if(m_focusedWagonIndex + 1 < m_myTrain->size())
-        {
-            m_focusedWagonIndex++;
-        }
+        switchToNextWagon();
     }
     else
     {
-        // go right
-        if(m_focusedWagonIndex - 1 >= 0)
-        {
-            m_focusedWagonIndex--;
-        }
+        switchToPreviousWagon();
     }
 }
 
 void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
 {
+    // find target
+    if(!m_targetEnemyWagon)
+    {
+        m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
+    }
+
+    auto aimDirection = (m_targetEnemyWagon->position() - focusedWagon->position());
+
+    // more up force
+    aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.01f);
+
+    auto normalizedAimDirection = aimDirection.normalized();
+
+    // set camera position accordingly
+    m_camera->setEye(m_camera->center() - normalizedAimDirection);
+
     // charge for a random amount of time in range 1000-2000ms
     auto chargingThreshold = (rand() % 1000) + 1000; // this will be overwritten on each frame
     if(m_chargingMilliseconds < chargingThreshold)
@@ -87,16 +96,11 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     else
     {
         // fire!
-        auto targetWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
-        auto aimDirection = (targetWagon->position() - focusedWagon->position());
-
-        // more up force
-        aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.1f);
-
-        focusedWagon->setAimVector(aimDirection);
-
         focusedWagon->primaryAction();
         m_chargingMilliseconds = 0;
+
+        // next target
+        //m_targetEnemyWagon = m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
     }
 }
 

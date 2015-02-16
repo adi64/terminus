@@ -23,7 +23,9 @@ class ResourceManager;
 class SkyBox;
 class SnowStorm;
 class DeferredActionHandler;
+class AbstractPlayer;
 class AIPlayer;
+class LocalPlayer;
 
 class Game : public QQuickItem
 {
@@ -31,10 +33,16 @@ class Game : public QQuickItem
 
 public:
     Game();
+
+    /*!
+     * Do not delete this destructor, even if it is empty
+     * - otherwise std::shared_ptr<IncompleteType> in the header will break
+     */
     ~Game();
 
     Scene *scene() const;
     Train *playerTrain() const;
+    AbstractPlayer *localPlayer() const;
 
     Q_INVOKABLE void setUI(UserInterface *ui);
 
@@ -73,7 +81,8 @@ protected:
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
     std::shared_ptr<Train> m_enemyTrain;
-    std::unique_ptr<AIPlayer> m_enemyAI;
+    std::unique_ptr<LocalPlayer> m_localPlayer;
+    std::unique_ptr<AIPlayer> m_aiPlayer;
     std::unique_ptr<QTimer> m_timer;
     std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;

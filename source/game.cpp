@@ -25,9 +25,12 @@
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/wagons/repairwagon.h>
 
+#include <player/abstractplayer.h>
+#include <player/aiplayer.h>
+#include <player/localplayer.h>
+
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
-
 
 namespace terminus
 {
@@ -54,7 +57,7 @@ Game::Game()
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack(), true));
+    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -68,7 +71,7 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack(), false));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
@@ -84,7 +87,10 @@ Game::Game()
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
     //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
 
-    m_enemyAI = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+
+    m_scene->setActiveCamera(m_localPlayer->camera());
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
@@ -98,10 +104,7 @@ Game::Game()
 
 Game::~Game()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void Game::sync()
@@ -132,10 +135,9 @@ void Game::sync()
         m_scene->camera().setViewport(window()->width(), window()->height());
     #endif
 
-    m_enemyAI->update(elapsedMilliseconds);
-
     m_scene->update(elapsedMilliseconds);
-
+    m_aiPlayer->update(elapsedMilliseconds);
+    m_localPlayer->update(elapsedMilliseconds);
     m_ui->sync(this);
 }
 
@@ -221,6 +223,11 @@ Train *Game::playerTrain() const
 void Game::setUI(UserInterface *ui)
 {
     m_ui = ui;
+}
+
+AbstractPlayer *Game::localPlayer() const
+{
+    return m_localPlayer.get();
 }
 
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)

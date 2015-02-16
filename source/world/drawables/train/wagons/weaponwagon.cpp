@@ -35,36 +35,29 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
-    if(isDisabled())
+    if(isDisabled() || m_reloadProjectile)
     {
         return;
     }
 
-    if(!m_reloadProjectile)
-    {
-        auto force = 2000.f;
+    auto force = 4000.f;
+    auto aimDeviation = getAimDeviation();
 
-        auto aimDeviation = getAimDeviation();
+    QVector3D worldProjectileForce = (m_train->playerCamera().normalizedAimVector() + aimDeviation) * force;
+    SoundManager::getInstance()->playSound("shot");
+    fire(worldProjectileForce);
 
-        QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
-
-        fire(worldProjectileForce);
-
-        m_chargeTime = 0;
-        SoundManager::getInstance()->playSound("shot");
-    }
-
+    m_chargeTime = 0;
     m_chargeProjectile = false;
     m_reloadProjectile = true;
 }
 
 void WeaponWagon::primaryActionDebug()
 {
-    auto force = 2000.0;
-
+    auto force = 4000.0;
     auto aimDeviation = getAimDeviation();
 
-    QVector3D worldProjectileForce = (m_normalizedAimVector + aimDeviation) * force;
+    QVector3D worldProjectileForce = (m_train->playerCamera().normalizedAimVector() + aimDeviation) * force;
 
     fire(worldProjectileForce);
 }
@@ -74,27 +67,17 @@ void WeaponWagon::setChargeProjectile(bool charge)
     m_chargeProjectile = charge;
 }
 
-void WeaponWagon::setAimVector(const QVector3D &aimVector)
-{
-    m_normalizedAimVector = aimVector.normalized();
-}
-
 void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
-
-    auto relativeProjectilePosition = QVector3D(0.0f, 0.0f, 3.0f);
+    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
-    auto relativeProjectileStartVelocity = QVector3D(1.0f, 0.0f, 0.0f) * m_train->velocity() * 1000.0f;
-    auto worldProjectileStartVelocity = rotation().rotatedVector(relativeProjectileStartVelocity);
-
     m_scene->scheduleAction(
-        [=]()
+        [scene, worldProjectilePosition, force, this]()
         {
             auto projectile = new Projectile(scene);
             projectile->moveTo(worldProjectilePosition);
-            projectile->setLinearVelocity(worldProjectileStartVelocity);
             projectile->applyForce(force);
             scene->addNode(projectile);
         }
@@ -122,6 +105,7 @@ void WeaponWagon::update(int elapsedMilliseconds)
             }
         }
     }
+
     if(m_reloadProjectile)
     {
         m_reloadTime += elapsedMilliseconds;
@@ -131,18 +115,14 @@ void WeaponWagon::update(int elapsedMilliseconds)
             m_reloadTime = 0;
         }
     }
+
     std::string materialName = "base_Blue";
     if(currentHealth() <= 0.0f)
     {
         materialName = "base_Gray";
     }
-    m_material = ResourceManager::getInstance()->getMaterial(materialName);
-    AbstractWagon::update(elapsedMilliseconds);
 
-    if(m_train->isPlayerControlled())
-    {
-        m_normalizedAimVector = (m_scene->camera().center() - m_scene->camera().eye()).normalized();
-    }
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::update(elapsedMilliseconds);
 }

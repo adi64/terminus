@@ -23,6 +23,7 @@ public:
     virtual float length() const;
     virtual float weight() const;
     virtual bool isDisabled() const;
+
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:

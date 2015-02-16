@@ -15,7 +15,7 @@ namespace terminus
 {
 
 Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
-: m_camera(std::unique_ptr<Camera>(new Camera()))
+: m_activeCamera(nullptr)
 , m_gl()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
@@ -86,7 +86,7 @@ void Scene::update(int elapsedMilliseconds)
     }
 
     // camera updates after all other nodes because it can follow the position of other nodes
-    m_camera->update();
+    m_activeCamera->update();
 }
 
 void Scene::render() const
@@ -99,7 +99,7 @@ void Scene::render() const
         glInitialized = true;
     }
 
-    glViewport(0, 0, m_camera->viewport().x(), m_camera->viewport().y());
+    glViewport(0, 0, m_activeCamera->viewport().x(), m_activeCamera->viewport().y());
 
     glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -127,7 +127,12 @@ void Scene::render() const
 
 Camera & Scene::camera()
 {
-    return *(m_camera.get());
+    return *m_activeCamera;
+}
+
+void Scene::setActiveCamera(std::shared_ptr<Camera> camera)
+{
+    m_activeCamera = camera;
 }
 
 btDiscreteDynamicsWorld *Scene::bullet_world()

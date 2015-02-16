@@ -31,8 +31,8 @@ public:
     Q_INVOKABLE void mouseMoveEvent(qreal x, qreal y);
     Q_INVOKABLE void touchMoveEvent(qreal x, qreal y);
     Q_INVOKABLE void gyroMoveEvent(qreal x, qreal y);
-    Q_INVOKABLE void switchWagonLeft();
-    Q_INVOKABLE void switchWagonRight();
+    Q_INVOKABLE void switchToNextWagon();
+    Q_INVOKABLE void switchToPreviousWagon();
     Q_INVOKABLE void touchChargeFire();
     Q_INVOKABLE void touchFire();
 

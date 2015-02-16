@@ -90,11 +90,11 @@ Item
             {
                 onSwitchLeft:
                 {
-                    ui.switchWagonLeft()
+                    ui.switchToNextWagon()
                 }
                 onSwitchRight:
                 {
-                    ui.switchWagonRight()
+                    ui.switchToPreviousWagon()
                 }
             }
 
