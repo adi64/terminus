@@ -70,12 +70,26 @@ Item
                 event.accepted = true
             }
 
+            MouseArea
+            {
+                id: mouseCamera
+                anchors.fill: parent
+                cursorShape: "BlankCursor"
+                hoverEnabled: true
+                enabled: Qt.platform.os === ("android" || "ios")? false : true
+                onPositionChanged:
+                {
+                    ui.mouseMoveEvent(mouse.x, mouse.y)
+                }
+            }
+
             Reticle{}
 
             StatusBarContainer{}
 
             WagonActionArea
             {
+                visible: Qt.platform.os === ("android" || "ios")? true : false
                 onCharge:
                 {
                     ui.touchChargeFire()
@@ -88,28 +102,14 @@ Item
 
             WagonSwitchArea
             {
-                onSwitchLeft:
+                visible: Qt.platform.os === ("android" || "ios")? true : false
+                onSwitchToNextWagon:
                 {
                     ui.switchToNextWagon()
                 }
-                onSwitchRight:
+                onSwitchToPreviousWagon:
                 {
                     ui.switchToPreviousWagon()
-                }
-            }
-
-            MouseArea
-            {
-                id: mouseCamera
-                anchors.fill: parent
-                cursorShape: "BlankCursor"
-                hoverEnabled: true
-                onPositionChanged:
-                {
-                    if(Qt.platform.os !== ("android" || "ios"))
-                    {
-                            ui.mouseMoveEvent(mouse.x, mouse.y);
-                    }
                 }
             }
 
@@ -118,14 +118,15 @@ Item
                 id: orientation
                 dataRate: 50
                 active: true
-                onReadingChanged: {
+                onReadingChanged:
+                {
                     if (reading.orientation === OrientationReading.LeftUp)
                     {
-                        gyro.orientation_multiplier = 1
+                        gyro.orientation_multiplier = 2
                     }
                     if (reading.orientation === OrientationReading.RightUp)
                     {
-                        gyro.orientation_multiplier = -1
+                        gyro.orientation_multiplier = -2
                     }
                 }
             }
@@ -133,10 +134,10 @@ Item
             Gyroscope
             {
                 id: gyro
-                dataRate: 50
+                dataRate: 100
                 active: true
 
-                property int orientation_multiplier: 1
+                property int orientation_multiplier: -2
 
                 onReadingChanged:
                 {

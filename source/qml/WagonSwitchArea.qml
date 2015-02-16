@@ -10,8 +10,8 @@ Rectangle
     width: parent.width * 0.25
     height: parent.height * 0.3
 
-    signal switchLeft
-    signal switchRight
+    signal switchToNextWagon
+    signal switchToPreviousWagon
 
     Rectangle
     {
@@ -23,22 +23,21 @@ Rectangle
         width: parent.width * 0.45
         height: parent.height
 
-        MultiPointTouchArea
-        {
-            id: switchLeft
-            anchors.fill: parent
-
-            onReleased:
-            {
-                wagonSwitchArea.switchLeft()
-            }
-        }
-
         Image
         {
             id: leftArrow
             source: "/data/arrow.png"
             anchors.fill: parent
+        }
+
+        MultiPointTouchArea
+        {
+            id: switchLeft
+            anchors.fill: parent
+            onReleased:
+            {
+                wagonSwitchArea.switchToNextWagon()
+            }
         }
     }
 
@@ -52,6 +51,13 @@ Rectangle
         width: parent.width * 0.45
         height: parent.height
 
+        Image
+        {
+            id: rightArrow
+            source: "/data/arrow2.png"
+            anchors.fill: parent
+        }
+
         MultiPointTouchArea
         {
             id: switchRight
@@ -59,15 +65,8 @@ Rectangle
 
             onReleased:
             {
-                wagonSwitchArea.switchRight()
+                wagonSwitchArea.switchToPreviousWagon()
             }
-        }
-
-        Image
-        {
-            id: rightArrow
-            source: "/data/arrow2.png"
-            anchors.fill: parent
         }
     }
 }
