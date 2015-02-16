@@ -1,6 +1,6 @@
 #include "mathutil.h"
 
-#include <cmath>
+#include <math.h>
 
 namespace terminus
 {
