@@ -98,7 +98,15 @@ DISTFILES += \
     source/bullet/BulletSoftBody/CMakeLists.txt \
     source/bullet/LinearMath/CMakeLists.txt \
     source/bullet/CMakeLists.txt \
-    source/qml/main.qml
+    source/qml/main.qml \
+    source/qml/EnemyStatusBar.qml \
+    source/qml/EnemyWagonStatus.qml \
+    source/qml/PlayerStatusBar.qml \
+    source/qml/PlayerWagonStatus.qml \
+    source/qml/Reticle.qml \
+    source/qml/StatusBarContainer.qml \
+    source/qml/WagonActionArea.qml \
+    source/qml/WagonSwitchArea.qml
 
 RC_FILE = data/myapp.rc
 
@@ -109,7 +117,7 @@ INCLUDEPATH += \
 unix:LIBS += -ldl
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = source/qml
 
 # Default rules for deployment.
 include(deployment.pri)
