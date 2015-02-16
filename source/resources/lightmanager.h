@@ -5,6 +5,8 @@
 
 #include <QVector3D>
 
+#include <resources/program.h>
+
 namespace terminus
 {
 
@@ -30,7 +32,11 @@ class LightManager
 {
 public:
     LightManager();
-    LightID addDirectionalLight(const QVector3D &position, const QVector3D &direction);
+
+    LightID addDirectionalLight(const QVector3D &direction);
+
+    void setShaderValues(Program &shaderProgram) const;
+
     Light &light(LightID lightID);
     const std::map<LightID, Light> &lights() const;
 protected:
@@ -44,8 +50,8 @@ protected:
     LightID addLight(const Light& light);
 
     /*!
-     * \brief Return the next free LightID
-     * \return The next free LightID
+     * \brief Reserve and return the next free LightID
+     * \return A reserved, free LightID
      *
      * This method is thread-safe.
      */

@@ -19,7 +19,6 @@ public:
     bool isReloading() const;
 
     void update(int elapsedMilliseconds) override;
-    void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
 
 protected:

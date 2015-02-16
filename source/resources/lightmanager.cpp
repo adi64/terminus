@@ -9,15 +9,25 @@ LightManager::LightManager()
 
 }
 
-LightID LightManager::addDirectionalLight(const QVector3D &position, const QVector3D &direction)
+LightID LightManager::addDirectionalLight(const QVector3D &direction)
 {
     Light newLight;
     newLight.type = LIGHT_DIRECTIONAL;
-    newLight.position = position;
     newLight.direction = direction;
 
     auto lightID = addLight(newLight);
     return lightID;
+}
+
+void LightManager::setShaderValues(Program &shaderProgram) const
+{
+    if(m_lights.size() < 1)
+    {
+        return;
+    }
+
+    // just set first directional light for now
+    shaderProgram.setUniform(std::string("lightDirection"), m_lights.at(0).direction);
 }
 
 Light &LightManager::light(LightID lightID)

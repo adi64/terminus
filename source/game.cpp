@@ -51,7 +51,7 @@ Game::Game()
 
     setupBulletWorld();
 
-    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
+    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler, m_lightManager));
 
     SoundManager::getInstance()->playSound("music");
 

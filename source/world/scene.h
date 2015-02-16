@@ -21,12 +21,17 @@ namespace terminus
 
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
+class LightManager;
 
 class Scene : public QObject
 {
     Q_OBJECT
 public:
-    Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler);
+    Scene(
+            std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld,
+            std::shared_ptr<DeferredActionHandler> deferredActionHandler,
+            std::shared_ptr<LightManager> lightManager
+            );
     ~Scene();
 
     void update(int elapsedMilliseconds);
@@ -34,11 +39,15 @@ public:
 
     Camera & camera();
     void setActiveCamera(std::shared_ptr<Camera> camera);
-    btDiscreteDynamicsWorld* bullet_world();
+
     void scheduleAction(DeferredAction event);
+
+    const LightManager &lightManager() const;
 
     void addNode(AbstractGraphicsObject* node);
     void deleteNode(AbstractGraphicsObject* node);
+
+    btDiscreteDynamicsWorld* bullet_world();
 
     void addCollisionMapping(const btCollisionObject* collisionObject, AbstractPhysicsObject* graphicsObject);
     void removeCollisionMapping(const btCollisionObject* collisionObject);
@@ -53,6 +62,7 @@ private:
     std::shared_ptr<QTime> m_timeStamp;
     std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
+    std::shared_ptr<LightManager> m_lightManager;
     std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
 };
 

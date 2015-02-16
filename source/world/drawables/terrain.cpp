@@ -118,7 +118,8 @@ void Terrain::render(QOpenGLFunctions& gl) const
 
 void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
 {
-    program.setUniform("lightDirection", QVector3D(100.0, 20.0, -100.0));
+    AbstractGraphicsObject::preRender(gl, program);
+
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
                       static_cast<float>(m_currentPatchZ * (m_level.vertexCountT() - 1)),

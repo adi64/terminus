@@ -3,6 +3,7 @@
 #include <QQuaternion>
 #include <QDebug>
 
+#include <resources/lightmanager.h>
 #include <world/scene.h>
 
 namespace terminus
@@ -19,10 +20,7 @@ AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void AbstractGraphicsObject::update(int elapsedMilliseconds)
@@ -66,6 +64,7 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl) const
 
 void AbstractGraphicsObject::preRender(QOpenGLFunctions & gl, Program & program) const
 {
+    m_scene->lightManager().setShaderValues(program);
 }
 
 void AbstractGraphicsObject::postRender(QOpenGLFunctions & gl, Program & program) const

@@ -8,21 +8,29 @@
 #include <bullet/btBulletDynamicsCommon.h>
 
 #include "camera.h"
+
+#include <resources/lightmanager.h>
 #include <world/physics/abstractphysicsobject.h>
 #include <deferredactionhandler.h>
 
 namespace terminus
 {
 
-Scene::Scene(std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld, std::shared_ptr<DeferredActionHandler> deferredActionHandler)
+Scene::Scene(
+        std::shared_ptr<btDiscreteDynamicsWorld> bulletWorld,
+        std::shared_ptr<DeferredActionHandler> deferredActionHandler,
+        std::shared_ptr<LightManager> lightManager
+        )
 : m_activeCamera(nullptr)
 , m_gl()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_bullet_world(bulletWorld)
 , m_deferredActionHandler(deferredActionHandler)
+, m_lightManager(lightManager)
 , m_collisionMap()
 {
     m_nodes.clear();
+    m_lightManager->addDirectionalLight(QVector3D(100.0, 20.0, -100.0));
 }
 
 Scene::~Scene()
@@ -143,6 +151,11 @@ btDiscreteDynamicsWorld *Scene::bullet_world()
 void Scene::scheduleAction(DeferredAction event)
 {
     m_deferredActionHandler->scheduleAction(event);
+}
+
+const LightManager &Scene::lightManager() const
+{
+    return *m_lightManager;
 }
 
 } // namespace terminus

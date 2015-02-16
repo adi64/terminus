@@ -111,11 +111,6 @@ void WeaponWagon::update(int elapsedMilliseconds)
     AbstractWagon::update(elapsedMilliseconds);
 }
 
-void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
-{
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-}
-
 float WeaponWagon::length() const
 {
     return 7.5f;
