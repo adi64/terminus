@@ -12,19 +12,30 @@ namespace terminus
 
 using LightID = unsigned int;
 
+/*!
+ * \brief The type of a light source
+ *
+ * The type of a light source determines which fields will effectively be used
+ */
 enum LightType
 {
-    LIGHT_AMBIENT = 0,
-    LIGHT_DIRECTIONAL = 1,
-    LIGHT_POINT = 2,
-    LIGHT_SPOT = 3
+    LIGHT_AMBIENT       = 0, //! Ambient light, only color is used.
+    LIGHT_DIRECTIONAL   = 1, //! Directional light, defined by direction and color.
+    LIGHT_POINT         = 2, //! Point light, defined by position, attenuation and color.
+    LIGHT_SPOT          = 3  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 };
 
+/*!
+ * \brief A represenation of a light source.
+ */
 class Light
 {
 public:
     QVector3D position;
     QVector3D direction;
+    QVector3D color;
+    QVector3D attenuation;  //! contains the constant, linear and quadratic attenuation factors
+    float spotCutOff;       //! cosine of cut-off angle of spotlight
     LightType type;
 };
 
@@ -33,7 +44,10 @@ class LightManager
 public:
     LightManager();
 
-    LightID addDirectionalLight(const QVector3D &direction);
+    LightID addAmbientLight(const QVector3D &color);
+    LightID addDirectionalLight(const QVector3D &direction, const QVector3D &color);
+    LightID addPointLight(const QVector3D &position, const QVector3D &attenuation, const QVector3D &color);
+    LightID addSpotLight(const QVector3D &position, const QVector3D &direction, const QVector3D &attenuation, const QVector3D &color);
 
     void setShaderValues(Program &shaderProgram) const;
 

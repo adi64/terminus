@@ -9,11 +9,12 @@ LightManager::LightManager()
 
 }
 
-LightID LightManager::addDirectionalLight(const QVector3D &direction)
+LightID LightManager::addDirectionalLight(const QVector3D &direction, const QVector3D &color)
 {
     Light newLight;
     newLight.type = LIGHT_DIRECTIONAL;
     newLight.direction = direction;
+    newLight.color = color;
 
     auto lightID = addLight(newLight);
     return lightID;

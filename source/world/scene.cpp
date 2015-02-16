@@ -30,7 +30,7 @@ Scene::Scene(
 , m_collisionMap()
 {
     m_nodes.clear();
-    m_lightManager->addDirectionalLight(QVector3D(100.0, 20.0, -100.0));
+    m_lightManager->addDirectionalLight(QVector3D(100.0, 20.0, -100.0), QVector3D(1.0f, 1.0f, 1.0f));
 }
 
 Scene::~Scene()
