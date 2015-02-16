@@ -24,6 +24,7 @@ class DeferredActionHandler;
 class AbstractPlayer;
 class AIPlayer;
 class LocalPlayer;
+class LightManager;
 
 class Game : public QQuickItem
 {
@@ -92,6 +93,7 @@ protected:
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+    std::unique_ptr<LightManager> m_lightManager;
 
     bool m_paused;
     bool m_setupComplete;

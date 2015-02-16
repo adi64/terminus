@@ -343,8 +343,10 @@ HEADERS += \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
+    source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
+    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
@@ -372,8 +374,7 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/player/remoteplayer.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -519,11 +520,14 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
+    source/bullet/clew/clew.c \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
+    source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
+    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
@@ -551,6 +555,4 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp \
-    source/bullet/clew/clew.c \
-    source/player/remoteplayer.cpp
+    source/main.cpp

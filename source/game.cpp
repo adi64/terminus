@@ -9,6 +9,7 @@
 #include <QVector3D>
 #include <QApplication>
 
+#include <resources/lightmanager.h>
 #include <resources/resourcemanager.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
@@ -37,6 +38,7 @@ Game::Game()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_lightManager(std::unique_ptr<LightManager>(new LightManager))
 , m_paused(true)
 , m_setupComplete(false)
 {
