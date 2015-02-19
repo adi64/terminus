@@ -16,8 +16,20 @@ varying vec3 v_light;
 varying float v_color;
 varying float v_shade;
 
-void main()
+struct Light
 {
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+    vec3 attenuation;       //! contains the constant, linear and quadratic attenuation factors
+    float spotCutOff;       //! cosine of cut-off angle of spotlight
+    int type;
+};
+
+uniform Light lights[8];
+
+void main()
+{    
     //modify material colors for more variety among triangles
     vec3 cAmbient = mix(cAmbientRock.rgb, cAmbientSnow.rgb, v_color) * mix(0.8, 1.0, v_shade);
     vec3 cDiffuse = mix(cDiffuseRock.rgb, cDiffuseSnow.rgb, v_color) * mix(0.9, 1.0, v_shade);

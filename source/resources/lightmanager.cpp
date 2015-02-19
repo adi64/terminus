@@ -1,5 +1,7 @@
 #include "lightmanager.h"
 
+#include <cassert>
+
 namespace terminus
 {
 
@@ -22,12 +24,20 @@ LightID LightManager::addDirectionalLight(const QVector3D &direction, const QVec
 
 void LightManager::setShaderValues(Program &shaderProgram) const
 {
-    if(m_lights.size() < 1)
+    int i = 0;
+    for(auto &light : m_lights)
     {
-        return;
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].position"),     light.second.position);
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].direction"),    light.second.direction);
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].color"),        light.second.color);
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].attenuation"),  light.second.attenuation);
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].spotCutOff"),   light.second.spotCutOff);
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].type"),         light.second.type);
+
+        ++i;
     }
 
-    // just set first directional light for now
+    // compatibility: set lightDirection
     shaderProgram.setUniform(std::string("lightDirection"), m_lights.at(0).direction);
 }
 
@@ -43,6 +53,8 @@ const std::map<LightID, Light> &LightManager::lights() const
 
 LightID LightManager::addLight(const Light &light)
 {
+    assert(m_lights.size() <= maxLights);
+
     auto lightID = getFreeLightID();
 
     std::unique_lock<std::mutex> lock(m_mutex);

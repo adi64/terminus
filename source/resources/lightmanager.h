@@ -19,10 +19,11 @@ using LightID = unsigned int;
  */
 enum LightType
 {
-    LIGHT_AMBIENT       = 0, //! Ambient light, only color is used.
-    LIGHT_DIRECTIONAL   = 1, //! Directional light, defined by direction and color.
-    LIGHT_POINT         = 2, //! Point light, defined by position, attenuation and color.
-    LIGHT_SPOT          = 3  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+    LIGHT_INVALID       = 0, //! Unused or invalid light
+    LIGHT_AMBIENT       = 1, //! Ambient light, only color is used.
+    LIGHT_DIRECTIONAL   = 2, //! Directional light, defined by direction and color.
+    LIGHT_POINT         = 3, //! Point light, defined by position, attenuation and color.
+    LIGHT_SPOT          = 4  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 };
 
 /*!
@@ -42,6 +43,8 @@ public:
 class LightManager
 {
 public:
+    static const int maxLights = 8;
+
     LightManager();
 
     LightID addAmbientLight(const QVector3D &color);
