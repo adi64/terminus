@@ -31,6 +31,7 @@ Scene::Scene(
 {
     m_nodes.clear();
 
+    m_lightManager->addAmbientLight(QVector3D(0.1f, 0.1f, 0.1f));
     m_lightManager->addDirectionalLight(QVector3D(5.0, 1.0, -5.0), QVector3D(0.6f, 0.6f, 0.5f));
     m_lightManager->addDirectionalLight(QVector3D(0.0, 1.0, 0.0), QVector3D(0.5f, 0.5f, 0.7f));
 }
