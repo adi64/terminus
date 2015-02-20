@@ -22,10 +22,10 @@ Rectangle
     {
         id: actionButton
         color: "transparent"
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        width: parent.width * 0.9
-        height: parent.height * 0.9
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: parent.width
+        height: parent.height
 
         Image
         {

@@ -23,11 +23,10 @@ Rectangle
     {
         id: wagonSwitchLeft
         color: "transparent"
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.leftMargin: parent.width * 0.05
-        width: parent.width * 0.4
-        height: parent.height * 0.9
+        width: parent.width * 7 / 16
+        height: parent.height
 
         Image
         {
@@ -50,11 +49,10 @@ Rectangle
     {
         id: wagonSwitchRight
         color: "transparent"
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
         anchors.right: parent.right
-        anchors.rightMargin: parent.width * 0.05
-        width: parent.width * 0.45
-        height: parent.height * .9
+        width: parent.width * 9 / 16
+        height: parent.height
 
         Image
         {
