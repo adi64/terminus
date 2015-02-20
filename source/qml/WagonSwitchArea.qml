@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/*
+ * Displays WagonSwitchButtons and the container element WagonArea
+ */
+
 Rectangle
 {
     id: wagonSwitchArea

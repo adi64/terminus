@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/*
+ * Displays the ActionButton (Fire, Repair, Faster) and the surrounding ActionArea
+ */
+
 Rectangle
 {
     id: actionArea

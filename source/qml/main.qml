@@ -9,6 +9,11 @@ Item
     width: Screen.desktopAvailableWidth
     height: Screen.desktopAvailableHeight
 
+    /*
+     * Initializes Game in an empty fullscreen Item
+     * After initialization setUI is called to get a reference to UI Element
+     */
+
     Game
     {
         id: terminus
@@ -18,6 +23,11 @@ Item
         {
             terminus.setUI(ui);
         }
+
+        /*
+         * Initializes UserInterface
+         * UserInterface is the parent for all on screen buttons
+         */
 
         UserInterface
         {

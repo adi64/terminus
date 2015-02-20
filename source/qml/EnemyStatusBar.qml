@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/*
+ * Shows container for multiple EnemyWagonStatus
+ */
+
 Rectangle
 {
     id: enemyStatus

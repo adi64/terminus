@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/*
+ * Container element for EnemyStatusBar and PlayerStatusBar
+ */
+
 Item
 {
     id: statusBarContainer

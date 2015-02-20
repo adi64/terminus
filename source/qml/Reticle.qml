@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/*
+ * Creates a reticle out of 4 white bars with black borders
+ */
+
 Rectangle
 {
     id: reticle
