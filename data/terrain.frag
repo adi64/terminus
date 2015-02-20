@@ -10,9 +10,10 @@ uniform vec4 cDiffuseRock;
 uniform vec4 cSpecularRock;
 uniform vec4 fAlpha;
 
+uniform mat3 mViewNorm;
+
 varying vec3 v_normal;
 varying vec3 v_position;
-varying vec3 v_light;
 varying float v_color;
 varying float v_shade;
 
@@ -26,7 +27,9 @@ struct Light
     int type;
 };
 
-uniform Light lights[8];
+const int maxLights = 8;
+
+uniform Light lights[maxLights];
 
 void main()
 {    
@@ -36,19 +39,32 @@ void main()
     vec3 cSpecular = mix(cSpecularRock.rgb, cSpecularSnow.rgb, v_color);
     float fSpecularity = mix(fSpecularityRock.r, fSpecularitySnow.r, v_color);
 
+    vec3 color = cAmbient;
+
     //phong model
-    vec3 l = normalize(v_light);
-    vec3 n = normalize(v_normal);
-    vec3 h = normalize(v_light - 2.0 * v_position);
+    for(int i=0; i<maxLights; i++)
+    {
+        // don't include invalid lights
+        if(lights[i].type == 0)
+        {
+            continue;
+        }
 
-    float fDiffuse = clamp(dot(l, n), 0.0, 1.0);
-    vec3 diffuse = cDiffuse * fDiffuse;
+        vec3 v_light = mViewNorm * lights[i].direction;
 
-    float fSpecular = clamp(dot(h, n), 0.0, 1.0);
-    fSpecular = fDiffuse * pow(fSpecular, fSpecularity);
-    vec3 specular = cSpecular * fSpecular;
+        vec3 l = normalize(v_light);
+        vec3 n = normalize(v_normal);
+        vec3 h = normalize(v_light - 2.0 * v_position);
 
-    vec3 color = cAmbient + diffuse + specular;
+        float fDiffuse = clamp(dot(l, n), 0.0, 1.0);
+        vec3 diffuse = cDiffuse * fDiffuse;
+
+        float fSpecular = clamp(dot(h, n), 0.0, 1.0);
+        fSpecular = fDiffuse * pow(fSpecular, fSpecularity);
+        vec3 specular = cSpecular * fSpecular;
+
+        color += lights[i].color * diffuse + lights[i].color * specular;
+    }
 
     //use material specific transparency
     gl_FragColor = vec4(color, fAlpha.r);

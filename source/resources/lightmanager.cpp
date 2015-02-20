@@ -33,12 +33,14 @@ void LightManager::setShaderValues(Program &shaderProgram) const
         shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].attenuation"),  light.second.attenuation);
         shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].spotCutOff"),   light.second.spotCutOff);
         shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].type"),         light.second.type);
-
         ++i;
     }
 
-    // compatibility: set lightDirection
-    shaderProgram.setUniform(std::string("lightDirection"), m_lights.at(0).direction);
+    // set all unused lights to invalid
+    for(; i<maxLights; ++i)
+    {
+        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].type"),         LIGHT_INVALID);
+    }
 }
 
 Light &LightManager::light(LightID lightID)

@@ -11,7 +11,6 @@ namespace terminus
 {
 
 using LightID = unsigned int;
-
 /*!
  * \brief The type of a light source
  *

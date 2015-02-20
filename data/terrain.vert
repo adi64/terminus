@@ -18,7 +18,6 @@ attribute vec3 a_normal; // x - encoded offset to adjacent vertex 0; y - encoded
 
 varying vec3 v_normal;
 varying vec3 v_position;
-varying vec3 v_light;
 varying float v_color;
 varying float v_shade;
 
@@ -63,7 +62,6 @@ void main()
     v_normal = mViewNorm * mModelNorm * normal;
     vec4 positionTmp = mView * mModel * vec4(position, 1.0);
     v_position = positionTmp.xyz / positionTmp.w;
-    v_light = mViewNorm * lightDirection;
 
     //---screen space---
     gl_Position = mProjection * mView * mModel * vec4(position, 1.0);
