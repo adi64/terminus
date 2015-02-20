@@ -26,7 +26,7 @@ WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
-    setWeapon(new Weapon(m_scene));
+    setWeapon(new Weapon(m_scene)); //remove later
 }
 
 WeaponWagon::~WeaponWagon()
