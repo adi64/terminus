@@ -15,7 +15,6 @@ public:
 public:
     virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
-
 };
 
 } //terminus

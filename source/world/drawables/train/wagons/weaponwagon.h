@@ -17,6 +17,7 @@ public:
 
     void update(int elapsedMilliseconds) override;
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
+    void postRender(QOpenGLFunctions & gl, Program & program) const override;
 
 public:
     Weapon * weapon();

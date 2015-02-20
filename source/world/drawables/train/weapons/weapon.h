@@ -8,7 +8,7 @@ namespace terminus
 class Turret;
 class Barrel;
 
-class Weapon : public KinematicPhysicsObject
+class Weapon : public AbstractGraphicsObject
 {
 
 public:
@@ -16,6 +16,8 @@ public:
     virtual ~Weapon();
 
 public:
+    virtual void render(QOpenGLFunctions & gl) const override;
+
     void fire();
     virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
 

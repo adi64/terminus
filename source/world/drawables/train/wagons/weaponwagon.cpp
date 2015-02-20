@@ -110,13 +110,27 @@ void WeaponWagon::update(int elapsedMilliseconds)
             qDebug() << "Reload complete!";
         }
     }
+    if(weapon())
+    {
+        weapon()->update(elapsedMilliseconds, position(), rotation());
+    }
+
     AbstractWagon::update(elapsedMilliseconds);
-    weapon()->update(elapsedMilliseconds, position(), rotation());
 }
 
 void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
+}
+
+void WeaponWagon::postRender(QOpenGLFunctions & gl, Program & program) const
+{
+    program.release();
+
+    if(m_weapon.get())
+    {
+        m_weapon->render(gl);
+    }
 }
 
 void WeaponWagon::setWeapon(Weapon * weapon)

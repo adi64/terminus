@@ -10,7 +10,7 @@ namespace terminus
 {
 
 Weapon::Weapon(std::shared_ptr<Scene> scene)
- : KinematicPhysicsObject(scene)
+ : AbstractGraphicsObject(scene)
  , m_damage(0.0)
  , m_reloadTime(0.0)
  , m_scattering(0.0)
@@ -26,16 +26,21 @@ Weapon::~Weapon()
 {
 }
 
+void Weapon::render(QOpenGLFunctions & gl) const
+{
+    m_turret->render(gl);
+    m_barrel->render(gl);
+}
+
 void Weapon::fire()
 {
-    qDebug() << "Aye aye Sir!";
+    qDebug() << "Aye Sir!";
 }
 
 void Weapon::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
 {
-    qDebug() << position;
     m_turret->update(elapsedMilliseconds, position + weaponOffset(), rotation);
-    m_barrel->update(elapsedMilliseconds, position + weaponOffset()*2, rotation);
+    m_barrel->update(elapsedMilliseconds, position + weaponOffset(), rotation);
 }
 
 QVector3D Weapon::weaponOffset()
