@@ -7,7 +7,7 @@ Rectangle
     anchors.bottom: parent.bottom
     anchors.right: parent.right
     width: parent.width / 4
-    height: parent.height / 3
+    height: parent.width * 3 / 16
 
     signal charge
     signal fire

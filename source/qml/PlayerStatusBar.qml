@@ -10,7 +10,7 @@ Rectangle
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
-    height: parent.height / 9
+    height: parent.width / 9
 
     Image
     {

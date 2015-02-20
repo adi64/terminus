@@ -7,7 +7,8 @@ Rectangle
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     width: parent.width / 4
-    height: parent.height / 3
+    height: parent.width * 3 / 16
+
 
     signal switchToNextWagon
     signal switchToPreviousWagon
