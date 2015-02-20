@@ -235,7 +235,7 @@ void Camera::setRotation(QVector2D rotation)
     auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
     auto rotation_total = rotation_x * rotation_y;
 
-    if(!m_lockedToTrain)
+    if(!m_associatedObject)
     {
         auto newCenter = eye() + rotation_total.rotatedVector(viewDirection);
         setCenter(newCenter);
@@ -244,27 +244,6 @@ void Camera::setRotation(QVector2D rotation)
     {
         m_lockedEyeAngle *= rotation_total;
     }
-}
-
-void Camera::toggleLocked()
-{
-    m_lockedToTrain = !m_lockedToTrain;
-}
-
-void Camera::setLocked(bool value)
-{
-    m_lockedToTrain = value;
-}
-
-bool Camera::isLocked() const
-{
-    return m_lockedToTrain;
-}
-
-void Camera::lockToObject(AbstractGraphicsObject *object)
-{
-    m_lockedObject = object;
-    setLocked(true);
 }
 
 const QMatrix4x4 & Camera::view() const
@@ -360,6 +339,21 @@ void Camera::update()
         float f = MathUtil::linstep(MathUtil::PI / 4, MathUtil::PI / 3, angle);
         m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, lockedObjectAngle, f);
         setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
+    }
+}
+
+void Camera::bindToGraphicsObject(AbstractGraphicsObject * object)
+{
+    if(m_associatedObject)
+    {
+        m_associatedObject->unbindCamera();
+    }
+
+    m_associatedObject = object;
+
+    if(m_associatedObject)
+    {
+        m_associatedObject->bindCamera(this);
     }
 }
 

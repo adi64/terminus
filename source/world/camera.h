@@ -59,6 +59,14 @@ public:
     void changed();
     void update();
 
+    /*!
+     * \brief bindToGraphicsObject - locks camera to a new object
+     * \param object - an AbstractGraphicsObject to which the camera will be locked to
+     *
+     * passing a nullptr frees the camera
+     */
+    void bindToGraphicsObject(AbstractGraphicsObject * object);
+
     QVector3D movement();
     QVector2D rotation();
 
@@ -76,7 +84,6 @@ protected:
 protected:
     QVector3D m_movement;
     QVector2D m_rotation;
-    bool m_lockedToTrain;
 
     QVector3D m_eye;
     QVector3D m_center;
@@ -105,10 +112,10 @@ protected:
     mutable bool m_viewProjectionInvertedChanged;
     mutable bool m_normalChanged;
 
-    QVector3D m_lockedCenterOffset;
-    QVector3D m_lockedFlickOffset;
-    QQuaternion m_lockedEyeAngle;
-    AbstractGraphicsObject *m_lockedObject;
+    /*!
+     * \brief m_associatedObject - object that this camera is locked to, or nullptr otherwise
+     */
+    AbstractGraphicsObject * m_associatedObject;
 };
 
 
