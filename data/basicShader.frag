@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 uniform vec4 fSpecularity;
 uniform vec4 cEmit;
@@ -47,7 +47,7 @@ void main()
         }
         else if(lights[i].type == LIGHT_AMBIENT)
         {
-            color += lights[i].color * cDiffuse;
+            color += lights[i].color * cDiffuse.rgb;
         }
         else if(lights[i].type == LIGHT_DIRECTIONAL)
         {
@@ -59,11 +59,11 @@ void main()
             vec3 h = normalize(v_light - 2.0 * v_position);
 
             float fDiffuse = clamp(dot(l, n), 0.0, 1.0);
-            vec3 diffuse = cDiffuse * fDiffuse;
+            vec3 diffuse = cDiffuse.rgb * fDiffuse;
 
             float fSpecular = clamp(dot(h, n), 0.0, 1.0);
-            fSpecular = fDiffuse * pow(fSpecular, fSpecularity);
-            vec3 specular = cSpecular * fSpecular;
+            fSpecular = fDiffuse * pow(fSpecular, fSpecularity.r);
+            vec3 specular = cSpecular.rgb * fSpecular;
 
             color += lights[i].color * diffuse + lights[i].color * specular;
         }
