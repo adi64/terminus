@@ -2,6 +2,10 @@
 
 #include <cassert>
 
+#include <QDebug>
+
+#include <util/tostring.h>
+
 namespace terminus
 {
 
@@ -37,19 +41,21 @@ void LightManager::setShaderValues(Program &shaderProgram) const
     int i = 0;
     for(auto &light : m_lights)
     {
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].position"),     light.second.position);
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].direction"),    light.second.direction);
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].color"),        light.second.color);
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].attenuation"),  light.second.attenuation);
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].spotCutOff"),   light.second.spotCutOff);
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].type"),         light.second.type);
+        auto currentLightString = std::string("lights[" + toString(i) + "]");
+        shaderProgram.setUniform(currentLightString + ".position",     light.second.position);
+        shaderProgram.setUniform(currentLightString + ".direction",    light.second.direction);
+        shaderProgram.setUniform(currentLightString + ".color",        light.second.color);
+        shaderProgram.setUniform(currentLightString + ".attenuation",  light.second.attenuation);
+        shaderProgram.setUniform(currentLightString + ".spotCutOff",   light.second.spotCutOff);
+        shaderProgram.setUniform(currentLightString + ".type",         light.second.type);
         ++i;
     }
 
     // set all unused lights to invalid
     for(; i<maxLights; ++i)
     {
-        shaderProgram.setUniform(std::string("lights[" + std::to_string(i) + "].type"),         LIGHT_INVALID);
+        auto currentLightString = std::string("lights[" + toString(i) + "]");
+        shaderProgram.setUniform(currentLightString + ".type",         LIGHT_INVALID);
     }
 }
 
