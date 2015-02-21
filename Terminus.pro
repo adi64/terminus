@@ -340,9 +340,17 @@ HEADERS += \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
+    source/network/networkclient.h \
+    source/network/networkconnection.h \
+    source/network/networkserverbase.h \
+    source/network/tcpserver.h \
+    source/network/networkserver.h \
+    source/network/commands/abstractcommand.h \
+    source/network/commands/listdirectorycommand.h \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
+    source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/material.h \
@@ -372,8 +380,7 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/player/remoteplayer.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -519,9 +526,18 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
+    source/bullet/clew/clew.c \
+    source/network/networkclient.cpp \
+    source/network/networkconnection.cpp \
+    source/network/networkserverbase.cpp \
+    source/network/tcpserver.cpp \
+    source/network/networkserver.cpp \
+    source/network/commands/abstractcommand.cpp \
+    source/network/commands/listdirectorycommand.cpp \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
+    source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
     source/resources/material.cpp \
@@ -551,6 +567,5 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp \
-    source/bullet/clew/clew.c \
-    source/player/remoteplayer.cpp
+    source/main.cpp
+
