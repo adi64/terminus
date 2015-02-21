@@ -9,7 +9,7 @@
 #include <network/commands/abstractcommand.h>
 #include "networkserverbase.h"
 
-namespace PCLIB
+namespace terminus
 {
 	class TcpServer;
 

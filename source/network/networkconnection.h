@@ -6,7 +6,7 @@
 
 #include <memory>
 
-namespace PCLIB
+namespace terminus
 {
 	class NetworkConnection : public QObject
 	{
@@ -21,7 +21,7 @@ namespace PCLIB
 		virtual qint64 bytesAvailable() const;
 		virtual std::unique_ptr<QDataStream> inDataStream();
 		virtual qint64 write(const QByteArray &data);
-		virtual bool isConnected() const;
+        virtual bool isConnected() const;
 
 		static NetworkConnection* fromTcpSocket(QTcpSocket* socket, QObject* parent = 0);
 	signals:

@@ -4,14 +4,14 @@
 #include <QJsonArray>
 
 #include "abstractcommand.h"
-namespace PCLIB
+namespace terminus
 {
 
 class ListDirectoryCommand : public AbstractCommand
 {
 	Q_OBJECT
 public:
-	ListDirectoryCommand(NetworkConnection* clientConnection, QObject* parent = 0);
+    ListDirectoryCommand(QObject* parent = 0);
 	void initializeFromJson(QJsonObject) override;
 	void doWork() override;
 

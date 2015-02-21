@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <memory>
 
-namespace PCLIB
+namespace terminus
 {
     class NetworkServer;
 	class NetworkConnection;

@@ -1,10 +1,10 @@
 #include "listdirectorycommand.h"
 
 #include <QDebug>
-namespace PCLIB
+namespace terminus
 {
-	ListDirectoryCommand::ListDirectoryCommand(NetworkConnection* clientConnection, QObject* parent) : 
-		AbstractCommand(clientConnection, nullptr, parent)
+    ListDirectoryCommand::ListDirectoryCommand(QObject* parent) :
+        AbstractCommand(nullptr, parent)
 		, m_currentDirectory()
 		, m_files()
 		, m_fileFilter()

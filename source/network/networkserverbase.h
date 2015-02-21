@@ -18,15 +18,13 @@ namespace PCLIB
 
 		static QString serverBusyMessage();
 		void setListenPort(unsigned short port);
-		unsigned short listenPort();
-		static int returnCodeNetworkServerFail();
+        unsigned short listenPort();
 
 	public slots:
 		bool start();
 	signals:
 		void listening();
-		void shutdown();
-		void commandCompleted(bool exit);
+        void shutdown();
 	protected:
 		virtual AbstractCommand* createCommandForRequest(NetworkConnection* clientConnection, const QString &request) = 0;
 		virtual void handleNewCommand(AbstractCommand* command) = 0;

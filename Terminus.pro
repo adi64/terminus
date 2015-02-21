@@ -380,7 +380,8 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/network/networkendpoint.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -567,5 +568,6 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
+    source/main.cpp \
+    source/network/networkendpoint.cpp
 

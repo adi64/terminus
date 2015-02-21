@@ -1,81 +1,101 @@
 #include "networkconnection.h"
 
-namespace PCLIB
+#include <QDebug>
+
+namespace terminus
 {
-	NetworkConnection::NetworkConnection(QObject *parent) : NetworkConnection(nullptr, parent) { }
 
-	NetworkConnection::NetworkConnection(QTcpSocket* socket, QObject *parent)
-		: QObject(parent) {
-		m_socket = socket != nullptr ? socket : new QTcpSocket(this);
+NetworkConnection::NetworkConnection(QObject *parent)
+: NetworkConnection(nullptr, parent)
+{
 
-		connect(m_socket, &QTcpSocket::connected, this, &NetworkConnection::onSocketConnected);
-		connect(m_socket, &QTcpSocket::readyRead, this, &NetworkConnection::onSocketReadyRead);
-		connect(m_socket, static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error), this, &NetworkConnection::onSocketError);
-		connect(m_socket, &QTcpSocket::disconnected, this, &NetworkConnection::onSockedDisconnected);
-	}
+}
 
-	NetworkConnection* NetworkConnection::fromTcpSocket(QTcpSocket* socket, QObject* parent) {
-		return new NetworkConnection(socket, parent);
-	}
+NetworkConnection::NetworkConnection(QTcpSocket* socket, QObject *parent)
+: QObject(parent)
+{
+    m_socket = socket != nullptr ? socket : new QTcpSocket(this);
 
-	void NetworkConnection::connectToHost(const QString &address, quint16 port) {
-		m_socket->connectToHost(address, port);
-	}
+    connect(m_socket, &QTcpSocket::connected, this, &NetworkConnection::onSocketConnected);
+    connect(m_socket, &QTcpSocket::readyRead, this, &NetworkConnection::onSocketReadyRead);
+    connect(m_socket, static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error), this, &NetworkConnection::onSocketError);
+    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkConnection::onSockedDisconnected);
+}
 
-	void NetworkConnection::abort() {
-		m_socket->abort();
-	}
+NetworkConnection* NetworkConnection::fromTcpSocket(QTcpSocket* socket, QObject* parent)
+{
+    return new NetworkConnection(socket, parent);
+}
 
-	void NetworkConnection::close() {
-		m_socket->close();
-	}
+void NetworkConnection::connectToHost(const QString &address, quint16 port)
+{
+    m_socket->connectToHost(address, port);
+}
 
-	qint64 NetworkConnection::bytesAvailable() const {
-		return m_socket->bytesAvailable();
-	}
+void NetworkConnection::abort()
+{
+    m_socket->abort();
+}
 
-	std::unique_ptr<QDataStream> NetworkConnection::inDataStream() {
-		auto in = std::unique_ptr<QDataStream>(new QDataStream(m_socket));
-		in->setVersion(QDataStream::Qt_4_0);
-		return in;
-	}
+void NetworkConnection::close()
+{
+    m_socket->close();
+}
 
-	qint64 NetworkConnection::write(const QByteArray &data) {
-		if (m_socket->state() != QAbstractSocket::ConnectedState)
-		{
-			qWarning() << "socket is not in ConnectedState but in " << m_socket->state();
-		}
-		int ret = m_socket->write(data);
-		if (ret == -1)
-		{
-			qWarning() << "write yielded -1";
-		}
-		return ret;
-	}
+qint64 NetworkConnection::bytesAvailable() const
+{
+    return m_socket->bytesAvailable();
+}
 
-	bool NetworkConnection::isConnected() const
-	{
-		return m_socket->state() == QAbstractSocket::ConnectedState;
-	}
+std::unique_ptr<QDataStream> NetworkConnection::inDataStream()
+{
+    auto in = std::unique_ptr<QDataStream>(new QDataStream(m_socket));
+    in->setVersion(QDataStream::Qt_5_4);
+    return in;
+}
 
-	void NetworkConnection::disconnectFromHost() {
-		m_socket->disconnectFromHost();
-	}
+qint64 NetworkConnection::write(const QByteArray &data)
+{
+    if (m_socket->state() != QAbstractSocket::ConnectedState)
+    {
+        qWarning() << "socket is not in ConnectedState but in " << m_socket->state();
+    }
+    int ret = m_socket->write(data);
+    if (ret == -1)
+    {
+        qWarning() << "write yielded -1";
+    }
+    return ret;
+}
 
-	void NetworkConnection::onSocketConnected() {
-		emit connected();
-	}
+bool NetworkConnection::isConnected() const
+{
+    return m_socket->state() == QAbstractSocket::ConnectedState;
+}
 
-	void NetworkConnection::onSocketReadyRead() {
-		emit readyRead();
-	}
+void NetworkConnection::disconnectFromHost()
+{
+    m_socket->disconnectFromHost();
+}
 
-	void NetworkConnection::onSocketError(QAbstractSocket::SocketError socketError) {
-        qDebug() << "socket error! " << socketError;
-		emit error(socketError);
-	}
+void NetworkConnection::onSocketConnected()
+{
+    emit connected();
+}
 
-	void NetworkConnection::onSockedDisconnected() {
-		emit disconnected();
-	}
+void NetworkConnection::onSocketReadyRead()
+{
+    emit readyRead();
+}
+
+void NetworkConnection::onSocketError(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "socket error! " << socketError;
+    emit error(socketError);
+}
+
+void NetworkConnection::onSockedDisconnected()
+{
+    emit disconnected();
+}
 }

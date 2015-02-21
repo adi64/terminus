@@ -7,23 +7,20 @@
 #include "networkclient.h"
 #include "networkconnection.h"
 
-namespace PCLIB
+namespace terminus
 {
-    NetworkClient::NetworkClient(NetworkConnection *client, QObject *parent)
+    NetworkClient::NetworkClient(NetworkConnection *connection, QObject *parent)
 		: QObject(parent)
-		, m_useRemotePrefixForStatus(useRemotePrefixForStatus)
-		, m_serverStatus("")
-		, m_percentComplete(0)
 	{
-		m_client = client != nullptr ? client : new NetworkConnection(this);
+        m_connection = connection != nullptr ? connection : new NetworkConnection(this);
 
 		m_host = "localhost";
 		m_port = 4711;
 
-		connect(m_client, &NetworkConnection::connected, this, &NetworkClient::socketConnected);
-		connect(m_client, &NetworkConnection::disconnected, this, &NetworkClient::socketDisconnected);
-		connect(m_client, SIGNAL(readyRead()), this, SLOT(readMessage()));
-		connect(m_client, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+        connect(m_connection, &NetworkConnection::connected, this, &NetworkClient::socketConnected);
+        connect(m_connection, &NetworkConnection::disconnected, this, &NetworkClient::socketDisconnected);
+        connect(m_connection, SIGNAL(readyRead()), this, SLOT(readMessage()));
+        connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 	}
 
 	NetworkClient::~NetworkClient() {
@@ -44,7 +41,7 @@ namespace PCLIB
 
 	void NetworkClient::connectToHost(QString host, unsigned short port) {
 		qDebug() << "Connecting to " << host << ":" << port;
-		m_client->connectToHost(host, port);
+        m_connection->connectToHost(host, port);
 	}
 
 	void NetworkClient::connectToDefaultHost() {
@@ -52,19 +49,19 @@ namespace PCLIB
 	}
 
 	void NetworkClient::disconnect() {
-		m_client->abort();
-		m_client->close();
+        m_connection->abort();
+        m_connection->close();
 	}
 
 	void NetworkClient::readMessage() {
 		quint16 blockSize = 0;
 
-		auto in = m_client->inDataStream();
+        auto in = m_connection->inDataStream();
 
-		while (m_client->bytesAvailable() > (int)sizeof(quint16)) {
+        while (m_connection->bytesAvailable() > (int)sizeof(quint16)) {
 			*in >> blockSize;
 
-			if (m_client->bytesAvailable() < blockSize)
+            if (m_connection->bytesAvailable() < blockSize)
 				return;
 
 			QString str;
@@ -107,7 +104,7 @@ namespace PCLIB
 			debugInStream >> debugMsgSize >> debugMsgString;
 			qDebug() << "sending data that was held back for " << host() << ":" << port() << "('" << debugMsgString << "', " << debugMsgSize << " bytes)";
 
-			m_client->write(m_dataToBeSent);
+            m_connection->write(m_dataToBeSent);
 			m_dataToBeSent.clear();
 		}
 	}
@@ -290,79 +287,12 @@ namespace PCLIB
 	}
 
 	void NetworkClient::sendMessage(QJsonDocument &jsonDocument) {
-		connectToDefaultHost();
-		qDebug() << "Sending JSON:   " << QString(jsonDocument.toJson(QJsonDocument::JsonFormat::Compact));
-
-		QByteArray block;
-		QDataStream out(&block, QIODevice::WriteOnly);
-		out.setVersion(QDataStream::Qt_5_2);
-
-		// message size will go here
-		out << (quint16) 0;
-
-		out << QString(jsonDocument.toJson(QJsonDocument::JsonFormat::Compact));
-
-		// write message size
-		out.device()->seek(0);
-		out << (quint16) (block.size() - sizeof(quint16));
-
-
-		// check if socket is ready
-		if (m_client->isConnected())
-		{
-			m_client->write(block);
-		}
-		else
-		{
-			// schedule data to be sent when socket is connected
-			if (m_dataToBeSent.isEmpty())
-			{
-				QByteArray debugByteArray(block);
-				QDataStream debugInStream(debugByteArray);
-				debugInStream.setVersion(QDataStream::Qt_5_2);
-
-				quint16 debugMsgSize;
-				QString debugMsgString;
-
-				debugInStream >> debugMsgSize >> debugMsgString;
-
-				qDebug() << "... holding back data for " << host() << ":" << port() << " ('" << debugMsgString << "', " << debugMsgSize << " bytes)";
-				m_dataToBeSent = block;
-			}
-			else
-			{
-				QByteArray debugByteArray(block);
-				QDataStream debugInStream(debugByteArray);
-				debugInStream.setVersion(QDataStream::Qt_5_2);
-
-				quint16 debugMsgSize;
-				QString debugMsgString;
-
-				debugInStream >> debugMsgSize >> debugMsgString;
-				qWarning() << "there is already data waiting to be sent to " << host() << ":" << port() << ", discarding this packet! ('" << debugMsgString << "', " << debugMsgSize << " bytes)";
-			}
-		}
+        sendMessage(m_connection, jsonDocument);
 	}
 
 	void NetworkClient::showLogMessage(QString msg) {
 		qDebug() << msg;
 		emit newLogMessage(msg);
-	}
-
-	Commands NetworkClient::currentCommand() {
-		return m_currentCommand;
-	}
-
-	QString NetworkClient::singleFileModeFileName() {
-		return m_singleFileModeFileName;
-	}
-
-	QString NetworkClient::serverStatus() {
-		return m_serverStatus;
-	}
-
-	int NetworkClient::percentComplete() {
-		return m_percentComplete;
 	}
 
 	QString NetworkClient::host() {
@@ -371,9 +301,5 @@ namespace PCLIB
 
 	quint16 NetworkClient::port() {
 		return m_port;
-	}
-
-	QJsonObject NetworkClient::commandResult() {
-		return m_commandResult;
 	}
 }

@@ -9,7 +9,7 @@
 #include "networkconnection.h"
 #include "tcpserver.h"
 
-namespace PCLIB
+namespace terminus
 {
 	NetworkServerBase::NetworkServerBase(TcpServer* server, QObject* parent)
 		: QObject(parent)
@@ -184,31 +184,5 @@ namespace PCLIB
 		deleteCommand(command);
 
 		emit commandCompleted(exit);
-	}
-
-	void NetworkServerBase::sendLogMessageToClient(const QString &msg, NetworkConnection* client) {
-		QJsonObject jsonObject;
-		jsonObject.insert("messageType", ServerMessages::Log);
-		jsonObject.insert("logMsg", msg);
-
-		QJsonDocument jsonDocument;
-		jsonDocument.setObject(jsonObject);
-
-		sendMessage(client, jsonDocument);
-	}
-
-	void NetworkServerBase::reportProgressToClient(int percentComplete, const QString &status, NetworkConnection* client) {
-		QJsonObject statusObject;
-		statusObject.insert("percentComplete", percentComplete);
-		statusObject.insert("status", status);
-
-		QJsonObject jsonObject;
-		jsonObject.insert("messageType", ServerMessages::Progress);
-		jsonObject.insert("progress", statusObject);
-
-		QJsonDocument jsonDocument;
-		jsonDocument.setObject(jsonObject);
-
-		sendMessage(client, jsonDocument);
 	}
 }
