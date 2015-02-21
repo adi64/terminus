@@ -2,7 +2,6 @@
 
 #include <QDebug>
 #include <QHostAddress>
-#include <QTcpServer>
 
 #include <network/commands/abstractcommand.h>
 #include "networkconnection.h"
@@ -10,15 +9,12 @@
 namespace terminus
 {
     NetworkServer::NetworkServer(QObject* parent)
-		: QObject(parent)
+        : NetworkEndpoint(parent)
         , m_server(new QTcpServer(this))
 		, m_listenPort(4711)
 		, m_listenPortForced(false)
-		, m_expectedMessageSize(0)
 	{
         connect(m_server, &QTcpServer::newConnection, this, &NetworkServer::newConnection);
-
-
 	}
 
     QString NetworkServer::serverBusyMessage()
@@ -71,7 +67,7 @@ namespace terminus
         auto clientConnection = NetworkConnection::fromTcpSocket(socket);
 
         connect(clientConnection, &NetworkConnection::disconnected, this, &NetworkServer::clientDisconnected);
-        connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::readFromClient);
+        connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::receiveMessages);
 	}
 
     void NetworkServer::denyCommand(AbstractCommand* command) {
@@ -103,11 +99,5 @@ namespace terminus
 			qDebug() << "Parent of NetworkConnection was no AbstractCommand";
 			return;
 		}
-
-		bool exit = command->exitOnComplete();
-
-		deleteCommand(command);
-
-		emit commandCompleted(exit);
 	}
 }

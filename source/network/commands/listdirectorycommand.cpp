@@ -4,7 +4,7 @@
 namespace terminus
 {
     ListDirectoryCommand::ListDirectoryCommand(QObject* parent) :
-        AbstractCommand(nullptr, parent)
+        AbstractCommand(parent)
 		, m_currentDirectory()
 		, m_files()
 		, m_fileFilter()
@@ -44,14 +44,4 @@ namespace terminus
 		emit done();
 	}
 
-	QJsonObject ListDirectoryCommand::getResultsAsJsonObject() {
-		QJsonObject jsonObject;
-		jsonObject.insert("currentDirectory", m_currentDirectory.absolutePath());
-		jsonObject.insert("files", m_files);
-		return jsonObject;
-	}
-
-	bool ListDirectoryCommand::exitOnComplete() {
-		return false;
-	}
 }

@@ -1,8 +1,9 @@
 #pragma once
 
-#include <QObject>
-
 #include <memory>
+
+#include <QObject>
+#include <QTcpServer>
 
 #include "networkendpoint.h"
 
@@ -10,13 +11,12 @@ namespace terminus
 {
 	class AbstractCommand;
 	class NetworkConnection;
-    class QTcpServer;
 
-    class NetworkServer : public QObject
+    class NetworkServer : public NetworkEndpoint
 	{
 		Q_OBJECT
 	public:
-        NetworkServer(TcpServer* server = nullptr, QObject* parent = 0);
+        NetworkServer(QObject* parent = 0);
 
 		static QString serverBusyMessage();
 		void setListenPort(unsigned short port);
@@ -35,7 +35,6 @@ namespace terminus
         QTcpServer* m_server;
 		unsigned short m_listenPort;
 		bool m_listenPortForced;
-		quint16 m_expectedMessageSize;
 	private slots:
 		void newConnection();
 	};

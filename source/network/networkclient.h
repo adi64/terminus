@@ -13,17 +13,15 @@ namespace terminus
 {
 	class NetworkConnection;
 
-    class NetworkClient : public NetworkEndpoint, public QObject
+    class NetworkClient : public NetworkEndpoint
 	{
 		Q_OBJECT
 	public:
-        NetworkClient(NetworkConnection *connection = nullptr, QObject *parent = 0);
+        NetworkClient(QObject *parent = 0);
 		virtual ~NetworkClient();
 
 		void connectToHost(QString host, unsigned short port);
 		void disconnect();
-
-		void notifyAgent(QString host, unsigned short port);
 
 		QString host();
         quint16 port();
@@ -31,8 +29,7 @@ namespace terminus
 	public slots:
 		void setHost(QString host);
 		void setPort(QString port);
-		void setPort(quint16 port);
-		void displayError(QAbstractSocket::SocketError error);
+        void setPort(quint16 port);
 		void socketConnected();
         void socketDisconnected();
 	private:

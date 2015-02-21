@@ -14,7 +14,7 @@ namespace terminus
 	{
 		Q_OBJECT
 	public:
-        AbstractCommand(NetworkConnection* clientConnection, QObject* parent = 0);
+        AbstractCommand(QObject* parent = 0);
         virtual ~AbstractCommand() {}
 		int percentComplete();
 		QString status();

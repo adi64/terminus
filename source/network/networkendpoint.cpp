@@ -2,10 +2,19 @@
 
 #include <QJsonDocument>
 
+#include <network/commands/abstractcommand.h>
+#include <network/commands/listdirectorycommand.h>
 #include "networkconnection.h"
 
 namespace terminus
 {
+
+NetworkEndpoint::NetworkEndpoint(QObject *parent)
+    : QObject(parent)
+    , m_expectedMessageSize(0)
+{
+
+}
 
 void NetworkEndpoint::receiveMessages()
 {
@@ -49,11 +58,8 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
 
     int type = json.object()["commandType"].toInt();
     switch (type) {
-    case Commands::Command_Hello:
-        cmd = new TestCommand(clientConnection, m_clInt);
-        break;
     case Command_ListDirectory:
-        cmd = new ListDirectoryCommand(clientConnection, nullptr);
+        cmd = new ListDirectoryCommand(this);
         break;
 
     // ...
@@ -61,7 +67,7 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     default:
         // todo: we should define an error response...
         qDebug() << "error parsing client request";
-        cmd = new TestCommand(clientConnection, m_clInt);
+        cmd = new ListDirectoryCommand(this);
     }
 
     cmd->initializeFromJson(json.object()["parameter"].toObject());
