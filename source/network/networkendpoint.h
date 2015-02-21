@@ -12,9 +12,12 @@ class NetworkEndpoint : public QObject
     Q_OBJECT
 
 public:
-    void handleNewCommands();
+
 
 protected:
+    void receiveMessages();
+    void sendMessage(NetworkConnection *client, QJsonDocument &message);
+
     AbstractCommand *createCommandForRequest(const QString &request);
 };
 

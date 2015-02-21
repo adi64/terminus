@@ -7,7 +7,7 @@
 namespace terminus
 {
 
-void NetworkEndpoint::handleNewCommands()
+void NetworkEndpoint::receiveMessages()
 {
     NetworkConnection* socket = dynamic_cast<NetworkConnection*>(sender());
 

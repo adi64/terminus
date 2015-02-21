@@ -53,42 +53,6 @@ namespace terminus
         m_connection->close();
 	}
 
-	void NetworkClient::readMessage() {
-		quint16 blockSize = 0;
-
-        auto in = m_connection->inDataStream();
-
-        while (m_connection->bytesAvailable() > (int)sizeof(quint16)) {
-			*in >> blockSize;
-
-            if (m_connection->bytesAvailable() < blockSize)
-				return;
-
-			QString str;
-			*in >> str;
-			//qDebug() << "server response: " << str;
-
-			QJsonDocument jsonDocument = QJsonDocument::fromJson(str.toUtf8());
-			switch (jsonDocument.object().value("messageType").toInt()) {
-			case ServerMessages::Progress:
-				qDebug() << "Progress: " << jsonDocument.object().value("progress").toObject().value("percentComplete").toInt();
-				updateProgress(jsonDocument);
-				break;
-			case ServerMessages::Result:
-				emit operationOngoing(false);
-
-				handleResult(jsonDocument.object()["result"].toObject());
-				break;
-			case ServerMessages::Log:
-				showLogMessage(jsonDocument.object()["logMsg"].toString());
-				break;
-			default:
-				qDebug() << "I don't know what kind of server reply this is!";
-				break;
-			}
-		}
-	}
-
 	void NetworkClient::socketConnected()
 	{
 		qDebug() << "Socket to " << host() << ":" << port() << " connected!";

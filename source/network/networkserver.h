@@ -1,27 +1,42 @@
 #pragma once
 
 #include <QObject>
-#include <QTimer>
 
 #include <memory>
-#include <functional>
 
-#include <network/commands/abstractcommand.h>
-#include "networkserverbase.h"
+#include "networkendpoint.h"
 
 namespace terminus
 {
-	class TcpServer;
+	class AbstractCommand;
+	class NetworkConnection;
+    class QTcpServer;
 
-	class NetworkServer : public NetworkServerBase
+    class NetworkServer : public QObject
 	{
 		Q_OBJECT
 	public:
-		NetworkServer(TcpServer* server = nullptr, QObject* parent = 0);
-        ~NetworkServer();
+        NetworkServer(TcpServer* server = nullptr, QObject* parent = 0);
+
+		static QString serverBusyMessage();
+		void setListenPort(unsigned short port);
+        unsigned short listenPort();
+
+	public slots:
+		bool start();
+	signals:
+		void listening();
+        void shutdown();
 	protected:
-		virtual AbstractCommand* createCommandForRequest(NetworkConnection* clientConnection, const QString &request) override;
-		void handleNewCommand(AbstractCommand* command) override;
-		void deleteCommand(AbstractCommand* command) override;
+		void denyCommand(AbstractCommand* command);
+	protected slots:
+		void clientDisconnected();
+	private:
+        QTcpServer* m_server;
+		unsigned short m_listenPort;
+		bool m_listenPortForced;
+		quint16 m_expectedMessageSize;
+	private slots:
+		void newConnection();
 	};
 }

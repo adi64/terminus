@@ -32,14 +32,12 @@ namespace terminus
 		void setHost(QString host);
 		void setPort(QString port);
 		void setPort(quint16 port);
-		void readMessage();
 		void displayError(QAbstractSocket::SocketError error);
 		void socketConnected();
         void socketDisconnected();
 	private:
 		void connectToDefaultHost();
-		void sendMessage(QJsonDocument &jsonDocument);
-		void handleResult(QJsonObject result);
+        void sendMessage(QJsonDocument &jsonDocument);
 
 		QString m_host;
 		quint16 m_port;

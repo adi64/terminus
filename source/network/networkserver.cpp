@@ -1,106 +1,113 @@
 #include "networkserver.h"
 
 #include <QDebug>
+#include <QHostAddress>
+#include <QTcpServer>
 
-#include <network/commands/listdirectorycommand.h>
+#include <network/commands/abstractcommand.h>
+#include "networkconnection.h"
 
-namespace PCLIB
+namespace terminus
 {
-	NetworkServer::NetworkServer(TcpServer* server, QObject* parent)
-		: NetworkServerBase(server, parent)
-		, m_runningCommand(nullptr)
+    NetworkServer::NetworkServer(QObject* parent)
+		: QObject(parent)
+        , m_server(new QTcpServer(this))
+		, m_listenPort(4711)
+		, m_listenPortForced(false)
+		, m_expectedMessageSize(0)
 	{
-		connect(&m_progressTimer, &QTimer::timeout, this, &NetworkServer::reportProgress);
+        connect(m_server, &QTcpServer::newConnection, this, &NetworkServer::newConnection);
+
+
 	}
 
-	NetworkServer::~NetworkServer() {
-		if (m_runningCommand != nullptr)
-			delete m_runningCommand;
-	}
-
-	void NetworkServer::setClassificationInterface(ClassificationInterface* clInt)
+    QString NetworkServer::serverBusyMessage()
 	{
-		m_clInt = clInt;
+		return "Command denied: Server is busy";
 	}
 
-	void NetworkServer::setDistanceAnalysisInterfaceFactory(std::function<IDistanceAnalysisInterface*()> compareIntFactory) {
-		m_compareIntFactory = compareIntFactory;
+    bool NetworkServer::start() {
+		unsigned short originalListenPort = m_listenPort;
+
+        while (!m_server->listen(QHostAddress::Any, m_listenPort)) {
+			m_listenPort++;
+
+			// error on overflow
+			if (m_listenPortForced ||  m_listenPort < originalListenPort) {
+				qDebug() << "Could not start server";
+				return false;
+			}
+		}
+
+		qDebug() << "Listening on Port" << m_listenPort;
+
+		emit listening();
+
+		return true;
 	}
 
-	void NetworkServer::handleNewCommand(AbstractCommand* command)
+    void NetworkServer::setListenPort(unsigned short port)
 	{
-		if (m_runningCommand) {
-			denyCommand(command);
-			delete command;
-			qDebug() << "client requests new operation but there already is a command running!";
+		if (port != 0)
+		{
+			m_listenPort = port;
+			m_listenPortForced = true;
+		}
+		else
+		{
+			m_listenPort = 4711;
+			m_listenPortForced = false;
+		}
+	}
+
+    unsigned short NetworkServer::listenPort() {
+		return m_listenPort;
+	}
+
+    void NetworkServer::newConnection() {
+        auto socket = m_server->nextPendingConnection();
+        connect(socket, &QTcpSocket::disconnected, socket, &QTcpSocket::deleteLater);
+
+        auto clientConnection = NetworkConnection::fromTcpSocket(socket);
+
+        connect(clientConnection, &NetworkConnection::disconnected, this, &NetworkServer::clientDisconnected);
+        connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::readFromClient);
+	}
+
+    void NetworkServer::denyCommand(AbstractCommand* command) {
+		QJsonObject result;
+		result.insert("result", serverBusyMessage());
+
+		QJsonObject jsonObject;
+		jsonObject.insert("messageType", ServerMessages::Result);
+		jsonObject.insert("result", result);
+
+		QJsonDocument jsonDocument;
+		jsonDocument.setObject(jsonObject);
+
+		sendMessage(command->clientConnection(), jsonDocument);
+		command->clientConnection()->disconnectFromHost();
+	}
+
+    void NetworkServer::clientDisconnected() {
+		auto connection = dynamic_cast<NetworkConnection*>(sender());
+		if (!connection)
+		{
+			qDebug() << "Sender was no NetworkConnection";
 			return;
 		}
 
-		m_runningCommand = command;
-
-		m_progressTimer.setInterval(command->defaultProgressInterval());
-		m_progressTimer.start();
-		command->run();
-	}
-
-	void NetworkServer::sendLogMessage(const QString &msg) {
-		if (m_runningCommand == nullptr)
-			return;
-
-		sendLogMessageToClient(msg, m_runningCommand->clientConnection());
-	}
-	
-	void NetworkServer::reportProgress() {
-		if (m_runningCommand == nullptr)
-			return;
-
-		reportProgressToClient(m_runningCommand->percentComplete(), 
-							   m_runningCommand->status(), 
-							   m_runningCommand->clientConnection());
-	}
-
-	AbstractCommand* NetworkServer::createCommandForRequest(NetworkConnection* clientConnection, const QString &request) {
-		QJsonDocument json = QJsonDocument::fromJson(request.toUtf8());
-		AbstractCommand* cmd;
-
-		int type = json.object()["commandType"].toInt();
-		switch (type) {
-		case Commands::Command_Hello:
-			cmd = new TestCommand(clientConnection, m_clInt);
-			break;
-		case Commands::Command_TopologicalAnalysis:
-			cmd = new TopoAnalysisCommand(clientConnection, m_clInt);
-			break;
-		case Commands::Command_BuildingAnalysis:
-			cmd = new BuildingAnalysisCommand(clientConnection, m_clInt);
-			break;
-		case Commands::Command_DifferenceAnalysis:
-			cmd = new DiffAnalysisCommand(clientConnection, m_clInt, m_compareIntFactory);
-			break;
-		case Command_ListDirectory:
-			cmd = new ListDirectoryCommand(clientConnection, nullptr);
-			break;
-			// ...
-
-		default:
-			// todo: we should define an error response...
-			qDebug() << "error parsing client request";
-			cmd = new TestCommand(clientConnection, m_clInt);
-		}
-
-		cmd->initializeFromJson(json.object()["parameter"].toObject());
-		return cmd;
-	}
-
-	void NetworkServer::deleteCommand(AbstractCommand* command) {
-		m_progressTimer.stop();
-
-		if (command != m_runningCommand) {
-			qDebug() << "Completed command was not currently active command";
+		auto command = dynamic_cast<AbstractCommand*>(connection->parent());
+		if (!command)
+		{
+			qDebug() << "Parent of NetworkConnection was no AbstractCommand";
 			return;
 		}
 
-		delete m_runningCommand;
-		m_runningCommand = nullptr;
+		bool exit = command->exitOnComplete();
+
+		deleteCommand(command);
+
+		emit commandCompleted(exit);
 	}
 }

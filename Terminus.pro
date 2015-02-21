@@ -342,9 +342,6 @@ HEADERS += \
     source/bullet/btBulletDynamicsCommon.h \
     source/network/networkclient.h \
     source/network/networkconnection.h \
-    source/network/networkserverbase.h \
-    source/network/tcpserver.h \
-    source/network/networkserver.h \
     source/network/commands/abstractcommand.h \
     source/network/commands/listdirectorycommand.h \
     source/player/abstractplayer.h \
@@ -381,7 +378,8 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/network/networkendpoint.h
+    source/network/networkendpoint.h \
+    source/network/networkserver.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -530,9 +528,6 @@ SOURCES += \
     source/bullet/clew/clew.c \
     source/network/networkclient.cpp \
     source/network/networkconnection.cpp \
-    source/network/networkserverbase.cpp \
-    source/network/tcpserver.cpp \
-    source/network/networkserver.cpp \
     source/network/commands/abstractcommand.cpp \
     source/network/commands/listdirectorycommand.cpp \
     source/player/abstractplayer.cpp \
@@ -569,5 +564,6 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/network/networkendpoint.cpp
+    source/network/networkendpoint.cpp \
+    source/network/networkserver.cpp
 
