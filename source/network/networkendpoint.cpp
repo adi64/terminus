@@ -3,7 +3,7 @@
 #include <QJsonDocument>
 
 #include <network/commands/abstractcommand.h>
-#include <network/commands/listdirectorycommand.h>
+#include <network/commands/projectilefiredcommand.h>
 #include "networkconnection.h"
 
 namespace terminus
@@ -46,7 +46,6 @@ void NetworkEndpoint::receiveMessages()
     qDebug() << "client message: " << str;
 
     AbstractCommand* cmd = createCommandForRequest(str);
-    socket->setParent(cmd); // delete connection object when command is completed
 
     cmd->run();
 }
@@ -57,21 +56,36 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     AbstractCommand* cmd;
 
     int type = json.object()["commandType"].toInt();
+    auto timeStamp = AbstractCommand::TimeStampFromJsonValue(json.object()["timeStamp"]);
+
     switch (type) {
-    case Command_ListDirectory:
-        cmd = new ListDirectoryCommand(this);
+    case Command_ProjectileFired:
+        cmd = new ProjectileFiredCommand(timeStamp, json.object()["parameter"].toObject());
         break;
 
     // ...
 
     default:
-        // todo: we should define an error response...
         qDebug() << "error parsing client request";
-        cmd = new ListDirectoryCommand(this);
+        return nullptr;
     }
 
-    cmd->initializeFromJson(json.object()["parameter"].toObject());
     return cmd;
+}
+
+void NetworkEndpoint::sendMessage(NetworkConnection *client, AbstractCommand *command)
+{
+    QJsonDocument message;
+
+    QJsonObject mainObject;
+
+    mainObject.insert("commandType", QJsonValue(command->commandType()));
+    mainObject.insert("timeStamp", AbstractCommand::TimeStampToJsonValue(command->timeStamp()));
+    mainObject.insert("parameter", QJsonValue(command->toJson()));
+
+    message.setObject(mainObject);
+
+    sendMessage(client, message);
 }
 
 void NetworkEndpoint::sendMessage(NetworkConnection* client, QJsonDocument &message) {

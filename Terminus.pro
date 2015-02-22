@@ -342,8 +342,11 @@ HEADERS += \
     source/bullet/btBulletDynamicsCommon.h \
     source/network/networkclient.h \
     source/network/networkconnection.h \
+    source/network/networkendpoint.h \
+    source/network/networkserver.h \
     source/network/commands/abstractcommand.h \
-    source/network/commands/listdirectorycommand.h \
+    source/network/commands/commands.h \
+    source/network/commands/projectilefiredcommand.h \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
@@ -377,9 +380,7 @@ HEADERS += \
     source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/network/networkendpoint.h \
-    source/network/networkserver.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -528,8 +529,10 @@ SOURCES += \
     source/bullet/clew/clew.c \
     source/network/networkclient.cpp \
     source/network/networkconnection.cpp \
+    source/network/networkendpoint.cpp \
+    source/network/networkserver.cpp \
     source/network/commands/abstractcommand.cpp \
-    source/network/commands/listdirectorycommand.cpp \
+    source/network/commands/projectilefiredcommand.cpp \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
@@ -563,7 +566,5 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp \
-    source/network/networkendpoint.cpp \
-    source/network/networkserver.cpp
+    source/main.cpp
 

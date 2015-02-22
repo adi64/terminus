@@ -70,21 +70,6 @@ namespace terminus
         connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::receiveMessages);
 	}
 
-    void NetworkServer::denyCommand(AbstractCommand* command) {
-		QJsonObject result;
-		result.insert("result", serverBusyMessage());
-
-		QJsonObject jsonObject;
-		jsonObject.insert("messageType", ServerMessages::Result);
-		jsonObject.insert("result", result);
-
-		QJsonDocument jsonDocument;
-		jsonDocument.setObject(jsonObject);
-
-		sendMessage(command->clientConnection(), jsonDocument);
-		command->clientConnection()->disconnectFromHost();
-	}
-
     void NetworkServer::clientDisconnected() {
 		auto connection = dynamic_cast<NetworkConnection*>(sender());
 		if (!connection)

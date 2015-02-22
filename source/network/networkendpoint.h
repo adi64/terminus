@@ -17,6 +17,8 @@ public:
 
 protected:
     void receiveMessages();
+
+    void sendMessage(NetworkConnection *client, AbstractCommand *command);
     void sendMessage(NetworkConnection *client, QJsonDocument &message);
 
     AbstractCommand *createCommandForRequest(const QString &request);
