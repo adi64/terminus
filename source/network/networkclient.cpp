@@ -17,8 +17,7 @@ namespace terminus
 	{
         connect(m_connection, &NetworkConnection::connected, this, &NetworkClient::socketConnected);
         connect(m_connection, &NetworkConnection::disconnected, this, &NetworkClient::socketDisconnected);
-        connect(m_connection, SIGNAL(readyRead()), this, SLOT(readMessage()));
-        connect(m_connection, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+        connect(m_connection, &NetworkConnection::readyRead, this, &NetworkClient::receiveMessages);
 	}
 
 	NetworkClient::~NetworkClient() {
@@ -49,34 +48,20 @@ namespace terminus
 	void NetworkClient::disconnect() {
         m_connection->abort();
         m_connection->close();
-	}
+    }
 
 	void NetworkClient::socketConnected()
 	{
-		qDebug() << "Socket to " << host() << ":" << port() << " connected!";
-		if (!m_dataToBeSent.isEmpty())
-		{
-			QByteArray debugByteArray(m_dataToBeSent);
-			QDataStream debugInStream(debugByteArray);
-			debugInStream.setVersion(QDataStream::Qt_5_2);
-
-			quint16 debugMsgSize;
-			QString debugMsgString;
-
-			debugInStream >> debugMsgSize >> debugMsgString;
-			qDebug() << "sending data that was held back for " << host() << ":" << port() << "('" << debugMsgString << "', " << debugMsgSize << " bytes)";
-
-            m_connection->write(m_dataToBeSent);
-			m_dataToBeSent.clear();
-		}
+        m_activePlayerConnection = m_connection;
 	}
 
     void NetworkClient::socketDisconnected()
     {
+        m_activePlayerConnection = nullptr;
         qDebug() << "Socket to " << host() << ":" << port() << " disconnected!";
     }
 
-	void NetworkClient::sendMessage(QJsonDocument &jsonDocument) {
+    void NetworkClient::sendMessage(QJsonDocument &jsonDocument) {
         NetworkEndpoint::sendMessage(m_connection, jsonDocument);
 	}
 

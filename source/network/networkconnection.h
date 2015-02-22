@@ -23,6 +23,9 @@ namespace terminus
 		virtual qint64 write(const QByteArray &data);
         virtual bool isConnected() const;
 
+        virtual QHostAddress peerAddress() const;
+        virtual quint16 peerPort() const;
+
 		static NetworkConnection* fromTcpSocket(QTcpSocket* socket, QObject* parent = 0);
 	signals:
 		void readyRead();
@@ -33,6 +36,7 @@ namespace terminus
 	private:
 		NetworkConnection(QTcpSocket* socket, QObject *parent = 0);
 		QTcpSocket* m_socket;
+        QByteArray m_dataToBeSent;
 
 	private slots:
 		void onSocketReadyRead();

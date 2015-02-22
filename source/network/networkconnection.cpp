@@ -59,18 +59,65 @@ qint64 NetworkConnection::write(const QByteArray &data)
     if (m_socket->state() != QAbstractSocket::ConnectedState)
     {
         qWarning() << "socket is not in ConnectedState but in " << m_socket->state();
+
     }
-    int ret = m_socket->write(data);
-    if (ret == -1)
+
+    if(isConnected())
     {
-        qWarning() << "write yielded -1";
+        int ret = m_socket->write(data);
+        if (ret == -1)
+        {
+            qWarning() << "write yielded -1";
+        }
+        return ret;
     }
-    return ret;
+    else
+    {
+        // schedule data to be sent when socket is connected
+        if (m_dataToBeSent.isEmpty())
+        {
+            QByteArray debugByteArray(data);
+            QDataStream debugInStream(debugByteArray);
+            debugInStream.setVersion(QDataStream::Qt_5_2);
+
+            quint16 debugMsgSize;
+            QString debugMsgString;
+
+            debugInStream >> debugMsgSize >> debugMsgString;
+
+            qDebug() << "... holding back data for " <<  peerAddress().toString() << ":" << peerPort() << " ('" << debugMsgString << "', " << debugMsgSize << " bytes)";
+            m_dataToBeSent = data;
+            return debugMsgSize;
+        }
+        else
+        {
+            QByteArray debugByteArray(data);
+            QDataStream debugInStream(debugByteArray);
+            debugInStream.setVersion(QDataStream::Qt_5_4);
+
+            quint16 debugMsgSize;
+            QString debugMsgString;
+
+            debugInStream >> debugMsgSize >> debugMsgString;
+            qWarning() << "there is already data waiting to be sent to " <<  peerAddress().toString() << ":" << peerPort() << ", discarding this packet! ('" << debugMsgString << "', " << debugMsgSize << " bytes)";
+            return -1;
+        }
+    }
 }
 
 bool NetworkConnection::isConnected() const
 {
     return m_socket->state() == QAbstractSocket::ConnectedState;
+}
+
+QHostAddress NetworkConnection::peerAddress() const
+{
+    return m_socket->peerAddress();
+}
+
+quint16 NetworkConnection::peerPort() const
+{
+    return m_socket->peerPort();
 }
 
 void NetworkConnection::disconnectFromHost()
@@ -80,6 +127,25 @@ void NetworkConnection::disconnectFromHost()
 
 void NetworkConnection::onSocketConnected()
 {
+    qDebug() << "Socket to " << peerAddress().toString() << ":" << peerPort() << " connected!";
+
+    // send data that was held back, if any
+    if (!m_dataToBeSent.isEmpty())
+    {
+        QByteArray debugByteArray(m_dataToBeSent);
+        QDataStream debugInStream(debugByteArray);
+        debugInStream.setVersion(QDataStream::Qt_5_4);
+
+        quint16 debugMsgSize;
+        QString debugMsgString;
+
+        debugInStream >> debugMsgSize >> debugMsgString;
+        qDebug() << "sending data that was held back for " << peerAddress().toString() << ":" << peerPort() << "('" << debugMsgString << "', " << debugMsgSize << " bytes)";
+
+        write(m_dataToBeSent);
+        m_dataToBeSent.clear();
+    }
+
     emit connected();
 }
 

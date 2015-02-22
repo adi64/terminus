@@ -4,6 +4,7 @@
 #include <QHostAddress>
 
 #include <network/commands/abstractcommand.h>
+#include <network/commands/playeridcommand.h>
 #include "networkconnection.h"
 
 namespace terminus
@@ -39,8 +40,15 @@ namespace terminus
 
 		emit listening();
 
-		return true;
-	}
+        return true;
+    }
+
+    void NetworkServer::assignPlayerID(NetworkConnection *connection)
+    {
+        // assume that a client is always second player
+        auto command = PlayerIdCommand(TimeStamp(0), 1);
+        sendMessage(connection, &command);
+    }
 
     void NetworkServer::setListenPort(unsigned short port)
 	{
@@ -68,9 +76,18 @@ namespace terminus
 
         connect(clientConnection, &NetworkConnection::disconnected, this, &NetworkServer::clientDisconnected);
         connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::receiveMessages);
+
+        qDebug() << "Client " << clientConnection->peerAddress().toString() << ":" << clientConnection->peerPort() << " connected!";
+
+        m_activePlayerConnection = clientConnection;
+
+        assignPlayerID(m_activePlayerConnection);
 	}
 
     void NetworkServer::clientDisconnected() {
+        qDebug() << "Client disconnected!";
+        m_activePlayerConnection = nullptr;
+
 		auto connection = dynamic_cast<NetworkConnection*>(sender());
 		if (!connection)
 		{

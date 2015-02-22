@@ -11,6 +11,10 @@
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
 
+//TODO FIXME
+#include <network/networkendpoint.h>
+#include <network/commands/projectilefiredcommand.h>
+
 namespace terminus
 {
 
@@ -80,6 +84,13 @@ void WeaponWagon::fire(QVector3D force)
     );
 
     SoundManager::getInstance()->playSound("shot");
+
+    // woo network!
+    if(m_scene->networkEndpoint())
+    {
+        auto command = ProjectileFiredCommand(TimeStamp(0), worldProjectilePosition, force);
+        m_scene->networkEndpoint()->sendMessage(&command);
+    }
 }
 
 bool WeaponWagon::isReloading() const

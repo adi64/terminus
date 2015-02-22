@@ -15,6 +15,8 @@ class NetworkEndpoint : public QObject
 public:
     NetworkEndpoint(QObject * parent = 0);
 
+    void sendMessage(AbstractCommand *command);
+
 protected:
     void receiveMessages();
 
@@ -23,6 +25,7 @@ protected:
 
     AbstractCommand *createCommandForRequest(const QString &request);
 
+    NetworkConnection *m_activePlayerConnection;
     quint16 m_expectedMessageSize;
 };
 

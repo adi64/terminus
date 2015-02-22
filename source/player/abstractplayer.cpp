@@ -55,6 +55,11 @@ void terminus::AbstractPlayer::primaryActionDebug()
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
+void terminus::AbstractPlayer::setNetworkEndpoint(std::shared_ptr<terminus::NetworkEndpoint> networkEndpoint)
+{
+    m_networkEndpoint = networkEndpoint;
+}
+
 void terminus::AbstractPlayer::update(int elapsedMilliseconds)
 {
     m_camera->update();

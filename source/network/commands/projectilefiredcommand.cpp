@@ -23,6 +23,7 @@ namespace terminus
         QJsonObject jsonObject;
         jsonObject.insert("startPosition", VectorToJsonObject(m_startPosition));
         jsonObject.insert("movement", VectorToJsonObject(m_movement));
+        return jsonObject;
     }
 
     void ProjectileFiredCommand::doWork()

@@ -346,6 +346,7 @@ HEADERS += \
     source/network/networkserver.h \
     source/network/commands/abstractcommand.h \
     source/network/commands/commands.h \
+    source/network/commands/playeridcommand.h \
     source/network/commands/projectilefiredcommand.h \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
@@ -532,6 +533,7 @@ SOURCES += \
     source/network/networkendpoint.cpp \
     source/network/networkserver.cpp \
     source/network/commands/abstractcommand.cpp \
+    source/network/commands/playeridcommand.cpp \
     source/network/commands/projectilefiredcommand.cpp \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \

@@ -39,7 +39,5 @@ namespace terminus
 		QString m_host;
 		quint16 m_port;
         NetworkConnection *m_connection;
-
-		QByteArray m_dataToBeSent;
 	};
 }

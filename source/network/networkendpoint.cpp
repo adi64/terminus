@@ -12,8 +12,21 @@ namespace terminus
 NetworkEndpoint::NetworkEndpoint(QObject *parent)
     : QObject(parent)
     , m_expectedMessageSize(0)
+    , m_activePlayerConnection(nullptr)
 {
 
+}
+
+void NetworkEndpoint::sendMessage(AbstractCommand *command)
+{
+    if(m_activePlayerConnection)
+    {
+        sendMessage(m_activePlayerConnection, command);
+    }
+    else
+    {
+        qDebug() << "There is no active player connection!";
+    }
 }
 
 void NetworkEndpoint::receiveMessages()
