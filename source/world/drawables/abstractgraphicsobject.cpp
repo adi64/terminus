@@ -90,6 +90,7 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 void AbstractGraphicsObject::localUpdate(int)
 {
 }
+
 void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 {
     if(!m_geometry || !*m_geometry)

@@ -99,9 +99,6 @@ protected:
     std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;
     std::shared_ptr<std::unique_ptr<Material>> m_material;
 
-    std::vector<std::reference_wrapper<std::unique_ptr<AbstractGraphicsObject>>> m_children;
-    std::vector<std::reference_wrapper<std::vector<std::unique_ptr<AbstractGraphicsObject>>>> m_childLists;
-
     QVector3D m_position;
     QQuaternion m_rotation;
     QVector3D m_scale;

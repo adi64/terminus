@@ -1,6 +1,9 @@
 #include "train.h"
 
 #include <memory>
+
+#include <assert.h>
+
 #include <QDebug>
 #include <QOpenGLFunctions>
 
