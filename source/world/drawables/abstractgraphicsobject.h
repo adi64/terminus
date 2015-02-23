@@ -9,6 +9,7 @@
 #include <QMatrix4x4>
 
 #include <world/scene.h>
+#include <world/camera.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
@@ -39,6 +40,29 @@ public:
      * \sa AbstractGraphicsObject::localRender
      */
     virtual void render(QOpenGLFunctions & gl) final;
+
+    /*!
+     * \brief unbindCamera - unbinds the scene camera from the object
+     *
+     * Call this function, if the object is not supposed to use camera anymore.
+     */
+    virtual void unbindCamera();
+
+    /*!
+     * \brief bindCamera - binds the scene camera to this object
+     * \param cam
+     *
+     * The object is now supposed to set the camera parameters in update.
+     */
+    virtual void bindCamera(Camera * cam);
+
+    /*!
+     * \brief adjustCamera - camera movement has to be done here
+     *
+     * If an object is currently the camera host, this methode is used to adjust the camera position and viewing vectors.
+     * Should be overwritten by classes, which intend to host the camera.
+     */
+    virtual void adjustCamera();
 
     virtual QVector3D worldUp();
     virtual QVector3D worldFront();
@@ -94,6 +118,7 @@ protected:
 
 protected:
     std::shared_ptr<Scene> m_scene;
+    std::shared_ptr<Camera> m_camera;
 
     std::shared_ptr<std::unique_ptr<Program>> m_program;
     std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;

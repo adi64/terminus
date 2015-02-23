@@ -12,6 +12,7 @@ namespace terminus
 
 AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 : m_scene(scene)
+, m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
@@ -30,12 +31,33 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
 void AbstractGraphicsObject::update(int elapsedMilliseconds)
 {
     localUpdate(elapsedMilliseconds);
+
+    if(m_camera)
+    {
+        adjustCamera();
+    }
+
     doForAllChildren(
         [elapsedMilliseconds](AbstractGraphicsObject & child)
         {
             child.update(elapsedMilliseconds);
         });
 }
+
+void AbstractGraphicsObject::unbindCamera()
+{
+    m_camera.reset();
+}
+
+void AbstractGraphicsObject::bindCamera(Camera * cam)
+{
+    m_camera = cam;
+}
+
+void AbstractGraphicsObject::adjustCamera()
+{
+}
+
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
     localRender(gl);
@@ -90,6 +112,7 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 void AbstractGraphicsObject::localUpdate(int)
 {
 }
+
 void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 {
     if(!m_geometry || !*m_geometry)
@@ -124,9 +147,11 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 
     program.release();
 }
+
 void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
 }
+
 void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
 }
@@ -136,16 +161,19 @@ void AbstractGraphicsObject::setPosition(const QVector3D & position)
     m_position = position;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setRotation(const QQuaternion &eulerAngles)
 {
     m_rotation = eulerAngles;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(const QVector3D & scale)
 {
     m_scale = scale;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
