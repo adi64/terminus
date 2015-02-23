@@ -1,7 +1,6 @@
 #pragma once
 
 #include <world/physics/kinematicphysicsobject.h>
-#include <QQuaternion>
 
 namespace terminus
 {
@@ -18,8 +17,6 @@ public:
     virtual void localUpdate(int elapsedMilliseconds) override;
 
     virtual void adjustCamera() override;
-    virtual void moveEvent(QVector3D movement);
-    virtual void rotateEvent(QVector2D rotation);
 
     virtual float maxHealth() const;
     virtual float currentHealth() const;
@@ -33,8 +30,6 @@ public:
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
-    QQuaternion m_lockedEyeAngle;
-
     float m_positionOffset;
     float m_health;
     bool m_disabled;

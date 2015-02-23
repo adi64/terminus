@@ -52,10 +52,10 @@ void AbstractWagon::adjustCamera()
         return;
     }
 
-    Camera & camera = *m_camera.get();
+    Camera & camera = *m_camera;
 
     auto center = m_position + m_rotation.rotatedVector(m_lockedCenterOffset);
-    camera.setCenter(setCenter(center));
+    camera.setCenter(center);
 
     QQuaternion objectAngle = m_rotation * QQuaternion::fromAxisAndAngle(worldFront(), -20.f);
     auto vA = m_lockedEyeAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized(),
@@ -65,24 +65,6 @@ void AbstractWagon::adjustCamera()
     m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, objectAngle, f);
 
     camera.setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
-}
-
-void AbstractWagon::moveEvent(QVector3D /*movement*/)
-{
-
-}
-
-void AbstractWagon::rotateEvent(QVector2D rotation)
-{
-    auto viewDirection = (center() - eye()).normalized();
-    auto viewNormal = QVector3D::normal(viewDirection, up());
-    // "x rotation" -> rotate around up vector
-    auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -rotation.x());
-    // "y rotation" -> rotation around "the vector pointing to the right"
-    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
-    auto rotation_total = rotation_x * rotation_y;
-
-    m_lockedEyeAngle *= rotation;
 }
 
 float AbstractWagon::maxHealth() const
