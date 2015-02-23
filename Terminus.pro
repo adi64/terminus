@@ -373,7 +373,9 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/player/remoteplayer.h
+    source/player/remoteplayer.h \
+    source/world/drawables/particles/snowstorm.h \
+    source/world/drawables/particles/particle.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -553,4 +555,6 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/player/remoteplayer.cpp
+    source/player/remoteplayer.cpp \
+    source/world/drawables/particles/snowstorm.cpp \
+    source/world/drawables/particles/particle.cpp
