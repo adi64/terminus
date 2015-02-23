@@ -13,8 +13,7 @@ Camera::Camera(
     const QVector3D & eye
 ,   const QVector3D & center
 ,   const QVector3D & up)
-: m_lockedToTrain(false)
-, m_eye(eye)
+: m_eye(eye)
 , m_center(center)
 , m_up(up)
 
@@ -29,9 +28,7 @@ Camera::Camera(
 , m_viewProjectionChanged(true)
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
-, m_lockedCenterOffset(QVector3D(0.0, 2.5, 0.0))
-, m_lockedEyeAngle(QQuaternion())
-, m_lockedFlickOffset(QVector3D(0.0f, 0.0f, 0.0f))
+, m_associatedObject(nullptr)
 {
 }
 
@@ -185,22 +182,10 @@ float Camera::aspectRatio() const
     return m_aspect;
 }
 
-QVector3D Camera::movement()
-{
-    return m_movement;
-}
-
-QVector2D Camera::rotation()
-{
-    return m_rotation;
-}
-
 void Camera::moveEvent(QVector3D movement)
 {
     if(!m_associatedObject)
     {
-        m_movement = movement;
-
         auto direction = (center() - eye()).normalized();
         auto newEye = eye();
         auto newCenter = center();
@@ -226,8 +211,6 @@ void Camera::moveEvent(QVector3D movement)
 
 void Camera::rotateEvent(QVector2D rotation)
 {
-    m_rotation = rotation;
-
     auto viewDirection = (center() - eye()).normalized();
     auto viewNormal = QVector3D::normal(viewDirection, up());
     // "x rotation" -> rotate around up vector
@@ -326,11 +309,11 @@ const QMatrix3x3 & Camera::normal() const
     return m_normal;
 }
 
-void Camera::bindToGraphicsObject(AbstractGraphicsObject * object)
+void Camera::bindTo(AbstractGraphicsObject * object)
 {
     if(m_associatedObject)
     {
-        m_associatedObject->unbindCamera();
+        m_associatedObject->unbindCamera(this);
     }
 
     m_associatedObject = object;
@@ -339,6 +322,24 @@ void Camera::bindToGraphicsObject(AbstractGraphicsObject * object)
     {
         m_associatedObject->bindCamera(this);
     }
+}
+
+void Camera::unbind()
+{
+    bindTo(nullptr);
+}
+
+void Camera::unbound(AbstractGraphicsObject * object)
+{
+    if(m_associatedObject == object)
+    {
+        m_associatedObject = nullptr;
+    }
+}
+
+bool Camera::isBound() const
+{
+    return m_associatedObject;
 }
 
 void Camera::setMatrices(Program & program, const QMatrix4x4 & model) const

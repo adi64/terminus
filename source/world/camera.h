@@ -64,26 +64,24 @@ public:
      *
      * passing a nullptr frees the camera
      */
-    void bindToGraphicsObject(AbstractGraphicsObject * object);
+    void bindTo(AbstractGraphicsObject * object);
 
-    QVector3D movement();
-    QVector2D rotation();
+    /*!
+     * \brief unbind - bind to nullptr
+     */
+    void unbind();
+
+    void unbound(AbstractGraphicsObject * object);
+
+    bool isBound() const;
 
     void moveEvent(QVector3D movement);
     void rotateEvent(QVector2D rotation);
-
-    void toggleLocked();
-    void setLocked(bool value);
-    bool isLocked() const;
-    void lockToObject(AbstractGraphicsObject *object);
 
 protected:
     void invalidateMatrices() const;
 
 protected:
-    QVector3D m_movement;
-    QVector2D m_rotation;
-
     QVector3D m_eye;
     QVector3D m_center;
     QVector3D m_up;
