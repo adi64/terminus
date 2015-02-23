@@ -36,8 +36,8 @@ namespace terminus
 		void connectToDefaultHost();
         void sendMessage(QJsonDocument &jsonDocument);
 
+        NetworkConnection *m_connection;
 		QString m_host;
 		quint16 m_port;
-        NetworkConnection *m_connection;
 	};
 }

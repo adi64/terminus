@@ -17,6 +17,9 @@ public:
 
     void sendMessage(AbstractCommand *command);
 
+signals:
+    void receivedCommand(AbstractCommand *command);
+
 protected:
     void receiveMessages();
 
@@ -25,8 +28,8 @@ protected:
 
     AbstractCommand *createCommandForRequest(const QString &request);
 
-    NetworkConnection *m_activePlayerConnection;
     quint16 m_expectedMessageSize;
+    NetworkConnection *m_activePlayerConnection;
 };
 
 }

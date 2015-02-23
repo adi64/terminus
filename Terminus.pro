@@ -343,6 +343,7 @@ HEADERS += \
     source/network/networkclient.h \
     source/network/networkconnection.h \
     source/network/networkendpoint.h \
+    source/network/networkmanager.h \
     source/network/networkserver.h \
     source/network/commands/abstractcommand.h \
     source/network/commands/commands.h \
@@ -531,6 +532,7 @@ SOURCES += \
     source/network/networkclient.cpp \
     source/network/networkconnection.cpp \
     source/network/networkendpoint.cpp \
+    source/network/networkmanager.cpp \
     source/network/networkserver.cpp \
     source/network/commands/abstractcommand.cpp \
     source/network/commands/playeridcommand.cpp \

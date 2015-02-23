@@ -4,7 +4,7 @@
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/projectilefiredcommand.h>
-#include "networkconnection.h"
+#include <network/networkconnection.h>
 
 namespace terminus
 {
@@ -60,7 +60,7 @@ void NetworkEndpoint::receiveMessages()
 
     AbstractCommand* cmd = createCommandForRequest(str);
 
-    cmd->run();
+    emit receivedCommand(cmd);
 }
 
 AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request)

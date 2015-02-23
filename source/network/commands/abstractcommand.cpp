@@ -7,6 +7,8 @@
 #include <QJsonValue>
 #include <QDebug>
 
+#include <game.h>
+
 namespace terminus
 {
 
@@ -48,12 +50,19 @@ TimeStamp AbstractCommand::TimeStampFromJsonValue(QJsonValue jsonValue)
 
 AbstractCommand::AbstractCommand(TimeStamp timeStamp)
     : m_timeStamp(timeStamp)
+    , m_game(nullptr)
 {
 
 }
 
-NetworkConnection* AbstractCommand::clientConnection() {
-    return m_clientConnection;
+AbstractCommand::~AbstractCommand()
+{
+
+}
+
+void AbstractCommand::setGame(Game *game)
+{
+    m_game = game;
 }
 
 TimeStamp AbstractCommand::timeStamp() const

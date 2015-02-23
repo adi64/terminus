@@ -13,6 +13,7 @@ using TimeStamp = std::chrono::duration<long,std::milli>;
 
 namespace terminus
 {
+    class Game;
     class NetworkServer;
 	class NetworkConnection;
 
@@ -25,18 +26,19 @@ namespace terminus
         static TimeStamp TimeStampFromJsonValue(QJsonValue jsonValue);
 
         AbstractCommand(TimeStamp timeStamp);
+        virtual ~AbstractCommand();
 
-		void run();
+        void setGame(Game* game);
+        void run();
         virtual void doWork() = 0;
         virtual Commands commandType() const = 0;
         virtual QJsonObject toJson() const = 0;
-		NetworkConnection* clientConnection();
         TimeStamp timeStamp() const;
 	signals:
 		void started();
 		void done();
 	protected:
-		NetworkConnection* m_clientConnection;
         TimeStamp m_timeStamp;
+        Game *m_game;
 	};
 }
