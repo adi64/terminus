@@ -1,6 +1,7 @@
 #include "geometry.h"
 
 #include <string>
+#include <math.h>
 
 #include <QDebug>
 #include <QOpenGLShaderProgram>

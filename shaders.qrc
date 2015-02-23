@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/basicShader.frag</file>
+        <file>data/basicShader.vert</file>
+        <file>data/envmap.frag</file>
+        <file>data/envmap.vert</file>
+        <file>data/terrain.frag</file>
+        <file>data/terrain.vert</file>
+    </qresource>
+</RCC>

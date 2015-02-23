@@ -1,5 +1,4 @@
 #include "resourcemanager.h"
-#include "geometry.h"
 
 #include <limits.h>
 #include <regex>
@@ -7,10 +6,13 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <math.h>
 
 #include <QFile>
 #include <QString>
 #include <QDebug> //TODO remove in the end
+
+#include "geometry.h"
 
 namespace terminus
 {

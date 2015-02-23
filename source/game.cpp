@@ -4,6 +4,8 @@
 #include <functional>
 
 #include <QQuickView>
+#include <QTimer>
+#include <QTime>
 #include <QVector3D>
 #include <QApplication>
 
@@ -16,7 +18,7 @@
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
 #include "projectile.h"
-#include "timer.h"
+
 #include "resources/resourcemanager.h"
 #include "wagons/enginewagon.h"
 #include "wagons/weaponwagon.h"
@@ -26,12 +28,16 @@ namespace terminus
 {
 
 Game::Game()
-: m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
+: m_timer(std::unique_ptr<QTimer>(new QTimer()))
+, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
+, m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
+
+    m_timeStamp->start();
 
     setupBulletWorld();
 
@@ -68,7 +74,14 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
 
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+
+    m_scene->setActiveCamera(m_localPlayer->camera());
+
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
+
+    m_scene->setInitialTimeStamp(m_timeStamp);
 
     m_scene->addNode(m_playerTrain.get());
     m_scene->addNode(m_enemyTrain.get());
@@ -83,19 +96,30 @@ Game::Game()
 
 Game::~Game()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void Game::sync()
 {
+    // check if it's our first frame
+    if(!m_setupComplete)
+    {
+        m_setupComplete = true;
+        m_paused = false;
+        m_timeStamp->restart();
+    }
+
     // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
+    auto elapsedMilliseconds = m_timeStamp->restart();
+    if(m_paused)
+    {
+       elapsedMilliseconds = 0;
+    }
+
     // physics
-    m_bullet_dynamicsWorld->stepSimulation(Timer::seconds(m_scene->timer().get(std::string("frame"))), 10);
+    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
     //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef Q_OS_MAC
@@ -104,7 +128,10 @@ void Game::sync()
         m_scene->camera().setViewport(window()->width(), window()->height());
     #endif
 
-    m_scene->update();
+    m_scene->update(elapsedMilliseconds);
+
+    m_aiPlayer->update(elapsedMilliseconds);
+    m_localPlayer->update(elapsedMilliseconds);
 }
 
 void Game::render()
@@ -128,8 +155,8 @@ void Game::handleWindowChanged(QQuickWindow *win)
         win->setClearBeforeRendering(false);
 
         // force redraw
-        connect(&m_timer, &QTimer::timeout, win, &QQuickWindow::update);
-        m_timer.start(1000 / 60);
+        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
+        m_timer->start(1000 / 60);
     }
 }
 
@@ -178,6 +205,16 @@ void Game::touchFire()
     m_eventHandler->touchFire();
 }
 
+void Game::setPaused(bool paused)
+{
+    m_paused = paused;
+}
+
+void Game::togglePaused()
+{
+    m_paused = !m_paused;
+}
+
 void Game::setupBulletWorld()
 {
     // these objects must not be deleted before m_bullet_dynamicsWorld
@@ -221,6 +258,11 @@ Train *Game::playerTrain() const
     return m_playerTrain.get();
 }
 
+AbstractPlayer *Game::localPlayer() const
+{
+    return m_localPlayer.get();
+}
+
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
@@ -235,23 +277,13 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 
         if(numContacts > 0)
         {
-            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
-            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
-
-            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
-            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
-
-            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
             {
-                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
-            }
-
-            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
-            {
-                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+                physicsObject0->onCollisionWith(physicsObject1);
+                physicsObject1->onCollisionWith(physicsObject0);
             }
         }
     }
