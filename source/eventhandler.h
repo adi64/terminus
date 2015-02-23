@@ -10,7 +10,7 @@ class Game;
 class EventHandler
 {
 public:
-    EventHandler();
+    EventHandler(Game *game = nullptr);
 
     void setGame(Game *game);
     void keyPressEvent(Qt::Key key);

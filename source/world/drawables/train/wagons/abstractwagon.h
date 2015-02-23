@@ -1,6 +1,11 @@
 #pragma once
 
+#include <QString>
+#include <memory>
+
 #include <world/physics/kinematicphysicsobject.h>
+
+#include "qmlwagon.h"
 
 namespace terminus
 {
@@ -8,6 +13,7 @@ class Train;
 
 class AbstractWagon : public KinematicPhysicsObject
 {
+
 public:
     AbstractWagon(std::shared_ptr<Scene> scene, Train *train);
 
@@ -16,17 +22,19 @@ public:
 
     virtual void update(int elapsedMilliseconds) override;
 
-    virtual float maxHealth() const;
-    virtual float currentHealth() const;
-    virtual void setHealth(float health);
+    virtual QMLWagon *qmlWagon() const final;
 
-    virtual float length() const;
-    virtual float weight() const;
+    virtual void setHealth(float health);
+    virtual float currentHealth() const;
+    virtual float maxHealth() const;
     virtual bool isDisabled() const;
+    virtual QString wagonType() const = 0;
+    virtual float length() const;
 
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
+    std::unique_ptr<QMLWagon> m_qmlWagon;
     float m_positionOffset;
     float m_health;
     bool m_disabled;

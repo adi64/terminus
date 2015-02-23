@@ -3,7 +3,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QQuickItem>
 
 #include <world/scene.h>
 
@@ -14,16 +13,16 @@ class Game;
 class EventHandler;
 class Train;
 class AbstractWagon;
+class QMLTrain;
+class QMLWagon;
 
-class UserInterface : public QQuickItem
+class UserInterface : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(float charge READ charge NOTIFY chargeChanged)
-    Q_PROPERTY(float reload READ reload NOTIFY reloadChanged)
-    Q_PROPERTY(QString wagonType READ wagonType NOTIFY wagonTypeChanged)
+    Q_PROPERTY(int currentWagonIndex READ currentWagonIndex NOTIFY currentWagonIndexChanged)
 
 public:
-    UserInterface();
+    UserInterface(Game *game = nullptr);
     ~UserInterface();
 
     Q_INVOKABLE void keyPressEvent(Qt::Key key);
@@ -39,23 +38,23 @@ public:
     /*Q_INVOKABLE void flickEvent(qreal startX, qreal x);
     Q_INVOKABLE void flickReset();*/
 
-    Q_INVOKABLE float charge() const;
-    Q_INVOKABLE float reload() const;
-    Q_INVOKABLE QString wagonType() const;
-    Q_INVOKABLE void sync(Game *game);
+    Q_INVOKABLE QMLTrain *playerQMLTrain();
+    Q_INVOKABLE QMLTrain *enemyQMLTrain();
+
+    Q_INVOKABLE int currentWagonIndex();
+    Q_INVOKABLE void sync();
 
 signals:
-    void chargeChanged();
-    void reloadChanged();
-    void wagonTypeChanged();
+    void gameChanged();
+    void currentWagonIndexChanged();
 
 protected:
+    Game *m_game;
     std::unique_ptr<EventHandler> m_eventHandler;
     unsigned int m_lockedWagonIndex;
-    AbstractWagon *m_currentWagon;
-    float m_charge;
-    float m_reload;
-    QString m_wagonType;
+    int m_currentWagonIndex;
+    QMLTrain *m_playerQMLTrain;
+    QMLTrain *m_enemyQMLTrain;
 };
 
 }

@@ -1,4 +1,5 @@
 import QtQuick 2.3
+import Game 1.0
 
 /*
  * Shows health, type and optionally cooldown of a player wagon
@@ -8,6 +9,7 @@ Rectangle
 {
     id: playerWagonStatus
 
+    property QMLWagon wagon
     property int wagonIndex
     property int totalWagons
     property int activeWagon: -1

@@ -49,4 +49,9 @@ float EngineWagon::length() const
     return 6.0f;
 }
 
+QString EngineWagon::wagonType() const
+{
+    return QString("EngineWagon");
+}
+
 }

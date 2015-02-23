@@ -1,0 +1,161 @@
+import QtQuick 2.3
+import QtSensors 5.3
+import Game 1.0
+
+/*
+ * Initializes UserInterface
+ * UserInterface is a container for all UI elements
+ */
+
+Item
+{
+    anchors.fill: parent
+    focus: true
+
+    property UserInterface ui
+
+    function switchText()
+    {
+        if(wagonType === "WeaponWagon")
+        {
+            actionButtonText.text = "Fire!";
+            actionButton.color = "steelblue";
+        }
+        if(wagonType === "RepairWagon")
+        {
+            actionButtonText.text = "Repair!";
+            actionButton.color = "grey";
+        }
+        if(wagonType === "EngineWagon")
+        {
+            actionButtonText.text = "Faster!";
+            actionButton.color = "grey";
+        }
+    }
+
+    /*onChargeChanged:
+    {
+        actionStatusBarProgress.actionfactor = charge;
+        reticle.factor = (1.0 / (0.5 + charge)) * 0.2;
+    }
+    onReloadChanged:
+    {
+        actionStatusBarProgress.actionfactor = reload;
+        actionStatusBarProgress.color = "yellow";
+    }
+    onWagonTypeChanged:
+    {
+        switchText();
+    }*/
+
+    Keys.onPressed:
+    {
+        ui.keyPressEvent(event.key)
+        event.accepted = true
+    }
+    Keys.onReleased:
+    {
+        ui.keyReleaseEvent(event.key)
+        event.accepted = true
+    }
+
+    MouseArea
+    {
+        id: mouseCamera
+        anchors.fill: parent
+        cursorShape: "BlankCursor"
+        hoverEnabled: true
+        enabled: Qt.platform.os === ("android" || "ios")? false : true
+        onPositionChanged:
+        {
+            ui.mouseMoveEvent(mouse.x, mouse.y)
+        }
+    }
+
+    Reticle{}
+
+    StatusBarContainer
+    {
+        playerTrain: ui.playerQMLTrain()
+        enemyTrain: ui.enemyQMLTrain()
+    }
+
+    WagonActionArea
+    {
+        //visible: Qt.platform.os === ("android" || "ios")? true : false
+        onCharge:
+        {
+            ui.touchChargeFire()
+        }
+        onFire:
+        {
+            ui.touchFire()
+        }
+    }
+
+    WagonSwitchArea
+    {
+        //visible: Qt.platform.os === ("android" || "ios")? true : false
+        onSwitchToNextWagon:
+        {
+            ui.switchToNextWagon()
+        }
+        onSwitchToPreviousWagon:
+        {
+            ui.switchToPreviousWagon()
+        }
+    }
+
+    OrientationSensor
+    {
+        id: orientation
+        dataRate: 50
+        active: true
+        onReadingChanged:
+        {
+            if (reading.orientation === OrientationReading.LeftUp)
+            {
+                gyro.orientation_multiplier = 2
+            }
+            if (reading.orientation === OrientationReading.RightUp)
+            {
+                gyro.orientation_multiplier = -2
+            }
+        }
+    }
+
+    Gyroscope
+    {
+        id: gyro
+        dataRate: 100
+        active: true
+
+        property int orientation_multiplier: -2
+
+        onReadingChanged:
+        {
+            ui.gyroMoveEvent(gyro.reading.x * orientation_multiplier
+                             , gyro.reading.y * orientation_multiplier)
+        }
+    }
+
+    /*MultiPointTouchArea
+    {
+        id: flick
+        anchors.fill: parent
+        minimumTouchPoints: 1
+        touchPoints:
+        [
+            TouchPoint { id: touchF1 }
+        ]
+
+        onTouchUpdated:
+        {
+            ui.flickEvent(touchF1.startX, touchF1.x);
+        }
+        onReleased:
+        {
+            ui.flickReset();
+        }
+    }*/
+}

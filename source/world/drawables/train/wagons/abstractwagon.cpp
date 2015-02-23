@@ -14,8 +14,9 @@ namespace terminus
 
 AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
-    , m_train(train)
+    , m_qmlWagon(std::unique_ptr<QMLWagon>(new QMLWagon(this)))    
     , m_health(maxHealth())
+    , m_train(train)
 {
 }
 
@@ -35,11 +36,16 @@ void AbstractWagon::update(int elapsedMilliseconds)
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
-    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
+    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
-    setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
+    KinematicPhysicsObject::setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::update(elapsedMilliseconds);
+}
+
+QMLWagon *AbstractWagon::qmlWagon() const
+{
+    return m_qmlWagon.get();
 }
 
 float AbstractWagon::maxHealth() const
@@ -73,12 +79,6 @@ void AbstractWagon::setHealth(float health)
 
 float AbstractWagon::length() const
 {
-    return 1.f;
-}
-
-float AbstractWagon::weight() const
-{
-    // weight in metric tons
     return 1.f;
 }
 

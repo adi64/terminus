@@ -71,7 +71,7 @@ void WeaponWagon::fire(QVector3D force)
 {
     auto scene = m_scene;
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
-    QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+    QVector3D worldProjectilePosition = KinematicPhysicsObject::position() + KinematicPhysicsObject::rotation().rotatedVector(relativeProjectilePosition);
 
     m_scene->scheduleAction(
         [scene, worldProjectilePosition, force, this]()
@@ -135,6 +135,11 @@ void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
 float WeaponWagon::length() const
 {
     return 7.5f;
+}
+
+QString WeaponWagon::wagonType() const
+{
+    return QString("WeaponWagon");
 }
 
 unsigned int WeaponWagon::chargeTime() const

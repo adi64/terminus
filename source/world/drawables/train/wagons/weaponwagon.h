@@ -23,6 +23,7 @@ public:
     void update(int elapsedMilliseconds) override;
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
+    QString wagonType() const;
     unsigned int chargeTime() const;
     unsigned int reloadTime() const;
 

@@ -40,6 +40,7 @@ Game::Game()
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
 , m_paused(true)
 , m_setupComplete(false)
+
 {
 
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -98,6 +99,8 @@ Game::Game()
     m_scene->addNode(m_skybox.get());
 
     m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
+
+    m_userinterface = std::unique_ptr<UserInterface>(new UserInterface(this));
 }
 
 Game::~Game()
@@ -136,7 +139,7 @@ void Game::sync()
     m_scene->update(elapsedMilliseconds);
     m_aiPlayer->update(elapsedMilliseconds);
     m_localPlayer->update(elapsedMilliseconds);
-    m_ui->sync(this);
+    m_userinterface->sync();
 }
 
 void Game::render() const
@@ -218,14 +221,19 @@ Train *Game::playerTrain() const
     return m_playerTrain.get();
 }
 
-void Game::setUI(UserInterface *ui)
+Train *Game::enemyTrain() const
 {
-    m_ui = ui;
+    return m_enemyTrain.get();
 }
 
 AbstractPlayer *Game::localPlayer() const
 {
     return m_localPlayer.get();
+}
+
+UserInterface *Game::userInterface()
+{
+    return m_userinterface.get();
 }
 
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)

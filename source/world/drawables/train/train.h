@@ -9,6 +9,8 @@
 #include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/scene.h>
 
+#include "qmltrain.h"
+
 namespace terminus
 {
 
@@ -46,6 +48,8 @@ public:
      */
     void render(QOpenGLFunctions &gl) const override;
 
+    QMLTrain *qmlTrain() const;
+
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
 
@@ -70,8 +74,12 @@ protected:
      */
     void calculateWagonOffset();
 
+signals:
+    void sizeChanged();
+
 protected:
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
+    std::unique_ptr<QMLTrain> m_qmlTrain;
     bool m_isRunning;
     bool m_hasEngine; //!< Every train needs exactly one engine
 

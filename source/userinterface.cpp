@@ -2,14 +2,14 @@
 
 #include <memory>
 #include <functional>
+#include <assert.h>
 
 #include <QDebug>
 #include <QQuickView>
 
 #include <player/abstractplayer.h>
-#include <world/drawables/train/wagons/weaponwagon.h>
-#include <world/drawables/train/wagons/enginewagon.h>
-#include <world/drawables/train/wagons/repairwagon.h>
+#include <world/drawables/train/qmltrain.h>
+#include <world/drawables/train/wagons/qmlwagon.h>
 
 #include "game.h"
 #include "eventhandler.h"
@@ -17,14 +17,15 @@
 namespace terminus
 {
 
-UserInterface::UserInterface()
-    : m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler))
-    , m_lockedWagonIndex(0)
-    , m_currentWagon(nullptr)
-    , m_charge(0.f)
-    , m_reload(0.f)
+UserInterface::UserInterface(Game *game)
+    : m_game(game)
+    , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(game)))
+    , m_currentWagonIndex(0)
+    , m_playerQMLTrain(m_game->playerTrain()->qmlTrain())
+    , m_enemyQMLTrain(m_game->enemyTrain()->qmlTrain())
 {
-
+    assert(m_game != nullptr);
+    connect(m_game, SIGNAL(gameSyncCompleted()), this, SLOT(sync()), Qt::DirectConnection);
 }
 
 UserInterface::~UserInterface()
@@ -86,71 +87,23 @@ void UserInterface::touchFire()
     m_eventHandler->touchFire();
 }
 
-float UserInterface::charge() const
+QMLTrain *UserInterface::playerQMLTrain()
 {
-    return m_charge;
+    return m_playerQMLTrain;
 }
 
-float UserInterface::reload() const
+QMLTrain *UserInterface::enemyQMLTrain()
 {
-    return m_reload;
+    return m_enemyQMLTrain;
 }
 
-QString UserInterface::wagonType() const
+int UserInterface::currentWagonIndex()
 {
-    return m_wagonType;
+    return m_currentWagonIndex;
 }
 
-void UserInterface::sync(Game *game)
+void UserInterface::sync()
 {
-    m_eventHandler->setGame(game);
-    auto oldWagon = m_currentWagon;
-    m_currentWagon = game->playerTrain()->wagonAt(game->localPlayer()->selectedWagonIndex());
-
-    auto wagon = dynamic_cast<WeaponWagon*>(m_currentWagon);
-    if(wagon != nullptr)
-    {
-        m_wagonType = "WeaponWagon";
-        wagonTypeChanged();
-
-        auto reload = static_cast<float>(wagon->reloadTime());
-        auto charge = static_cast<float>(wagon->chargeTime());
-
-        if(charge > 0.f || oldWagon != m_currentWagon)
-        {
-            m_charge = (charge / 3000.f);
-            chargeChanged();
-        }
-        if(reload > 0.f || oldWagon != m_currentWagon)
-        {
-            m_reload = (reload / 5000.f);
-            reloadChanged();
-        }
-        return;
-    }
-
-    auto wagon2 = dynamic_cast<RepairWagon*>(m_currentWagon);
-    if(wagon2 != nullptr)
-    {
-        m_wagonType = "RepairWagon";
-        m_charge = 0;
-        m_reload = 0;
-        wagonTypeChanged();
-        chargeChanged();
-        reloadChanged();
-        return;
-    }
-
-    auto wagon3 = dynamic_cast<EngineWagon*>(m_currentWagon);
-    if(wagon3 != nullptr)
-    {
-        m_wagonType = "EngineWagon";
-        m_charge = 0;
-        m_reload = 0;
-        wagonTypeChanged();
-        chargeChanged();
-        reloadChanged();
-        return;
-    }
+    m_currentWagonIndex = m_game->localPlayer()->selectedWagonIndex();
 }
 }

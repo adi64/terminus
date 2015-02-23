@@ -41,9 +41,10 @@ public:
 
     Scene *scene() const;
     Train *playerTrain() const;
+    Train *enemyTrain() const;
     AbstractPlayer *localPlayer() const;
 
-    Q_INVOKABLE void setUI(UserInterface *ui);
+    Q_INVOKABLE UserInterface *userInterface();
 
     void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
@@ -74,6 +75,9 @@ public slots:
     void setPaused(bool paused);
     void togglePaused();
 
+signals:
+    void gameSyncCompleted();
+
 protected:
     void setupBulletWorld(void);
 
@@ -88,7 +92,7 @@ protected:
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
 
-    UserInterface *m_ui;
+    std::unique_ptr<UserInterface> m_userinterface;
 
     bool m_paused;
     bool m_setupComplete;

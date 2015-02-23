@@ -4,19 +4,19 @@
 #include <QApplication>
 #include <QQuickWindow>
 
-#include "game.h"
 #include <world/camera.h>
 #include <world/scene.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <player/abstractplayer.h>
 
+#include "game.h"
 
 namespace terminus
 {
 
-EventHandler::EventHandler()
-    : m_game(nullptr)
+EventHandler::EventHandler(Game *game)
+    : m_game(game)
     , m_flicked(false)
     , m_flickResetted(false)
 {

@@ -1,12 +1,15 @@
 import QtQuick 2.3
+import Game 1.0
 
 /*
  * Shows health, type and optionally cooldown of an enemy wagon
  */
 
-Rectangle{
+Rectangle
+{
     id: enemyWagonStatus
 
+    property QMLWagon wagon
     property int wagonIndex
     property int totalWagons
     property real health
