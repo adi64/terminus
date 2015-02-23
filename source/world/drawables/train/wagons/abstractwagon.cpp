@@ -12,6 +12,8 @@
 namespace terminus
 {
 
+constexpr QVector3D m_lockedCenterOffset = QVector3D(0.0, 2.5, 0.0);
+
 AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
     : KinematicPhysicsObject(scene)
     , m_health(maxHealth())
@@ -41,6 +43,46 @@ void AbstractWagon::localUpdate(int elapsedMilliseconds)
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate(elapsedMilliseconds);
+}
+
+void AbstractWagon::adjustCamera()
+{
+    if(!m_camera)
+    {
+        return;
+    }
+
+    Camera & camera = *m_camera.get();
+
+    auto center = m_position + m_rotation.rotatedVector(m_lockedCenterOffset);
+    camera.setCenter(setCenter(center));
+
+    QQuaternion objectAngle = m_rotation * QQuaternion::fromAxisAndAngle(worldFront(), -20.f);
+    auto vA = m_lockedEyeAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized(),
+          vB = objectAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized();
+    float angle = acos(QVector3D::dotProduct(vA, vB));
+    float f = MathUtil::linstep(MathUtil::PI / 4, MathUtil::PI / 3, angle);
+    m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, objectAngle, f);
+
+    camera.setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
+}
+
+void AbstractWagon::moveEvent(QVector3D /*movement*/)
+{
+
+}
+
+void AbstractWagon::rotateEvent(QVector2D rotation)
+{
+    auto viewDirection = (center() - eye()).normalized();
+    auto viewNormal = QVector3D::normal(viewDirection, up());
+    // "x rotation" -> rotate around up vector
+    auto rotation_x = QQuaternion::fromAxisAndAngle(up(), -rotation.x());
+    // "y rotation" -> rotation around "the vector pointing to the right"
+    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
+    auto rotation_total = rotation_x * rotation_y;
+
+    m_lockedEyeAngle *= rotation;
 }
 
 float AbstractWagon::maxHealth() const

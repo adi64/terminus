@@ -31,19 +31,19 @@ void EventHandler::keyPressEvent(Qt::Key key)
     {
     case Qt::Key_W:
         movement.setZ(-1.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_S:
         movement.setZ(1.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_A:
         movement.setX(-1.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_D:
         movement.setX(1.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_Q:
         QApplication::quit();
@@ -79,19 +79,19 @@ void EventHandler::keyReleaseEvent(Qt::Key key)
     {
     case Qt::Key_W:
         movement.setZ(0.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_S:
         movement.setZ(0.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_A:
         movement.setX(0.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_D:
         movement.setX(0.0);
-        m_game->localPlayer()->camera()->setMovement(movement);
+        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     default:
         break;
@@ -109,7 +109,7 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->localPlayer()->camera()->setRotation(rotation);
+    m_game->localPlayer()->camera()->rotateEvent(rotation);
 
     QPoint globalPosition = m_game->window()->mapToGlobal(QPoint(m_game->window()->width() / 2, m_game->window()->height() / 2));
     QCursor::setPos(globalPosition);
@@ -125,7 +125,7 @@ void EventHandler::touchMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->localPlayer()->camera()->setRotation(rotation);
+    m_game->localPlayer()->camera()->rotateEvent(rotation);
 }
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
@@ -135,7 +135,7 @@ void EventHandler::gyroMoveEvent(qreal x, qreal y)
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    m_game->localPlayer()->camera()->setRotation(rotation);
+    m_game->localPlayer()->camera()->rotateEvent(rotation);
 }
 
 void EventHandler::flickEvent(qreal startx, qreal x)
@@ -156,7 +156,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
     auto threshold = width * 0.2;
 
-    m_game->localPlayer()->camera()->setMovement(QVector3D(direction, 0.0f, 0.0f));
+    m_game->localPlayer()->camera()->moveEvent(QVector3D(direction, 0.0f, 0.0f));
 
     if(direction > 0)
     {
@@ -178,7 +178,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
 void EventHandler::flickReset()
 {
-    m_game->localPlayer()->camera()->setMovement(QVector3D(0.f, 0.f, 0.f));
+    m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, 0.f));
     m_flickResetted = true;
 
     if(m_flicked)

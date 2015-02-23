@@ -57,5 +57,4 @@ void terminus::AbstractPlayer::primaryActionDebug()
 
 void terminus::AbstractPlayer::update(int elapsedMilliseconds)
 {
-    m_camera->update();
 }
