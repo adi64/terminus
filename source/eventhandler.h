@@ -24,7 +24,6 @@ public:
 
 protected:
     Game *m_game;
-    unsigned int m_lockedWagonIndex; //TODO Move to train
     bool m_flicked;
     bool m_flickResetted;
     qreal m_flickDirection;

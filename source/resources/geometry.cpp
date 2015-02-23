@@ -1,6 +1,7 @@
 #include "geometry.h"
 
 #include <string>
+#include <math.h>
 
 #include <QDebug>
 #include <QOpenGLShaderProgram>
@@ -12,7 +13,6 @@ namespace terminus
 
 Geometry::Geometry()
 : m_isOnGPU(false)
-//, m_vao(nullptr)
 , m_vbo(nullptr)
 , m_ibo(nullptr)
 {
@@ -24,7 +24,19 @@ Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::v
 , m_ibo(nullptr)
 , m_vertexBuffer(vertexBuffer)
 , m_indexBuffer(indexBuffer)
+{
+    m_elementCount = m_indexBuffer.size();
+    calculateBBox();
+}
 
+Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer, const QVector3D & minBBox, const QVector3D & maxBBox)
+: m_isOnGPU(false)
+, m_vbo(nullptr)
+, m_ibo(nullptr)
+, m_vertexBuffer(vertexBuffer)
+, m_indexBuffer(indexBuffer)
+, m_bBoxMin(minBBox)
+, m_bBoxMax(maxBBox)
 {
     m_elementCount = m_indexBuffer.size();
 }
@@ -32,6 +44,19 @@ Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::v
 Geometry::~Geometry()
 {
     deallocate();
+}
+
+void Geometry::calculateBBox()
+{
+    for(auto iVert = m_vertexBuffer.begin(); iVert != m_vertexBuffer.end(); iVert++)
+    {
+        m_bBoxMax.setX(fmax(iVert->position[0], m_bBoxMax.x()));
+        m_bBoxMax.setY(fmax(iVert->position[1], m_bBoxMax.y()));
+        m_bBoxMax.setZ(fmax(iVert->position[2], m_bBoxMax.z()));
+        m_bBoxMin.setX(fmin(iVert->position[0], m_bBoxMin.x()));
+        m_bBoxMin.setY(fmin(iVert->position[1], m_bBoxMin.y()));
+        m_bBoxMin.setZ(fmin(iVert->position[2], m_bBoxMin.z()));
+    }
 }
 
 void Geometry::allocate() const
@@ -75,6 +100,16 @@ void Geometry::deallocate() const
         m_ibo = nullptr;
     }
     m_isOnGPU = false;
+}
+
+QVector3D Geometry::bBoxMin() const
+{
+    return m_bBoxMin;
+}
+
+QVector3D Geometry::bBoxMax() const
+{
+    return m_bBoxMax;
 }
 
 void Geometry::setAttributes(Program & program)

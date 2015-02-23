@@ -9,22 +9,25 @@
 #include <QVector3D>
 #include <QApplication>
 
-#include "scene.h"
-#include "resources/resourcemanager.h"
-#include "resources/soundmanager.h"
-#include "train.h"
-#include "terrain.h"
-#include "skybox.h"
+#include <resources/resourcemanager.h>
+#include <resources/resourcemanager.h>
+#include <resources/soundmanager.h>
+
+#include <world/scene.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/skybox.h>
+#include <world/drawables/projectile.h>
+#include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+
+#include <player/abstractplayer.h>
+#include <player/aiplayer.h>
+#include <player/localplayer.h>
+
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
-#include "projectile.h"
-
-#include "resources/resourcemanager.h"
-#include "wagons/enginewagon.h"
-#include "wagons/weaponwagon.h"
-#include "wagons/repairwagon.h"
-
-#include "snowstorm.h"
 
 namespace terminus
 {
@@ -34,12 +37,15 @@ Game::Game()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_paused(true)
+, m_setupComplete(false)
 {
+
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
 
-    m_timeStamp->start();
+    m_timeStamp->restart();
 
     setupBulletWorld();
 
@@ -76,8 +82,12 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
 
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));                //Holding skybox (and snowstorm, terrain, trains) as direct member may be better. Does not need to be a pointer here
-    //m_snowStorm = std::unique_ptr<SnowStorm>(new SnowStorm(m_scene));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+
+    m_scene->setActiveCamera(m_localPlayer->camera());
+
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
     m_scene->setInitialTimeStamp(m_timeStamp);
 
@@ -85,7 +95,6 @@ Game::Game()
     m_scene->addNode(m_enemyTrain.get());
     m_scene->addNode(m_terrain.get());
     m_scene->addNode(m_skybox.get());
-    //m_scene->addNode(m_snowStorm.get());
 
     m_scene->camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
@@ -95,23 +104,31 @@ Game::Game()
 
 Game::~Game()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void Game::sync()
 {
+    // check if it's our first frame
+    if(!m_setupComplete)
+    {
+        m_setupComplete = true;
+        m_paused = false;
+        m_timeStamp->restart();
+    }
+
     // process scheduled events
     m_deferredActionHandler->processDeferredActions();
 
     auto elapsedMilliseconds = m_timeStamp->restart();
+    if(m_paused)
+    {
+       elapsedMilliseconds = 0;
+    }
 
     // physics
     m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
-    //TODO  // m_scene->setViewportSize(window()->size() * window()->devicePixelRatio());
     #ifdef Q_OS_MAC
         m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
     #else
@@ -119,9 +136,12 @@ void Game::sync()
     #endif
 
     m_scene->update(elapsedMilliseconds);
+
+    m_aiPlayer->update(elapsedMilliseconds);
+    m_localPlayer->update(elapsedMilliseconds);
 }
 
-void Game::render()
+void Game::render() const
 {
     m_scene->render();
 }
@@ -192,6 +212,16 @@ void Game::touchFire()
     m_eventHandler->touchFire();
 }
 
+void Game::setPaused(bool paused)
+{
+    m_paused = paused;
+}
+
+void Game::togglePaused()
+{
+    m_paused = !m_paused;
+}
+
 void Game::setupBulletWorld()
 {
     // these objects must not be deleted before m_bullet_dynamicsWorld
@@ -235,6 +265,11 @@ Train *Game::playerTrain() const
     return m_playerTrain.get();
 }
 
+AbstractPlayer *Game::localPlayer() const
+{
+    return m_localPlayer.get();
+}
+
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
@@ -249,23 +284,13 @@ void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 
         if(numContacts > 0)
         {
-            auto graphicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto graphicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
+            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
+            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
 
-            auto possibleWagon0 = dynamic_cast<AbstractWagon*>(graphicsObject0);
-            auto possibleWagon1 = dynamic_cast<AbstractWagon*>(graphicsObject1);
-
-            auto possibleProjectile0 = dynamic_cast<Projectile*>(graphicsObject0);
-            auto possibleProjectile1 = dynamic_cast<Projectile*>(graphicsObject1);
-
-            if(possibleWagon0 != nullptr && possibleProjectile1 != nullptr)
+            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
             {
-                possibleWagon0->setHealth(possibleWagon0->currentHealth() - possibleProjectile1->damage());
-            }
-
-            if(possibleWagon1 != nullptr && possibleProjectile0 != nullptr)
-            {
-                possibleWagon1->setHealth(possibleWagon1->currentHealth() - possibleProjectile0->damage());
+                physicsObject0->onCollisionWith(physicsObject1);
+                physicsObject1->onCollisionWith(physicsObject0);
             }
         }
     }
