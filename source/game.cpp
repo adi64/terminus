@@ -99,7 +99,7 @@ Game::Game()
     m_scene->camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     m_scene->camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
-    m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
+    m_scene->camera().bindTo(m_playerTrain->wagonAt(0));
 }
 
 Game::~Game()

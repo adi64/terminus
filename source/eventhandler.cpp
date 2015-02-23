@@ -25,31 +25,26 @@ EventHandler::EventHandler(Game *game)
 
 void EventHandler::keyPressEvent(Qt::Key key)
 {
-    auto movement = m_game->scene()->camera().movement();
-
+    float moveQuantum = 1.f;
     switch(key)
     {
     case Qt::Key_W:
-        movement.setZ(-1.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
+        m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
         break;
     case Qt::Key_S:
-        movement.setZ(1.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
+        m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, moveQuantum));
         break;
     case Qt::Key_A:
-        movement.setX(-1.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
+        m_game->localPlayer()->camera()->moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
         break;
     case Qt::Key_D:
-        movement.setX(1.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
+        m_game->localPlayer()->camera()->moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
         break;
     case Qt::Key_Q:
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        m_game->localPlayer()->camera()->toggleLocked();
+        m_game->localPlayer()->camera()->unbind();
         break;
     case Qt::Key_Escape:
         QApplication::quit();
@@ -73,25 +68,16 @@ void EventHandler::keyPressEvent(Qt::Key key)
 
 void EventHandler::keyReleaseEvent(Qt::Key key)
 {
-    auto movement = m_game->scene()->camera().movement();
 
     switch(key)
     {
     case Qt::Key_W:
-        movement.setZ(0.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_S:
-        movement.setZ(0.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_A:
-        movement.setX(0.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     case Qt::Key_D:
-        movement.setX(0.0);
-        m_game->localPlayer()->camera()->moveEvent(movement);
         break;
     default:
         break;
@@ -160,7 +146,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
     if(direction > 0)
     {
-        if(m_game->localPlayer()->camera()->isLocked() && ((m_game->localPlayer()->selectedWagonIndex() + 1) < m_game->playerTrain()->size()))
+        if(m_game->localPlayer()->camera()->isBound() && ((m_game->localPlayer()->selectedWagonIndex() + 1) < m_game->playerTrain()->size()))
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -168,7 +154,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
     if(direction < 0)
     {
-        if(m_game->localPlayer()->camera()->isLocked() && m_game->localPlayer()->selectedWagonIndex() > 0)
+        if(m_game->localPlayer()->camera()->isBound() && m_game->localPlayer()->selectedWagonIndex() > 0)
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -178,7 +164,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
 void EventHandler::flickReset()
 {
-    m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, 0.f));
+    //m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, 0.f));
     m_flickResetted = true;
 
     if(m_flicked)
