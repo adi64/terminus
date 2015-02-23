@@ -16,6 +16,7 @@ AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
+, m_lockedEyeAngle(QQuaternion())
 , m_modelMatrixChanged(false)
 {
 }
@@ -44,18 +45,51 @@ void AbstractGraphicsObject::update(int elapsedMilliseconds)
         });
 }
 
-void AbstractGraphicsObject::unbindCamera()
+void AbstractGraphicsObject::unbindCamera(Camera * cam)
 {
-    m_camera.reset();
+    if(cam == m_camera)
+    {
+        if(cam)
+        {
+            m_camera->unbound(this);
+        }
+        m_camera = nullptr;
+    }
 }
 
 void AbstractGraphicsObject::bindCamera(Camera * cam)
 {
+    if(m_camera == cam)
+    {
+        return;
+    }
+
+    unbindCamera(m_camera);
     m_camera = cam;
 }
 
 void AbstractGraphicsObject::adjustCamera()
 {
+}
+
+void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
+{
+
+}
+
+void AbstractGraphicsObject::rotateEvent(QVector2D rotation)
+{
+    Camera & camera = *m_camera;
+
+    auto viewDirection = (camera.center() - camera.eye()).normalized();
+    auto viewNormal = QVector3D::normal(viewDirection, camera.up());
+    // "x rotation" -> rotate around up vector
+    auto rotation_x = QQuaternion::fromAxisAndAngle(camera.up(), -rotation.x());
+    // "y rotation" -> rotation around "the vector pointing to the right"
+    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
+    auto rotation_total = rotation_x * rotation_y;
+
+    m_lockedEyeAngle *= rotation_total;
 }
 
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)

@@ -46,7 +46,7 @@ public:
      *
      * Call this function, if the object is not supposed to use camera anymore.
      */
-    virtual void unbindCamera();
+    virtual void unbindCamera(Camera * cam);
 
     /*!
      * \brief bindCamera - binds the scene camera to this object
@@ -63,6 +63,8 @@ public:
      * Should be overwritten by classes, which intend to host the camera.
      */
     virtual void adjustCamera();
+    virtual void moveEvent(QVector3D movement);
+    virtual void rotateEvent(QVector2D rotation);
 
     virtual QVector3D worldUp();
     virtual QVector3D worldFront();
@@ -118,7 +120,7 @@ protected:
 
 protected:
     std::shared_ptr<Scene> m_scene;
-    std::shared_ptr<Camera> m_camera;
+    Camera * m_camera;
 
     std::shared_ptr<std::unique_ptr<Program>> m_program;
     std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;
@@ -126,6 +128,7 @@ protected:
 
     QVector3D m_position;
     QQuaternion m_rotation;
+    QQuaternion m_lockedEyeAngle;
     QVector3D m_scale;
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;
