@@ -374,7 +374,7 @@ HEADERS += \
     source/eventhandler.h \
     source/game.h \
     source/player/remoteplayer.h \
-    source/timer.h
+    source/util/timer.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -555,4 +555,4 @@ SOURCES += \
     source/main.cpp \
     source/bullet/clew/clew.c \
     source/player/remoteplayer.cpp \
-    source/timer.cpp
+    source/util/timer.cpp
