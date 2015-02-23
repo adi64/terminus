@@ -4,14 +4,15 @@
 
 #include <game.h>
 #include <network/commands/abstractcommand.h>
-#include <network/networkendpoint.h>
+#include <network/networkconnection.h>
 #include <network/networkclient.h>
+#include <network/networkendpoint.h>
 #include <network/networkserver.h>
 
 namespace terminus
 {
 
-NetworkManager::NetworkManager(std::shared_ptr<Game> game)
+NetworkManager::NetworkManager(Game &game)
     : m_game(game)
     , m_networkEndpoint(nullptr)
     , m_endpointType(EndpointType::INVALID)
@@ -44,6 +45,14 @@ void NetworkManager::startClient(QString host, unsigned short port)
     m_endpointType = EndpointType::CLIENT;
 }
 
+void NetworkManager::sendMessage(AbstractCommand *command)
+{
+    if(isConnected())
+    {
+        m_networkEndpoint->sendMessage(command);
+    }
+}
+
 bool NetworkManager::isClient() const
 {
     return m_endpointType == EndpointType::CLIENT;
@@ -52,6 +61,23 @@ bool NetworkManager::isClient() const
 bool NetworkManager::isServer() const
 {
     return m_endpointType == EndpointType::SERVER;
+}
+
+bool NetworkManager::isConnected() const
+{
+    if(m_endpointType == EndpointType::INVALID)
+    {
+        return false;
+    }
+
+    assert(m_networkEndpoint != nullptr);
+
+    if(m_networkEndpoint->activePlayerConnection() != nullptr)
+    {
+        return m_networkEndpoint->activePlayerConnection()->isConnected();
+    }
+
+    return false;
 }
 
 NetworkServer *NetworkManager::networkServer() const
@@ -69,8 +95,8 @@ NetworkClient *NetworkManager::networkClient() const
 void NetworkManager::newCommand(AbstractCommand *command)
 {
     qDebug() << "ermergerd new command!";
-    command->setGame(m_game.get());
-    m_game->scene()->scheduleAction( [=](){ command->run(); delete command; } );
+    command->setGame(&m_game);
+    m_game.scene()->scheduleAction( [=](){ command->run(); delete command; } );
 }
 
 } // namespace terminus

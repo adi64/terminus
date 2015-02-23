@@ -17,6 +17,8 @@ public:
 
     void sendMessage(AbstractCommand *command);
 
+    NetworkConnection *activePlayerConnection();
+
 signals:
     void receivedCommand(AbstractCommand *command);
 

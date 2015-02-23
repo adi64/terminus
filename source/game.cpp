@@ -26,15 +26,10 @@
 #include <player/aiplayer.h>
 #include <player/localplayer.h>
 
-#include "eventhandler.h"
-#include "deferredactionhandler.h"
+#include <eventhandler.h>
+#include <deferredactionhandler.h>
 
-//TODO FIXME
-#include <network/networkserver.h>
-#include <network/networkclient.h>
-#include <network/commands/projectilefiredcommand.h>
-#include <chrono>
-#include <QThread>
+#include <network/networkmanager.h>
 
 namespace terminus
 {
@@ -44,6 +39,7 @@ Game::Game()
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(this)))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_networkManager(std::shared_ptr<NetworkManager>(new NetworkManager(*this)))
 , m_paused(true)
 , m_setupComplete(false)
 {
@@ -108,12 +104,8 @@ Game::Game()
     m_scene->camera().setUp(QVector3D(0.0, 1.0, 0.0));
     m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
 
-    auto networkServer = std::shared_ptr<NetworkServer>(new NetworkServer);
-    networkServer->setListenPort(4711);
-    networkServer->start();
-    m_networkEndpoint = networkServer;
-
-    m_scene->setNetworkEndpoint(m_networkEndpoint);
+    m_networkManager->startServer(4711);
+    m_scene->setNetworkManager(m_networkManager);
 }
 
 Game::~Game()

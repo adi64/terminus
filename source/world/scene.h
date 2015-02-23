@@ -21,7 +21,7 @@ namespace terminus
 
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
-class NetworkEndpoint;
+class NetworkManager;
 
 class Scene : public QObject
 {
@@ -36,8 +36,8 @@ public:
     Camera & camera();
     void setActiveCamera(std::shared_ptr<Camera> camera);
 
-    NetworkEndpoint *networkEndpoint();
-    void setNetworkEndpoint(std::shared_ptr<NetworkEndpoint> networkEndpoint);
+    NetworkManager *networkManager();
+    void setNetworkManager(std::shared_ptr<NetworkManager> networkManager);
 
     btDiscreteDynamicsWorld* bullet_world();
     void scheduleAction(DeferredAction event);
@@ -59,7 +59,7 @@ private:
     std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_world;
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
-    std::shared_ptr<NetworkEndpoint> m_networkEndpoint;
+    std::shared_ptr<NetworkManager> m_networkManager;
 };
 
 

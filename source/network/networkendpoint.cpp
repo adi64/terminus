@@ -29,6 +29,11 @@ void NetworkEndpoint::sendMessage(AbstractCommand *command)
     }
 }
 
+NetworkConnection *NetworkEndpoint::activePlayerConnection()
+{
+    return m_activePlayerConnection;
+}
+
 void NetworkEndpoint::receiveMessages()
 {
     NetworkConnection* socket = dynamic_cast<NetworkConnection*>(sender());

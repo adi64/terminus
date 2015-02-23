@@ -19,13 +19,16 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    NetworkManager(std::shared_ptr<Game> game);
+    NetworkManager(Game &game);
 
     void startServer(unsigned short port);
     void startClient(QString host, unsigned short port);
 
+    void sendMessage(AbstractCommand *command);
+
     bool isClient() const;
     bool isServer() const;
+    bool isConnected() const;
 
     NetworkServer *networkServer() const;
     NetworkClient *networkClient() const;
@@ -34,7 +37,7 @@ protected slots:
     void newCommand(AbstractCommand* command);
 
 protected:
-    std::shared_ptr<Game> m_game;
+    Game & m_game;
     std::unique_ptr<NetworkEndpoint> m_networkEndpoint;
 
     enum EndpointType

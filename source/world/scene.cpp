@@ -10,7 +10,7 @@
 #include "camera.h"
 #include <world/physics/abstractphysicsobject.h>
 #include <deferredactionhandler.h>
-#include <network/networkendpoint.h>
+#include <network/networkmanager.h>
 
 namespace terminus
 {
@@ -136,14 +136,14 @@ void Scene::setActiveCamera(std::shared_ptr<Camera> camera)
     m_activeCamera = camera;
 }
 
-NetworkEndpoint *Scene::networkEndpoint()
+NetworkManager *Scene::networkManager()
 {
-    return m_networkEndpoint.get();
+    return m_networkManager.get();
 }
 
-void Scene::setNetworkEndpoint(std::shared_ptr<NetworkEndpoint> networkEndpoint)
+void Scene::setNetworkManager(std::shared_ptr<NetworkManager> networkManager)
 {
-    m_networkEndpoint = networkEndpoint;
+    m_networkManager = networkManager;
 }
 
 btDiscreteDynamicsWorld *Scene::bullet_world()

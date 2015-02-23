@@ -24,7 +24,7 @@ class DeferredActionHandler;
 class AbstractPlayer;
 class AIPlayer;
 class LocalPlayer;
-class NetworkEndpoint;
+class NetworkManager;
 
 class Game : public QQuickItem
 {
@@ -93,7 +93,7 @@ protected:
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
-    std::shared_ptr<NetworkEndpoint> m_networkEndpoint;
+    std::shared_ptr<NetworkManager> m_networkManager;
 
     bool m_paused;
     bool m_setupComplete;
