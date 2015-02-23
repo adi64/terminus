@@ -84,9 +84,6 @@ void Scene::update(int elapsedMilliseconds)
     {
         node->update(elapsedMilliseconds);
     }
-
-    // camera updates after all other nodes because it can follow the position of other nodes
-    m_activeCamera->update();
 }
 
 void Scene::render() const

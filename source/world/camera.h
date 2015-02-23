@@ -57,11 +57,10 @@ public:
     const QMatrix3x3 & normal() const;
 
     void changed();
-    void update();
 
     /*!
      * \brief bindToGraphicsObject - locks camera to a new object
-     * \param object - an AbstractGraphicsObject to which the camera will be locked to
+     * \param object - an AbstractGraphicsObject to which the camera will be m_lockedEyeAngle to
      *
      * passing a nullptr frees the camera
      */
@@ -70,8 +69,8 @@ public:
     QVector3D movement();
     QVector2D rotation();
 
-    void setMovement(QVector3D movement);
-    void setRotation(QVector2D rotation);
+    void moveEvent(QVector3D movement);
+    void rotateEvent(QVector2D rotation);
 
     void toggleLocked();
     void setLocked(bool value);

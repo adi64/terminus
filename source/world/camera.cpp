@@ -194,9 +194,9 @@ QVector2D Camera::rotation()
     return m_rotation;
 }
 
-void Camera::setMovement(QVector3D movement)
+void Camera::moveEvent(QVector3D movement)
 {
-    if(!m_lockedToTrain)
+    if(!m_associatedObject)
     {
         m_movement = movement;
 
@@ -219,11 +219,11 @@ void Camera::setMovement(QVector3D movement)
     }
     else
     {
-        m_lockedFlickOffset = movement;
+        m_associatedObject->moveEvent(movement);
     }
 }
 
-void Camera::setRotation(QVector2D rotation)
+void Camera::rotateEvent(QVector2D rotation)
 {
     m_rotation = rotation;
 
@@ -242,7 +242,7 @@ void Camera::setRotation(QVector2D rotation)
     }
     else
     {
-        m_lockedEyeAngle *= rotation_total;
+        m_associatedObject->rotateEvent(rotation);
     }
 }
 
@@ -323,23 +323,6 @@ const QMatrix3x3 & Camera::normal() const
     m_normalChanged = false;
 
     return m_normal;
-}
-
-void Camera::update()
-{
-    if(m_lockedToTrain)
-    {
-        auto center = m_lockedObject->position() + m_lockedObject->rotation().rotatedVector(m_lockedCenterOffset + m_lockedFlickOffset);
-        setCenter(center);
-
-        QQuaternion lockedObjectAngle = m_lockedObject->rotation() * QQuaternion::fromAxisAndAngle(m_lockedObject->worldFront(), -20.f);
-        auto vA = m_lockedEyeAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized(),
-              vB = lockedObjectAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized();
-        float angle = acos(QVector3D::dotProduct(vA, vB));
-        float f = MathUtil::linstep(MathUtil::PI / 4, MathUtil::PI / 3, angle);
-        m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, lockedObjectAngle, f);
-        setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
-    }
 }
 
 void Camera::bindToGraphicsObject(AbstractGraphicsObject * object)
