@@ -74,6 +74,10 @@ void WeaponWagon::primaryActionDebug()
 void WeaponWagon::setChargeProjectile(bool charge)
 {
     m_chargeProjectile = charge;
+    if(m_chargeProjectile)
+    {
+        m_scene->timer().reset(m_reloadTimer);
+    }
 }
 
 void WeaponWagon::fire(QVector3D force)
