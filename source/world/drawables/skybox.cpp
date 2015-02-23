@@ -35,7 +35,7 @@ void SkyBox::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
     gl.glEnable(GL_TEXTURE_CUBE_MAP);
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 }
-void SkyBox::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void SkyBox::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);

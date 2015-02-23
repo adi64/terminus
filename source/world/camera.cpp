@@ -1,5 +1,6 @@
 #include "camera.h"
-#include <cassert>
+
+#include <assert.h>
 #include <QQuaternion>
 
 #include <world/drawables/abstractgraphicsobject.h>

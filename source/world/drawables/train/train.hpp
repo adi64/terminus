@@ -2,6 +2,8 @@
 
 #include "train.h"
 
+#include <assert.h>
+
 #include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/drawables/train/wagons/enginewagon.h>
 
