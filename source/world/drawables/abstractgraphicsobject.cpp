@@ -1,5 +1,7 @@
 #include "abstractgraphicsobject.h"
 
+#include <algorithm>
+
 #include <QQuaternion>
 #include <QDebug>
 
@@ -27,49 +29,21 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
 
 void AbstractGraphicsObject::update(int elapsedMilliseconds)
 {
+    localUpdate(elapsedMilliseconds);
+    doForAllChildren(
+        [elapsedMilliseconds](AbstractGraphicsObject & child)
+        {
+            child.update(elapsedMilliseconds);
+        });
 }
-
-void AbstractGraphicsObject::render(QOpenGLFunctions & gl) const
+void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
-    if(!m_geometry || !*m_geometry)
-    {
-        qDebug() << "Geometry to render does not exist!";
-        return;
-    }
-    if(!m_program || !*m_program)
-    {
-        qDebug() << "Program to render with does not exist!";
-        return;
-    }
-
-    Geometry & geometry = **m_geometry;
-    Program & program = **m_program;
-
-    program.bind();
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-
-    if(m_material && *m_material)
-    {
-        (**m_material).setUniforms(program);
-    }
-
-    preRender(gl, program);
-
-    geometry.setAttributes(program);
-    geometry.draw(gl);
-
-    postRender(gl, program);
-
-    program.release();
-}
-
-void AbstractGraphicsObject::preRender(QOpenGLFunctions & gl, Program & program) const
-{
-}
-
-void AbstractGraphicsObject::postRender(QOpenGLFunctions & gl, Program & program) const
-{
+    localRender(gl);
+    doForAllChildren(
+        [gl](AbstractGraphicsObject & child) mutable
+        {
+            child.render(gl);
+        });
 }
 
 QVector3D AbstractGraphicsObject::worldUp()
@@ -113,6 +87,50 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
+void AbstractGraphicsObject::localUpdate(int)
+{
+}
+void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
+{
+    if(!m_geometry || !*m_geometry)
+    {
+        qDebug() << "Geometry to render does not exist!";
+        return;
+    }
+    if(!m_program || !*m_program)
+    {
+        qDebug() << "Program to render with does not exist!";
+        return;
+    }
+
+    Geometry & geometry = **m_geometry;
+    Program & program = **m_program;
+
+    program.bind();
+
+    m_scene->camera().setMatrices(program, modelMatrix());
+
+    if(m_material && *m_material)
+    {
+        (**m_material).setUniforms(program);
+    }
+
+    localRenderSetup(gl, program);
+
+    geometry.setAttributes(program);
+    geometry.draw(gl);
+
+    localRenderCleanup(gl, program);
+
+    program.release();
+}
+void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+{
+}
+void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+{
+}
+
 void AbstractGraphicsObject::setPosition(const QVector3D & position)
 {
     m_position = position;
@@ -132,6 +150,10 @@ void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
+}
+
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
 }
 
 }

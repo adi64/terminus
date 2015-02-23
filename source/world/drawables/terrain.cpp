@@ -80,7 +80,19 @@ Track *Terrain::enemyTrack() const
     return m_enemyTrack.get();
 }
 
-void Terrain::update(int elapsedMilliseconds)
+void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    if(m_enemyTrack)
+    {
+        callback(*m_enemyTrack);
+    }
+    if(m_playerTrack)
+    {
+        callback(*m_playerTrack);
+    }
+}
+
+void Terrain::localUpdate(int elapsedMilliseconds)
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -89,13 +101,10 @@ void Terrain::update(int elapsedMilliseconds)
     transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
 
-    AbstractPhysicsObject::update(elapsedMilliseconds);
-
-    m_playerTrack->update(elapsedMilliseconds);
-    m_enemyTrack->update(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
 }
 
-void Terrain::render(QOpenGLFunctions& gl) const
+void Terrain::localRender(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_scene->camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
@@ -107,16 +116,12 @@ void Terrain::render(QOpenGLFunctions& gl) const
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
-            AbstractGraphicsObject::render(gl);
+            AbstractGraphicsObject::localRender(gl);
         }
     }
-
-    // render tracks
-    m_playerTrack->render(gl);
-    m_enemyTrack->render(gl);
 }
 
-void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
     program.setUniform("lightDirection", QVector3D(100.0, 20.0, -100.0));
     program.setUniform("levelMap", 0);
@@ -136,7 +141,7 @@ void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
-void Terrain::postRender(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);

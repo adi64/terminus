@@ -12,11 +12,6 @@ Track::Track(std::shared_ptr<Scene> scene, std::unique_ptr<Polyline> controlPoin
 {
 }
 
-void Track::render(QOpenGLFunctions &gl) const
-{
-    // TODO
-}
-
 QVector3D Track::positionAt(float distance)
 {
     return m_course->getPosition(distance);

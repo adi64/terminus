@@ -31,7 +31,7 @@ void RepairWagon::primaryAction()
 {
 }
 
-void RepairWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

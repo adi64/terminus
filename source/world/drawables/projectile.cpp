@@ -28,9 +28,9 @@ Projectile::~Projectile()
     deallocatePhysics();
 }
 
-void Projectile::update(int elapsedMilliseconds)
+void Projectile::localUpdate(int elapsedMilliseconds)
 {
-    DynamicPhysicsObject::update(elapsedMilliseconds);
+    DynamicPhysicsObject::localUpdate(elapsedMilliseconds);
 
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
@@ -41,7 +41,7 @@ void Projectile::update(int elapsedMilliseconds)
     }
 }
 
-void Projectile::preRender(QOpenGLFunctions & gl, Program & program) const
+void Projectile::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

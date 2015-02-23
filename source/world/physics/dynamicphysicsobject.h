@@ -10,7 +10,7 @@ class DynamicPhysicsObject : public AbstractPhysicsObject
 public:
     DynamicPhysicsObject(std::shared_ptr<Scene> scene);
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
 
     /*!
      * \brief Apply central force
