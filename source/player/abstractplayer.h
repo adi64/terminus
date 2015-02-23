@@ -20,7 +20,7 @@ public:
     AbstractPlayer(std::shared_ptr<Train> train);
 
     std::shared_ptr<Camera> camera();
-    const Train &train();
+    Train & train();
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();

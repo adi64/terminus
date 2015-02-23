@@ -8,7 +8,7 @@
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
 #include "track.h"
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -37,7 +37,7 @@
 namespace terminus
 {
 
-Terrain::Terrain(std::shared_ptr<Scene> scene)
+Terrain::Terrain(std::shared_ptr<World> scene)
 : KinematicPhysicsObject(scene)
 , m_terrainMapOnGPU(false)
 {   

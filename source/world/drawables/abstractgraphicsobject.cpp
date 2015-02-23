@@ -3,12 +3,12 @@
 #include <QQuaternion>
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
+AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<World> scene)
 : m_scene(scene)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)

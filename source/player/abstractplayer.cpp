@@ -17,7 +17,7 @@ std::shared_ptr<terminus::Camera> terminus::AbstractPlayer::camera()
     return m_camera;
 }
 
-const terminus::Train &terminus::AbstractPlayer::train()
+terminus::Train &terminus::AbstractPlayer::train()
 {
     return (*m_train);
 }

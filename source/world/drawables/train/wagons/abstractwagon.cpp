@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
+AbstractWagon::AbstractWagon(std::shared_ptr<World> scene, Train *train)
     : KinematicPhysicsObject(scene)
     , m_health(maxHealth())
     , m_disabled(false)

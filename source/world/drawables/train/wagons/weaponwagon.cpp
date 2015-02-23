@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
@@ -14,7 +14,7 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(std::shared_ptr<Scene> scene, Train *train)
+WeaponWagon::WeaponWagon(std::shared_ptr<World> scene, Train *train)
 : AbstractWagon(scene, train)
 , m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)

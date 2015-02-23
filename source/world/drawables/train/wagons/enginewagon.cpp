@@ -4,7 +4,7 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
@@ -14,7 +14,7 @@
 namespace terminus
 {
 
-EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
+EngineWagon::EngineWagon(std::shared_ptr<World> scene, Train *train)
 : AbstractWagon(scene, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");

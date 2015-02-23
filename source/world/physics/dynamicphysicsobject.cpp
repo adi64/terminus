@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-DynamicPhysicsObject::DynamicPhysicsObject(std::shared_ptr<Scene> scene)
+DynamicPhysicsObject::DynamicPhysicsObject(std::shared_ptr<World> scene)
     : AbstractPhysicsObject(scene)
 {
 }

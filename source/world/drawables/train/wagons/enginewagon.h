@@ -10,7 +10,7 @@ class EngineWagon : public AbstractWagon
 
 
 public:
-    EngineWagon(std::shared_ptr<Scene> scene, Train *train);
+    EngineWagon(std::shared_ptr<World> scene, Train *train);
     virtual ~EngineWagon();
 
     void preRender(QOpenGLFunctions& gl, Program & m_program) const override;

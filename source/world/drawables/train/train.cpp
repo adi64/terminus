@@ -12,7 +12,7 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(std::shared_ptr<Scene> scene, Track *track)
+Train::Train(std::shared_ptr<World> scene, Track *track)
     : AbstractGraphicsObject(scene)
     , m_hasEngine(false)
     , m_velocity(base_velocity)

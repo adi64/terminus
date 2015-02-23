@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
+AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<World> scene)
     : AbstractGraphicsObject(scene)
 {
 }

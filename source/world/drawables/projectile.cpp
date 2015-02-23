@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-Projectile::Projectile(std::shared_ptr<Scene> scene)
+Projectile::Projectile(std::shared_ptr<World> scene)
 : DynamicPhysicsObject(scene)
 , m_ageInMilliseconds(0)
 {   
