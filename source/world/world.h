@@ -35,7 +35,7 @@ class World : public QObject
 {
     Q_OBJECT
 protected:
-    static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    static void btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep);
 
 public:
     /*!
@@ -64,21 +64,21 @@ public:
     LocalPlayer & localPlayer();
 
     void setActiveCamera(std::shared_ptr<Camera> camera);
-    btDiscreteDynamicsWorld* bullet_world();
+    void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
 
-    void addNode(AbstractGraphicsObject* node);
-    void deleteNode(AbstractGraphicsObject* node);
+    void addNode(AbstractGraphicsObject * node);
+    void deleteNode(AbstractGraphicsObject * node);
 
-    void addCollisionMapping(const btCollisionObject* collisionObject, AbstractPhysicsObject* graphicsObject);
-    void removeCollisionMapping(const btCollisionObject* collisionObject);
-    terminus::AbstractPhysicsObject *getGraphicsObjectForCollisionObject(const btCollisionObject* collisionObject) const;
-
-    void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
+    btDiscreteDynamicsWorld * bulletWorld();
+    void addCollisionMapping(const btCollisionObject * collisionObject, AbstractPhysicsObject * graphicsObject);
+    void removeCollisionMapping(const btCollisionObject * collisionObject);
+    AbstractPhysicsObject * getGraphicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
 
 protected:
-    void setupBulletWorld(void);
-    void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    void setupBullet();
+    void deleteBullet();
+    void btTickCallback(btDynamicsWorld * world, btScalar timeStep);
 
 protected:
     Game & m_game;
@@ -97,15 +97,12 @@ protected:
     // bullet
     // these objects must not be deleted before m_bullet_dynamicsWorld
     // -- so as a temporary hack, we won't delete them at all
-    btBroadphaseInterface* m_bullet_broadphase;
-    btDefaultCollisionConfiguration* m_bullet_collisionConfiguration;
-    btCollisionDispatcher* m_bullet_dispatcher;
-    btSequentialImpulseConstraintSolver* m_bullet_solver;
-
-    std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
-
+    btBroadphaseInterface * m_bulletBroadphase;
+    btDefaultCollisionConfiguration * m_bulletCollisionConfig;
+    btCollisionDispatcher * m_bulletDispatcher;
+    btSequentialImpulseConstraintSolver * m_bulletSolver;
+    btDiscreteDynamicsWorld * m_bulletWorld;
     std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
-
 };
 
 

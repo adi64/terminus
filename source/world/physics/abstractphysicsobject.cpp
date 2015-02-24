@@ -31,13 +31,13 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    m_world.bullet_world()->addRigidBody(m_btRigidBody.get());
+    m_world.bulletWorld()->addRigidBody(m_btRigidBody.get());
     m_world.addCollisionMapping(m_btRigidBody.get(), this);
 }
 
 void AbstractPhysicsObject::deallocatePhysics()
 {
-    m_world.bullet_world()->removeRigidBody(m_btRigidBody.get());
+    m_world.bulletWorld()->removeRigidBody(m_btRigidBody.get());
     m_world.removeCollisionMapping(m_btRigidBody.get());
 }
 

@@ -38,9 +38,7 @@ World::World(Game & game)
 : m_game(game)
 , m_activeCamera(nullptr)
 {
-    setupBulletWorld();
-
-    m_nodes.clear();
+    setupBullet();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(*this));
 
@@ -91,6 +89,9 @@ World::World(Game & game)
 
 World::~World()
 {
+    //we will not delete bullet pointers as that would cause segfaults if the application terminates
+    //TODO fix it by using a shared bullet object pointer
+    //deleteBullet();
 }
 
 void World::addNode(AbstractGraphicsObject *node)
@@ -136,37 +137,32 @@ AbstractPhysicsObject *World::getGraphicsObjectForCollisionObject(const btCollis
     }
 }
 
-void World::setupBulletWorld()
+void World::setupBullet()
 {
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
+    m_bulletCollisionConfig = new btDefaultCollisionConfiguration();
+    m_bulletDispatcher = new btCollisionDispatcher(m_bulletCollisionConfig);
+    m_bulletBroadphase = new btDbvtBroadphase();
+    m_bulletSolver = new btSequentialImpulseConstraintSolver;
 
-    // Build the broadphase
-    m_bullet_broadphase = new btDbvtBroadphase();
-
-    // Set up the collision configuration and dispatcher
-    m_bullet_collisionConfiguration = new btDefaultCollisionConfiguration();
-    m_bullet_dispatcher = new btCollisionDispatcher(m_bullet_collisionConfiguration);
-
-    // The actual physics solver
-    m_bullet_solver = new btSequentialImpulseConstraintSolver;
-
-    // The world.
-    m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
-                new btDiscreteDynamicsWorld(
-                    m_bullet_dispatcher,
-                    m_bullet_broadphase,
-                    m_bullet_solver,
-                    m_bullet_collisionConfiguration
-                    )
-                );
-
-    m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
-
+    m_bulletWorld = new btDiscreteDynamicsWorld(
+                                        m_bulletDispatcher,
+                                        m_bulletBroadphase,
+                                        m_bulletSolver,
+                                        m_bulletCollisionConfig);
+    m_bulletWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
     // set world user info (void*) to pointer to this game instance
     // so we can (indirectly) call a member of Game without having global state or a singleton
-    m_bullet_dynamicsWorld->setInternalTickCallback(&World::btStaticTickCallback);
-    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
+    m_bulletWorld->setInternalTickCallback(&World::btStaticTickCallback);
+    m_bulletWorld->setWorldUserInfo(static_cast<void*>(this));
+}
+
+void World::deleteBullet()
+{
+    delete m_bulletWorld;
+    delete m_bulletSolver;
+    delete m_bulletBroadphase;
+    delete m_bulletDispatcher;
+    delete m_bulletCollisionConfig;
 }
 
 void World::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
@@ -198,7 +194,7 @@ void World::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 void World::update(int elapsedMilliseconds)
 {
     // physics
-    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
+    m_bulletWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
 
     for(auto node : m_nodes)
     {
@@ -255,9 +251,9 @@ void World::setActiveCamera(std::shared_ptr<Camera> camera)
     m_activeCamera = camera;
 }
 
-btDiscreteDynamicsWorld *World::bullet_world()
+btDiscreteDynamicsWorld * World::bulletWorld()
 {
-    return m_bullet_dynamicsWorld.get();
+    return m_bulletWorld;
 }
 
 void World::scheduleAction(DeferredAction event)
