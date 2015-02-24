@@ -12,6 +12,7 @@
 
 #include <eventhandler.h>
 #include <deferredactionhandler.h>
+#include <player/localplayer.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <world/world.h>
@@ -67,6 +68,12 @@ void Game::sync()
     // process scheduled events
     m_deferredActionHandler.processDeferredActions();
 
+    #ifdef Q_OS_MAC
+        m_world->localPlayer().camera()->setViewport(window()->width()*2, window()->height()*2);
+    #else
+        m_world->localPlayer().camera()->setViewport(window()->width(), window()->height());
+    #endif
+
     auto elapsedMilliseconds = m_timeStamp->restart();
     if(m_paused)
     {
@@ -102,12 +109,6 @@ void Game::handleWindowChanged(QQuickWindow * win)
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         win->setClearBeforeRendering(false);
-
-        #ifdef Q_OS_MAC
-            m_world->camera().setViewport(win->width()*2, win->height()*2);
-        #else
-            m_world->camera().setViewport(win->width(), win->height());
-        #endif
 
         // force redraw
         connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
