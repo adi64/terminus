@@ -38,7 +38,22 @@ protected:
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
 
 public:
+    /*!
+     * \brief The one and only World constructor
+     * \param game
+     */
     World(Game & game);
+
+    /*!
+     * \brief Delete copy constructor
+     */
+    World(const World & other) = delete;
+
+    /*!
+     * \brief Delete assignment operator
+     */
+    World & operator=(const World & other) = delete;
+
     ~World();
 
     void update(int elapsedMilliseconds);

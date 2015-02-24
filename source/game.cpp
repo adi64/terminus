@@ -1,5 +1,6 @@
 #include "game.h"
 
+#include <assert.h>
 #include <memory>
 #include <functional>
 

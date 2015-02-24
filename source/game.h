@@ -21,7 +21,20 @@ class Game : public QQuickItem
     Q_OBJECT
 
 public:
+    /*!
+     * \brief The one and only Game constructor
+     */
     Game();
+
+    /*!
+     * \brief Delete copy constructor
+     */
+    Game(const Game & other) = delete;
+
+    /*!
+     * \brief Delete assignment operator
+     */
+    Game & operator=(const Game & other) = delete;
 
     /*!
      * Do not delete this destructor, even if it is empty
