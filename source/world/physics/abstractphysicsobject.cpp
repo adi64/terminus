@@ -7,8 +7,8 @@
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<World> scene)
-    : AbstractGraphicsObject(scene)
+AbstractPhysicsObject::AbstractPhysicsObject(World & world)
+: AbstractGraphicsObject(world)
 {
 }
 
@@ -31,14 +31,14 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
-    m_scene->addCollisionMapping(m_btRigidBody.get(), this);
+    m_world.bullet_world()->addRigidBody(m_btRigidBody.get());
+    m_world.addCollisionMapping(m_btRigidBody.get(), this);
 }
 
 void AbstractPhysicsObject::deallocatePhysics()
 {
-    m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
-    m_scene->removeCollisionMapping(m_btRigidBody.get());
+    m_world.bullet_world()->removeRigidBody(m_btRigidBody.get());
+    m_world.removeCollisionMapping(m_btRigidBody.get());
 }
 
 /*!

@@ -18,7 +18,7 @@ namespace terminus
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject(std::shared_ptr<World> scene);
+    AbstractGraphicsObject(World & world);
     virtual ~AbstractGraphicsObject();
 
     virtual void update(int elapsedMilliseconds);
@@ -42,7 +42,7 @@ protected:
     virtual void setScale(float scale);
 
 protected:
-    std::shared_ptr<World> m_scene;
+    World & m_world;
 
     std::shared_ptr<std::unique_ptr<Program>> m_program;
     std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;

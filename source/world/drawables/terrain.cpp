@@ -7,12 +7,14 @@
 
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
-#include "track.h"
-#include <world/world.h>
+#include <player/localplayer.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <world/drawables/track.h>
+#include <world/world.h>
+
 
 #define TEXFORMAT GL_RGBA
 #ifdef Q_OS_LINUX
@@ -37,8 +39,8 @@
 namespace terminus
 {
 
-Terrain::Terrain(std::shared_ptr<World> scene)
-: KinematicPhysicsObject(scene)
+Terrain::Terrain(World & world)
+: KinematicPhysicsObject(world)
 , m_terrainMapOnGPU(false)
 {   
     m_program = ResourceManager::getInstance()->getProgram("terrain");
@@ -47,8 +49,8 @@ Terrain::Terrain(std::shared_ptr<World> scene)
 
     m_level.generateLevel();
     setScale(m_level.scale());
-    m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
-    m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
+    m_playerTrack = std::unique_ptr<Track>(new Track(m_world, m_level.playerTrack()));
+    m_enemyTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack()));
     
     auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
                                                m_level.heightMapSizeT(),
@@ -97,7 +99,7 @@ void Terrain::update(int elapsedMilliseconds)
 
 void Terrain::render(QOpenGLFunctions& gl) const
 {
-    QVector3D camPos = m_scene->camera().eye();
+    QVector3D camPos = m_world.localPlayer().camera()->eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
 
     int radius = 5;

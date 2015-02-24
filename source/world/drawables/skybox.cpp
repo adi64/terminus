@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-SkyBox::SkyBox(std::shared_ptr<World> scene)
-: AbstractGraphicsObject(scene)
+SkyBox::SkyBox(World & world)
+: AbstractGraphicsObject(world)
 , m_cubeMapOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("envmap");

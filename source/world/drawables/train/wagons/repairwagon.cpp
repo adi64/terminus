@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-RepairWagon::RepairWagon(std::shared_ptr<World> scene, Train *train)
-: AbstractWagon(scene, train)
+RepairWagon::RepairWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("repair_repair");

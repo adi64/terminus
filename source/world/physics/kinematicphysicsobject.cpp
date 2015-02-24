@@ -7,8 +7,8 @@
 namespace terminus
 {
 
-KinematicPhysicsObject::KinematicPhysicsObject(std::shared_ptr<World> scene)
-    : AbstractPhysicsObject(scene)
+KinematicPhysicsObject::KinematicPhysicsObject(World & world)
+    : AbstractPhysicsObject(world)
 {
 }
 

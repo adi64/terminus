@@ -19,7 +19,7 @@ void Train::addWagon()
 template<typename WagonType>
 void Train::insertWagon(int targetPos)
 {
-    auto wagonRaw = new WagonType(m_scene, this);
+    auto wagonRaw = new WagonType(m_world, this);
 
     bool creatingEngineWagon = false;
 

@@ -14,8 +14,8 @@
 namespace terminus
 {
 
-EngineWagon::EngineWagon(std::shared_ptr<World> scene, Train *train)
-: AbstractWagon(scene, train)
+EngineWagon::EngineWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");

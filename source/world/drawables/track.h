@@ -13,7 +13,7 @@ namespace terminus
 class Track : public AbstractGraphicsObject
 {
 public:
-    Track(std::shared_ptr<World> scene, std::unique_ptr<Polyline> controlPoints);
+    Track(World & world, std::unique_ptr<Polyline> controlPoints);
 
     void render(QOpenGLFunctions &gl) const override;
     QVector3D positionAt(float distance);

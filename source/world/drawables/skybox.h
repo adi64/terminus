@@ -16,7 +16,7 @@ class ScreenAlignedQuad;
 class SkyBox : public AbstractGraphicsObject
 {
 public:
-    SkyBox(std::shared_ptr<World> scene);
+    SkyBox(World & world);
 
     void preRender(QOpenGLFunctions & gl, Program & program) const override;
     void postRender(QOpenGLFunctions & gl, Program & program) const override;

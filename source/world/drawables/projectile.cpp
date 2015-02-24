@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-Projectile::Projectile(std::shared_ptr<World> scene)
-: DynamicPhysicsObject(scene)
+Projectile::Projectile(World & world)
+: DynamicPhysicsObject(world)
 , m_ageInMilliseconds(0)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
@@ -35,9 +35,7 @@ void Projectile::update(int elapsedMilliseconds)
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
-        // delete node
-        auto scene = m_scene.get();
-        m_scene->scheduleAction( [this, scene](){scene->deleteNode(this); delete(this);} );
+        m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this);} );
     }
 }
 

@@ -42,9 +42,9 @@ World::World(Game & game)
 
     m_nodes.clear();
 
-    m_terrain = std::unique_ptr<Terrain>(new Terrain(std::shared_ptr<World>(this)));
+    m_terrain = std::unique_ptr<Terrain>(new Terrain(*this));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(std::shared_ptr<World>(this), m_terrain->playerTrack()));
+    m_playerTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
@@ -58,7 +58,7 @@ World::World(Game & game)
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain = std::shared_ptr<Train>(new Train(std::shared_ptr<World>(this), m_terrain->enemyTrack()));
+    m_enemyTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
@@ -70,7 +70,7 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(std::shared_ptr<World>(this)));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));

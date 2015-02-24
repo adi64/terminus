@@ -20,7 +20,7 @@ class Train : public AbstractGraphicsObject
 public:
     static const float base_velocity;
 public:
-    Train(std::shared_ptr<World> scene, Track *track);
+    Train(World & world, Track * track);
     ~Train();
 
     template<typename WagonType> void addWagon();

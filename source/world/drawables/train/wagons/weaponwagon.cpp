@@ -14,8 +14,8 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(std::shared_ptr<World> scene, Train *train)
-: AbstractWagon(scene, train)
+WeaponWagon::WeaponWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 , m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
@@ -63,19 +63,17 @@ void WeaponWagon::setChargeProjectile(bool charge)
 
 void WeaponWagon::fire(QVector3D force)
 {
-    auto scene = m_scene;
-
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
 
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
-    m_scene->scheduleAction(
-        [scene, worldProjectilePosition, force, this]()
+    m_world.scheduleAction(
+        [this, worldProjectilePosition, force]()
         {
-            auto projectile = new Projectile(scene);
+            auto projectile = new Projectile(m_world);
             projectile->moveTo(worldProjectilePosition);
             projectile->applyForce(force);
-            scene->addNode(projectile);
+            m_world.addNode(projectile);
         }
     );
 

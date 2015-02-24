@@ -15,7 +15,7 @@ class Track;
 class Terrain : public KinematicPhysicsObject
 {
 public:
-    Terrain(std::shared_ptr<World> scene);
+    Terrain(World & world);
     virtual ~Terrain();
 
     virtual void update(int elapsedMilliseconds) override;
