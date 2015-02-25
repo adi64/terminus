@@ -27,7 +27,7 @@ EventHandler::EventHandler(Game *game)
 void EventHandler::keyPressEvent(Qt::Key key)
 {
     AbstractPlayer & player = m_game->world().localPlayer();
-    Camera & camera = *(player.camera());
+    Camera & camera = player.camera();
     auto movement = camera.movement();
 
     switch(key)
@@ -76,7 +76,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
 
 void EventHandler::keyReleaseEvent(Qt::Key key)
 {
-    Camera & camera = *(m_game->world().localPlayer().camera());
+    Camera & camera = m_game->world().localPlayer().camera();
     auto movement = camera.movement();
 
     switch(key)
@@ -113,7 +113,7 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->world().localPlayer().camera()->setRotation(rotation);
+    m_game->world().localPlayer().camera().setRotation(rotation);
 
     QPoint globalPosition = m_game->window()->mapToGlobal(QPoint(m_game->window()->width() / 2, m_game->window()->height() / 2));
     QCursor::setPos(globalPosition);
@@ -129,7 +129,7 @@ void EventHandler::touchMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->world().localPlayer().camera()->setRotation(rotation);
+    m_game->world().localPlayer().camera().setRotation(rotation);
 }
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
@@ -139,7 +139,7 @@ void EventHandler::gyroMoveEvent(qreal x, qreal y)
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    m_game->world().localPlayer().camera()->setRotation(rotation);
+    m_game->world().localPlayer().camera().setRotation(rotation);
 }
 
 void EventHandler::flickEvent(qreal startx, qreal x)
@@ -160,11 +160,11 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
     auto threshold = width * 0.2;
 
-    m_game->world().localPlayer().camera()->setMovement(QVector3D(direction, 0.0f, 0.0f));
+    m_game->world().localPlayer().camera().setMovement(QVector3D(direction, 0.0f, 0.0f));
 
     if(direction > 0)
     {
-        if(m_game->world().localPlayer().camera()->isLocked() && ((m_game->world().localPlayer().selectedWagonIndex() + 1) < m_game->world().localPlayer().train().size()))
+        if(m_game->world().localPlayer().camera().isLocked() && ((m_game->world().localPlayer().selectedWagonIndex() + 1) < m_game->world().localPlayer().train().size()))
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -172,7 +172,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
     if(direction < 0)
     {
-        if(m_game->world().localPlayer().camera()->isLocked() && m_game->world().localPlayer().selectedWagonIndex() > 0)
+        if(m_game->world().localPlayer().camera().isLocked() && m_game->world().localPlayer().selectedWagonIndex() > 0)
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -182,7 +182,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
 void EventHandler::flickReset()
 {
-    m_game->world().localPlayer().camera()->setMovement(QVector3D(0.f, 0.f, 0.f));
+    m_game->world().localPlayer().camera().setMovement(QVector3D(0.f, 0.f, 0.f));
     m_flickResetted = true;
 
     if(m_flicked)

@@ -69,9 +69,9 @@ void Game::sync()
     m_deferredActionHandler.processDeferredActions();
 
     #ifdef Q_OS_MAC
-        m_world->localPlayer().camera()->setViewport(window()->width()*2, window()->height()*2);
+        m_world->localPlayer().camera().setViewport(window()->width()*2, window()->height()*2);
     #else
-        m_world->localPlayer().camera()->setViewport(window()->width(), window()->height());
+        m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
     auto elapsedMilliseconds = m_timeStamp->restart();

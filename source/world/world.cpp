@@ -77,10 +77,10 @@ World::World(Game & game)
     addNode(m_terrain.get());
     addNode(m_skybox.get());
 
-    localPlayer().camera()->setEye(QVector3D(-30.0, 10.0, 20.0));
-    localPlayer().camera()->setCenter(QVector3D(0.0, 0.0, 10.0));
-    localPlayer().camera()->setUp(QVector3D(0.0, 1.0, 0.0));
-    localPlayer().camera()->lockToObject(m_playerTrain->wagonAt(0));
+    localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
+    localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
+    localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
+    localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 
 }
 
@@ -202,12 +202,12 @@ void World::update(int elapsedMilliseconds)
     m_aiPlayer->update(elapsedMilliseconds);
     m_localPlayer->update(elapsedMilliseconds);
     // camera updates after all other nodes because it can follow the position of other nodes
-    m_localPlayer->camera()->update();
+    m_localPlayer->camera().update();
 }
 
 void World::render(QOpenGLFunctions & gl) const
 {
-    gl.glViewport(0, 0, m_localPlayer->camera()->viewport().x(), m_localPlayer->camera()->viewport().y());
+    gl.glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
 
     gl.glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
     gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

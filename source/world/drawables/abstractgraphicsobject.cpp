@@ -48,7 +48,7 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl) const
 
     program.bind();
 
-    m_world.localPlayer().camera()->setMatrices(program, modelMatrix());
+    m_world.localPlayer().camera().setMatrices(program, modelMatrix());
 
     if(m_material && *m_material)
     {

@@ -99,7 +99,7 @@ void Terrain::update(int elapsedMilliseconds)
 
 void Terrain::render(QOpenGLFunctions& gl) const
 {
-    QVector3D camPos = m_world.localPlayer().camera()->eye();
+    QVector3D camPos = m_world.localPlayer().camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
 
     int radius = 5;
