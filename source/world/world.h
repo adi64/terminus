@@ -59,11 +59,8 @@ public:
     void update(int elapsedMilliseconds);
     void render(QOpenGLFunctions & gl) const;
 
-    Camera & camera();
-
     LocalPlayer & localPlayer();
 
-    void setActiveCamera(std::shared_ptr<Camera> camera);
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
 
@@ -91,7 +88,6 @@ protected:
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
-    std::shared_ptr<Camera> m_activeCamera;
     std::vector<AbstractGraphicsObject*> m_nodes;
 
     // bullet

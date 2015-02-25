@@ -36,7 +36,6 @@ void World::btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep)
 
 World::World(Game & game)
 : m_game(game)
-, m_activeCamera(nullptr)
 {
     setupBullet();
 
@@ -73,17 +72,15 @@ World::World(Game & game)
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
-    setActiveCamera(m_localPlayer->camera());
-
     addNode(m_playerTrain.get());
     addNode(m_enemyTrain.get());
     addNode(m_terrain.get());
     addNode(m_skybox.get());
 
-    camera().setEye(QVector3D(-30.0, 10.0, 20.0));
-    camera().setCenter(QVector3D(0.0, 0.0, 10.0));
-    camera().setUp(QVector3D(0.0, 1.0, 0.0));
-    camera().lockToObject(m_playerTrain->wagonAt(0));
+    localPlayer().camera()->setEye(QVector3D(-30.0, 10.0, 20.0));
+    localPlayer().camera()->setCenter(QVector3D(0.0, 0.0, 10.0));
+    localPlayer().camera()->setUp(QVector3D(0.0, 1.0, 0.0));
+    localPlayer().camera()->lockToObject(m_playerTrain->wagonAt(0));
 
 }
 
@@ -205,12 +202,12 @@ void World::update(int elapsedMilliseconds)
     m_aiPlayer->update(elapsedMilliseconds);
     m_localPlayer->update(elapsedMilliseconds);
     // camera updates after all other nodes because it can follow the position of other nodes
-    m_activeCamera->update();
+    m_localPlayer->camera()->update();
 }
 
 void World::render(QOpenGLFunctions & gl) const
 {
-    gl.glViewport(0, 0, m_activeCamera->viewport().x(), m_activeCamera->viewport().y());
+    gl.glViewport(0, 0, m_localPlayer->camera()->viewport().x(), m_localPlayer->camera()->viewport().y());
 
     gl.glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
     gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,19 +233,9 @@ void World::render(QOpenGLFunctions & gl) const
 
 }
 
-Camera & World::camera()
-{
-    return *m_activeCamera;
-}
-
 LocalPlayer & World::localPlayer()
 {
     return *m_localPlayer;
-}
-
-void World::setActiveCamera(std::shared_ptr<Camera> camera)
-{
-    m_activeCamera = camera;
 }
 
 btDiscreteDynamicsWorld * World::bulletWorld()
