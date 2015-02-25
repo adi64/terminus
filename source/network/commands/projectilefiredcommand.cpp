@@ -1,6 +1,10 @@
 #include "projectilefiredcommand.h"
 
 #include <QDebug>
+
+#include <game.h>
+#include <world/drawables/projectile.h>
+
 namespace terminus
 {
     ProjectileFiredCommand::ProjectileFiredCommand(TimeStamp timeStamp, QVector3D startPosition, QVector3D movement)
@@ -28,7 +32,11 @@ namespace terminus
 
     void ProjectileFiredCommand::doWork()
     {
-        // insert projectile into game world
+        auto projectile = new Projectile(m_game->world());
+        projectile->setSpawnedLocally(false);
+        projectile->moveTo(m_startPosition);
+        projectile->applyForce(m_movement);
+        m_game->world().addNode(projectile);
     }
 
     Commands ProjectileFiredCommand::commandType() const
