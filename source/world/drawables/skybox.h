@@ -18,8 +18,8 @@ class SkyBox : public AbstractGraphicsObject
 public:
     SkyBox(std::shared_ptr<Scene> scene);
 
-    void preRender(QOpenGLFunctions & gl, Program & program) const override;
-    void postRender(QOpenGLFunctions & gl, Program & program) const override;
+    void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 protected:
     void allocateCubeMap(QOpenGLFunctions & gl) const;
     void deallocateCubeMap(QOpenGLFunctions & gl) const;

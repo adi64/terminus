@@ -276,7 +276,7 @@ AbstractPlayer *Game::localPlayer() const
     return m_localPlayer.get();
 }
 
-void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
+void Game::btTickCallback(btDynamicsWorld *world, btScalar /*timeStep*/)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
 
