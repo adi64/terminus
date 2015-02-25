@@ -27,4 +27,9 @@ float Track::length()
     return m_course->length();
 }
 
+bool Track::localRenderEnabled() const
+{
+    return false;
+}
+
 }//namespace terminus

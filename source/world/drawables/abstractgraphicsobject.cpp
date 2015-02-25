@@ -38,7 +38,10 @@ void AbstractGraphicsObject::update(int elapsedMilliseconds)
 }
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
-    localRender(gl);
+    if(localRenderEnabled())
+    {
+        localRender(gl);
+    }
     doForAllChildren(
         [gl](AbstractGraphicsObject & child) mutable
         {
@@ -130,6 +133,11 @@ void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & p
 }
 void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
+}
+
+bool AbstractGraphicsObject::localRenderEnabled() const
+{
+    return true;
 }
 
 void AbstractGraphicsObject::setPosition(const QVector3D & position)

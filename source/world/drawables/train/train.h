@@ -55,6 +55,8 @@ public:
     void setPlayerCamera(std::shared_ptr<Camera> camera); //!< \sa m_playerCamera
 
 protected:
+    virtual bool localRenderEnabled() const override;
+
     /*!
      * \brief Calculates offset for every wagon relative to train head
      *

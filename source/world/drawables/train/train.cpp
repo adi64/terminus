@@ -140,6 +140,11 @@ void Train::setPlayerCamera(std::shared_ptr<Camera> camera)
     m_playerCamera = camera;
 }
 
+bool Train::localRenderEnabled() const
+{
+    return false;
+}
+
 void Train::calculateWagonOffset()
 {
     const auto wagonGap = 0.3f;

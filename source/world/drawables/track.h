@@ -20,6 +20,9 @@ public:
     float length();
 
 protected:
+    virtual bool localRenderEnabled() const override;
+
+protected:
     std::unique_ptr<Polyline> m_course;
 };
 

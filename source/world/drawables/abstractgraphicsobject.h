@@ -79,6 +79,8 @@ protected:
      */
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
 
+    virtual bool localRenderEnabled() const;
+
     virtual void setPosition(const QVector3D & position);
     virtual void setRotation(const QQuaternion & eulerAngles);
     virtual void setScale(const QVector3D & scale);
