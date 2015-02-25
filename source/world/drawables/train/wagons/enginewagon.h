@@ -13,7 +13,7 @@ public:
     EngineWagon(std::shared_ptr<Scene> scene, Train *train);
     virtual ~EngineWagon();
 
-    void preRender(QOpenGLFunctions& gl, Program & m_program) const override;
+    void localRenderSetup(QOpenGLFunctions& gl, Program & m_program) const override;
 
     float length() const;
 
