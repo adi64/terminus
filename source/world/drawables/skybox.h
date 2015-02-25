@@ -18,8 +18,8 @@ class SkyBox : public AbstractGraphicsObject
 public:
     SkyBox(World & world);
 
-    void preRender(QOpenGLFunctions & gl, Program & program) const override;
-    void postRender(QOpenGLFunctions & gl, Program & program) const override;
+    void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 protected:
     void allocateCubeMap(QOpenGLFunctions & gl) const;
     void deallocateCubeMap(QOpenGLFunctions & gl) const;

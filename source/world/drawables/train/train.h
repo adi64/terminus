@@ -23,28 +23,21 @@ public:
     Train(World & world, Track * track);
     ~Train();
 
-    template<typename WagonType> void addWagon();
-    template<typename WagonType> void insertWagon(int targetPos);
+    template<typename WagonType>
+    void addWagon();
+
+    template<typename WagonType>
+    void insertWagon(int targetPos);
 
     void removeWagon(unsigned int index);
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
     /*!
-     * \brief Update train and all wagons that belong to the train
+     * \brief Update train
      *
-     * \sa AbstractWagon::update()
+     * \sa AbstractWagon::localUpdate()
      */
-    void update(int elapsedMilliseconds) override;
-
-    /*!
-     * \brief Renders all wagons that belong to the train
-     *
-     * A train itself has no meaningful graphical representation itself;
-     * therefore in order to render it, all wagons that belong to the train are rendered here
-     *
-     * \sa AbstractWagon::render()
-     */
-    void render(QOpenGLFunctions &gl) const override;
+    void localUpdate(int elapsedMilliseconds) override;
 
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
@@ -62,6 +55,8 @@ public:
     void setPlayerCamera(std::shared_ptr<Camera> camera); //!< \sa m_playerCamera
 
 protected:
+    virtual bool localRenderEnabled() const override;
+
     /*!
      * \brief Calculates offset for every wagon relative to train head
      *
@@ -69,6 +64,8 @@ protected:
      * If wagons are rearranged, it needs to be called again.
      */
     void calculateWagonOffset();
+
+    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
 
 protected:
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;

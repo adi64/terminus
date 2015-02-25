@@ -10,7 +10,7 @@ class KinematicPhysicsObject : public AbstractPhysicsObject
 public:
     KinematicPhysicsObject(World & world);
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
 
 protected:
     virtual void initializePhysics(btCollisionShape * collisionShape, btScalar mass) override;

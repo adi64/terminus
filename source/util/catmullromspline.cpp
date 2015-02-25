@@ -1,5 +1,6 @@
 #include "catmullromspline.h"
 
+#include <assert.h>
 #include <math.h>
 
 namespace terminus
@@ -8,7 +9,7 @@ namespace terminus
 CatmullRomSpline::CatmullRomSpline(const std::vector<QVector2D> & controlPoints)
 : m_controlPoints(controlPoints)
 {
-    //assert(m_controlPoints.size() >= 2);
+    assert(m_controlPoints.size() >= 2);
     calculateKnotSequence();
 }
 

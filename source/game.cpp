@@ -28,6 +28,7 @@ Game::Game()
 , m_paused(true)
 , m_setupComplete(false)
 {
+
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();

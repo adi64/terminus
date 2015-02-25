@@ -29,7 +29,7 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
-void EngineWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

@@ -85,7 +85,7 @@ bool WeaponWagon::isReloading() const
     return m_reloadProjectile;
 }
 
-void WeaponWagon::update(int elapsedMilliseconds)
+void WeaponWagon::localUpdate(int elapsedMilliseconds)
 {
     if(m_chargeProjectile && !m_reloadProjectile)
     {
@@ -106,10 +106,10 @@ void WeaponWagon::update(int elapsedMilliseconds)
         }
     }
 
-    AbstractWagon::update(elapsedMilliseconds);
+    AbstractWagon::localUpdate(elapsedMilliseconds);
 }
 
-void WeaponWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

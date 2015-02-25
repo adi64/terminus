@@ -13,9 +13,9 @@ public:
     Projectile(World & world);
     virtual ~Projectile();
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
 
-    virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
 
     virtual float damage() const;
     virtual void onCollisionWith(AbstractPhysicsObject* other) override;
