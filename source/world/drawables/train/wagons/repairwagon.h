@@ -8,7 +8,7 @@ namespace terminus
 class RepairWagon : public AbstractWagon
 {
 public:
-    RepairWagon(std::shared_ptr<Scene> scene, Train *train);
+    RepairWagon(World & world, Train * train);
     virtual ~RepairWagon();
 
     void primaryAction() override;

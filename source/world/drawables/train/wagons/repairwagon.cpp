@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-RepairWagon::RepairWagon(std::shared_ptr<Scene> scene, Train *train)
-: AbstractWagon(scene, train)
+RepairWagon::RepairWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("repair_repair");

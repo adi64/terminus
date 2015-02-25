@@ -23,8 +23,8 @@ void Train::insertWagon(int targetPos)
 {
     assert(targetPos < static_cast<int>(m_wagons.size()));
     assert(targetPos >= -1);
-
-    auto wagonRaw = new WagonType(m_scene, this);
+    
+    auto wagonRaw = new WagonType(m_world, this);
 
     if((dynamic_cast<EngineWagon*>(wagonRaw) != nullptr))
     {

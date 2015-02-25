@@ -4,7 +4,7 @@
 #include <QOpenGLTexture>
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/program.h>
@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-SkyBox::SkyBox(std::shared_ptr<Scene> scene)
-: AbstractGraphicsObject(scene)
+SkyBox::SkyBox(World & world)
+: AbstractGraphicsObject(world)
 , m_cubeMapOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("envmap");

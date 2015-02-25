@@ -1,17 +1,16 @@
 #include "abstractgraphicsobject.h"
 
-#include <algorithm>
-
 #include <QQuaternion>
 #include <QDebug>
 
-#include <world/scene.h>
+#include <player/localplayer.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
-: m_scene(scene)
+AbstractGraphicsObject::AbstractGraphicsObject(World & world)
+: m_world(world)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
@@ -112,7 +111,7 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, modelMatrix());
+    m_world.localPlayer().camera().setMatrices(program, modelMatrix());
 
     if(m_material && *m_material)
     {

@@ -369,11 +369,11 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/scene.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/player/remoteplayer.h
+    source/player/remoteplayer.h \
+    source/world/world.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -547,10 +547,10 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/scene.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/player/remoteplayer.cpp
+    source/player/remoteplayer.cpp \
+    source/world/world.cpp

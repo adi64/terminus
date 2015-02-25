@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-Projectile::Projectile(std::shared_ptr<Scene> scene)
-: DynamicPhysicsObject(scene)
+Projectile::Projectile(World & world)
+: DynamicPhysicsObject(world)
 , m_ageInMilliseconds(0)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
@@ -35,9 +35,7 @@ void Projectile::localUpdate(int elapsedMilliseconds)
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
-        // delete node
-        auto scene = m_scene.get();
-        m_scene->scheduleAction( [this, scene](){scene->deleteNode(this); delete(this);} );
+        m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this);} );
     }
 }
 
