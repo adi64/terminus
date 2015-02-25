@@ -7,12 +7,14 @@
 
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
-#include "track.h"
-#include <world/scene.h>
+#include <player/localplayer.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <world/drawables/track.h>
+#include <world/world.h>
+
 
 #define TEXFORMAT GL_RGBA
 #ifdef Q_OS_LINUX
@@ -37,8 +39,8 @@
 namespace terminus
 {
 
-Terrain::Terrain(std::shared_ptr<Scene> scene)
-: KinematicPhysicsObject(scene)
+Terrain::Terrain(World & world)
+: KinematicPhysicsObject(world)
 , m_terrainMapOnGPU(false)
 {   
     m_program = ResourceManager::getInstance()->getProgram("terrain");
@@ -47,8 +49,8 @@ Terrain::Terrain(std::shared_ptr<Scene> scene)
 
     m_level.generateLevel();
     setScale(m_level.scale());
-    m_playerTrack = std::unique_ptr<Track>(new Track(scene, m_level.playerTrack()));
-    m_enemyTrack = std::unique_ptr<Track>(new Track(scene, m_level.enemyTrack()));
+    m_playerTrack = std::unique_ptr<Track>(new Track(m_world, m_level.playerTrack()));
+    m_enemyTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack()));
     
     auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
                                                m_level.heightMapSizeT(),
@@ -80,7 +82,19 @@ Track *Terrain::enemyTrack() const
     return m_enemyTrack.get();
 }
 
-void Terrain::update(int elapsedMilliseconds)
+void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    if(m_enemyTrack)
+    {
+        callback(*m_enemyTrack);
+    }
+    if(m_playerTrack)
+    {
+        callback(*m_playerTrack);
+    }
+}
+
+void Terrain::localUpdate(int elapsedMilliseconds)
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -89,15 +103,12 @@ void Terrain::update(int elapsedMilliseconds)
     transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
 
-    AbstractPhysicsObject::update(elapsedMilliseconds);
-
-    m_playerTrack->update(elapsedMilliseconds);
-    m_enemyTrack->update(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
 }
 
-void Terrain::render(QOpenGLFunctions& gl) const
+void Terrain::localRender(QOpenGLFunctions& gl) const
 {
-    QVector3D camPos = m_scene->camera().eye();
+    QVector3D camPos = m_world.localPlayer().camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
 
     int radius = 5;
@@ -107,18 +118,14 @@ void Terrain::render(QOpenGLFunctions& gl) const
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
-            AbstractGraphicsObject::render(gl);
+            AbstractGraphicsObject::localRender(gl);
         }
     }
-
-    // render tracks
-    m_playerTrack->render(gl);
-    m_enemyTrack->render(gl);
 }
 
-void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
-    AbstractGraphicsObject::preRender(gl, program);
+    AbstractGraphicsObject::localRenderSetup(gl, program);
 
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
@@ -137,7 +144,7 @@ void Terrain::preRender(QOpenGLFunctions & gl, Program & program) const
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
-void Terrain::postRender(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);

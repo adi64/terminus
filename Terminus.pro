@@ -355,6 +355,7 @@ HEADERS += \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
+    source/util/tostring.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
@@ -371,11 +372,10 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/scene.h \
+    source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/util/tostring.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -521,7 +521,6 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
-    source/bullet/clew/clew.c \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
@@ -552,8 +551,10 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/scene.cpp \
+    source/world/world.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
+    source/main.cpp \
+    source/bullet/clew/clew.c
+

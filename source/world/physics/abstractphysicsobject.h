@@ -12,7 +12,7 @@ namespace terminus
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {    
 public:
-    AbstractPhysicsObject(std::shared_ptr<Scene> scene);
+    AbstractPhysicsObject(World & world);
 
     virtual void moveTo(const QVector3D & newPosition);
     virtual void onCollisionWith(AbstractPhysicsObject* other);

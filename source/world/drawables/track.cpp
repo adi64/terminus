@@ -6,15 +6,10 @@
 namespace terminus
 {
 
-Track::Track(std::shared_ptr<Scene> scene, std::unique_ptr<Polyline> controlPoints)
-: AbstractGraphicsObject(scene)
+Track::Track(World & world, std::unique_ptr<Polyline> controlPoints)
+: AbstractGraphicsObject(world)
 , m_course(std::move(controlPoints))
 {
-}
-
-void Track::render(QOpenGLFunctions &gl) const
-{
-    // TODO
 }
 
 QVector3D Track::positionAt(float distance)
@@ -30,6 +25,11 @@ QVector3D Track::tangentAt(float distance)
 float Track::length()
 {
     return m_course->length();
+}
+
+bool Track::localRenderEnabled() const
+{
+    return false;
 }
 
 }//namespace terminus

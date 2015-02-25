@@ -2,17 +2,17 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-KinematicPhysicsObject::KinematicPhysicsObject(std::shared_ptr<Scene> scene)
-    : AbstractPhysicsObject(scene)
+KinematicPhysicsObject::KinematicPhysicsObject(World & world)
+    : AbstractPhysicsObject(world)
 {
 }
 
-void KinematicPhysicsObject::update(int elapsedMilliseconds)
+void KinematicPhysicsObject::localUpdate(int elapsedMilliseconds)
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -22,7 +22,7 @@ void KinematicPhysicsObject::update(int elapsedMilliseconds)
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
     m_btRigidBody->setCenterOfMassTransform(transform);
 
-    AbstractPhysicsObject::update(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
 }
 
 void KinematicPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
