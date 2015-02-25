@@ -1,7 +1,5 @@
 #include "abstractgraphicsobject.h"
 
-#include <algorithm>
-
 #include <QQuaternion>
 #include <QDebug>
 
