@@ -85,6 +85,8 @@ protected:
      * \brief A pointer to the controlling player's camera
      *
      * A Train knows the camera of the player that controls it in order to get the player's aim vector
+     *
+     * TODO after camera refactoring, AGOs have references to a camera bound to it -> this member will be redundant
      */
     std::shared_ptr<Camera> m_playerCamera;
 };
