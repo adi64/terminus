@@ -10,7 +10,7 @@ namespace terminus
 class Projectile : public DynamicPhysicsObject
 {
 public:
-    Projectile(std::shared_ptr<Scene> scene);
+    Projectile(World & world);
     virtual ~Projectile();
 
     virtual void localUpdate(int elapsedMilliseconds) override;

@@ -6,8 +6,8 @@
 namespace terminus
 {
 
-Track::Track(std::shared_ptr<Scene> scene, std::unique_ptr<Polyline> controlPoints)
-: AbstractGraphicsObject(scene)
+Track::Track(World & world, std::unique_ptr<Polyline> controlPoints)
+: AbstractGraphicsObject(world)
 , m_course(std::move(controlPoints))
 {
 }

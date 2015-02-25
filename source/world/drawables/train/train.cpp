@@ -15,12 +15,12 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(std::shared_ptr<Scene> scene, Track *track)
-    : AbstractGraphicsObject(scene)
-    , m_hasEngine(false)
-    , m_velocity(base_velocity)
-    , m_travelledDistance(0.0f)
-    , m_track(track)
+Train::Train(World & world, Track * track)
+: AbstractGraphicsObject(world)
+, m_hasEngine(false)
+, m_velocity(base_velocity)
+, m_travelledDistance(0.0f)
+, m_track(track)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();

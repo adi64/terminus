@@ -20,8 +20,8 @@ class AbstractPlayer
 public:
     AbstractPlayer(std::shared_ptr<Train> train);
 
-    std::shared_ptr<Camera> camera();
-    const Train &train();
+    Camera & camera();
+    Train & train();
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
@@ -33,7 +33,7 @@ public:
     virtual void update(int elapsedMilliseconds);
 
 protected:
-    std::shared_ptr<Camera> m_camera;
+    Camera m_camera;
     std::shared_ptr<Train> m_train;
 
     std::shared_ptr<NetworkEndpoint> m_networkEndpoint;

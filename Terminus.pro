@@ -340,15 +340,15 @@ HEADERS += \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
+    source/network/commands/abstractcommand.h \
+    source/network/commands/commands.h \
+    source/network/commands/playeridcommand.h \
+    source/network/commands/projectilefiredcommand.h \
     source/network/networkclient.h \
     source/network/networkconnection.h \
     source/network/networkendpoint.h \
     source/network/networkmanager.h \
     source/network/networkserver.h \
-    source/network/commands/abstractcommand.h \
-    source/network/commands/commands.h \
-    source/network/commands/playeridcommand.h \
-    source/network/commands/projectilefiredcommand.h \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
@@ -379,7 +379,7 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/scene.h \
+    source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h
@@ -528,15 +528,14 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
-    source/bullet/clew/clew.c \
+    source/network/commands/abstractcommand.cpp \
+    source/network/commands/playeridcommand.cpp \
+    source/network/commands/projectilefiredcommand.cpp \
     source/network/networkclient.cpp \
     source/network/networkconnection.cpp \
     source/network/networkendpoint.cpp \
     source/network/networkmanager.cpp \
     source/network/networkserver.cpp \
-    source/network/commands/abstractcommand.cpp \
-    source/network/commands/playeridcommand.cpp \
-    source/network/commands/projectilefiredcommand.cpp \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
@@ -566,9 +565,9 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/scene.cpp \
+    source/world/world.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
-
+    source/main.cpp \
+    source/bullet/clew/clew.c

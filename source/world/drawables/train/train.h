@@ -7,7 +7,7 @@
 
 #include <world/drawables/abstractgraphicsobject.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
-#include <world/scene.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -20,7 +20,7 @@ class Train : public AbstractGraphicsObject
 public:
     static const float base_velocity;
 public:
-    Train(std::shared_ptr<Scene> scene, Track *track);
+    Train(World & world, Track * track);
     ~Train();
 
     template<typename WagonType>

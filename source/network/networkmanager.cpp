@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include <game.h>
+#include <world/world.h>
 #include <network/commands/abstractcommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
@@ -96,7 +97,7 @@ void NetworkManager::newCommand(AbstractCommand *command)
 {
     qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
-    m_game.scene()->scheduleAction( [=](){ command->run(); delete command; } );
+    m_game.world().scheduleAction( [=](){ command->run(); delete command; } );
 }
 
 } // namespace terminus

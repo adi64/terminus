@@ -83,7 +83,7 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     auto normalizedAimDirection = aimDirection.normalized();
 
     // set camera position accordingly
-    m_camera->setEye(m_camera->center() - normalizedAimDirection);
+    m_camera.setEye(m_camera.center() - normalizedAimDirection);
 
     // charge time depends on how near we are to the enemy train (3sec max charge, 200m max train distance)
     auto chargingThreshold = (aimDirection.length() / 200.0f) * 3000.0f;
