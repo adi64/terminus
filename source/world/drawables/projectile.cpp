@@ -51,6 +51,12 @@ float Projectile::damage() const
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
+    // don't to damage if this projectile was not spawned locally - the other client will inform us of damage events and such
+    if(!m_spawnedLocally)
+    {
+        return;
+    }
+
     auto otherWagon = dynamic_cast<AbstractWagon*>(other);
     if(otherWagon)
     {
