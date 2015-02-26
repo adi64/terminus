@@ -83,12 +83,12 @@ Timer::TimerMSec Timer::get()
 
 Timer::TimerMSec Timer::get(TimerID id)
 {
-    if(m_timePoints.count(id) == 0)
+    if(m_timeStamps.count(id) == 0)
     {
         return 0; // timer does not exist, so time since allocation is 0 msec
     }
 
-    return toMSec(localNow() - m_timePoints[id]);
+    return toMSec(localNow() - m_timeStamps[id]);
 
 }
 
@@ -109,7 +109,7 @@ void Timer::adjust(Timer::TimerMSec newNow)
 
 void Timer::adjust(Timer::TimerID id, Timer::TimerMSec newNow)
 {
-    if(m_timePoints.count(id) != 0)
+    if(m_timeStamps.count(id) != 0)
     {
         m_timeStamps[id] = localNow() - fromMSec(newNow);
     }
@@ -121,7 +121,7 @@ void Timer::adjust(std::string name, Timer::TimerMSec newNow)
     {
         allocateTimer(name);
     }
-    adjust(m_namedTimers[name]);
+    adjust(m_namedTimers[name], newNow);
 }
 
 Timer::TimerID Timer::freeTimerID()

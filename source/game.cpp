@@ -21,8 +21,7 @@ namespace terminus
 {
 
 Game::Game()
-: m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
+: m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_eventHandler(this)
 , m_deferredActionHandler(this)
 , m_paused(true)
@@ -32,8 +31,6 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
-
-    m_timeStamp->restart();
 
     m_world = std::unique_ptr<World>(new World(*this));
 
@@ -56,6 +53,11 @@ DeferredActionHandler & Game::deferredActionHandler()
     return m_deferredActionHandler;
 }
 
+Timer & Game::timer()
+{
+    return m_timer;
+}
+
 void Game::sync()
 {
     // check if it's our first frame
@@ -63,7 +65,7 @@ void Game::sync()
     {
         m_setupComplete = true;
         m_paused = false;
-        m_timeStamp->restart();
+        //TODO m_timeStamp->restart();
     }
 
     // process scheduled events
@@ -75,13 +77,16 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    auto elapsedMilliseconds = m_timeStamp->restart();
-    if(m_paused)
+    if(!m_timer.isAllocated("frameTimer"))
     {
-       elapsedMilliseconds = 0;
+        m_timer.allocateTimer("frameTimer");
     }
-
-    m_world->update(elapsedMilliseconds);
+    auto elapsedMilliseconds = m_timer.get("frameTimer");
+    if(!m_paused)
+    {
+       m_world->update(elapsedMilliseconds);
+    }
+    m_timer.adjust("frameTimer", 0);
 }
 
 void Game::render()
@@ -110,10 +115,9 @@ void Game::handleWindowChanged(QQuickWindow * win)
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         win->setClearBeforeRendering(false);
-
-        // force redraw
-        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        m_timer->start(1000 / 60);
+        // trigger redraws periodically
+        connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
+        m_renderTrigger->start(1000 / 60);
     }
 }
 
@@ -172,86 +176,4 @@ void Game::togglePaused()
     m_paused = !m_paused;
 }
 
-void Game::setupBulletWorld()
-{
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-
-    // Build the broadphase
-    m_bullet_broadphase = new btDbvtBroadphase();
-
-    // Set up the collision configuration and dispatcher
-    m_bullet_collisionConfiguration = new btDefaultCollisionConfiguration();
-    m_bullet_dispatcher = new btCollisionDispatcher(m_bullet_collisionConfiguration);
-
-    // The actual physics solver
-    m_bullet_solver = new btSequentialImpulseConstraintSolver;
-
-    // The world.
-    m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
-                new btDiscreteDynamicsWorld(
-                    m_bullet_dispatcher,
-                    m_bullet_broadphase,
-                    m_bullet_solver,
-                    m_bullet_collisionConfiguration
-                    )
-                );
-
-    m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
-
-    // set world user info (void*) to pointer to this game instance
-    // so we can (indirectly) call a member of Game without having global state or a singleton
-    m_bullet_dynamicsWorld->setInternalTickCallback(&Game::btStaticTickCallback);
-    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
-}
-
-Scene *Game::scene() const
-{
-    return m_scene.get();
-}
-
-Train *Game::playerTrain() const
-{
-    return m_playerTrain.get();
-}
-
-AbstractPlayer *Game::localPlayer() const
-{
-    return m_localPlayer.get();
-}
-
-void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
-{
-    int numManifolds = world->getDispatcher()->getNumManifolds();
-
-    for (int i=0; i < numManifolds; ++i)
-    {
-        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
-        auto body0 = contactManifold->getBody0();
-        auto body1 = contactManifold->getBody1();
-
-        auto numContacts = contactManifold->getNumContacts();
-
-        if(numContacts > 0)
-        {
-            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
-
-            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
-            {
-                physicsObject0->onCollisionWith(physicsObject1);
-                physicsObject1->onCollisionWith(physicsObject0);
-            }
-        }
-    }
-
-}
-
-void Game::btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep)
-{
-    // retrieve instance pointer from user info (void*)
-    auto gameInstance = static_cast<Game*>(world->getWorldUserInfo());
-    gameInstance->btTickCallback(world, timeStep);
-}
-
-}
+}//namespace terminus

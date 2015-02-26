@@ -35,7 +35,7 @@ void Projectile::localUpdate(int elapsedMilliseconds)
     m_ageInMilliseconds += elapsedMilliseconds;
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
-        m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this);} );
+        m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this); return false;} );
     }
 }
 

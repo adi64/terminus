@@ -26,7 +26,7 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
     // ... :D
 }
 
-void AbstractGraphicsObject::update()
+void AbstractGraphicsObject::update(int elapsedMilliseconds)
 {
     localUpdate(elapsedMilliseconds);
     doForAllChildren(

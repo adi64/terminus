@@ -88,7 +88,7 @@ public:
      * this method affects both the time returned by get() and get(id) or get(name) as
      * named and unnamed timers operate relative to the reference time
      */
-    void adjust(TimerMSec newNow = 0);
+    void adjust(TimerMSec newNow);
     /*!
      * \brief adjust - adjust the value of an unnamed timer to match newNow
      * \param id
@@ -96,7 +96,7 @@ public:
      *
      * does nothing for unallocated timer ids
      */
-    void adjust(TimerID id, TimerMSec newNow = 0);
+    void adjust(TimerID id, TimerMSec newNow);
     /*!
      * \brief adjust - adjust the value of a named timer to match newNow
      * \param name
@@ -104,7 +104,7 @@ public:
      *
      * allocates a new timer, if it is not allocated already
      */
-    void adjust(std::string name, TimerMSec newNow = 0);
+    void adjust(std::string name, TimerMSec newNow);
 
 protected:
     TimerID freeTimerID();

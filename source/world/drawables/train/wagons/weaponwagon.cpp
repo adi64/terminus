@@ -74,6 +74,7 @@ void WeaponWagon::fire(QVector3D force)
             projectile->moveTo(worldProjectilePosition);
             projectile->applyForce(force);
             m_world.addNode(projectile);
+            return false;
         }
     );
 
