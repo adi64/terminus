@@ -1,6 +1,9 @@
 #include "train.h"
 
 #include <memory>
+
+#include <assert.h>
+
 #include <QDebug>
 #include <QOpenGLFunctions>
 
@@ -12,12 +15,12 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(std::shared_ptr<Scene> scene, Track *track)
-    : AbstractGraphicsObject(scene)
-    , m_hasEngine(false)
-    , m_velocity(base_velocity)
-    , m_travelledDistance(0.0f)
-    , m_track(track)
+Train::Train(World & world, Track * track)
+: AbstractGraphicsObject(world)
+, m_hasEngine(false)
+, m_velocity(base_velocity)
+, m_travelledDistance(0.0f)
+, m_track(track)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -30,17 +33,8 @@ Train::~Train()
 
 void Train::removeWagon(unsigned int index)
 {
-    if(index >= m_wagons.size())
-    {
-        qDebug() << index << " > " << m_wagons.size();
-        return;
-    }
-
-    if(index <= 0)
-    {
-        qDebug() << "you cannot delete the engine!";
-        return;
-    }
+    assert(index < m_wagons.size());
+    assert(index > 0);//can not delete engine at index 0
 
     m_wagons.erase(m_wagons.begin() + index);
 
@@ -49,33 +43,12 @@ void Train::removeWagon(unsigned int index)
 
 void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
 {
-    if(wagonPos >= m_wagons.size())
-    {
-        qDebug() << "wagonPos >= " << m_wagons.size();
-        return;
-    }
-
-    if(wagonPos <= 0)
-    {
-        qDebug() << "Cannot move engine";
-        return;
-    }
-
-    if(targetPos >= m_wagons.size())
-    {
-        qDebug() << "targetPos >= " << m_wagons.size();
-        return;
-    }
-
-    if(targetPos <= 0)
-    {
-        qDebug() << "Cannot move wagon in front of engine";
-        return;
-    }
-
+    assert(wagonPos < m_wagons.size());
+    assert(wagonPos > 0); // can not move engine at index 0
+    assert(targetPos < m_wagons.size());
+    assert(targetPos > 0); // can not replace engine at index 0
     if(targetPos == wagonPos)
     {
-        qDebug() << "Wagon did not move";
         return;
     }
 
@@ -94,7 +67,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::update(int elapsedMilliseconds)
+void Train::localUpdate(int elapsedMilliseconds)
 {
     if(m_followedTrain)
     {
@@ -109,19 +82,6 @@ void Train::update(int elapsedMilliseconds)
     if(m_travelledDistance > m_track->length())
     {
         m_travelledDistance = 0.0;
-    }
-
-    for(auto& wagon : m_wagons)
-    {
-        wagon->update(elapsedMilliseconds);
-    }
-}
-
-void Train::render(QOpenGLFunctions& gl) const
-{
-    for(auto& wagon : m_wagons)
-    {
-        wagon->render(gl);
     }
 }
 
@@ -180,17 +140,33 @@ void Train::setPlayerCamera(std::shared_ptr<Camera> camera)
     m_playerCamera = camera;
 }
 
+bool Train::localRenderEnabled() const
+{
+    return false;
+}
+
 void Train::calculateWagonOffset()
 {
     const auto wagonGap = 0.3f;
 
     float accumulatedOffset = -3.0f;
 
-    for(auto& wagon : m_wagons)
+    for(auto & wagon : m_wagons)
     {
         accumulatedOffset += 0.5f * wagon->length() + wagonGap;
         wagon->setPositionOffset(accumulatedOffset);
         accumulatedOffset += 0.5f * wagon->length();
+    }
+}
+
+void Train::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    for(auto & wagon : m_wagons)
+    {
+        if(wagon)
+        {
+            callback(*wagon);
+        }
     }
 }
 

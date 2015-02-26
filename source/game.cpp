@@ -1,94 +1,44 @@
 #include "game.h"
 
+#include <assert.h>
 #include <memory>
-#include <functional>
 
 #include <QQuickView>
+#include <QApplication>
 #include <QTimer>
 #include <QTime>
-#include <QVector3D>
-#include <QApplication>
 #include <QVariant>
 #include <QMap>
 #include <QList>
 
 #include <player/aiplayer.h>
 
-#include <resources/resourcemanager.h>
+#include <eventhandler.h>
+#include <deferredactionhandler.h>
+#include <player/localplayer.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
-
-#include <world/scene.h>
-#include <world/drawables/train/train.h>
-#include <world/drawables/terrain.h>
-#include <world/drawables/skybox.h>
-#include <world/drawables/projectile.h>
-#include <world/drawables/train/wagons/enginewagon.h>
-#include <world/drawables/train/wagons/weaponwagon.h>
-#include <world/drawables/train/wagons/repairwagon.h>
-
-#include <player/abstractplayer.h>
-#include <player/aiplayer.h>
-#include <player/localplayer.h>
-
-#include "eventhandler.h"
-#include "deferredactionhandler.h"
+#include <world/world.h>
 
 namespace terminus
 {
 
 Game::Game()
-: m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::shared_ptr<QTime>(new QTime()))
-, m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
-, m_qmlData(std::unique_ptr<QVariant>(new QVariant()))
+: m_eventHandler(this)
+, m_deferredActionHandler(this)
+, m_timer(std::unique_ptr<QTimer>(new QTimer()))
+, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
 , m_paused(true)
 , m_setupComplete(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
-    setupBulletWorld();
-
     ResourceManager::getInstance()->loadResources();
     SoundManager::getInstance()->playSound("music");
 
     m_timeStamp->restart();
-    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
-    m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
-    m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-
-    m_enemyTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->enemyTrack()));
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->follow(m_playerTrain);
-
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
-
-    m_scene->setActiveCamera(m_localPlayer->camera());
-    m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
-    m_scene->setInitialTimeStamp(m_timeStamp);
-
-    m_scene->addNode(m_playerTrain.get());
-    m_scene->addNode(m_enemyTrain.get());
-    m_scene->addNode(m_terrain.get());
-    m_scene->addNode(m_skybox.get());
+    m_world = std::unique_ptr<World>(new World(*this));
 
     updateQMLData();
 }
@@ -96,6 +46,17 @@ Game::Game()
 Game::~Game()
 {
 
+}
+
+World & Game::world() const
+{
+    assert(m_world);
+    return *m_world;
+}
+
+DeferredActionHandler & Game::deferredActionHandler()
+{
+    return m_deferredActionHandler;
 }
 
 void Game::sync()
@@ -109,7 +70,13 @@ void Game::sync()
     }
 
     // process scheduled events
-    m_deferredActionHandler->processDeferredActions();
+    m_deferredActionHandler.processDeferredActions();
+
+    #ifdef Q_OS_MAC
+        m_world->localPlayer().camera().setViewport(window()->width()*2, window()->height()*2);
+    #else
+        m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
+    #endif
 
     auto elapsedMilliseconds = m_timeStamp->restart();
     if(m_paused)
@@ -117,23 +84,19 @@ void Game::sync()
        elapsedMilliseconds = 0;
     }
 
-    // physics
-    m_bullet_dynamicsWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
-
-    #ifdef Q_OS_MAC
-        m_scene->camera().setViewport(window()->width()*2, window()->height()*2);
-    #else
-        m_scene->camera().setViewport(window()->width(), window()->height());
-    #endif
-
-    m_scene->update(elapsedMilliseconds);
-    m_aiPlayer->update(elapsedMilliseconds);
-    m_localPlayer->update(elapsedMilliseconds);
+    m_world->update(elapsedMilliseconds);
 }
 
-void Game::render() const
+void Game::render()
 {
-    m_scene->render();
+    static bool glInitialized = false;
+    if(!glInitialized)
+    {
+        m_gl.initializeOpenGLFunctions();
+        glInitialized = true;
+    }
+
+    m_world->render(m_gl);
 }
 
 void Game::cleanup()
@@ -141,7 +104,7 @@ void Game::cleanup()
     qDebug("cleanup");
 }
 
-void Game::handleWindowChanged(QQuickWindow *win)
+void Game::handleWindowChanged(QQuickWindow * win)
 {
     if (win) {
         connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
@@ -157,6 +120,61 @@ void Game::handleWindowChanged(QQuickWindow *win)
     }
 }
 
+void Game::keyPressEvent(Qt::Key key)
+{
+    m_eventHandler.keyPressEvent(key);
+}
+
+void Game::keyReleaseEvent(Qt::Key key)
+{
+    m_eventHandler.keyReleaseEvent(key);
+}
+
+void Game::mouseMoveEvent(qreal x, qreal y)
+{
+    m_eventHandler.mouseMoveEvent(x, y);
+}
+
+void Game::touchMoveEvent(qreal x, qreal y)
+{
+    m_eventHandler.touchMoveEvent(x, y);
+}
+
+void Game::gyroMoveEvent(qreal x, qreal y)
+{
+    m_eventHandler.gyroMoveEvent(x, y);
+}
+
+void Game::switchToNextWagon()
+{
+    m_eventHandler.switchToNextWagon();
+}
+
+void Game::switchToPreviousWagon()
+{
+    m_eventHandler.switchToPreviousWagon();
+}
+
+/*void Game::flickEvent(qreal startX, qreal x)
+{
+    m_eventHandler.flickEvent(startX, x);
+}
+
+void Game::flickReset()
+{
+    m_eventHandler.flickReset();
+}*/
+
+void Game::touchChargeFire()
+{
+    m_eventHandler.touchChargeFire();
+}
+
+void Game::touchFire()
+{
+    m_eventHandler.touchFire();
+}
+
 void Game::setPaused(bool paused)
 {
     m_paused = paused;
@@ -167,148 +185,63 @@ void Game::togglePaused()
     m_paused = !m_paused;
 }
 
-void Game::setupBulletWorld()
-{
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-
-    // Build the broadphase
-    m_bullet_broadphase = new btDbvtBroadphase();
-
-    // Set up the collision configuration and dispatcher
-    m_bullet_collisionConfiguration = new btDefaultCollisionConfiguration();
-    m_bullet_dispatcher = new btCollisionDispatcher(m_bullet_collisionConfiguration);
-
-    // The actual physics solver
-    m_bullet_solver = new btSequentialImpulseConstraintSolver;
-
-    // The world.
-    m_bullet_dynamicsWorld = std::shared_ptr<btDiscreteDynamicsWorld>(
-                new btDiscreteDynamicsWorld(
-                    m_bullet_dispatcher,
-                    m_bullet_broadphase,
-                    m_bullet_solver,
-                    m_bullet_collisionConfiguration
-                    )
-                );
-
-    m_bullet_dynamicsWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
-
-    // set world user info (void*) to pointer to this game instance
-    // so we can (indirectly) call a member of Game without having global state or a singleton
-    m_bullet_dynamicsWorld->setInternalTickCallback(&Game::btStaticTickCallback);
-    m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
-}
-
 void Game::updateQMLData()
 {
+    auto& playerTrain = m_world->playerTrain();
     QList<QVariant> playerWagonList;
-    for(unsigned int i = 0; i < m_playerTrain->size(); i++)
+    for(unsigned int i = 0; i < playerTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", m_playerTrain->wagonAt(i)->wagonType());
-        wagonMap.insert("currentHealth", m_playerTrain->wagonAt(i)->currentHealth());
-        wagonMap.insert("maxHealth", m_playerTrain->wagonAt(i)->maxHealth());
+        wagonMap.insert("type", playerTrain.wagonAt(i)->wagonType());
+        wagonMap.insert("currentHealth", playerTrain.wagonAt(i)->currentHealth());
+        wagonMap.insert("maxHealth", playerTrain.wagonAt(i)->maxHealth());
         wagonMap.insert("currentCooldown", 0);
         wagonMap.insert("maxCooldown", 0);
         wagonMap.insert("isCurrent", false); //
-        wagonMap.insert("isDisabled", m_playerTrain->wagonAt(i)->isDisabled());
+        wagonMap.insert("isDisabled", playerTrain.wagonAt(i)->isDisabled());
         QVariant wagon(wagonMap);
         playerWagonList.push_back(wagon);
     }
 
+    auto& enemyTrain = m_world->enemyTrain();
     QList<QVariant> enemyWagonList;
-    for(unsigned int i = 0; i < m_enemyTrain->size(); i++)
+    for(unsigned int i = 0; i < enemyTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", m_playerTrain->wagonAt(i)->wagonType());
-        wagonMap.insert("currentHealth", m_playerTrain->wagonAt(i)->currentHealth());
-        wagonMap.insert("maxHealth", m_playerTrain->wagonAt(i)->maxHealth());
+        wagonMap.insert("type", enemyTrain.wagonAt(i)->wagonType());
+        wagonMap.insert("currentHealth", enemyTrain.wagonAt(i)->currentHealth());
+        wagonMap.insert("maxHealth", enemyTrain.wagonAt(i)->maxHealth());
         wagonMap.insert("currentCooldown", 0);
         wagonMap.insert("maxCooldown", 0);
         wagonMap.insert("isCurrent", false); //
-        wagonMap.insert("isDisabled", m_playerTrain->wagonAt(i)->isDisabled());
+        wagonMap.insert("isDisabled", enemyTrain.wagonAt(i)->isDisabled());
         QVariant wagon(wagonMap);
         enemyWagonList.push_back(wagon);
     }
 
     QMap<QString, QVariant> playerTrainMap;
-    playerTrainMap.insert("totalWagons", m_playerTrain->size());
-    playerTrainMap.insert("currentWagon", m_localPlayer->selectedWagonIndex());
+    playerTrainMap.insert("totalWagons", playerTrain.size());
+    playerTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
     playerTrainMap.insert("wagons", playerWagonList);
 
     QMap<QString, QVariant> enemyTrainMap;
-    enemyTrainMap.insert("totalWagons", m_playerTrain->size());
-    enemyTrainMap.insert("currentWagon", m_localPlayer->selectedWagonIndex());
+    enemyTrainMap.insert("totalWagons", playerTrain.size());
+    enemyTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
     enemyTrainMap.insert("wagons", enemyWagonList);
 
-    QVariant playerTrain(playerTrainMap);
-    QVariant enemyTrain(enemyTrainMap);
+    QVariant playerTrainVariant(playerTrainMap);
+    QVariant enemyTrainVariant(enemyTrainMap);
 
     QMap<QString, QVariant> dataMap;
-    dataMap.insert("PlayerTrain", playerTrain);
-    dataMap.insert("EnemyTrain", enemyTrain);
-    m_qmlData->setValue(dataMap);
-}
-
-Scene *Game::scene() const
-{
-    return m_scene.get();
-}
-
-Train *Game::playerTrain() const
-{
-    return m_playerTrain.get();
-}
-
-Train *Game::enemyTrain() const
-{
-    return m_enemyTrain.get();
-}
-
-AbstractPlayer *Game::localPlayer() const
-{
-    return m_localPlayer.get();
+    dataMap.insert("PlayerTrain", playerTrainVariant);
+    dataMap.insert("EnemyTrain", enemyTrainVariant);
+    m_qmlData.setValue(dataMap);
 }
 
 QVariant &Game::qmlData()
 {
 
-    return *m_qmlData;
-}
-
-void Game::btTickCallback(btDynamicsWorld *world, btScalar)
-{
-    int numManifolds = world->getDispatcher()->getNumManifolds();
-
-    for (int i=0; i < numManifolds; ++i)
-    {
-        auto contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
-        auto body0 = contactManifold->getBody0();
-        auto body1 = contactManifold->getBody1();
-
-        auto numContacts = contactManifold->getNumContacts();
-
-        if(numContacts > 0)
-        {
-            auto physicsObject0 = m_scene->getGraphicsObjectForCollisionObject(body0);
-            auto physicsObject1 = m_scene->getGraphicsObjectForCollisionObject(body1);
-
-            if(physicsObject0 != nullptr && physicsObject1 != nullptr)
-            {
-                physicsObject0->onCollisionWith(physicsObject1);
-                physicsObject1->onCollisionWith(physicsObject0);
-            }
-        }
-    }
-
-}
-
-void Game::btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep)
-{
-    // retrieve instance pointer from user info (void*)
-    auto gameInstance = static_cast<Game*>(world->getWorldUserInfo());
-    gameInstance->btTickCallback(world, timeStep);
+    return m_qmlData;
 }
 
 }

@@ -12,7 +12,6 @@ class EventHandler
 public:
     EventHandler(Game *game = nullptr);
 
-    void setGame(Game *game);
     void keyPressEvent(Qt::Key key);
     void keyReleaseEvent(Qt::Key key);
     void mouseMoveEvent(qreal x, qreal y);

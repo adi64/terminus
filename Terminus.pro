@@ -378,8 +378,7 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/scene.h \
-    source/userinterface.h \
+    source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h
@@ -558,9 +557,9 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/scene.cpp \
-    source/userinterface.cpp \
+    source/world/world.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp
+

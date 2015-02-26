@@ -2,8 +2,7 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
-#include <world/drawables/projectile.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -12,8 +11,8 @@
 namespace terminus
 {
 
-RepairWagon::RepairWagon(std::shared_ptr<Scene> scene, Train *train)
-: AbstractWagon(scene, train)
+RepairWagon::RepairWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("repair_repair");
@@ -34,7 +33,7 @@ void RepairWagon::primaryAction()
     }
 }
 
-void RepairWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

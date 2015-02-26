@@ -36,57 +36,41 @@ Rectangle
         {
             id: ewagon0
             wagonIndex: 0
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon1
             wagonIndex: 1
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon2
             wagonIndex: 2
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon3
             wagonIndex: 3
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon4
             wagonIndex: 4
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon5
             wagonIndex: 5
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon6
             wagonIndex: 6
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
         EnemyWagonStatus
         {
             id: ewagon7
             wagonIndex: 7
-            wagon: train.wagonAt(wagonIndex)
-            totalWagons: wagons
         }
     }
 }

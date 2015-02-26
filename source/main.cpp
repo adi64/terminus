@@ -7,7 +7,6 @@
 #include <QQuickView>
 
 #include "game.h"
-#include "userinterface.h"
 
 #include <resources/resourcemanager.h>
 
@@ -20,8 +19,8 @@ int main(int argc, char *argv[])
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl(QStringLiteral("qrc:/source/qml/main.qml")));
-    //view.show();
-    view.showFullScreen();
+    view.show();
+    //view.showFullScreen();
 
     return app.exec();
 }

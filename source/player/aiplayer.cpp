@@ -84,7 +84,7 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     auto normalizedAimDirection = aimDirection.normalized();
 
     // set camera position accordingly
-    m_camera->setEye(m_camera->center() - normalizedAimDirection);
+    m_camera.setEye(m_camera.center() - normalizedAimDirection);
 
     // charge for a random amount of time in range 1000-2000ms
     auto chargingThreshold = (rand() % 1000) + 1000; // this will be overwritten on each frame

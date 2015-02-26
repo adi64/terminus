@@ -1,5 +1,6 @@
 #include "camera.h"
-#include <cassert>
+
+#include <assert.h>
 #include <QQuaternion>
 
 #include <world/drawables/abstractgraphicsobject.h>
@@ -16,7 +17,6 @@ Camera::Camera(
 , m_eye(eye)
 , m_center(center)
 , m_up(up)
-
 , m_fovy(70.f) // degrees!
 , m_aspect(16.f / 9.f)
 , m_zNear(0.2f)

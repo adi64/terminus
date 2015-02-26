@@ -3,14 +3,11 @@
 #include <memory>
 
 #include <QObject>
+#include <QOpenGLFunctions>
 #include <QQuickItem>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
-#include <world/scene.h>
-#include <world/drawables/train/train.h>
-
-#include "userinterface.h"
+#include <deferredactionhandler.h>
+#include <eventhandler.h>
 
 class QTimer;
 class QTime;
@@ -18,14 +15,7 @@ class QVariant;
 
 namespace terminus
 {
-
-class Terrain;
-class ResourceManager;
-class SkyBox;
-class DeferredActionHandler;
-class AbstractPlayer;
-class AIPlayer;
-class LocalPlayer;
+class World;
 
 class Game : public QQuickItem
 {
@@ -33,7 +23,20 @@ class Game : public QQuickItem
     Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
 
 public:
+    /*!
+     * \brief The one and only Game constructor
+     */
     Game();
+
+    /*!
+     * \brief Delete copy constructor
+     */
+    Game(const Game & other) = delete;
+
+    /*!
+     * \brief Delete assignment operator
+     */
+    Game & operator=(const Game & other) = delete;
 
     /*!
      * Do not delete this destructor, even if it is empty
@@ -41,15 +44,22 @@ public:
      */
     ~Game();
 
-    Scene *scene() const;
-    Train *playerTrain() const;
-    Train *enemyTrain() const;
-    AbstractPlayer *localPlayer() const;
+    World & world() const;
+    QVariant & qmlData();
+    DeferredActionHandler & deferredActionHandler();
 
-    QVariant &qmlData();
+    Q_INVOKABLE void keyPressEvent(Qt::Key key);
+    Q_INVOKABLE void keyReleaseEvent(Qt::Key key);
+    Q_INVOKABLE void mouseMoveEvent(qreal x, qreal y);
+    Q_INVOKABLE void touchMoveEvent(qreal x, qreal y);
+    Q_INVOKABLE void gyroMoveEvent(qreal x, qreal y);
+    Q_INVOKABLE void switchToNextWagon();
+    Q_INVOKABLE void switchToPreviousWagon();
+    Q_INVOKABLE void touchChargeFire();
+    Q_INVOKABLE void touchFire();
 
-    void btTickCallback(btDynamicsWorld *world, btScalar);
-    static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    /*Q_INVOKABLE void flickEvent(qreal startX, qreal x);
+    Q_INVOKABLE void flickReset();*/
 
 public slots:
     /*!
@@ -66,7 +76,7 @@ public slots:
      * This renders the current state of all objects. Object state should not be changed here.
      * \sa sync()
      */
-    void render() const;
+    void render();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
 
@@ -81,35 +91,20 @@ signals:
     void qmlDataChanged();
 
 protected:
-    void setupBulletWorld(void);
     void updateQMLData();
 
-    std::shared_ptr<Scene> m_scene;
-    std::shared_ptr<Train> m_playerTrain;
-    std::shared_ptr<Train> m_enemyTrain;
-    std::unique_ptr<LocalPlayer> m_localPlayer;
-    std::unique_ptr<AIPlayer> m_aiPlayer;
+    std::unique_ptr<World> m_world;
+
+    EventHandler m_eventHandler;
+    DeferredActionHandler m_deferredActionHandler;
+
+    QVariant m_qmlData;
+    QOpenGLFunctions m_gl;
+
     std::unique_ptr<QTimer> m_timer;
-    std::shared_ptr<QTime> m_timeStamp;
-    std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
-    std::unique_ptr<Terrain> m_terrain;
-    std::unique_ptr<SkyBox> m_skybox;
-    std::unique_ptr<QVariant> m_qmlData;
-
-    UserInterface *m_userInterface;
-
+    std::unique_ptr<QTime> m_timeStamp;
     bool m_paused;
     bool m_setupComplete;
-
-    // bullet
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-    btBroadphaseInterface* m_bullet_broadphase;
-    btDefaultCollisionConfiguration* m_bullet_collisionConfiguration;
-    btCollisionDispatcher* m_bullet_dispatcher;
-    btSequentialImpulseConstraintSolver* m_bullet_solver;
-
-    std::shared_ptr<btDiscreteDynamicsWorld> m_bullet_dynamicsWorld;
 };
 
 }

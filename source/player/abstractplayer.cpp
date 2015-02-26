@@ -7,20 +7,22 @@ namespace terminus
 {
 
 AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
-    : m_camera(std::shared_ptr<Camera>(new Camera))
-    , m_train(train)
+    : m_train(train)
     , m_selectedWagonIndex(0)
 {
-    m_train->setPlayerCamera(m_camera);
-    m_camera->lockToObject(train->wagonAt(m_selectedWagonIndex));
+    //TODO: give train player pointer
+    m_train->setPlayerCamera(std::shared_ptr<Camera>(&m_camera));
+    m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
-std::shared_ptr<Camera> AbstractPlayer::camera()
+
+Camera & AbstractPlayer::camera()
 {
     return m_camera;
 }
 
-const Train &AbstractPlayer::train()
+
+Train & AbstractPlayer::train()
 {
     return (*m_train);
 }
@@ -32,19 +34,19 @@ unsigned int AbstractPlayer::selectedWagonIndex() const
 
 void AbstractPlayer::switchToNextWagon()
 {
-    if(m_camera->isLocked() && (m_selectedWagonIndex + 1 < m_train->size()))
+    if(m_camera.isLocked() && (m_selectedWagonIndex + 1 < m_train->size()))
     {
         m_selectedWagonIndex++;
-        m_camera->lockToObject(m_train->wagonAt(m_selectedWagonIndex));
+        m_camera.lockToObject(m_train->wagonAt(m_selectedWagonIndex));
     }
 }
 
 void AbstractPlayer::switchToPreviousWagon()
 {
-    if(m_camera->isLocked() && (m_selectedWagonIndex > 0))
+    if(m_camera.isLocked() && (m_selectedWagonIndex > 0))
     {
         m_selectedWagonIndex--;
-        m_camera->lockToObject(m_train->wagonAt(m_selectedWagonIndex));
+        m_camera.lockToObject(m_train->wagonAt(m_selectedWagonIndex));
     }
 }
 
@@ -60,7 +62,7 @@ void AbstractPlayer::primaryActionDebug()
 
 void AbstractPlayer::update(int elapsedMilliseconds)
 {
-    m_camera->update();
+    m_camera.update();
 }
 
 }
