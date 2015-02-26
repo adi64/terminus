@@ -6,8 +6,8 @@ import terminus 1.0
 
 Item
 {
-    width: Screen.desktopAvailableWidth
-    height: Screen.desktopAvailableHeight
+    width: 333
+    height: 222
 
     Game
     {
