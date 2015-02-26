@@ -16,11 +16,12 @@ namespace terminus
 
 Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
-, m_ageInMilliseconds(0)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
+
+    m_lifeTimer = m_world.timer().allocateTimer();
 
     initializePhysics(new btSphereShape(1.0), 1.f);
 }
@@ -28,16 +29,23 @@ Projectile::Projectile(World & world)
 Projectile::~Projectile()
 {
     deallocatePhysics();
+
+    m_world.timer().releaseTimer(m_lifeTimer);
 }
 
 void Projectile::localUpdate()
 {
     DynamicPhysicsObject::localUpdate();
 
-    m_ageInMilliseconds += m_world.timer().get("frameTimer");
-    if(m_ageInMilliseconds > maxAgeInMilliseconds())
+    if(m_world.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
     {
-        m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this); return false;} );
+        m_world.scheduleAction(
+            [this]()
+            {
+                m_world.deleteNode(this);
+                delete(this);
+                return false;
+            });
     }
 }
 

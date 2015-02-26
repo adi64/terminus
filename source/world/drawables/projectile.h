@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <util/timer.h>
 #include <world/physics/dynamicphysicsobject.h>
 
 namespace terminus
@@ -24,7 +25,7 @@ protected:
     virtual unsigned int maxAgeInMilliseconds() const;
 
 protected:
-    unsigned int m_ageInMilliseconds;
+    Timer::TimerID m_lifeTimer;
 };
 
 }
