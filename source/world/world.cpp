@@ -1,11 +1,12 @@
 #include "world.h"
 
+#include <math.h>
+
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QTime>
 
 #include <bullet/btBulletDynamicsCommon.h>
-
 
 #include <game.h>
 #include <world/drawables/train/train.h>
@@ -190,8 +191,8 @@ void World::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 
 void World::update()
 {
-    // physics
-    m_bulletWorld->stepSimulation(m_game.timer().get("frameTimer") / 1000.f, 10);
+    // physics - never give bullet negative step times
+    m_bulletWorld->stepSimulation(std::fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
     for(auto object : m_objects)
     {
