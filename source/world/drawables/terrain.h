@@ -18,7 +18,7 @@ public:
     Terrain(World & world);
     virtual ~Terrain();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
     virtual void localRender(QOpenGLFunctions& gl) const override;
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;

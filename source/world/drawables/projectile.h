@@ -13,7 +13,7 @@ public:
     Projectile(World & world);
     virtual ~Projectile();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
 

@@ -2,12 +2,14 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -28,11 +30,11 @@ Projectile::~Projectile()
     deallocatePhysics();
 }
 
-void Projectile::localUpdate(int elapsedMilliseconds)
+void Projectile::localUpdate()
 {
-    DynamicPhysicsObject::localUpdate(elapsedMilliseconds);
+    DynamicPhysicsObject::localUpdate();
 
-    m_ageInMilliseconds += elapsedMilliseconds;
+    m_ageInMilliseconds += m_world.timer().get("frameTimer");
     if(m_ageInMilliseconds > maxAgeInMilliseconds())
     {
         m_world.scheduleAction( [this](){m_world.deleteNode(this); delete(this); return false;} );

@@ -77,14 +77,9 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    if(!m_timer.isAllocated("frameTimer"))
-    {
-        m_timer.allocateTimer("frameTimer");
-    }
-    auto elapsedMilliseconds = m_timer.get("frameTimer");
     if(!m_paused)
     {
-       m_world->update(elapsedMilliseconds);
+       m_world->update();
     }
     m_timer.adjust("frameTimer", 0);
 }

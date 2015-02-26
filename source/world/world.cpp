@@ -69,8 +69,8 @@ World::World(Game & game)
     m_enemyTrain->follow(m_playerTrain);
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
 
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_enemyTrain, m_playerTrain));
 
     addNode(m_playerTrain.get());
     addNode(m_enemyTrain.get());
@@ -93,16 +93,16 @@ World::~World()
 
 void World::addNode(AbstractGraphicsObject *node)
 {
-    m_nodes.push_back(node);
+    m_objects.push_back(node);
 }
 
 void World::deleteNode(AbstractGraphicsObject *node)
 {
-    for(auto iterator = m_nodes.begin(); iterator != m_nodes.end(); ++iterator)
+    for(auto iterator = m_objects.begin(); iterator != m_objects.end(); ++iterator)
     {
         if(*iterator == node)
         {
-            m_nodes.erase(iterator);
+            m_objects.erase(iterator);
             return;
         }
     }
@@ -188,19 +188,19 @@ void World::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
     }
 }
 
-void World::update(int elapsedMilliseconds)
+void World::update()
 {
     // physics
-    m_bulletWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
+    m_bulletWorld->stepSimulation(m_game.timer().get("frameTimer") / 1000.f, 10);
 
-    for(auto node : m_nodes)
+    for(auto object : m_objects)
     {
-        node->update(elapsedMilliseconds);
+        object->update();
     }
 
+    m_aiPlayer->update();
+    m_localPlayer->update();
 
-    m_aiPlayer->update(elapsedMilliseconds);
-    m_localPlayer->update(elapsedMilliseconds);
     // camera updates after all other nodes because it can follow the position of other nodes
     m_localPlayer->camera().update();
 }
@@ -222,7 +222,7 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    for(auto node : m_nodes)
+    for(auto node : m_objects)
     {
         node->render(gl);
     }
@@ -230,12 +230,16 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDisable(GL_BLEND);
     gl.glDisable(GL_DEPTH_TEST);
     gl.glDisable(GL_CULL_FACE);
-
 }
 
 LocalPlayer & World::localPlayer()
 {
     return *m_localPlayer;
+}
+
+Timer & World::timer()
+{
+    return m_game.timer();
 }
 
 btDiscreteDynamicsWorld * World::bulletWorld()

@@ -2,14 +2,16 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <util/timer.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -86,20 +88,21 @@ bool WeaponWagon::isReloading() const
     return m_reloadProjectile;
 }
 
-void WeaponWagon::localUpdate(int elapsedMilliseconds)
+void WeaponWagon::localUpdate()
 {
+    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
     if(m_chargeProjectile && !m_reloadProjectile)
     {
         if(m_elapsedMilliseconds < 3000)
         {
-            m_elapsedMilliseconds += elapsedMilliseconds;
+            m_elapsedMilliseconds += frameDuration;
         }
 
         m_force = m_elapsedMilliseconds * 2.0;
     }
     if(m_reloadProjectile)
     {
-        m_elapsedMilliseconds += elapsedMilliseconds;
+        m_elapsedMilliseconds += frameDuration;
         if(m_elapsedMilliseconds > 5000)
         {
             m_reloadProjectile = false;
@@ -108,7 +111,7 @@ void WeaponWagon::localUpdate(int elapsedMilliseconds)
         }
     }
 
-    AbstractWagon::localUpdate(elapsedMilliseconds);
+    AbstractWagon::localUpdate();
 }
 
 void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const

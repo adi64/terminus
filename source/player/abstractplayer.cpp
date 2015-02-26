@@ -3,8 +3,9 @@
 #include <world/camera.h>
 #include <world/drawables/train/train.h>
 
-terminus::AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
-: m_train(train)
+terminus::AbstractPlayer::AbstractPlayer(World & world, std::shared_ptr<Train> train)
+: m_world(world)
+, m_train(train)
 , m_selectedWagonIndex(0)
 {
     //TODO: give train player pointer
@@ -55,7 +56,7 @@ void terminus::AbstractPlayer::primaryActionDebug()
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
-void terminus::AbstractPlayer::update(int elapsedMilliseconds)
+void terminus::AbstractPlayer::update()
 {
     m_camera.update();
 }
