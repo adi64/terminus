@@ -12,8 +12,8 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon(std::shared_ptr<Scene> scene, Train *train)
-    : KinematicPhysicsObject(scene)
+AbstractWagon::AbstractWagon(World & world, Train * train)
+    : KinematicPhysicsObject(world)
     , m_health(maxHealth())
     , m_disabled(false)
     , m_train(train)
@@ -30,7 +30,7 @@ void AbstractWagon::primaryActionDebug()
 
 }
 
-void AbstractWagon::update()
+void AbstractWagon::localUpdate(int elapsedMilliseconds)
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
@@ -40,7 +40,7 @@ void AbstractWagon::update()
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
-    KinematicPhysicsObject::update();
+    KinematicPhysicsObject::localUpdate(elapsedMilliseconds);
 }
 
 float AbstractWagon::maxHealth() const

@@ -4,7 +4,7 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include <world/scene.h>
+#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
@@ -14,8 +14,8 @@
 namespace terminus
 {
 
-EngineWagon::EngineWagon(std::shared_ptr<Scene> scene, Train *train)
-: AbstractWagon(scene, train)
+EngineWagon::EngineWagon(World & world, Train * train)
+: AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
@@ -29,7 +29,7 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
-void EngineWagon::preRender(QOpenGLFunctions& gl, Program & program) const
+void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }

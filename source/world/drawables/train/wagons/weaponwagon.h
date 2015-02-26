@@ -8,7 +8,7 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    WeaponWagon(World & world, Train *train);
     virtual ~WeaponWagon();
 
     void primaryAction() override;
@@ -18,8 +18,8 @@ public:
 
     bool isReloading() const;
 
-    void update(int elapsedMilliseconds) override;
-    void preRender(QOpenGLFunctions& gl, Program & program) const override;
+    void localUpdate(int elapsedMilliseconds) override;
+    void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
     float length() const;
 
 protected:

@@ -8,9 +8,9 @@ namespace terminus
 class KinematicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    KinematicPhysicsObject(std::shared_ptr<Scene> scene);
+    KinematicPhysicsObject(World & world);
 
-    virtual void update() override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
 
 protected:
     virtual void initializePhysics(btCollisionShape * collisionShape, btScalar mass) override;

@@ -1,5 +1,6 @@
 #include "camera.h"
-#include <cassert>
+
+#include <assert.h>
 #include <QQuaternion>
 
 #include <world/drawables/abstractgraphicsobject.h>
@@ -97,7 +98,7 @@ void Camera::setUp(const QVector3D & up)
     invalidateMatrices();
 }
 
-const QVector3D &Camera::normalizedAimVector() const
+QVector3D Camera::normalizedAimVector() const
 {
     return (center() - eye()).normalized();
 }

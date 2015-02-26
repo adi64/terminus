@@ -15,18 +15,19 @@ class Track;
 class Terrain : public KinematicPhysicsObject
 {
 public:
-    Terrain(std::shared_ptr<Scene> scene);
+    Terrain(World & world);
     virtual ~Terrain();
 
-    virtual void update() override;
-    virtual void render(QOpenGLFunctions& gl) const override;
-    virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
-    virtual void postRender(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localRender(QOpenGLFunctions& gl) const override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
     Track *playerTrack() const;
     Track *enemyTrack() const;
 
 protected:
+    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
     void renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const;
 
     void allocateTerrainMap(QOpenGLFunctions & gl) const;
