@@ -54,7 +54,13 @@ void AbstractWagon::adjustCamera()
 
     Camera & camera = *m_camera;
 
-    auto center = m_position + m_rotation.rotatedVector(m_lockedCenterOffset);
+    auto z_vec = QVector3D(0.0, 0.0, 1.0);
+    z_vec = m_rotation.rotatedVector(z_vec);
+
+    camera.setEye(QVector3D(m_position.x(), m_position.y() + 2.f, m_position.z() + 4.f));
+    camera.setCenter(m_position + z_vec * 100);
+
+    /*auto center = m_position + m_rotation.rotatedVector(m_lockedCenterOffset);
     camera.setCenter(center);
 
     QQuaternion objectAngle = m_rotation * QQuaternion::fromAxisAndAngle(worldFront(), -20.f);
@@ -65,6 +71,7 @@ void AbstractWagon::adjustCamera()
     m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, objectAngle, f);
 
     camera.setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
+    */
 }
 
 float AbstractWagon::maxHealth() const
