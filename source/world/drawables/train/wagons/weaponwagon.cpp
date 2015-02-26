@@ -137,9 +137,9 @@ float WeaponWagon::length() const
     return 7.5f;
 }
 
-QString WeaponWagon::wagonType() const
+WagonType WeaponWagon::wagonType() const
 {
-    return QString("WeaponWagon");
+    return WEAPON_WAGON;
 }
 
 unsigned int WeaponWagon::chargeTime() const

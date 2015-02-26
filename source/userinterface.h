@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include <QObject>
-
 #include <world/scene.h>
 
 namespace terminus
@@ -13,16 +11,12 @@ class Game;
 class EventHandler;
 class Train;
 class AbstractWagon;
-class QMLTrain;
-class QMLWagon;
 
-class UserInterface : public QObject
+class UserInterface
 {
-    Q_OBJECT
-    Q_PROPERTY(int currentWagonIndex READ currentWagonIndex NOTIFY currentWagonIndexChanged)
 
 public:
-    UserInterface(Game *game = nullptr);
+    UserInterface();
     ~UserInterface();
 
     Q_INVOKABLE void keyPressEvent(Qt::Key key);
@@ -38,23 +32,8 @@ public:
     /*Q_INVOKABLE void flickEvent(qreal startX, qreal x);
     Q_INVOKABLE void flickReset();*/
 
-    Q_INVOKABLE QMLTrain *playerQMLTrain();
-    Q_INVOKABLE QMLTrain *enemyQMLTrain();
-
-    Q_INVOKABLE int currentWagonIndex();
-    Q_INVOKABLE void sync();
-
-signals:
-    void gameChanged();
-    void currentWagonIndexChanged();
-
 protected:
-    Game *m_game;
     std::unique_ptr<EventHandler> m_eventHandler;
-    unsigned int m_lockedWagonIndex;
-    int m_currentWagonIndex;
-    QMLTrain *m_playerQMLTrain;
-    QMLTrain *m_enemyQMLTrain;
 };
 
 }

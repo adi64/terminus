@@ -44,9 +44,9 @@ float RepairWagon::length() const
     return 7.5f;
 }
 
-QString RepairWagon::wagonType() const
+WagonType RepairWagon::wagonType() const
 {
-    return QString("RepairWagon");
+    return REPAIR_WAGON;
 }
 
 } //namespace terminus

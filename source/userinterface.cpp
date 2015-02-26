@@ -1,31 +1,15 @@
 #include "userinterface.h"
 
-#include <memory>
-#include <functional>
-#include <assert.h>
-
-#include <QDebug>
-#include <QQuickView>
-
 #include <player/abstractplayer.h>
-#include <world/drawables/train/qmltrain.h>
-#include <world/drawables/train/wagons/qmlwagon.h>
 
-#include "game.h"
 #include "eventhandler.h"
 
 namespace terminus
 {
 
-UserInterface::UserInterface(Game *game)
-    : m_game(game)
-    , m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler(game)))
-    , m_currentWagonIndex(0)
-    , m_playerQMLTrain(m_game->playerTrain()->qmlTrain())
-    , m_enemyQMLTrain(m_game->enemyTrain()->qmlTrain())
+UserInterface::UserInterface()
+    : m_eventHandler(std::unique_ptr<EventHandler>(new EventHandler()))
 {
-    assert(m_game != nullptr);
-    connect(m_game, SIGNAL(gameSyncCompleted()), this, SLOT(sync()), Qt::DirectConnection);
 }
 
 UserInterface::~UserInterface()
@@ -87,23 +71,4 @@ void UserInterface::touchFire()
     m_eventHandler->touchFire();
 }
 
-QMLTrain *UserInterface::playerQMLTrain()
-{
-    return m_playerQMLTrain;
-}
-
-QMLTrain *UserInterface::enemyQMLTrain()
-{
-    return m_enemyQMLTrain;
-}
-
-int UserInterface::currentWagonIndex()
-{
-    return m_currentWagonIndex;
-}
-
-void UserInterface::sync()
-{
-    m_currentWagonIndex = m_game->localPlayer()->selectedWagonIndex();
-}
 }

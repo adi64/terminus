@@ -13,18 +13,9 @@ Item
     height: parent.height
     width: parent.width * 9 / 16
 
-    property QMLTrain enemyTrain
-    property QMLTrain playerTrain
+    property Game game: parent.game
 
-    EnemyStatusBar
-    {
-        id: enemyStatusBar
-        train: enemyTrain
-    }
+    EnemyStatusBar{}
 
-    PlayerStatusBar
-    {
-        id: playerStatusBar
-        train: playerTrain
-    }
+    PlayerStatusBar{}
 }

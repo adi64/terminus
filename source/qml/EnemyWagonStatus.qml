@@ -9,15 +9,14 @@ Rectangle
 {
     id: enemyWagonStatus
 
-    property QMLWagon wagon
     property int wagonIndex
-    property int totalWagons
-    property real health
+    property Game game: parent.game
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: (parent.width / totalWagons * 0.05) + (parent.width / totalWagons * wagonIndex)
-    width: parent.width / totalWagons * 14 / 16
+    // initial offset + offset for prev wagons + offset for unused wagons
+    anchors.rightMargin: parent.width / totalWagons * (1 / 16 + wagonIndex + (8 - totalWagons) * 0.5)
+    width: cellWidth * 14 / 16
     height: parent.height * 6 / 8
 
     Rectangle

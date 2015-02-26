@@ -5,11 +5,16 @@
 
 #include <world/physics/kinematicphysicsobject.h>
 
-#include "qmlwagon.h"
-
 namespace terminus
 {
 class Train;
+
+enum WagonType
+{
+    ENGINE_WAGON = 0,
+    WEAPON_WAGON = 1,
+    REPAIR_WAGON = 2
+};
 
 class AbstractWagon : public KinematicPhysicsObject
 {
@@ -22,19 +27,16 @@ public:
 
     virtual void update(int elapsedMilliseconds) override;
 
-    virtual QMLWagon *qmlWagon() const final;
-
     virtual void setHealth(float health);
     virtual float currentHealth() const;
     virtual float maxHealth() const;
     virtual bool isDisabled() const;
-    virtual QString wagonType() const = 0;
+    virtual WagonType wagonType() const = 0;
     virtual float length() const;
 
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
-    std::unique_ptr<QMLWagon> m_qmlWagon;
     float m_positionOffset;
     float m_health;
     bool m_disabled;

@@ -14,8 +14,8 @@ public:
     void primaryAction() override;
 
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
-    float length() const;
-    QString wagonType() const;
+    float length() const override;
+    WagonType wagonType() const override;
 };
 
 }

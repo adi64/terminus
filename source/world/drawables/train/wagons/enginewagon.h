@@ -15,8 +15,8 @@ public:
 
     void preRender(QOpenGLFunctions& gl, Program & m_program) const override;
 
-    float length() const;
-    QString wagonType() const;
+    float length() const override;
+    WagonType wagonType() const override;
 
     void playSound() const;
 };

@@ -10,8 +10,7 @@ Rectangle
     id: enemyStatus
     color: "transparent"
 
-    property int wagons: 8
-    property QMLTrain train
+    property Game game: parent.game
 
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter

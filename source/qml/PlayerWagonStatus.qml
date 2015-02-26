@@ -9,11 +9,8 @@ Rectangle
 {
     id: playerWagonStatus
 
-    property QMLWagon wagon
     property int wagonIndex
-    property int totalWagons
-    property int activeWagon: -1
-    property real health: 1.0
+    property Game game: parent.game
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right

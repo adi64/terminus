@@ -8,6 +8,9 @@
 #include <QTime>
 #include <QVector3D>
 #include <QApplication>
+#include <QVariant>
+#include <QMap>
+#include <QList>
 
 #include <player/aiplayer.h>
 
@@ -38,24 +41,21 @@ Game::Game()
 : m_timer(std::unique_ptr<QTimer>(new QTimer()))
 , m_timeStamp(std::shared_ptr<QTime>(new QTime()))
 , m_deferredActionHandler(std::shared_ptr<DeferredActionHandler>(new DeferredActionHandler(this)))
+, m_qmlData(std::unique_ptr<QVariant>(new QVariant()))
 , m_paused(true)
 , m_setupComplete(false)
-
 {
-
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
-
-    ResourceManager::getInstance()->loadResources();
-
-    m_timeStamp->restart();
 
     setupBulletWorld();
 
-    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
-
+    ResourceManager::getInstance()->loadResources();
     SoundManager::getInstance()->playSound("music");
 
+    m_timeStamp->restart();
+    m_scene = std::shared_ptr<Scene>(new Scene(m_bullet_dynamicsWorld, m_deferredActionHandler));
     m_terrain = std::unique_ptr<Terrain>(new Terrain(m_scene));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
     m_playerTrain = std::shared_ptr<Train>(new Train(m_scene, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
@@ -64,10 +64,6 @@ Game::Game()
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
 
@@ -80,17 +76,13 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
-
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
 
     m_scene->setActiveCamera(m_localPlayer->camera());
-
+    m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
     m_scene->setInitialTimeStamp(m_timeStamp);
 
     m_scene->addNode(m_playerTrain.get());
@@ -98,9 +90,7 @@ Game::Game()
     m_scene->addNode(m_terrain.get());
     m_scene->addNode(m_skybox.get());
 
-    m_scene->camera().lockToObject(m_playerTrain->wagonAt(0));
-
-    m_userinterface = std::unique_ptr<UserInterface>(new UserInterface(this));
+    updateQMLData();
 }
 
 Game::~Game()
@@ -139,7 +129,6 @@ void Game::sync()
     m_scene->update(elapsedMilliseconds);
     m_aiPlayer->update(elapsedMilliseconds);
     m_localPlayer->update(elapsedMilliseconds);
-    m_userinterface->sync();
 }
 
 void Game::render() const
@@ -211,6 +200,57 @@ void Game::setupBulletWorld()
     m_bullet_dynamicsWorld->setWorldUserInfo(static_cast<void*>(this));
 }
 
+void Game::updateQMLData()
+{
+    QList<QVariant> playerWagonList;
+    for(unsigned int i = 0; i < m_playerTrain->size(); i++)
+    {
+        QMap<QString, QVariant> wagonMap;
+        wagonMap.insert("type", m_playerTrain->wagonAt(i)->wagonType());
+        wagonMap.insert("currentHealth", m_playerTrain->wagonAt(i)->currentHealth());
+        wagonMap.insert("maxHealth", m_playerTrain->wagonAt(i)->maxHealth());
+        wagonMap.insert("currentCooldown", 0);
+        wagonMap.insert("maxCooldown", 0);
+        wagonMap.insert("isCurrent", false); //
+        wagonMap.insert("isDisabled", m_playerTrain->wagonAt(i)->isDisabled());
+        QVariant wagon(wagonMap);
+        playerWagonList.push_back(wagon);
+    }
+
+    QList<QVariant> enemyWagonList;
+    for(unsigned int i = 0; i < m_enemyTrain->size(); i++)
+    {
+        QMap<QString, QVariant> wagonMap;
+        wagonMap.insert("type", m_playerTrain->wagonAt(i)->wagonType());
+        wagonMap.insert("currentHealth", m_playerTrain->wagonAt(i)->currentHealth());
+        wagonMap.insert("maxHealth", m_playerTrain->wagonAt(i)->maxHealth());
+        wagonMap.insert("currentCooldown", 0);
+        wagonMap.insert("maxCooldown", 0);
+        wagonMap.insert("isCurrent", false); //
+        wagonMap.insert("isDisabled", m_playerTrain->wagonAt(i)->isDisabled());
+        QVariant wagon(wagonMap);
+        enemyWagonList.push_back(wagon);
+    }
+
+    QMap<QString, QVariant> playerTrainMap;
+    playerTrainMap.insert("totalWagons", m_playerTrain->size());
+    playerTrainMap.insert("currentWagon", m_localPlayer->selectedWagonIndex());
+    playerTrainMap.insert("wagons", playerWagonList);
+
+    QMap<QString, QVariant> enemyTrainMap;
+    enemyTrainMap.insert("totalWagons", m_playerTrain->size());
+    enemyTrainMap.insert("currentWagon", m_localPlayer->selectedWagonIndex());
+    enemyTrainMap.insert("wagons", enemyWagonList);
+
+    QVariant playerTrain(playerTrainMap);
+    QVariant enemyTrain(enemyTrainMap);
+
+    QMap<QString, QVariant> dataMap;
+    dataMap.insert("PlayerTrain", playerTrain);
+    dataMap.insert("EnemyTrain", enemyTrain);
+    m_qmlData->setValue(dataMap);
+}
+
 Scene *Game::scene() const
 {
     return m_scene.get();
@@ -231,12 +271,13 @@ AbstractPlayer *Game::localPlayer() const
     return m_localPlayer.get();
 }
 
-UserInterface *Game::userInterface()
+QVariant &Game::qmlData()
 {
-    return m_userinterface.get();
+
+    return *m_qmlData;
 }
 
-void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
+void Game::btTickCallback(btDynamicsWorld *world, btScalar)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
 

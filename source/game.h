@@ -14,6 +14,7 @@
 
 class QTimer;
 class QTime;
+class QVariant;
 
 namespace terminus
 {
@@ -29,6 +30,7 @@ class LocalPlayer;
 class Game : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
 
 public:
     Game();
@@ -44,9 +46,9 @@ public:
     Train *enemyTrain() const;
     AbstractPlayer *localPlayer() const;
 
-    Q_INVOKABLE UserInterface *userInterface();
+    QVariant &qmlData();
 
-    void btTickCallback(btDynamicsWorld *world, btScalar timeStep);
+    void btTickCallback(btDynamicsWorld *world, btScalar);
     static void btStaticTickCallback(btDynamicsWorld *world, btScalar timeStep);
 
 public slots:
@@ -76,10 +78,11 @@ public slots:
     void togglePaused();
 
 signals:
-    void gameSyncCompleted();
+    void qmlDataChanged();
 
 protected:
     void setupBulletWorld(void);
+    void updateQMLData();
 
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<Train> m_playerTrain;
@@ -91,8 +94,9 @@ protected:
     std::shared_ptr<DeferredActionHandler> m_deferredActionHandler;
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
+    std::unique_ptr<QVariant> m_qmlData;
 
-    std::unique_ptr<UserInterface> m_userinterface;
+    UserInterface *m_userInterface;
 
     bool m_paused;
     bool m_setupComplete;

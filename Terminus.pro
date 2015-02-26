@@ -106,8 +106,7 @@ DISTFILES += \
     source/qml/Reticle.qml \
     source/qml/StatusBarContainer.qml \
     source/qml/WagonActionArea.qml \
-    source/qml/WagonSwitchArea.qml \
-    source/qml/UserInterfaceContainer.qml
+    source/qml/WagonSwitchArea.qml
 
 RC_FILE = data/myapp.rc
 
@@ -367,7 +366,6 @@ HEADERS += \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
     source/world/drawables/train/wagons/weaponwagon.h \
-    source/world/drawables/train/wagons/qmlwagon.h \
     source/world/drawables/train/train.h \
     source/world/drawables/train/train.hpp \
     source/world/drawables/abstractgraphicsobject.h \
@@ -384,8 +382,7 @@ HEADERS += \
     source/userinterface.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/world/drawables/train/qmltrain.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -550,7 +547,6 @@ SOURCES += \
     source/world/drawables/train/wagons/enginewagon.cpp \
     source/world/drawables/train/wagons/repairwagon.cpp \
     source/world/drawables/train/wagons/weaponwagon.cpp \
-    source/world/drawables/train/wagons/qmlwagon.cpp \
     source/world/drawables/train/train.cpp \
     source/world/drawables/abstractgraphicsobject.cpp \
     source/world/drawables/level.cpp \
@@ -567,5 +563,4 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp \
-    source/world/drawables/train/qmltrain.cpp
+    source/main.cpp

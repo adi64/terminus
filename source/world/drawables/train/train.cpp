@@ -14,7 +14,6 @@ const float Train::base_velocity = 0.02;
 
 Train::Train(std::shared_ptr<Scene> scene, Track *track)
     : AbstractGraphicsObject(scene)
-    , m_qmlTrain(std::unique_ptr<QMLTrain>(new QMLTrain(this)))
     , m_hasEngine(false)
     , m_velocity(base_velocity)
     , m_travelledDistance(0.0f)
@@ -124,11 +123,6 @@ void Train::render(QOpenGLFunctions& gl) const
     {
         wagon->render(gl);
     }
-}
-
-QMLTrain *Train::qmlTrain() const
-{
-    return m_qmlTrain.get();
 }
 
 AbstractWagon *Train::wagonAt(unsigned int index) const
