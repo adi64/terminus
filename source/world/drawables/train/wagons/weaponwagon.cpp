@@ -107,7 +107,6 @@ void WeaponWagon::localUpdate()
         {
             m_reloadProjectile = false;
             m_elapsedMilliseconds = 0;
-            qDebug() << "Reload complete!";
         }
     }
 
