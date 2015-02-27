@@ -9,11 +9,23 @@ Rectangle
 {
     id: playerWagonStatus
 
+    signal refresh
+
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
     property real health: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
     property real maxHealth: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"]
+    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
+
+    onRefresh:
+    {
+        health = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
+        currentWagon = game.qmlData["PlayerTrain"]["currentWagon"]
+
+        playerWagonMaxHealth.border.width = (currentWagon === wagonIndex? 2 : 0)
+        playerWagonCurrentHealth.width = (parent.width * health / maxHealth)
+    }
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
@@ -23,7 +35,7 @@ Rectangle
 
     function setColor()
     {
-        var type = game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["type"]
+        var type = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"]
         switch(type){
             case 1:
                 return "orange";
@@ -41,16 +53,19 @@ Rectangle
     {
         id: playerWagonMaxHealth
         anchors.fill: parent
-        border.width: 0// activeWagon === wagonIndex? 2 : 0
-        border.color: "yellow"
         color: setColor();
+        border.width: currentWagon === wagonIndex? 2 : 0
+        border.color: "yellow"
 
         Rectangle
         {
             id: playerWagonCurrentHealth
             anchors.bottom: parent.bottom
-            width: parent.width * health / maxHealth
-            height: parent.height
+            anchors.bottomMargin: parent.border.width
+            anchors.left: parent.left
+            anchors.leftMargin: parent.border.width
+            width: parent.width * health / maxHealth - parent.border.width * 2
+            height: parent.height - parent.border.width * 2
             color: parent.color
         }
     }

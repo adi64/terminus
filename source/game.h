@@ -91,7 +91,7 @@ signals:
     void qmlDataChanged();
 
 protected:
-    void initializeQMLData();
+    void updateQMLData();
 
     std::unique_ptr<World> m_world;
 

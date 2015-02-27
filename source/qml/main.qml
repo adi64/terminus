@@ -19,6 +19,10 @@ Item
         id: terminus
         anchors.fill: parent
 
+        signal refresh
+
+        onQmlDataChanged: refresh()
+
         /*
          * Initializes UserInterface
          * UserInterface is a container for all UI elements

@@ -12,6 +12,8 @@ Rectangle
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["EnemyTrain"]["wagons"].length
+    property real health: game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"]
+    property real maxHealth: game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["maxHealth"]
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
@@ -46,7 +48,7 @@ Rectangle
         {
             id: playerWagonCurrentHealth
             anchors.bottom: parent.bottom
-            width: parent.width //* health
+            width: parent.width * health / maxHealth
             height: parent.height
             color: parent.color
         }

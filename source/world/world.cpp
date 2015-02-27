@@ -51,7 +51,6 @@ World::World(Game & game)
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
 
     m_enemyTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
     m_enemyTrain->addWagon<WeaponWagon>();
@@ -61,7 +60,6 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
 
     m_enemyTrain->follow(m_playerTrain);
 

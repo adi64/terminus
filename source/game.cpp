@@ -40,7 +40,7 @@ Game::Game()
 
     m_world = std::unique_ptr<World>(new World(*this));
 
-    initializeQMLData();
+    updateQMLData();
 }
 
 Game::~Game()
@@ -85,6 +85,7 @@ void Game::sync()
     }
 
     m_world->update(elapsedMilliseconds);
+    updateQMLData();
 }
 
 void Game::render()
@@ -185,27 +186,28 @@ void Game::togglePaused()
     m_paused = !m_paused;
 }
 
-void Game::initializeQMLData()
+/*!
+ * \brief Creates Data for QML. This is incredibly inefficient since QVariants cant be edited only set.
+ */
+void Game::updateQMLData()
 {
     auto& playerTrain = m_world->playerTrain();
     QList<QVariant> playerWagonList;
-    for(unsigned int i = 0; i < playerTrain.size(); i++)
+    for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
         wagonMap.insert("type", playerTrain.wagonAt(i)->wagonType());
         wagonMap.insert("currentHealth", playerTrain.wagonAt(i)->currentHealth());
         wagonMap.insert("maxHealth", playerTrain.wagonAt(i)->maxHealth());
-        wagonMap.insert("currentCooldown", 0);
-        wagonMap.insert("maxCooldown", 0);
-        wagonMap.insert("isCurrent", false); //
+        //wagonMap.insert("currentCooldown", 0);
+        //wagonMap.insert("maxCooldown", 0);
         wagonMap.insert("isDisabled", playerTrain.wagonAt(i)->isDisabled());
-        QVariant wagon(wagonMap);
-        playerWagonList.push_back(wagon);
+        playerWagonList.push_back(wagonMap);
     }
 
     auto& enemyTrain = m_world->enemyTrain();
     QList<QVariant> enemyWagonList;
-    for(unsigned int i = 0; i < enemyTrain.size(); i++)
+    for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
         wagonMap.insert("type", enemyTrain.wagonAt(i)->wagonType());
@@ -213,7 +215,6 @@ void Game::initializeQMLData()
         wagonMap.insert("maxHealth", enemyTrain.wagonAt(i)->maxHealth());
         wagonMap.insert("currentCooldown", 0);
         wagonMap.insert("maxCooldown", 0);
-        wagonMap.insert("isCurrent", false); //
         wagonMap.insert("isDisabled", enemyTrain.wagonAt(i)->isDisabled());
         QVariant wagon(wagonMap);
         enemyWagonList.push_back(wagon);
@@ -226,16 +227,13 @@ void Game::initializeQMLData()
 
     QMap<QString, QVariant> enemyTrainMap;
     enemyTrainMap.insert("totalWagons", playerTrain.size());
-    enemyTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
     enemyTrainMap.insert("wagons", enemyWagonList);
 
-    QVariant playerTrainVariant(playerTrainMap);
-    QVariant enemyTrainVariant(enemyTrainMap);
-
     QMap<QString, QVariant> dataMap;
-    dataMap.insert("PlayerTrain", playerTrainVariant);
-    dataMap.insert("EnemyTrain", enemyTrainVariant);
+    dataMap.insert("PlayerTrain", playerTrainMap);
+    dataMap.insert("EnemyTrain", enemyTrainMap);
     m_qmlData.setValue(dataMap);
+    qmlDataChanged();
 }
 
 QVariant & Game::qmlData()
