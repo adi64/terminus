@@ -22,10 +22,10 @@ struct Light
     int type;
 };
 
-const int LIGHT_AMBIENT       = 0; //! Ambient light, only color is used.
-const int LIGHT_DIRECTIONAL   = 1; //! Directional light, defined by direction and color.
-const int LIGHT_POINT         = 2; //! Point light, defined by position, attenuation and color.
-const int LIGHT_SPOT          = 3; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+const float LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
+const float LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
+const float LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
+const float LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 
 const int maxLights = 8;
 
@@ -37,7 +37,7 @@ void main()
 
     for(int i = 0; i < maxLights; i++)
     {
-        int type = lights[i].type;
+        float type = float(lights[i].type);
         float isLightDPS = step(LIGHT_DIRECTIONAL, type);
         float isLightPS  = step(LIGHT_POINT, type);
         float isLightS   = step(LIGHT_SPOT, type);
