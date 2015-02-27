@@ -5,7 +5,7 @@
 namespace terminus
 {
 
-RemotePlayer::RemotePlayer(World & world, std::shared_ptr<Train> train)
+RemotePlayer::RemotePlayer(World & world, Train *train)
 : AbstractPlayer(world, train)
 {
 

@@ -164,7 +164,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
 
     if(direction > 0)
     {
-        if(m_game->world().localPlayer().camera().isLocked() && ((m_game->world().localPlayer().selectedWagonIndex() + 1) < m_game->world().localPlayer().train().size()))
+        if(m_game->world().localPlayer().camera().isLocked())
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -172,7 +172,7 @@ void EventHandler::flickEvent(qreal startx, qreal x)
     }
     if(direction < 0)
     {
-        if(m_game->world().localPlayer().camera().isLocked() && m_game->world().localPlayer().selectedWagonIndex() > 0)
+        if(m_game->world().localPlayer().camera().isLocked())
         {
             m_flickDirection = direction;
             m_flicked = (distance > threshold);
@@ -201,11 +201,7 @@ void EventHandler::flickReset()
 
 void EventHandler::touchChargeFire()
 {
-    auto wagon = dynamic_cast<WeaponWagon*>(m_game->world().localPlayer().train().wagonAt(m_game->world().localPlayer().selectedWagonIndex()));
-    if(wagon != nullptr)
-    {
-        wagon->setChargeProjectile(true);
-    }
+    // TODO FIXME charge will be removed
 }
 
 void EventHandler::touchFire()
