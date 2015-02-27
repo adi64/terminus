@@ -16,6 +16,7 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
     : KinematicPhysicsObject(world)
     , m_health(maxHealth())
     , m_train(train)
+    , m_disabled(false)
 {
 }
 

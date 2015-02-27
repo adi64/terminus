@@ -2,13 +2,11 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Shows container for multiple EnemyWagonStatus
+ * Shows container for multiple PlayerWagonStatus
  */
 
 Item
 {
-    id: enemyStatus
-
     property Game game: parent.game
 
     anchors.top: parent.top
@@ -24,9 +22,9 @@ Item
 
     Item
     {
-        id: enemyStatusContainer
-        anchors.top: parent.top
+        id: playerStatusContainer
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
         width: parent.width / 2
         height: parent.height / 2
 
@@ -74,5 +72,4 @@ Item
         }
     }
 }
-
 

@@ -14,37 +14,47 @@ Rectangle
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
+    property int wagonType: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"]
     property real health: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
     property real maxHealth: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"]
+    property bool isDisabled: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"]
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
 
     onRefresh:
     {
         health = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
         currentWagon = game.qmlData["PlayerTrain"]["currentWagon"]
+        isDisabled = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"]
 
-        playerWagonMaxHealth.border.width = (currentWagon === wagonIndex? 2 : 0)
+        playerWagonMaxHealth.color = setColor()
+        playerWagonMaxHealth.border.width = (currentWagon === wagonIndex? 3 : 0)
+        playerWagonCurrentHealth.color = parent.color
         playerWagonCurrentHealth.width = (parent.width * health / maxHealth)
     }
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: (parent.width / totalWagons / 16) + (parent.width / totalWagons * wagonIndex)
+    anchors.rightMargin: parent.width / totalWagons * (1 / 16 + wagonIndex + (8 - totalWagons) * 0.5)
     width: parent.width / totalWagons * 7 / 8
     height: parent.height * 6 / 8
 
     function setColor()
     {
-        var type = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"]
-        switch(type){
-            case 1:
-                return "orange";
-            case 2:
-                return "blue";
-            case 3:
-                return "purple";
-            default:
-                return "grey";
+        if(isDisabled)
+        {
+            return "grey";
+        }
+
+        switch(wagonType)
+        {
+        case 1:
+            return "orange";
+        case 2:
+            return "blue";
+        case 3:
+            return "purple";
+        default:
+            return "grey";
         }
 
     }
@@ -54,7 +64,7 @@ Rectangle
         id: playerWagonMaxHealth
         anchors.fill: parent
         color: setColor();
-        border.width: currentWagon === wagonIndex? 2 : 0
+        border.width: currentWagon === wagonIndex? 3 : 0
         border.color: "yellow"
 
         Rectangle
