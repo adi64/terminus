@@ -2,14 +2,11 @@
 
 #include <memory>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include <world/drawables/abstractgraphicsobject.h>
+#include <world/physics/bulletworld.h>
 
 namespace terminus
 {
-
-class BulletWorld;
 
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {    

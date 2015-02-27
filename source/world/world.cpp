@@ -4,8 +4,6 @@
 #include <QOpenGLShaderProgram>
 #include <QTime>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include <game.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/terrain.h>
@@ -21,6 +19,7 @@
 
 #include <world/camera.h>
 #include <world/physics/abstractphysicsobject.h>
+#include <world/physics/bulletworld.h>
 #include <deferredactionhandler.h>
 
 namespace terminus
