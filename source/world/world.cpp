@@ -192,7 +192,7 @@ void World::btTickCallback(btDynamicsWorld *world, btScalar timeStep)
 void World::update()
 {
     // physics - never give bullet negative step times
-    m_bulletWorld->stepSimulation(std::fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
+    m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
     for(auto object : m_objects)
     {
