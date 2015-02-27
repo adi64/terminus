@@ -21,11 +21,9 @@ namespace terminus
 {
 
 Game::Game()
-: m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_eventHandler(this)
+: m_eventHandler(this)
 , m_deferredActionHandler(this)
-, m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
+, m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_paused(true)
 , m_setupComplete(false)
 {
