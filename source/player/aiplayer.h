@@ -14,14 +14,14 @@ class WeaponWagon;
 class AIPlayer : public AbstractPlayer
 {
 public:
-    AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain);
+    AIPlayer(Train *train, Train *enemyTrain);
 
     virtual void update(int elapsedMilliseconds) override;
 protected:
     void switchWagon();
     void chargeAndFire(WeaponWagon* focusedWagon, int elapsedMilliseconds);
 protected:
-    std::shared_ptr<Train> m_enemyTrain;
+    Train *m_enemyTrain;
     int m_chargingMilliseconds;
     AbstractWagon* m_targetEnemyWagon;
 };

@@ -8,7 +8,6 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
-#include <world/camera.h>
 #include <deferredactionhandler.h>
 
 class QOpenGLFunctions;
@@ -20,6 +19,7 @@ class btCollisionObject;
 
 namespace terminus
 {
+class Camera;
 class Game;
 class Train;
 class Terrain;
@@ -82,8 +82,8 @@ protected:
 
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
-    std::shared_ptr<Train> m_playerTrain;
-    std::shared_ptr<Train> m_enemyTrain;
+    std::unique_ptr<Train> m_playerTrain;
+    std::unique_ptr<Train> m_enemyTrain;
 
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;

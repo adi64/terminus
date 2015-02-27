@@ -8,7 +8,7 @@
 namespace terminus
 {
 
-AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain)
+AIPlayer::AIPlayer(Train *train, Train *enemyTrain)
     : AbstractPlayer(train)
     , m_enemyTrain(enemyTrain)
     , m_chargingMilliseconds(0)

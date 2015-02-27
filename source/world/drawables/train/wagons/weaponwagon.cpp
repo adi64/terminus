@@ -10,6 +10,7 @@
 #include <resources/program.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
+#include <player/abstractplayer.h>
 
 namespace terminus
 {
@@ -40,7 +41,7 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * m_force;
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * m_force;
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
@@ -51,7 +52,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * 4000.0;
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * 4000.0;
 
     fire(worldProjectileForce);
 }

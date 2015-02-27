@@ -5,7 +5,7 @@
 namespace terminus
 {
 
-LocalPlayer::LocalPlayer(std::shared_ptr<Train> train)
+LocalPlayer::LocalPlayer(Train *train)
     : AbstractPlayer(train)
 {
 

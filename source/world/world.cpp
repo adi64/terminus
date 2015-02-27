@@ -6,7 +6,6 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
-
 #include <game.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/terrain.h>
@@ -37,40 +36,42 @@ void World::btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep)
 World::World(Game & game)
 : m_game(game)
 {
+    // setupBullet must be called before any physics object is spawned!
     setupBullet();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(*this));
-
-    m_playerTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-
-    m_enemyTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->follow(m_playerTrain);
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
 
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+    m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
+    m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
+
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->follow(m_playerTrain.get());
+
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain.get()));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain.get(), m_playerTrain.get()));
 
     addNode(m_playerTrain.get());
     addNode(m_enemyTrain.get());
