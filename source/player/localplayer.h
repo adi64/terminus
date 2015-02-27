@@ -12,7 +12,7 @@ class Train;
 class LocalPlayer : public AbstractPlayer
 {
 public:
-    LocalPlayer(std::shared_ptr<Train> train);
+    LocalPlayer(World & world, std::shared_ptr<Train> train);
 
 protected:
 

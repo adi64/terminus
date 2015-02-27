@@ -21,8 +21,7 @@ namespace terminus
 {
 
 Game::Game()
-: m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
+: m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_eventHandler(this)
 , m_deferredActionHandler(this)
 , m_paused(true)
@@ -32,8 +31,6 @@ Game::Game()
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
-
-    m_timeStamp->restart();
 
     m_world = std::unique_ptr<World>(new World(*this));
 
@@ -56,6 +53,11 @@ DeferredActionHandler & Game::deferredActionHandler()
     return m_deferredActionHandler;
 }
 
+Timer & Game::timer()
+{
+    return m_timer;
+}
+
 void Game::sync()
 {
     // check if it's our first frame
@@ -63,7 +65,7 @@ void Game::sync()
     {
         m_setupComplete = true;
         m_paused = false;
-        m_timeStamp->restart();
+        //TODO m_timeStamp->restart();
     }
 
     // process scheduled events
@@ -75,13 +77,11 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    auto elapsedMilliseconds = m_timeStamp->restart();
-    if(m_paused)
+    if(!m_paused)
     {
-       elapsedMilliseconds = 0;
+       m_world->update();
     }
-
-    m_world->update(elapsedMilliseconds);
+    m_timer.adjust("frameTimer", 0);
 }
 
 void Game::render()
@@ -110,10 +110,9 @@ void Game::handleWindowChanged(QQuickWindow * win)
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         win->setClearBeforeRendering(false);
-
-        // force redraw
-        connect(m_timer.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        m_timer->start(1000 / 60);
+        // trigger redraws periodically
+        connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
+        m_renderTrigger->start(1000 / 60);
     }
 }
 
@@ -172,4 +171,4 @@ void Game::togglePaused()
     m_paused = !m_paused;
 }
 
-}
+}//namespace terminus

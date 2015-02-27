@@ -12,7 +12,7 @@ class Train;
 class RemotePlayer : public AbstractPlayer
 {
 public:
-    RemotePlayer(std::shared_ptr<Train> train);
+    RemotePlayer(World & world, std::shared_ptr<Train> train);
 
 protected:
 

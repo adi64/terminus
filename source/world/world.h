@@ -21,6 +21,7 @@ class btCollisionObject;
 namespace terminus
 {
 class Game;
+class Timer;
 class Train;
 class Terrain;
 class SkyBox;
@@ -56,10 +57,11 @@ public:
 
     ~World();
 
-    void update(int elapsedMilliseconds);
+    void update();
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+    Timer & timer();
 
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
@@ -88,7 +90,7 @@ protected:
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
-    std::vector<AbstractGraphicsObject*> m_nodes;
+    std::vector<AbstractGraphicsObject*> m_objects;
 
     // bullet
     // these objects must not be deleted before m_bullet_dynamicsWorld

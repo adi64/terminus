@@ -12,7 +12,7 @@ DynamicPhysicsObject::DynamicPhysicsObject(World & world)
 {
 }
 
-void DynamicPhysicsObject::localUpdate(int elapsedMilliseconds)
+void DynamicPhysicsObject::localUpdate()
 {
     btTransform transform = m_btRigidBody->getCenterOfMassTransform();
     btVector3 position = transform.getOrigin();
@@ -21,7 +21,7 @@ void DynamicPhysicsObject::localUpdate(int elapsedMilliseconds)
     setPosition(QVector3D(position.x(), position.y(), position.z()));
     setRotation(QQuaternion(rotation.getW(), QVector3D(rotation.getX(), rotation.getY(), rotation.getZ())));
 
-    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate();
 }
 
 void DynamicPhysicsObject::applyForce(const QVector3D &force)
