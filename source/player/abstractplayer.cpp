@@ -6,9 +6,10 @@
 namespace terminus
 {
 
-AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
-    : m_train(train)
-    , m_selectedWagonIndex(0)
+AbstractPlayer::AbstractPlayer(World & world, std::shared_ptr<Train> train)
+: m_world(world)
+, m_train(train)
+, m_selectedWagonIndex(0)
 {
     //TODO: give train player pointer
     m_train->setPlayerCamera(std::shared_ptr<Camera>(&m_camera));
@@ -60,7 +61,7 @@ void AbstractPlayer::primaryActionDebug()
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
-void AbstractPlayer::update(int elapsedMilliseconds)
+void AbstractPlayer::update()
 {
     m_camera.update();
 }

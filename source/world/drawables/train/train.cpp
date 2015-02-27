@@ -7,9 +7,10 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
+#include <util/mathutil.h>
+#include <util/timer.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/wagons/enginewagon.h>
-#include <util/mathutil.h>
 
 namespace terminus
 {
@@ -67,7 +68,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::localUpdate(int elapsedMilliseconds)
+void Train::localUpdate()
 {
     if(m_followedTrain)
     {
@@ -76,7 +77,7 @@ void Train::localUpdate(int elapsedMilliseconds)
     }
 
     // move forward
-    m_travelledDistance += m_velocity * elapsedMilliseconds;
+    m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
 
     // TODO FIXME - this wraps the train
     if(m_travelledDistance > m_track->length())

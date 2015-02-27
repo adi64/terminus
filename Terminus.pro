@@ -362,6 +362,7 @@ HEADERS += \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
+    source/util/timer.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
@@ -542,6 +543,7 @@ SOURCES += \
     source/util/mathutil.cpp \
     source/util/perlinnoise.cpp \
     source/util/polyline.cpp \
+    source/util/timer.cpp \
     source/world/drawables/train/wagons/abstractwagon.cpp \
     source/world/drawables/train/wagons/enginewagon.cpp \
     source/world/drawables/train/wagons/repairwagon.cpp \

@@ -21,6 +21,7 @@ class btCollisionObject;
 namespace terminus
 {
 class Game;
+class Timer;
 class Train;
 class Terrain;
 class SkyBox;
@@ -56,12 +57,14 @@ public:
 
     ~World();
 
-    void update(int elapsedMilliseconds);
+    void update();
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+
     Train & playerTrain();
     Train & enemyTrain();
+    Timer & timer();
 
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
@@ -90,19 +93,7 @@ protected:
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
-    std::vector<AbstractGraphicsObject*> m_nodes;
-
-    // bullet
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-    btBroadphaseInterface * m_bulletBroadphase;
-    btDefaultCollisionConfiguration * m_bulletCollisionConfig;
-    btCollisionDispatcher * m_bulletDispatcher;
-    btSequentialImpulseConstraintSolver * m_bulletSolver;
-    btDiscreteDynamicsWorld * m_bulletWorld;
-    std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
+    std::vector<AbstractGraphicsObject*> m_objects;
 };
-
-
 
 }

@@ -29,7 +29,7 @@ public:
      * In general there is no need to override this.
      * \sa AbstractGraphicsObject::localUpdate
      */
-    virtual void update(int elapsedMilliseconds) final;
+    virtual void update() final;
 
     /*!
      * \brief AbstractGraphicsObject::render - render object hierarchy beginning at this object
@@ -53,7 +53,7 @@ protected:
     /*!
      * \brief AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do)
      */
-    virtual void localUpdate(int elapsedMilliseconds);
+    virtual void localUpdate();
 
     /*!
      * \brief AbstractGraphicsObject::localRender - render this object using geometry, program and material set in the respective members

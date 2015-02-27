@@ -37,7 +37,7 @@ public:
      *
      * \sa AbstractWagon::localUpdate()
      */
-    void localUpdate(int elapsedMilliseconds) override;
+    void localUpdate() override;
 
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
@@ -51,7 +51,7 @@ public:
     unsigned int size() const;
     bool isPlayerControlled() const;
 
-    Camera &playerCamera() const; //!< \sa m_playerCamera
+    Camera & playerCamera() const; //!< \sa m_playerCamera
     void setPlayerCamera(std::shared_ptr<Camera> camera); //!< \sa m_playerCamera
 
 protected:
