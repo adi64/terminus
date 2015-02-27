@@ -54,7 +54,7 @@ void BulletWorld::removeRigidBody(btRigidBody *rigidBody)
 
 int BulletWorld::stepSimulation(btScalar timeStep, int maxSubSteps, btScalar fixedTimeStep)
 {
-    m_bulletWorld->stepSimulation(timeStep, maxSubSteps, fixedTimeStep);
+   return m_bulletWorld->stepSimulation(timeStep, maxSubSteps, fixedTimeStep);
 }
 
 void BulletWorld::addCollisionMapping(const btCollisionObject *collisionObject, AbstractPhysicsObject *graphicsObject)

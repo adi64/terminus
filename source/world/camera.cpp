@@ -30,8 +30,8 @@ Camera::Camera(
 , m_viewProjectionInvertedChanged(true)
 , m_normalChanged(true)
 , m_lockedCenterOffset(QVector3D(0.0, 2.5, 0.0))
-, m_lockedEyeAngle(QQuaternion())
 , m_lockedFlickOffset(QVector3D(0.0f, 0.0f, 0.0f))
+, m_lockedEyeAngle(QQuaternion())
 {
 }
 

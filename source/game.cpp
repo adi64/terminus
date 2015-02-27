@@ -21,10 +21,10 @@ namespace terminus
 {
 
 Game::Game()
-: m_timer(std::unique_ptr<QTimer>(new QTimer()))
-, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
-, m_eventHandler(this)
+: m_eventHandler(this)
 , m_deferredActionHandler(this)
+, m_timer(std::unique_ptr<QTimer>(new QTimer()))
+, m_timeStamp(std::unique_ptr<QTime>(new QTime()))
 , m_paused(true)
 , m_setupComplete(false)
 {
