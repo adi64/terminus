@@ -2,6 +2,8 @@
 
 #include "abstractwagon.h"
 
+#include <resources/lightmanager.h>
+
 namespace terminus
 {
 
@@ -13,11 +15,15 @@ public:
     EngineWagon(World & world, Train * train);
     virtual ~EngineWagon();
 
-    void localRenderSetup(QOpenGLFunctions& gl, Program & m_program) const override;
+    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & m_program) const override;
 
     float length() const;
 
     void playSound() const;
+
+protected:
+    LightID m_headLight;
 };
 
 }

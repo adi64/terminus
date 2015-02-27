@@ -18,11 +18,10 @@ using LightID = unsigned int;
  */
 enum LightType
 {
-    LIGHT_INVALID       = 0, //! Unused or invalid light
-    LIGHT_AMBIENT       = 1, //! Ambient light, only color is used.
-    LIGHT_DIRECTIONAL   = 2, //! Directional light, defined by direction and color.
-    LIGHT_POINT         = 3, //! Point light, defined by position, attenuation and color.
-    LIGHT_SPOT          = 4  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+    LIGHT_AMBIENT       = 0, //! Ambient light, only color is used.
+    LIGHT_DIRECTIONAL   = 1, //! Directional light, defined by direction and color.
+    LIGHT_POINT         = 2, //! Point light, defined by position, attenuation and color.
+    LIGHT_SPOT          = 3  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 };
 
 /*!
@@ -31,6 +30,16 @@ enum LightType
 class Light
 {
 public:
+    static const Light nullLight;
+    static Light createAmbient(const QVector3D & color);
+    static Light createDirectional(const QVector3D & color, const QVector3D & direction);
+    static Light createPoint(const QVector3D & color, const QVector3D & position);
+    static Light createSpot(const QVector3D & color, const QVector3D & position, const QVector3D & direction, float cutoffAngle);
+protected:
+    static const QVector3D defaultAttenuation;
+public:
+    Light() = delete;
+
     QVector3D position;
     QVector3D direction;
     QVector3D color;
@@ -51,11 +60,19 @@ public:
     LightID addPointLight(const QVector3D &position, const QVector3D &attenuation, const QVector3D &color);
     LightID addSpotLight(const QVector3D &position, const QVector3D &direction, const QVector3D &attenuation, const QVector3D &color);
 
-    void setShaderValues(Program &shaderProgram) const;
+    void setUniforms(Program & program) const;
 
     Light &light(LightID lightID);
     const std::map<LightID, Light> &lights() const;
 protected:
+    /*!
+     * \brief setLightUniforms - set one entry in the light source array according to light
+     * \param program
+     * \param index
+     * \param light
+     */
+    void setLightUniforms(Program & program, int index, const Light &light) const;
+
     /*!
      * \brief Adds a constructed light to the internal storage
      * \param light The light to be added
@@ -77,7 +94,6 @@ protected:
     LightID m_freeLightID;
 
     std::mutex m_mutex;
-private:
 };
 
 } // namespace terminus

@@ -110,7 +110,7 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     program.bind();
 
     m_world.localPlayer().camera().setMatrices(program, modelMatrix());
-    m_world.lightManager().setShaderValues(program);
+    m_world.lightManager().setUniforms(program);
 
     if(m_material && *m_material)
     {

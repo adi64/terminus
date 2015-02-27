@@ -22,11 +22,22 @@ EngineWagon::EngineWagon(World & world, Train * train)
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
+
+    m_headLight = m_world.lightManager().addSpotLight(position(), worldFront(), QVector3D(), {1.f, 0.5f, 0.f});
 }
 
 EngineWagon::~EngineWagon()
 {
     deallocatePhysics();
+}
+
+void EngineWagon::localUpdate(int elapsedMilliseconds)
+{
+    auto & light = m_world.lightManager().light(m_headLight);
+    light.position = position();
+    light.direction = worldFront();
+
+    AbstractWagon::localUpdate(elapsedMilliseconds);
 }
 
 void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
