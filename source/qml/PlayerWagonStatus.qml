@@ -38,7 +38,7 @@ Rectangle
     width: parent.width / totalWagons * 7 / 8
     height: parent.height * 6 / 8
 
-    function setColor()
+    function setColor(opac)
     {
         if(isDisabled)
         {
@@ -48,22 +48,21 @@ Rectangle
         switch(wagonType)
         {
         case 1:
-            return "orange";
+            return "#" + opac + "CC8014"; //orange
         case 2:
-            return "blue";
+            return "#" + opac + "1480CC"; //blue
         case 3:
-            return "purple";
+            return "#" + opac + "8014CC"; //purple
         default:
-            return "grey";
+            return "#" + opac + "808080"; //grey
         }
-
     }
 
     Rectangle
     {
         id: playerWagonMaxHealth
         anchors.fill: parent
-        color: setColor();
+        color: setColor("40")
         border.width: currentWagon === wagonIndex? 3 : 0
         border.color: "yellow"
 
@@ -76,7 +75,7 @@ Rectangle
             anchors.leftMargin: parent.border.width
             width: parent.width * health / maxHealth - parent.border.width * 2
             height: parent.height - parent.border.width * 2
-            color: parent.color
+            color: setColor("FF")
         }
     }
 

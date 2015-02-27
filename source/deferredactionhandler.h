@@ -23,8 +23,8 @@ public:
     void processDeferredActions();
 protected:
     Game *m_game;
-    std::unique_ptr<DeferredActionList> m_actionList[2];
     int m_currentActionList;
+    std::unique_ptr<DeferredActionList> m_actionList[2];
     std::mutex m_actionListMutex;
 };
 
