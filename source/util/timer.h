@@ -11,7 +11,7 @@ class Timer
 {
 public:
     using TimerID = unsigned int;
-    using TimerMSec = unsigned int;
+    using TimerMSec = signed int;
 
 protected:
     static TimerMSec toMSec(std::chrono::steady_clock::duration duration);
