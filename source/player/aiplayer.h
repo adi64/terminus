@@ -14,12 +14,12 @@ class WeaponWagon;
 class AIPlayer : public AbstractPlayer
 {
 public:
-    AIPlayer(Train *train, Train *enemyTrain);
+    AIPlayer(World & world, Train *train, Train *enemyTrain);
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void update() override;
 protected:
     void switchWagon();
-    void chargeAndFire(WeaponWagon* focusedWagon, int elapsedMilliseconds);
+    void chargeAndFire(WeaponWagon * focusedWagon);
 protected:
     Train *m_enemyTrain;
     int m_chargingMilliseconds;

@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <util/timer.h>
 #include <world/physics/dynamicphysicsobject.h>
 
 namespace terminus
@@ -13,7 +14,7 @@ public:
     Projectile(World & world);
     virtual ~Projectile();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
 
@@ -24,7 +25,7 @@ protected:
     virtual unsigned int maxAgeInMilliseconds() const;
 
 protected:
-    unsigned int m_ageInMilliseconds;
+    Timer::TimerID m_lifeTimer;
 };
 
 }

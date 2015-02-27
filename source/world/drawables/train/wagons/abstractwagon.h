@@ -14,7 +14,7 @@ public:
     virtual void primaryAction();
     virtual void primaryActionDebug();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     virtual float maxHealth() const;
     virtual float currentHealth() const;

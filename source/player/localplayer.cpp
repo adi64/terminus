@@ -5,8 +5,8 @@
 namespace terminus
 {
 
-LocalPlayer::LocalPlayer(Train *train)
-    : AbstractPlayer(train)
+LocalPlayer::LocalPlayer(World & world, Train *train)
+: AbstractPlayer(world, train)
 {
 
 }

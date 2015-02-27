@@ -12,7 +12,7 @@ class Train;
 class LocalPlayer : public AbstractPlayer
 {
 public:
-    LocalPlayer(Train *train);
+    LocalPlayer(World & world, Train *train);
 
 protected:
 

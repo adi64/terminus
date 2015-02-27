@@ -1,5 +1,7 @@
 #include "world.h"
 
+#include <math.h>
+
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QTime>
@@ -58,8 +60,8 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain.get());
 
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain.get()));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain.get(), m_playerTrain.get()));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
 
     addNode(m_playerTrain.get());
     addNode(m_enemyTrain.get());
@@ -75,23 +77,21 @@ World::World(Game & game)
 
 World::~World()
 {
-    //we will not delete bullet pointers as that would cause segfaults if the application terminates
-    //TODO fix it by using a shared bullet object pointer
-    //deleteBullet();
+
 }
 
 void World::addNode(AbstractGraphicsObject *node)
 {
-    m_nodes.push_back(node);
+    m_objects.push_back(node);
 }
 
 void World::deleteNode(AbstractGraphicsObject *node)
 {
-    for(auto iterator = m_nodes.begin(); iterator != m_nodes.end(); ++iterator)
+    for(auto iterator = m_objects.begin(); iterator != m_objects.end(); ++iterator)
     {
         if(*iterator == node)
         {
-            m_nodes.erase(iterator);
+            m_objects.erase(iterator);
             return;
         }
     }
@@ -99,19 +99,19 @@ void World::deleteNode(AbstractGraphicsObject *node)
     qDebug() << "Could not find node " << node;
 }
 
-void World::update(int elapsedMilliseconds)
+void World::update()
 {
-    // physics
-    m_bulletWorld->stepSimulation((float)elapsedMilliseconds / 1000.0f, 10);
+    // physics - never give bullet negative step times
+    m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
-    for(auto node : m_nodes)
+    for(auto object : m_objects)
     {
-        node->update(elapsedMilliseconds);
+        object->update();
     }
 
+    m_aiPlayer->update();
+    m_localPlayer->update();
 
-    m_aiPlayer->update(elapsedMilliseconds);
-    m_localPlayer->update(elapsedMilliseconds);
     // camera updates after all other nodes because it can follow the position of other nodes
     m_localPlayer->camera().update();
 }
@@ -133,7 +133,7 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    for(auto node : m_nodes)
+    for(auto node : m_objects)
     {
         node->render(gl);
     }
@@ -141,12 +141,16 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDisable(GL_BLEND);
     gl.glDisable(GL_DEPTH_TEST);
     gl.glDisable(GL_CULL_FACE);
-
 }
 
 LocalPlayer & World::localPlayer()
 {
     return *m_localPlayer;
+}
+
+Timer & World::timer()
+{
+    return m_game.timer();
 }
 
 std::shared_ptr<BulletWorld> World::bulletWorld()

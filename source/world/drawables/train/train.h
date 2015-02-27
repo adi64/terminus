@@ -38,7 +38,7 @@ public:
      *
      * \sa AbstractWagon::localUpdate()
      */
-    void localUpdate(int elapsedMilliseconds) override;
+    void localUpdate() override;
 
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;

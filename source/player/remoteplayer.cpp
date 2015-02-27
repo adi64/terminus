@@ -5,8 +5,8 @@
 namespace terminus
 {
 
-RemotePlayer::RemotePlayer(Train *train)
-    : AbstractPlayer(train)
+RemotePlayer::RemotePlayer(World & world, Train *train)
+: AbstractPlayer(world, train)
 {
 
 }

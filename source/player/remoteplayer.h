@@ -12,7 +12,7 @@ class Train;
 class RemotePlayer : public AbstractPlayer
 {
 public:
-    RemotePlayer(Train *train);
+    RemotePlayer(World & world, Train *train);
 
 protected:
 

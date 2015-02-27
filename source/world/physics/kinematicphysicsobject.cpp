@@ -12,7 +12,7 @@ KinematicPhysicsObject::KinematicPhysicsObject(World & world)
 {
 }
 
-void KinematicPhysicsObject::localUpdate(int elapsedMilliseconds)
+void KinematicPhysicsObject::localUpdate()
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -22,7 +22,7 @@ void KinematicPhysicsObject::localUpdate(int elapsedMilliseconds)
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
     m_btRigidBody->setCenterOfMassTransform(transform);
 
-    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate();
 }
 
 void KinematicPhysicsObject::initializePhysics(btCollisionShape * collisionShape, btScalar mass)
