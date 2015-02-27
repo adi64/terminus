@@ -22,10 +22,9 @@ Item
         anchors.fill: parent
     }
 
-    Rectangle
+    Item
     {
         id: wagonSwitchLeft
-        color: "transparent"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         width: parent.width / 2
@@ -48,10 +47,9 @@ Item
         }
     }
 
-    Rectangle
+    Item
     {
         id: wagonSwitchRight
-        color: "transparent"
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         width: parent.width / 2
