@@ -5,17 +5,16 @@ import Game 1.0
  * Shows container for multiple EnemyWagonStatus
  */
 
-Rectangle
+Item
 {
     id: enemyStatus
-    color: "transparent"
 
     property Game game: parent.game
 
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
-    height: parent.width / 9
+    height: parent.width / 16
 
     Image
     {
@@ -23,14 +22,13 @@ Rectangle
         anchors.fill: parent
     }
 
-    Rectangle
+    Item
     {
         id: enemyStatusContainer
-        color: "transparent"
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - (parent.width / 9)
-        height: parent.height
+        width: parent.width / 2
+        height: parent.height / 2
 
         property Game game: parent.game
 

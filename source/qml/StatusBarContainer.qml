@@ -8,10 +8,7 @@ import Game 1.0
 Item
 {
     id: statusBarContainer
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.verticalCenter
-    height: parent.height
-    width: parent.width * 9 / 16
+    anchors.fill: parent
 
     property Game game: parent.game
 

@@ -4,14 +4,13 @@ import QtQuick 2.3
  * Displays WagonSwitchButtons and the container element WagonArea
  */
 
-Rectangle
+Item
 {
     id: wagonSwitchArea
-    color: "transparent"
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     width: parent.width / 4
-    height: parent.width * 3 / 16
+    height: parent.width / 8
 
 
     signal switchToNextWagon
@@ -29,7 +28,7 @@ Rectangle
         color: "transparent"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        width: parent.width * 7 / 16
+        width: parent.width / 2
         height: parent.height
 
         Image
@@ -55,7 +54,7 @@ Rectangle
         color: "transparent"
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        width: parent.width * 9 / 16
+        width: parent.width / 2
         height: parent.height
 
         Image

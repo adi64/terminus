@@ -4,14 +4,13 @@ import QtQuick 2.3
  * Displays the ActionButton (Fire, Repair, Faster) and the surrounding ActionArea
  */
 
-Rectangle
+Item
 {
     id: actionArea
-    color: "transparent"
     anchors.bottom: parent.bottom
     anchors.right: parent.right
     width: parent.width / 4
-    height: parent.width * 3 / 16
+    height: parent.width / 8
 
     signal charge
     signal fire
@@ -22,14 +21,10 @@ Rectangle
         anchors.fill: parent
     }
 
-    Rectangle
+    Item
     {
         id: actionButton
-        color: "transparent"
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
         Image
         {
