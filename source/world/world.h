@@ -6,16 +6,13 @@
 
 #include <QObject>
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include <world/physics/bulletworld.h>
 
 #include <deferredactionhandler.h>
 
 class QOpenGLFunctions;
 class QOpenGLShaderProgram;
 class QTime;
-
-class btDiscreteDynamicsWorld;
-class btCollisionObject;
 
 namespace terminus
 {
@@ -34,9 +31,6 @@ class AbstractPhysicsObject;
 class World : public QObject
 {
     Q_OBJECT
-protected:
-    static void btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep);
-
 public:
     /*!
      * \brief The one and only World constructor
@@ -67,18 +61,19 @@ public:
     void addNode(AbstractGraphicsObject * node);
     void deleteNode(AbstractGraphicsObject * node);
 
-    btDiscreteDynamicsWorld * bulletWorld();
-    void addCollisionMapping(const btCollisionObject * collisionObject, AbstractPhysicsObject * graphicsObject);
-    void removeCollisionMapping(const btCollisionObject * collisionObject);
-    AbstractPhysicsObject * getGraphicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
-
-protected:
-    void setupBullet();
-    void deleteBullet();
-    void btTickCallback(btDynamicsWorld * world, btScalar timeStep);
+    /*!
+     * \brief Returns a shared pointer to the corresponding BulletWorld
+     *
+     * This getter is mainly used in the constructor of AbstractPhysicsObject.
+     * AbstractPhysicsObjects that need to operate on the BulletWorld should not
+     * call it via this getter, but use their own stored copy.
+     */
+    std::shared_ptr<BulletWorld> bulletWorld();
 
 protected:
     Game & m_game;
+
+    std::shared_ptr<BulletWorld> m_bulletWorld;
 
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
@@ -89,16 +84,6 @@ protected:
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
     std::vector<AbstractGraphicsObject*> m_nodes;
-
-    // bullet
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-    btBroadphaseInterface * m_bulletBroadphase;
-    btDefaultCollisionConfiguration * m_bulletCollisionConfig;
-    btCollisionDispatcher * m_bulletDispatcher;
-    btSequentialImpulseConstraintSolver * m_bulletSolver;
-    btDiscreteDynamicsWorld * m_bulletWorld;
-    std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
 };
 
 
