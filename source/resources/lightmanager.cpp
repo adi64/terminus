@@ -1,6 +1,7 @@
 #include "lightmanager.h"
 
-#include <cassert>
+#include <assert.h>
+#include <math.h>
 
 #include <QDebug>
 
@@ -55,7 +56,7 @@ Light Light::createSpot(const QVector3D &color, const QVector3D &position, const
             direction,
             color,
             defaultAttenuation,
-            cos(cutoffAngle),
+            static_cast<float>(cos(cutoffAngle)),
             LIGHT_SPOT};
 }
 
