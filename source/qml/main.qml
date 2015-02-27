@@ -66,12 +66,12 @@ Item
 
             Keys.onPressed:
             {
-                terminus.userInterface.keyPressEvent(event.key)
+                terminus.keyPressEvent(event.key)
                 event.accepted = true
             }
             Keys.onReleased:
             {
-                terminus.userInterface.keyReleaseEvent(event.key)
+                terminus.keyReleaseEvent(event.key)
                 event.accepted = true
             }
 
@@ -84,7 +84,7 @@ Item
                 enabled: Qt.platform.os === ("android" || "ios")? false : true
                 onPositionChanged:
                 {
-                    terminus.userInterface.mouseMoveEvent(mouse.x, mouse.y)
+                    terminus.mouseMoveEvent(mouse.x, mouse.y)
                 }
             }
 
@@ -97,11 +97,11 @@ Item
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onCharge:
                 {
-                    terminus.userInterface.touchChargeFire()
+                    terminus.touchChargeFire()
                 }
                 onFire:
                 {
-                    terminus.userInterface.touchFire()
+                    terminus.touchFire()
                 }
             }
 
@@ -110,11 +110,11 @@ Item
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onSwitchToNextWagon:
                 {
-                    terminus.userInterface.switchToNextWagon()
+                    terminus.switchToNextWagon()
                 }
                 onSwitchToPreviousWagon:
                 {
-                    terminus.userInterface.switchToPreviousWagon()
+                    terminus.switchToPreviousWagon()
                 }
             }
 
@@ -146,7 +146,7 @@ Item
 
                 onReadingChanged:
                 {
-                    terminus.userInterface.gyroMoveEvent(gyro.reading.x * orientation_multiplier
+                    terminus.gyroMoveEvent(gyro.reading.x * orientation_multiplier
                                      , gyro.reading.y * orientation_multiplier)
                 }
             }

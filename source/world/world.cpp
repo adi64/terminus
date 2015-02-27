@@ -37,9 +37,11 @@ void World::btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep)
 World::World(Game & game)
 : m_game(game)
 {
+    // bullets needs to be initialized before the other members
     setupBullet();
 
     m_terrain = std::unique_ptr<Terrain>(new Terrain(*this));
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
 
     m_playerTrain = std::shared_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
     m_playerTrain->addWagon<WeaponWagon>();
@@ -60,8 +62,8 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
+
     m_enemyTrain->follow(m_playerTrain);
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
@@ -75,7 +77,6 @@ World::World(Game & game)
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
     localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
-
 }
 
 World::~World()

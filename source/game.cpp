@@ -40,7 +40,7 @@ Game::Game()
 
     m_world = std::unique_ptr<World>(new World(*this));
 
-    updateQMLData();
+    initializeQMLData();
 }
 
 Game::~Game()
@@ -185,7 +185,7 @@ void Game::togglePaused()
     m_paused = !m_paused;
 }
 
-void Game::updateQMLData()
+void Game::initializeQMLData()
 {
     auto& playerTrain = m_world->playerTrain();
     QList<QVariant> playerWagonList;
@@ -238,9 +238,8 @@ void Game::updateQMLData()
     m_qmlData.setValue(dataMap);
 }
 
-QVariant &Game::qmlData()
+QVariant & Game::qmlData()
 {
-
     return m_qmlData;
 }
 

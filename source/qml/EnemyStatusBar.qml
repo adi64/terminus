@@ -32,6 +32,8 @@ Rectangle
         width: parent.width - (parent.width / 9)
         height: parent.height
 
+        property Game game: parent.game
+
         EnemyWagonStatus
         {
             id: ewagon0
