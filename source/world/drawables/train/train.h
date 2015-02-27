@@ -12,6 +12,7 @@
 namespace terminus
 {
 
+class AbstractPlayer;
 class Track;
 class Camera;
 
@@ -42,7 +43,7 @@ public:
     AbstractWagon *wagonAt(unsigned int index) const;
     Track *track() const;
 
-    void follow(std::shared_ptr<Train> train);
+    void follow(Train *train);
     float velocity() const;
     void setVelocity(float velocity);
 
@@ -51,8 +52,9 @@ public:
     unsigned int size() const;
     bool isPlayerControlled() const;
 
-    Camera & playerCamera() const; //!< \sa m_playerCamera
-    void setPlayerCamera(std::shared_ptr<Camera> camera); //!< \sa m_playerCamera
+    // TODO FIXME remove this getter since a camera will have the ability to be bound to any AbstractGraphicsObject which then knows the camera itself.
+    AbstractPlayer &player() const;
+    void setPlayer(AbstractPlayer *player);
 
 protected:
     virtual bool localRenderEnabled() const override;
@@ -73,19 +75,17 @@ protected:
     bool m_hasEngine; //!< Every train needs exactly one engine
 
     float m_velocity;
-    std::shared_ptr<Train> m_followedTrain;
+    Train *m_followedTrain;
 
     float m_travelledDistance;
     Track *m_track;
 
     /*!
-     * \brief A pointer to the controlling player's camera
+     * \brief A pointer to the player that controls this train.
      *
-     * A Train knows the camera of the player that controls it in order to get the player's aim vector
-     *
-     * TODO after camera refactoring, AGOs have references to a camera bound to it -> this member will be redundant
+     * Since the controlling player of a train can change, this is stored as a simple pointer.
      */
-    std::shared_ptr<Camera> m_playerCamera;
+    AbstractPlayer *m_player;
 };
 
 }

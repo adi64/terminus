@@ -3,12 +3,14 @@
 #include <QDebug>
 
 #include <world/world.h>
+#include <world/physics/bulletworld.h>
 
 namespace terminus
 {
 
 AbstractPhysicsObject::AbstractPhysicsObject(World & world)
 : AbstractGraphicsObject(world)
+, m_bulletWorld(world.bulletWorld())
 {
 }
 
@@ -31,14 +33,14 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    m_world.bulletWorld()->addRigidBody(m_btRigidBody.get());
-    m_world.addCollisionMapping(m_btRigidBody.get(), this);
+    m_bulletWorld->addRigidBody(m_btRigidBody.get());
+    m_bulletWorld->addCollisionMapping(m_btRigidBody.get(), this);
 }
 
 void AbstractPhysicsObject::deallocatePhysics()
 {
-    m_world.bulletWorld()->removeRigidBody(m_btRigidBody.get());
-    m_world.removeCollisionMapping(m_btRigidBody.get());
+    m_bulletWorld->removeRigidBody(m_btRigidBody.get());
+    m_bulletWorld->removeCollisionMapping(m_btRigidBody.get());
 }
 
 /*!

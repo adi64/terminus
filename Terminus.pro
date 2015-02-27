@@ -376,6 +376,7 @@ HEADERS += \
     source/world/drawables/terrain.h \
     source/world/drawables/track.h \
     source/world/physics/abstractphysicsobject.h \
+    source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
@@ -556,6 +557,7 @@ SOURCES += \
     source/world/drawables/terrain.cpp \
     source/world/drawables/track.cpp \
     source/world/physics/abstractphysicsobject.cpp \
+    source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \

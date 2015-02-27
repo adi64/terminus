@@ -12,6 +12,7 @@
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
+#include <player/abstractplayer.h>
 
 namespace terminus
 {
@@ -45,7 +46,7 @@ void WeaponWagon::primaryAction()
     auto force = 4000.f;
     auto aimDeviation = getAimDeviation();
 
-    QVector3D worldProjectileForce = (m_train->playerCamera().normalizedAimVector() + aimDeviation) * force;
+    QVector3D worldProjectileForce = (m_train->player().camera().normalizedAimVector() + aimDeviation) * force;
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
@@ -59,7 +60,7 @@ void WeaponWagon::primaryActionDebug()
     auto force = 4000.0;
     auto aimDeviation = getAimDeviation();
 
-    QVector3D worldProjectileForce = (m_train->playerCamera().normalizedAimVector() + aimDeviation) * force;
+    QVector3D worldProjectileForce = (m_train->player().camera().normalizedAimVector() + aimDeviation) * force;
 
     fire(worldProjectileForce);
 }

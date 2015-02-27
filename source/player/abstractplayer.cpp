@@ -6,13 +6,12 @@
 namespace terminus
 {
 
-AbstractPlayer::AbstractPlayer(World & world, std::shared_ptr<Train> train)
+AbstractPlayer::AbstractPlayer(World & world, Train *train)
 : m_world(world)
 , m_train(train)
 , m_selectedWagonIndex(0)
 {
-    //TODO: give train player pointer
-    m_train->setPlayerCamera(std::shared_ptr<Camera>(&m_camera));
+    m_train->setPlayer(this);
     m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
@@ -21,7 +20,6 @@ Camera & AbstractPlayer::camera()
 {
     return m_camera;
 }
-
 
 Train & AbstractPlayer::train()
 {
