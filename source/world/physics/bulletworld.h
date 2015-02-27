@@ -15,6 +15,14 @@ class AbstractPhysicsObject;
 class BulletWorld
 {
 protected:
+    /*!
+     * \brief Static wrapper for BulletWorld::btTickCallback()
+     *
+     * Since bullet can only store plain C function pointers, this static method will be called on every tick (substep).
+     * A bullet dynamics world has a user-definable void* storage that we can use to determine the BulletWorld instance which should receive the call.
+     *
+     * \sa btTickCallback()
+     */
     static void btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep);
 
 public:
@@ -44,6 +52,11 @@ public:
     AbstractPhysicsObject * getPhysicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
 
 protected:
+    /*!
+     * \brief A Callback that is called on every simulation tick
+     *
+     * This method gets called on every simulation tick (substep). At this point, we can check for colliding objects and dispatch collision events.
+     */
     void btTickCallback(btDynamicsWorld * world, btScalar timeStep);
 
     btBroadphaseInterface * m_bulletBroadphase;
