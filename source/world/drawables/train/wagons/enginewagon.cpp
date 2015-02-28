@@ -24,7 +24,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
-    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 16.f, 30.f, 0.1f));
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 16.f, 10.f.f, 0.1f));
 }
 
 EngineWagon::~EngineWagon()

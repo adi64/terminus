@@ -1,5 +1,7 @@
 #include "light.h"
 
+#include <math.h>
+
 #include <util/mathutil.h>
 
 namespace terminus

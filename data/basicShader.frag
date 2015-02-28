@@ -16,9 +16,10 @@ const int LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction
 const int LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
 const int LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 uniform vec4 light[lightCount * lightComponents];
-//positionType;
-//directionIntensity;
-//colorCutOff;
+//LightFormat:
+////position3 type1;
+////direction3 intensity1;
+////color3 cutoff1;
 
 varying vec3 v_normal;
 varying vec3 v_position;
@@ -29,6 +30,7 @@ void main()
 
     for(int i = 0; i < lightCount; i++)
     {
+        //extract light parameters
         int iBase = i * lightComponents;
         int type = light[iBase].w;
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
