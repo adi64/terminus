@@ -5,7 +5,7 @@ import Game 1.0
  * Shows health, type and optionally cooldown of a player wagon
  */
 
-Rectangle
+Item
 {
     id: playerWagonStatus
 
@@ -46,13 +46,13 @@ Rectangle
         switch(wagonType)
         {
         case 1:
-            return "#" + opac + "CC8014"; //orange
+            return Qt.rgba(0.8, 0.48, 0.08, opac); //orange
         case 2:
-            return "#" + opac + "1480CC"; //blue
+            return Qt.rgba(0.08, 0.48, 0.8, opac); //blue
         case 3:
-            return "#" + opac + "8014CC"; //purple
+            return Qt.rgba(0.48, 0.08, 0.8, opac); //purple
         default:
-            return "#" + opac + "808080"; //grey
+            return Qt.rgba(0.4, 0.4, 0.4, opac); //grey
         }
     }
 
@@ -60,7 +60,7 @@ Rectangle
     {
         id: playerWagonMaxHealth
         anchors.fill: parent
-        color: setColor("40")
+        color: setColor(0.4)
 
         Rectangle
         {
@@ -69,7 +69,7 @@ Rectangle
             anchors.left: parent.left
             width: parent.width * health / maxHealth
             height: parent.height
-            color: setColor("FF")
+            color: setColor(1.0)
         }
     }
 
