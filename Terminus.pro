@@ -375,7 +375,8 @@ HEADERS += \
     source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/resources/light.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -556,5 +557,6 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/bullet/clew/clew.c
+    source/bullet/clew/clew.c \
+    source/resources/light.cpp
 

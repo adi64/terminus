@@ -1,150 +1,53 @@
 #include "lightmanager.h"
 
-#include <cassert>
+#include <assert.h>
 
-#include <QDebug>
-
+#include <resources/program.h>
 #include <util/tostring.h>
 #include <util/mathutil.h>
 
 namespace terminus
 {
 
-const Light Light::nullLight{{0.0, 0.0, 0.0}, // position
-                               {0.0, 0.0, 0.0}, // direction
-                               {0.0, 0.0, 0.0}, // color
-                               {1.0, 0.0, 0.0}, // attenuation
-                               1.0,             //spot cutoff
-                               LIGHT_AMBIENT};  //type
-
-const QVector3D Light::defaultAttenuation{1.0, 0.0, 0.001}; //default quadratic attenuation
-
-Light Light::createAmbient(const QVector3D & color)
+int LightManager::freeSlots() const
 {
-    return {nullLight.position,
-            nullLight.direction,
-            color,
-            nullLight.attenuation,
-            nullLight.spotCutOff,
-            LIGHT_AMBIENT};
+    return slotCount - m_usedSlots.size();
 }
 
-Light Light::createDirectional(const QVector3D & color, const QVector3D & direction)
+LightManager::ID LightManager::add(const Light & light)
 {
-    return {nullLight.position,
-            direction,
-            color,
-            nullLight.attenuation,
-            nullLight.spotCutOff,
-            LIGHT_DIRECTIONAL};
+    ID slot = getFreeSlot();
+    m_usedSlots.insert(slot);
+    m_lights[slot] = light;
+    return slot;
 }
 
-Light Light::createPoint(const QVector3D & color, const QVector3D & position)
+Light & LightManager::get(LightManager::ID id)
 {
-    return {position,
-            nullLight.direction,
-            color,
-            defaultAttenuation,
-            nullLight.spotCutOff,
-            LIGHT_POINT};
+    return m_lights[id];
 }
 
-Light Light::createSpot(const QVector3D &color, const QVector3D &position, const QVector3D &direction, float cutoffAngle)
+void LightManager::remove(LightManager::ID slot)
 {
-    return {position,
-            direction,
-            color,
-            defaultAttenuation,
-            cos(cutoffAngle),
-            LIGHT_SPOT};
-}
-
-LightManager::LightManager()
-    : m_freeLightID(0)
-{
-}
-
-LightID LightManager::addAmbientLight(const QVector3D &color)
-{
-    return addLight(Light::createAmbient(color));
-}
-
-LightID LightManager::addDirectionalLight(const QVector3D & direction, const QVector3D & color)
-{
-    return addLight(Light::createDirectional(color, direction));
-}
-
-LightID LightManager::addPointLight(const QVector3D & position, const QVector3D &, const QVector3D & color)
-{
-    return addLight(Light::createPoint(color, position));
-}
-
-LightID LightManager::addSpotLight(const QVector3D & position, const QVector3D & direction, const QVector3D &, const QVector3D & color)
-{
-    return addLight(Light::createSpot(color, position, direction, 30.f * MathUtil::PI / 180.f));
+    m_lights[slot] = Light::nullLight;
+    m_usedSlots.erase(slot);
 }
 
 void LightManager::setUniforms(Program & program) const
 {
-    int i = 0;
-    for(const auto & light : m_lights)
+    program.setUniform(std::string("light"), reinterpret_cast<const QVector4D*>(&m_lights), slotCount * Light::vectorCount);
+}
+
+LightManager::ID LightManager::getFreeSlot()
+{
+    for(ID i = 0; i < LightManager::slotCount; i++)
     {
-        setLightUniforms(program, i, light.second);
-        ++i;
+        if(m_usedSlots.count(i) == 0)
+        {
+            return i;
+        }
     }
-
-    // set all unused lights to invalid
-    for(; i<maxLights; ++i)
-    {
-        setLightUniforms(program, i, Light::nullLight);
-    }
-}
-
-Light & LightManager::light(LightID lightID)
-{
-    return m_lights.at(lightID);
-}
-
-const std::map<LightID, Light> &LightManager::lights() const
-{
-    return m_lights;
-}
-
-void LightManager::setLightUniforms(Program &program, int index, const Light & light) const
-{
-    //TODO perhaps the string concatenation is the reason for performance issues
-    auto currentLightString = std::string("lights[" + toString(index) + "]");
-    program.setUniform(currentLightString + ".position",     light.position);
-    program.setUniform(currentLightString + ".direction",    light.direction);
-    program.setUniform(currentLightString + ".color",        light.color);
-    program.setUniform(currentLightString + ".attenuation",  light.attenuation);
-    program.setUniform(currentLightString + ".spotCutOff",   light.spotCutOff);
-    program.setUniform(currentLightString + ".type",         light.type);
-}
-
-LightID LightManager::addLight(const Light &light)
-{
-    assert(m_lights.size() <= maxLights);
-
-    auto lightID = getFreeLightID();
-
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_lights.insert(std::pair<LightID, Light>(lightID, light));
-    lock.unlock();
-
-    return lightID;
-}
-
-LightID LightManager::getFreeLightID()
-{
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    LightID reservedID = m_freeLightID;
-    m_freeLightID++;
-
-    lock.unlock();
-
-    return reservedID;
+    assert(false);// this is reached if no free slot is left
 }
 
 } // namespace terminus

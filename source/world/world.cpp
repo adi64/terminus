@@ -82,11 +82,9 @@ World::World(Game & game)
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
     localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 
-    m_lightManager.addAmbientLight(QVector3D(0.1f, 0.1f, 0.1f));
-    m_lightManager.addDirectionalLight(QVector3D(5.0, 1.0, -5.0), QVector3D(0.6f, 0.6f, 0.5f));
-    m_lightManager.addDirectionalLight(QVector3D(0.0, 1.0, 0.0), QVector3D(0.5f, 0.5f, 0.7f));
-
-
+    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightManager.add(Light::createDirectional({0.6f, 0.6f, 0.5f}, {5.0, 1.0, -5.0}));
+    m_lightManager.add(Light::createDirectional({0.5f, 0.5f, 0.7f}, {0.0, 1.0, 0.0}));
 }
 
 World::~World()

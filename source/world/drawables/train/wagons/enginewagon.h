@@ -23,7 +23,7 @@ public:
     void playSound() const;
 
 protected:
-    LightID m_headLight;
+    LightManager::ID m_headLight;
 };
 
 }

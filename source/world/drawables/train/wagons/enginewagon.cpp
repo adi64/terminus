@@ -6,6 +6,7 @@
 
 #include <world/world.h>
 #include <resources/resourcemanager.h>
+#include <resources/light.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -23,7 +24,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
-    m_headLight = m_world.lightManager().addSpotLight(position(), worldFront(), QVector3D(), {1.f, 0.5f, 0.f});
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 16.f, 30.f, 0.1f));
 }
 
 EngineWagon::~EngineWagon()
@@ -33,9 +34,9 @@ EngineWagon::~EngineWagon()
 
 void EngineWagon::localUpdate(int elapsedMilliseconds)
 {
-    auto & light = m_world.lightManager().light(m_headLight);
-    light.position = position();
-    light.direction = worldFront();
+    auto & light = m_world.lightManager().get(m_headLight);
+    light.setPosition(position());
+    light.setDirection(worldFront());
 
     AbstractWagon::localUpdate(elapsedMilliseconds);
 }
