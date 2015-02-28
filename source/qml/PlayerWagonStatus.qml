@@ -14,11 +14,12 @@ Item
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
-    property int wagonType: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"]
-    property real health: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
-    property real maxHealth: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"]
-    property bool isDisabled: game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"]
-    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
+    property bool load: totalWagons > wagonIndex
+    property int wagonType: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"] : -1
+    property real health: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
+    property real maxHealth: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
+    property bool isDisabled: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"] : true
+    property int currentWagon: load? game.qmlData["PlayerTrain"]["currentWagon"] : -1
 
     onRefresh:
     {
@@ -32,11 +33,13 @@ Item
         playerWagonCurrentHealth.width = (parent.width * health / maxHealth)
     }
 
-    anchors.verticalCenter: parent.verticalCenter
+    anchors.top: parent.top
+    anchors.topMargin: parent.height * 1 / 8
     anchors.right: parent.right
-    anchors.rightMargin: parent.width / totalWagons * (1 / 16 + wagonIndex + (8 - totalWagons) * 0.5)
-    width: parent.width / totalWagons * 7 / 8
-    height: parent.height * 6 / 8
+    anchors.rightMargin: parent.width / 8 * (1 / 16 + wagonIndex + ((8 - totalWagons) * 0.5))
+    width: (parent.width / 8) * (7 / 8)
+    height: parent.height * 3 / 8
+    visible: load
 
     function setColor(opac)
     {
