@@ -92,19 +92,6 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     QCursor::setPos(globalPosition);
 }
 
-/*void EventHandler::touchMoveEvent(qreal x, qreal y)
-{
-    const double sensitivity = 0.05;
-
-    auto offset = QVector2D(x, y);
-    auto rotation = offset * sensitivity;
-
-    // invert X
-    rotation *= QVector2D(-1.0, 1.0);
-
-    m_game->world().localPlayer().camera().setRotation(rotation);
-}*/
-
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
 {
     const double sensitivity = 0.005;

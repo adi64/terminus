@@ -14,7 +14,6 @@ public:
 
     void keyPressEvent(Qt::Key key);
     void mouseMoveEvent(qreal x, qreal y);
-    //void touchMoveEvent(qreal x, qreal y);
     void gyroMoveEvent(qreal x, qreal y);
     void switchToNextWagon();
     void switchToPreviousWagon();
