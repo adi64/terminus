@@ -46,8 +46,19 @@ public:
 
     /*!
      * \brief Wraps btDiscreteDynamicsWorld::addRigidBody()
+     *
+     * Note that rigid bodies added via this method will collide with any other object in the scene.
      */
     void addRigidBody(btRigidBody* rigidBody);
+
+    /*!
+     * \brief Wraps btDiscreteDynamicsWorld::addRigidBody()
+     *
+     * Rigid bodies added via this method have a collision group and will only collide with objects that match the given collision mask.
+     *
+     * \sa AbstractPhysicsObject::myCollisionType() and AbstractPhysicsObject::possibleCollisionTypes()
+     */
+    void addRigidBody(btRigidBody* rigidBody, short group, short mask);
 
     /*!
      * \brief Wraps btDiscreteDynamicsWorld::removeRigidBody()
@@ -62,6 +73,18 @@ public:
     void addCollisionMapping(const btCollisionObject * collisionObject, AbstractPhysicsObject * graphicsObject);
     void removeCollisionMapping(const btCollisionObject * collisionObject);
     AbstractPhysicsObject * getPhysicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
+
+    /*!
+     * \brief Bitfield values that describe the groups of objects that can collide with each other
+     * \sa AbstractPhysicsObject::myCollisionType() and AbstractPhysicsObject::possibleCollisionTypes()
+     */
+    enum CollisionTypes
+    {
+        COLLISIONTYPE_NOTHING       = 0,
+        COLLISIONTYPE_WAGON         = 1 << 0,
+        COLLISIONTYPE_PROJECTILE    = 1 << 1,
+        COLLISIONTYPE_TERRAIN       = 1 << 2
+    };
 
 protected:
     /*!

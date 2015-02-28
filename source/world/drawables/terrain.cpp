@@ -182,4 +182,15 @@ void Terrain::deallocateTerrainMap(QOpenGLFunctions & gl) const
     m_terrainMapOnGPU = false;
 }
 
+short Terrain::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_TERRAIN;
+}
+
+short Terrain::possibleCollisionTypes() const
+{
+    // collision detection with terrain does not work yet
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_NOTHING;
+}
+
 } //namespace terminus

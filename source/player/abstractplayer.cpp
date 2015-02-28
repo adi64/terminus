@@ -15,15 +15,9 @@ AbstractPlayer::AbstractPlayer(World & world, Train *train)
     m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
-
 Camera & AbstractPlayer::camera()
 {
     return m_camera;
-}
-
-Train & AbstractPlayer::train()
-{
-    return (*m_train);
 }
 
 unsigned int AbstractPlayer::selectedWagonIndex() const
@@ -64,4 +58,4 @@ void AbstractPlayer::update()
     m_camera.update();
 }
 
-}
+} // namespace terminus

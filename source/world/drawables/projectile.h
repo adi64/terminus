@@ -24,6 +24,9 @@ public:
 protected:
     virtual unsigned int maxAgeInMilliseconds() const;
 
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
+
 protected:
     Timer::TimerID m_lifeTimer;
 };

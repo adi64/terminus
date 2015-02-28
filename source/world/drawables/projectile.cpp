@@ -74,4 +74,14 @@ unsigned int Projectile::maxAgeInMilliseconds() const
     return 5000;
 }
 
+short Projectile::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
+}
+
+short Projectile::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
+}
+
 } //namespace terminus

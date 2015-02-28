@@ -92,4 +92,14 @@ void AbstractWagon::setPositionOffset(float accumulatedOffset)
     m_positionOffset = accumulatedOffset;
 }
 
+short AbstractWagon::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
+}
+
+short AbstractWagon::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
+}
+
 }//namespace terminus

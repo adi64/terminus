@@ -38,6 +38,10 @@ public:
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
+
+protected:
     float m_positionOffset;
     float m_health;
     bool m_disabled;
