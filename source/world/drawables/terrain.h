@@ -33,6 +33,9 @@ protected:
     void allocateTerrainMap(QOpenGLFunctions & gl) const;
     void deallocateTerrainMap(QOpenGLFunctions & gl) const;
 
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
+
 protected:
     Level m_level;
 

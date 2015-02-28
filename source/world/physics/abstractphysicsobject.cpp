@@ -33,7 +33,7 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    m_bulletWorld->addRigidBody(m_btRigidBody.get());
+    m_bulletWorld->addRigidBody(m_btRigidBody.get(), myCollisionType(), possibleCollisionTypes());
     m_bulletWorld->addCollisionMapping(m_btRigidBody.get(), this);
 }
 
