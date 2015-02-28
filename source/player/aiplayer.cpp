@@ -30,7 +30,7 @@ void AIPlayer::update()
     auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedWeaponWagon)
     {
-        if(!focusedWeaponWagon->isReloading())
+        if(!focusedWeaponWagon->isOnCooldown())
         {
             fire(focusedWeaponWagon);
         }

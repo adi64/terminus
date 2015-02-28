@@ -19,8 +19,6 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
-, m_reloadProjectile(false)
-, m_reloadTime(0)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
@@ -36,7 +34,7 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
-    if(isDisabled() || m_reloadProjectile)
+    if(isDisabled() || m_onCooldown)
     {
         return;
     }
@@ -47,7 +45,7 @@ void WeaponWagon::primaryAction()
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
-    m_reloadProjectile = true;
+    m_onCooldown = true;
 }
 
 void WeaponWagon::primaryActionDebug()
@@ -75,22 +73,32 @@ void WeaponWagon::fire(QVector3D force)
     );
 }
 
-bool WeaponWagon::isReloading() const
+unsigned int WeaponWagon::maxCooldown() const
 {
-    return m_reloadProjectile;
+    return 3000;
+}
+
+float WeaponWagon::length() const
+{
+    return 7.5f;
+}
+
+WagonType WeaponWagon::wagonType() const
+{
+    return WEAPON_WAGON;
 }
 
 void WeaponWagon::localUpdate()
 {
     Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
 
-    if(m_reloadProjectile)
+    if(m_onCooldown)
     {
-        m_reloadTime += frameDuration;
-        if(m_reloadTime > 2500)
+        m_cooldown += frameDuration;
+        if(m_cooldown > maxCooldown())
         {
-            m_reloadProjectile = false;
-            m_reloadTime = 0;
+            m_onCooldown = false;
+            m_cooldown = 0;
         }
     }
 
@@ -108,21 +116,6 @@ void WeaponWagon::localUpdate()
 void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-}
-
-float WeaponWagon::length() const
-{
-    return 7.5f;
-}
-
-WagonType WeaponWagon::wagonType() const
-{
-    return WEAPON_WAGON;
-}
-
-unsigned int WeaponWagon::reloadTime() const
-{
-    return m_reloadTime;
 }
 
 } //namespace terminus

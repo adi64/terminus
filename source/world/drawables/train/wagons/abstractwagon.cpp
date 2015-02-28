@@ -15,8 +15,10 @@ namespace terminus
 AbstractWagon::AbstractWagon(World & world, Train * train)
     : KinematicPhysicsObject(world)
     , m_health(maxHealth())
-    , m_train(train)
     , m_disabled(false)
+    , m_cooldown(maxCooldown())
+    , m_onCooldown(false)
+    , m_train(train)
 {
 }
 
@@ -46,6 +48,21 @@ void AbstractWagon::localUpdate()
 float AbstractWagon::maxHealth() const
 {
     return 100.f;
+}
+
+bool AbstractWagon::isOnCooldown() const
+{
+    return m_onCooldown;
+}
+
+unsigned int AbstractWagon::cooldown() const
+{
+    return m_cooldown;
+}
+
+unsigned int AbstractWagon::maxCooldown() const
+{
+    return 100;
 }
 
 float AbstractWagon::currentHealth() const

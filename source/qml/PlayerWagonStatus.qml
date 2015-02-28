@@ -11,12 +11,16 @@ Item
 
     property int wagonIndex
     property Game game: parent.game
+
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
     property bool load: totalWagons > wagonIndex
+
     property int wagonType: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"] : -1
     property real health: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"] : 1
     property real maxHealth: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"] : 1
     property bool isDisabled: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"] : true
+    property int cooldown: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
+    property int maxCooldown: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxCooldown"] : 1
     property int currentWagon: load? game.qmlData["PlayerTrain"]["currentWagon"] : -1
 
     anchors.top: parent.top
@@ -74,13 +78,15 @@ Item
         anchors.bottom: parent.bottom
         width: parent.width
         height: parent.height / 6
+        color: "white"
 
         Rectangle
         {
             id: playerWagonCurrentCooldown
             anchors.bottom: parent.bottom
-            width: parent.width
-            height: parent.height / 6
+            width: parent.width * cooldown / maxCooldown
+            height: parent.height
+            color: "grey"
         }
     }
 }

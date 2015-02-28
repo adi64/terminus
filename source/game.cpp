@@ -181,8 +181,8 @@ void Game::updateQMLData()
         wagonMap.insert("type", playerTrain.wagonAt(i)->wagonType());
         wagonMap.insert("currentHealth", playerTrain.wagonAt(i)->currentHealth());
         wagonMap.insert("maxHealth", playerTrain.wagonAt(i)->maxHealth());
-        //wagonMap.insert("currentCooldown", 0);
-        //wagonMap.insert("maxCooldown", 0);
+        wagonMap.insert("currentCooldown", playerTrain.wagonAt(i)->cooldown());
+        wagonMap.insert("maxCooldown", playerTrain.wagonAt(i)->maxCooldown());
         wagonMap.insert("isDisabled", playerTrain.wagonAt(i)->isDisabled());
         playerWagonList.push_back(wagonMap);
     }
@@ -195,8 +195,8 @@ void Game::updateQMLData()
         wagonMap.insert("type", enemyTrain.wagonAt(i)->wagonType());
         wagonMap.insert("currentHealth", enemyTrain.wagonAt(i)->currentHealth());
         wagonMap.insert("maxHealth", enemyTrain.wagonAt(i)->maxHealth());
-        wagonMap.insert("currentCooldown", 0);
-        wagonMap.insert("maxCooldown", 0);
+        wagonMap.insert("currentCooldown", enemyTrain.wagonAt(i)->cooldown());
+        wagonMap.insert("maxCooldown", enemyTrain.wagonAt(i)->maxCooldown());
         wagonMap.insert("isDisabled", enemyTrain.wagonAt(i)->isDisabled());
         QVariant wagon(wagonMap);
         enemyWagonList.push_back(wagon);
