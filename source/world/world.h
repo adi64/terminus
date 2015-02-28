@@ -8,6 +8,9 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
+#include <util/timer.h>
+#include <world/physics/bulletworld.h>
+#include <resources/lightmanager.h>
 #include <world/camera.h>
 #include <deferredactionhandler.h>
 
@@ -91,17 +94,7 @@ protected:
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
-    std::vector<AbstractGraphicsObject*> m_nodes;
-
-    // bullet
-    // these objects must not be deleted before m_bullet_dynamicsWorld
-    // -- so as a temporary hack, we won't delete them at all
-    btBroadphaseInterface * m_bulletBroadphase;
-    btDefaultCollisionConfiguration * m_bulletCollisionConfig;
-    btCollisionDispatcher * m_bulletDispatcher;
-    btSequentialImpulseConstraintSolver * m_bulletSolver;
-    btDiscreteDynamicsWorld * m_bulletWorld;
-    std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
+    std::vector<AbstractGraphicsObject*> m_objects;
 };
 
 

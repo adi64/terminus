@@ -7,6 +7,7 @@
 #include <QTime>
 
 #include <game.h>
+#include <resources/light.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/terrain.h>
 #include <world/drawables/skybox.h>

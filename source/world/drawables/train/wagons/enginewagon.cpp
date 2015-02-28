@@ -32,13 +32,13 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
-void EngineWagon::localUpdate(int elapsedMilliseconds)
+void EngineWagon::localUpdate()
 {
     auto & light = m_world.lightManager().get(m_headLight);
     light.setPosition(position());
     light.setDirection(worldFront());
 
-    AbstractWagon::localUpdate(elapsedMilliseconds);
+    AbstractWagon::localUpdate();
 }
 
 void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const

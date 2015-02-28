@@ -377,7 +377,7 @@ HEADERS += \
     source/game.h \
     source/player/remoteplayer.h \
     source/world/world.h \
-    source/util/timer.h
+    source/util/timer.h \
     source/resources/light.h
 
 SOURCES += \
@@ -561,6 +561,6 @@ SOURCES += \
     source/bullet/clew/clew.c \
     source/player/remoteplayer.cpp \
     source/world/world.cpp \
-    source/util/timer.cpp
+    source/util/timer.cpp \
     source/resources/light.cpp
 
