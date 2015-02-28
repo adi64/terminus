@@ -31,44 +31,53 @@ void EventHandler::keyPressEvent(Qt::Key key)
     switch(key)
     {
     case Qt::Key_W:
-        movement.setZ(-1.0);
-        camera.setMovement(movement);
+        if(!camera.isLocked())
+        {
+            movement.setZ(-1.0);
+            camera.setMovement(movement);
+        }
         break;
     case Qt::Key_S:
-        movement.setZ(1.0);
-        camera.setMovement(movement);
+        if(!camera.isLocked())
+        {
+            movement.setZ(1.0);
+            camera.setMovement(movement);
+        }
         break;
     case Qt::Key_A:
-        movement.setX(-1.0);
-        camera.setMovement(movement);
+        if(camera.isLocked())
+        {
+            player.switchToNextWagon();
+        }
+        else
+        {
+            movement.setX(-1.0);
+            camera.setMovement(movement);
+        }
         break;
     case Qt::Key_D:
-        movement.setX(1.0);
-        camera.setMovement(movement);
+        if(camera.isLocked())
+        {
+            player.switchToPreviousWagon();
+        }
+        else
+        {
+            movement.setX(1.0);
+            camera.setMovement(movement);
+        }
         break;
+    case Qt::Key_Escape:
     case Qt::Key_Q:
         QApplication::quit();
         break;
     case Qt::Key_Space:
         camera.toggleLocked();
         break;
-    case Qt::Key_Escape:
-        QApplication::quit();
-        break;
     case Qt::Key_I:
         player.primaryActionDebug();
         break;
-    case Qt::Key_O:
-        player.primaryAction();
-        break;
     case Qt::Key_P:
         m_game->togglePaused();
-        break;
-    case Qt::Key_Plus:
-        player.switchToNextWagon();
-        break;
-    case Qt::Key_Minus:
-        player.switchToPreviousWagon();
         break;
     default:
         break;

@@ -15,6 +15,7 @@ import Game 1.0
  *      NEXT_WAGON_BUTTON = 3,
  *      PREV_WAGON_BUTTON = 4,
  *      ACTION_BUTTON = 5,
+ *      LEFT_MOUSE_BUTTON = 6
  *  };
  */
 
@@ -56,10 +57,15 @@ Item
                 anchors.fill: parent
                 cursorShape: "BlankCursor"
                 hoverEnabled: true
+                acceptedButtons: Qt.LeftButton
                 enabled: Qt.platform.os === ("android" || "ios")? false : true
                 onPositionChanged:
                 {
                     terminus.moveInput(0, mouse.x, mouse.y)
+                }
+                onReleased:
+                {
+                    terminus.buttonInput(6)
                 }
             }
 

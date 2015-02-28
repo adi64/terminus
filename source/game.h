@@ -30,7 +30,8 @@ class Game : public QQuickItem
         GYRO_MOVEMENT = 2,
         NEXT_WAGON_BUTTON = 3,
         PREV_WAGON_BUTTON = 4,
-        ACTION_BUTTON = 5
+        ACTION_BUTTON = 5,
+        LEFT_MOUSE_BUTTON = 6
     };
 
 public:

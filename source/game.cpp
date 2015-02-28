@@ -71,6 +71,8 @@ void Game::buttonInput(int type)
         m_eventHandler.switchToPreviousWagon(); break;
     case ACTION_BUTTON:
         m_eventHandler.touchFire(); break;
+    case LEFT_MOUSE_BUTTON:
+        m_eventHandler.touchFire(); break;
     default: break;
     }
 }
