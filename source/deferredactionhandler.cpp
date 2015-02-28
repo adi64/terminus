@@ -8,9 +8,9 @@ namespace terminus
 DeferredActionHandler::DeferredActionHandler(Game *game)
 : m_game(game)
 , m_currentActionList(0)
-, m_actionList({std::unique_ptr<DeferredActionList>(new DeferredActionList),
-                  std::unique_ptr<DeferredActionList>(new DeferredActionList)})
 {
+    m_actionList[0] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
+    m_actionList[1] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
 }
 
 void DeferredActionHandler::scheduleAction(const DeferredAction& action)
