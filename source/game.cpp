@@ -61,6 +61,46 @@ Timer & Game::timer()
     return m_timer;
 }
 
+void Game::buttonInput(int type)
+{
+    switch(type)
+    {
+    case NextWagonButton:
+        m_eventHandler.switchToNextWagon(); break;
+    case PrevWagonButton:
+        m_eventHandler.switchToPreviousWagon(); break;
+    case ActionButton:
+        m_eventHandler.touchFire(); break;
+    default: break;
+    }
+}
+
+void Game::keyInput(int type, Qt::Key key)
+{
+    switch(type)
+    {
+    case KeyboardPress:
+        m_eventHandler.keyPressEvent(key); break;
+    case KeyboardRelease:
+        m_eventHandler.keyReleaseEvent(key); break;
+    default: break;
+    }
+}
+
+void Game::moveInput(int type, qreal x, qreal y)
+{
+    switch(type)
+    {
+    case MouseMovement:
+        m_eventHandler.mouseMoveEvent(x, y); break;
+    case TouchMovement:
+        m_eventHandler.touchMoveEvent(x, y); break;
+    case GyroMovement:
+        m_eventHandler.gyroMoveEvent(x, y); break;
+    default: break;
+    }
+}
+
 void Game::sync()
 {
     // check if it's our first frame
@@ -75,7 +115,7 @@ void Game::sync()
     m_deferredActionHandler.processDeferredActions();
 
     #ifdef Q_OS_MAC
-        m_world->localPlayer().camera().setViewport(window()->width()*2, window()->height()*2);
+        m_world->localPlayer().camera().setViewport(window()->width() * 2, window()->height() * 2);
     #else
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
@@ -121,60 +161,7 @@ void Game::handleWindowChanged(QQuickWindow * win)
     }
 }
 
-void Game::keyPressEvent(Qt::Key key)
-{
-    m_eventHandler.keyPressEvent(key);
-}
 
-void Game::keyReleaseEvent(Qt::Key key)
-{
-    m_eventHandler.keyReleaseEvent(key);
-}
-
-void Game::mouseMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler.mouseMoveEvent(x, y);
-}
-
-void Game::touchMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler.touchMoveEvent(x, y);
-}
-
-void Game::gyroMoveEvent(qreal x, qreal y)
-{
-    m_eventHandler.gyroMoveEvent(x, y);
-}
-
-void Game::switchToNextWagon()
-{
-    m_eventHandler.switchToNextWagon();
-}
-
-void Game::switchToPreviousWagon()
-{
-    m_eventHandler.switchToPreviousWagon();
-}
-
-/*void Game::flickEvent(qreal startX, qreal x)
-{
-    m_eventHandler.flickEvent(startX, x);
-}
-
-void Game::flickReset()
-{
-    m_eventHandler.flickReset();
-}*/
-
-void Game::touchChargeFire()
-{
-    m_eventHandler.touchChargeFire();
-}
-
-void Game::touchFire()
-{
-    m_eventHandler.touchFire();
-}
 
 void Game::setPaused(bool paused)
 {
@@ -187,7 +174,7 @@ void Game::togglePaused()
 }
 
 /*!
- * \brief Creates Data for QML. This is incredibly inefficient since QVariants cant be edited only set.
+ * \brief Creates Data for QML. This is incredibly inefficient since QVariants cannot be edited only set.
  */
 void Game::updateQMLData()
 {

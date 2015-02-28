@@ -9,29 +9,15 @@ Item
 {
     id: playerWagonStatus
 
-    signal refresh
-
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
     property bool load: totalWagons > wagonIndex
     property int wagonType: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["type"] : -1
-    property real health: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
-    property real maxHealth: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
+    property real health: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"] : 1
+    property real maxHealth: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"] : 1
     property bool isDisabled: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"] : true
     property int currentWagon: load? game.qmlData["PlayerTrain"]["currentWagon"] : -1
-
-    onRefresh:
-    {
-        health = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"]
-        currentWagon = game.qmlData["PlayerTrain"]["currentWagon"]
-        isDisabled = game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"]
-
-        playerWagonMaxHealth.color = setColor()
-        playerWagonMaxHealth.border.width = (currentWagon === wagonIndex? 3 : 0)
-        playerWagonCurrentHealth.color = parent.color
-        playerWagonCurrentHealth.width = (parent.width * health / maxHealth)
-    }
 
     anchors.top: parent.top
     anchors.topMargin: parent.height * 1 / 8

@@ -11,10 +11,10 @@ Rectangle
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
-    property real factor: 0.2
+    property real factor: 10
 
-    height: parent.height * factor
-    width: parent.height * factor
+    height: parent.height / 100 * factor
+    width: parent.height / 100 * factor
 
     Rectangle
     {

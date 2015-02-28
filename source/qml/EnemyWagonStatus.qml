@@ -9,8 +9,6 @@ Item
 {
     id: playerWagonStatus
 
-    signal refresh
-
     property int wagonIndex
     property Game game: parent.game
     property int totalWagons: game.qmlData["EnemyTrain"]["wagons"].length
@@ -19,17 +17,6 @@ Item
     property real health: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
     property real maxHealth: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
     property bool isDisabled: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["isDisabled"] : true
-
-    onRefresh:
-    {
-        health = game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"]
-        isDisabled = game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["isDisabled"]
-
-        playerWagonMaxHealth.color = setColor()
-        playerWagonMaxHealth.border.width = (currentWagon === wagonIndex? 3 : 0)
-        playerWagonCurrentHealth.color = parent.color
-        playerWagonCurrentHealth.width = (parent.width * health / maxHealth)
-    }
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right

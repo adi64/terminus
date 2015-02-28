@@ -29,6 +29,19 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
+void EngineWagon::localUpdate()
+{
+    std::string materialName = "base_Orange";
+    if(isDisabled())
+    {
+        materialName = "base_Grey";
+    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+
+    AbstractWagon::localUpdate();
+}
+
 void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));

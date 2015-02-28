@@ -155,68 +155,6 @@ void EventHandler::switchToPreviousWagon()
     m_game->world().localPlayer().switchToPreviousWagon();
 }
 
-/*void EventHandler::flickEvent(qreal startx, qreal x)
-{
-    if(m_flickResetted)
-    {
-        m_flickResetted = false;
-        return;
-    }
-
-    #ifdef Q_OS_MAC
-        auto width = m_game->window()->width() * 2;
-    #else
-        auto width = m_game->window()->width();
-    #endif
-    auto direction = (x - startx) / (0.2f * width);
-    auto distance = abs(x - startx);
-
-    auto threshold = width * 0.2;
-
-    m_game->world().localPlayer().camera().setMovement(QVector3D(direction, 0.0f, 0.0f));
-
-    if(direction > 0)
-    {
-        if(m_game->world().localPlayer().camera().isLocked())
-        {
-            m_flickDirection = direction;
-            m_flicked = (distance > threshold);
-        }
-    }
-    if(direction < 0)
-    {
-        if(m_game->world().localPlayer().camera().isLocked())
-        {
-            m_flickDirection = direction;
-            m_flicked = (distance > threshold);
-        }
-    }
-}
-
-void EventHandler::flickReset()
-{
-    m_game->world().localPlayer().camera().setMovement(QVector3D(0.f, 0.f, 0.f));
-    m_flickResetted = true;
-
-    if(m_flicked)
-    {
-        if(m_flickDirection > 0)
-        {
-            m_game->world().localPlayer().switchToNextWagon();
-        }
-        if(m_flickDirection < 0)
-        {
-            m_game->world().localPlayer().switchToPreviousWagon();
-        }
-        m_flicked = false;
-    }
-}*/
-
-void EventHandler::touchChargeFire()
-{
-    // TODO FIXME charge will be removed
-}
-
 void EventHandler::touchFire()
 {
     m_game->world().localPlayer().primaryAction();

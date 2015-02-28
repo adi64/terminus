@@ -17,8 +17,6 @@ public:
     void mouseMoveEvent(qreal x, qreal y);
     void touchMoveEvent(qreal x, qreal y);
     void gyroMoveEvent(qreal x, qreal y);
-    //void flickEvent(qreal startx, qreal x);
-    //void flickReset();
     void switchToNextWagon();
     void switchToPreviousWagon();
     void touchChargeFire();

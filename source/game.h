@@ -23,6 +23,18 @@ class Game : public QQuickItem
     Q_OBJECT
     Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
 
+    enum InteractionType
+    {
+        KeyboardPress = 0,
+        KeyboardRelease = 1,
+        MouseMovement = 2,
+        TouchMovement = 3,
+        GyroMovement = 4,
+        NextWagonButton = 5,
+        PrevWagonButton = 6,
+        ActionButton = 7
+    };
+
 public:
     /*!
      * \brief The one and only Game constructor
@@ -50,18 +62,9 @@ public:
     DeferredActionHandler & deferredActionHandler();
     Timer & timer();
 
-    Q_INVOKABLE void keyPressEvent(Qt::Key key);
-    Q_INVOKABLE void keyReleaseEvent(Qt::Key key);
-    Q_INVOKABLE void mouseMoveEvent(qreal x, qreal y);
-    Q_INVOKABLE void touchMoveEvent(qreal x, qreal y);
-    Q_INVOKABLE void gyroMoveEvent(qreal x, qreal y);
-    Q_INVOKABLE void switchToNextWagon();
-    Q_INVOKABLE void switchToPreviousWagon();
-    Q_INVOKABLE void touchChargeFire();
-    Q_INVOKABLE void touchFire();
-
-    /*Q_INVOKABLE void flickEvent(qreal startX, qreal x);
-    Q_INVOKABLE void flickReset();*/
+    Q_INVOKABLE void buttonInput(int type);
+    Q_INVOKABLE void keyInput(int type, Qt::Key key);
+    Q_INVOKABLE void moveInput(int type, qreal x, qreal y);
 
 public slots:
     /*!

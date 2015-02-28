@@ -1,4 +1,5 @@
 import QtQuick 2.3
+import Game 1.0
 
 /*
  * Displays WagonSwitchButtons and the container element WagonArea
@@ -6,15 +7,18 @@ import QtQuick 2.3
 
 Item
 {
+    signal switchToNextWagon
+    signal switchToPreviousWagon
+
     id: wagonSwitchArea
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     width: parent.width / 4
     height: parent.width / 8
 
-
-    signal switchToNextWagon
-    signal switchToPreviousWagon
+    property Game game: parent.game
+    property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
+    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
 
     Image
     {
@@ -32,8 +36,10 @@ Item
 
         Image
         {
+            id: nextButton
             source: "qrc:/data/NextButton.png"
             anchors.fill: parent
+            visible: currentWagon + 1 < totalWagons? true : false
         }
 
         MultiPointTouchArea
@@ -57,8 +63,10 @@ Item
 
         Image
         {
+            id: prevButton
             source: "qrc:/data/PrevButton.png"
             anchors.fill: parent
+            visible: currentWagon > 0? true : false
         }
 
         MultiPointTouchArea

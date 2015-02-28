@@ -4,6 +4,22 @@ import QtQuick.Window 2.0
 import QtSensors 5.3
 import Game 1.0
 
+/*
+ * Interaction will sent a integer to identify the type of interaction
+ *
+ * enum InteractionType
+ * {
+ *      KeyboardPress = 0,
+ *      KeyboardRelease = 1,
+ *      MouseMovement = 2,
+ *      TouchMovement = 3,
+ *      GyroMovement = 4,
+ *      NextWagonButton = 5,
+ *      PrevWagonButton = 6,
+ *      ActionButton = 7
+ *  };
+ */
+
 Item
 {
     width: Screen.width
@@ -19,10 +35,6 @@ Item
         id: terminus
         anchors.fill: parent
 
-        signal refresh
-
-        onQmlDataChanged: refresh()
-
         /*
          * Initializes UserInterface
          * UserInterface is a container for all UI elements
@@ -34,48 +46,14 @@ Item
 
             property Game game: terminus
 
-            function switchText()
-            {
-                if(wagonType === "WeaponWagon")
-                {
-                    actionButtonText.text = "Fire!";
-                    actionButton.color = "steelblue";
-                }
-                if(wagonType === "RepairWagon")
-                {
-                    actionButtonText.text = "Repair!";
-                    actionButton.color = "grey";
-                }
-                if(wagonType === "EngineWagon")
-                {
-                    actionButtonText.text = "Faster!";
-                    actionButton.color = "grey";
-                }
-            }
-
-            /*onChargeChanged:
-            {
-                actionStatusBarProgress.actionfactor = charge;
-                reticle.factor = (1.0 / (0.5 + charge)) * 0.2;
-            }
-            onReloadChanged:
-            {
-                actionStatusBarProgress.actionfactor = reload;
-                actionStatusBarProgress.color = "yellow";
-            }
-            onWagonTypeChanged:
-            {
-                switchText();
-            }*/
-
             Keys.onPressed:
             {
-                terminus.keyPressEvent(event.key)
+                terminus.keyInput(0, event.key)
                 event.accepted = true
             }
             Keys.onReleased:
             {
-                terminus.keyReleaseEvent(event.key)
+                terminus.keyInput(1, event.key)
                 event.accepted = true
             }
 
@@ -88,7 +66,7 @@ Item
                 enabled: Qt.platform.os === ("android" || "ios")? false : true
                 onPositionChanged:
                 {
-                    terminus.mouseMoveEvent(mouse.x, mouse.y)
+                    terminus.moveInput(2, mouse.x, mouse.y)
                 }
             }
 
@@ -98,44 +76,42 @@ Item
 
             WagonActionArea
             {
+                id: actionArea
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
-                onCharge:
-                {
-                    terminus.touchChargeFire()
-                }
                 onFire:
                 {
-                    terminus.touchFire()
+                    terminus.buttonInput(7)
                 }
             }
 
             WagonSwitchArea
             {
+                id: switchArea
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onSwitchToNextWagon:
                 {
-                    terminus.switchToNextWagon()
+                    terminus.buttonInput(5)
                 }
                 onSwitchToPreviousWagon:
                 {
-                    terminus.switchToPreviousWagon()
+                    terminus.buttonInput(6)
                 }
             }
 
             OrientationSensor
             {
-                id: orientation
+                id: orientationSensor
                 dataRate: 50
                 active: true
                 onReadingChanged:
                 {
                     if (reading.orientation === OrientationReading.LeftUp)
                     {
-                        gyro.orientation_multiplier = 2
+                        gyro.orientation = 1
                     }
                     if (reading.orientation === OrientationReading.RightUp)
                     {
-                        gyro.orientation_multiplier = -2
+                        gyro.orientation = -1
                     }
                 }
             }
@@ -143,40 +119,19 @@ Item
             Gyroscope
             {
                 id: gyro
-                dataRate: 100
+                dataRate: 50
                 active: true
 
-                property int orientation_multiplier: -2
+                property int orientation: -1
 
                 onReadingChanged:
                 {
-                    terminus.gyroMoveEvent(gyro.reading.x * orientation_multiplier
-                                     , gyro.reading.y * orientation_multiplier)
+                    terminus.moveInput(
+                                       4
+                                     , gyro.reading.x * 4 * orientation
+                                     , gyro.reading.y * 4 * orientation)
                 }
             }
-
-            /*MultiPointTouchArea
-            {
-                id: flick
-                anchors.fill: parent
-                minimumTouchPoints: 1
-                touchPoints:
-                [
-                    TouchPoint { id: touchF1 }
-                ]
-
-                onTouchUpdated:
-                {
-                    ui.flickEvent(touchF1.startX, touchF1.x);
-                }
-                onReleased:
-                {
-                    ui.flickReset();
-                }
-            }*/
         }
-
     } 
-
-
 }

@@ -19,8 +19,6 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
-, m_chargeProjectile(false)
-, m_chargeTime(0)
 , m_reloadProjectile(false)
 , m_reloadTime(0)
 {
@@ -43,31 +41,21 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    auto force = 4000.f;
-    auto aimDeviation = getAimDeviation();
+    auto force = 3000.f;
 
-    QVector3D worldProjectileForce = (m_train->player().camera().normalizedAimVector() + aimDeviation) * force;
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
-    m_chargeTime = 0;
-    m_chargeProjectile = false;
     m_reloadProjectile = true;
 }
 
 void WeaponWagon::primaryActionDebug()
 {
-    auto force = 4000.0;
-    auto aimDeviation = getAimDeviation();
+    auto force = 3000.0;
 
-    QVector3D worldProjectileForce = (m_train->player().camera().normalizedAimVector() + aimDeviation) * force;
-
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     fire(worldProjectileForce);
-}
-
-void WeaponWagon::setChargeProjectile(bool charge)
-{
-    m_chargeProjectile = charge;
 }
 
 void WeaponWagon::fire(QVector3D force)
@@ -95,25 +83,11 @@ bool WeaponWagon::isReloading() const
 void WeaponWagon::localUpdate()
 {
     Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
-    if(m_chargeProjectile && !m_reloadProjectile)
-    {
-        if(m_chargeTime < maxChargeMilliseconds())
-        {
-            if(m_chargeTime + frameDuration > maxChargeMilliseconds())
-            {
-                m_chargeTime = maxChargeMilliseconds();
-            }
-            else
-            {
-                m_chargeTime += frameDuration;
-            }
-        }
-    }
 
     if(m_reloadProjectile)
     {
         m_reloadTime += frameDuration;
-        if(m_reloadTime > 5000)
+        if(m_reloadTime > 2500)
         {
             m_reloadProjectile = false;
             m_reloadTime = 0;
@@ -146,40 +120,9 @@ WagonType WeaponWagon::wagonType() const
     return WEAPON_WAGON;
 }
 
-unsigned int WeaponWagon::chargeTime() const
-{
-    return m_chargeTime;
-}
-
 unsigned int WeaponWagon::reloadTime() const
 {
     return m_reloadTime;
-}
-
-unsigned int WeaponWagon::maxChargeMilliseconds() const
-{
-    return 3000;
-}
-
-QVector3D WeaponWagon::getAimDeviation() const
-{
-    auto localX = QVector3D(1.0, 0.0, 0.0);
-
-    auto globalY = QVector3D(0.0, 1.0, 0.0);
-
-    auto globalX = QVector3D::normal(localX, globalY);
-
-    auto aimDeviationFactorX = 0.5 * (0.5 - (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)));
-    auto aimDeviationFactorY = 0.25 * (0.5 - (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)));
-
-    auto aimDeviation = globalX * aimDeviationFactorX + globalY * aimDeviationFactorY;
-
-    // but only a bit of that will be applied - depending on charge
-    auto appliedDeviationFactor = 1.0 - (static_cast<float>(m_chargeTime) / static_cast<float>(maxChargeMilliseconds()));
-
-    auto appliedDeviation = aimDeviation * appliedDeviationFactor;
-
-    return appliedDeviation;
 }
 
 } //namespace terminus

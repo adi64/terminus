@@ -12,7 +12,6 @@ namespace terminus
 AIPlayer::AIPlayer(World & world, Train *train, Train *enemyTrain)
     : AbstractPlayer(world, train)
     , m_enemyTrain(enemyTrain)
-    , m_chargingMilliseconds(0)
     , m_targetEnemyWagon(nullptr)
 {
 
@@ -33,7 +32,7 @@ void AIPlayer::update()
     {
         if(!focusedWeaponWagon->isReloading())
         {
-            chargeAndFire(focusedWeaponWagon);
+            fire(focusedWeaponWagon);
         }
         else
         {
@@ -69,7 +68,7 @@ void AIPlayer::switchWagon()
     }
 }
 
-void AIPlayer::chargeAndFire(WeaponWagon * focusedWagon)
+void AIPlayer::fire(WeaponWagon * focusedWagon)
 {
     // find target
     if(!m_targetEnemyWagon)
@@ -87,22 +86,7 @@ void AIPlayer::chargeAndFire(WeaponWagon * focusedWagon)
     // set camera position accordingly
     m_camera.setEye(m_camera.center() - normalizedAimDirection);
 
-    // charge for a random amount of time in range 1000-2000ms
-    auto chargingThreshold = (rand() % 1000) + 1000; // this will be overwritten on each frame
-    if(m_chargingMilliseconds < chargingThreshold)
-    {
-        focusedWagon->setChargeProjectile(true);
-        m_chargingMilliseconds += m_world.timer().get("frameTimer");
-    }
-    else
-    {
-        // fire!
-        focusedWagon->primaryAction();
-        m_chargingMilliseconds = 0;
-
-        // next target
-        //m_targetEnemyWagon = m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
-    }
+    focusedWagon->primaryAction();
 }
 
 

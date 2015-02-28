@@ -33,6 +33,19 @@ void RepairWagon::primaryAction()
     }
 }
 
+void RepairWagon::localUpdate()
+{
+    std::string materialName = "base_Violet";
+    if(isDisabled())
+    {
+        materialName = "base_Grey";
+    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+
+    AbstractWagon::localUpdate();
+}
+
 void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
