@@ -39,7 +39,7 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    auto force = 4000.f;
+    auto force = 6000.f;
 
     QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     SoundManager::getInstance()->playSound("shot");
@@ -50,7 +50,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    auto force = 4000.0;
+    auto force = 6000.0;
 
     QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     fire(worldProjectileForce);

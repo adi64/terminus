@@ -11,6 +11,10 @@ Item
 
     property Game game: parent.game
 
+    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
+    property int cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
+    property int maxCooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["maxCooldown"]
+
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
@@ -20,6 +24,26 @@ Item
     {
         source: "qrc:/data/PlayerStatus.png"
         anchors.fill: parent
+    }
+
+    Rectangle
+    {
+        id: currentWagonCDBar
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height * 5 / 16
+        width: parent.width * 9 / 16
+        height: parent.height / 8
+        color: "white"
+
+        Rectangle
+        {
+            id: currentWagonCD
+            anchors.bottom: parent.bottom
+            width: parent.width * cooldown / maxCooldown
+            height: parent.height
+            color: "grey"
+        }
     }
 
     Item

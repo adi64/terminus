@@ -67,7 +67,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
         }
         break;
     case Qt::Key_Escape:
-    case Qt::Key_Q:
         QApplication::quit();
         break;
     case Qt::Key_Space:

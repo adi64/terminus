@@ -13,6 +13,5 @@ Item
     property Game game: parent.game
 
     EnemyStatusBar{}
-
     PlayerStatusBar{}
 }
