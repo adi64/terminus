@@ -2,14 +2,17 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <util/timer.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
+#include <world/world.h>
+#include <player/abstractplayer.h>
 
 namespace terminus
 {
@@ -19,7 +22,6 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
 , m_elapsedMilliseconds(0)
 , m_chargeProjectile(false)
 , m_reloadProjectile(false)
-, m_force(0.0f)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
@@ -40,7 +42,7 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * m_force;
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * 4000.0f;
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
@@ -51,7 +53,7 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_train->playerCamera().normalizedAimVector() * 4000.0;
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * 4000.0f;
 
     fire(worldProjectileForce);
 }
@@ -74,6 +76,7 @@ void WeaponWagon::fire(QVector3D force)
             projectile->moveTo(worldProjectilePosition);
             projectile->applyForce(force);
             m_world.addNode(projectile);
+            return false;
         }
     );
 
@@ -85,20 +88,19 @@ bool WeaponWagon::isReloading() const
     return m_reloadProjectile;
 }
 
-void WeaponWagon::localUpdate(int elapsedMilliseconds)
+void WeaponWagon::localUpdate()
 {
+    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
     if(m_chargeProjectile && !m_reloadProjectile)
     {
         if(m_elapsedMilliseconds < 3000)
         {
-            m_elapsedMilliseconds += elapsedMilliseconds;
+            m_elapsedMilliseconds += frameDuration;
         }
-
-        m_force = m_elapsedMilliseconds * 2.0;
     }
     if(m_reloadProjectile)
     {
-        m_elapsedMilliseconds += elapsedMilliseconds;
+        m_elapsedMilliseconds += frameDuration;
         if(m_elapsedMilliseconds > 5000)
         {
             m_reloadProjectile = false;
@@ -106,7 +108,7 @@ void WeaponWagon::localUpdate(int elapsedMilliseconds)
         }
     }
 
-    AbstractWagon::localUpdate(elapsedMilliseconds);
+    AbstractWagon::localUpdate();
 }
 
 void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const

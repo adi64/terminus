@@ -343,7 +343,6 @@ HEADERS += \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
-    source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/lightmanager.h \
@@ -369,13 +368,16 @@ HEADERS += \
     source/world/drawables/terrain.h \
     source/world/drawables/track.h \
     source/world/physics/abstractphysicsobject.h \
+    source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
+    source/player/remoteplayer.h \
+    source/world/world.h \
+    source/util/timer.h
     source/resources/light.h
 
 SOURCES += \
@@ -525,7 +527,6 @@ SOURCES += \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
-    source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
     source/resources/lightmanager.cpp \
@@ -549,14 +550,17 @@ SOURCES += \
     source/world/drawables/terrain.cpp \
     source/world/drawables/track.cpp \
     source/world/physics/abstractphysicsobject.cpp \
+    source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/world.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
+    source/player/remoteplayer.cpp \
+    source/world/world.cpp \
+    source/util/timer.cpp
     source/resources/light.cpp
 

@@ -2,14 +2,15 @@
 
 #include <QDebug>
 
+#include <util/timer.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/wagons/repairwagon.h>
 
 namespace terminus
 {
 
-AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTrain)
-    : AbstractPlayer(train)
+AIPlayer::AIPlayer(World & world, Train *train, Train *enemyTrain)
+    : AbstractPlayer(world, train)
     , m_enemyTrain(enemyTrain)
     , m_chargingMilliseconds(0)
     , m_targetEnemyWagon(nullptr)
@@ -17,9 +18,9 @@ AIPlayer::AIPlayer(std::shared_ptr<Train> train, std::shared_ptr<Train> enemyTra
 
 }
 
-void AIPlayer::update(int elapsedMilliseconds)
+void AIPlayer::update()
 {
-    AbstractPlayer::update(elapsedMilliseconds);
+    AbstractPlayer::update();
 
     if(m_train->wagonAt(m_selectedWagonIndex)->isDisabled())
     {
@@ -32,7 +33,7 @@ void AIPlayer::update(int elapsedMilliseconds)
     {
         if(!focusedWeaponWagon->isReloading())
         {
-            chargeAndFire(focusedWeaponWagon, elapsedMilliseconds);
+            chargeAndFire(focusedWeaponWagon);
         }
         else
         {
@@ -67,7 +68,7 @@ void AIPlayer::switchWagon()
     }
 }
 
-void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
+void AIPlayer::chargeAndFire(WeaponWagon * focusedWagon)
 {
     // find target
     if(!m_targetEnemyWagon)
@@ -90,7 +91,7 @@ void AIPlayer::chargeAndFire(WeaponWagon *focusedWagon, int elapsedMilliseconds)
     if(m_chargingMilliseconds < chargingThreshold)
     {
         focusedWagon->setChargeProjectile(true);
-        m_chargingMilliseconds += elapsedMilliseconds;
+        m_chargingMilliseconds += m_world.timer().get("frameTimer");
     }
     else
     {

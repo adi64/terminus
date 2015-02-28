@@ -10,7 +10,7 @@ class DynamicPhysicsObject : public AbstractPhysicsObject
 public:
     DynamicPhysicsObject(World & world);
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     /*!
      * \brief Apply central force

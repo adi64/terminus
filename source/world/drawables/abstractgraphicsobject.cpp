@@ -24,13 +24,13 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
 
 }
 
-void AbstractGraphicsObject::update(int elapsedMilliseconds)
+void AbstractGraphicsObject::update()
 {
-    localUpdate(elapsedMilliseconds);
+    localUpdate();
     doForAllChildren(
-        [elapsedMilliseconds](AbstractGraphicsObject & child)
+        [](AbstractGraphicsObject & child)
         {
-            child.update(elapsedMilliseconds);
+            child.update();
         });
 }
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
@@ -87,7 +87,7 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
-void AbstractGraphicsObject::localUpdate(int)
+void AbstractGraphicsObject::localUpdate()
 {
 }
 

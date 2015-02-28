@@ -94,7 +94,7 @@ void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> ca
     }
 }
 
-void Terrain::localUpdate(int elapsedMilliseconds)
+void Terrain::localUpdate()
 {
     QVector3D pos = position();
     QQuaternion rot = rotation();
@@ -103,7 +103,7 @@ void Terrain::localUpdate(int elapsedMilliseconds)
     transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
 
-    AbstractPhysicsObject::localUpdate(elapsedMilliseconds);
+    AbstractPhysicsObject::localUpdate();
 }
 
 void Terrain::localRender(QOpenGLFunctions& gl) const
@@ -121,6 +121,10 @@ void Terrain::localRender(QOpenGLFunctions& gl) const
             AbstractGraphicsObject::localRender(gl);
         }
     }
+
+    // render tracks
+    m_playerTrack->render(gl);
+    m_enemyTrack->render(gl);
 }
 
 void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const

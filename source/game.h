@@ -8,6 +8,7 @@
 
 #include <deferredactionhandler.h>
 #include <eventhandler.h>
+#include <util/timer.h>
 
 class QTimer;
 class QTime;
@@ -46,6 +47,8 @@ public:
     World & world() const;
 
     DeferredActionHandler & deferredActionHandler();
+
+    Timer & timer();
 
 public slots:
     /*!
@@ -87,11 +90,11 @@ protected:
 
     EventHandler m_eventHandler;
     DeferredActionHandler m_deferredActionHandler;
+    Timer m_timer;
 
     QOpenGLFunctions m_gl;
 
-    std::unique_ptr<QTimer> m_timer;
-    std::unique_ptr<QTime> m_timeStamp;
+    std::unique_ptr<QTimer> m_renderTrigger;
     bool m_paused;
     bool m_setupComplete;
 };

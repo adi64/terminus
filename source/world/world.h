@@ -9,10 +9,7 @@
 #include <bullet/btBulletDynamicsCommon.h>
 
 #include <world/camera.h>
-
 #include <deferredactionhandler.h>
-
-#include <resources/lightmanager.h>
 
 class QOpenGLFunctions;
 class QOpenGLShaderProgram;
@@ -37,9 +34,6 @@ class AbstractPhysicsObject;
 class World : public QObject
 {
     Q_OBJECT
-protected:
-    static void btStaticTickCallback(btDynamicsWorld * world, btScalar timeStep);
-
 public:
     /*!
      * \brief The one and only World constructor
@@ -59,10 +53,11 @@ public:
 
     ~World();
 
-    void update(int elapsedMilliseconds);
+    void update();
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+    Timer & timer();
 
     LightManager & lightManager();
 
@@ -72,20 +67,21 @@ public:
     void addNode(AbstractGraphicsObject * node);
     void deleteNode(AbstractGraphicsObject * node);
 
-    btDiscreteDynamicsWorld * bulletWorld();
-    void addCollisionMapping(const btCollisionObject * collisionObject, AbstractPhysicsObject * graphicsObject);
-    void removeCollisionMapping(const btCollisionObject * collisionObject);
-    AbstractPhysicsObject * getGraphicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
-
-protected:
-    void setupBullet();
-    void deleteBullet();
-    void btTickCallback(btDynamicsWorld * world, btScalar timeStep);
+    /*!
+     * \brief Returns a shared pointer to the corresponding BulletWorld
+     *
+     * This getter is mainly used in the constructor of AbstractPhysicsObject.
+     * AbstractPhysicsObjects that need to operate on the BulletWorld should not
+     * call it via this getter, but use their own stored copy.
+     */
+    std::shared_ptr<BulletWorld> bulletWorld();
 
 protected:
     Game & m_game;
 
     LightManager m_lightManager;
+
+    std::shared_ptr<BulletWorld> m_bulletWorld;
 
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
