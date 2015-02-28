@@ -15,10 +15,10 @@ uniform mat4 mView;
 
 const int lightCount = 8;
 const int lightComponents = 3;
-const int LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
-const int LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
-const int LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
-const int LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+const float LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
+const float LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
+const float LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
+const float LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 uniform vec4 light[lightCount * lightComponents];
 //LightFormat:
 ////position3 type1;
@@ -44,7 +44,7 @@ void main()
     {
         //extract light parameters
         int iBase = i * lightComponents;
-        int type = light[iBase].w;
+        float type = light[iBase].w;
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));
@@ -58,7 +58,7 @@ void main()
         float quadAttenuation = 1.0 / (intensity * intensity);
         float cutoff = light[iBase+2].w;
         float cutoffEnd = floor(cutoff) * 3.141593 / 180.0;
-        float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2);
+        float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2.0);
 
         //phong model
         vec3 v = normalize(-v_position);
