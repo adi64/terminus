@@ -11,10 +11,10 @@ uniform mat4 mView;
 
 const int lightCount = 8;
 const int lightComponents = 3;
-const int LIGHT_AMBIENT       = 0.0;
-const int LIGHT_DIRECTIONAL   = 1.0;
-const int LIGHT_POINT         = 2.0;
-const int LIGHT_SPOT          = 3.0;
+const float LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
+const float LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
+const float LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
+const float LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
 uniform vec4 light[lightCount * lightComponents];
 //light format:
 //  +0 - position3 type1;
@@ -32,7 +32,7 @@ void main()
     {
         //extract light parameters
         int iBase = i * lightComponents;
-        int type = light[iBase].w;
+        float type = light[iBase].w;
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));
@@ -46,7 +46,7 @@ void main()
         float quadAttenuation = 1.0 / (intensity * intensity);
         float cutoff = light[iBase+2].w;
         float cutoffEnd = floor(cutoff) * 3.141593 / 180.0;
-        float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2);
+        float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2.0);
 
         //phong model
         vec3 v = normalize(-v_position);
@@ -60,7 +60,7 @@ void main()
 
         float fSpot = mix(1.0, smoothstep(cos(cutoffEnd), cos(cutoffBegin), clamp(dot(l, d), 0.0, 1.0)), isLightS);
         float fDiffuse = mix(1.0, clamp(dot(l, n), 0.0, 1.0), isLightDPS);
-        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity), isLightDPS);
+        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity.r), isLightDPS);
 
         vec3 diffuse = cDiffuse.rgb * fDiffuse;
         vec3 specular = cSpecular.rgb * fSpecular;
