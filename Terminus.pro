@@ -363,6 +363,7 @@ HEADERS += \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
+    source/util/timer.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
@@ -376,6 +377,7 @@ HEADERS += \
     source/world/drawables/terrain.h \
     source/world/drawables/track.h \
     source/world/physics/abstractphysicsobject.h \
+    source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
@@ -550,6 +552,7 @@ SOURCES += \
     source/util/mathutil.cpp \
     source/util/perlinnoise.cpp \
     source/util/polyline.cpp \
+    source/util/timer.cpp \
     source/world/drawables/train/wagons/abstractwagon.cpp \
     source/world/drawables/train/wagons/enginewagon.cpp \
     source/world/drawables/train/wagons/repairwagon.cpp \
@@ -562,6 +565,7 @@ SOURCES += \
     source/world/drawables/terrain.cpp \
     source/world/drawables/track.cpp \
     source/world/physics/abstractphysicsobject.cpp \
+    source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \

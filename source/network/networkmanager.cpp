@@ -97,7 +97,7 @@ void NetworkManager::newCommand(AbstractCommand *command)
 {
     qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
-    m_game.world().scheduleAction( [=](){ command->run(); delete command; } );
+    m_game.world().scheduleAction( [=](){ command->run(); delete command; return false; } );
 }
 
 } // namespace terminus

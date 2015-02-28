@@ -14,7 +14,7 @@ public:
     virtual void primaryAction();
     virtual void primaryActionDebug();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     virtual float maxHealth() const;
     virtual float currentHealth() const;
@@ -26,6 +26,10 @@ public:
     virtual bool isDisabled() const;
 
     virtual void setPositionOffset(float accumulatedOffset);
+
+protected:
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
 
 protected:
     float m_positionOffset;

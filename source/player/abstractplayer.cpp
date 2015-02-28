@@ -3,31 +3,29 @@
 #include <world/camera.h>
 #include <world/drawables/train/train.h>
 
-terminus::AbstractPlayer::AbstractPlayer(std::shared_ptr<Train> train)
-: m_train(train)
+namespace terminus
+{
+
+AbstractPlayer::AbstractPlayer(World & world, Train *train)
+: m_world(world)
+, m_train(train)
 , m_selectedWagonIndex(0)
 {
-    //TODO: give train player pointer
-    m_train->setPlayerCamera(std::shared_ptr<Camera>(&m_camera));
+    m_train->setPlayer(this);
     m_camera.lockToObject(train->wagonAt(m_selectedWagonIndex));
 }
 
-terminus::Camera & terminus::AbstractPlayer::camera()
+Camera & AbstractPlayer::camera()
 {
     return m_camera;
 }
 
-terminus::Train & terminus::AbstractPlayer::train()
-{
-    return (*m_train);
-}
-
-unsigned int terminus::AbstractPlayer::selectedWagonIndex() const
+unsigned int AbstractPlayer::selectedWagonIndex() const
 {
     return m_selectedWagonIndex;
 }
 
-void terminus::AbstractPlayer::switchToNextWagon()
+void AbstractPlayer::switchToNextWagon()
 {
     if(m_camera.isLocked() && (m_selectedWagonIndex + 1 < m_train->size()))
     {
@@ -36,7 +34,7 @@ void terminus::AbstractPlayer::switchToNextWagon()
     }
 }
 
-void terminus::AbstractPlayer::switchToPreviousWagon()
+void AbstractPlayer::switchToPreviousWagon()
 {
     if(m_camera.isLocked() && (m_selectedWagonIndex > 0))
     {
@@ -45,22 +43,19 @@ void terminus::AbstractPlayer::switchToPreviousWagon()
     }
 }
 
-void terminus::AbstractPlayer::primaryAction()
+void AbstractPlayer::primaryAction()
 {
     m_train->wagonAt(m_selectedWagonIndex)->primaryAction();
 }
 
-void terminus::AbstractPlayer::primaryActionDebug()
+void AbstractPlayer::primaryActionDebug()
 {
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
-void terminus::AbstractPlayer::setNetworkEndpoint(std::shared_ptr<terminus::NetworkEndpoint> networkEndpoint)
-{
-    m_networkEndpoint = networkEndpoint;
-}
-
-void terminus::AbstractPlayer::update(int elapsedMilliseconds)
+void AbstractPlayer::update()
 {
     m_camera.update();
 }
+
+} // namespace terminus

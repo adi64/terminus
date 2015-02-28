@@ -7,9 +7,10 @@
 #include <QDebug>
 #include <QOpenGLFunctions>
 
+#include <util/mathutil.h>
+#include <util/timer.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/wagons/enginewagon.h>
-#include <util/mathutil.h>
 
 namespace terminus
 {
@@ -19,6 +20,7 @@ Train::Train(World & world, Track * track)
 : AbstractGraphicsObject(world)
 , m_hasEngine(false)
 , m_velocity(base_velocity)
+, m_followedTrain(nullptr)
 , m_travelledDistance(0.0f)
 , m_track(track)
 {
@@ -67,7 +69,7 @@ void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
     calculateWagonOffset();
 }
 
-void Train::localUpdate(int elapsedMilliseconds)
+void Train::localUpdate()
 {
     if(m_followedTrain)
     {
@@ -76,7 +78,7 @@ void Train::localUpdate(int elapsedMilliseconds)
     }
 
     // move forward
-    m_travelledDistance += m_velocity * elapsedMilliseconds;
+    m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
 
     // TODO FIXME - this wraps the train
     if(m_travelledDistance > m_track->length())
@@ -101,8 +103,9 @@ Track *Train::track() const
     return m_track;
 }
 
-void Train::follow(std::shared_ptr<Train> train)
+void Train::follow(Train *train)
 {
+    assert(train);
     m_followedTrain = train;
 }
 
@@ -130,14 +133,16 @@ unsigned int Train::size() const
     return m_wagons.size();
 }
 
-Camera &Train::playerCamera() const
+void Train::setPlayer(AbstractPlayer *player)
 {
-    return (*m_playerCamera);
+    assert(player);
+    m_player = player;
 }
 
-void Train::setPlayerCamera(std::shared_ptr<Camera> camera)
+AbstractPlayer &Train::player() const
 {
-    m_playerCamera = camera;
+    assert(m_player);
+    return *m_player;
 }
 
 bool Train::localRenderEnabled() const

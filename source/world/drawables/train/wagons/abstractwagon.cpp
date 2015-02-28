@@ -30,7 +30,7 @@ void AbstractWagon::primaryActionDebug()
 
 }
 
-void AbstractWagon::localUpdate(int elapsedMilliseconds)
+void AbstractWagon::localUpdate()
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
@@ -40,7 +40,7 @@ void AbstractWagon::localUpdate(int elapsedMilliseconds)
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
-    KinematicPhysicsObject::localUpdate(elapsedMilliseconds);
+    KinematicPhysicsObject::localUpdate();
 }
 
 float AbstractWagon::maxHealth() const
@@ -91,6 +91,16 @@ bool AbstractWagon::isDisabled() const
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
+}
+
+short AbstractWagon::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
+}
+
+short AbstractWagon::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
 }
 
 }//namespace terminus
