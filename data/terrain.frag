@@ -39,9 +39,10 @@ void main()
 
     vec3 color = cEmit.rgb;
 
-    for(int i = 0; i < maxLights; i++)
+    for(int i = 0; i < lightCount; i++)
     {
-        int type = lights[i].type;
+        int iBase = i * lightComponents;
+        int type = light[iBase].w;
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));

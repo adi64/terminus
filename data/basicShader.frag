@@ -57,7 +57,7 @@ void main()
         float fAttenuation = mix(1.0, 1.0 / (1.0 + linAttenuation * dist + quadAttenuation * dist * dist), isLightPS);
         float fSpot = mix(1.0, smoothstep(cutoffBegin, cutoffEnd, dot(d, l)), isLightS);
         float fDiffuse = mix(1.0, clamp(dot(l, n), 0.0, 1.0), isLightDPS);
-        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity), isLightDPS);
+        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity.r), isLightDPS);
 
         vec3 diffuse = cDiffuse.rgb * fDiffuse;
         vec3 specular = cSpecular.rgb * fSpecular;
