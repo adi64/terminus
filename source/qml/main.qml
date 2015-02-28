@@ -9,14 +9,12 @@ import Game 1.0
  *
  * enum InteractionType
  * {
- *      KeyboardPress = 0,
- *      KeyboardRelease = 1,
- *      MouseMovement = 2,
- *      TouchMovement = 3,
- *      GyroMovement = 4,
- *      NextWagonButton = 5,
- *      PrevWagonButton = 6,
- *      ActionButton = 7
+ *      MOUSE_MOVEMENT = 0,
+ *      TOUCH_MOVEMENT = 1,
+ *      GYRO_MOVEMENT = 2,
+ *      NEXT_WAGON_BUTTON = 3,
+ *      PREV_WAGON_BUTTON = 4,
+ *      ACTION_BUTTON = 5,
  *  };
  */
 
@@ -48,12 +46,7 @@ Item
 
             Keys.onPressed:
             {
-                terminus.keyInput(0, event.key)
-                event.accepted = true
-            }
-            Keys.onReleased:
-            {
-                terminus.keyInput(1, event.key)
+                terminus.keyInput(event.key)
                 event.accepted = true
             }
 
@@ -66,7 +59,7 @@ Item
                 enabled: Qt.platform.os === ("android" || "ios")? false : true
                 onPositionChanged:
                 {
-                    terminus.moveInput(2, mouse.x, mouse.y)
+                    terminus.moveInput(0, mouse.x, mouse.y)
                 }
             }
 
@@ -80,7 +73,7 @@ Item
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onFire:
                 {
-                    terminus.buttonInput(7)
+                    terminus.buttonInput(5)
                 }
             }
 
@@ -90,11 +83,11 @@ Item
                 //visible: Qt.platform.os === ("android" || "ios")? true : false
                 onSwitchToNextWagon:
                 {
-                    terminus.buttonInput(5)
+                    terminus.buttonInput(3)
                 }
                 onSwitchToPreviousWagon:
                 {
-                    terminus.buttonInput(6)
+                    terminus.buttonInput(4)
                 }
             }
 
@@ -127,7 +120,7 @@ Item
                 onReadingChanged:
                 {
                     terminus.moveInput(
-                                       4
+                                       2
                                      , gyro.reading.x * 4 * orientation
                                      , gyro.reading.y * 4 * orientation)
                 }

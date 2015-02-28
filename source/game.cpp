@@ -65,37 +65,30 @@ void Game::buttonInput(int type)
 {
     switch(type)
     {
-    case NextWagonButton:
+    case NEXT_WAGON_BUTTON:
         m_eventHandler.switchToNextWagon(); break;
-    case PrevWagonButton:
+    case PREV_WAGON_BUTTON:
         m_eventHandler.switchToPreviousWagon(); break;
-    case ActionButton:
+    case ACTION_BUTTON:
         m_eventHandler.touchFire(); break;
     default: break;
     }
 }
 
-void Game::keyInput(int type, Qt::Key key)
+void Game::keyInput(Qt::Key key)
 {
-    switch(type)
-    {
-    case KeyboardPress:
-        m_eventHandler.keyPressEvent(key); break;
-    case KeyboardRelease:
-        m_eventHandler.keyReleaseEvent(key); break;
-    default: break;
-    }
+    m_eventHandler.keyPressEvent(key);
 }
 
 void Game::moveInput(int type, qreal x, qreal y)
 {
     switch(type)
     {
-    case MouseMovement:
+    case MOUSE_MOVEMENT:
         m_eventHandler.mouseMoveEvent(x, y); break;
-    case TouchMovement:
-        m_eventHandler.touchMoveEvent(x, y); break;
-    case GyroMovement:
+    /*case TOUCH_MOVEMENT:
+        m_eventHandler.touchMoveEvent(x, y); break;*/
+    case GYRO_MOVEMENT:
         m_eventHandler.gyroMoveEvent(x, y); break;
     default: break;
     }

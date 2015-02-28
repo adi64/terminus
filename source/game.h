@@ -25,14 +25,12 @@ class Game : public QQuickItem
 
     enum InteractionType
     {
-        KeyboardPress = 0,
-        KeyboardRelease = 1,
-        MouseMovement = 2,
-        TouchMovement = 3,
-        GyroMovement = 4,
-        NextWagonButton = 5,
-        PrevWagonButton = 6,
-        ActionButton = 7
+        MOUSE_MOVEMENT = 0,
+        TOUCH_MOVEMENT = 1,
+        GYRO_MOVEMENT = 2,
+        NEXT_WAGON_BUTTON = 3,
+        PREV_WAGON_BUTTON = 4,
+        ACTION_BUTTON = 5
     };
 
 public:
@@ -63,7 +61,7 @@ public:
     Timer & timer();
 
     Q_INVOKABLE void buttonInput(int type);
-    Q_INVOKABLE void keyInput(int type, Qt::Key key);
+    Q_INVOKABLE void keyInput(Qt::Key key);
     Q_INVOKABLE void moveInput(int type, qreal x, qreal y);
 
 public slots:

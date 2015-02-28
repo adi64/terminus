@@ -18,8 +18,6 @@ namespace terminus
 
 EventHandler::EventHandler(Game *game)
     : m_game(game)
-    , m_flicked(false)
-    , m_flickResetted(false)
 {
 
 }
@@ -77,34 +75,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
     }
 }
 
-void EventHandler::keyReleaseEvent(Qt::Key key)
-{
-    Camera & camera = m_game->world().localPlayer().camera();
-    auto movement = camera.movement();
-
-    switch(key)
-    {
-    case Qt::Key_W:
-        movement.setZ(0.0);
-        camera.setMovement(movement);
-        break;
-    case Qt::Key_S:
-        movement.setZ(0.0);
-        camera.setMovement(movement);
-        break;
-    case Qt::Key_A:
-        movement.setX(0.0);
-        camera.setMovement(movement);
-        break;
-    case Qt::Key_D:
-        movement.setX(0.0);
-        camera.setMovement(movement);
-        break;
-    default:
-        break;
-    }
-}
-
 void EventHandler::mouseMoveEvent(qreal x, qreal y)
 {
     const double sensitivity = 0.5;
@@ -122,7 +92,7 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     QCursor::setPos(globalPosition);
 }
 
-void EventHandler::touchMoveEvent(qreal x, qreal y)
+/*void EventHandler::touchMoveEvent(qreal x, qreal y)
 {
     const double sensitivity = 0.05;
 
@@ -133,7 +103,7 @@ void EventHandler::touchMoveEvent(qreal x, qreal y)
     rotation *= QVector2D(-1.0, 1.0);
 
     m_game->world().localPlayer().camera().setRotation(rotation);
-}
+}*/
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
 {
