@@ -16,7 +16,6 @@ public:
     virtual ~EngineWagon();
 
     virtual void localUpdate() override;
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & m_program) const override;
 
     float length() const;
 

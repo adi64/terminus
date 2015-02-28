@@ -24,7 +24,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
-    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 16.f, 10.f.f, 0.1f));
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -39,11 +39,6 @@ void EngineWagon::localUpdate()
     light.setDirection(worldFront());
 
     AbstractWagon::localUpdate();
-}
-
-void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
-{
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
 
 void EngineWagon::playSound() const

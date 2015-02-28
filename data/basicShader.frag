@@ -11,15 +11,15 @@ uniform mat4 mView;
 
 const int lightCount = 8;
 const int lightComponents = 3;
-const int LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
-const int LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
-const int LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
-const int LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+const int LIGHT_AMBIENT       = 0.0;
+const int LIGHT_DIRECTIONAL   = 1.0;
+const int LIGHT_POINT         = 2.0;
+const int LIGHT_SPOT          = 3.0;
 uniform vec4 light[lightCount * lightComponents];
-//LightFormat:
-////position3 type1;
-////direction3 intensity1;
-////color3 cutoff1;
+//light format:
+//  +0 - position3 type1;
+//  +1 - direction3 intensity1;
+//  +2 - color3 cutoff1;
 
 varying vec3 v_normal;
 varying vec3 v_position;
@@ -50,16 +50,17 @@ void main()
 
         //phong model
         vec3 v = normalize(-v_position);
-        vec3 l = normalize(mix(lightDir, lightPos - v_position, isLightPS));
+        vec3 l = normalize(mix(-lightDir, lightPos - v_position, isLightPS));
         vec3 n = normalize(v_normal);
         vec3 h = normalize(l + v);
         vec3 d = normalize(lightDir);
 
         float dist = length(lightPos - v_position);
         float fAttenuation = mix(1.0, 1.0 / (1.0 + linAttenuation * dist + quadAttenuation * dist * dist), isLightPS);
-        float fSpot = mix(1.0, smoothstep(cutoffBegin, cutoffEnd, dot(d, l)), isLightS);
+
+        float fSpot = mix(1.0, smoothstep(cos(cutoffEnd), cos(cutoffBegin), clamp(dot(l, d), 0.0, 1.0)), isLightS);
         float fDiffuse = mix(1.0, clamp(dot(l, n), 0.0, 1.0), isLightDPS);
-        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity.r), isLightDPS);
+        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity), isLightDPS);
 
         vec3 diffuse = cDiffuse.rgb * fDiffuse;
         vec3 specular = cSpecular.rgb * fSpecular;

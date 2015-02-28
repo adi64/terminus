@@ -79,7 +79,7 @@ void Light::setIntensity(float intensity)
 
 void Light::setCutoff(float cutoffDegrees, float cutoffBorder)
 {
-    colorCutOff.setW(floor(cutoffDegrees) + MathUtil::clamp(0.f, 0.5, cutoffBorder * 0.5));
+    colorCutOff.setW(floor(MathUtil::clamp(0.f, 90.f, cutoffDegrees)) + MathUtil::clamp(0.f, 1.f, cutoffBorder) * 0.5f);
 }
 
 }// namespace terminus
