@@ -9,6 +9,7 @@
 #include <deferredactionhandler.h>
 #include <eventhandler.h>
 #include <util/timer.h>
+#include <world/renderer.h>
 
 class QTimer;
 class QTime;
@@ -90,6 +91,8 @@ protected:
     EventHandler m_eventHandler;
     DeferredActionHandler m_deferredActionHandler;
     Timer m_timer;
+
+    Renderer m_renderer;
 
     QOpenGLFunctions m_gl;
 

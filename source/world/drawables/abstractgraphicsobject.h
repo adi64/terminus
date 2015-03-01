@@ -18,6 +18,8 @@ namespace terminus
 
 class AbstractGraphicsObject
 {
+friend class Renderer;
+
 public:
     AbstractGraphicsObject(World & world);
     virtual ~AbstractGraphicsObject();
