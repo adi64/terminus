@@ -2,8 +2,6 @@
 
 #include "abstractwagon.h"
 
-#include <resources/lightmanager.h>
-
 namespace terminus
 {
 
@@ -15,14 +13,13 @@ public:
     EngineWagon(World & world, Train * train);
     virtual ~EngineWagon();
 
+    virtual void primaryAction() override;
+    float cooldownRate() const override;
     virtual void localUpdate() override;
 
     float length() const;
-
+    WagonType wagonType() const override;
     void playSound() const;
-
-protected:
-    LightManager::ID m_headLight;
 };
 
 }

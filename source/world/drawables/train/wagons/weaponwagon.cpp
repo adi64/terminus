@@ -2,16 +2,16 @@
 
 #include <QDebug>
 
-
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-#include <util/timer.h>
+
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
+
 #include <player/abstractplayer.h>
 
 namespace terminus
@@ -19,9 +19,6 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
-, m_elapsedMilliseconds(0)
-, m_chargeProjectile(false)
-, m_reloadProjectile(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
@@ -37,36 +34,32 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
-    if(isDisabled() || m_reloadProjectile)
+    if(isDisabled() || m_onCooldown)
     {
         return;
     }
 
-    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * 4000.0f;
+    auto force = 6000.f;
+
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileForce);
 
-    m_elapsedMilliseconds = 0;
-    m_chargeProjectile = false;
-    m_reloadProjectile = true;
+    m_onCooldown = true;
+    m_cooldown = 0.f;
 }
 
 void WeaponWagon::primaryActionDebug()
 {
-    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * 4000.0f;
+    auto force = 6000.0;
 
+    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
     fire(worldProjectileForce);
-}
-
-void WeaponWagon::setChargeProjectile(bool charge)
-{
-    m_chargeProjectile = charge;
 }
 
 void WeaponWagon::fire(QVector3D force)
 {
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
-
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
     m_world.scheduleAction(
@@ -79,34 +72,32 @@ void WeaponWagon::fire(QVector3D force)
             return false;
         }
     );
-
-    SoundManager::getInstance()->playSound("shot");
 }
 
-bool WeaponWagon::isReloading() const
+float WeaponWagon::cooldownRate() const
 {
-    return m_reloadProjectile;
+    return 3000.f;
+}
+
+float WeaponWagon::length() const
+{
+    return 7.5f;
+}
+
+WagonType WeaponWagon::wagonType() const
+{
+    return WEAPON_WAGON;
 }
 
 void WeaponWagon::localUpdate()
 {
-    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
-    if(m_chargeProjectile && !m_reloadProjectile)
+    std::string materialName = "base_Blue";
+    if(isDisabled())
     {
-        if(m_elapsedMilliseconds < 3000)
-        {
-            m_elapsedMilliseconds += frameDuration;
-        }
+        materialName = "base_Grey";
     }
-    if(m_reloadProjectile)
-    {
-        m_elapsedMilliseconds += frameDuration;
-        if(m_elapsedMilliseconds > 5000)
-        {
-            m_reloadProjectile = false;
-            m_elapsedMilliseconds = 0;
-        }
-    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::localUpdate();
 }
@@ -114,11 +105,6 @@ void WeaponWagon::localUpdate()
 void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-}
-
-float WeaponWagon::length() const
-{
-    return 7.5f;
 }
 
 } //namespace terminus

@@ -7,7 +7,9 @@
 
 #include <world/drawables/train/train.h>
 #include <world/drawables/track.h>
+
 #include <util/mathutil.h>
+#include <util/timer.h>
 
 namespace terminus
 {
@@ -16,13 +18,10 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
     : KinematicPhysicsObject(world)
     , m_health(maxHealth())
     , m_disabled(false)
+    , m_cooldown(1.0f)
+    , m_onCooldown(false)
     , m_train(train)
 {
-}
-
-void AbstractWagon::primaryAction()
-{
-
 }
 
 void AbstractWagon::primaryActionDebug()
@@ -32,11 +31,22 @@ void AbstractWagon::primaryActionDebug()
 
 void AbstractWagon::localUpdate()
 {
+    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
+    if(m_onCooldown)
+    {
+        m_cooldown += (frameDuration / cooldownRate());
+        if(m_cooldown >= 1.f)
+        {
+            m_cooldown = 1.f;
+            m_onCooldown = false;
+        }
+    }
+
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
-    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
+    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
@@ -46,6 +56,21 @@ void AbstractWagon::localUpdate()
 float AbstractWagon::maxHealth() const
 {
     return 100.f;
+}
+
+bool AbstractWagon::isOnCooldown() const
+{
+    return m_onCooldown;
+}
+
+float AbstractWagon::cooldown() const
+{
+    return m_cooldown;
+}
+
+float AbstractWagon::cooldownRate() const
+{
+    return 1.f;
 }
 
 float AbstractWagon::currentHealth() const
@@ -77,20 +102,29 @@ float AbstractWagon::length() const
     return 1.f;
 }
 
-float AbstractWagon::weight() const
-{
-    // weight in metric tons
-    return 1.f;
-}
-
 bool AbstractWagon::isDisabled() const
 {
     return m_disabled;
 }
 
+WagonType AbstractWagon::wagonType() const
+{
+    return INVALID;
+}
+
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
+}
+
+short AbstractWagon::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
+}
+
+short AbstractWagon::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
 }
 
 }//namespace terminus

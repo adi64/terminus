@@ -24,6 +24,7 @@ Projectile::Projectile(World & world)
     m_lifeTimer = m_world.timer().allocateTimer();
 
     initializePhysics(new btSphereShape(1.0), 1.f);
+    setScale(0.3f); //TODO scale collision sphere as well
 }
 
 Projectile::~Projectile()
@@ -71,6 +72,16 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
+}
+
+short Projectile::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
+}
+
+short Projectile::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
 }
 
 } //namespace terminus

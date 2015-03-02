@@ -14,13 +14,14 @@ public:
     void primaryAction() override;
     void primaryActionDebug() override;
 
-    void setChargeProjectile(bool charge);
+    void setAimVector(const QVector3D& aimVector);
 
-    bool isReloading() const;
+    float cooldownRate() const override;
+
+    WagonType wagonType() const override;
+    float length() const override;
 
     void localUpdate() override;
-    void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
-
     float length() const;
 
 protected:
@@ -33,9 +34,7 @@ protected:
     void fire(QVector3D force);
 
 protected:
-    int m_elapsedMilliseconds;
-    bool m_chargeProjectile;
-    bool m_reloadProjectile;
+    QVector3D m_normalizedAimVector;
 };
 
 }

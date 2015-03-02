@@ -12,7 +12,6 @@ namespace terminus
 AIPlayer::AIPlayer(World & world, Train *train, Train *enemyTrain)
     : AbstractPlayer(world, train)
     , m_enemyTrain(enemyTrain)
-    , m_chargingMilliseconds(0)
     , m_targetEnemyWagon(nullptr)
 {
 
@@ -31,9 +30,9 @@ void AIPlayer::update()
     auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_train->wagonAt(m_selectedWagonIndex));
     if(focusedWeaponWagon)
     {
-        if(!focusedWeaponWagon->isReloading())
+        if(!focusedWeaponWagon->isOnCooldown())
         {
-            chargeAndFire(focusedWeaponWagon);
+            fire(focusedWeaponWagon);
         }
         else
         {
@@ -54,6 +53,7 @@ void AIPlayer::update()
 
     // nothing was done at this point -- switch wagons
     switchWagon();
+
 }
 
 void AIPlayer::switchWagon()
@@ -68,7 +68,7 @@ void AIPlayer::switchWagon()
     }
 }
 
-void AIPlayer::chargeAndFire(WeaponWagon * focusedWagon)
+void AIPlayer::fire(WeaponWagon * focusedWagon)
 {
     // find target
     if(!m_targetEnemyWagon)
@@ -86,22 +86,7 @@ void AIPlayer::chargeAndFire(WeaponWagon * focusedWagon)
     // set camera position accordingly
     m_camera.setEye(m_camera.center() - normalizedAimDirection);
 
-    // charge time depends on how near we are to the enemy train (3sec max charge, 200m max train distance)
-    auto chargingThreshold = (aimDirection.length() / 200.0f) * 3000.0f;
-    if(m_chargingMilliseconds < chargingThreshold)
-    {
-        focusedWagon->setChargeProjectile(true);
-        m_chargingMilliseconds += m_world.timer().get("frameTimer");
-    }
-    else
-    {
-        // fire
-        focusedWagon->primaryAction();
-        m_chargingMilliseconds = 0;
-
-        // next target
-        //m_targetEnemyWagon = m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
-    }
+    focusedWagon->primaryAction();
 }
 
 

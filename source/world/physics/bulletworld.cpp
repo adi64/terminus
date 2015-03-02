@@ -44,7 +44,13 @@ BulletWorld::~BulletWorld()
 
 void BulletWorld::addRigidBody(btRigidBody *rigidBody)
 {
+    // Are you sure you want to add a rigid body without a collision group?
     m_bulletWorld->addRigidBody(rigidBody);
+}
+
+void BulletWorld::addRigidBody(btRigidBody *rigidBody, short group, short mask)
+{
+    m_bulletWorld->addRigidBody(rigidBody, group, mask);
 }
 
 void BulletWorld::removeRigidBody(btRigidBody *rigidBody)

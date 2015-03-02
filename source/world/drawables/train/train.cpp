@@ -46,9 +46,9 @@ void Train::removeWagon(unsigned int index)
 void Train::moveWagon(unsigned int wagonPos, unsigned int targetPos)
 {
     assert(wagonPos < m_wagons.size());
-    assert(wagonPos > 0);//can not move engine at index 0
+    assert(wagonPos > 0); // can not move engine at index 0
     assert(targetPos < m_wagons.size());
-    assert(targetPos > 0);//can not replace engine at index 0
+    assert(targetPos > 0); // can not replace engine at index 0
     if(targetPos == wagonPos)
     {
         return;
@@ -91,7 +91,7 @@ AbstractWagon *Train::wagonAt(unsigned int index) const
 {
     if(index >= m_wagons.size())
     {
-        qDebug() << index << " > " << m_wagons.size();
+        qDebug() << "Index: " << index << " > " << m_wagons.size() << " Wagons";
         return nullptr;
     }
 
@@ -156,7 +156,7 @@ void Train::calculateWagonOffset()
 
     float accumulatedOffset = -3.0f;
 
-    for(auto& wagon : m_wagons)
+    for(auto & wagon : m_wagons)
     {
         accumulatedOffset += 0.5f * wagon->length() + wagonGap;
         wagon->setPositionOffset(accumulatedOffset);

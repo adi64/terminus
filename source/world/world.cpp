@@ -7,7 +7,6 @@
 #include <QTime>
 
 #include <game.h>
-#include <resources/light.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/terrain.h>
 #include <world/drawables/skybox.h>
@@ -43,11 +42,6 @@ World::World(Game & game)
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
 
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
@@ -56,9 +50,7 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
+
     m_enemyTrain->follow(m_playerTrain.get());
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
@@ -150,6 +142,16 @@ void World::render(QOpenGLFunctions & gl) const
 LocalPlayer & World::localPlayer()
 {
     return *m_localPlayer;
+}
+
+Train & World::playerTrain()
+{
+    return *m_playerTrain;
+}
+
+Train & World::enemyTrain()
+{
+    return *m_enemyTrain;
 }
 
 Timer & World::timer()

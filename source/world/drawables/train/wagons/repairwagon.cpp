@@ -2,12 +2,13 @@
 
 #include <QDebug>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-#include <world/drawables/projectile.h>
+
+#include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -26,9 +27,41 @@ RepairWagon::~RepairWagon()
     deallocatePhysics();
 }
 
-
 void RepairWagon::primaryAction()
 {
+    if(isDisabled() || m_onCooldown)
+    {
+        return;
+    }
+
+    for(int i = 0; i < m_train->size(); i++)
+    {
+        auto wagon = m_train->wagonAt(i);
+        float missingHealth = wagon->maxHealth() - wagon->currentHealth();
+        float healing = wagon->currentHealth() + missingHealth / 4.f;
+        wagon->setHealth(healing);
+    }
+
+    m_onCooldown = true;
+    m_cooldown = 0.f;
+}
+
+float RepairWagon::cooldownRate() const
+{
+    return 10000.f;
+}
+
+void RepairWagon::localUpdate()
+{
+    std::string materialName = "base_Violet";
+    if(isDisabled())
+    {
+        materialName = "base_Grey";
+    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+
+    AbstractWagon::localUpdate();
 }
 
 void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
@@ -39,6 +72,11 @@ void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) cons
 float RepairWagon::length() const
 {
     return 7.5f;
+}
+
+WagonType RepairWagon::wagonType() const
+{
+    return REPAIR_WAGON;
 }
 
 } //namespace terminus

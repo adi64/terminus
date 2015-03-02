@@ -60,6 +60,9 @@ public:
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+
+    Train & playerTrain();
+    Train & enemyTrain();
     Timer & timer();
 
     LightManager & lightManager();
@@ -96,7 +99,5 @@ protected:
 
     std::vector<AbstractGraphicsObject*> m_objects;
 };
-
-
 
 }
