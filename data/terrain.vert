@@ -1,4 +1,4 @@
-precision highp float;
+precision mediump float;
 
 uniform mat4 mModel;
 uniform mat4 mView;
