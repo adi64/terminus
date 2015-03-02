@@ -13,6 +13,9 @@ public:
     EngineWagon(World & world, Train * train);
     virtual ~EngineWagon();
 
+    virtual void primaryAction() override;
+    float cooldownRate() const override;
+
     void localUpdate() override;
     void localRenderSetup(QOpenGLFunctions& gl, Program & m_program) const override;
 

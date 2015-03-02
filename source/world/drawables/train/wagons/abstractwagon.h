@@ -23,7 +23,7 @@ class AbstractWagon : public KinematicPhysicsObject
 public:
     AbstractWagon(World & world, Train * train);
 
-    virtual void primaryAction();
+    virtual void primaryAction() = 0;
     virtual void primaryActionDebug();
 
     virtual void localUpdate() override;
@@ -33,7 +33,7 @@ public:
     virtual float maxHealth() const;
 
     virtual float cooldown() const;
-    virtual float cooldownRate() const;
+    virtual float cooldownRate() const = 0;
     virtual bool isOnCooldown() const;
 
     virtual bool isDisabled() const;
