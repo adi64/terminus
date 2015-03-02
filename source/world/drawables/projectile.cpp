@@ -16,6 +16,7 @@ namespace terminus
 
 Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
+, m_active(true)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
@@ -62,11 +63,18 @@ float Projectile::damage() const
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
+    if(!m_active)
+    {
+        return;
+    }
+
     auto otherWagon = dynamic_cast<AbstractWagon*>(other);
     if(otherWagon)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
     }
+
+    m_active = false;
 }
 
 unsigned int Projectile::maxAgeInMilliseconds() const

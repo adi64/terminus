@@ -22,6 +22,41 @@ EventHandler::EventHandler(Game *game)
 
 }
 
+void EventHandler::buttonInput(int type)
+{
+    switch(type)
+    {
+    case NEXT_WAGON_BUTTON:
+        switchToNextWagon(); break;
+    case PREV_WAGON_BUTTON:
+        switchToPreviousWagon(); break;
+    case ACTION_BUTTON:
+        touchFire(); break;
+    case LEFT_MOUSE_BUTTON:
+        touchFire(); break;
+    default: break;
+    }
+}
+
+void EventHandler::keyInput(Qt::Key key)
+{
+    keyPressEvent(key);
+}
+
+void EventHandler::moveInput(int type, qreal x, qreal y)
+{
+    switch(type)
+    {
+    case MOUSE_MOVEMENT:
+        mouseMoveEvent(x, y); break;
+    /*case TOUCH_MOVEMENT:
+        touchMoveEvent(x, y); break;*/
+    case GYRO_MOVEMENT:
+        gyroMoveEvent(x, y); break;
+    default: break;
+    }
+}
+
 void EventHandler::keyPressEvent(Qt::Key key)
 {
     AbstractPlayer & player = m_game->world().localPlayer();

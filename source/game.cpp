@@ -19,6 +19,8 @@
 
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/track.h>
 #include <world/world.h>
 
 namespace terminus
@@ -64,37 +66,17 @@ Timer & Game::timer()
 
 void Game::buttonInput(int type)
 {
-    switch(type)
-    {
-    case NEXT_WAGON_BUTTON:
-        m_eventHandler.switchToNextWagon(); break;
-    case PREV_WAGON_BUTTON:
-        m_eventHandler.switchToPreviousWagon(); break;
-    case ACTION_BUTTON:
-        m_eventHandler.touchFire(); break;
-    case LEFT_MOUSE_BUTTON:
-        m_eventHandler.touchFire(); break;
-    default: break;
-    }
+    m_eventHandler.buttonInput(type);
 }
 
 void Game::keyInput(Qt::Key key)
 {
-    m_eventHandler.keyPressEvent(key);
+    m_eventHandler.keyInput(key);
 }
 
 void Game::moveInput(int type, qreal x, qreal y)
 {
-    switch(type)
-    {
-    case MOUSE_MOVEMENT:
-        m_eventHandler.mouseMoveEvent(x, y); break;
-    /*case TOUCH_MOVEMENT:
-        m_eventHandler.touchMoveEvent(x, y); break;*/
-    case GYRO_MOVEMENT:
-        m_eventHandler.gyroMoveEvent(x, y); break;
-    default: break;
-    }
+    m_eventHandler.moveInput(type, x, y);
 }
 
 void Game::sync()
@@ -205,6 +187,8 @@ void Game::updateQMLData()
     playerTrainMap.insert("totalWagons", playerTrain.size());
     playerTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
     playerTrainMap.insert("wagons", playerWagonList);
+    float progress = playerTrain.travelledDistance() / m_world->terrain().playerTrack()->length();
+    playerTrainMap.insert("progress", progress);
 
     QMap<QString, QVariant> enemyTrainMap;
     enemyTrainMap.insert("totalWagons", playerTrain.size());

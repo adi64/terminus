@@ -154,6 +154,11 @@ Train & World::enemyTrain()
     return *m_enemyTrain;
 }
 
+Terrain &World::terrain()
+{
+    return *m_terrain;
+}
+
 Timer & World::timer()
 {
     return m_game.timer();

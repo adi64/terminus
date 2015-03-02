@@ -37,6 +37,10 @@ void RepairWagon::primaryAction()
     for(int i = 0; i < m_train->size(); i++)
     {
         auto wagon = m_train->wagonAt(i);
+        if(wagon->isDisabled())
+        {
+            continue;
+        }
         float missingHealth = wagon->maxHealth() - wagon->currentHealth();
         float healing = wagon->currentHealth() + missingHealth / 4.f;
         wagon->setHealth(healing);

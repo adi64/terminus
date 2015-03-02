@@ -63,6 +63,7 @@ public:
 
     Train & playerTrain();
     Train & enemyTrain();
+    Terrain & terrain();
     Timer & timer();
 
     LightManager & lightManager();
