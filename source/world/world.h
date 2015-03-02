@@ -58,6 +58,7 @@ public:
 
     Train & playerTrain();
     Train & enemyTrain();
+    Terrain & terrain();
     Timer & timer();
 
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
