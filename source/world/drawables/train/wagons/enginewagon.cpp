@@ -4,12 +4,14 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+
+#include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -35,6 +37,8 @@ void EngineWagon::primaryAction()
     {
         return;
     }
+
+    m_train->setVelocity(m_train->velocity() + 0.002f);
 
     m_onCooldown = true;
     m_cooldown = 0.f;

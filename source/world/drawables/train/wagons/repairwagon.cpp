@@ -2,11 +2,13 @@
 
 #include <QDebug>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+
+#include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -30,6 +32,14 @@ void RepairWagon::primaryAction()
     if(isDisabled() || m_onCooldown)
     {
         return;
+    }
+
+    for(int i = 0; i < m_train->size(); i++)
+    {
+        auto wagon = m_train->wagonAt(i);
+        float missingHealth = wagon->maxHealth() - wagon->currentHealth();
+        float healing = wagon->currentHealth() + missingHealth / 4.f;
+        wagon->setHealth(healing);
     }
 
     m_onCooldown = true;
