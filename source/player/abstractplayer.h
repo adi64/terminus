@@ -29,8 +29,6 @@ public:
     void primaryActionCharge(bool charge = true);
 
     virtual void update();
-
-    Train &train();
 protected:
     World & m_world;
 

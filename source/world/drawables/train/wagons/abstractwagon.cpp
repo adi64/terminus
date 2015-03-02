@@ -16,7 +16,7 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
     : KinematicPhysicsObject(world)
     , m_health(maxHealth())
     , m_disabled(false)
-    , m_cooldown(0)
+    , m_cooldown(1.0f)
     , m_onCooldown(false)
     , m_train(train)
 {
@@ -55,14 +55,14 @@ bool AbstractWagon::isOnCooldown() const
     return m_onCooldown;
 }
 
-unsigned int AbstractWagon::cooldown() const
+float AbstractWagon::cooldown() const
 {
     return m_cooldown;
 }
 
-unsigned int AbstractWagon::maxCooldown() const
+float AbstractWagon::maxCooldown() const
 {
-    return 100;
+    return 1.f;
 }
 
 float AbstractWagon::currentHealth() const

@@ -19,8 +19,7 @@ Item
     property real health: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentHealth"] : 1
     property real maxHealth: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxHealth"] : 1
     property bool isDisabled: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["isDisabled"] : true
-    property int cooldown: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
-    property int maxCooldown: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["maxCooldown"] : 1
+    property real cooldown: load? game.qmlData["PlayerTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
     property int currentWagon: load? game.qmlData["PlayerTrain"]["currentWagon"] : -1
 
     anchors.top: parent.top
@@ -84,7 +83,7 @@ Item
         {
             id: playerWagonCurrentCooldown
             anchors.bottom: parent.bottom
-            width: parent.width * cooldown / maxCooldown
+            width: parent.width * (1 - cooldown)
             height: parent.height
             color: "grey"
         }

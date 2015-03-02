@@ -46,6 +46,7 @@ void WeaponWagon::primaryAction()
     fire(worldProjectileForce);
 
     m_onCooldown = true;
+    m_cooldown = 0.f;
 }
 
 void WeaponWagon::primaryActionDebug()
@@ -73,9 +74,9 @@ void WeaponWagon::fire(QVector3D force)
     );
 }
 
-unsigned int WeaponWagon::maxCooldown() const
+float WeaponWagon::cooldownRate() const
 {
-    return 3000;
+    return 3000.f;
 }
 
 float WeaponWagon::length() const
@@ -94,11 +95,11 @@ void WeaponWagon::localUpdate()
 
     if(m_onCooldown)
     {
-        m_cooldown += frameDuration;
-        if(m_cooldown > maxCooldown())
+        m_cooldown += (frameDuration / cooldownRate());
+        if(m_cooldown >= 1.f)
         {
+            m_cooldown = 1.f;
             m_onCooldown = false;
-            m_cooldown = 0;
         }
     }
 

@@ -12,8 +12,7 @@ Item
     property Game game: parent.game
 
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
-    property int cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
-    property int maxCooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["maxCooldown"]
+    property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
@@ -40,7 +39,7 @@ Item
         {
             id: currentWagonCD
             anchors.bottom: parent.bottom
-            width: parent.width * cooldown / maxCooldown
+            width: parent.width * (1 - cooldown)
             height: parent.height
             color: "grey"
         }

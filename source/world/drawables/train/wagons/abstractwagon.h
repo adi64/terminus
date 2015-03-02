@@ -32,9 +32,9 @@ public:
     virtual float currentHealth() const;
     virtual float maxHealth() const;
 
+    virtual float cooldown() const;
+    virtual float cooldownRate() const;
     virtual bool isOnCooldown() const;
-    virtual unsigned int cooldown() const;
-    virtual unsigned int maxCooldown() const;
 
     virtual bool isDisabled() const;
     virtual WagonType wagonType() const;
@@ -50,7 +50,7 @@ protected:
     float m_positionOffset;
     float m_health;
     bool m_disabled;
-    unsigned int m_cooldown;
+    float m_cooldown;
     bool m_onCooldown;
     Train *m_train;
 };
