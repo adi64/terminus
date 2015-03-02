@@ -25,13 +25,11 @@ uniform vec4 light[lightCount * lightComponents];
 //  +1 - direction3 intensity1;
 //  +2 - color3 cutoff1;
 
-varying vec3 v_normal;
-varying vec3 v_position;
+varying vec3 v_normalC;
+varying vec3 v_positionC;
+varying vec3 v_positionW;
 varying float v_color;
 varying float v_shade;
-
-float zfar = 1024.0;        //yeah, this shouldn't be hardcoded in the end, but its for Early Access and i don't have time right now
-float znear = 0.2;
 
 void main()
 {    
@@ -64,13 +62,13 @@ void main()
         float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2.0);
 
         //phong model
-        vec3 v = normalize(-v_position);
-        vec3 l = normalize(mix(-lightDir, lightPos - v_position, isLightPS));
-        vec3 n = normalize(v_normal);
+        vec3 v = normalize(-v_positionC);
+        vec3 l = normalize(mix(-lightDir, lightPos - v_positionC, isLightPS));
+        vec3 n = normalize(v_normalC);
         vec3 h = normalize(l + v);
         vec3 d = normalize(lightDir);
 
-        float dist = length(lightPos - v_position);
+        float dist = length(lightPos - v_positionC);
         float fAttenuation = mix(1.0, 1.0 / (1.0 + linAttenuation * dist + quadAttenuation * dist * dist), isLightPS);
 
         float fSpot = mix(1.0, smoothstep(cos(cutoffEnd), cos(cutoffBegin), clamp(dot(l, d), 0.0, 1.0)), isLightS);
@@ -82,15 +80,11 @@ void main()
         color += lightColor * (diffuse + specular) * fSpot * fAttenuation;
     }
 
-    //adjusting mist
-    vec4 mistColor = vec4(0.35, 0.35, 0.5, 1.0);
-    float depth = gl_FragCoord.z;
-    float density = 3.0;
-    float linDepth = - znear * depth / (zfar * depth - zfar - znear * depth);       //lineraize depth value
-    float mistiness = 1.0 - exp(-pow(density * linDepth, 2.0));
+    //fog calculation
+    float fFogHeight = smoothstep(25.0, 100.0, v_positionW.y);
+    vec3 fogColor = mix(vec3(0.4f, 0.43f, 0.5f), vec3(0.35, 0.4, 0.5), fFogHeight);
+    float fDensity = mix(0.015, 0.0025, fFogHeight);
+    float fFog = 1.0 - exp(-pow(fDensity * (-v_positionC.z), 2.0));
 
-    color = mix(color, mistColor.rgb, mistiness);
-
-    //use material specific transparency
-    gl_FragColor = vec4(color, fAlpha.r);
+    gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
 }

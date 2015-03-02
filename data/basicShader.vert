@@ -10,17 +10,21 @@ attribute vec3 a_position;
 attribute vec3 a_texCoord;
 attribute vec3 a_normal;
 
-varying vec3 v_normal;
-varying vec3 v_position;
-varying vec3 v_light;
+varying vec3 v_normalC;
+varying vec3 v_positionC;
+varying vec3 v_positionW;
 
 void main()
 {
+    //world space:
+    vec4 position4 = mModel * vec4(a_position, 1.0);
+    v_positionW = position4.xyz / position4.w;
+
     //camera space:
-    v_normal = mViewNorm * mModelNorm * a_normal;
-    vec4 position = mView * mModel * vec4(a_position, 1.0);
-    v_position = position.xyz / position.w;
-    v_light = mViewNorm * lightDirection;
+    v_normalC = mViewNorm * mModelNorm * a_normal;
+    position4 = mView * mModel * vec4(a_position, 1.0);
+    v_positionC = position4.xyz / position4.w;
+
     //screen space:
     gl_Position = mProjection * mView * mModel * vec4(a_position, 1.0);
 }
