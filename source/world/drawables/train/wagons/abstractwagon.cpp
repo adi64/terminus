@@ -60,7 +60,7 @@ float AbstractWagon::cooldown() const
     return m_cooldown;
 }
 
-float AbstractWagon::maxCooldown() const
+float AbstractWagon::cooldownRate() const
 {
     return 1.f;
 }

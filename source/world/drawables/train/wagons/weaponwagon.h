@@ -16,7 +16,7 @@ public:
 
     void setAimVector(const QVector3D& aimVector);
 
-    float maxCooldown() const override;
+    float cooldownRate() const override;
 
     WagonType wagonType() const override;
     float length() const override;
