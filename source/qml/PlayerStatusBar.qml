@@ -13,6 +13,7 @@ Item
 
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
     property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
+    property real progress: game.qmlData["PlayerTrain"]["progress"]
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
@@ -30,8 +31,8 @@ Item
         id: currentWagonCDBar
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height * 5 / 16
-        width: parent.width * 9 / 16
+        anchors.bottomMargin: parent.height * 4 / 16
+        width: parent.width * 17 / 32
         height: parent.height / 8
         color: "white"
 
@@ -40,6 +41,26 @@ Item
             id: currentWagonCD
             anchors.bottom: parent.bottom
             width: parent.width * (1 - cooldown)
+            height: parent.height
+            color: "grey"
+        }
+    }
+
+    Rectangle
+    {
+        id: currentLevelProgressBar
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height * 1 / 16
+        width: parent.width * 9 / 16
+        height: parent.height / 8
+        color: "white"
+
+        Rectangle
+        {
+            id: currentLevelProgress
+            anchors.bottom: parent.bottom
+            width: parent.width * progress
             height: parent.height
             color: "grey"
         }
