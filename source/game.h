@@ -23,17 +23,6 @@ class Game : public QQuickItem
     Q_OBJECT
     Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
 
-    enum InteractionType
-    {
-        MOUSE_MOVEMENT = 0,
-        TOUCH_MOVEMENT = 1,
-        GYRO_MOVEMENT = 2,
-        NEXT_WAGON_BUTTON = 3,
-        PREV_WAGON_BUTTON = 4,
-        ACTION_BUTTON = 5,
-        LEFT_MOUSE_BUTTON = 6
-    };
-
 public:
     /*!
      * \brief The one and only Game constructor

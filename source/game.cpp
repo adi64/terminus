@@ -63,37 +63,17 @@ Timer & Game::timer()
 
 void Game::buttonInput(int type)
 {
-    switch(type)
-    {
-    case NEXT_WAGON_BUTTON:
-        m_eventHandler.switchToNextWagon(); break;
-    case PREV_WAGON_BUTTON:
-        m_eventHandler.switchToPreviousWagon(); break;
-    case ACTION_BUTTON:
-        m_eventHandler.touchFire(); break;
-    case LEFT_MOUSE_BUTTON:
-        m_eventHandler.touchFire(); break;
-    default: break;
-    }
+    m_eventHandler.buttonInput(type);
 }
 
 void Game::keyInput(Qt::Key key)
 {
-    m_eventHandler.keyPressEvent(key);
+    m_eventHandler.keyInput(key);
 }
 
 void Game::moveInput(int type, qreal x, qreal y)
 {
-    switch(type)
-    {
-    case MOUSE_MOVEMENT:
-        m_eventHandler.mouseMoveEvent(x, y); break;
-    /*case TOUCH_MOVEMENT:
-        m_eventHandler.touchMoveEvent(x, y); break;*/
-    case GYRO_MOVEMENT:
-        m_eventHandler.gyroMoveEvent(x, y); break;
-    default: break;
-    }
+    m_eventHandler.moveInput(type, x, y);
 }
 
 void Game::sync()
