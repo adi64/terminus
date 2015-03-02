@@ -13,8 +13,10 @@ public:
 
     void primaryAction() override;
 
+    void localUpdate() override;
     void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
-    float length() const;
+    float length() const override;
+    WagonType wagonType() const override;
 };
 
 }

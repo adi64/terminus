@@ -12,6 +12,7 @@
 
 class QTimer;
 class QTime;
+class QVariant;
 
 namespace terminus
 {
@@ -20,6 +21,18 @@ class World;
 class Game : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
+
+    enum InteractionType
+    {
+        MOUSE_MOVEMENT = 0,
+        TOUCH_MOVEMENT = 1,
+        GYRO_MOVEMENT = 2,
+        NEXT_WAGON_BUTTON = 3,
+        PREV_WAGON_BUTTON = 4,
+        ACTION_BUTTON = 5,
+        LEFT_MOUSE_BUTTON = 6
+    };
 
 public:
     /*!
@@ -44,10 +57,13 @@ public:
     ~Game();
 
     World & world() const;
-
+    QVariant & qmlData();
     DeferredActionHandler & deferredActionHandler();
-
     Timer & timer();
+
+    Q_INVOKABLE void buttonInput(int type);
+    Q_INVOKABLE void keyInput(Qt::Key key);
+    Q_INVOKABLE void moveInput(int type, qreal x, qreal y);
 
 public slots:
     /*!
@@ -67,15 +83,6 @@ public slots:
     void render();
     void cleanup();
     void handleWindowChanged(QQuickWindow* win);
-    void keyPressEvent(Qt::Key key);
-    void keyReleaseEvent(Qt::Key key);
-    void mouseMoveEvent(qreal x, qreal y);
-    void touchMoveEvent(qreal x, qreal y);
-    void gyroMoveEvent(qreal x, qreal y);
-    void flickEvent(qreal startX, qreal x);
-    void flickReset();
-    void touchChargeFire();
-    void touchFire();
 
     /*!
      * \brief Pause or continue ingame time
@@ -84,13 +91,19 @@ public slots:
     void setPaused(bool paused);
     void togglePaused();
 
+signals:
+    void qmlDataChanged();
+
 protected:
+    void updateQMLData();
+
     std::unique_ptr<World> m_world;
 
     EventHandler m_eventHandler;
     DeferredActionHandler m_deferredActionHandler;
     Timer m_timer;
 
+    QVariant m_qmlData;
     QOpenGLFunctions m_gl;
 
     std::unique_ptr<QTimer> m_renderTrigger;

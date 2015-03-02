@@ -55,6 +55,9 @@ public:
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+
+    Train & playerTrain();
+    Train & enemyTrain();
     Timer & timer();
 
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
@@ -87,7 +90,5 @@ protected:
 
     std::vector<AbstractGraphicsObject*> m_objects;
 };
-
-
 
 }

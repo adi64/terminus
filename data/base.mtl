@@ -40,6 +40,13 @@ uniform cDiffuse 0.480000 0.080000 0.800000
 uniform cSpecular 0.800000 0.500000 1.000000
 uniform fAlpha 1.000000
 
+newmtl Grey
+uniform fSpecularity 64
+uniform cEmit 0.100000 0.100000 0.100000
+uniform cDiffuse 0.400000 0.400000 0.400000
+uniform cSpecular 0.800000 0.800000 0.800000
+uniform fAlpha 1.000000
+
 newmtl Terrain
 uniform fSpecularitySnow 512
 uniform cAmbientSnow 0.100000 0.125000 0.175000

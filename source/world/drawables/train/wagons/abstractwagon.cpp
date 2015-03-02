@@ -16,6 +16,8 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
     : KinematicPhysicsObject(world)
     , m_health(maxHealth())
     , m_disabled(false)
+    , m_cooldown(1.0f)
+    , m_onCooldown(false)
     , m_train(train)
 {
 }
@@ -36,7 +38,7 @@ void AbstractWagon::localUpdate()
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
     float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
-    setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
+    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
@@ -46,6 +48,21 @@ void AbstractWagon::localUpdate()
 float AbstractWagon::maxHealth() const
 {
     return 100.f;
+}
+
+bool AbstractWagon::isOnCooldown() const
+{
+    return m_onCooldown;
+}
+
+float AbstractWagon::cooldown() const
+{
+    return m_cooldown;
+}
+
+float AbstractWagon::maxCooldown() const
+{
+    return 1.f;
 }
 
 float AbstractWagon::currentHealth() const
@@ -77,15 +94,14 @@ float AbstractWagon::length() const
     return 1.f;
 }
 
-float AbstractWagon::weight() const
-{
-    // weight in metric tons
-    return 1.f;
-}
-
 bool AbstractWagon::isDisabled() const
 {
     return m_disabled;
+}
+
+WagonType AbstractWagon::wagonType() const
+{
+    return INVALID;
 }
 
 void AbstractWagon::setPositionOffset(float accumulatedOffset)

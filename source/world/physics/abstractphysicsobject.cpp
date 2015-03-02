@@ -54,5 +54,4 @@ void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
 {
 
 }
-
 }

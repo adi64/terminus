@@ -7,7 +7,6 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-#include <world/drawables/projectile.h>
 
 namespace terminus
 {
@@ -26,9 +25,25 @@ RepairWagon::~RepairWagon()
     deallocatePhysics();
 }
 
-
 void RepairWagon::primaryAction()
 {
+    if(isDisabled())
+    {
+        return;
+    }
+}
+
+void RepairWagon::localUpdate()
+{
+    std::string materialName = "base_Violet";
+    if(isDisabled())
+    {
+        materialName = "base_Grey";
+    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+
+    AbstractWagon::localUpdate();
 }
 
 void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
@@ -39,6 +54,11 @@ void RepairWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) cons
 float RepairWagon::length() const
 {
     return 7.5f;
+}
+
+WagonType RepairWagon::wagonType() const
+{
+    return REPAIR_WAGON;
 }
 
 } //namespace terminus

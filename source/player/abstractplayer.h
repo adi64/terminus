@@ -29,7 +29,6 @@ public:
     void primaryActionCharge(bool charge = true);
 
     virtual void update();
-
 protected:
     World & m_world;
 
