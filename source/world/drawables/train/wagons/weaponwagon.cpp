@@ -67,6 +67,7 @@ void WeaponWagon::fire(QVector3D force)
         {
             auto projectile = new Projectile(m_world);
             projectile->moveTo(worldProjectilePosition);
+            projectile->setLinearVelocity(worldFront() * m_train->velocity());
             projectile->applyForce(force);
             m_world.addNode(projectile);
             return false;
