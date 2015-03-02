@@ -29,6 +29,22 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
+void EngineWagon::primaryAction()
+{
+    if(isDisabled() || m_onCooldown)
+    {
+        return;
+    }
+
+    m_onCooldown = true;
+    m_cooldown = 0.f;
+}
+
+float EngineWagon::cooldownRate() const
+{
+    return 15000.f;
+}
+
 void EngineWagon::localUpdate()
 {
     std::string materialName = "base_Orange";

@@ -27,10 +27,18 @@ RepairWagon::~RepairWagon()
 
 void RepairWagon::primaryAction()
 {
-    if(isDisabled())
+    if(isDisabled() || m_onCooldown)
     {
         return;
     }
+
+    m_onCooldown = true;
+    m_cooldown = 0.f;
+}
+
+float RepairWagon::cooldownRate() const
+{
+    return 10000.f;
 }
 
 void RepairWagon::localUpdate()

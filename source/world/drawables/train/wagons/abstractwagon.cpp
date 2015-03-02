@@ -7,7 +7,9 @@
 
 #include <world/drawables/train/train.h>
 #include <world/drawables/track.h>
+
 #include <util/mathutil.h>
+#include <util/timer.h>
 
 namespace terminus
 {
@@ -22,11 +24,6 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
 {
 }
 
-void AbstractWagon::primaryAction()
-{
-
-}
-
 void AbstractWagon::primaryActionDebug()
 {
 
@@ -34,6 +31,17 @@ void AbstractWagon::primaryActionDebug()
 
 void AbstractWagon::localUpdate()
 {
+    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
+    if(m_onCooldown)
+    {
+        m_cooldown += (frameDuration / cooldownRate());
+        if(m_cooldown >= 1.f)
+        {
+            m_cooldown = 1.f;
+            m_onCooldown = false;
+        }
+    }
+
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);

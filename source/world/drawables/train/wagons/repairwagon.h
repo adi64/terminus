@@ -11,7 +11,8 @@ public:
     RepairWagon(World & world, Train * train);
     virtual ~RepairWagon();
 
-    void primaryAction() override;
+    virtual void primaryAction() override;
+    float cooldownRate() const override;
 
     void localUpdate() override;
     void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;

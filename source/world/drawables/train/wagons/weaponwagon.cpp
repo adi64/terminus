@@ -2,16 +2,16 @@
 
 #include <QDebug>
 
-
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-#include <util/timer.h>
+
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
+
 #include <player/abstractplayer.h>
 
 namespace terminus
@@ -91,18 +91,6 @@ WagonType WeaponWagon::wagonType() const
 
 void WeaponWagon::localUpdate()
 {
-    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
-
-    if(m_onCooldown)
-    {
-        m_cooldown += (frameDuration / cooldownRate());
-        if(m_cooldown >= 1.f)
-        {
-            m_cooldown = 1.f;
-            m_onCooldown = false;
-        }
-    }
-
     std::string materialName = "base_Blue";
     if(isDisabled())
     {
