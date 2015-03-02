@@ -11,12 +11,13 @@ public:
     RepairWagon(World & world, Train * train);
     virtual ~RepairWagon();
 
-    virtual void primaryAction() override;
-    float cooldownRate() const override;
+    virtual void localUpdate() override;
 
-    void localUpdate() override;
-    float length() const override;
-    WagonType wagonType() const override;
+    virtual void primaryAction() override;
+    virtual float cooldownRate() const override;
+
+    virtual float length() const override;
+    virtual WagonType wagonType() const override;
 };
 
 }

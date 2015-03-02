@@ -571,6 +571,5 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/world/world.cpp \
     source/resources/light.cpp
 
