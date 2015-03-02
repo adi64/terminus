@@ -1,5 +1,7 @@
 #pragma once
 
+#include <resources/lightmanager.h>
+
 #include "abstractwagon.h"
 
 namespace terminus
@@ -13,16 +15,18 @@ public:
     EngineWagon(World & world, Train * train);
     virtual ~EngineWagon();
 
+    virtual void localUpdate() override;
+
     virtual void primaryAction() override;
-    float cooldownRate() const override;
+    virtual float cooldownRate() const override;
 
-    void localUpdate() override;
-    void localRenderSetup(QOpenGLFunctions& gl, Program & m_program) const override;
-
-    float length() const override;
-    WagonType wagonType() const override;
+    virtual float length() const override;
+    virtual WagonType wagonType() const override;
 
     void playSound() const;
+
+protected:
+    LightManager::ID m_headLight;
 };
 
 }

@@ -11,18 +11,15 @@ public:
     WeaponWagon(World & world, Train *train);
     virtual ~WeaponWagon();
 
-    void primaryAction() override;
-    void primaryActionDebug() override;
+    virtual void localUpdate() override;
 
-    void setAimVector(const QVector3D& aimVector);
+    virtual void primaryAction() override;
+    virtual void primaryActionDebug() override;
+    virtual float cooldownRate() const override;
+    void setAimVector(const QVector3D & aimVector);
 
-    float cooldownRate() const override;
-
-    WagonType wagonType() const override;
-    float length() const override;
-
-    void localUpdate() override;
-    void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
+    virtual WagonType wagonType() const override;
+    virtual float length() const override;
 
 protected:
     /*!

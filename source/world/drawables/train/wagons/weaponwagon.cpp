@@ -103,9 +103,4 @@ void WeaponWagon::localUpdate()
     AbstractWagon::localUpdate();
 }
 
-void WeaponWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
-{
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
-}
-
 } //namespace terminus

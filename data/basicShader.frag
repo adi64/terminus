@@ -6,38 +6,73 @@ uniform vec4 cDiffuse;
 uniform vec4 cSpecular;
 uniform vec4 fAlpha;
 
-varying vec3 v_normal;
-varying vec3 v_position;
-varying vec3 v_light;
+uniform mat3 mViewNorm;
+uniform mat4 mView;
 
-float zfar = 1024.0;        //yeah, this shouldn't be hardcoded in the end, but its for Early Access and i don't have time right now
-float znear = 0.2;
+const int lightCount = 8;
+const int lightComponents = 3;
+const float LIGHT_AMBIENT       = 0.0; //! Ambient light, only color is used.
+const float LIGHT_DIRECTIONAL   = 1.0; //! Directional light, defined by direction and color.
+const float LIGHT_POINT         = 2.0; //! Point light, defined by position, attenuation and color.
+const float LIGHT_SPOT          = 3.0; //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
+uniform vec4 light[lightCount * lightComponents];
+//light format:
+//  +0 - position3 type1;
+//  +1 - direction3 intensity1;
+//  +2 - color3 cutoff1;
+
+varying vec3 v_normalC;
+varying vec3 v_positionC;
+varying vec3 v_positionW;
 
 void main()
 {
-    vec3 l = normalize(v_light);
-    vec3 n = normalize(v_normal);
-    vec3 h = normalize(v_light - 2.0 * v_position);
+    vec3 color = cEmit.rgb;
 
-    vec3 emit = cEmit.rgb;
+    for(int i = 0; i < lightCount; i++)
+    {
+        //extract light parameters
+        int iBase = i * lightComponents;
+        float type = light[iBase].w;
+        float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
+        float isLightPS  = float(step(LIGHT_POINT, type));
+        float isLightS   = float(step(LIGHT_SPOT, type));
 
-    float fDiffuse = clamp(dot(l, n), 0.0, 1.0);
-    vec3 diffuse = cDiffuse.rgb * fDiffuse;
+        vec4 lightPos4 = mView * vec4(light[iBase].xyz, 1.0);
+        vec3 lightPos = lightPos4.xyz / lightPos4.w;
+        vec3 lightDir = mViewNorm * light[iBase+1].xyz;
+        vec3 lightColor = light[iBase+2].rgb;
+        float intensity = light[iBase+1].w;
+        float linAttenuation = 2.0 / intensity;
+        float quadAttenuation = 1.0 / (intensity * intensity);
+        float cutoff = light[iBase+2].w;
+        float cutoffEnd = floor(cutoff) * 3.141593 / 180.0;
+        float cutoffBegin = cutoffEnd * (1.0 - fract(cutoff) * 2.0);
 
-    float fSpecular = clamp(dot(h, n), 0.0, 1.0);
-    fSpecular = fDiffuse * pow(fSpecular, fSpecularity.x);
-    vec3 specular = cSpecular.rgb * fSpecular;
+        //phong model
+        vec3 v = normalize(-v_positionC);
+        vec3 l = normalize(mix(-lightDir, lightPos - v_positionC, isLightPS));
+        vec3 n = normalize(v_normalC);
+        vec3 h = normalize(l + v);
+        vec3 d = normalize(lightDir);
 
-    vec3 color = emit + diffuse + specular;
+        float dist = length(lightPos - v_positionC);
+        float fAttenuation = mix(1.0, 1.0 / (1.0 + linAttenuation * dist + quadAttenuation * dist * dist), isLightPS);
 
-    //adjusting mist
-    vec4 mistColor = vec4(0.35, 0.35, 0.5, 1.0);
-    float depth = gl_FragCoord.z;
-    float density = 3.0;
-    float linDepth = - znear * depth / (zfar * depth - zfar - znear * depth);       //lineraize depth value
-    float mistiness = 1.0 - exp(-pow(density * linDepth, 2.0));
+        float fSpot = mix(1.0, smoothstep(cos(cutoffEnd), cos(cutoffBegin), clamp(dot(l, d), 0.0, 1.0)), isLightS);
+        float fDiffuse = mix(1.0, clamp(dot(l, n), 0.0, 1.0), isLightDPS);
+        float fSpecular = mix(0.0, pow(clamp(dot(h, n), 0.0, 1.0), fSpecularity.r), isLightDPS);
 
-    color = mix(color, mistColor.xyz, mistiness);
+        vec3 diffuse = cDiffuse.rgb * fDiffuse;
+        vec3 specular = cSpecular.rgb * fSpecular;
+        color += lightColor * (diffuse + specular) * fAttenuation * fSpot;
+    }
 
-    gl_FragColor = vec4(clamp(color, 0.0, 1.0), fAlpha.x);
+    //fog calculation
+    float fFogHeight = smoothstep(25.0, 100.0, v_positionW.y);
+    vec3 fogColor = mix(vec3(0.4, 0.43, 0.5), vec3(0.35, 0.4, 0.5), fFogHeight);
+    float fDensity = mix(0.015, 0.0025, fFogHeight);
+    float fFog = 1.0 - exp(-pow(fDensity * (-v_positionC.z), 2.0));
+
+    gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
 }

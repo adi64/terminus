@@ -18,6 +18,7 @@ namespace terminus
 {
 class World;
 
+
 class Game : public QQuickItem
 {
     Q_OBJECT

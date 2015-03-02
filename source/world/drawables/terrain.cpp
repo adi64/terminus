@@ -111,7 +111,7 @@ void Terrain::localRender(QOpenGLFunctions& gl) const
     QVector3D camPos = m_world.localPlayer().camera().eye();
     QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
 
-    int radius = 5;
+    const int radius = 3;
     for(int iX = std::max(0, pid.x() - radius); iX < std::min(m_level.patchCountS(), pid.x() + radius); iX++)
     {
         for(int iZ = std::max(0, pid.y() - radius); iZ < std::min(m_level.patchCountT(), pid.y() + radius); iZ++)
@@ -129,7 +129,8 @@ void Terrain::localRender(QOpenGLFunctions& gl) const
 
 void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
-    program.setUniform("lightDirection", QVector3D(100.0, 20.0, -100.0));
+    AbstractGraphicsObject::localRenderSetup(gl, program);
+
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
                       static_cast<float>(m_currentPatchZ * (m_level.vertexCountT() - 1)),
