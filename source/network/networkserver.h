@@ -29,7 +29,7 @@ namespace terminus
         void shutdown();
 	protected:
 		void denyCommand(AbstractCommand* command);
-        void assignPlayerID(NetworkConnection *connection);
+        void prepareNewGame(NetworkConnection *connection);
 	protected slots:
 		void clientDisconnected();
 	private:

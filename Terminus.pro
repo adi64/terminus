@@ -350,7 +350,6 @@ HEADERS += \
     source/bullet/btBulletDynamicsCommon.h \
     source/network/commands/abstractcommand.h \
     source/network/commands/commands.h \
-    source/network/commands/playeridcommand.h \
     source/network/commands/projectilefiredcommand.h \
     source/network/networkclient.h \
     source/network/networkconnection.h \
@@ -395,7 +394,8 @@ HEADERS += \
     source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/network/commands/preparenewgamecommand.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -542,7 +542,6 @@ SOURCES += \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
     source/network/commands/abstractcommand.cpp \
-    source/network/commands/playeridcommand.cpp \
     source/network/commands/projectilefiredcommand.cpp \
     source/network/networkclient.cpp \
     source/network/networkconnection.cpp \
@@ -587,4 +586,5 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/bullet/clew/clew.c
+    source/bullet/clew/clew.c \
+    source/network/commands/preparenewgamecommand.cpp

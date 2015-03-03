@@ -40,11 +40,11 @@ Game::Game()
     ResourceManager::getInstance()->loadResources();
     SoundManager::getInstance()->playSound("music");
 
-    m_world = std::unique_ptr<World>(new World(*this));
-
     SoundManager::getInstance()->playSound("music");
 
     m_networkManager.startServer(4711);
+
+    startNetworkGame(false, 1337);
     
     updateQMLData();
 }
@@ -52,6 +52,16 @@ Game::Game()
 Game::~Game()
 {
 
+}
+
+void terminus::Game::startLocalGame()
+{
+    m_world = std::unique_ptr<World>(new World(*this));
+}
+
+void Game::startNetworkGame(bool isPlayerOne, int terrainSeed)
+{
+    m_world = std::unique_ptr<World>(new World(*this, isPlayerOne, terrainSeed));
 }
 
 World & Game::world() const

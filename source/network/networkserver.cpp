@@ -4,7 +4,7 @@
 #include <QHostAddress>
 
 #include <network/commands/abstractcommand.h>
-#include <network/commands/playeridcommand.h>
+#include <network/commands/preparenewgamecommand.h>
 #include "networkconnection.h"
 
 namespace terminus
@@ -43,10 +43,10 @@ namespace terminus
         return true;
     }
 
-    void NetworkServer::assignPlayerID(NetworkConnection *connection)
+    void NetworkServer::prepareNewGame(NetworkConnection *connection)
     {
         // assume that a client is always second player
-        auto command = PlayerIdCommand(TimeStamp(0), 1);
+        auto command = PrepareNewGameCommand(TimeStamp(0), true, 1337);
         sendMessage(connection, &command);
     }
 
@@ -81,7 +81,7 @@ namespace terminus
 
         m_activePlayerConnection = clientConnection;
 
-        assignPlayerID(m_activePlayerConnection);
+        prepareNewGame(m_activePlayerConnection);
 	}
 
     void NetworkServer::clientDisconnected() {

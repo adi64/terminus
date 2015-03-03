@@ -4,6 +4,7 @@
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/projectilefiredcommand.h>
+#include <network/commands/preparenewgamecommand.h>
 #include <network/networkconnection.h>
 
 namespace terminus
@@ -79,6 +80,9 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     switch (type) {
     case Command_ProjectileFired:
         cmd = new ProjectileFiredCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_PrepareNewGame:
+        cmd = new PrepareNewGameCommand(timeStamp, json.object()["parameter"].toObject());
         break;
 
     // ...

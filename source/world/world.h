@@ -40,10 +40,18 @@ class World : public QObject
     Q_OBJECT
 public:
     /*!
-     * \brief The one and only World constructor
-     * \param game
+     * \brief Construct a world for a new singleplayer game against AI with a randomly generated terrain
+     * \param game Reference to a game instance
      */
     World(Game & game);
+
+    /*!
+     * \brief Construct a world for a multiplayer game
+     * \param game Reference to a game instance
+     * \param isPlayerOne Determines whether the local player is "player one" or "player two"
+     * \param terrainSeed Seed value for the noise generator to synchronize the terrain with the other network player
+     */
+    World(Game & game, bool isPlayerOne, int terrainSeed);
 
     /*!
      * \brief Delete copy constructor
@@ -87,6 +95,10 @@ public:
     std::shared_ptr<BulletWorld> bulletWorld();
 
 protected:
+    void prepareWorld();
+
+protected:
+
     Game & m_game;
 
     LightManager m_lightManager;

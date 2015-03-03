@@ -47,6 +47,9 @@ public:
      */
     ~Game();
 
+    void startLocalGame();
+    void startNetworkGame(bool isPlayerOne, int terrainSeed);
+
     World & world() const;
     QVariant & qmlData();
     DeferredActionHandler & deferredActionHandler();

@@ -21,8 +21,8 @@ import Game 1.0
 
 Item
 {
-    width: Screen.width
-    height: Screen.height
+    width: 1024
+    height: 768
 
     /*
      * Initializes Game in an empty fullscreen Item
