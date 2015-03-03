@@ -84,7 +84,7 @@ void AbstractWagon::moveEvent(QVector3D /*movement*/)
 
 void AbstractWagon::rotateEvent(QVector2D rotation)
 {
-    auto scale = 0.025;
+    auto scale = 0.025f;
     auto & vBBMinM = minBB();
     auto & vBBMaxM = maxBB();
     m_cameraEyeOffset.setX(
