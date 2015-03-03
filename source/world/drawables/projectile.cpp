@@ -16,6 +16,7 @@ namespace terminus
 
 Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
+, m_active(true)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
@@ -24,6 +25,7 @@ Projectile::Projectile(World & world)
     m_lifeTimer = m_world.timer().allocateTimer();
 
     initializePhysics(new btSphereShape(1.0), 1.f);
+    setScale(0.3f); //TODO scale collision sphere as well
 }
 
 Projectile::~Projectile()
@@ -62,7 +64,7 @@ float Projectile::damage() const
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
     // don't to damage if this projectile was not spawned locally - the other client will inform us of damage events and such
-    if(!m_spawnedLocally)
+    if(!m_active || !m_spawnedLocally)
     {
         return;
     }
@@ -72,6 +74,8 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
     }
+
+    m_active = false;
 }
 
 unsigned int Projectile::maxAgeInMilliseconds() const

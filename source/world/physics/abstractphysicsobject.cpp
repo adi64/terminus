@@ -43,6 +43,13 @@ void AbstractPhysicsObject::deallocatePhysics()
     m_bulletWorld->removeCollisionMapping(m_btRigidBody.get());
 }
 
+/*!
+ * \brief Gets called on collision with another AbstractPhysicsObject
+ * \param other AbstractPhysicsObject that we collided with
+ *
+ * This default implementation does nothing and only exists so that subclasses can override it with custom functionality (like dealing damage).
+ * Movement changes are handled by bullet.
+ */
 void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
 {
 
@@ -52,5 +59,4 @@ void AbstractPhysicsObject::setSpawnedLocally(bool spawnedLocally)
 {
     m_spawnedLocally = spawnedLocally;
 }
-
 }

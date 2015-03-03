@@ -98,7 +98,15 @@ DISTFILES += \
     source/bullet/BulletSoftBody/CMakeLists.txt \
     source/bullet/LinearMath/CMakeLists.txt \
     source/bullet/CMakeLists.txt \
-    source/qml/main.qml
+    source/qml/main.qml \
+    source/qml/EnemyStatusBar.qml \
+    source/qml/EnemyWagonStatus.qml \
+    source/qml/PlayerStatusBar.qml \
+    source/qml/PlayerWagonStatus.qml \
+    source/qml/Reticle.qml \
+    source/qml/StatusBarContainer.qml \
+    source/qml/WagonActionArea.qml \
+    source/qml/WagonSwitchArea.qml
 
 RC_FILE = data/myapp.rc
 
@@ -109,7 +117,7 @@ INCLUDEPATH += \
 unix:LIBS += -ldl
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = source/qml
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -355,6 +363,8 @@ HEADERS += \
     source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
+    source/resources/light.h \
+    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
@@ -364,6 +374,7 @@ HEADERS += \
     source/util/perlinnoise.h \
     source/util/polyline.h \
     source/util/timer.h \
+    source/util/tostring.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
@@ -544,6 +555,8 @@ SOURCES += \
     source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
+    source/resources/light.cpp \
+    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \

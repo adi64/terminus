@@ -19,10 +19,9 @@ public:
     virtual void update() override;
 protected:
     void switchWagon();
-    void chargeAndFire(WeaponWagon * focusedWagon);
+    void fire(WeaponWagon * focusedWagon);
 protected:
     Train *m_enemyTrain;
-    int m_chargingMilliseconds;
     AbstractWagon* m_targetEnemyWagon;
 };
 

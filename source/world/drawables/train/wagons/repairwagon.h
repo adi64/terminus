@@ -11,10 +11,13 @@ public:
     RepairWagon(World & world, Train * train);
     virtual ~RepairWagon();
 
-    void primaryAction() override;
+    virtual void localUpdate() override;
 
-    void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
-    float length() const;
+    virtual void primaryAction() override;
+    virtual float cooldownRate() const override;
+
+    virtual float length() const override;
+    virtual WagonType wagonType() const override;
 };
 
 }

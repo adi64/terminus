@@ -3,6 +3,7 @@
 #include <QQuaternion>
 #include <QDebug>
 
+#include <resources/lightmanager.h>
 #include <player/localplayer.h>
 #include <world/world.h>
 
@@ -20,10 +21,7 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void AbstractGraphicsObject::update()
@@ -112,6 +110,7 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     program.bind();
 
     m_world.localPlayer().camera().setMatrices(program, modelMatrix());
+    m_world.lightManager().setUniforms(program);
 
     if(m_material && *m_material)
     {

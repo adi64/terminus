@@ -20,6 +20,10 @@ class AbstractGraphicsObject
 {
 public:
     AbstractGraphicsObject(World & world);
+    /*!
+     * Do not delete this destructor, even if it is empty
+     *  - otherwise std::shared_ptr<IncompleteType> in the header will break
+     */
     virtual ~AbstractGraphicsObject();
 
     /*!

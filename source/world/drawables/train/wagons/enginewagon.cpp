@@ -4,12 +4,15 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
+#include <resources/light.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+
+#include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -22,6 +25,8 @@ EngineWagon::EngineWagon(World & world, Train * train)
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
+
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -29,9 +34,39 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
-void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
+void EngineWagon::primaryAction()
 {
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
+    if(isDisabled() || m_onCooldown)
+    {
+        return;
+    }
+
+    m_train->setVelocity(m_train->velocity() + 0.002f);
+
+    m_onCooldown = true;
+    m_cooldown = 0.f;
+}
+
+float EngineWagon::cooldownRate() const
+{
+    return 15000.f;
+}
+
+void EngineWagon::localUpdate()
+{
+    auto & light = m_world.lightManager().get(m_headLight);
+    light.setPosition(position());
+    light.setDirection(worldFront());
+    
+    std::string materialName = "base_Orange";
+    if(isDisabled())
+    {
+        materialName = "base_Grey";
+    }
+
+    m_material = ResourceManager::getInstance()->getMaterial(materialName);
+
+    AbstractWagon::localUpdate();
 }
 
 void EngineWagon::playSound() const
@@ -47,6 +82,11 @@ void EngineWagon::playSound() const
 float EngineWagon::length() const
 {
     return 6.0f;
+}
+
+WagonType EngineWagon::wagonType() const
+{
+    return ENGINE_WAGON;
 }
 
 }

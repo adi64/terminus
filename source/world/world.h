@@ -6,19 +6,24 @@
 
 #include <QObject>
 
-#include <world/physics/bulletworld.h>
+#include <bullet/btBulletDynamicsCommon.h>
 
+#include <util/timer.h>
+#include <world/physics/bulletworld.h>
+#include <resources/lightmanager.h>
+#include <world/camera.h>
 #include <deferredactionhandler.h>
 
 class QOpenGLFunctions;
 class QOpenGLShaderProgram;
 class QTime;
 
+class btDiscreteDynamicsWorld;
+class btCollisionObject;
+
 namespace terminus
 {
-class Camera;
 class Game;
-class Timer;
 class Train;
 class Terrain;
 class SkyBox;
@@ -56,9 +61,15 @@ public:
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+
+    Train & playerTrain();
+    Train & enemyTrain();
+    Terrain & terrain();
     Timer & timer();
 
     NetworkManager & networkManager();
+
+    LightManager & lightManager();
 
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
@@ -78,19 +89,19 @@ public:
 protected:
     Game & m_game;
 
+    LightManager m_lightManager;
+
     std::shared_ptr<BulletWorld> m_bulletWorld;
 
     std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
-    std::unique_ptr<Train> m_playerTrain;
-    std::unique_ptr<Train> m_enemyTrain;
+    std::shared_ptr<Train> m_playerTrain;
+    std::shared_ptr<Train> m_enemyTrain;
 
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AIPlayer> m_aiPlayer;
 
     std::vector<AbstractGraphicsObject*> m_objects;
 };
-
-
 
 }

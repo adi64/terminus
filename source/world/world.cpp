@@ -42,11 +42,6 @@ World::World(Game & game)
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<RepairWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
 
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
@@ -55,9 +50,7 @@ World::World(Game & game)
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
+
     m_enemyTrain->follow(m_playerTrain.get());
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
@@ -73,6 +66,9 @@ World::World(Game & game)
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
     localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 
+    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
+    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 }
 
 World::~World()
@@ -148,9 +144,29 @@ LocalPlayer & World::localPlayer()
     return *m_localPlayer;
 }
 
+Train & World::playerTrain()
+{
+    return *m_playerTrain;
+}
+
+Train & World::enemyTrain()
+{
+    return *m_enemyTrain;
+}
+
+Terrain &World::terrain()
+{
+    return *m_terrain;
+}
+
 Timer & World::timer()
 {
     return m_game.timer();
+}
+
+LightManager &World::lightManager()
+{
+    return m_lightManager;
 }
 
 std::shared_ptr<BulletWorld> World::bulletWorld()
