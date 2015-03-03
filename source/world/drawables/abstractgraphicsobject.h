@@ -65,9 +65,16 @@ public:
      * If an object is currently the camera host, this methode is used to adjust the camera position and viewing vectors.
      * Should be overwritten by classes, which intend to host the camera.
      */
+
+    virtual void onBindCamera();
+    virtual void onUnbindCamera();
+
     virtual void adjustCamera();
     virtual void moveEvent(QVector3D movement);
     virtual void rotateEvent(QVector2D rotation);
+
+    virtual const QVector3D & minBB() const;
+    virtual const QVector3D & maxBB() const;
 
     virtual QVector3D worldUp();
     virtual QVector3D worldFront();
@@ -134,7 +141,6 @@ protected:
 
     QVector3D m_position;
     QQuaternion m_rotation;
-    QQuaternion m_lockedEyeAngle;
     QVector3D m_scale;
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;

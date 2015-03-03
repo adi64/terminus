@@ -15,12 +15,12 @@ namespace terminus
 {
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
-    : KinematicPhysicsObject(world)
-    , m_health(maxHealth())
-    , m_disabled(false)
-    , m_cooldown(1.0f)
-    , m_onCooldown(false)
-    , m_train(train)
+: KinematicPhysicsObject(world)
+, m_health(maxHealth())
+, m_disabled(false)
+, m_cooldown(1.0f)
+, m_onCooldown(false)
+, m_train(train)
 {
 }
 
@@ -53,33 +53,43 @@ void AbstractWagon::localUpdate()
     KinematicPhysicsObject::localUpdate();
 }
 
+void AbstractWagon::onBindCamera()
+{
+    m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+}
+
 void AbstractWagon::adjustCamera()
 {
     if(!m_camera)
     {
         return;
     }
-
     Camera & camera = *m_camera;
 
-    auto z_vec = QVector3D(0.0, 0.0, 1.0);
-    z_vec = m_rotation.rotatedVector(z_vec);
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+    auto vCenterM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMaxM.z());
+    auto vEyeM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMinM.z() - 2.f) + m_cameraEyeOffset;
 
-    camera.setEye(QVector3D(m_position.x(), m_position.y() + 2.f, m_position.z() + 4.f));
-    camera.setCenter(m_position + z_vec * 100);
+    auto vCenterW4 = modelMatrix() * QVector4D(vCenterM, 1.f);
+    auto vEyeW4 = modelMatrix() * QVector4D(vEyeM, 1.f);
 
-    /*auto center = m_position + m_rotation.rotatedVector(m_lockedCenterOffset);
-    camera.setCenter(center);
+    camera.setCenter(vCenterW4.toVector3DAffine());
+    camera.setEye(vEyeW4.toVector3DAffine());
+}
 
-    QQuaternion objectAngle = m_rotation * QQuaternion::fromAxisAndAngle(worldFront(), -20.f);
-    auto vA = m_lockedEyeAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized(),
-          vB = objectAngle.rotatedVector(QVector3D(1.f, 1.f, 1.f)).normalized();
-    float angle = acos(QVector3D::dotProduct(vA, vB));
-    float f = MathUtil::linstep(MathUtil::PI / 4, MathUtil::PI / 3, angle);
-    m_lockedEyeAngle = QQuaternion::slerp(m_lockedEyeAngle, objectAngle, f);
+void AbstractWagon::moveEvent(QVector3D /*movement*/)
+{
+}
 
-    camera.setEye(center + m_lockedEyeAngle.rotatedVector(QVector3D(0.f, 0.f, -5.f)));
-    */
+void AbstractWagon::rotateEvent(QVector2D rotation)
+{
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+    m_cameraEyeOffset.setX(
+        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x()));
+    m_cameraEyeOffset.setY(
+        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y()));
 }
 
 float AbstractWagon::maxHealth() const

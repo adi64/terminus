@@ -12,10 +12,10 @@ namespace terminus
 
 AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 : m_world(world)
+, m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
-, m_lockedEyeAngle(QQuaternion())
 , m_modelMatrixChanged(false)
 {
 }
@@ -56,14 +56,16 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 
 void AbstractGraphicsObject::unbindCamera(Camera * cam)
 {
-    if(cam == m_camera)
+    if(cam != m_camera)
     {
-        if(cam)
-        {
-            m_camera->unbound(this);
-        }
-    m_camera = nullptr;
+        return;
     }
+    if(cam)
+    {
+        m_camera->unbound(this);
+    }
+    m_camera = nullptr;
+    onUnbindCamera();
 }
 
 void AbstractGraphicsObject::bindCamera(Camera * cam)
@@ -74,6 +76,15 @@ void AbstractGraphicsObject::bindCamera(Camera * cam)
     }
     unbindCamera(m_camera);
     m_camera = cam;
+    onBindCamera();
+}
+
+void AbstractGraphicsObject::onBindCamera()
+{
+}
+
+void AbstractGraphicsObject::onUnbindCamera()
+{
 }
 
 void AbstractGraphicsObject::adjustCamera()
@@ -84,17 +95,28 @@ void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
 {
 }
 
-void AbstractGraphicsObject::rotateEvent(QVector2D rotation)
+void AbstractGraphicsObject::rotateEvent(QVector2D /*rotation*/)
 {
-    Camera & camera = *m_camera;
-    auto viewDirection = (camera.center() - camera.eye()).normalized();
-    auto viewNormal = QVector3D::normal(viewDirection, camera.up());
-    // "x rotation" -> rotate around up vector
-    auto rotation_x = QQuaternion::fromAxisAndAngle(camera.up(), -rotation.x());
-    // "y rotation" -> rotation around "the vector pointing to the right"
-    auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
-    auto rotation_total = rotation_x * rotation_y;
-    m_lockedEyeAngle *= rotation_total;
+}
+
+const QVector3D & AbstractGraphicsObject::minBB() const
+{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
+    if(!m_geometry || !*m_geometry)
+    {
+        return vZero;
+    }
+    return (**m_geometry).bBoxMin();
+}
+
+const QVector3D & AbstractGraphicsObject::maxBB() const
+{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
+    if(!m_geometry || !*m_geometry)
+    {
+        return vZero;
+    }
+    return (**m_geometry).bBoxMax();
 }
 
 QVector3D AbstractGraphicsObject::worldUp()
