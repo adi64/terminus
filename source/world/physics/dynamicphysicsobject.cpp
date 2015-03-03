@@ -24,14 +24,15 @@ void DynamicPhysicsObject::localUpdate()
     AbstractPhysicsObject::localUpdate();
 }
 
-void DynamicPhysicsObject::applyForce(const QVector3D &force)
-{
-    m_btRigidBody->applyCentralForce(btVector3(force.x(), force.y(), force.z()));
-}
-
 void DynamicPhysicsObject::setLinearVelocity(const QVector3D &velocity)
 {
     m_btRigidBody->setLinearVelocity(btVector3(velocity.x(), velocity.y(), velocity.z()));
+}
+
+void DynamicPhysicsObject::addLinearVelocity(const QVector3D &velocity)
+{
+    auto newVelocity = m_btRigidBody->getLinearVelocity() + btVector3(velocity.x(), velocity.y(), velocity.z());
+    m_btRigidBody->setLinearVelocity(newVelocity);
 }
 
 }
