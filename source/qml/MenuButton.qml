@@ -4,13 +4,13 @@ Rectangle
 {
     property string loadSource: ""
     property string buttonText: "buttonText"
-    property int position: 0
+    property int posNum: 1
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
-    anchors.topMargin: parent.height * (4 + position * 3) / 16
-    width: parent.width / 4
-    height: parent.height / 8
+    anchors.topMargin: (parent.height * posNum * 4 / 32) + (parent.height * 3 / 16)
+    width: parent.width / 2
+    height: parent.height * 3 / 32
     color: "lightgrey"
     border.width: 2
     border.color: "black"
