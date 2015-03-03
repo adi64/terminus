@@ -106,7 +106,10 @@ DISTFILES += \
     source/qml/Reticle.qml \
     source/qml/StatusBarContainer.qml \
     source/qml/WagonActionArea.qml \
-    source/qml/WagonSwitchArea.qml
+    source/qml/WagonSwitchArea.qml \
+    source/qml/Game.qml \
+    source/qml/MainMenu.qml \
+    source/qml/MenuButton.qml
 
 RC_FILE = data/myapp.rc
 
