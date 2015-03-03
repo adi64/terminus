@@ -9,5 +9,8 @@
         <file>source/qml/EnemyWagonStatus.qml</file>
         <file>source/qml/PlayerWagonStatus.qml</file>
         <file>source/qml/StatusBarContainer.qml</file>
+        <file>source/qml/Game.qml</file>
+        <file>source/qml/MainMenu.qml</file>
+        <file>source/qml/MenuButton.qml</file>
     </qresource>
 </RCC>
