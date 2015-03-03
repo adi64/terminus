@@ -17,7 +17,7 @@ AbstractPlayer::AbstractPlayer(World & world, Train * train)
     assert(train);
 
     m_train->setPlayer(this);
-    bindCamera();
+    m_camera.bindTo(selectedWagon());
 }
 
 Camera & AbstractPlayer::camera()
@@ -25,14 +25,16 @@ Camera & AbstractPlayer::camera()
     return m_camera;
 }
 
-void AbstractPlayer::bindCamera()
+void AbstractPlayer::toggleCamera()
 {
-    m_camera.bindTo(selectedWagon());
-}
-
-void AbstractPlayer::releaseCamera()
-{
-    m_camera.unbind();
+    if(m_camera.isBound())
+    {
+        m_camera.unbind();
+    }
+    else
+    {
+        m_camera.bindTo(selectedWagon());
+    }
 }
 
 unsigned int AbstractPlayer::selectedWagonIndex() const

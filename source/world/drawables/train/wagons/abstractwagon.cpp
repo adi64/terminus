@@ -84,12 +84,13 @@ void AbstractWagon::moveEvent(QVector3D /*movement*/)
 
 void AbstractWagon::rotateEvent(QVector2D rotation)
 {
+    auto scale = 0.025;
     auto & vBBMinM = minBB();
     auto & vBBMaxM = maxBB();
     m_cameraEyeOffset.setX(
-        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x()));
+        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x() * scale));
     m_cameraEyeOffset.setY(
-        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y()));
+        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y() * scale));
 }
 
 float AbstractWagon::maxHealth() const

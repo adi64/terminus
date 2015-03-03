@@ -23,8 +23,7 @@ public:
     AbstractPlayer(World & world, Train * train);
 
     Camera & camera();
-    void bindCamera();
-    void releaseCamera();
+    void toggleCamera();
 
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();

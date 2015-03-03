@@ -65,22 +65,36 @@ void EventHandler::keyPressEvent(Qt::Key key)
     switch(key)
     {
     case Qt::Key_W:
-        m_game->world().localPlayer().camera().moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
+        player.camera().moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
         break;
     case Qt::Key_S:
-        m_game->world().localPlayer().camera().moveEvent(QVector3D(0.f, 0.f, moveQuantum));
+        player.camera().moveEvent(QVector3D(0.f, 0.f, moveQuantum));
         break;
     case Qt::Key_A:
-        m_game->world().localPlayer().camera().moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
+        if(player.camera().isBound())
+        {
+            player.switchToNextWagon();
+        }
+        else
+        {
+            player.camera().moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
+        }
         break;
     case Qt::Key_D:
-        m_game->world().localPlayer().camera().moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
+        if(player.camera().isBound())
+        {
+            player.switchToPreviousWagon();
+        }
+        else
+        {
+            player.camera().moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
+        }
         break;
     case Qt::Key_Escape:
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        m_game->world().localPlayer().camera().unbind();
+        player.toggleCamera();
         break;
     case Qt::Key_I:
         player.primaryActionDebug();
@@ -101,8 +115,8 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     auto offset = oldPosition - QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    // invert X
-    rotation *= QVector2D(-1.0, 1.0);
+    // invert X and Y
+    rotation *= QVector2D(-1.0, -1.0);
 
     m_game->world().localPlayer().camera().rotateEvent(rotation);
 
