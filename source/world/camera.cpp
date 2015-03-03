@@ -16,7 +16,6 @@ Camera::Camera(
 : m_eye(eye)
 , m_center(center)
 , m_up(up)
-
 , m_fovy(70.f) // degrees!
 , m_aspect(16.f / 9.f)
 , m_zNear(0.2f)
@@ -95,7 +94,7 @@ void Camera::setUp(const QVector3D & up)
     invalidateMatrices();
 }
 
-const QVector3D &Camera::normalizedAimVector() const
+QVector3D Camera::normalizedAimVector() const
 {
     return (center() - eye()).normalized();
 }

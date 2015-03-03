@@ -98,7 +98,15 @@ DISTFILES += \
     source/bullet/BulletSoftBody/CMakeLists.txt \
     source/bullet/LinearMath/CMakeLists.txt \
     source/bullet/CMakeLists.txt \
-    source/qml/main.qml
+    source/qml/main.qml \
+    source/qml/EnemyStatusBar.qml \
+    source/qml/EnemyWagonStatus.qml \
+    source/qml/PlayerStatusBar.qml \
+    source/qml/PlayerWagonStatus.qml \
+    source/qml/Reticle.qml \
+    source/qml/StatusBarContainer.qml \
+    source/qml/WagonActionArea.qml \
+    source/qml/WagonSwitchArea.qml
 
 RC_FILE = data/myapp.rc
 
@@ -109,7 +117,7 @@ INCLUDEPATH += \
 unix:LIBS += -ldl
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = source/qml
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -343,8 +351,10 @@ HEADERS += \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
+    source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
+    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
@@ -353,6 +363,8 @@ HEADERS += \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
+    source/util/tostring.h \
+    source/util/timer.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
@@ -366,14 +378,16 @@ HEADERS += \
     source/world/drawables/terrain.h \
     source/world/drawables/track.h \
     source/world/physics/abstractphysicsobject.h \
+    source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
-    source/world/scene.h \
+    source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/player/remoteplayer.h
+    source/util/timer.h \
+    source/resources/light.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -519,11 +533,14 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
+    source/bullet/clew/clew.c \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
+    source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
+    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
@@ -532,6 +549,7 @@ SOURCES += \
     source/util/mathutil.cpp \
     source/util/perlinnoise.cpp \
     source/util/polyline.cpp \
+    source/util/timer.cpp \
     source/world/drawables/train/wagons/abstractwagon.cpp \
     source/world/drawables/train/wagons/enginewagon.cpp \
     source/world/drawables/train/wagons/repairwagon.cpp \
@@ -544,13 +562,14 @@ SOURCES += \
     source/world/drawables/terrain.cpp \
     source/world/drawables/track.cpp \
     source/world/physics/abstractphysicsobject.cpp \
+    source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
-    source/world/scene.cpp \
+    source/world/world.cpp \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/bullet/clew/clew.c \
-    source/player/remoteplayer.cpp
+    source/resources/light.cpp
+

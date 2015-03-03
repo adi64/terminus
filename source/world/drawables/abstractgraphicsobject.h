@@ -8,8 +8,7 @@
 #include <QQuaternion>
 #include <QMatrix4x4>
 
-#include <world/scene.h>
-#include <world/camera.h>
+#include <world/world.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
@@ -20,7 +19,11 @@ namespace terminus
 class AbstractGraphicsObject
 {
 public:
-    AbstractGraphicsObject(std::shared_ptr<Scene> scene);
+    AbstractGraphicsObject(World & world);
+    /*!
+     * Do not delete this destructor, even if it is empty
+     *  - otherwise std::shared_ptr<IncompleteType> in the header will break
+     */
     virtual ~AbstractGraphicsObject();
 
     /*!
@@ -30,7 +33,7 @@ public:
      * In general there is no need to override this.
      * \sa AbstractGraphicsObject::localUpdate
      */
-    virtual void update(int elapsedMilliseconds) final;
+    virtual void update() final;
 
     /*!
      * \brief AbstractGraphicsObject::render - render object hierarchy beginning at this object
@@ -79,7 +82,7 @@ protected:
     /*!
      * \brief AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do)
      */
-    virtual void localUpdate(int elapsedMilliseconds);
+    virtual void localUpdate();
 
     /*!
      * \brief AbstractGraphicsObject::localRender - render this object using geometry, program and material set in the respective members
@@ -105,6 +108,8 @@ protected:
      */
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
 
+    virtual bool localRenderEnabled() const;
+
     virtual void setPosition(const QVector3D & position);
     virtual void setRotation(const QQuaternion & eulerAngles);
     virtual void setScale(const QVector3D & scale);
@@ -119,7 +124,8 @@ protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback);
 
 protected:
-    std::shared_ptr<Scene> m_scene;
+    World & m_world;
+
     Camera * m_camera;
 
     std::shared_ptr<std::unique_ptr<Program>> m_program;

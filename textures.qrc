@@ -6,5 +6,12 @@
         <file>data/env_cube_px.png</file>
         <file>data/env_cube_py.png</file>
         <file>data/env_cube_pz.png</file>
+        <file>data/ActionArea.png</file>
+        <file>data/ActionButton.png</file>
+        <file>data/EnemyStatus.png</file>
+        <file>data/NextButton.png</file>
+        <file>data/PlayerStatus.png</file>
+        <file>data/PrevButton.png</file>
+        <file>data/SwitchArea.png</file>
     </qresource>
 </RCC>

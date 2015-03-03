@@ -8,19 +8,18 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    WeaponWagon(World & world, Train *train);
     virtual ~WeaponWagon();
 
-    void primaryAction() override;
-    void primaryActionDebug() override;
+    virtual void localUpdate() override;
 
-    void setChargeProjectile(bool charge);
+    virtual void primaryAction() override;
+    virtual void primaryActionDebug() override;
+    virtual float cooldownRate() const override;
+    void setAimVector(const QVector3D & aimVector);
 
-    bool isReloading() const;
-
-    void localUpdate(int elapsedMilliseconds) override;
-    void localRenderSetup(QOpenGLFunctions& gl, Program & program) const override;
-    float length() const;
+    virtual WagonType wagonType() const override;
+    virtual float length() const override;
 
 protected:
     /*!
@@ -32,10 +31,7 @@ protected:
     void fire(QVector3D force);
 
 protected:
-    int m_elapsedMilliseconds;
-    bool m_chargeProjectile;
-    bool m_reloadProjectile;
-    float m_force;
+    QVector3D m_normalizedAimVector;
 };
 
 }

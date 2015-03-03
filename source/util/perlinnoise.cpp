@@ -9,7 +9,7 @@ namespace terminus
 const float PerlinNoise::fScale = 1.f / sqrt(0.5f);
 
 PerlinNoise::PerlinNoise()
-    : PerlinNoise(std::chrono::system_clock::now().time_since_epoch().count())
+: PerlinNoise(std::chrono::system_clock::now().time_since_epoch().count())
 {
 }
 PerlinNoise::PerlinNoise(unsigned int seed)

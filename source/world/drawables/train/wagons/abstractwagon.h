@@ -1,38 +1,58 @@
 #pragma once
 
+#include <QString>
+#include <memory>
+
 #include <world/physics/kinematicphysicsobject.h>
 
 namespace terminus
 {
 class Train;
 
+enum WagonType
+{
+    INVALID = 0,
+    ENGINE_WAGON = 1,
+    WEAPON_WAGON = 2,
+    REPAIR_WAGON = 3
+};
+
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(std::shared_ptr<Scene> scene, Train *train);
+    AbstractWagon(World & world, Train * train);
 
-    virtual void primaryAction();
+    virtual void primaryAction() = 0;
     virtual void primaryActionDebug();
 
-    virtual void localUpdate(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
     virtual void adjustCamera() override;
 
-    virtual float maxHealth() const;
-    virtual float currentHealth() const;
     virtual void setHealth(float health);
+    virtual float currentHealth() const;
+    virtual float maxHealth() const;
 
+    virtual float cooldown() const;
+    virtual float cooldownRate() const = 0;
+    virtual bool isOnCooldown() const;
+
+    virtual bool isDisabled() const;
+    virtual WagonType wagonType() const;
     virtual float length() const;
 
-    virtual float weight() const;
-    virtual bool isDisabled() const;
-
     virtual void setPositionOffset(float accumulatedOffset);
+
+protected:
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
 
 protected:
     float m_positionOffset;
     float m_health;
     bool m_disabled;
+    float m_cooldown;
+    bool m_onCooldown;
     Train *m_train;
 };
 

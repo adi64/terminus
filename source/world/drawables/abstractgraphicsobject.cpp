@@ -1,18 +1,17 @@
 #include "abstractgraphicsobject.h"
 
-#include <algorithm>
-
 #include <QQuaternion>
 #include <QDebug>
 
-#include <world/scene.h>
+#include <resources/lightmanager.h>
+#include <player/localplayer.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
-: m_scene(scene)
-, m_camera(nullptr)
+AbstractGraphicsObject::AbstractGraphicsObject(World & world)
+: m_world(world)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
@@ -23,15 +22,12 @@ AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
-void AbstractGraphicsObject::update(int elapsedMilliseconds)
+void AbstractGraphicsObject::update()
 {
-    localUpdate(elapsedMilliseconds);
+    localUpdate();
 
     if(m_camera)
     {
@@ -39,9 +35,22 @@ void AbstractGraphicsObject::update(int elapsedMilliseconds)
     }
 
     doForAllChildren(
-        [elapsedMilliseconds](AbstractGraphicsObject & child)
+        [](AbstractGraphicsObject & child)
         {
-            child.update(elapsedMilliseconds);
+            child.update();
+        });
+}
+
+void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
+{
+    if(localRenderEnabled())
+    {
+        localRender(gl);
+    }
+    doForAllChildren(
+        [gl](AbstractGraphicsObject & child) mutable
+        {
+            child.render(gl);
         });
 }
 
@@ -53,7 +62,7 @@ void AbstractGraphicsObject::unbindCamera(Camera * cam)
         {
             m_camera->unbound(this);
         }
-        m_camera = nullptr;
+    m_camera = nullptr;
     }
 }
 
@@ -63,7 +72,6 @@ void AbstractGraphicsObject::bindCamera(Camera * cam)
     {
         return;
     }
-
     unbindCamera(m_camera);
     m_camera = cam;
 }
@@ -74,13 +82,11 @@ void AbstractGraphicsObject::adjustCamera()
 
 void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
 {
-
 }
 
 void AbstractGraphicsObject::rotateEvent(QVector2D rotation)
 {
     Camera & camera = *m_camera;
-
     auto viewDirection = (camera.center() - camera.eye()).normalized();
     auto viewNormal = QVector3D::normal(viewDirection, camera.up());
     // "x rotation" -> rotate around up vector
@@ -88,18 +94,7 @@ void AbstractGraphicsObject::rotateEvent(QVector2D rotation)
     // "y rotation" -> rotation around "the vector pointing to the right"
     auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
     auto rotation_total = rotation_x * rotation_y;
-
     m_lockedEyeAngle *= rotation_total;
-}
-
-void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
-{
-    localRender(gl);
-    doForAllChildren(
-        [gl](AbstractGraphicsObject & child) mutable
-        {
-            child.render(gl);
-        });
 }
 
 QVector3D AbstractGraphicsObject::worldUp()
@@ -143,7 +138,7 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
-void AbstractGraphicsObject::localUpdate(int)
+void AbstractGraphicsObject::localUpdate()
 {
 }
 
@@ -165,7 +160,8 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 
     program.bind();
 
-    m_scene->camera().setMatrices(program, modelMatrix());
+    m_world.localPlayer().camera().setMatrices(program, modelMatrix());
+    m_world.lightManager().setUniforms(program);
 
     if(m_material && *m_material)
     {
@@ -188,6 +184,11 @@ void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & p
 
 void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
+}
+
+bool AbstractGraphicsObject::localRenderEnabled() const
+{
+    return true;
 }
 
 void AbstractGraphicsObject::setPosition(const QVector3D & position)

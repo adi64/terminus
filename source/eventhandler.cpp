@@ -4,80 +4,89 @@
 #include <QApplication>
 #include <QQuickWindow>
 
-#include "game.h"
 #include <world/camera.h>
-#include <world/scene.h>
+#include <world/world.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <player/abstractplayer.h>
+#include <player/localplayer.h>
 
+#include <game.h>
 
 namespace terminus
 {
 
-EventHandler::EventHandler(Game *game)
-    : m_game(game)
-    , m_flicked(false)
-    , m_flickResetted(false)
+EventHandler::EventHandler(Game * game)
+: m_game(game)
 {
 
+}
+
+void EventHandler::buttonInput(int type)
+{
+    switch(type)
+    {
+    case NEXT_WAGON_BUTTON:
+        switchToNextWagon(); break;
+    case PREV_WAGON_BUTTON:
+        switchToPreviousWagon(); break;
+    case ACTION_BUTTON:
+        touchFire(); break;
+    case LEFT_MOUSE_BUTTON:
+        touchFire(); break;
+    default: break;
+    }
+}
+
+void EventHandler::keyInput(Qt::Key key)
+{
+    keyPressEvent(key);
+}
+
+void EventHandler::moveInput(int type, qreal x, qreal y)
+{
+    switch(type)
+    {
+    case MOUSE_MOVEMENT:
+        mouseMoveEvent(x, y); break;
+    /*case TOUCH_MOVEMENT:
+        touchMoveEvent(x, y); break;*/
+    case GYRO_MOVEMENT:
+        gyroMoveEvent(x, y); break;
+    default: break;
+    }
 }
 
 void EventHandler::keyPressEvent(Qt::Key key)
 {
+    AbstractPlayer & player = m_game->world().localPlayer();
+
     float moveQuantum = 1.f;
     switch(key)
     {
     case Qt::Key_W:
-        m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
+        m_game->world().localPlayer().camera().moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
         break;
     case Qt::Key_S:
-        m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, moveQuantum));
+        m_game->world().localPlayer().camera().moveEvent(QVector3D(0.f, 0.f, moveQuantum));
         break;
     case Qt::Key_A:
-        m_game->localPlayer()->camera()->moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
+        m_game->world().localPlayer().camera().moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
         break;
     case Qt::Key_D:
-        m_game->localPlayer()->camera()->moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
-        break;
-    case Qt::Key_Q:
-        QApplication::quit();
-        break;
-    case Qt::Key_Space:
-        m_game->localPlayer()->camera()->unbind();
+        m_game->world().localPlayer().camera().moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
         break;
     case Qt::Key_Escape:
         QApplication::quit();
         break;
+    case Qt::Key_Space:
+        m_game->world().localPlayer().camera().unbind();
+        break;
     case Qt::Key_I:
-        m_game->localPlayer()->primaryActionDebug();
+        player.primaryActionDebug();
         break;
     case Qt::Key_P:
         m_game->togglePaused();
-        break;
-    case Qt::Key_Plus:
-        m_game->localPlayer()->switchToNextWagon();
-        break;
-    case Qt::Key_Minus:
-        m_game->localPlayer()->switchToPreviousWagon();
-        break;
-    default:
-        break;
-    }
-}
-
-void EventHandler::keyReleaseEvent(Qt::Key key)
-{
-
-    switch(key)
-    {
-    case Qt::Key_W:
-        break;
-    case Qt::Key_S:
-        break;
-    case Qt::Key_A:
-        break;
-    case Qt::Key_D:
         break;
     default:
         break;
@@ -95,23 +104,10 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     // invert X
     rotation *= QVector2D(-1.0, 1.0);
 
-    m_game->localPlayer()->camera()->rotateEvent(rotation);
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 
     QPoint globalPosition = m_game->window()->mapToGlobal(QPoint(m_game->window()->width() / 2, m_game->window()->height() / 2));
     QCursor::setPos(globalPosition);
-}
-
-void EventHandler::touchMoveEvent(qreal x, qreal y)
-{
-    const double sensitivity = 0.05;
-
-    auto offset = QVector2D(x, y);
-    auto rotation = offset * sensitivity;
-
-    // invert X
-    rotation *= QVector2D(-1.0, 1.0);
-
-    m_game->localPlayer()->camera()->rotateEvent(rotation);
 }
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
@@ -121,78 +117,22 @@ void EventHandler::gyroMoveEvent(qreal x, qreal y)
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    m_game->localPlayer()->camera()->rotateEvent(rotation);
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 }
 
-void EventHandler::flickEvent(qreal startx, qreal x)
+void EventHandler::switchToNextWagon()
 {
-    if(m_flickResetted)
-    {
-        m_flickResetted = false;
-        return;
-    }
-
-    #ifdef Q_OS_MAC
-        auto width = m_game->window()->width() * 2;
-    #else
-        auto width = m_game->window()->width();
-    #endif
-    auto direction = (x - startx) / (0.2f * width);
-    auto distance = abs(x - startx);
-
-    auto threshold = width * 0.2;
-
-    m_game->localPlayer()->camera()->moveEvent(QVector3D(direction, 0.0f, 0.0f));
-
-    if(direction > 0)
-    {
-        if(m_game->localPlayer()->camera()->isBound() && ((m_game->localPlayer()->selectedWagonIndex() + 1) < m_game->playerTrain()->size()))
-        {
-            m_flickDirection = direction;
-            m_flicked = (distance > threshold);
-        }
-    }
-    if(direction < 0)
-    {
-        if(m_game->localPlayer()->camera()->isBound() && m_game->localPlayer()->selectedWagonIndex() > 0)
-        {
-            m_flickDirection = direction;
-            m_flicked = (distance > threshold);
-        }
-    }
+    m_game->world().localPlayer().switchToNextWagon();
 }
 
-void EventHandler::flickReset()
+void EventHandler::switchToPreviousWagon()
 {
-    //m_game->localPlayer()->camera()->moveEvent(QVector3D(0.f, 0.f, 0.f));
-    m_flickResetted = true;
-
-    if(m_flicked)
-    {
-        if(m_flickDirection > 0)
-        {
-            m_game->localPlayer()->switchToNextWagon();
-        }
-        if(m_flickDirection < 0)
-        {
-            m_game->localPlayer()->switchToPreviousWagon();
-        }
-        m_flicked = false;
-    }
-}
-
-void EventHandler::touchChargeFire()
-{
-    auto wagon = dynamic_cast<WeaponWagon*>(m_game->playerTrain()->wagonAt(m_game->localPlayer()->selectedWagonIndex()));
-    if(wagon != nullptr)
-    {
-        wagon->setChargeProjectile(true);
-    }
+    m_game->world().localPlayer().switchToPreviousWagon();
 }
 
 void EventHandler::touchFire()
 {
-    m_game->localPlayer()->primaryAction();
+    m_game->world().localPlayer().primaryAction();
 }
 
 }
