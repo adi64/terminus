@@ -65,6 +65,10 @@ World::World(Game & game)
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
     localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
+
+    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
+    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 }
 
 World::~World()
@@ -158,6 +162,11 @@ Terrain &World::terrain()
 Timer & World::timer()
 {
     return m_game.timer();
+}
+
+LightManager &World::lightManager()
+{
+    return m_lightManager;
 }
 
 std::shared_ptr<BulletWorld> World::bulletWorld()

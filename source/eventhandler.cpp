@@ -61,7 +61,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
 {
     AbstractPlayer & player = m_game->world().localPlayer();
     Camera & camera = player.camera();
-    auto movement = camera.movement();
+    QVector3D movement;
 
     switch(key)
     {

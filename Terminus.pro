@@ -354,6 +354,7 @@ HEADERS += \
     source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
+    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
@@ -362,6 +363,7 @@ HEADERS += \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
+    source/util/tostring.h \
     source/util/timer.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
@@ -383,7 +385,9 @@ HEADERS += \
     source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h
+    source/game.h \
+    source/util/timer.h \
+    source/resources/light.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -536,6 +540,7 @@ SOURCES += \
     source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
+    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
@@ -565,5 +570,6 @@ SOURCES += \
     source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
-    source/main.cpp
+    source/main.cpp \
+    source/resources/light.cpp
 

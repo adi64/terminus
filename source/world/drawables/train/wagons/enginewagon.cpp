@@ -5,6 +5,7 @@
 #include <QVector3D>
 
 #include <resources/resourcemanager.h>
+#include <resources/light.h>
 #include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
@@ -24,6 +25,8 @@ EngineWagon::EngineWagon(World & world, Train * train)
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
+
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -51,6 +54,10 @@ float EngineWagon::cooldownRate() const
 
 void EngineWagon::localUpdate()
 {
+    auto & light = m_world.lightManager().get(m_headLight);
+    light.setPosition(position());
+    light.setDirection(worldFront());
+    
     std::string materialName = "base_Orange";
     if(isDisabled())
     {
@@ -60,11 +67,6 @@ void EngineWagon::localUpdate()
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::localUpdate();
-}
-
-void EngineWagon::localRenderSetup(QOpenGLFunctions& gl, Program & program) const
-{
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
 
 void EngineWagon::playSound() const

@@ -133,3 +133,11 @@ void Program::setUniform(std::string name, int value)
         m_program->setUniformValue(location, value);
     }
 }
+void Program::setUniform(std::string name, const QVector4D * values, int count)
+{
+    int location = 0;
+    if((location = m_program->uniformLocation(name.c_str())) >= 0)
+    {
+        m_program->setUniformValueArray(location, values, count);
+    }
+}

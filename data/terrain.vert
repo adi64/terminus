@@ -1,4 +1,4 @@
-precision highp float;
+precision mediump float;
 
 uniform mat4 mModel;
 uniform mat4 mView;
@@ -16,9 +16,9 @@ attribute vec3 a_position;
 attribute vec3 a_texCoord;
 attribute vec3 a_normal; // x - encoded offset to adjacent vertex 0; y - encoded offset to adjacent vertex 0
 
-varying vec3 v_normal;
-varying vec3 v_position;
-varying vec3 v_light;
+varying vec3 v_normalC;
+varying vec3 v_positionC;
+varying vec3 v_positionW;
 varying float v_color;
 varying float v_shade;
 
@@ -56,14 +56,17 @@ void main()
     //use pseudo pseudorandom function on normal to provide a face specific factor to fragment shader
     v_shade = mod(normal.y * 10000.0 , 1.0);
     //steepness dependent factor to distinguish snowy and rocky triangles
-    v_color = smoothstep(0.3, 0.325, abs(normal.y));
+    v_color = smoothstep(0.20, 0.35, abs(normal.y));
+
+    //---world space---
+    vec4 positionW4 = mModel * vec4(position, 1.0);
+    v_positionW = positionW4.xyz / positionW4.w;
 
     //---camera space---
     //transform the relevant vectors for phong model in fragment shader
-    v_normal = mViewNorm * mModelNorm * normal;
-    vec4 positionTmp = mView * mModel * vec4(position, 1.0);
-    v_position = positionTmp.xyz / positionTmp.w;
-    v_light = mViewNorm * lightDirection;
+    v_normalC = mViewNorm * mModelNorm * normal;
+    vec4 positionC4 = mView * mModel * vec4(position, 1.0);
+    v_positionC = positionC4.xyz / positionC4.w;
 
     //---screen space---
     gl_Position = mProjection * mView * mModel * vec4(position, 1.0);

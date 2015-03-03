@@ -31,6 +31,8 @@ public:
     virtual void setUniform(std::string name, const QVector4D value);
     virtual void setUniform(std::string name, float value);
     virtual void setUniform(std::string name, int value);
+    virtual void setUniform(std::string name, const QVector4D * values, int count);
+
 private:
     std::string m_vertexSrc;
     std::string m_fragmentSrc;

@@ -16,6 +16,7 @@
 #include <eventhandler.h>
 #include <deferredactionhandler.h>
 #include <player/localplayer.h>
+
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
 #include <world/drawables/terrain.h>
