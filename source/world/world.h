@@ -40,18 +40,13 @@ class World : public QObject
     Q_OBJECT
 public:
     /*!
-     * \brief Construct a world for a new singleplayer game against AI with a randomly generated terrain
+     * \brief Construct a world for a local or multiplayer game
      * \param game Reference to a game instance
-     */
-    World(Game & game);
-
-    /*!
-     * \brief Construct a world for a multiplayer game
-     * \param game Reference to a game instance
-     * \param isPlayerOne Determines whether the local player is "player one" or "player two"
+     * \param isNetworkGame Whether this game is a network game or a local singleplayer game
+     * \param isPlayerOne Whether the local player is "player one" or "player two"
      * \param terrainSeed Seed value for the noise generator to synchronize the terrain with the other network player
      */
-    World(Game & game, bool isPlayerOne, int terrainSeed);
+    World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed);
 
     /*!
      * \brief Delete copy constructor
@@ -69,6 +64,7 @@ public:
     void render(QOpenGLFunctions & gl) const;
 
     LocalPlayer & localPlayer();
+    AbstractPlayer & enemyPlayer();
 
     Train & playerTrain();
     Train & enemyTrain();
@@ -95,9 +91,6 @@ public:
     std::shared_ptr<BulletWorld> bulletWorld();
 
 protected:
-    void prepareWorld();
-
-protected:
 
     Game & m_game;
 
@@ -111,7 +104,7 @@ protected:
     std::shared_ptr<Train> m_enemyTrain;
 
     std::unique_ptr<LocalPlayer> m_localPlayer;
-    std::unique_ptr<AIPlayer> m_aiPlayer;
+    std::unique_ptr<AbstractPlayer> m_enemyPlayer;
 
     std::vector<AbstractGraphicsObject*> m_objects;
 };

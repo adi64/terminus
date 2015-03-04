@@ -4,7 +4,10 @@
 
 #include <game.h>
 #include <world/world.h>
+#include <world/drawables/terrain.h>
+
 #include <network/commands/abstractcommand.h>
+#include <network/commands/preparenewgamecommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
@@ -103,6 +106,16 @@ void NetworkManager::newCommand(AbstractCommand *command)
     qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
     m_game.world().scheduleAction( [=](){ command->run(); delete command; return false; } );
+}
+
+void NetworkManager::prepareAndSyncNewGame()
+{
+    m_game.startNetworkGame(true);
+
+    // assume that a client is always second player
+
+    auto command = PrepareNewGameCommand(TimeStamp(0), true, m_game.world().terrain().seed());
+    sendMessage(&command);
 }
 
 } // namespace terminus

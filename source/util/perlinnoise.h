@@ -18,7 +18,7 @@ public:
     PerlinNoise(unsigned int seed);
     virtual ~PerlinNoise();
 
-    virtual unsigned int seed();
+    virtual unsigned int seed() const;
     virtual float noise(int layer, float x, float y);
 
     virtual float symmetricRnd();

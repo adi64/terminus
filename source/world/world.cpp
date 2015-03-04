@@ -18,6 +18,7 @@
 #include <player/abstractplayer.h>
 #include <player/aiplayer.h>
 #include <player/localplayer.h>
+#include <player/remoteplayer.h>
 
 #include <world/camera.h>
 #include <world/physics/abstractphysicsobject.h>
@@ -27,45 +28,11 @@
 namespace terminus
 {
 
-World::World(Game & game)
+World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
-, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this)))
-, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack())))
-, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack())))
+, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
 {
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-
-    m_enemyTrain->follow(m_playerTrain.get());
-
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
-
-    prepareWorld();
-}
-
-World::World(terminus::Game &game, bool isPlayerOne, int terrainSeed)
-: m_game(game)
-, m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
-{
-
-    // TODO FIXME add seed
-    m_terrain = std::unique_ptr<Terrain>(new Terrain(*this));
-
     if(isPlayerOne)
     {
         m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
@@ -77,28 +44,50 @@ World::World(terminus::Game &game, bool isPlayerOne, int terrainSeed)
         m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
     }
 
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-
-    m_enemyTrain->follow(m_playerTrain.get());
-
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
 
-    prepareWorld();
+    if(isNetworkGame)
+    {
+
+        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new RemotePlayer(*this, m_enemyTrain.get()));
+    }
+    else
+    {
+        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
+        m_enemyTrain->follow(m_playerTrain.get());
+    }
+
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+    m_playerTrain->addWagon<RepairWagon>();
+    m_playerTrain->addWagon<WeaponWagon>();
+
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<WeaponWagon>();
+    m_enemyTrain->addWagon<RepairWagon>();
+
+    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
+
+    addNode(m_playerTrain.get());
+    addNode(m_enemyTrain.get());
+    addNode(m_terrain.get());
+    addNode(m_skybox.get());
+
+    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
+    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
+
+    localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
+    localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
+    localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
+    localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 }
 
 World::~World()
@@ -135,7 +124,7 @@ void World::update()
         object->update();
     }
 
-    m_aiPlayer->update();
+    m_enemyPlayer->update();
     m_localPlayer->update();
 
     // camera updates after all other nodes because it can follow the position of other nodes
@@ -174,6 +163,11 @@ LocalPlayer & World::localPlayer()
     return *m_localPlayer;
 }
 
+AbstractPlayer &World::enemyPlayer()
+{
+    return *m_enemyPlayer;
+}
+
 Train & World::playerTrain()
 {
     return *m_playerTrain;
@@ -202,25 +196,6 @@ LightManager &World::lightManager()
 std::shared_ptr<BulletWorld> World::bulletWorld()
 {
     return m_bulletWorld;
-}
-
-void World::prepareWorld()
-{
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
-
-    addNode(m_playerTrain.get());
-    addNode(m_enemyTrain.get());
-    addNode(m_terrain.get());
-    addNode(m_skybox.get());
-
-    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
-    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
-    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
-
-    localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
-    localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
-    localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
-    localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 }
 
 void World::scheduleAction(DeferredAction event)

@@ -18,12 +18,13 @@ namespace terminus
 class Level
 {
 public:
-    Level();
+    Level(unsigned int seed);
     virtual ~Level();
 
     virtual void generateLevel();
     virtual void resetLevel();
 
+    virtual unsigned int seed() const;
     virtual int vertexCountS() const;
     virtual int vertexCountT() const;
     virtual int patchCountS() const;

@@ -24,7 +24,7 @@ PerlinNoise::~PerlinNoise()
 {
 }
 
-unsigned int PerlinNoise::seed()
+unsigned int PerlinNoise::seed() const
 {
     return m_seed;
 }

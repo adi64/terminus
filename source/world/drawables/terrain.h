@@ -15,13 +15,15 @@ class Track;
 class Terrain : public KinematicPhysicsObject
 {
 public:
-    Terrain(World & world);
+    Terrain(World & world, unsigned int seed);
     virtual ~Terrain();
 
     virtual void localUpdate() override;
     virtual void localRender(QOpenGLFunctions& gl) const override;
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+
+    virtual unsigned int seed() const;
 
     Track *playerTrack() const;
     Track *enemyTrack() const;

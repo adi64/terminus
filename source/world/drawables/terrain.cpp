@@ -39,10 +39,11 @@
 namespace terminus
 {
 
-Terrain::Terrain(World & world)
+Terrain::Terrain(World & world, unsigned int seed)
 : KinematicPhysicsObject(world)
+, m_level(seed)
 , m_terrainMapOnGPU(false)
-{   
+{
     m_program = ResourceManager::getInstance()->getProgram("terrain");
     m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
     m_material = ResourceManager::getInstance()->getMaterial("base_Terrain");
@@ -51,7 +52,7 @@ Terrain::Terrain(World & world)
     setScale(m_level.scale());
     m_playerTrack = std::unique_ptr<Track>(new Track(m_world, m_level.playerTrack()));
     m_enemyTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack()));
-    
+
     auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
                                                m_level.heightMapSizeT(),
                                                m_level.heightMapData(),
@@ -81,6 +82,7 @@ Track *Terrain::enemyTrack() const
 {
     return m_enemyTrack.get();
 }
+
 
 void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
@@ -152,6 +154,11 @@ void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+unsigned int Terrain::seed() const
+{
+    return m_level.seed();
 }
 
 void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const

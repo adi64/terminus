@@ -12,7 +12,7 @@
 namespace terminus
 {
 
-Level::Level()
+Level::Level(unsigned int seed)
 : m_vertexCountS(64)
 , m_vertexCountT(73)
 , m_patchCountS(32)
@@ -20,7 +20,7 @@ Level::Level()
 , m_vertexWidth(1.f)
 , m_vertexHeight(sqrt(3.f)/2.f)
 , m_scale(4.f)
-, m_noise(/*seed*/)
+, m_noise(seed)
 , m_tracksGenerated(false)
 , m_trackHeight(100.f)
 , m_texGenerated(false)
@@ -46,6 +46,11 @@ void Level::resetLevel()
     m_tracksGenerated = false;
     m_texGenerated = false;
     m_heightGenerated = false;
+}
+
+unsigned int Level::seed() const
+{
+    return m_noise.seed();
 }
 
 int Level::vertexCountS() const

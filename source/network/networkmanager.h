@@ -35,6 +35,7 @@ public:
 
 protected slots:
     void newCommand(AbstractCommand* command);
+    void prepareAndSyncNewGame();
 
 protected:
     Game & m_game;

@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <memory>
+#include <chrono>
 
 #include <QQuickView>
 #include <QApplication>
@@ -44,7 +45,7 @@ Game::Game()
 
     m_networkManager.startServer(4711);
 
-    startNetworkGame(false, 1337);
+    startLocalGame();
     
     updateQMLData();
 }
@@ -56,12 +57,17 @@ Game::~Game()
 
 void terminus::Game::startLocalGame()
 {
-    m_world = std::unique_ptr<World>(new World(*this));
+    m_world = std::unique_ptr<World>(new World(*this, false, true, std::chrono::system_clock::now().time_since_epoch().count()));
+}
+
+void Game::startNetworkGame(bool isPlayerOne)
+{
+    startNetworkGame(isPlayerOne, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
 void Game::startNetworkGame(bool isPlayerOne, int terrainSeed)
 {
-    m_world = std::unique_ptr<World>(new World(*this, isPlayerOne, terrainSeed));
+    m_world = std::unique_ptr<World>(new World(*this, true, isPlayerOne, terrainSeed));
 }
 
 World & Game::world() const
@@ -159,8 +165,6 @@ void Game::handleWindowChanged(QQuickWindow * win)
         m_renderTrigger->start(1000 / 60);
     }
 }
-
-
 
 void Game::setPaused(bool paused)
 {
