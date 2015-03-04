@@ -19,8 +19,6 @@
 
 #include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
-#include <world/drawables/terrain.h>
-#include <world/drawables/track.h>
 #include <world/world.h>
 
 namespace terminus
