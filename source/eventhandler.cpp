@@ -94,7 +94,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        player.toggleCamera();
+        player.toggleCameraLock();
         break;
     case Qt::Key_I:
         player.primaryActionDebug();

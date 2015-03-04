@@ -1,6 +1,6 @@
 #include "abstractplayer.h"
 
-#include <cassert>
+#include <assert.h>
 
 #include <world/camera.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
@@ -25,7 +25,7 @@ Camera & AbstractPlayer::camera()
     return m_camera;
 }
 
-void AbstractPlayer::toggleCamera()
+void AbstractPlayer::toggleCameraLock()
 {
     if(m_camera.isBound())
     {
