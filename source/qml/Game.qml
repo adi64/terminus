@@ -61,7 +61,9 @@ Item
                 enabled: Qt.platform.os === ("android" || "ios")? false : true
                 onPositionChanged:
                 {
-                    terminus.moveInput(0, mouse.x, mouse.y)
+                    if (containsMouse){
+                        terminus.moveInput(0, mouse.x, mouse.y)
+                    }
                 }
                 onReleased:
                 {

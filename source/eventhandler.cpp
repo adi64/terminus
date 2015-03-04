@@ -115,6 +115,11 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     auto offset = oldPosition - QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
+    if(rotation.x() == 0 && rotation.y() == 0)
+    {
+        return;
+    }
+
     // invert X and Y
     rotation *= QVector2D(-1.0, -1.0);
 
