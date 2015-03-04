@@ -20,6 +20,7 @@ Item
         onLoaded:
         {
             mainmenu.visible = false
+            mainmenu.enabled = false
         }
     }
 }

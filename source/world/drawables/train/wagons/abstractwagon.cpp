@@ -15,12 +15,12 @@ namespace terminus
 {
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
-    : KinematicPhysicsObject(world)
-    , m_health(maxHealth())
-    , m_disabled(false)
-    , m_cooldown(1.0f)
-    , m_onCooldown(false)
-    , m_train(train)
+: KinematicPhysicsObject(world)
+, m_health(maxHealth())
+, m_disabled(false)
+, m_cooldown(1.0f)
+, m_onCooldown(false)
+, m_train(train)
 {
 }
 
@@ -51,6 +51,46 @@ void AbstractWagon::localUpdate()
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
+}
+
+void AbstractWagon::onBindCamera()
+{
+    m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+}
+
+void AbstractWagon::adjustCamera()
+{
+    if(!m_camera)
+    {
+        return;
+    }
+    Camera & camera = *m_camera;
+
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+    auto vCenterM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMaxM.z());
+    auto vEyeM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMinM.z() - 2.f) + m_cameraEyeOffset;
+
+    auto vCenterW4 = modelMatrix() * QVector4D(vCenterM, 1.f);
+    auto vEyeW4 = modelMatrix() * QVector4D(vEyeM, 1.f);
+
+    camera.setCenter(vCenterW4.toVector3DAffine());
+    camera.setEye(vEyeW4.toVector3DAffine());
+}
+
+void AbstractWagon::moveEvent(QVector3D /*movement*/)
+{
+}
+
+void AbstractWagon::rotateEvent(QVector2D rotation)
+{
+    auto scale = 0.025f;
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+    m_cameraEyeOffset.setX(
+        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x() * scale));
+    m_cameraEyeOffset.setY(
+        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y() * scale));
 }
 
 float AbstractWagon::maxHealth() const

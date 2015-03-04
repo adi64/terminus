@@ -29,8 +29,8 @@ public:
     Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer, const QVector3D & minBBox, const QVector3D & maxBBox);
     virtual ~Geometry();
 
-    virtual QVector3D bBoxMin() const;
-    virtual QVector3D bBoxMax() const;
+    virtual const QVector3D & bBoxMin() const;
+    virtual const QVector3D & bBoxMax() const;
 
     virtual void setAttributes(Program & program);
     virtual void draw(QOpenGLFunctions & gl) const;
