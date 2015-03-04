@@ -32,8 +32,8 @@ World::World(Game & game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_terrain(std::unique_ptr<Terrain>(new Terrain(*this)))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
-, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack())))
-, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack())))
+, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
+, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();

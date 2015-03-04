@@ -68,8 +68,23 @@ void AbstractWagon::adjustCamera()
 
     auto & vBBMinM = minBB();
     auto & vBBMaxM = maxBB();
-    auto vCenterM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMaxM.z());
-    auto vEyeM = QVector3D(0.f, vBBMaxM.y() + 1.f, vBBMinM.z() - 2.f) + m_cameraEyeOffset;
+
+    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
+    auto yBaseM = vBBMaxM.y() + 1.f;
+    auto vCenterM = QVector3D();
+    auto vEyeM = QVector3D();
+    auto & vEyeOff = m_cameraEyeOffset;
+    if(isOtherTrainLeft())
+    {
+        vCenterM = QVector3D(xCenterM, yBaseM, vBBMaxM.z());
+        vEyeM = QVector3D(xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z());
+    }
+    else
+    {
+        vCenterM = QVector3D(xCenterM, yBaseM, vBBMinM.z());
+        vEyeM = QVector3D(xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z());
+    }
+
 
     auto vCenterW4 = modelMatrix() * QVector4D(vCenterM, 1.f);
     auto vEyeW4 = modelMatrix() * QVector4D(vEyeM, 1.f);
@@ -140,6 +155,11 @@ void AbstractWagon::setHealth(float health)
 float AbstractWagon::length() const
 {
     return 1.f;
+}
+
+float AbstractWagon::isOtherTrainLeft() const
+{
+    return m_train->track()->isOtherTrackLeft();
 }
 
 bool AbstractWagon::isDisabled() const
