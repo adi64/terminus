@@ -170,6 +170,16 @@ unsigned int Train::size() const
     return m_wagons.size();
 }
 
+Camera &Train::playerCamera() const
+{
+    return (*m_playerCamera);
+}
+
+void Train::setPlayerCamera(std::shared_ptr<Camera> camera)
+{
+    m_playerCamera = camera;
+}
+
 void Train::calculateWagonOffset()
 {
     const auto wagonGap = 0.3f;

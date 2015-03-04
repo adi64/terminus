@@ -30,6 +30,8 @@ public:
     const QVector3D & up() const;
     void setUp(const QVector3D & up);
 
+    const QVector3D &normalizedAimVector() const;
+
     float zNear() const;
     void setZNear(float zNear);
     float zFar() const;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <world/drawables/train/wagons/abstractwagon.h>
-#include <world/drawables/train/weapons/weapon.h>
+#include "abstractwagon.h"
 
 namespace terminus
 {
@@ -15,16 +14,13 @@ public:
     void primaryAction() override;
     void primaryActionDebug() override;
 
+    void setChargeProjectile(bool charge);
+
+    bool isReloading() const;
+
     void update(int elapsedMilliseconds) override;
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
-    void postRender(QOpenGLFunctions & gl, Program & program) const override;
-
-public:
-    Weapon * weapon();
     float length() const;
-
-    void setChargeProjectile(bool charge);
-    void setWeapon(Weapon * weapon);
 
 protected:
     /*!
@@ -40,8 +36,6 @@ protected:
     bool m_chargeProjectile;
     bool m_reloadProjectile;
     float m_force;
-
-    std::unique_ptr<Weapon> m_weapon;
 };
 
 }

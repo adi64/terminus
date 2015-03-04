@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <math.h>
 
 #include <QFile>
 #include <QString>

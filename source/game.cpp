@@ -22,6 +22,10 @@
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/wagons/repairwagon.h>
 
+#include <player/abstractplayer.h>
+#include <player/aiplayer.h>
+#include <player/localplayer.h>
+
 #include "eventhandler.h"
 #include "deferredactionhandler.h"
 
@@ -78,6 +82,11 @@ Game::Game()
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->follow(m_playerTrain);
 
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(m_playerTrain));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(m_enemyTrain, m_playerTrain));
+
+    m_scene->setActiveCamera(m_localPlayer->camera());
+
     m_skybox = std::unique_ptr<SkyBox>(new SkyBox(m_scene));
 
     m_scene->setInitialTimeStamp(m_timeStamp);
@@ -95,10 +104,7 @@ Game::Game()
 
 Game::~Game()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
 void Game::sync()
@@ -130,6 +136,9 @@ void Game::sync()
     #endif
 
     m_scene->update(elapsedMilliseconds);
+
+    m_aiPlayer->update(elapsedMilliseconds);
+    m_localPlayer->update(elapsedMilliseconds);
 }
 
 void Game::render() const
@@ -254,6 +263,11 @@ Scene *Game::scene() const
 Train *Game::playerTrain() const
 {
     return m_playerTrain.get();
+}
+
+AbstractPlayer *Game::localPlayer() const
+{
+    return m_localPlayer.get();
 }
 
 void Game::btTickCallback(btDynamicsWorld *world, btScalar timeStep)

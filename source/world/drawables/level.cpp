@@ -1,5 +1,7 @@
 #include "level.h"
 
+#include <math.h>
+
 #include <QVector2D>
 #include <QVector4D>
 #include <QDebug>
