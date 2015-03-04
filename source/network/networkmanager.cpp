@@ -6,6 +6,8 @@
 #include <world/world.h>
 #include <world/drawables/terrain.h>
 
+#include <util/timer.h>
+
 #include <network/commands/abstractcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/networkconnection.h>
@@ -30,8 +32,13 @@ void NetworkManager::startServer(unsigned short port)
     server->setListenPort(port);
     server->start();
 
-    disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+    if(m_networkEndpoint)
+    {
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
+    }
     connect(server, &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+    connect(server, &NetworkServer::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
 
     m_networkEndpoint.reset(server);
     m_endpointType = EndpointType::SERVER;
@@ -42,7 +49,11 @@ void NetworkManager::startClient(QString host, unsigned short port)
     auto client = new NetworkClient;
     client->connectToHost(host, port);
 
-    disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+    if(m_networkEndpoint)
+    {
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
+    }
     connect(client, &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
 
     m_networkEndpoint.reset(client);
@@ -110,12 +121,19 @@ void NetworkManager::newCommand(AbstractCommand *command)
 
 void NetworkManager::prepareAndSyncNewGame()
 {
-    m_game.startNetworkGame(true);
+    m_game.deferredActionHandler().scheduleAction(
+        [&]()
+        {
+            m_game.startNetworkGame(true);
 
-    // assume that a client is always second player
+            // assume that a client is always second player
 
-    auto command = PrepareNewGameCommand(TimeStamp(0), true, m_game.world().terrain().seed());
-    sendMessage(&command);
+            auto command = PrepareNewGameCommand(true, m_game.world().terrain().seed());
+            sendMessage(&command);
+
+            return false;
+        }
+    );
 }
 
 } // namespace terminus

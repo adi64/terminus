@@ -12,8 +12,8 @@ namespace terminus
 class PrepareNewGameCommand : public AbstractCommand
 {
 public:
-    PrepareNewGameCommand(TimeStamp timeStamp, bool isPlayerOne, unsigned int terrainSeed);
-    PrepareNewGameCommand(TimeStamp timeStamp, QJsonObject jsonObject);
+    PrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed);
+    PrepareNewGameCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;
     virtual void doWork() override;

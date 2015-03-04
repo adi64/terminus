@@ -21,6 +21,7 @@ public:
 
 signals:
     void receivedCommand(AbstractCommand *command);
+    void prepareAndSyncNewGame();
 
 protected:
     void receiveMessages();

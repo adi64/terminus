@@ -6,15 +6,15 @@
 
 namespace terminus
 {
-    PrepareNewGameCommand::PrepareNewGameCommand(TimeStamp timeStamp, bool isPlayerOne, unsigned int terrainSeed)
-        : AbstractCommand(timeStamp)
+    PrepareNewGameCommand::PrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed)
+        : AbstractCommand()
         , m_isPlayerOne(isPlayerOne)
         , m_terrainSeed(terrainSeed)
 	{
 
     }
 
-    PrepareNewGameCommand::PrepareNewGameCommand(TimeStamp timeStamp, QJsonObject jsonObject)
+    PrepareNewGameCommand::PrepareNewGameCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
         : AbstractCommand(timeStamp)
     {
         m_isPlayerOne = jsonObject.value("isPlayerOne").toBool();

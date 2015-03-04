@@ -1,15 +1,14 @@
 #pragma once
 
 #include <memory>
-#include <chrono>
 
 #include <QObject>
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "commands.h"
+#include <util/timer.h>
 
-using TimeStamp = std::chrono::duration<long,std::milli>;
+#include "commands.h"
 
 namespace terminus
 {
@@ -22,10 +21,11 @@ namespace terminus
 	public:
         static QJsonObject VectorToJsonObject(QVector3D vector);
         static QVector3D VectorFromJsonObject(QJsonObject jsonObject);
-        static QJsonValue TimeStampToJsonValue(TimeStamp timeStamp);
-        static TimeStamp TimeStampFromJsonValue(QJsonValue jsonValue);
+        static QJsonValue TimeStampToJsonValue(Timer::TimerMSec timeStamp);
+        static Timer::TimerMSec TimeStampFromJsonValue(QJsonValue jsonValue);
 
-        AbstractCommand(TimeStamp timeStamp);
+        AbstractCommand();
+        AbstractCommand(Timer::TimerMSec timeStamp);
         virtual ~AbstractCommand();
 
         void setGame(Game* game);
@@ -33,12 +33,12 @@ namespace terminus
         virtual void doWork() = 0;
         virtual Commands commandType() const = 0;
         virtual QJsonObject toJson() const = 0;
-        TimeStamp timeStamp() const;
+        Timer::TimerMSec timeStamp() const;
 	signals:
 		void started();
 		void done();
 	protected:
-        TimeStamp m_timeStamp;
+        Timer::TimerMSec m_timeStamp;
         Game *m_game;
 	};
 }

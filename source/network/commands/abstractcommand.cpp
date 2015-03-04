@@ -35,22 +35,28 @@ QVector3D AbstractCommand::VectorFromJsonObject(QJsonObject jsonObject)
     return QVector3D(x.toDouble(), y.toDouble(), z.toDouble());
 }
 
-QJsonValue AbstractCommand::TimeStampToJsonValue(TimeStamp timeStamp)
+QJsonValue AbstractCommand::TimeStampToJsonValue(Timer::TimerMSec timeStamp)
 {
-    auto jsonValue = QJsonValue(static_cast<double>(timeStamp.count()));
+    auto jsonValue = QJsonValue(static_cast<double>(timeStamp));
     return jsonValue;
 }
 
-TimeStamp AbstractCommand::TimeStampFromJsonValue(QJsonValue jsonValue)
+Timer::TimerMSec AbstractCommand::TimeStampFromJsonValue(QJsonValue jsonValue)
 {
     assert(jsonValue.isDouble());
-    auto timeStamp = TimeStamp(static_cast<long>(jsonValue.toDouble()));
+    auto timeStamp = static_cast<Timer::TimerMSec>(jsonValue.toDouble());
     return timeStamp;
 }
 
-AbstractCommand::AbstractCommand(TimeStamp timeStamp)
-    : m_timeStamp(timeStamp)
-    , m_game(nullptr)
+AbstractCommand::AbstractCommand()
+: AbstractCommand(m_game->timer().get())
+{
+
+}
+
+AbstractCommand::AbstractCommand(Timer::TimerMSec timeStamp)
+: m_timeStamp(timeStamp)
+, m_game(nullptr)
 {
 
 }
@@ -65,7 +71,7 @@ void AbstractCommand::setGame(Game *game)
     m_game = game;
 }
 
-TimeStamp AbstractCommand::timeStamp() const
+Timer::TimerMSec AbstractCommand::timeStamp() const
 {
     return m_timeStamp;
 }

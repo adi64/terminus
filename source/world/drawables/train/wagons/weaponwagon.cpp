@@ -81,9 +81,8 @@ void WeaponWagon::fire(QVector3D force)
     SoundManager::getInstance()->playSound("shot");
 
     // woo network!
-    auto command = ProjectileFiredCommand(TimeStamp(0), worldProjectilePosition, force);
+    auto command = ProjectileFiredCommand(worldProjectilePosition, force);
     m_world.networkManager().sendMessage(&command);
-
 }
 
 float WeaponWagon::cooldownRate() const

@@ -43,13 +43,6 @@ namespace terminus
         return true;
     }
 
-    void NetworkServer::prepareNewGame(NetworkConnection *connection)
-    {
-        // assume that a client is always second player
-        auto command = PrepareNewGameCommand(TimeStamp(0), true, 1337);
-        sendMessage(connection, &command);
-    }
-
     void NetworkServer::setListenPort(unsigned short port)
 	{
 		if (port != 0)
@@ -81,7 +74,7 @@ namespace terminus
 
         m_activePlayerConnection = clientConnection;
 
-        prepareNewGame(m_activePlayerConnection);
+        emit prepareAndSyncNewGame();
 	}
 
     void NetworkServer::clientDisconnected() {

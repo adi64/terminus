@@ -7,15 +7,15 @@
 
 namespace terminus
 {
-    ProjectileFiredCommand::ProjectileFiredCommand(TimeStamp timeStamp, QVector3D startPosition, QVector3D movement)
-        : AbstractCommand(timeStamp)
+    ProjectileFiredCommand::ProjectileFiredCommand(QVector3D startPosition, QVector3D movement)
+        : AbstractCommand()
         , m_startPosition(startPosition)
         , m_movement(movement)
 	{
 
     }
 
-    ProjectileFiredCommand::ProjectileFiredCommand(TimeStamp timeStamp, QJsonObject jsonObject)
+    ProjectileFiredCommand::ProjectileFiredCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
         : AbstractCommand(timeStamp)
     {
         m_startPosition = VectorFromJsonObject(jsonObject.value("startPosition").toObject());
