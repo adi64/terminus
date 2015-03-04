@@ -19,7 +19,6 @@ enum WagonType
 
 class AbstractWagon : public KinematicPhysicsObject
 {
-
 public:
     AbstractWagon(World & world, Train * train);
 
@@ -27,6 +26,11 @@ public:
     virtual void primaryActionDebug();
 
     virtual void localUpdate() override;
+
+    virtual void onBindCamera() override;
+    virtual void adjustCamera();
+    virtual void moveEvent(QVector3D movement);
+    virtual void rotateEvent(QVector2D rotation);
 
     virtual void setHealth(float health);
     virtual float currentHealth() const;
@@ -40,6 +44,8 @@ public:
     virtual WagonType wagonType() const;
     virtual float length() const;
 
+    virtual float isOtherTrainLeft() const;
+
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
@@ -47,6 +53,9 @@ protected:
     virtual short possibleCollisionTypes() const override;
 
 protected:
+
+    QVector3D m_cameraEyeOffset;
+
     float m_positionOffset;
     float m_health;
     bool m_disabled;

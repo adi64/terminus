@@ -11,13 +11,13 @@
 #include <player/abstractplayer.h>
 #include <player/localplayer.h>
 
-#include "game.h"
+#include <game.h>
 
 namespace terminus
 {
 
-EventHandler::EventHandler(Game *game)
-    : m_game(game)
+EventHandler::EventHandler(Game * game)
+: m_game(game)
 {
 
 }
@@ -60,52 +60,41 @@ void EventHandler::moveInput(int type, qreal x, qreal y)
 void EventHandler::keyPressEvent(Qt::Key key)
 {
     AbstractPlayer & player = m_game->world().localPlayer();
-    Camera & camera = player.camera();
-    QVector3D movement;
 
+    float moveQuantum = 1.f;
     switch(key)
     {
     case Qt::Key_W:
-        if(!camera.isLocked())
-        {
-            movement.setZ(-1.0);
-            camera.setMovement(movement);
-        }
+        player.camera().moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
         break;
     case Qt::Key_S:
-        if(!camera.isLocked())
-        {
-            movement.setZ(1.0);
-            camera.setMovement(movement);
-        }
+        player.camera().moveEvent(QVector3D(0.f, 0.f, moveQuantum));
         break;
     case Qt::Key_A:
-        if(camera.isLocked())
+        if(player.camera().isBound())
         {
             player.switchToNextWagon();
         }
         else
         {
-            movement.setX(-1.0);
-            camera.setMovement(movement);
+            player.camera().moveEvent(QVector3D(-moveQuantum, 0.f, 0.f));
         }
         break;
     case Qt::Key_D:
-        if(camera.isLocked())
+        if(player.camera().isBound())
         {
             player.switchToPreviousWagon();
         }
         else
         {
-            movement.setX(1.0);
-            camera.setMovement(movement);
+            player.camera().moveEvent(QVector3D(moveQuantum, 0.f, 0.f));
         }
         break;
     case Qt::Key_Escape:
         QApplication::quit();
         break;
     case Qt::Key_Space:
-        camera.toggleLocked();
+        player.toggleCameraLock();
         break;
     case Qt::Key_I:
         player.primaryActionDebug();
@@ -126,10 +115,15 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
     auto offset = oldPosition - QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    // invert X
-    rotation *= QVector2D(-1.0, 1.0);
+    if(rotation.x() == 0 && rotation.y() == 0)
+    {
+        return;
+    }
 
-    m_game->world().localPlayer().camera().setRotation(rotation);
+    // invert X and Y
+    rotation *= QVector2D(-1.0, -1.0);
+
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 
     QPoint globalPosition = m_game->window()->mapToGlobal(QPoint(m_game->window()->width() / 2, m_game->window()->height() / 2));
     QCursor::setPos(globalPosition);
@@ -137,12 +131,12 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
 {
-    const double sensitivity = 0.005;
+    const double sensitivity = 0.03;
 
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
-    m_game->world().localPlayer().camera().setRotation(rotation);
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 }
 
 void EventHandler::switchToNextWagon()

@@ -46,7 +46,7 @@ public:
     virtual QVector2D vertexIDToPosition(int s, int t) const;
 
     virtual const void * terrainMapData() const;
-    virtual std::unique_ptr<Polyline> playerTrack() const;
+    virtual std::unique_ptr<Polyline> rightTrack() const;
     virtual std::unique_ptr<Polyline> enemyTrack() const;
 
     virtual const void * heightMapData() const;
@@ -90,8 +90,8 @@ protected:
     bool m_heightGenerated;
     std::vector<float> m_heightMapData;
 
-    std::unique_ptr<CatmullRomSpline> m_playerTrack;
-    std::unique_ptr<CatmullRomSpline> m_enemyTrack;
+    std::unique_ptr<CatmullRomSpline> m_rightTrack;
+    std::unique_ptr<CatmullRomSpline> m_leftTrack;
 };
 
 }

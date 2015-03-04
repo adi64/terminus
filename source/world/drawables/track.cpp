@@ -6,9 +6,10 @@
 namespace terminus
 {
 
-Track::Track(World & world, std::unique_ptr<Polyline> controlPoints)
+Track::Track(World & world, std::unique_ptr<Polyline> controlPoints, bool isOtherTrackLeft)
 : AbstractGraphicsObject(world)
 , m_course(std::move(controlPoints))
+, m_isOtherTrackLeft(isOtherTrackLeft)
 {
 }
 
@@ -25,6 +26,11 @@ QVector3D Track::tangentAt(float distance)
 float Track::length()
 {
     return m_course->length();
+}
+
+bool Track::isOtherTrackLeft()
+{
+    return m_isOtherTrackLeft;
 }
 
 bool Track::localRenderEnabled() const
