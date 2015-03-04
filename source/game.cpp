@@ -187,7 +187,7 @@ void Game::updateQMLData()
     playerTrainMap.insert("totalWagons", playerTrain.size());
     playerTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
     playerTrainMap.insert("wagons", playerWagonList);
-    float progress = playerTrain.travelledDistance() / m_world->terrain().playerTrack()->length();
+    float progress = playerTrain.travelledDistanceRelative();
     playerTrainMap.insert("progress", progress);
 
     QMap<QString, QVariant> enemyTrainMap;

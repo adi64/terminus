@@ -44,6 +44,8 @@ public:
     virtual WagonType wagonType() const;
     virtual float length() const;
 
+    virtual float isOtherTrainLeft() const;
+
     virtual void setPositionOffset(float accumulatedOffset);
 
 protected:
