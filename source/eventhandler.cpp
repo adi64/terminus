@@ -131,7 +131,7 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
 {
-    const double sensitivity = 0.005;
+    const double sensitivity = 0.03;
 
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;

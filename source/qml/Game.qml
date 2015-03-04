@@ -108,11 +108,11 @@ Item
                 {
                     if (reading.orientation === OrientationReading.LeftUp)
                     {
-                        gyro.orientation = 1
+                        gyro.orientation = -1
                     }
                     if (reading.orientation === OrientationReading.RightUp)
                     {
-                        gyro.orientation = -1
+                        gyro.orientation = 1
                     }
                 }
             }
@@ -123,14 +123,14 @@ Item
                 dataRate: 50
                 active: true
 
-                property int orientation: -1
+                property int orientation: 1
 
                 onReadingChanged:
                 {
                     terminus.moveInput(
                                        2
-                                     , gyro.reading.x * 4 * orientation
-                                     , gyro.reading.y * 4 * orientation)
+                                     , gyro.reading.x * -orientation
+                                     , gyro.reading.y * orientation)
                 }
             }
         }
