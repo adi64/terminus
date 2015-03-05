@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 
@@ -7,19 +7,15 @@ Item
     width: Screen.width
     height: Screen.height
 
-    MainMenu
-    {
-        id: mainmenu
-        loader: loader
-    }
-
     Loader
     {
         id: loader
+        anchors.fill: parent
         focus: true
-        onLoaded:
-        {
-            mainmenu.visible = false
-        }
+    }
+
+    Component.onCompleted:
+    {
+        loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
     }
 }

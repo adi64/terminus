@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtSensors 5.3
@@ -23,6 +23,8 @@ Item
 {
     width: Screen.width
     height: Screen.height
+
+    property Loader loader
 
     /*
      * Initializes Game in an empty fullscreen Item

@@ -12,5 +12,6 @@
         <file>source/qml/Game.qml</file>
         <file>source/qml/MainMenu.qml</file>
         <file>source/qml/MenuButton.qml</file>
+        <file>source/qml/MultiplayerMenu.qml</file>
     </qresource>
 </RCC>

@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 
 Rectangle
 {
@@ -28,7 +28,7 @@ Rectangle
         anchors.fill: parent
         onReleased:
         {
-            loader.source = loadSource
+            loader.setSource(loadSource, { "loader": loader })
         }
     }
 }

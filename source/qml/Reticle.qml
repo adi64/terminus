@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 
 /*
  * Creates a reticle out of 4 white bars with black borders

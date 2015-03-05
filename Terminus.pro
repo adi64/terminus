@@ -109,7 +109,8 @@ DISTFILES += \
     source/qml/WagonSwitchArea.qml \
     source/qml/Game.qml \
     source/qml/MainMenu.qml \
-    source/qml/MenuButton.qml
+    source/qml/MenuButton.qml \
+    source/qml/MultiplayerMenu.qml
 
 RC_FILE = data/myapp.rc
 

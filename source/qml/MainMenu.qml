@@ -1,6 +1,7 @@
-import QtQuick 2.3
+import QtQuick 2.4
 
-Rectangle {
+Rectangle
+{
     id: mainMenu
     color: "darkgrey"
     anchors.fill: parent
@@ -22,14 +23,22 @@ Rectangle {
     MenuButton
     {
         posNum: 1
-        buttonText: "Start Game!"
+        buttonText: "Singleplayer"
         loadSource: "qrc:/source/qml/Game.qml"
     }
 
     MenuButton
     {
         posNum: 2
+        buttonText: "Multiplayer"
+        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
+    }
+
+    MenuButton
+    {
+        posNum: 3
         buttonText: "Quit"
+        visible: Qt.platform.os === ("android" || "ios")? false : true
 
         MouseArea
         {
