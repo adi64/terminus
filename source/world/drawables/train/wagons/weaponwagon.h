@@ -20,7 +20,13 @@ public:
 
     void update(int elapsedMilliseconds) override;
     void preRender(QOpenGLFunctions& gl, Program & program) const override;
+
+public:
+    Weapon * weapon();
     float length() const;
+
+    void setChargeProjectile(bool charge);
+    void setWeapon(Weapon * weapon);
 
 protected:
     /*!
@@ -36,6 +42,8 @@ protected:
     bool m_chargeProjectile;
     bool m_reloadProjectile;
     float m_force;
+
+    std::unique_ptr<Weapon> m_weapon;
 };
 
 }
