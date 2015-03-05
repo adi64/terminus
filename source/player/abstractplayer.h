@@ -6,9 +6,12 @@
 
 #include <world/camera.h>
 
+#include <world/world.h>
+
 namespace terminus
 {
 
+class AbstractWagon;
 class Train;
 
 /*!
@@ -17,21 +20,28 @@ class Train;
 class AbstractPlayer
 {
 public:
-    AbstractPlayer(std::shared_ptr<Train> train);
+    AbstractPlayer(World & world, Train * train);
 
-    std::shared_ptr<Camera> camera();
-    const Train &train();
+    Camera & camera();
+    void toggleCameraLock();
+
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
     void primaryAction();
     void primaryActionDebug();
+    void primaryActionCharge(bool charge = true);
 
-    virtual void update(int elapsedMilliseconds);
+    virtual void update();
 
 protected:
-    std::shared_ptr<Camera> m_camera;
-    std::shared_ptr<Train> m_train;
+    AbstractWagon * selectedWagon();
+
+protected:
+    World & m_world;
+
+    Camera m_camera;
+    Train *m_train;
 
     unsigned int m_selectedWagonIndex;
 };

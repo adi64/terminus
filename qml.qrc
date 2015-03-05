@@ -1,5 +1,16 @@
 <RCC>
     <qresource prefix="/">
         <file>source/qml/main.qml</file>
+        <file>source/qml/EnemyStatusBar.qml</file>
+        <file>source/qml/PlayerStatusBar.qml</file>
+        <file>source/qml/Reticle.qml</file>
+        <file>source/qml/WagonActionArea.qml</file>
+        <file>source/qml/WagonSwitchArea.qml</file>
+        <file>source/qml/EnemyWagonStatus.qml</file>
+        <file>source/qml/PlayerWagonStatus.qml</file>
+        <file>source/qml/StatusBarContainer.qml</file>
+        <file>source/qml/Game.qml</file>
+        <file>source/qml/MainMenu.qml</file>
+        <file>source/qml/MenuButton.qml</file>
     </qresource>
 </RCC>

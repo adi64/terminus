@@ -6,26 +6,33 @@ namespace terminus
 {
 
 DeferredActionHandler::DeferredActionHandler(Game *game)
-    : m_game(game)
-    , m_actionList(std::unique_ptr<DeferredActionList>(new DeferredActionList))
+: m_game(game)
+, m_currentActionList(0)
 {
-
+    m_actionList[0] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
+    m_actionList[1] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
 }
 
-void DeferredActionHandler::scheduleAction(const DeferredAction& event)
+void DeferredActionHandler::scheduleAction(const DeferredAction& action)
 {
     std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    m_actionList->push_back(event);
+    m_actionList[m_currentActionList]->push_back(action);
 }
 
 void DeferredActionHandler::processDeferredActions()
 {
     std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    for (auto &action : (*m_actionList))
+    int nextActionList = (m_currentActionList + 1) % 2;
+
+    for (auto &action : (*m_actionList[m_currentActionList]))
     {
-        action();
+        if(action())
+        {
+            m_actionList[nextActionList]->push_back(action);
+        }
     }
-    m_actionList->clear();
+    m_actionList[m_currentActionList]->clear();
+    m_currentActionList = nextActionList;
 }
 
 }

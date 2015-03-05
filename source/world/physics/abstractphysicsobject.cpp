@@ -2,13 +2,15 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+#include <world/world.h>
+#include <world/physics/bulletworld.h>
 
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(std::shared_ptr<Scene> scene)
-    : AbstractGraphicsObject(scene)
+AbstractPhysicsObject::AbstractPhysicsObject(World & world)
+: AbstractGraphicsObject(world)
+, m_bulletWorld(world.bulletWorld())
 {
 }
 
@@ -31,14 +33,14 @@ void AbstractPhysicsObject::initializePhysics(btCollisionShape * collisionShape,
     auto rigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, collisionShape, inertia);
     m_btRigidBody = std::unique_ptr<btRigidBody>(new btRigidBody(rigidBodyConstructionInfo));
 
-    m_scene->bullet_world()->addRigidBody(m_btRigidBody.get());
-    m_scene->addCollisionMapping(m_btRigidBody.get(), this);
+    m_bulletWorld->addRigidBody(m_btRigidBody.get(), myCollisionType(), possibleCollisionTypes());
+    m_bulletWorld->addCollisionMapping(m_btRigidBody.get(), this);
 }
 
 void AbstractPhysicsObject::deallocatePhysics()
 {
-    m_scene->bullet_world()->removeRigidBody(m_btRigidBody.get());
-    m_scene->removeCollisionMapping(m_btRigidBody.get());
+    m_bulletWorld->removeRigidBody(m_btRigidBody.get());
+    m_bulletWorld->removeCollisionMapping(m_btRigidBody.get());
 }
 
 /*!
@@ -52,5 +54,4 @@ void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
 {
 
 }
-
 }

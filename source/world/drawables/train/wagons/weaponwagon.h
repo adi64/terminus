@@ -8,42 +8,30 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon(std::shared_ptr<Scene> scene, Train *train);
+    WeaponWagon(World & world, Train *train);
     virtual ~WeaponWagon();
 
-    void primaryAction() override;
-    void primaryActionDebug() override;
+    virtual void localUpdate() override;
 
-    void setChargeProjectile(bool charge);
+    virtual void primaryAction() override;
+    virtual void primaryActionDebug() override;
+    virtual float cooldownRate() const override;
+    void setAimVector(const QVector3D & aimVector);
 
-    bool isReloading() const;
-
-    void update(int elapsedMilliseconds) override;
-    void preRender(QOpenGLFunctions& gl, Program & program) const override;
-
-public:
-    Weapon * weapon();
-    float length() const;
-
-    void setChargeProjectile(bool charge);
-    void setWeapon(Weapon * weapon);
+    virtual WagonType wagonType() const override;
+    virtual float length() const override;
 
 protected:
     /*!
-     * \brief Spawn a projectile and apply force
-     * \param force Force vector in global coordinates (will not be rotated to match object's rotation)
+     * \brief Spawn a projectile and set velocity
+     * \param velocity Velocity vector in global coordinates (will not be rotated to match object's rotation)
      *
-     * Schedules a projectile spawn (for next frame) with some position offset, copies the current velocity to the projectile and applies the given force to it.
+     * Schedules a projectile spawn (for next frame) with some position offset, copies the current velocity to the projectile and applies the given velocity to it.
      */
-    void fire(QVector3D force);
+    void fire(QVector3D velocity);
 
 protected:
-    int m_elapsedMilliseconds;
-    bool m_chargeProjectile;
-    bool m_reloadProjectile;
-    float m_force;
-
-    std::unique_ptr<Weapon> m_weapon;
+    QVector3D m_normalizedAimVector;
 };
 
 }

@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <util/timer.h>
 #include <world/physics/dynamicphysicsobject.h>
 
 namespace terminus
@@ -10,21 +11,25 @@ namespace terminus
 class Projectile : public DynamicPhysicsObject
 {
 public:
-    Projectile(std::shared_ptr<Scene> scene);
+    Projectile(World & world);
     virtual ~Projectile();
 
-    virtual void update(int elapsedMilliseconds) override;
+    virtual void localUpdate() override;
 
-    virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
 
     virtual float damage() const;
     virtual void onCollisionWith(AbstractPhysicsObject* other) override;
 
 protected:
     virtual unsigned int maxAgeInMilliseconds() const;
+    bool m_active;
+
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
 
 protected:
-    unsigned int m_ageInMilliseconds;
+    Timer::TimerID m_lifeTimer;
 };
 
 }

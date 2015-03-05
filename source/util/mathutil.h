@@ -9,6 +9,10 @@ public:
     static const float PI;
 
 public:
+    static float deg2rad(float degrees);
+    static float rad2deg(float radians);
+    static float cosDeg(float degrees);
+
     static float clamp(float min, float max, float x);
     static float mix(float v0, float v1, float f);
     static float linstep(float e0, float e1, float x);

@@ -1,3 +1,5 @@
+precision mediump float;
+
 uniform mat4 mProjectionInv;
 uniform mat4 mView;
 

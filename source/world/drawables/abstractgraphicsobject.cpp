@@ -3,13 +3,16 @@
 #include <QQuaternion>
 #include <QDebug>
 
-#include <world/scene.h>
+#include <resources/lightmanager.h>
+#include <player/localplayer.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
-: m_scene(scene)
+AbstractGraphicsObject::AbstractGraphicsObject(World & world)
+: m_world(world)
+, m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
@@ -19,57 +22,101 @@ AbstractGraphicsObject::AbstractGraphicsObject(std::shared_ptr<Scene> scene)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-    // do not delete this destructor, even if it is empty
-    // otherwise std::shared_ptr<IncompleteType> in the header will break
-    //
-    // ... :D
+
 }
 
-void AbstractGraphicsObject::update(int elapsedMilliseconds)
+void AbstractGraphicsObject::update()
+{
+    localUpdate();
+
+    if(m_camera)
+    {
+        adjustCamera();
+    }
+
+    doForAllChildren(
+        [](AbstractGraphicsObject & child)
+        {
+            child.update();
+        });
+}
+
+void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
+{
+    if(localRenderEnabled())
+    {
+        localRender(gl);
+    }
+    doForAllChildren(
+        [gl](AbstractGraphicsObject & child) mutable
+        {
+            child.render(gl);
+        });
+}
+
+void AbstractGraphicsObject::unbindCamera(Camera * cam)
+{
+    if(cam != m_camera)
+    {
+        return;
+    }
+    if(cam)
+    {
+        m_camera->unbound(this);
+    }
+    m_camera = nullptr;
+    onUnbindCamera();
+}
+
+void AbstractGraphicsObject::bindCamera(Camera * cam)
+{
+    if(m_camera == cam)
+    {
+        return;
+    }
+    unbindCamera(m_camera);
+    m_camera = cam;
+    onBindCamera();
+}
+
+void AbstractGraphicsObject::onBindCamera()
 {
 }
 
-void AbstractGraphicsObject::render(QOpenGLFunctions & gl) const
+void AbstractGraphicsObject::onUnbindCamera()
 {
+}
+
+void AbstractGraphicsObject::adjustCamera()
+{
+}
+
+void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
+{
+}
+
+void AbstractGraphicsObject::rotateEvent(QVector2D /*rotation*/)
+{
+}
+
+const QVector3D & AbstractGraphicsObject::minBB() const
+{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
     if(!m_geometry || !*m_geometry)
     {
-        qDebug() << "Geometry to render does not exist!";
-        return;
+        return vZero;
     }
-    if(!m_program || !*m_program)
-    {
-        qDebug() << "Program to render with does not exist!";
-        return;
-    }
-
-    Geometry & geometry = **m_geometry;
-    Program & program = **m_program;
-
-    program.bind();
-
-    m_scene->camera().setMatrices(program, modelMatrix());
-
-    if(m_material && *m_material)
-    {
-        (**m_material).setUniforms(program);
-    }
-
-    preRender(gl, program);
-
-    geometry.setAttributes(program);
-    geometry.draw(gl);
-
-    postRender(gl, program);
-
-    program.release();
+    return (**m_geometry).bBoxMin();
 }
 
-void AbstractGraphicsObject::preRender(QOpenGLFunctions & gl, Program & program) const
+const QVector3D & AbstractGraphicsObject::maxBB() const
 {
-}
-
-void AbstractGraphicsObject::postRender(QOpenGLFunctions & gl, Program & program) const
-{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
+    if(!m_geometry || !*m_geometry)
+    {
+        return vZero;
+    }
+    return (**m_geometry).bBoxMax();
 }
 
 QVector3D AbstractGraphicsObject::worldUp()
@@ -113,25 +160,85 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
+void AbstractGraphicsObject::localUpdate()
+{
+}
+
+void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
+{
+    if(!m_geometry || !*m_geometry)
+    {
+        qDebug() << "Geometry to render does not exist!";
+        return;
+    }
+    if(!m_program || !*m_program)
+    {
+        qDebug() << "Program to render with does not exist!";
+        return;
+    }
+
+    Geometry & geometry = **m_geometry;
+    Program & program = **m_program;
+
+    program.bind();
+
+    m_world.localPlayer().camera().setMatrices(program, modelMatrix());
+    m_world.lightManager().setUniforms(program);
+
+    if(m_material && *m_material)
+    {
+        (**m_material).setUniforms(program);
+    }
+
+    localRenderSetup(gl, program);
+
+    geometry.setAttributes(program);
+    geometry.draw(gl);
+
+    localRenderCleanup(gl, program);
+
+    program.release();
+}
+
+void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+{
+}
+
+void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+{
+}
+
+bool AbstractGraphicsObject::localRenderEnabled() const
+{
+    return true;
+}
+
 void AbstractGraphicsObject::setPosition(const QVector3D & position)
 {
     m_position = position;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setRotation(const QQuaternion &eulerAngles)
 {
     m_rotation = eulerAngles;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(const QVector3D & scale)
 {
     m_scale = scale;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
+}
+
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
 }
 
 }

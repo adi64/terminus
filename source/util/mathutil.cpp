@@ -11,6 +11,21 @@ float MathUtil::mix(float v0, float v1, float f)
     return (1.f - f) * v0 + f * v1;
 }
 
+float MathUtil::deg2rad(float degrees)
+{
+    return degrees * PI / 180.f;
+}
+
+float MathUtil::rad2deg(float radians)
+{
+    return radians * 180.f / PI;
+}
+
+float MathUtil::cosDeg(float degrees)
+{
+    return cos(deg2rad(degrees));
+}
+
 float MathUtil::clamp(float xMin, float xMax, float x)
 {
     return fmin(fmax(x, xMin), xMax);

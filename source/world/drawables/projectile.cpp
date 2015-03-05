@@ -2,46 +2,56 @@
 
 #include <QDebug>
 
-#include <world/scene.h>
+
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/world.h>
 
 namespace terminus
 {
 
-Projectile::Projectile(std::shared_ptr<Scene> scene)
-: DynamicPhysicsObject(scene)
-, m_ageInMilliseconds(0)
+Projectile::Projectile(World & world)
+: DynamicPhysicsObject(world)
+, m_active(true)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
+    m_lifeTimer = m_world.timer().allocateTimer();
+
     initializePhysics(new btSphereShape(1.0), 1.f);
+    setScale(0.3f); //TODO scale collision sphere as well
 }
 
 Projectile::~Projectile()
 {
     deallocatePhysics();
+
+    m_world.timer().releaseTimer(m_lifeTimer);
 }
 
-void Projectile::update(int elapsedMilliseconds)
+void Projectile::localUpdate()
 {
-    DynamicPhysicsObject::update(elapsedMilliseconds);
+    DynamicPhysicsObject::localUpdate();
 
-    m_ageInMilliseconds += elapsedMilliseconds;
-    if(m_ageInMilliseconds > maxAgeInMilliseconds())
+    if(m_world.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
     {
-        // delete node
-        auto scene = m_scene.get();
-        m_scene->scheduleAction( [this, scene](){scene->deleteNode(this); delete(this);} );
+        m_world.scheduleAction(
+            [this]()
+            {
+                m_world.deleteNode(this);
+                delete(this);
+                return false;
+            });
     }
 }
 
-void Projectile::preRender(QOpenGLFunctions & gl, Program & program) const
+void Projectile::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
@@ -53,16 +63,33 @@ float Projectile::damage() const
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
+    if(!m_active)
+    {
+        return;
+    }
+
     auto otherWagon = dynamic_cast<AbstractWagon*>(other);
     if(otherWagon)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
     }
+
+    m_active = false;
 }
 
 unsigned int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
+}
+
+short Projectile::myCollisionType() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
+}
+
+short Projectile::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
 }
 
 } //namespace terminus

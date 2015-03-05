@@ -15,28 +15,32 @@ class Track;
 class Terrain : public KinematicPhysicsObject
 {
 public:
-    Terrain(std::shared_ptr<Scene> scene);
+    Terrain(World & world);
     virtual ~Terrain();
 
-    virtual void update(int elapsedMilliseconds) override;
-    virtual void render(QOpenGLFunctions& gl) const override;
-    virtual void preRender(QOpenGLFunctions & gl, Program & program) const override;
-    virtual void postRender(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localUpdate() override;
+    virtual void localRender(QOpenGLFunctions& gl) const override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
-    Track *playerTrack() const;
-    Track *enemyTrack() const;
+    Track *rightTrack() const;
+    Track *leftTrack() const;
 
 protected:
+    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
     void renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const;
 
     void allocateTerrainMap(QOpenGLFunctions & gl) const;
     void deallocateTerrainMap(QOpenGLFunctions & gl) const;
 
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
+
 protected:
     Level m_level;
 
-    std::unique_ptr<Track> m_playerTrack;
-    std::unique_ptr<Track> m_enemyTrack;
+    std::unique_ptr<Track> m_rightTrack;
+    std::unique_ptr<Track> m_leftTrack;
 
     mutable bool m_terrainMapOnGPU;
     mutable GLuint m_terrainMap;
