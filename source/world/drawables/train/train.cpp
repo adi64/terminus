@@ -123,6 +123,11 @@ float Train::travelledDistance() const
     return m_travelledDistance;
 }
 
+float Train::travelledDistanceRelative() const
+{
+    return m_travelledDistance / m_track->length();
+}
+
 QVector3D Train::headPosition() const
 {
     return m_track->positionAt(travelledDistance());

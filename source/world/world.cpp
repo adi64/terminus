@@ -32,8 +32,8 @@ World::World(Game & game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_terrain(std::unique_ptr<Terrain>(new Terrain(*this)))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
-, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack())))
-, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack())))
+, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
+, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {
     m_playerTrain->addWagon<WeaponWagon>();
     m_playerTrain->addWagon<WeaponWagon>();
@@ -64,7 +64,6 @@ World::World(Game & game)
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
-    localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
 
     m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
     m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
@@ -107,9 +106,6 @@ void World::update()
 
     m_aiPlayer->update();
     m_localPlayer->update();
-
-    // camera updates after all other nodes because it can follow the position of other nodes
-    m_localPlayer->camera().update();
 }
 
 void World::render(QOpenGLFunctions & gl) const

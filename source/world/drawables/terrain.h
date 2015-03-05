@@ -23,8 +23,8 @@ public:
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
-    Track *playerTrack() const;
-    Track *enemyTrack() const;
+    Track *rightTrack() const;
+    Track *leftTrack() const;
 
 protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
@@ -39,8 +39,8 @@ protected:
 protected:
     Level m_level;
 
-    std::unique_ptr<Track> m_playerTrack;
-    std::unique_ptr<Track> m_enemyTrack;
+    std::unique_ptr<Track> m_rightTrack;
+    std::unique_ptr<Track> m_leftTrack;
 
     mutable bool m_terrainMapOnGPU;
     mutable GLuint m_terrainMap;

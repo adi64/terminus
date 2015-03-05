@@ -102,12 +102,12 @@ void Geometry::deallocate() const
     m_isOnGPU = false;
 }
 
-QVector3D Geometry::bBoxMin() const
+const QVector3D & Geometry::bBoxMin() const
 {
     return m_bBoxMin;
 }
 
-QVector3D Geometry::bBoxMax() const
+const QVector3D & Geometry::bBoxMax() const
 {
     return m_bBoxMax;
 }
