@@ -79,6 +79,12 @@ void Game::moveInput(int type, qreal x, qreal y)
 
 void Game::sync()
 {
+    if(m_world->playerTrain().travelledDistanceRelative() == 1.0f)
+    {
+        QMetaObject::invokeMethod(this, "endGame", Qt::DirectConnection);
+        return;
+    }
+
     // check if it's our first frame
     if(!m_setupComplete)
     {
@@ -196,7 +202,7 @@ void Game::updateQMLData()
     dataMap.insert("PlayerTrain", playerTrainMap);
     dataMap.insert("EnemyTrain", enemyTrainMap);
     m_qmlData.setValue(dataMap);
-    qmlDataChanged();
+    emit qmlDataChanged();
 }
 
 QVariant & Game::qmlData()

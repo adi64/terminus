@@ -36,6 +36,11 @@ Item
         id: terminus
         anchors.fill: parent
 
+        function endGame()
+        {
+            loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
+        }
+
         /*
          * Initializes UserInterface
          * UserInterface is a container for all UI elements
