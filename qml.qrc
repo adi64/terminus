@@ -13,5 +13,7 @@
         <file>source/qml/MainMenu.qml</file>
         <file>source/qml/MenuButton.qml</file>
         <file>source/qml/MultiplayerMenu.qml</file>
+        <file>source/qml/Defeat.qml</file>
+        <file>source/qml/Victory.qml</file>
     </qresource>
 </RCC>

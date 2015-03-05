@@ -79,9 +79,15 @@ void Game::moveInput(int type, qreal x, qreal y)
 
 void Game::sync()
 {
-    if(m_world->playerTrain().travelledDistanceRelative() == 1.0f)
+    if (m_world->playerTrain().travelledDistanceRelative() == 1.0f
+            || m_world->enemyTrain().wagonAt(0)->isDisabled())
     {
-        QMetaObject::invokeMethod(this, "endGame", Qt::DirectConnection);
+        QMetaObject::invokeMethod(this, "winGame", Qt::DirectConnection);
+        return;
+    }
+    else if (m_world->playerTrain().wagonAt(0)->isDisabled())
+    {
+        QMetaObject::invokeMethod(this, "loseGame", Qt::DirectConnection);
         return;
     }
 

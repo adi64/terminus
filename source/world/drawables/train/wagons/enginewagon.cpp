@@ -52,6 +52,11 @@ float EngineWagon::cooldownRate() const
     return 15000.f;
 }
 
+float EngineWagon::maxHealth() const
+{
+    return 1000.f;
+}
+
 void EngineWagon::localUpdate()
 {
     auto & light = m_world.lightManager().get(m_headLight);

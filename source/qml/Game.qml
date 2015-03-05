@@ -36,9 +36,13 @@ Item
         id: terminus
         anchors.fill: parent
 
-        function endGame()
+        function winGame()
         {
-            loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
+            loader.setSource("qrc:/source/qml/Victory.qml", { "loader": loader })
+        }
+        function loseGame()
+        {
+            loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
         }
 
         /*
