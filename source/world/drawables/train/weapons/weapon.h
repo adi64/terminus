@@ -19,7 +19,7 @@ public:
     virtual void render(QOpenGLFunctions & gl) const override;
 
     void fire();
-    virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
+    virtual void localUpdate(QVector3D position, QQuaternion rotation) override;
 
     QVector3D weaponOffset();
 
@@ -35,6 +35,9 @@ public:
     void setScattering(float amount);
     void setThrust(float amount);
     void setMagazineSize(int amount);
+
+protected:
+    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
 
 protected:
     float m_damage;

@@ -37,7 +37,7 @@ void Weapon::fire()
     qDebug() << "Aye Sir!";
 }
 
-void Weapon::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
+void Weapon::localUpdate(QVector3D position, QQuaternion rotation)
 {
     m_turret->update(elapsedMilliseconds, position + weaponOffset(), rotation);
     m_barrel->update(elapsedMilliseconds, position + weaponOffset(), rotation);
@@ -96,6 +96,12 @@ void Weapon::setThrust(float amount)
 void Weapon::setMagazineSize(int amount)
 {
     m_magazineSize = amount;
+}
+
+void terminus::Weapon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    callback(*m_turret);
+    callback(*m_barrel);
 }
 
 } //terminus

@@ -390,7 +390,10 @@ HEADERS += \
     source/eventhandler.h \
     source/game.h \
     source/util/timer.h \
-    source/resources/light.h
+    source/resources/light.h \
+    source/world/drawables/train/weapons/barrel.h \
+    source/world/drawables/train/weapons/turret.h \
+    source/world/drawables/train/weapons/weapon.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -574,5 +577,8 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/resources/light.cpp
+    source/resources/light.cpp \
+    source/world/drawables/train/weapons/barrel.cpp \
+    source/world/drawables/train/weapons/turret.cpp \
+    source/world/drawables/train/weapons/weapon.cpp
 
