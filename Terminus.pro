@@ -113,7 +113,8 @@ DISTFILES += \
     source/qml/MultiplayerMenu.qml \
     source/qml/Victory.qml \
     source/qml/Defeat.qml \
-    source/qml/Headline.qml
+    source/qml/Headline.qml \
+    source/qml/UserInterface.qml
 
 RC_FILE = data/myapp.rc
 
@@ -393,8 +394,8 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/util/timer.h \
-    source/resources/light.h
+    source/resources/light.h \
+    source/network/ipprovider.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -547,6 +548,7 @@ SOURCES += \
     source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
+    source/resources/light.cpp \
     source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
@@ -578,5 +580,4 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/resources/light.cpp
-
+    source/network/ipprovider.cpp

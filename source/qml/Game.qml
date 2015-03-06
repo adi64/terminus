@@ -1,23 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-import QtSensors 5.3
 import Game 1.0
-
-/*
- * Interaction will sent a integer to identify the type of interaction
- *
- * enum InteractionType
- * {
- *      MOUSE_MOVEMENT = 0,
- *      TOUCH_MOVEMENT = 1,
- *      GYRO_MOVEMENT = 2,
- *      NEXT_WAGON_BUTTON = 3,
- *      PREV_WAGON_BUTTON = 4,
- *      ACTION_BUTTON = 5,
- *      LEFT_MOUSE_BUTTON = 6
- *  };
- */
 
 Item
 {
@@ -35,6 +19,10 @@ Item
         id: terminus
         anchors.fill: parent
 
+        property bool isNetworkGame: false
+        property bool isHost: true
+        property string ip
+
         function winGame()
         {
             loader.setSource("qrc:/source/qml/Victory.qml", { "loader": loader })
@@ -43,106 +31,36 @@ Item
         {
             loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
         }
-
-        /*
-         * Initializes UserInterface
-         * UserInterface is a container for all UI elements
-         */
-        Item
+        function loadUI()
         {
+            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
+        }
+
+        Component.onCompleted:
+        {
+            /*if(isNetworkGame)
+            {
+                if(isHost)
+                {
+                    hostNetworkGame()
+                }
+                else
+                {
+                    joinNetworkGame(ip)
+                }
+            }
+            else
+            {
+                startLocalGame()
+            }*/
+            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
+        }
+
+        Loader
+        {
+            id: uiLoader
             anchors.fill: parent
             focus: true
-
-            property Game game: terminus
-
-            Keys.onPressed:
-            {
-                terminus.keyInput(event.key)
-                event.accepted = true
-            }
-
-            MouseArea
-            {
-                id: mouseCamera
-                anchors.fill: parent
-                cursorShape: "BlankCursor"
-                hoverEnabled: true
-                acceptedButtons: Qt.LeftButton
-                enabled: Qt.platform.os === ("android" || "ios")? false : true
-                onPositionChanged:
-                {
-                    if (containsMouse){
-                        terminus.moveInput(0, mouse.x, mouse.y)
-                    }
-                }
-                onReleased:
-                {
-                    terminus.buttonInput(6)
-                }
-            }
-
-            Reticle{}
-
-            StatusBarContainer{}
-
-            WagonActionArea
-            {
-                id: actionArea
-                //visible: Qt.platform.os === ("android" || "ios")? true : false
-                onFire:
-                {
-                    terminus.buttonInput(5)
-                }
-            }
-
-            WagonSwitchArea
-            {
-                id: switchArea
-                //visible: Qt.platform.os === ("android" || "ios")? true : false
-                onSwitchToNextWagon:
-                {
-                    terminus.buttonInput(3)
-                }
-                onSwitchToPreviousWagon:
-                {
-                    terminus.buttonInput(4)
-                }
-            }
-
-            OrientationSensor
-            {
-                id: orientationSensor
-                dataRate: 50
-                active: true
-                onReadingChanged:
-                {
-                    if (reading.orientation === OrientationReading.LeftUp)
-                    {
-                        gyro.orientation = -1
-                    }
-                    if (reading.orientation === OrientationReading.RightUp)
-                    {
-                        gyro.orientation = 1
-                    }
-                }
-            }
-
-            Gyroscope
-            {
-                id: gyro
-                dataRate: 50
-                active: true
-
-                property int orientation: 1
-
-                onReadingChanged:
-                {
-                    terminus.moveInput(
-                                       2
-                                     , gyro.reading.x * -orientation
-                                     , gyro.reading.y * orientation)
-                }
-            }
         }
     }
 }
