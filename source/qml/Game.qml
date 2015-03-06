@@ -41,7 +41,7 @@ Item
 
         Component.onCompleted:
         {
-            if(network)
+            /*if(network)
             {
                 if(host)
                 {
@@ -55,8 +55,8 @@ Item
             else
             {
                 startLocalGame()
-            }
-
+            }*/
+            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
         }
 
         Loader

@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void buttonInput(int type);
     Q_INVOKABLE void keyInput(Qt::Key key);
     Q_INVOKABLE void moveInput(int type, qreal x, qreal y);
+    Q_INVOKABLE void touchInput(qreal oldx, qreal oldy, qreal x, qreal y);
 
 public slots:
     /*!

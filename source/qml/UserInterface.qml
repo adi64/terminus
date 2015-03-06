@@ -10,8 +10,7 @@ import Game 1.0
  *
  * enum InteractionType
  * {
- *      MOUSE_MOVEMENT = 0,
- *      TOUCH_MOVEMENT = 1,
+ *      MOUSE_MOVEMENT = 1,
  *      GYRO_MOVEMENT = 2,
  *      NEXT_WAGON_BUTTON = 3,
  *      PREV_WAGON_BUTTON = 4,
@@ -29,8 +28,17 @@ Item
 
     Keys.onPressed:
     {
-        terminus.keyInput(event.key)
+        game.keyInput(event.key)
         event.accepted = true
+    }
+
+    MultiPointTouchArea
+    {
+        id: touchCamera
+        anchors.fill: parent
+        enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? true : false
+        touchPoints: [ TouchPoint { id: t } ]
+        onTouchUpdated: game.touchInput(t.previousX, t.previousY, t.x, t.y)
     }
 
     MouseArea
@@ -40,16 +48,17 @@ Item
         cursorShape: "BlankCursor"
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        enabled: Qt.platform.os === ("android" || "ios")? false : true
+        enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? false : true
         onPositionChanged:
         {
-            if (containsMouse){
-                terminus.moveInput(0, mouse.x, mouse.y)
-            }
+            console.debug(Qt.platform.os)
+            if (containsMouse)
+                if (Qt.platform.os !== "android" && Qt.platform.os !== "ios")
+                    game.moveInput(1, mouse.x, mouse.y)
         }
         onReleased:
         {
-            terminus.buttonInput(6)
+            game.buttonInput(6)
         }
     }
 
@@ -63,7 +72,7 @@ Item
         //visible: Qt.platform.os === ("android" || "ios")? true : false
         onFire:
         {
-            terminus.buttonInput(5)
+            game.buttonInput(5)
         }
     }
 
@@ -73,11 +82,11 @@ Item
         //visible: Qt.platform.os === ("android" || "ios")? true : false
         onSwitchToNextWagon:
         {
-            terminus.buttonInput(3)
+            game.buttonInput(3)
         }
         onSwitchToPreviousWagon:
         {
-            terminus.buttonInput(4)
+            game.buttonInput(4)
         }
     }
 
@@ -109,7 +118,7 @@ Item
 
         onReadingChanged:
         {
-            terminus.moveInput(
+            game.moveInput(
                                2
                              , gyro.reading.x * -orientation
                              , gyro.reading.y * orientation)

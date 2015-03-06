@@ -49,12 +49,20 @@ void EventHandler::moveInput(int type, qreal x, qreal y)
     {
     case MOUSE_MOVEMENT:
         mouseMoveEvent(x, y); break;
-    /*case TOUCH_MOVEMENT:
-        touchMoveEvent(x, y); break;*/
     case GYRO_MOVEMENT:
         gyroMoveEvent(x, y); break;
     default: break;
     }
+}
+
+void EventHandler::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
+{
+    const double sensitivity = 0.5;
+
+    auto offset = QVector2D(oldx, oldy) - QVector2D(x, y);
+    auto rotation = offset * sensitivity;
+
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 }
 
 void EventHandler::keyPressEvent(Qt::Key key)
