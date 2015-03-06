@@ -8,6 +8,7 @@
 
 #include "game.h"
 
+#include <network/ipprovider.h>
 #include <resources/resourcemanager.h>
 #include <network/ipprovider.h>
 
