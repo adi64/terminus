@@ -23,7 +23,9 @@ namespace terminus
 		virtual qint64 write(const QByteArray &data);
         virtual bool isConnected() const;
 
+        virtual QHostAddress localAddress() const;
         virtual QHostAddress peerAddress() const;
+        virtual quint16 localPort() const;
         virtual quint16 peerPort() const;
 
 		static NetworkConnection* fromTcpSocket(QTcpSocket* socket, QObject* parent = 0);

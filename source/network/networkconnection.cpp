@@ -110,9 +110,19 @@ bool NetworkConnection::isConnected() const
     return m_socket->state() == QAbstractSocket::ConnectedState;
 }
 
+QHostAddress NetworkConnection::localAddress() const
+{
+    return m_socket->localAddress();
+}
+
 QHostAddress NetworkConnection::peerAddress() const
 {
     return m_socket->peerAddress();
+}
+
+quint16 NetworkConnection::localPort() const
+{
+    return m_socket->localPort();
 }
 
 quint16 NetworkConnection::peerPort() const

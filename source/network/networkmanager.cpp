@@ -95,6 +95,20 @@ bool NetworkManager::isConnected() const
     return false;
 }
 
+QString NetworkManager::localIPAddress() const
+{
+    assert(m_endpointType != EndpointType::INVALID);
+    if(m_networkEndpoint->activePlayerConnection())
+    {
+        return m_networkEndpoint->activePlayerConnection()->localAddress().toString();
+    }
+    else
+    {
+        qDebug() << "There is no active network connection!";
+        return QString();
+    }
+}
+
 NetworkServer *NetworkManager::networkServer() const
 {
     assert(isServer());

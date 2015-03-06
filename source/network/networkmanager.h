@@ -30,6 +30,8 @@ public:
     bool isServer() const;
     bool isConnected() const;
 
+    QString localIPAddress() const;
+
     NetworkServer *networkServer() const;
     NetworkClient *networkClient() const;
 
