@@ -5,11 +5,13 @@
 #include <QVector3D>
 
 #include <world/camera.h>
+
 #include <world/world.h>
 
 namespace terminus
 {
 
+class AbstractWagon;
 class Train;
 
 /*!
@@ -18,9 +20,11 @@ class Train;
 class AbstractPlayer
 {
 public:
-    AbstractPlayer(World & world, Train *train);
+    AbstractPlayer(World & world, Train * train);
 
     Camera & camera();
+    void toggleCameraLock();
+
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
@@ -29,6 +33,10 @@ public:
     void primaryActionCharge(bool charge = true);
 
     virtual void update();
+
+protected:
+    AbstractWagon * selectedWagon();
+
 protected:
     World & m_world;
 

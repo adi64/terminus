@@ -22,5 +22,7 @@ int main(int argc, char *argv[])
     view.show();
     //view.showFullScreen();
 
+    QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
+
     return app.exec();
 }

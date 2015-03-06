@@ -57,27 +57,31 @@ public:
     const QMatrix3x3 & normal() const;
 
     void changed();
-    void update();
 
-    QVector3D movement();
-    QVector2D rotation();
+    /*!
+     * \brief bindToGraphicsObject - locks camera to a new object
+     * \param object - an AbstractGraphicsObject to which the camera will be m_lockedEyeAngle to
+     *
+     * passing a nullptr frees the camera
+     */
+    void bindTo(AbstractGraphicsObject * object);
 
-    void setMovement(QVector3D movement);
-    void setRotation(QVector2D rotation);
+    /*!
+     * \brief unbind - bind to nullptr
+     */
+    void unbind();
 
-    void toggleLocked();
-    void setLocked(bool value);
-    bool isLocked() const;
-    void lockToObject(AbstractGraphicsObject *object);
+    void unbound(AbstractGraphicsObject * object);
+
+    bool isBound() const;
+
+    void moveEvent(QVector3D movement);
+    void rotateEvent(QVector2D rotation);
 
 protected:
     void invalidateMatrices() const;
 
 protected:
-    QVector3D m_movement;
-    QVector2D m_rotation;
-    bool m_lockedToTrain;
-
     QVector3D m_eye;
     QVector3D m_center;
     QVector3D m_up;
@@ -105,10 +109,10 @@ protected:
     mutable bool m_viewProjectionInvertedChanged;
     mutable bool m_normalChanged;
 
-    QVector3D m_lockedCenterOffset;
-    QVector3D m_lockedFlickOffset;
-    QQuaternion m_lockedEyeAngle;
-    AbstractGraphicsObject *m_lockedObject;
+    /*!
+     * \brief m_associatedObject - object that this camera is locked to, or nullptr otherwise
+     */
+    AbstractGraphicsObject * m_associatedObject;
 };
 
 

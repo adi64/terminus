@@ -32,16 +32,17 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
 : m_game(game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
+, m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
 {
     if(isPlayerOne)
     {
-        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
-        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
+        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
+        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
     }
     else
     {
-        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->enemyTrack()));
-        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->playerTrack()));
+        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
+        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
     }
 
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
@@ -73,21 +74,18 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_enemyTrain->addWagon<WeaponWagon>();
     m_enemyTrain->addWagon<RepairWagon>();
 
-    m_skybox = std::unique_ptr<SkyBox>(new SkyBox(*this));
-
     addNode(m_playerTrain.get());
     addNode(m_enemyTrain.get());
     addNode(m_terrain.get());
     addNode(m_skybox.get());
 
-    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
-    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
-    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
-
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
-    localPlayer().camera().lockToObject(m_playerTrain->wagonAt(0));
+
+    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
+    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 }
 
 World::~World()
@@ -126,9 +124,6 @@ void World::update()
 
     m_enemyPlayer->update();
     m_localPlayer->update();
-
-    // camera updates after all other nodes because it can follow the position of other nodes
-    m_localPlayer->camera().update();
 }
 
 void World::render(QOpenGLFunctions & gl) const

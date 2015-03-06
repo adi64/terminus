@@ -12,6 +12,7 @@ namespace terminus
 
 AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 : m_world(world)
+, m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
@@ -27,12 +28,19 @@ AbstractGraphicsObject::~AbstractGraphicsObject()
 void AbstractGraphicsObject::update()
 {
     localUpdate();
+
+    if(m_camera)
+    {
+        adjustCamera();
+    }
+
     doForAllChildren(
         [](AbstractGraphicsObject & child)
         {
             child.update();
         });
 }
+
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
     if(localRenderEnabled())
@@ -44,6 +52,71 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
         {
             child.render(gl);
         });
+}
+
+void AbstractGraphicsObject::unbindCamera(Camera * cam)
+{
+    if(cam != m_camera)
+    {
+        return;
+    }
+    if(cam)
+    {
+        m_camera->unbound(this);
+    }
+    m_camera = nullptr;
+    onUnbindCamera();
+}
+
+void AbstractGraphicsObject::bindCamera(Camera * cam)
+{
+    if(m_camera == cam)
+    {
+        return;
+    }
+    unbindCamera(m_camera);
+    m_camera = cam;
+    onBindCamera();
+}
+
+void AbstractGraphicsObject::onBindCamera()
+{
+}
+
+void AbstractGraphicsObject::onUnbindCamera()
+{
+}
+
+void AbstractGraphicsObject::adjustCamera()
+{
+}
+
+void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
+{
+}
+
+void AbstractGraphicsObject::rotateEvent(QVector2D /*rotation*/)
+{
+}
+
+const QVector3D & AbstractGraphicsObject::minBB() const
+{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
+    if(!m_geometry || !*m_geometry)
+    {
+        return vZero;
+    }
+    return (**m_geometry).bBoxMin();
+}
+
+const QVector3D & AbstractGraphicsObject::maxBB() const
+{
+    static const QVector3D vZero{0.f, 0.f, 0.f};
+    if(!m_geometry || !*m_geometry)
+    {
+        return vZero;
+    }
+    return (**m_geometry).bBoxMax();
 }
 
 QVector3D AbstractGraphicsObject::worldUp()
@@ -126,9 +199,11 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 
     program.release();
 }
+
 void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
 {
 }
+
 void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
 {
 }
@@ -143,16 +218,19 @@ void AbstractGraphicsObject::setPosition(const QVector3D & position)
     m_position = position;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setRotation(const QQuaternion &eulerAngles)
 {
     m_rotation = eulerAngles;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(const QVector3D & scale)
 {
     m_scale = scale;
     m_modelMatrixChanged = true;
 }
+
 void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);

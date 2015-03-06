@@ -12,7 +12,7 @@ namespace terminus
 class ProjectileFiredCommand : public AbstractCommand
 {
 public:
-    ProjectileFiredCommand(QVector3D startPosition, QVector3D movement);
+    ProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
     ProjectileFiredCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;
@@ -21,10 +21,10 @@ public:
     virtual Commands commandType() const override;
 
     QVector3D startPosition() const;
-    QVector3D movement() const;
+    QVector3D velocity() const;
 protected:
 
     QVector3D m_startPosition;
-    QVector3D m_movement;
+    QVector3D m_velocity;
 };
 }

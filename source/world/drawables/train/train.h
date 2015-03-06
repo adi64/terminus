@@ -48,6 +48,8 @@ public:
     void setVelocity(float velocity);
 
     float travelledDistance() const;
+    float travelledDistanceRelative() const;
+
     QVector3D headPosition() const;
     unsigned int size() const;
     bool isPlayerControlled() const;

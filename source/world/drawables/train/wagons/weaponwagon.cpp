@@ -43,11 +43,11 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    auto force = 6000.f;
+    auto velocityMultiplicator = 100.f;
 
-    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
+    QVector3D worldProjectileVelocity = m_train->player().camera().normalizedAimVector() * velocityMultiplicator;
     SoundManager::getInstance()->playSound("shot");
-    fire(worldProjectileForce);
+    fire(worldProjectileVelocity);
 
     m_onCooldown = true;
     m_cooldown = 0.f;
@@ -55,24 +55,25 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    auto force = 6000.0;
+    auto velocityMultiplicator = 100.0;
 
-    QVector3D worldProjectileForce = m_train->player().camera().normalizedAimVector() * force;
-    fire(worldProjectileForce);
+    QVector3D worldProjectileVelocity = m_train->player().camera().normalizedAimVector() * velocityMultiplicator;
+    fire(worldProjectileVelocity);
 }
 
-void WeaponWagon::fire(QVector3D force)
+void WeaponWagon::fire(QVector3D velocity)
 {
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
+    auto totalVelocity = velocity + (worldFront() * m_train->velocity() * -1000.0f);
+
     m_world.scheduleAction(
-        [this, worldProjectilePosition, force]()
+        [this, worldProjectilePosition, totalVelocity]()
         {
             auto projectile = new Projectile(m_world);
             projectile->moveTo(worldProjectilePosition);
-            projectile->setLinearVelocity(worldFront() * m_train->velocity());
-            projectile->applyForce(force);
+            projectile->setLinearVelocity(totalVelocity);
             m_world.addNode(projectile);
             return false;
         }
@@ -81,7 +82,7 @@ void WeaponWagon::fire(QVector3D force)
     SoundManager::getInstance()->playSound("shot");
 
     // woo network!
-    auto command = ProjectileFiredCommand(worldProjectilePosition, force);
+    auto command = ProjectileFiredCommand(worldProjectilePosition, totalVelocity);
     m_world.networkManager().sendMessage(&command);
 }
 

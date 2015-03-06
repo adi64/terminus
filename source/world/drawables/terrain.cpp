@@ -50,9 +50,10 @@ Terrain::Terrain(World & world, unsigned int seed)
 
     m_level.generateLevel();
     setScale(m_level.scale());
-    m_playerTrack = std::unique_ptr<Track>(new Track(m_world, m_level.playerTrack()));
-    m_enemyTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack()));
 
+    m_rightTrack = std::unique_ptr<Track>(new Track(m_world, m_level.rightTrack(), true));
+    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack(), false));
+    
     auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
                                                m_level.heightMapSizeT(),
                                                m_level.heightMapData(),
@@ -73,26 +74,26 @@ Terrain::~Terrain()
     deallocatePhysics();
 }
 
-Track *Terrain::playerTrack() const
+Track *Terrain::rightTrack() const
 {
-    return m_playerTrack.get();
+    return m_rightTrack.get();
 }
 
-Track *Terrain::enemyTrack() const
+Track *Terrain::leftTrack() const
 {
-    return m_enemyTrack.get();
+    return m_leftTrack.get();
 }
 
 
 void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
-    if(m_enemyTrack)
+    if(m_leftTrack)
     {
-        callback(*m_enemyTrack);
+        callback(*m_leftTrack);
     }
-    if(m_playerTrack)
+    if(m_rightTrack)
     {
-        callback(*m_playerTrack);
+        callback(*m_rightTrack);
     }
 }
 
@@ -125,8 +126,8 @@ void Terrain::localRender(QOpenGLFunctions& gl) const
     }
 
     // render tracks
-    m_playerTrack->render(gl);
-    m_enemyTrack->render(gl);
+    m_rightTrack->render(gl);
+    m_leftTrack->render(gl);
 }
 
 void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const

@@ -15,12 +15,12 @@ namespace terminus
 {
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
-    : KinematicPhysicsObject(world)
-    , m_health(maxHealth())
-    , m_disabled(false)
-    , m_cooldown(1.0f)
-    , m_onCooldown(false)
-    , m_train(train)
+: KinematicPhysicsObject(world)
+, m_health(maxHealth())
+, m_disabled(false)
+, m_cooldown(1.0f)
+, m_onCooldown(false)
+, m_train(train)
 {
 }
 
@@ -51,6 +51,61 @@ void AbstractWagon::localUpdate()
     QVector3D trackOffset(0.f, 1.2f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
+}
+
+void AbstractWagon::onBindCamera()
+{
+    m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+}
+
+void AbstractWagon::adjustCamera()
+{
+    if(!m_camera)
+    {
+        return;
+    }
+    Camera & camera = *m_camera;
+
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+
+    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
+    auto yBaseM = vBBMaxM.y() + 1.f;
+    auto vCenterM = QVector3D();
+    auto vEyeM = QVector3D();
+    auto & vEyeOff = m_cameraEyeOffset;
+    if(isOtherTrainLeft())
+    {
+        vCenterM = QVector3D(xCenterM, yBaseM, vBBMaxM.z());
+        vEyeM = QVector3D(xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z());
+    }
+    else
+    {
+        vCenterM = QVector3D(xCenterM, yBaseM, vBBMinM.z());
+        vEyeM = QVector3D(xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z());
+    }
+
+
+    auto vCenterW4 = modelMatrix() * QVector4D(vCenterM, 1.f);
+    auto vEyeW4 = modelMatrix() * QVector4D(vEyeM, 1.f);
+
+    camera.setCenter(vCenterW4.toVector3DAffine());
+    camera.setEye(vEyeW4.toVector3DAffine());
+}
+
+void AbstractWagon::moveEvent(QVector3D /*movement*/)
+{
+}
+
+void AbstractWagon::rotateEvent(QVector2D rotation)
+{
+    auto scale = 0.025f;
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+    m_cameraEyeOffset.setX(
+        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x() * scale));
+    m_cameraEyeOffset.setY(
+        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y() * scale));
 }
 
 float AbstractWagon::maxHealth() const
@@ -100,6 +155,11 @@ void AbstractWagon::setHealth(float health)
 float AbstractWagon::length() const
 {
     return 1.f;
+}
+
+float AbstractWagon::isOtherTrainLeft() const
+{
+    return m_train->track()->isOtherTrackLeft();
 }
 
 bool AbstractWagon::isDisabled() const

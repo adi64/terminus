@@ -145,14 +145,14 @@ const void * Level::terrainMapData() const
     return m_terrainMapData.data();
 }
 
-std::unique_ptr<Polyline> Level::playerTrack() const
+std::unique_ptr<Polyline> Level::rightTrack() const
 {
     std::vector<QVector3D> points;
-    if(m_playerTrack)
+    if(m_rightTrack)
     {
-        for(float param = 0.0; param <= m_playerTrack->length(); param += 0.1)
+        for(float param = 0.0; param <= m_rightTrack->length(); param += 0.1)
         {
-            QVector2D pointInPlane = m_playerTrack->getPosition(param);
+            QVector2D pointInPlane = m_rightTrack->getPosition(param);
             points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
         }
     }
@@ -167,11 +167,11 @@ std::unique_ptr<Polyline> Level::playerTrack() const
 std::unique_ptr<Polyline> Level::enemyTrack() const
 {
     std::vector<QVector3D> points;
-    if(m_enemyTrack)
+    if(m_leftTrack)
     {
-        for(float param = 0.0; param <= m_enemyTrack->length(); param += 0.1)
+        for(float param = 0.0; param <= m_leftTrack->length(); param += 0.1)
         {
-            QVector2D pointInPlane = m_enemyTrack->getPosition(param);
+            QVector2D pointInPlane = m_leftTrack->getPosition(param);
             points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
         }
     }
@@ -233,8 +233,8 @@ void Level::generateTracks(){
         enemyPoints.push_back(QVector2D(x, zEnemy - distanceCorrect / 2.f));
     }
 
-    m_playerTrack = std::unique_ptr<CatmullRomSpline>(new CatmullRomSpline(playerPoints));
-    m_enemyTrack = std::unique_ptr<CatmullRomSpline>(new CatmullRomSpline(enemyPoints));
+    m_rightTrack = std::unique_ptr<CatmullRomSpline>(new CatmullRomSpline(playerPoints));
+    m_leftTrack = std::unique_ptr<CatmullRomSpline>(new CatmullRomSpline(enemyPoints));
 
     m_tracksGenerated = true;
 }
@@ -256,8 +256,8 @@ void Level::generateTerrainMap(){
         }
     }
 
-    setTrackEnvironment(*m_playerTrack);
-    setTrackEnvironment(*m_enemyTrack);
+    setTrackEnvironment(*m_rightTrack);
+    setTrackEnvironment(*m_leftTrack);
 
     for(int iT = 0; iT < totalVertexCountT(); iT++)
     {

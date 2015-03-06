@@ -7,10 +7,10 @@
 
 namespace terminus
 {
-    ProjectileFiredCommand::ProjectileFiredCommand(QVector3D startPosition, QVector3D movement)
+    ProjectileFiredCommand::ProjectileFiredCommand(QVector3D startPosition, QVector3D velocity)
         : AbstractCommand()
         , m_startPosition(startPosition)
-        , m_movement(movement)
+        , m_velocity(velocity)
 	{
 
     }
@@ -19,14 +19,14 @@ namespace terminus
         : AbstractCommand(timeStamp)
     {
         m_startPosition = VectorFromJsonObject(jsonObject.value("startPosition").toObject());
-        m_movement = VectorFromJsonObject(jsonObject.value("movement").toObject());
+        m_velocity = VectorFromJsonObject(jsonObject.value("velocity").toObject());
     }
 
     QJsonObject ProjectileFiredCommand::toJson() const
     {
         QJsonObject jsonObject;
         jsonObject.insert("startPosition", VectorToJsonObject(m_startPosition));
-        jsonObject.insert("movement", VectorToJsonObject(m_movement));
+        jsonObject.insert("velocity", VectorToJsonObject(m_velocity));
         return jsonObject;
     }
 
@@ -35,13 +35,23 @@ namespace terminus
         auto projectile = new Projectile(m_game->world());
         projectile->setSpawnedLocally(false);
         projectile->moveTo(m_startPosition);
-        projectile->applyForce(m_movement);
+        projectile->setLinearVelocity(m_velocity);
         m_game->world().addNode(projectile);
     }
 
     Commands ProjectileFiredCommand::commandType() const
     {
         return Command_ProjectileFired;
+    }
+
+    QVector3D ProjectileFiredCommand::startPosition() const
+    {
+        return m_startPosition;
+    }
+
+    QVector3D ProjectileFiredCommand::velocity() const
+    {
+        return m_velocity;
     }
 
 }

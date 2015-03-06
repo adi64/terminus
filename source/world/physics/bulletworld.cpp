@@ -26,7 +26,7 @@ BulletWorld::BulletWorld()
                                         m_bulletBroadphase,
                                         m_bulletSolver,
                                         m_bulletCollisionConfig);
-    m_bulletWorld->setGravity(btVector3(0.0f, -9.81f, 0.0f));
+    m_bulletWorld->setGravity(btVector3(0.0f, -5.0f, 0.0f)); // NASA told us to do this
     // set world user info (void*) to pointer to this game instance
     // so we can (indirectly) call a member of Game without having global state or a singleton
     m_bulletWorld->setInternalTickCallback(&BulletWorld::btStaticTickCallback);
