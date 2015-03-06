@@ -36,26 +36,6 @@ Item
             uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
         }
 
-        Component.onCompleted:
-        {
-            /*if(isNetworkGame)
-            {
-                if(isHost)
-                {
-                    hostNetworkGame()
-                }
-                else
-                {
-                    joinNetworkGame(ip)
-                }
-            }
-            else
-            {
-                startLocalGame()
-            }*/
-            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
-        }
-
         Loader
         {
             id: uiLoader

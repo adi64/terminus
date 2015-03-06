@@ -69,12 +69,8 @@ Item
             }
             onReleased:
             {
-                loader.setSource("qrc:/source/qml/Game.qml",
-                                 {
-                                     "isNetworkGame": true,
-                                     "isHost": false,
-                                     "ip": inputBox.text
-                                 })
+                loader.source = "qrc:/source/qml/Game.qml"
+                loader.item.joinNetworkGame(inputBox.text)
             }
         }
     }
@@ -94,11 +90,8 @@ Item
             }
             onReleased:
             {
-                loader.setSource("qrc:/source/qml/Game.qml",
-                                 {
-                                     "isNetworkGame": true,
-                                     "ip": inputBox.text
-                                 })
+                loader.source = "qrc:/source/qml/Game.qml"
+                loader.item.hostNetworkGame()
             }
         }
     }
