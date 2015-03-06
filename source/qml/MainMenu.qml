@@ -22,7 +22,19 @@ Item
     {
         posNum: 0
         buttonText: "Singleplayer"
-        loadSource: "qrc:/source/qml/Game.qml"
+        MouseArea
+        {
+            anchors.fill: parent
+            onPressed:
+            {
+                button2.buttonText = "Loading..."
+            }
+            onReleased:
+            {
+                loader.source = "qrc:/source/qml/Game.qml"
+                loader.item.startLocalGame()
+            }
+        }
     }
 
     MenuButton
