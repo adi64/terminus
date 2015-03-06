@@ -19,10 +19,13 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
+, m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
+
+    setWeapon(new Weapon(m_scene));
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
 }
@@ -42,7 +45,6 @@ void WeaponWagon::primaryAction()
     auto velocityMultiplicator = 100.f;
 
     QVector3D worldProjectileVelocity = m_train->player().camera().normalizedAimVector() * velocityMultiplicator;
-    SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileVelocity);
 
     m_onCooldown = true;
@@ -59,6 +61,7 @@ void WeaponWagon::primaryActionDebug()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
+    /*
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
@@ -71,7 +74,10 @@ void WeaponWagon::fire(QVector3D velocity)
             m_world.addNode(projectile);
             return false;
         }
-    );
+    );*/
+    weapon()->fire();
+
+    SoundManager::getInstance()->playSound("shot");
 }
 
 float WeaponWagon::cooldownRate() const
@@ -101,5 +107,14 @@ void WeaponWagon::localUpdate()
 
     AbstractWagon::localUpdate();
 }
+
+void Train::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    callback(*weapon);
+}
+//if(weapon())
+//{
+//    weapon()->localUpdate(position(), rotation());
+//}
 
 } //namespace terminus
