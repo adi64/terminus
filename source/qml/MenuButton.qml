@@ -1,6 +1,6 @@
 import QtQuick 2.4
 
-Rectangle
+Item
 {
     property string loadSource: ""
     property string buttonText: "buttonText"
@@ -8,19 +8,24 @@ Rectangle
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
-    anchors.topMargin: (parent.height * posNum * 4 / 32) + (parent.height * 3 / 16)
-    width: parent.width / 2
-    height: parent.height * 3 / 32
-    color: "lightgrey"
-    border.width: 2
-    border.color: "black"
+    anchors.topMargin: (parent.width * posNum * 3 / 32) + (parent.width * 5 / 32)
+    width: parent.width
+    height: parent.width * 2 / 32
+
+    Image
+    {
+        source: "qrc:/data/MenuButton.png"
+        anchors.fill: parent
+    }
 
     Text
     {
         anchors.centerIn: parent
+        anchors.bottomMargin: parent.height / 10
         text: buttonText
         font.family: "Helvetica"
-        font.pointSize: 36
+        font.pointSize: 50
+        color: "white"
     }
 
     MouseArea

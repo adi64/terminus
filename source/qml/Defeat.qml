@@ -1,28 +1,26 @@
 import QtQuick 2.4
 
-Rectangle
+Item
 {
-    id: mainMenu
-    color: "darkgrey"
+    id: defeatScreen
     anchors.fill: parent
 
     property Loader loader
 
-    Text
+    Image
     {
-        id: headline
-        anchors.top: parent.top
-        anchors.topMargin: parent.height / 32
-        anchors.horizontalCenter: parent.horizontalCenter
+        source: "qrc:/data/MenuBackground.png"
+        anchors.fill: parent
+    }
 
+    Headline
+    {
         text: "Defeat"
-        font.family: "Helvetica"
-        font.pointSize: 150
     }
 
     MenuButton
     {
-        posNum: 1
+        posNum: 0
         buttonText: "back"
         loadSource: "qrc:/source/qml/MainMenu.qml"
     }

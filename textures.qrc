@@ -13,5 +13,7 @@
         <file>data/PlayerStatus.png</file>
         <file>data/PrevButton.png</file>
         <file>data/SwitchArea.png</file>
+        <file>data/MenuBackground.png</file>
+        <file>data/MenuButton.png</file>
     </qresource>
 </RCC>

@@ -15,5 +15,6 @@
         <file>source/qml/MultiplayerMenu.qml</file>
         <file>source/qml/Defeat.qml</file>
         <file>source/qml/Victory.qml</file>
+        <file>source/qml/Headline.qml</file>
     </qresource>
 </RCC>

@@ -16,7 +16,7 @@ namespace terminus
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
 : KinematicPhysicsObject(world)
-, m_health(maxHealth())
+, m_health(100.f)
 , m_disabled(false)
 , m_cooldown(1.0f)
 , m_onCooldown(false)
