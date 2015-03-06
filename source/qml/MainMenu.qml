@@ -47,6 +47,13 @@ Item
     MenuButton
     {
         posNum: 2
+        buttonText: "Settings"
+        loadSource: "qrc:/source/qml/Settings.qml"
+    }
+
+    MenuButton
+    {
+        posNum: 3
         buttonText: "Quit"
         visible: Qt.platform.os === ("android" || "ios")? false : true
 

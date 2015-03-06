@@ -62,6 +62,8 @@ void EventHandler::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
     auto offset = QVector2D(oldx, oldy) - QVector2D(x, y);
     auto rotation = offset * sensitivity;
 
+    rotation *= QVector2D(1.0, 1.0);
+
     m_game->world().localPlayer().camera().rotateEvent(rotation);
 }
 

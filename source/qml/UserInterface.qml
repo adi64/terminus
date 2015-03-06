@@ -39,6 +39,7 @@ Item
         enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? true : false
         touchPoints: [ TouchPoint { id: t } ]
         onTouchUpdated: game.touchInput(t.previousX, t.previousY, t.x, t.y)
+        onReleased: if(-5 < (t.x - t.startX) < 5 && -5 < (t.y - t.startY) < 5) { game.buttonInput(5) }
     }
 
     MouseArea
@@ -51,7 +52,6 @@ Item
         enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? false : true
         onPositionChanged:
         {
-            console.debug(Qt.platform.os)
             if (containsMouse)
                 if (Qt.platform.os !== "android" && Qt.platform.os !== "ios")
                     game.moveInput(1, mouse.x, mouse.y)
