@@ -17,7 +17,7 @@ RepairWagon::RepairWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("repair_repair");
+    m_geometry = ResourceManager::getInstance()->getGeometry("repairWagon_repairWagon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Violet");
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
 }
@@ -70,7 +70,7 @@ void RepairWagon::localUpdate()
 
 float RepairWagon::length() const
 {
-    return 7.5f;
+    return 13.2f;
 }
 
 WagonType RepairWagon::wagonType() const

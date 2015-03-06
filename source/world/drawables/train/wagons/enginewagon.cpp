@@ -21,7 +21,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
+    m_geometry = ResourceManager::getInstance()->getGeometry("engineWagon_engineWagon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
@@ -81,7 +81,7 @@ void EngineWagon::playSound() const
 
 float EngineWagon::length() const
 {
-    return 6.0f;
+    return 15.44f;
 }
 
 WagonType EngineWagon::wagonType() const
