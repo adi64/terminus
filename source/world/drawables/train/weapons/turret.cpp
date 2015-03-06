@@ -20,6 +20,11 @@ Turret::~Turret()
 {
 }
 
+void Turret::localUpdate(QVector3D position, QQuaternion rotation)
+{
+
+}
+
 void Turret::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
 {
     setPosition(position);

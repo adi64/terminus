@@ -19,6 +19,11 @@ Barrel::~Barrel()
 {
 }
 
+void Barrel::localUpdate(QVector3D position, QQuaternion rotation)
+{
+
+}
+
 void Barrel::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
 {
     setPosition(position);

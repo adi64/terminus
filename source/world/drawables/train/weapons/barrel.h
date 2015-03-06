@@ -13,8 +13,7 @@ public:
     ~Barrel();
 
 public:
-    virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
-
+    virtual void localUpdate(QVector3D position, QQuaternion rotation) override;
 };
 
 } //terminus

@@ -13,8 +13,7 @@ public:
     ~Turret();
 
 public:
-    virtual void update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation);
-    void preRender(QOpenGLFunctions& gl, Program & program) const override;
+    virtual void localUpdate(QVector3D position, QQuaternion rotation) override;
 };
 
 } //terminus
