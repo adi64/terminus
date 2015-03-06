@@ -21,8 +21,9 @@ import Game 1.0
 
 Item
 {
-    width: Screen.width
-    height: Screen.height
+    anchors.fill: parent
+
+    property Loader loader
 
     /*
      * Initializes Game in an empty fullscreen Item
@@ -33,6 +34,15 @@ Item
     {
         id: terminus
         anchors.fill: parent
+
+        function winGame()
+        {
+            loader.setSource("qrc:/source/qml/Victory.qml", { "loader": loader })
+        }
+        function loseGame()
+        {
+            loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
+        }
 
         /*
          * Initializes UserInterface

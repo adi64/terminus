@@ -7,20 +7,15 @@ Item
     width: 1024
     height: 768
 
-    MainMenu
-    {
-        id: mainmenu
-        loader: loader
-    }
-
     Loader
     {
         id: loader
+        anchors.fill: parent
         focus: true
-        onLoaded:
-        {
-            mainmenu.visible = false
-            mainmenu.enabled = false
-        }
+    }
+
+    Component.onCompleted:
+    {
+        loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
     }
 }

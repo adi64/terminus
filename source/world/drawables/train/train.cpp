@@ -80,10 +80,9 @@ void Train::localUpdate()
     // move forward
     m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
 
-    // TODO FIXME - this wraps the train
-    if(m_travelledDistance > m_track->length())
+    if(m_travelledDistance >= m_track->length())
     {
-        m_travelledDistance = 0.0;
+        m_travelledDistance = m_track->length();
     }
 }
 

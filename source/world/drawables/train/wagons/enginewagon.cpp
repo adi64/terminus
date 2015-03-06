@@ -20,6 +20,8 @@ namespace terminus
 EngineWagon::EngineWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
+    setHealth(maxHealth());
+
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
@@ -50,6 +52,11 @@ void EngineWagon::primaryAction()
 float EngineWagon::cooldownRate() const
 {
     return 15000.f;
+}
+
+float EngineWagon::maxHealth() const
+{
+    return 1000.f;
 }
 
 void EngineWagon::localUpdate()

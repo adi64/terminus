@@ -1,35 +1,42 @@
 import QtQuick 2.3
 
-Rectangle {
+Item
+{
     id: mainMenu
-    color: "darkgrey"
     anchors.fill: parent
 
     property Loader loader
 
-    Text
+    Image
     {
-        id: headline
-        anchors.top: parent.top
-        anchors.topMargin: parent.height / 32
-        anchors.horizontalCenter: parent.horizontalCenter
+        source: "qrc:/data/MenuBackground.png"
+        anchors.fill: parent
+    }
 
+    Headline
+    {
         text: "TERMINUS"
-        font.family: "Helvetica"
-        font.pointSize: 150
+    }
+
+    MenuButton
+    {
+        posNum: 0
+        buttonText: "Singleplayer"
+        loadSource: "qrc:/source/qml/Game.qml"
     }
 
     MenuButton
     {
         posNum: 1
-        buttonText: "Start Game!"
-        loadSource: "qrc:/source/qml/Game.qml"
+        buttonText: "Multiplayer"
+        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
     }
 
     MenuButton
     {
         posNum: 2
         buttonText: "Quit"
+        visible: Qt.platform.os === ("android" || "ios")? false : true
 
         MouseArea
         {
