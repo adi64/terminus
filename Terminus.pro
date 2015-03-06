@@ -402,7 +402,8 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/network/commands/preparenewgamecommand.h
+    source/network/commands/preparenewgamecommand.h \
+    source/network/ipprovider.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -594,4 +595,5 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/network/commands/preparenewgamecommand.cpp
+    source/network/commands/preparenewgamecommand.cpp \
+    source/network/ipprovider.cpp
