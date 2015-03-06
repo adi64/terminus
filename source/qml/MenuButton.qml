@@ -20,6 +20,7 @@ Item
 
     Text
     {
+        id: button
         anchors.centerIn: parent
         anchors.bottomMargin: parent.height / 10
         text: buttonText
@@ -31,6 +32,10 @@ Item
     MouseArea
     {
         anchors.fill: parent
+        onPressed:
+        {
+            button.text = "Loading..."
+        }
         onReleased:
         {
             loader.setSource(loadSource, { "loader": loader })
