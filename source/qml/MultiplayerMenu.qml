@@ -40,7 +40,7 @@ Item
 
         TextInput
         {
-            id: button
+            id: inputBox
             anchors.centerIn: parent
             anchors.bottomMargin: parent.height / 10
 
@@ -56,16 +56,51 @@ Item
 
     MenuButton
     {
+        id: button1
         posNum: 1
         buttonText: "Join Game"
-        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
+
+        MouseArea
+        {
+            anchors.fill: parent
+            onPressed:
+            {
+                button1.buttonText = "Loading..."
+            }
+            onReleased:
+            {
+                loader.setSource("qrc:/source/qml/Game.qml",
+                                 {
+                                     "isNetworkGame": true,
+                                     "isHost": false,
+                                     "ip": inputBox.text
+                                 })
+            }
+        }
     }
 
     MenuButton
     {
+        id: button2
         posNum: 2
         buttonText: "Host Game"
-        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
+
+        MouseArea
+        {
+            anchors.fill: parent
+            onPressed:
+            {
+                button2.buttonText = "Loading..."
+            }
+            onReleased:
+            {
+                loader.setSource("qrc:/source/qml/Game.qml",
+                                 {
+                                     "isNetworkGame": true,
+                                     "ip": inputBox.text
+                                 })
+            }
+        }
     }
 
     MenuButton
