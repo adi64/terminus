@@ -17,7 +17,10 @@ class QVariant;
 
 namespace terminus
 {
+
 class World;
+
+const unsigned short defaultPort = 7331;
 
 
 class Game : public QQuickItem
@@ -48,8 +51,10 @@ public:
     ~Game();
 
     void startLocalGame();
-    void startNetworkGame(bool isPlayerOne);
-    void startNetworkGame(bool isPlayerOne, int terrainSeed);
+    void hostNetworkGame(unsigned short port = defaultPort);
+    void joinNetworkGame(QString host, unsigned short port = defaultPort);
+
+    void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
 
     World & world() const;
     QVariant & qmlData();
@@ -58,7 +63,6 @@ public:
     NetworkManager & networkManager();
 
     Timer & timer();
-
 
     Q_INVOKABLE void buttonInput(int type);
     Q_INVOKABLE void keyInput(Qt::Key key);
@@ -107,7 +111,6 @@ protected:
 
     std::unique_ptr<QTimer> m_renderTrigger;
     bool m_paused;
-    bool m_setupComplete;
 };
 
 }

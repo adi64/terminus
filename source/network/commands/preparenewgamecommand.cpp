@@ -31,7 +31,7 @@ namespace terminus
 
     void PrepareNewGameCommand::doWork()
     {
-        m_game->startNetworkGame(m_isPlayerOne, m_terrainSeed);
+        m_game->createWorld(true, m_isPlayerOne, m_terrainSeed);
     }
 
     Commands PrepareNewGameCommand::commandType() const

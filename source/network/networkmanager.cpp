@@ -30,7 +30,6 @@ void NetworkManager::startServer(unsigned short port)
 {
     auto server = new NetworkServer;
     server->setListenPort(port);
-    server->start();
 
     if(m_networkEndpoint)
     {
@@ -42,12 +41,13 @@ void NetworkManager::startServer(unsigned short port)
 
     m_networkEndpoint.reset(server);
     m_endpointType = EndpointType::SERVER;
+
+    server->start();
 }
 
 void NetworkManager::startClient(QString host, unsigned short port)
 {
     auto client = new NetworkClient;
-    client->connectToHost(host, port);
 
     if(m_networkEndpoint)
     {
@@ -58,6 +58,8 @@ void NetworkManager::startClient(QString host, unsigned short port)
 
     m_networkEndpoint.reset(client);
     m_endpointType = EndpointType::CLIENT;
+
+    client->connectToHost(host, port);
 }
 
 void NetworkManager::sendMessage(AbstractCommand *command)
@@ -130,7 +132,7 @@ void NetworkManager::newCommand(AbstractCommand *command)
 
     qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
-    m_game.world().scheduleAction( [=](){ command->run(); delete command; return false; } );
+    m_game.world().scheduleAction( [&](){ command->run(); delete command; return false; } );
 }
 
 void NetworkManager::prepareAndSyncNewGame()
@@ -138,8 +140,6 @@ void NetworkManager::prepareAndSyncNewGame()
     m_game.deferredActionHandler().scheduleAction(
         [&]()
         {
-            m_game.startNetworkGame(true);
-
             // assume that a client is always second player
 
             auto command = PrepareNewGameCommand(true, m_game.world().terrain().seed());

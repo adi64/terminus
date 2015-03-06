@@ -32,20 +32,10 @@ Game::Game()
 , m_networkManager(*this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_paused(true)
-, m_setupComplete(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
-    SoundManager::getInstance()->playSound("music");
-
-    SoundManager::getInstance()->playSound("music");
-
-    m_networkManager.startServer(4711);
-
-    startLocalGame();
-    
-    updateQMLData();
 }
 
 Game::~Game()
@@ -53,19 +43,25 @@ Game::~Game()
 
 }
 
-void terminus::Game::startLocalGame()
+void Game::startLocalGame()
 {
-    m_world = std::unique_ptr<World>(new World(*this, false, true, std::chrono::system_clock::now().time_since_epoch().count()));
+    createWorld(false, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::startNetworkGame(bool isPlayerOne)
+void Game::hostNetworkGame(unsigned short port)
 {
-    startNetworkGame(isPlayerOne, std::chrono::system_clock::now().time_since_epoch().count());
+    m_networkManager.startServer(port);
+    createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::startNetworkGame(bool isPlayerOne, int terrainSeed)
+void Game::joinNetworkGame(QString host, unsigned short port)
 {
-    m_world = std::unique_ptr<World>(new World(*this, true, isPlayerOne, terrainSeed));
+    m_networkManager.startClient(host, port);
+}
+
+void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
+{
+    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
 }
 
 World & Game::world() const
@@ -106,6 +102,14 @@ void Game::moveInput(int type, qreal x, qreal y)
 
 void Game::sync()
 {
+    // process scheduled events
+    m_deferredActionHandler.processDeferredActions();
+
+    if(!m_world)
+    {
+        return;
+    }
+
     if (m_world->playerTrain().travelledDistanceRelative() == 1.0f
             || m_world->enemyTrain().wagonAt(0)->isDisabled())
     {
@@ -117,17 +121,6 @@ void Game::sync()
         QMetaObject::invokeMethod(this, "loseGame", Qt::DirectConnection);
         return;
     }
-
-    // check if it's our first frame
-    if(!m_setupComplete)
-    {
-        m_setupComplete = true;
-        m_paused = false;
-        //TODO m_timeStamp->restart();
-    }
-
-    // process scheduled events
-    m_deferredActionHandler.processDeferredActions();
 
     #ifdef Q_OS_MAC
         m_world->localPlayer().camera().setViewport(window()->width() * 2, window()->height() * 2);
@@ -153,7 +146,10 @@ void Game::render()
         glInitialized = true;
     }
 
-    m_world->render(m_gl);
+    if(m_world)
+    {
+        m_world->render(m_gl);
+    }
 }
 
 void Game::cleanup()

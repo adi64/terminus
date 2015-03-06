@@ -42,7 +42,7 @@ public:
     /*!
      * \brief Construct a world for a local or multiplayer game
      * \param game Reference to a game instance
-     * \param isNetworkGame Whether this game is a network game or a local singleplayer game
+     * \param isNetworkGame Whether this game is a network game or a local singleplayer game (with enemy AI)
      * \param isPlayerOne Whether the local player is "player one" or "player two"
      * \param terrainSeed Seed value for the noise generator to synchronize the terrain with the other network player
      */

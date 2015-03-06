@@ -9,12 +9,14 @@
 #include "game.h"
 
 #include <resources/resourcemanager.h>
+#include <network/ipprovider.h>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
     qmlRegisterType<terminus::Game>("Game", 1, 0, "Game");
+    qmlRegisterType<terminus::IPProvider>("Game", 1, 0, "IPProvider");
 
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);

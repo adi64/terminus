@@ -1,12 +1,41 @@
 #include "projectilehitcommand.h"
 
-ProjectileHitCommand::ProjectileHitCommand()
+#include <game.h>
+#include <world/world.h>
+#include <world/drawables/train/train.h>
+
+namespace terminus
+{
+
+ProjectileHitCommand::ProjectileHitCommand(bool rightTrain, int wagonIndex, float damage)
+: m_rightTrain(rightTrain)
+, m_wagonIndex(wagonIndex)
+, m_damage(damage)
 {
 
 }
 
-ProjectileHitCommand::~ProjectileHitCommand()
+ProjectileHitCommand::ProjectileHitCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
+: AbstractCommand(timeStamp)
 {
-
+    m_rightTrain = jsonObject.value("rightTrain").toBool();
+    m_wagonIndex = jsonObject.value("wagonIndex").toInt();
+    m_damage = static_cast<float>(jsonObject.value("damage").toDouble());
 }
 
+QJsonObject ProjectileHitCommand::toJson() const
+{
+    QJsonObject jsonObject;
+    jsonObject.insert("rightTrain", m_rightTrain);
+    jsonObject.insert("wagonIndex", m_wagonIndex);
+    jsonObject.insert("damage", static_cast<double>(m_damage));
+    return jsonObject;
+}
+
+void ProjectileHitCommand::doWork()
+{
+    auto wagon = m_game->world().playerTrain().wagonAt(wagonIndex());
+    wagon->setHealth(wagon->currentHealth() - m_damage);
+}
+
+} // namespace terminus

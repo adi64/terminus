@@ -21,7 +21,7 @@ QString IPProvider::localIP() const
     for(int nIter=0; nIter<list.count(); nIter++)
     {
         auto ipStr = list[nIter].toString();
-        if(ipStr != "127.0.0.1" && ipStr != "::1")
+        if(ipStr.contains('.') && ipStr != "127.0.0.1")
         {
             return ipStr;
         }
