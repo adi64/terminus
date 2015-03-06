@@ -21,23 +21,21 @@ Item
     MenuButton
     {
         posNum: 0
-        buttonText: "back"
-        loadSource: "qrc:/source/qml/MainMenu.qml"
+        buttonText: "Host Game"
+        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
     }
 
-    /*Rectangle
+    MenuButton
     {
-        anchors.top: parent.top
-        anchors.topMargin: parent.height / 2
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: "grey"
+        posNum: 1
+        buttonText: "Join Game"
+        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
+    }
 
-        width: parent.width / 2
-
-        TextInput
-        {
-            anchors.fill: parent
-            text: "127.0.0.1:1337"
-        }
-    }*/
+    MenuButton
+    {
+        posNum: 2
+        buttonText: "Back"
+        loadSource: "qrc:/source/qml/MainMenu.qml"
+    }
 }

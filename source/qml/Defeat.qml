@@ -20,8 +20,8 @@ Item
 
     MenuButton
     {
-        posNum: 0
-        buttonText: "back"
+        posNum: 1
+        buttonText: "I'll win next time!"
         loadSource: "qrc:/source/qml/MainMenu.qml"
     }
 }
