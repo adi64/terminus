@@ -8,6 +8,9 @@ Item
     anchors.fill: parent
 
     property Loader loader
+    property bool network
+    property bool host
+    property string ip
 
     /*
      * Initializes Game in an empty fullscreen Item
@@ -34,6 +37,26 @@ Item
         function loadUI()
         {
             uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
+        }
+
+        Component.onCompleted:
+        {
+            if(network)
+            {
+                if(host)
+                {
+                    hostNetworkGame()
+                }
+                else
+                {
+                    joinNetworkGame()
+                }
+            }
+            else
+            {
+                startLocalGame()
+            }
+
         }
 
         Loader
