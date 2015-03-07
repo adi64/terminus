@@ -12,6 +12,7 @@ namespace terminus
 
 AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 : m_world(world)
+, m_validState(true)
 , m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
@@ -22,11 +23,15 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-
 }
 
 void AbstractGraphicsObject::update()
 {
+    if(!m_validState)
+    {
+        return;
+    }
+
     localUpdate();
 
     if(m_camera)
@@ -43,10 +48,16 @@ void AbstractGraphicsObject::update()
 
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
+    if(!m_validState)
+    {
+        return;
+    }
+
     if(localRenderEnabled())
     {
         localRender(gl);
     }
+
     doForAllChildren(
         [gl](AbstractGraphicsObject & child) mutable
         {
@@ -239,6 +250,22 @@ void AbstractGraphicsObject::setScale(float scale)
 
 void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
+}
+
+void AbstractGraphicsObject::dispose()
+{
+    if(!m_validState)
+    {
+        return;
+    }
+
+    m_world.scheduleAction(
+        [this]()
+        {
+            m_world.deleteObject(this);
+            return false;
+        });
+    m_validState = false;
 }
 
 }
