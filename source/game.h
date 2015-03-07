@@ -94,6 +94,7 @@ public slots:
      */
     void setPaused(bool paused);
     void togglePaused();
+    bool isPaused() const { return m_paused; }
 
 signals:
     void qmlDataChanged();

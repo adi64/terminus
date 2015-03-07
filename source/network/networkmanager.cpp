@@ -10,10 +10,16 @@
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/preparenewgamecommand.h>
+#include <network/commands/clientreadycommand.h>
+#include <network/commands/projectilefiredcommand.h>
+#include <network/commands/projectilehitcommand.h>
+#include <network/commands/pausecommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
 #include <network/networkserver.h>
+
+#include <QDebug>
 
 namespace terminus
 {
@@ -68,6 +74,44 @@ void NetworkManager::sendMessage(AbstractCommand *command)
     {
         m_networkEndpoint->sendMessage(command);
     }
+}
+
+void NetworkManager::sendPauseCommand(bool pause)
+{
+    auto command = PauseCommand(m_game.timer().get(), pause);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed)
+{
+    auto command = PrepareNewGameCommand(m_game.timer().get(), isPlayerOne, terrainSeed);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity)
+{
+    auto command = ProjectileFiredCommand(m_game.timer().get(), startPosition, velocity);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendProjectileHitCommand(int wagonIndex, float damage)
+{
+    auto command = ProjectileHitCommand(m_game.timer().get(), true, wagonIndex, damage);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendClientReadyCommand()
+{
+    auto command = ClientReadyCommand(m_game.timer().get());
+    sendMessage(&command);
+}
+
+void NetworkManager::clientReady()
+{
+    // unpause both clients
+    qDebug() << __FILE__ << __LINE__ << "Client is ready, unpausing game!";
+    sendPauseCommand(false);
+    m_game.setPaused(false);
 }
 
 bool NetworkManager::isClient() const
@@ -137,17 +181,12 @@ void NetworkManager::newCommand(AbstractCommand *command)
 
 void NetworkManager::prepareAndSyncNewGame()
 {
-    m_game.deferredActionHandler().scheduleAction(
-        [&]()
-        {
-            // assume that a client is always second player
+    // assume that a client is always second player
+    sendPrepareNewGameCommand(false, m_game.world().terrain().seed());
 
-            auto command = PrepareNewGameCommand(m_game.timer().get(), true, m_game.world().terrain().seed());
-            sendMessage(&command);
-
-            return false;
-        }
-    );
+    // pause game
+    sendPauseCommand(true);
+    m_game.setPaused(true);
 }
 
 } // namespace terminus

@@ -11,6 +11,8 @@
 #include <player/abstractplayer.h>
 #include <player/localplayer.h>
 
+#include <network/networkmanager.h>
+
 #include <game.h>
 
 namespace terminus
@@ -111,6 +113,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_P:
         m_game->togglePaused();
+        m_game->networkManager().sendPauseCommand(m_game->isPaused());
         break;
     default:
         break;

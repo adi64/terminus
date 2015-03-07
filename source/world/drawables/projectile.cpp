@@ -9,7 +9,9 @@
 #include <resources/program.h>
 #include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/train/train.h>
 #include <world/world.h>
+#include <network/networkmanager.h>
 
 namespace terminus
 {
@@ -73,6 +75,16 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
     if(otherWagon)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
+
+        // send hit event if enemy train was hit
+        for(unsigned int i=0; i<m_world.enemyTrain().size(); ++i)
+        {
+            if(m_world.enemyTrain().wagonAt(i) == otherWagon)
+            {
+                m_world.networkManager().sendProjectileHitCommand(i, damage());
+                break;
+            }
+        }
     }
 
     m_active = false;

@@ -3,7 +3,10 @@
 #include <QJsonDocument>
 
 #include <network/commands/abstractcommand.h>
+#include <network/commands/clientreadycommand.h>
+#include <network/commands/pausecommand.h>
 #include <network/commands/projectilefiredcommand.h>
+#include <network/commands/projectilehitcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/networkconnection.h>
 
@@ -83,6 +86,15 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
         break;
     case Command_PrepareNewGame:
         cmd = new PrepareNewGameCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_ClientReady:
+        cmd = new ClientReadyCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_Pause:
+        cmd = new PauseCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_ProjectileHit:
+        cmd = new ProjectileHitCommand(timeStamp, json.object()["parameter"].toObject());
         break;
 
     // ...

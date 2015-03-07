@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include <game.h>
+#include <network/commands/clientreadycommand.h>
 
 namespace terminus
 {
@@ -32,6 +33,8 @@ namespace terminus
     void PrepareNewGameCommand::doWork()
     {
         m_game->createWorld(true, m_isPlayerOne, m_terrainSeed);
+        auto clientReadyCommand = ClientReadyCommand(m_game->timer().get());
+        m_game->networkManager().sendMessage(&clientReadyCommand);
     }
 
     Commands PrepareNewGameCommand::commandType() const

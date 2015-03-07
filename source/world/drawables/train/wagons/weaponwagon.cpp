@@ -14,9 +14,7 @@
 
 #include <player/abstractplayer.h>
 
-//TODO FIXME
 #include <network/networkmanager.h>
-#include <network/commands/projectilefiredcommand.h>
 
 namespace terminus
 {
@@ -82,8 +80,7 @@ void WeaponWagon::fire(QVector3D velocity)
     SoundManager::getInstance()->playSound("shot");
 
     // woo network!
-    auto command = ProjectileFiredCommand(m_world.timer().get(), worldProjectilePosition, totalVelocity);
-    m_world.networkManager().sendMessage(&command);
+    m_world.networkManager().sendProjectileFiredCommand(worldProjectilePosition, totalVelocity);
 }
 
 float WeaponWagon::cooldownRate() const

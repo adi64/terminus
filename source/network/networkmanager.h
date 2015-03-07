@@ -26,6 +26,14 @@ public:
 
     void sendMessage(AbstractCommand *command);
 
+    void sendPauseCommand(bool pause);
+    void sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed);
+    void sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
+    void sendProjectileHitCommand(int wagonIndex, float damage);
+    void sendClientReadyCommand();
+
+    void clientReady();
+
     bool isClient() const;
     bool isServer() const;
     bool isConnected() const;
