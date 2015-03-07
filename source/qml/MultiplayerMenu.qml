@@ -69,8 +69,7 @@ Item
             }
             onReleased:
             {
-                loader.source = "qrc:/source/qml/Game.qml"
-                loader.item.joinNetworkGame(inputBox.text)
+                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "ip": inputBox.text })
             }
         }
     }
@@ -90,8 +89,7 @@ Item
             }
             onReleased:
             {
-                loader.source = "qrc:/source/qml/Game.qml"
-                loader.item.hostNetworkGame()
+                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "host": true })
             }
         }
     }

@@ -100,6 +100,11 @@ void Game::moveInput(int type, qreal x, qreal y)
     m_eventHandler.moveInput(type, x, y);
 }
 
+void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
+{
+    m_eventHandler.touchInput(oldx, oldy, x, y);
+}
+
 void Game::sync()
 {
     // process scheduled events
