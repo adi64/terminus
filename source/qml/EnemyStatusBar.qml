@@ -8,6 +8,7 @@ import Game 1.0
 Item
 {
     property Game game: parent.game
+    property bool isReversed: parent.isReversed
 
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
@@ -29,6 +30,7 @@ Item
         height: parent.height / 2
 
         property Game game: parent.game
+        property bool isReversed: parent.isReversed
 
         EnemyWagonStatus
         {

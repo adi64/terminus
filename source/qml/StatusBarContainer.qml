@@ -11,6 +11,7 @@ Item
     anchors.fill: parent
 
     property Game game: parent.game
+    property bool isReversed: parent.isReversed
 
     EnemyStatusBar{}
     PlayerStatusBar{}

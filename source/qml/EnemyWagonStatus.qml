@@ -11,9 +11,10 @@ Item
 
     property int wagonIndex
     property Game game: parent.game
-
     property int totalWagons: game.qmlData["EnemyTrain"]["wagons"].length
     property bool load: totalWagons > wagonIndex
+    property bool isReversed: parent.isReversed
+    property int index: isReversed? totalWagons - (wagonIndex + 1) : wagonIndex
 
     property int wagonType: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["type"] : 0
     property real health: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
@@ -23,7 +24,7 @@ Item
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: parent.width / 8 * (1 / 16 + wagonIndex + (8 - totalWagons) / 2)
+    anchors.rightMargin: parent.width / 8 * (1 / 16 + index + (8 - totalWagons) / 2)
     width: (parent.width / 8) * (7 / 8)
     height: parent.height * 6 / 8
     visible: load
