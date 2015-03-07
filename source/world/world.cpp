@@ -56,11 +56,6 @@ World::World(Game & game)
     m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_rightTrain.get()));
     m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_leftTrain.get(), m_rightTrain.get()));
 
-//    addObject(m_rightTrain.get());
-//    addObject(m_leftTrain.get());
-//    addObject(m_terrain.get());
-//    addObject(m_skybox.get());
-
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
     localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
