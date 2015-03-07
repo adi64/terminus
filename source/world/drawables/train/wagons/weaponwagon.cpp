@@ -34,7 +34,7 @@ WeaponWagon::~WeaponWagon()
 
 void WeaponWagon::primaryAction()
 {
-    if(isDisabled() || m_onCooldown)
+    if(isDisabled() || isOnCooldown())
     {
         return;
     }
@@ -45,8 +45,7 @@ void WeaponWagon::primaryAction()
     SoundManager::getInstance()->playSound("shot");
     fire(worldProjectileVelocity);
 
-    m_onCooldown = true;
-    m_cooldown = 0.f;
+    resetCooldown();
 }
 
 void WeaponWagon::primaryActionDebug()
@@ -74,7 +73,7 @@ void WeaponWagon::fire(QVector3D velocity)
     );
 }
 
-float WeaponWagon::cooldownRate() const
+float WeaponWagon::cooldownTime() const
 {
     return 3000.f;
 }
