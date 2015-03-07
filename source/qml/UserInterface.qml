@@ -83,11 +83,11 @@ Item
         //visible: Qt.platform.os === ("android" || "ios")? true : false
         onSwitchToNextWagon:
         {
-            game.buttonInput(3)
+            isReversed? game.buttonInput(4) : game.buttonInput(3)
         }
         onSwitchToPreviousWagon:
         {
-            game.buttonInput(4)
+            isReversed? game.buttonInput(3) : game.buttonInput(4)
         }
     }
 
