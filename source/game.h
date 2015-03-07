@@ -97,7 +97,6 @@ protected:
     QOpenGLFunctions m_gl;
 
     std::unique_ptr<QTimer> m_renderTrigger;
-    bool m_paused;
     bool m_setupComplete;
 };
 
