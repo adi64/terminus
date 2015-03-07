@@ -48,15 +48,15 @@ void Game::startLocalGame()
     createWorld(false, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::hostNetworkGame(unsigned short port)
+void Game::hostNetworkGame()
 {
-    m_networkManager.startServer(port);
+    m_networkManager.startServer(defaultPort);
     createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::joinNetworkGame(QString host, unsigned short port)
+void Game::joinNetworkGame(QString host)
 {
-    m_networkManager.startClient(host, port);
+    m_networkManager.startClient(host, defaultPort);
 }
 
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)

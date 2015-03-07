@@ -24,7 +24,6 @@ namespace terminus
         static QJsonValue TimeStampToJsonValue(Timer::TimerMSec timeStamp);
         static Timer::TimerMSec TimeStampFromJsonValue(QJsonValue jsonValue);
 
-        AbstractCommand();
         AbstractCommand(Timer::TimerMSec timeStamp);
         virtual ~AbstractCommand();
 

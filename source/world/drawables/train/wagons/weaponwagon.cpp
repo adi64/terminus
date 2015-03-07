@@ -82,7 +82,7 @@ void WeaponWagon::fire(QVector3D velocity)
     SoundManager::getInstance()->playSound("shot");
 
     // woo network!
-    auto command = ProjectileFiredCommand(worldProjectilePosition, totalVelocity);
+    auto command = ProjectileFiredCommand(m_world.timer().get(), worldProjectilePosition, totalVelocity);
     m_world.networkManager().sendMessage(&command);
 }
 

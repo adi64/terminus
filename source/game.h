@@ -51,8 +51,8 @@ public:
     ~Game();
 
     Q_INVOKABLE void startLocalGame();
-    Q_INVOKABLE void hostNetworkGame(unsigned short port = defaultPort);
-    Q_INVOKABLE void joinNetworkGame(QString host, unsigned short port = defaultPort);
+    Q_INVOKABLE void hostNetworkGame();
+    Q_INVOKABLE void joinNetworkGame(QString host);
 
     void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
 

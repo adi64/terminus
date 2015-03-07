@@ -6,8 +6,8 @@
 
 namespace terminus
 {
-    PrepareNewGameCommand::PrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed)
-        : AbstractCommand()
+    PrepareNewGameCommand::PrepareNewGameCommand(Timer::TimerMSec timeStamp, bool isPlayerOne, unsigned int terrainSeed)
+        : AbstractCommand(timeStamp)
         , m_isPlayerOne(isPlayerOne)
         , m_terrainSeed(terrainSeed)
 	{

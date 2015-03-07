@@ -7,8 +7,9 @@
 namespace terminus
 {
 
-ProjectileHitCommand::ProjectileHitCommand(bool rightTrain, int wagonIndex, float damage)
-: m_rightTrain(rightTrain)
+ProjectileHitCommand::ProjectileHitCommand(Timer::TimerMSec timeStamp, bool rightTrain, int wagonIndex, float damage)
+: AbstractCommand(timeStamp)
+, m_rightTrain(rightTrain)
 , m_wagonIndex(wagonIndex)
 , m_damage(damage)
 {

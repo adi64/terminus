@@ -7,8 +7,8 @@
 
 namespace terminus
 {
-    ProjectileFiredCommand::ProjectileFiredCommand(QVector3D startPosition, QVector3D velocity)
-        : AbstractCommand()
+    ProjectileFiredCommand::ProjectileFiredCommand(Timer::TimerMSec timeStamp, QVector3D startPosition, QVector3D velocity)
+        : AbstractCommand(timeStamp)
         , m_startPosition(startPosition)
         , m_velocity(velocity)
 	{

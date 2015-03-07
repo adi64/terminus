@@ -48,12 +48,6 @@ Timer::TimerMSec AbstractCommand::TimeStampFromJsonValue(QJsonValue jsonValue)
     return timeStamp;
 }
 
-AbstractCommand::AbstractCommand()
-: AbstractCommand(m_game->timer().get())
-{
-
-}
-
 AbstractCommand::AbstractCommand(Timer::TimerMSec timeStamp)
 : m_timeStamp(timeStamp)
 , m_game(nullptr)
@@ -68,6 +62,7 @@ AbstractCommand::~AbstractCommand()
 
 void AbstractCommand::setGame(Game *game)
 {
+    assert(game);
     m_game = game;
 }
 

@@ -8,7 +8,7 @@ namespace terminus
 class ProjectileHitCommand : public AbstractCommand
 {
 public:
-    ProjectileHitCommand(bool rightTrain, int wagonIndex, float damage);
+    ProjectileHitCommand(Timer::TimerMSec timeStamp, bool rightTrain, int wagonIndex, float damage);
     ProjectileHitCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;

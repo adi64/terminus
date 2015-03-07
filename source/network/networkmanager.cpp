@@ -132,7 +132,7 @@ void NetworkManager::newCommand(AbstractCommand *command)
 
     qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
-    m_game.world().scheduleAction( [&](){ command->run(); delete command; return false; } );
+    m_game.deferredActionHandler().scheduleAction( [=](){ command->run(); delete command; return false; } );
 }
 
 void NetworkManager::prepareAndSyncNewGame()
@@ -142,7 +142,7 @@ void NetworkManager::prepareAndSyncNewGame()
         {
             // assume that a client is always second player
 
-            auto command = PrepareNewGameCommand(true, m_game.world().terrain().seed());
+            auto command = PrepareNewGameCommand(m_game.timer().get(), true, m_game.world().terrain().seed());
             sendMessage(&command);
 
             return false;

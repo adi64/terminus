@@ -49,7 +49,7 @@ Item
                 }
                 else
                 {
-                    joinNetworkGame()
+                    joinNetworkGame(parent.ip)
                 }
             }
             else
