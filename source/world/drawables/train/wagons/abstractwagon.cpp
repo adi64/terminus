@@ -22,6 +22,12 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
 , m_onCooldown(false)
 , m_train(train)
 {
+    m_cameraTimer = m_world.timer().allocateTimer();
+}
+
+AbstractWagon::~AbstractWagon()
+{
+    m_world.timer().releaseTimer(m_cameraTimer);
 }
 
 void AbstractWagon::primaryActionDebug()
@@ -56,6 +62,9 @@ void AbstractWagon::localUpdate()
 void AbstractWagon::onBindCamera()
 {
     m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+    m_previousCenter = worldToModel(m_camera->center());
+    m_previousEye = worldToModel(m_camera->eye());
+    m_world.timer().adjust(m_cameraTimer, 0);
 }
 
 void AbstractWagon::adjustCamera()
@@ -64,33 +73,16 @@ void AbstractWagon::adjustCamera()
     {
         return;
     }
-    Camera & camera = *m_camera;
+    const int transitionTime = 200;
 
-    auto & vBBMinM = minBB();
-    auto & vBBMaxM = maxBB();
+    float currentInfluence = MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
+    float previousInfluence = 1.f - currentInfluence;
 
-    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
-    auto yBaseM = vBBMaxM.y() + 1.f;
-    auto vCenterM = QVector3D();
-    auto vEyeM = QVector3D();
-    auto & vEyeOff = m_cameraEyeOffset;
-    if(isOtherTrainLeft())
-    {
-        vCenterM = QVector3D(xCenterM, yBaseM, vBBMaxM.z());
-        vEyeM = QVector3D(xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z());
-    }
-    else
-    {
-        vCenterM = QVector3D(xCenterM, yBaseM, vBBMinM.z());
-        vEyeM = QVector3D(xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z());
-    }
+    auto vCenterM = localCameraCenter() * currentInfluence + m_previousCenter * previousInfluence;
+    auto vEyeM = localCameraEye() * currentInfluence + m_previousEye * previousInfluence;
 
-
-    auto vCenterW4 = modelMatrix() * QVector4D(vCenterM, 1.f);
-    auto vEyeW4 = modelMatrix() * QVector4D(vEyeM, 1.f);
-
-    camera.setCenter(vCenterW4.toVector3DAffine());
-    camera.setEye(vEyeW4.toVector3DAffine());
+    m_camera->setCenter(modelToWorld(vCenterM));
+    m_camera->setEye(modelToWorld(vEyeM));
 }
 
 void AbstractWagon::moveEvent(QVector3D /*movement*/)
@@ -185,6 +177,41 @@ short AbstractWagon::myCollisionType() const
 short AbstractWagon::possibleCollisionTypes() const
 {
     return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
+}
+
+QVector3D AbstractWagon::localCameraCenter()
+{
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+
+    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
+    auto yBaseM = vBBMaxM.y() + 1.f;
+    if(isOtherTrainLeft())
+    {
+        return {xCenterM, yBaseM, vBBMaxM.z()};
+    }
+    else
+    {
+        return {xCenterM, yBaseM, vBBMinM.z()};
+    }
+}
+
+QVector3D AbstractWagon::localCameraEye()
+{
+    auto & vBBMinM = minBB();
+    auto & vBBMaxM = maxBB();
+
+    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
+    auto yBaseM = vBBMaxM.y() + 1.f;
+    auto & vEyeOff = m_cameraEyeOffset;
+    if(isOtherTrainLeft())
+    {
+        return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
+    }
+    else
+    {
+        return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
+    }
 }
 
 }//namespace terminus

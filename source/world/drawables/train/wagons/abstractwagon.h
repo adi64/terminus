@@ -3,6 +3,7 @@
 #include <QString>
 #include <memory>
 
+#include <util/timer.h>
 #include <world/physics/kinematicphysicsobject.h>
 
 namespace terminus
@@ -21,6 +22,7 @@ class AbstractWagon : public KinematicPhysicsObject
 {
 public:
     AbstractWagon(World & world, Train * train);
+    virtual ~AbstractWagon();
 
     virtual void primaryAction() = 0;
     virtual void primaryActionDebug();
@@ -52,9 +54,14 @@ protected:
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
 
-protected:
+    virtual QVector3D localCameraCenter();
+    virtual QVector3D localCameraEye();
 
+protected:
     QVector3D m_cameraEyeOffset;
+    QVector3D m_previousEye;
+    QVector3D m_previousCenter;
+    Timer::TimerID m_cameraTimer;
 
     float m_positionOffset;
     float m_health;
