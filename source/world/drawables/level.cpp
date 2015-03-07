@@ -321,9 +321,9 @@ float Level::terrainHeight(float x, float z, float fTrack){
     float borderBegin = 12.5f,
             borderEnd = 125.f;
 
-    float center = totalHeight() / 2.f, //fmin(totalWidth(), totalHeight()) / 2.f,
+    float center = totalHeight() / 2.f,
             dXBorder = x - MathUtil::clamp(center, totalWidth() - center, x),
-            dZBorder = z - center,  //MathUtil::clamp(center, totalHeight() - center, z),
+            dZBorder = z - center,
             fToBorder = MathUtil::smoothstep(borderBegin, borderEnd, sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
 
     float height = MathUtil::mix(valleyBase, mountainBase, fToBorder)

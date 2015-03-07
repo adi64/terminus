@@ -5,11 +5,12 @@
 
 #include <math.h>
 
-#include <world/drawables/train/train.h>
-#include <world/drawables/track.h>
-
+#include <player/abstractplayer.h>
 #include <util/mathutil.h>
 #include <util/timer.h>
+#include <world/drawables/projectile.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/track.h>
 
 namespace terminus
 {
@@ -165,6 +166,15 @@ WagonType AbstractWagon::wagonType() const
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
 {
     m_positionOffset = accumulatedOffset;
+}
+
+void AbstractWagon::onCollisionWith(AbstractPhysicsObject *other)
+{
+    auto projectile = dynamic_cast<Projectile*>(other);
+    if(projectile)
+    {
+        m_train->player().animateHit();
+    }
 }
 
 short AbstractWagon::myCollisionType() const

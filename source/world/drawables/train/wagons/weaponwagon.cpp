@@ -56,13 +56,16 @@ void WeaponWagon::primaryActionDebug()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
+    auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);
+    QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
+
     m_world.scheduleAction(
         [this, velocity]()
         {
             auto projectile = new Projectile(m_world);
             projectile->moveTo(modelToWorld(localCameraCenter()));
             projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * -1000.0f));
-            m_world.addNode(projectile);
+            m_world.addObject(projectile);
             return false;
         }
     );

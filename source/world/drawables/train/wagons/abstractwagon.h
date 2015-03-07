@@ -50,6 +50,8 @@ public:
 
     virtual void setPositionOffset(float accumulatedOffset);
 
+    virtual void onCollisionWith(AbstractPhysicsObject * other) override;
+
 protected:
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
