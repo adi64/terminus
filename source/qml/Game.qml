@@ -22,10 +22,6 @@ Item
         id: terminus
         anchors.fill: parent
 
-        property bool isNetworkGame: false
-        property bool isHost: true
-        property string ip
-
         function winGame()
         {
             loader.setSource("qrc:/source/qml/Victory.qml", { "loader": loader })
@@ -41,7 +37,7 @@ Item
 
         Component.onCompleted:
         {
-            /*if(network)
+            if(network)
             {
                 if(host)
                 {
@@ -49,13 +45,13 @@ Item
                 }
                 else
                 {
-                    joinNetworkGame()
+                    joinNetworkGame(ip)
                 }
             }
             else
             {
                 startLocalGame()
-            }*/
+            }
             uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
         }
 
