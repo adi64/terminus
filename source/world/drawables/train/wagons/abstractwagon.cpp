@@ -74,12 +74,10 @@ void AbstractWagon::adjustCamera()
         return;
     }
     const int transitionTime = 200;
+    float previousInfluence = 1.f - MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
 
-    float currentInfluence = MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
-    float previousInfluence = 1.f - currentInfluence;
-
-    auto vCenterM = localCameraCenter() * currentInfluence + m_previousCenter * previousInfluence;
-    auto vEyeM = localCameraEye() * currentInfluence + m_previousEye * previousInfluence;
+    auto vCenterM = MathUtil::mix(localCameraCenter(), m_previousCenter, previousInfluence);
+    auto vEyeM = MathUtil::mix(localCameraEye(), m_previousEye, previousInfluence);
 
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
