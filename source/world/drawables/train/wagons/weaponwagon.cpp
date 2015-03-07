@@ -65,14 +65,12 @@ void WeaponWagon::fire(QVector3D velocity)
             projectile->moveTo(worldProjectilePosition);
             projectile->setLinearVelocity(totalVelocity);
             m_world.addNode(projectile);
+            qDebug() << "new projectile at " << worldProjectilePosition << ", velocity: " << totalVelocity;
             return false;
         }
     );
 
     SoundManager::getInstance()->playSound("shot");
-
-    // woo network!
-    m_world.networkManager().sendProjectileFiredCommand(worldProjectilePosition, totalVelocity);
 }
 
 float WeaponWagon::cooldownRate() const

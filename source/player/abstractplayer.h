@@ -28,6 +28,7 @@ public:
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
+    void switchToWagon(unsigned int wagonIndex);
     virtual void primaryAction();
     virtual void primaryActionDebug();
     void primaryActionCharge(bool charge = true);

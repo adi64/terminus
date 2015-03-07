@@ -36,6 +36,9 @@ void PrimaryActionCommand::doWork()
 {
     // TODO FIXME update camera aim vector
     //m_game->world().enemyPlayer().
+
+    m_game->world().enemyPlayer().switchToWagon(m_selectedWagonIndex);
+
     m_game->world().enemyPlayer().primaryActionDebug();
 
     // TODO FIXME set spawnedLocally to spawned projectile, if any
