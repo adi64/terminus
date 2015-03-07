@@ -25,6 +25,7 @@ Item
     focus: true
 
     property Game game
+    property bool isReversed: false
 
     Keys.onPressed:
     {

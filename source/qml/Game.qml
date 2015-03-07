@@ -30,14 +30,14 @@ Item
         {
             loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
         }
-        function loadUI()
+        function loadUI(isReversed)
         {
-            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
+            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus, "isReversed": isReversed })
         }
 
         Component.onCompleted:
         {
-            if(network)
+            /*if(network)
             {
                 if(host)
                 {
@@ -51,7 +51,7 @@ Item
             else
             {
                 startLocalGame()
-            }
+            }*/
             uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus })
         }
 

@@ -10,6 +10,7 @@ Item
     id: playerStatus
 
     property Game game: parent.game
+    property bool isReversed: parent.isReversed
 
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
     property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
@@ -75,6 +76,7 @@ Item
         height: parent.height
 
         property Game game: parent.game
+        property bool isReversed: parent.isReversed
 
         PlayerWagonStatus
         {
