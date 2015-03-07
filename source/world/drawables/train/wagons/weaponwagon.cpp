@@ -51,14 +51,6 @@ void WeaponWagon::primaryAction()
     m_cooldown = 0.f;
 }
 
-void WeaponWagon::primaryActionDebug()
-{
-    auto velocityMultiplicator = 100.0;
-
-    QVector3D worldProjectileVelocity = m_train->player().camera().normalizedAimVector() * velocityMultiplicator;
-    fire(worldProjectileVelocity);
-}
-
 void WeaponWagon::fire(QVector3D velocity)
 {
     auto relativeProjectilePosition = QVector3D(0.0f, 4.0f, 0.0f);

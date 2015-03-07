@@ -30,6 +30,7 @@ public:
     void sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed);
     void sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
     void sendProjectileHitCommand(int wagonIndex, float damage);
+    void sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection);
     void sendClientReadyCommand();
 
     void clientReady();

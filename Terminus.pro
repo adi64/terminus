@@ -407,7 +407,8 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/network/commands/clientreadycommand.h
+    source/network/commands/clientreadycommand.h \
+    source/network/commands/primaryactioncommand.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -603,4 +604,5 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/network/commands/clientreadycommand.cpp
+    source/network/commands/clientreadycommand.cpp \
+    source/network/commands/primaryactioncommand.cpp

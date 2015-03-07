@@ -14,7 +14,6 @@ public:
     virtual void localUpdate() override;
 
     virtual void primaryAction() override;
-    virtual void primaryActionDebug() override;
     virtual float cooldownRate() const override;
     void setAimVector(const QVector3D & aimVector);
 

@@ -26,7 +26,24 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
 
 void AbstractWagon::primaryActionDebug()
 {
+    // bypass cooldown
+    m_onCooldown = false;
+    m_cooldown = 1.f;
 
+    // save wagon health and status
+    auto healthStatus = m_health;
+    auto disabledStatus = m_disabled;
+
+    // temporarily awaken the wagon from the dead if necessary
+    m_health = maxHealth();
+    m_disabled = false;
+
+    // act like nothing happened
+    primaryAction();
+
+    // restore wagon health and status
+    m_health = healthStatus;
+    m_disabled = disabledStatus;
 }
 
 void AbstractWagon::localUpdate()

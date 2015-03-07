@@ -13,6 +13,7 @@
 #include <network/commands/clientreadycommand.h>
 #include <network/commands/projectilefiredcommand.h>
 #include <network/commands/projectilehitcommand.h>
+#include <network/commands/primaryactioncommand.h>
 #include <network/commands/pausecommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
@@ -97,6 +98,12 @@ void NetworkManager::sendProjectileFiredCommand(QVector3D startPosition, QVector
 void NetworkManager::sendProjectileHitCommand(int wagonIndex, float damage)
 {
     auto command = ProjectileHitCommand(m_game.timer().get(), true, wagonIndex, damage);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection)
+{
+    auto command = PrimaryActionCommand(m_game.timer().get(), selectedWagonIndex, aimDirection);
     sendMessage(&command);
 }
 

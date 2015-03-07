@@ -8,6 +8,7 @@
 #include <network/commands/projectilefiredcommand.h>
 #include <network/commands/projectilehitcommand.h>
 #include <network/commands/preparenewgamecommand.h>
+#include <network/commands/primaryactioncommand.h>
 #include <network/networkconnection.h>
 
 namespace terminus
@@ -96,6 +97,9 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     case Command_ProjectileHit:
         cmd = new ProjectileHitCommand(timeStamp, json.object()["parameter"].toObject());
         break;
+    case Command_PrimaryAction:
+        cmd = new PrimaryActionCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
 
     // ...
 
@@ -128,6 +132,8 @@ void NetworkEndpoint::sendMessage(NetworkConnection* client, QJsonDocument &mess
     out.setVersion(QDataStream::Qt_5_4);
 
     QString msgString = QString(message.toJson(QJsonDocument::JsonFormat::Compact));
+
+    qDebug() << "sending message " << msgString;
 
     // message size will go here
     out << (quint16) 0;
