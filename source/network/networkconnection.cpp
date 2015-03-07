@@ -65,7 +65,15 @@ qint64 NetworkConnection::write(const QByteArray &data)
     if(isConnected())
     {
         int ret = m_socket->write(data);
-        if (ret == -1)
+        if (ret != -1)
+        {
+            bool flushSuccess = m_socket->flush();
+            if(!flushSuccess)
+            {
+                qWarning() << "flush() returned false";
+            }
+        }
+        else
         {
             qWarning() << "write yielded -1";
         }
