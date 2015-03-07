@@ -43,5 +43,15 @@ void Explosion::localUpdate()
     }
 }
 
+void Explosion::localRenderSetup(QOpenGLFunctions & gl, Program &) const
+{
+    gl.glDisable(GL_CULL_FACE);
+}
+
+void Explosion::localRenderCleanup(QOpenGLFunctions & gl, Program &) const
+{
+    gl.glEnable(GL_CULL_FACE);
+}
+
 }
 
