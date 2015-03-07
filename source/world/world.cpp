@@ -30,36 +30,36 @@ namespace terminus
 World::World(Game & game)
 : m_game(game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
-, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this)))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
-, m_playerTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
-, m_enemyTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
+, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this)))
+, m_rightTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
+, m_leftTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<RepairWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<RepairWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<RepairWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<RepairWagon>();
 
-    m_enemyTrain->follow(m_playerTrain.get());
+    m_leftTrain->follow(m_rightTrain.get());
 
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
-    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_rightTrain.get()));
+    m_aiPlayer = std::unique_ptr<AIPlayer>(new AIPlayer(*this, m_leftTrain.get(), m_rightTrain.get()));
 
-    addNode(m_playerTrain.get());
-    addNode(m_enemyTrain.get());
-    addNode(m_terrain.get());
-    addNode(m_skybox.get());
+//    addObject(m_rightTrain.get());
+//    addObject(m_leftTrain.get());
+//    addObject(m_terrain.get());
+//    addObject(m_skybox.get());
 
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
@@ -75,23 +75,18 @@ World::~World()
 
 }
 
-void World::addNode(AbstractGraphicsObject *node)
+void World::addObject(AbstractGraphicsObject * node)
 {
-    m_objects.push_back(node);
+    m_dynamicObjects.push_back(std::unique_ptr<AbstractGraphicsObject>(node));
 }
 
-void World::deleteNode(AbstractGraphicsObject *node)
+void World::deleteObject(AbstractGraphicsObject * object)
 {
-    for(auto iterator = m_objects.begin(); iterator != m_objects.end(); ++iterator)
-    {
-        if(*iterator == node)
+    m_dynamicObjects.remove_if(
+        [object](const std::unique_ptr<AbstractGraphicsObject> & candidate)
         {
-            m_objects.erase(iterator);
-            return;
-        }
-    }
-
-    qDebug() << "Could not find node " << node;
+            return candidate.get() == object;
+        });
 }
 
 void World::update()
@@ -99,7 +94,11 @@ void World::update()
     // physics - never give bullet negative step times
     m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
-    for(auto object : m_objects)
+    m_skybox->update();
+    m_terrain->update();
+    m_rightTrain->update();
+    m_leftTrain->update();
+    for(auto & object : m_dynamicObjects)
     {
         object->update();
     }
@@ -125,9 +124,14 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    for(auto node : m_objects)
+
+    m_skybox->render(gl);
+    m_terrain->render(gl);
+    m_rightTrain->render(gl);
+    m_leftTrain->render(gl);
+    for(auto & object : m_dynamicObjects)
     {
-        node->render(gl);
+        object->render(gl);
     }
 
     gl.glDisable(GL_BLEND);
@@ -142,12 +146,12 @@ LocalPlayer & World::localPlayer()
 
 Train & World::playerTrain()
 {
-    return *m_playerTrain;
+    return *m_rightTrain;
 }
 
 Train & World::enemyTrain()
 {
-    return *m_enemyTrain;
+    return *m_leftTrain;
 }
 
 Terrain &World::terrain()

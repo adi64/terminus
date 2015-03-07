@@ -130,8 +130,11 @@ protected:
      */
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback);
 
+    virtual void dispose();
+
 protected:
     World & m_world;
+    bool m_validState;
 
     Camera * m_camera;
 

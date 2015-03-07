@@ -32,6 +32,8 @@ public:
     void primaryActionDebug();
     void primaryActionCharge(bool charge = true);
 
+    virtual void animateHit();
+
     virtual void update();
 
 protected:

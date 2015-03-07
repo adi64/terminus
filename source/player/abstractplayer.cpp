@@ -76,6 +76,11 @@ void AbstractPlayer::primaryActionDebug()
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
+void AbstractPlayer::animateHit()
+{
+    //TODO
+}
+
 void AbstractPlayer::update()
 {
 }
