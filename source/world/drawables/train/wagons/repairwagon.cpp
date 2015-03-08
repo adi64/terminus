@@ -29,7 +29,7 @@ RepairWagon::~RepairWagon()
 
 void RepairWagon::primaryAction()
 {
-    if(isDisabled() || m_onCooldown)
+    if(isDisabled() || isOnCooldown())
     {
         return;
     }
@@ -46,11 +46,10 @@ void RepairWagon::primaryAction()
         wagon->setHealth(healing);
     }
 
-    m_onCooldown = true;
-    m_cooldown = 0.f;
+    resetCooldown();
 }
 
-float RepairWagon::cooldownRate() const
+float RepairWagon::cooldownTime() const
 {
     return 10000.f;
 }

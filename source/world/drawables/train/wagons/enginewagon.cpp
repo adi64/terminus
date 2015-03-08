@@ -36,18 +36,17 @@ EngineWagon::~EngineWagon()
 
 void EngineWagon::primaryAction()
 {
-    if(isDisabled() || m_onCooldown)
+    if(isDisabled() || isOnCooldown())
     {
         return;
     }
 
     m_train->setVelocity(m_train->velocity() + 0.002f);
 
-    m_onCooldown = true;
-    m_cooldown = 0.f;
+    resetCooldown();
 }
 
-float EngineWagon::cooldownRate() const
+float EngineWagon::cooldownTime() const
 {
     return 15000.f;
 }

@@ -19,15 +19,15 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
 : KinematicPhysicsObject(world)
 , m_health(maxHealth())
 , m_disabled(false)
-, m_cooldown(1.0f)
-, m_onCooldown(false)
 , m_train(train)
 {
+    m_cooldownTimer = m_world.timer().allocateTimer();
     m_cameraTimer = m_world.timer().allocateTimer();
 }
 
 AbstractWagon::~AbstractWagon()
 {
+    m_world.timer().releaseTimer(m_cooldownTimer);
     m_world.timer().releaseTimer(m_cameraTimer);
 }
 
@@ -38,17 +38,6 @@ void AbstractWagon::primaryActionDebug()
 
 void AbstractWagon::localUpdate()
 {
-    Timer::TimerMSec frameDuration = m_world.timer().get("frameTimer");
-    if(m_onCooldown)
-    {
-        m_cooldown += (frameDuration / cooldownRate());
-        if(m_cooldown >= 1.f)
-        {
-            m_cooldown = 1.f;
-            m_onCooldown = false;
-        }
-    }
-
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
@@ -75,10 +64,10 @@ void AbstractWagon::adjustCamera()
         return;
     }
     const int transitionTime = 200;
-    float previousInfluence = 1.f - MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
+    float currentInfluence = MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
 
-    auto vCenterM = MathUtil::mix(localCameraCenter(), m_previousCenter, previousInfluence);
-    auto vEyeM = MathUtil::mix(localCameraEye(), m_previousEye, previousInfluence);
+    auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
+    auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
 
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
@@ -104,19 +93,19 @@ float AbstractWagon::maxHealth() const
     return 100.f;
 }
 
+void AbstractWagon::resetCooldown() const
+{
+    m_world.timer().adjust(m_cooldownTimer, 0);
+}
+
 bool AbstractWagon::isOnCooldown() const
 {
-    return m_onCooldown;
+    return m_world.timer().get(m_cooldownTimer) < cooldownTime();
 }
 
 float AbstractWagon::cooldown() const
 {
-    return m_cooldown;
-}
-
-float AbstractWagon::cooldownRate() const
-{
-    return 1.f;
+    return MathUtil::linstep(0.f, cooldownTime(), m_world.timer().get(m_cooldownTimer));
 }
 
 float AbstractWagon::currentHealth() const
