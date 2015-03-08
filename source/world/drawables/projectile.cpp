@@ -10,15 +10,16 @@
 #include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/drawables/train/train.h>
+#include <world/drawables/explosion.h>
 #include <world/world.h>
 #include <network/networkmanager.h>
+#include <player/abstractplayer.h>
 
 namespace terminus
 {
 
 Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
-, m_active(true)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
@@ -43,13 +44,7 @@ void Projectile::localUpdate()
 
     if(m_world.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
     {
-        m_world.scheduleAction(
-            [this]()
-            {
-                m_world.deleteNode(this);
-                delete(this);
-                return false;
-            });
+        dispose();
     }
 }
 
@@ -66,7 +61,7 @@ float Projectile::damage() const
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
     // don't to damage if this projectile was not spawned locally - the other client will inform us of damage events and such
-    if(!m_active || !m_spawnedLocally)
+    if(!m_spawnedLocally)
     {
         return;
     }
@@ -77,9 +72,9 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
 
         // send hit event if enemy train was hit
-        for(unsigned int i=0; i<m_world.enemyTrain().size(); ++i)
+        for(unsigned int i=0; i<m_world.enemyPlayer().train()->size(); ++i)
         {
-            if(m_world.enemyTrain().wagonAt(i) == otherWagon)
+            if(m_world.enemyPlayer().train()->wagonAt(i) == otherWagon)
             {
                 m_world.networkManager().sendProjectileHitCommand(i, damage());
                 break;
@@ -87,7 +82,9 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
         }
     }
 
-    m_active = false;
+    m_world.addObject(new Explosion(m_world, position()));
+
+    dispose();
 }
 
 unsigned int Projectile::maxAgeInMilliseconds() const

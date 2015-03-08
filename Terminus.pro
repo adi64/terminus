@@ -357,9 +357,11 @@ HEADERS += \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
     source/network/commands/abstractcommand.h \
+    source/network/commands/clientreadycommand.h \
     source/network/commands/commands.h \
     source/network/commands/pausecommand.h \
     source/network/commands/preparenewgamecommand.h \
+    source/network/commands/primaryactioncommand.h \
     source/network/commands/projectilefiredcommand.h \
     source/network/commands/projectilehitcommand.h \
     source/network/ipprovider.h \
@@ -393,6 +395,7 @@ HEADERS += \
     source/world/drawables/train/train.h \
     source/world/drawables/train/train.hpp \
     source/world/drawables/abstractgraphicsobject.h \
+    source/world/drawables/explosion.h \
     source/world/drawables/level.h \
     source/world/drawables/projectile.h \
     source/world/drawables/skybox.h \
@@ -406,9 +409,7 @@ HEADERS += \
     source/world/world.h \
     source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/network/commands/clientreadycommand.h \
-    source/network/commands/primaryactioncommand.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -555,8 +556,10 @@ SOURCES += \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
     source/network/commands/abstractcommand.cpp \
+    source/network/commands/clientreadycommand.cpp \
     source/network/commands/pausecommand.cpp \
     source/network/commands/preparenewgamecommand.cpp \
+    source/network/commands/primaryactioncommand.cpp \
     source/network/commands/projectilefiredcommand.cpp \
     source/network/commands/projectilehitcommand.cpp \
     source/network/ipprovider.cpp \
@@ -588,6 +591,7 @@ SOURCES += \
     source/world/drawables/train/wagons/weaponwagon.cpp \
     source/world/drawables/train/train.cpp \
     source/world/drawables/abstractgraphicsobject.cpp \
+    source/world/drawables/explosion.cpp \
     source/world/drawables/level.cpp \
     source/world/drawables/projectile.cpp \
     source/world/drawables/skybox.cpp \
@@ -603,6 +607,4 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/bullet/clew/clew.c \
-    source/network/commands/clientreadycommand.cpp \
-    source/network/commands/primaryactioncommand.cpp
+    source/bullet/clew/clew.c

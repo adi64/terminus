@@ -115,13 +115,14 @@ void Game::sync()
         return;
     }
 
-    if (m_world->playerTrain().travelledDistanceRelative() == 1.0f
-            || m_world->enemyTrain().wagonAt(0)->isDisabled())
+    // check winning / losing condition
+    if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
+            || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
     {
         QMetaObject::invokeMethod(this, "winGame", Qt::DirectConnection);
         return;
     }
-    else if (m_world->playerTrain().wagonAt(0)->isDisabled())
+    else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
     {
         QMetaObject::invokeMethod(this, "loseGame", Qt::DirectConnection);
         return;
@@ -133,7 +134,7 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    if(!m_paused)
+    if(!m_timer.isPaused())
     {
        m_world->update();
     }
@@ -179,12 +180,12 @@ void Game::handleWindowChanged(QQuickWindow * win)
 
 void Game::setPaused(bool paused)
 {
-    m_paused = paused;
+    m_timer.pause(paused);
 }
 
 void Game::togglePaused()
 {
-    m_paused = !m_paused;
+    m_timer.pause();
 }
 
 /*!
@@ -192,7 +193,7 @@ void Game::togglePaused()
  */
 void Game::updateQMLData()
 {
-    auto& playerTrain = m_world->playerTrain();
+    auto& playerTrain = m_world->localPlayerTrain();
     QList<QVariant> playerWagonList;
     for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
@@ -205,7 +206,7 @@ void Game::updateQMLData()
         playerWagonList.push_back(wagonMap);
     }
 
-    auto& enemyTrain = m_world->enemyTrain();
+    auto& enemyTrain = m_world->enemyPlayerTrain();
     QList<QVariant> enemyWagonList;
     for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {

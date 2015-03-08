@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#include <QVector3D>
+
 namespace terminus
 {
 const float MathUtil::PI = atan(1.0f) * 4.0f;
@@ -45,6 +47,11 @@ float MathUtil::distance(float x0, float y0, float x1, float y1)
 {
     float dx = x1 - x0, dy = y1 - y0;
     return sqrt(dx * dx + dy * dy);
+}
+
+QVector3D MathUtil::mix(const QVector3D & v0, const QVector3D & v1, float f)
+{
+    return (1.f - f) * v0 + f * v1;
 }
 
 MathUtil::MathUtil()

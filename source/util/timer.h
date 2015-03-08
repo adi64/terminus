@@ -21,6 +21,21 @@ public:
     Timer();
 
     /*!
+     * \brief pause - toggle pause state of the timer
+     */
+    void pause();
+    /*!
+     * \brief pause - set pause state of the timer
+     * \param flag - new pause state
+     */
+    void pause(bool flag);
+    /*!
+     * \brief isPaused - test pause state of the timer
+     * \return pause state
+     */
+    bool isPaused();
+
+    /*!
      * \brief allocateTimer - allocate a new timer without naming it
      * \return id of the new timer
      */
@@ -110,13 +125,18 @@ protected:
     TimerID freeTimerID();
 
     std::chrono::steady_clock::time_point localNow();
+    void startPause();
+    void endPause();
 
 protected:
+
     std::chrono::steady_clock m_clock;
+    std::chrono::steady_clock::time_point m_pauseNow;
+    bool m_isPaused;
 
     std::chrono::steady_clock::time_point m_baseTimeStamp;
-    std::map<TimerID, std::chrono::steady_clock::time_point> m_timeStamps;
 
+    std::map<TimerID, std::chrono::steady_clock::time_point> m_timeStamps;
     std::map<std::string, TimerID> m_namedTimers;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include <memory>
 #include <unordered_map>
 
@@ -66,8 +66,9 @@ public:
     LocalPlayer & localPlayer();
     AbstractPlayer & enemyPlayer();
 
-    Train & playerTrain();
-    Train & enemyTrain();
+    Train & localPlayerTrain();
+    Train & enemyPlayerTrain();
+
     Terrain & terrain();
     Timer & timer();
 
@@ -78,8 +79,8 @@ public:
     void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
     void scheduleAction(DeferredAction event);
 
-    void addNode(AbstractGraphicsObject * node);
-    void deleteNode(AbstractGraphicsObject * node);
+    void addObject(AbstractGraphicsObject * node);
+    void deleteObject(AbstractGraphicsObject * object);
 
     /*!
      * \brief Returns a shared pointer to the corresponding BulletWorld
@@ -98,15 +99,15 @@ protected:
 
     std::shared_ptr<BulletWorld> m_bulletWorld;
 
-    std::unique_ptr<Terrain> m_terrain;
     std::unique_ptr<SkyBox> m_skybox;
-    std::shared_ptr<Train> m_playerTrain;
-    std::shared_ptr<Train> m_enemyTrain;
+    std::unique_ptr<Terrain> m_terrain;
+    std::shared_ptr<Train> m_rightTrain;
+    std::shared_ptr<Train> m_leftTrain;
 
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AbstractPlayer> m_enemyPlayer;
 
-    std::vector<AbstractGraphicsObject*> m_objects;
+    std::list<std::unique_ptr<AbstractGraphicsObject>> m_dynamicObjects;
 };
 
 }

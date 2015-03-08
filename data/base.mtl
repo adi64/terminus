@@ -57,3 +57,10 @@ uniform cAmbientRock 0.076500 0.076000 0.075000
 uniform cDiffuseRock 0.315000 0.310000 0.300000
 uniform cSpecularRock 0.150000 0.100000 0.100000
 uniform fAlpha 1.000000
+
+newmtl OrangeHalf
+uniform fSpecularity 16
+uniform cEmit 0.000000 0.000000 0.000000
+uniform cDiffuse 0.800000 0.480000 0.080000
+uniform cSpecular 0.500000 0.400000 0.250000
+uniform fAlpha 0.5

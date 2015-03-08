@@ -62,12 +62,12 @@ ResourceManager::~ResourceManager()
 void ResourceManager::loadResources()
 {
     loadObj(std::string(":/data/base.obj"));
+    loadObj(std::string(":/data/ico2.obj"));
     loadObj(std::string(":/data/terrain.obj"));
-    loadObj(std::string(":/data/engine.obj"));
-    loadObj(std::string(":/data/weapon.obj"));
-    loadObj(std::string(":/data/repair.obj"));
+    loadObj(std::string(":/data/engineWagon.obj"));
+    loadObj(std::string(":/data/weaponWagon.obj"));
+    loadObj(std::string(":/data/repairWagon.obj"));
     loadMtl(std::string(":/data/base.mtl"));
-    loadObj(std::string(":/data/terrain.obj"));
     loadProgram(std::string(":/data/basicShader"));
     loadProgram(std::string(":/data/envmap"));
     loadProgram(std::string(":/data/terrain"));

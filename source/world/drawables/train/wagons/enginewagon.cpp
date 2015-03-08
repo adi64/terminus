@@ -23,7 +23,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
     setHealth(maxHealth());
 
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
+    m_geometry = ResourceManager::getInstance()->getGeometry("engineWagon_engineWagon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
@@ -38,18 +38,17 @@ EngineWagon::~EngineWagon()
 
 void EngineWagon::primaryAction()
 {
-    if(isDisabled() || m_onCooldown)
+    if(isDisabled() || isOnCooldown())
     {
         return;
     }
 
     m_train->setVelocity(m_train->velocity() + 0.002f);
 
-    m_onCooldown = true;
-    m_cooldown = 0.f;
+    resetCooldown();
 }
 
-float EngineWagon::cooldownRate() const
+float EngineWagon::cooldownTime() const
 {
     return 15000.f;
 }
@@ -88,7 +87,7 @@ void EngineWagon::playSound() const
 
 float EngineWagon::length() const
 {
-    return 6.0f;
+    return 15.44f;
 }
 
 WagonType EngineWagon::wagonType() const

@@ -36,7 +36,7 @@ namespace terminus
         projectile->setSpawnedLocally(false);
         projectile->moveTo(m_startPosition);
         projectile->setLinearVelocity(m_velocity);
-        m_game->world().addNode(projectile);
+        m_game->world().addObject(projectile);
     }
 
     Commands ProjectileFiredCommand::commandType() const

@@ -3,6 +3,7 @@
 #include <game.h>
 #include <world/world.h>
 #include <world/drawables/train/train.h>
+#include <player/localplayer.h>
 
 namespace terminus
 {
@@ -35,7 +36,8 @@ QJsonObject ProjectileHitCommand::toJson() const
 
 void ProjectileHitCommand::doWork()
 {
-    auto wagon = m_game->world().playerTrain().wagonAt(wagonIndex());
+    auto wagon = m_game->world().localPlayer().train()->wagonAt(wagonIndex());
+    assert(wagon != nullptr);
     wagon->setHealth(wagon->currentHealth() - m_damage);
 }
 

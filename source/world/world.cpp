@@ -35,51 +35,50 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
+, m_rightTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
+, m_leftTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {
+
+    Train* playerTrain = nullptr;
+    Train* enemyTrain = nullptr;
+
     if(isPlayerOne)
     {
-        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
-        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
+        playerTrain = m_rightTrain.get();
+        enemyTrain = m_leftTrain.get();
     }
     else
     {
-        m_playerTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
-        m_enemyTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
+        playerTrain = m_leftTrain.get();
+        enemyTrain = m_rightTrain.get();
     }
 
-    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, m_playerTrain.get()));
+    m_localPlayer = std::unique_ptr<LocalPlayer>(new LocalPlayer(*this, playerTrain));
 
     if(isNetworkGame)
     {
-
-        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new RemotePlayer(*this, m_enemyTrain.get()));
+        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new RemotePlayer(*this, enemyTrain));
     }
     else
     {
-        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new AIPlayer(*this, m_enemyTrain.get(), m_playerTrain.get()));
-        m_enemyTrain->follow(m_playerTrain.get());
+        m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new AIPlayer(*this, enemyTrain, playerTrain));
     }
 
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
-    m_playerTrain->addWagon<RepairWagon>();
-    m_playerTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<RepairWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
+    m_leftTrain->addWagon<RepairWagon>();
+    m_leftTrain->addWagon<WeaponWagon>();
 
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<WeaponWagon>();
-    m_enemyTrain->addWagon<RepairWagon>();
-
-    addNode(m_playerTrain.get());
-    addNode(m_enemyTrain.get());
-    addNode(m_terrain.get());
-    addNode(m_skybox.get());
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<RepairWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<WeaponWagon>();
+    m_rightTrain->addWagon<RepairWagon>();
 
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
@@ -99,23 +98,18 @@ World::~World()
 
 }
 
-void World::addNode(AbstractGraphicsObject *node)
+void World::addObject(AbstractGraphicsObject * node)
 {
-    m_objects.push_back(node);
+    m_dynamicObjects.push_back(std::unique_ptr<AbstractGraphicsObject>(node));
 }
 
-void World::deleteNode(AbstractGraphicsObject *node)
+void World::deleteObject(AbstractGraphicsObject * object)
 {
-    for(auto iterator = m_objects.begin(); iterator != m_objects.end(); ++iterator)
-    {
-        if(*iterator == node)
+    m_dynamicObjects.remove_if(
+        [object](const std::unique_ptr<AbstractGraphicsObject> & candidate)
         {
-            m_objects.erase(iterator);
-            return;
-        }
-    }
-
-    qDebug() << "Could not find node " << node;
+            return candidate.get() == object;
+        });
 }
 
 void World::update()
@@ -123,7 +117,11 @@ void World::update()
     // physics - never give bullet negative step times
     m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
-    for(auto object : m_objects)
+    m_skybox->update();
+    m_terrain->update();
+    m_rightTrain->update();
+    m_leftTrain->update();
+    for(auto & object : m_dynamicObjects)
     {
         object->update();
     }
@@ -149,9 +147,14 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    for(auto node : m_objects)
+
+    m_skybox->render(gl);
+    m_terrain->render(gl);
+    m_rightTrain->render(gl);
+    m_leftTrain->render(gl);
+    for(auto & object : m_dynamicObjects)
     {
-        node->render(gl);
+        object->render(gl);
     }
 
     gl.glDisable(GL_BLEND);
@@ -169,14 +172,14 @@ AbstractPlayer &World::enemyPlayer()
     return *m_enemyPlayer;
 }
 
-Train & World::playerTrain()
+Train &World::localPlayerTrain()
 {
-    return *m_playerTrain;
+    return *(localPlayer().train());
 }
 
-Train & World::enemyTrain()
+Train &World::enemyPlayerTrain()
 {
-    return *m_enemyTrain;
+    return *(enemyPlayer().train());
 }
 
 Terrain &World::terrain()
