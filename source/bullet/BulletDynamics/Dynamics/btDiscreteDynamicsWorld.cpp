@@ -96,7 +96,7 @@ struct InplaceSolverIslandCallback : public btSimulationIslandManager::IslandCal
 
 	InplaceSolverIslandCallback(
 		btConstraintSolver*	solver,
-		btStackAlloc* stackAlloc,
+        btStackAlloc* /*stackAlloc*/,
 		btDispatcher* dispatcher)
 		:m_solverInfo(NULL),
 		m_solver(solver),

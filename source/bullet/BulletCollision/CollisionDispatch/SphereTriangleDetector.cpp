@@ -91,7 +91,7 @@ bool SphereTriangleDetector::facecontains(const btVector3 &p,const btVector3* ve
 	return pointInTriangle(vertices, lnormal, &lp);
 }
 
-bool SphereTriangleDetector::collide(const btVector3& sphereCenter,btVector3 &point, btVector3& resultNormal, btScalar& depth, btScalar &timeOfImpact, btScalar contactBreakingThreshold)
+bool SphereTriangleDetector::collide(const btVector3& sphereCenter,btVector3 &point, btVector3& resultNormal, btScalar& depth, btScalar &/*timeOfImpact*/, btScalar contactBreakingThreshold)
 {
 
 	const btVector3* vertices = &m_triangle->getVertexPtr(0);
