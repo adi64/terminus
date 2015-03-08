@@ -132,17 +132,17 @@ const QVector3D & AbstractGraphicsObject::maxBB() const
 
 QVector3D AbstractGraphicsObject::worldUp()
 {
-    return m_rotation.rotatedVector(QVector3D(0.f, 1.f, 0.f)).normalized();
+    return (modelToWorld({0.f, 1.f, 0.f}) - position()).normalized();
 }
 
 QVector3D AbstractGraphicsObject::worldFront()
 {
-    return m_rotation.rotatedVector(QVector3D(1.f, 0.f, 0.f)).normalized();
+    return (modelToWorld({1.f, 0.f, 0.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::worldRight()
+QVector3D AbstractGraphicsObject::worldLeft()
 {
-    return m_rotation.rotatedVector(QVector3D(0.f, 0.f, 1.f)).normalized();
+    return (modelToWorld({0.f, 0.f, 1.f}) - position()).normalized();
 }
 
 QVector3D AbstractGraphicsObject::position() const
