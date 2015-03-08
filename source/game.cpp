@@ -118,12 +118,12 @@ void Game::sync()
     if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
             || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
     {
-        QMetaObject::invokeMethod(this, "winGame", Qt::DirectConnection);
+        QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
         return;
     }
     else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
     {
-        QMetaObject::invokeMethod(this, "loseGame", Qt::DirectConnection);
+        QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
         return;
     }
 

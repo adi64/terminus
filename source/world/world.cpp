@@ -90,7 +90,7 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
 
     SoundManager::getInstance()->playSound("music");
 
-    QMetaObject::invokeMethod(&m_game, "loadUI", Qt::DirectConnection, Q_ARG(QVariant, QVariant(!isPlayerOne)));
+    QMetaObject::invokeMethod(&m_game, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, QVariant(!isPlayerOne)));
 }
 
 World::~World()
