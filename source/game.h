@@ -94,7 +94,7 @@ public slots:
      */
     void setPaused(bool paused);
     void togglePaused();
-    bool isPaused() const { return m_paused; }
+    bool isPaused() { return m_timer.isPaused(); }
 
 signals:
     void qmlDataChanged();
@@ -113,8 +113,6 @@ protected:
     QOpenGLFunctions m_gl;
 
     std::unique_ptr<QTimer> m_renderTrigger;
-
-    bool m_paused;
 };
 
 }

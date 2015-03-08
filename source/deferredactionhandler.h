@@ -12,20 +12,19 @@ using DeferredActionList = std::vector<DeferredAction>;
 namespace terminus
 {
 
-class Game;
-
 class DeferredActionHandler
 {
 public:
-    DeferredActionHandler(Game *game);
+    DeferredActionHandler();
 
     void scheduleAction(const DeferredAction &event);
     void processDeferredActions();
+
 protected:
-    Game *m_game;
     int m_currentActionList;
-    std::unique_ptr<DeferredActionList> m_actionList[2];
-    std::mutex m_actionListMutex;
+    DeferredActionList m_actionList[2];
+
+    std::recursive_mutex m_actionListMutex;
 };
 
 }

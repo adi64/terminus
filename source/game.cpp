@@ -28,10 +28,8 @@ namespace terminus
 
 Game::Game()
 : m_eventHandler(this)
-, m_deferredActionHandler(this)
 , m_networkManager(*this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_paused(true)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -52,6 +50,7 @@ void Game::hostNetworkGame()
 {
     m_networkManager.startServer(defaultPort);
     createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
+    setPaused(true);
 }
 
 void Game::joinNetworkGame(QString host)

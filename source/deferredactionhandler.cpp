@@ -5,34 +5,31 @@
 namespace terminus
 {
 
-DeferredActionHandler::DeferredActionHandler(Game *game)
-: m_game(game)
-, m_currentActionList(0)
+DeferredActionHandler::DeferredActionHandler()
+: m_currentActionList(0)
 {
-    m_actionList[0] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
-    m_actionList[1] = std::unique_ptr<DeferredActionList>(new DeferredActionList);
 }
 
 void DeferredActionHandler::scheduleAction(const DeferredAction& action)
 {
-    std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    m_actionList[m_currentActionList]->push_back(action);
+    std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
+    m_actionList[m_currentActionList].push_back(action);
 }
 
 void DeferredActionHandler::processDeferredActions()
 {
-    std::unique_lock<std::mutex> actionListLock(m_actionListMutex);
-    int nextActionList = (m_currentActionList + 1) % 2;
+    std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
+    int previousActionList = m_currentActionList;
+    m_currentActionList = (m_currentActionList + 1) % 2;
 
-    for (auto &action : (*m_actionList[m_currentActionList]))
+    for (auto &action : m_actionList[previousActionList])
     {
         if(action())
         {
-            m_actionList[nextActionList]->push_back(action);
+            scheduleAction(action);
         }
     }
-    m_actionList[m_currentActionList]->clear();
-    m_currentActionList = nextActionList;
+    m_actionList[previousActionList].clear();
 }
 
 }

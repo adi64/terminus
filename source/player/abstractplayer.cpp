@@ -83,7 +83,6 @@ void AbstractPlayer::primaryAction()
 
 void AbstractPlayer::primaryActionDebug()
 {
-    qDebug() << "sending primary action debug to wagon " << m_selectedWagonIndex;
     m_train->wagonAt(m_selectedWagonIndex)->primaryActionDebug();
 }
 
