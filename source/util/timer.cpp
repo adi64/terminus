@@ -164,6 +164,7 @@ Timer::TimerID Timer::freeTimerID()
             return id;
     }
     assert(false); //no free timer id left
+    return 0;
 }
 
 std::chrono::steady_clock::time_point Timer::localNow()
