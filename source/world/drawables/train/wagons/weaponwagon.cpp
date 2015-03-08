@@ -21,7 +21,7 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("weapon_weapon");
+    m_geometry = ResourceManager::getInstance()->getGeometry("weaponWagon_weaponWagon");
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
@@ -82,7 +82,7 @@ float WeaponWagon::cooldownTime() const
 
 float WeaponWagon::length() const
 {
-    return 7.5f;
+    return 13.2f;
 }
 
 WagonType WeaponWagon::wagonType() const
