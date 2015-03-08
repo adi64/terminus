@@ -211,11 +211,11 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     program.release();
 }
 
-void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
-void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
@@ -248,7 +248,7 @@ void AbstractGraphicsObject::setScale(float scale)
     m_modelMatrixChanged = true;
 }
 
-void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
 {
 }
 

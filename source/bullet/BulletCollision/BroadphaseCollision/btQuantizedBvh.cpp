@@ -464,7 +464,7 @@ void btQuantizedBvh::walkRecursiveQuantizedTreeAgainstQueryAabb(const btQuantize
 
 
 
-void	btQuantizedBvh::walkStacklessTreeAgainstRay(btNodeOverlapCallback* nodeCallback, const btVector3& raySource, const btVector3& rayTarget, const btVector3& aabbMin, const btVector3& aabbMax, int startNodeIndex,int endNodeIndex) const
+void	btQuantizedBvh::walkStacklessTreeAgainstRay(btNodeOverlapCallback* nodeCallback, const btVector3& raySource, const btVector3& rayTarget, const btVector3& aabbMin, const btVector3& aabbMax, int /*startNodeIndex*/,int /*endNodeIndex*/) const
 {
 	btAssert(!m_useQuantization);
 

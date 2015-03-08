@@ -439,10 +439,10 @@ struct btMatrixX
 		}
 	}
 	
-	void setSubMatrix(int rowstart,int colstart,int rowend,int colend,const btMatrixX& block)
-	{
-		btAssert(rowend+1-rowstart == block.rows());
-		btAssert(colend+1-colstart == block.cols());
+    void setSubMatrix(int rowstart,int colstart,int /*rowend*/,int /*colend*/,const btMatrixX& block)
+    {
+//		btAssert(rowend+1-rowstart == block.rows());
+//		btAssert(colend+1-colstart == block.cols());
 		for (int row=0;row<block.rows();row++)
 		{
 			for (int col=0;col<block.cols();col++)
@@ -451,10 +451,10 @@ struct btMatrixX
 			}
 		}
 	}
-	void setSubMatrix(int rowstart,int colstart,int rowend,int colend,const btVectorX<T>& block)
-	{
-		btAssert(rowend+1-rowstart == block.rows());
-		btAssert(colend+1-colstart == block.cols());
+    void setSubMatrix(int rowstart,int colstart,int /*rowend*/,int /*colend*/,const btVectorX<T>& block)
+    {
+//		btAssert(rowend+1-rowstart == block.rows());
+//		btAssert(colend+1-colstart == block.cols());
 		for (int row=0;row<block.rows();row++)
 		{
 			for (int col=0;col<block.cols();col++)

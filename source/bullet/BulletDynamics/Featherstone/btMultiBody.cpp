@@ -64,16 +64,16 @@ namespace {
         return a_bottom.dot(b_top) + a_top.dot(b_bottom);
     }
 
-	void SpatialCrossProduct(const btVector3 &a_top,
-                            const btVector3 &a_bottom,
-                            const btVector3 &b_top,
-                            const btVector3 &b_bottom,
-							btVector3 &top_out,
-							btVector3 &bottom_out)
-	{
-		top_out = a_top.cross(b_top);
-		bottom_out = a_bottom.cross(b_top) + a_top.cross(b_bottom);
-	}
+//	void SpatialCrossProduct(const btVector3 &a_top,
+//                            const btVector3 &a_bottom,
+//                            const btVector3 &b_top,
+//                            const btVector3 &b_bottom,
+//							btVector3 &top_out,
+//							btVector3 &bottom_out)
+//	{
+//		top_out = a_top.cross(b_top);
+//		bottom_out = a_bottom.cross(b_top) + a_top.cross(b_bottom);
+//	}
 }
 
 

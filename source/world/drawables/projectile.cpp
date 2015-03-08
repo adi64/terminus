@@ -45,7 +45,7 @@ void Projectile::localUpdate()
     }
 }
 
-void Projectile::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void Projectile::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
@@ -68,7 +68,7 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
     dispose();
 }
 
-unsigned int Projectile::maxAgeInMilliseconds() const
+int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
 }

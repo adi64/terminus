@@ -295,7 +295,7 @@ btScalar btEpsRoot() {
     return false;
   }
 
-void btLemkeAlgorithm::GaussJordanEliminationStep(btMatrixXu& A, int pivotRowIndex, int pivotColumnIndex, const btAlignedObjectArray<int>& basis) 
+void btLemkeAlgorithm::GaussJordanEliminationStep(btMatrixXu& A, int pivotRowIndex, int pivotColumnIndex, const btAlignedObjectArray<int>& /*basis*/)
 {
 
 	btScalar a = -1 / A(pivotRowIndex, pivotColumnIndex);

@@ -27,7 +27,7 @@ SkyBox::SkyBox(World & world)
     m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
 }
 
-void SkyBox::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void SkyBox::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
     allocateCubeMap(gl);
 

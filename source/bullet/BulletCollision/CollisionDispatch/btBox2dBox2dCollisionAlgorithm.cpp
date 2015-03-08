@@ -53,7 +53,7 @@ btBox2dBox2dCollisionAlgorithm::~btBox2dBox2dCollisionAlgorithm()
 void b2CollidePolygons(btManifoldResult* manifold,  const btBox2dShape* polyA, const btTransform& xfA, const btBox2dShape* polyB, const btTransform& xfB);
 
 //#include <stdio.h>
-void btBox2dBox2dCollisionAlgorithm::processCollision (const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap,const btDispatcherInfo& dispatchInfo,btManifoldResult* resultOut)
+void btBox2dBox2dCollisionAlgorithm::processCollision (const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap,const btDispatcherInfo& /*dispatchInfo*/,btManifoldResult* resultOut)
 {
 	if (!m_manifoldPtr)
 		return;

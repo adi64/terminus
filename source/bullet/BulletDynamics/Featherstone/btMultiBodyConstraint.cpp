@@ -57,7 +57,7 @@ btScalar btMultiBodyConstraint::fillMultiBodyConstraint(	btMultiBodySolverConstr
 															const btContactSolverInfo& infoGlobal,
 															btScalar lowerLimit, btScalar upperLimit,
 															btScalar relaxation,
-															bool isFriction, btScalar desiredVelocity, btScalar cfmSlip)
+                                                            bool isFriction, btScalar desiredVelocity, btScalar /*cfmSlip*/)
 {
 	solverConstraint.m_multiBodyA = m_bodyA;
 	solverConstraint.m_multiBodyB = m_bodyB;

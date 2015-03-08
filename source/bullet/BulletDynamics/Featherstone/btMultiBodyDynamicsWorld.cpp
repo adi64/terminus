@@ -24,7 +24,7 @@ subject to the following restrictions:
 	
 
 
-void	btMultiBodyDynamicsWorld::addMultiBody(btMultiBody* body, short group, short mask)
+void	btMultiBodyDynamicsWorld::addMultiBody(btMultiBody* body, short /*group*/, short /*mask*/)
 {
 	m_multiBodies.push_back(body);
 

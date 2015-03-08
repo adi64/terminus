@@ -702,7 +702,7 @@ public:
 	}
 
 	///@todo: avoid internal softbody shape hack and move collision code to collision library
-	virtual void	setCollisionShape(btCollisionShape* collisionShape)
+    virtual void	setCollisionShape(btCollisionShape* /*collisionShape*/)
 	{
 		
 	}

@@ -66,7 +66,7 @@ subject to the following restrictions:
 
 
 
-btCollisionWorld::btCollisionWorld(btDispatcher* dispatcher,btBroadphaseInterface* pairCache, btCollisionConfiguration* collisionConfiguration)
+btCollisionWorld::btCollisionWorld(btDispatcher* dispatcher,btBroadphaseInterface* pairCache, btCollisionConfiguration* /*collisionConfiguration*/)
 :m_dispatcher1(dispatcher),
 m_broadphasePairCache(pairCache),
 m_debugDrawer(0),

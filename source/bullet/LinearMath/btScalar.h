@@ -252,7 +252,7 @@ inline int	btGetVersion()
 #if defined(DEBUG) || defined (_DEBUG)
 		#define btAssert assert
 #else
-		#define btAssert(x)
+        #define btAssert(x)
 #endif
 
 		//btFullAssert is optional, slows down a lot
@@ -265,7 +265,6 @@ inline int	btGetVersion()
 
 #endif	//__CELLOS_LV2__
 #endif
-
 
 ///The btScalar type abstracts floating point numbers, to easily switch between double and single floating point precision.
 #if defined(BT_USE_DOUBLE_PRECISION)
