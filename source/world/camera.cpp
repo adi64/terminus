@@ -94,7 +94,7 @@ void Camera::setUp(const QVector3D & up)
     invalidateMatrices();
 }
 
-QVector3D Camera::normalizedAimVector() const
+QVector3D Camera::normalizedLook() const
 {
     return (center() - eye()).normalized();
 }
