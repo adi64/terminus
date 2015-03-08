@@ -61,6 +61,8 @@ void Game::joinNetworkGame(QString host)
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
     m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+    updateQMLData();
+    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, QVariant(!isPlayerOne)));
 }
 
 World & Game::world() const

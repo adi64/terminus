@@ -89,8 +89,6 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 
     SoundManager::getInstance()->playSound("music");
-
-    QMetaObject::invokeMethod(&m_game, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, QVariant(!isPlayerOne)));
 }
 
 World::~World()
