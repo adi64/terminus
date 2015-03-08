@@ -39,11 +39,10 @@ void WeaponWagon::primaryAction()
         return;
     }
 
-    auto velocityMultiplicator = 100.f;
+    auto scalarVelocity = 100.f;
+    fire(aimVector() * scalarVelocity);
 
-    QVector3D worldProjectileVelocity = m_train->player().camera().normalizedLook() * velocityMultiplicator;
     SoundManager::getInstance()->playSound("shot");
-    fire(worldProjectileVelocity);
 
     m_onCooldown = true;
     m_cooldown = 0.f;
@@ -51,10 +50,8 @@ void WeaponWagon::primaryAction()
 
 void WeaponWagon::primaryActionDebug()
 {
-    auto velocityMultiplicator = 100.0;
-
-    QVector3D worldProjectileVelocity = m_train->player().camera().normalizedLook() * velocityMultiplicator;
-    fire(worldProjectileVelocity);
+    auto scalarVelocity = 100.0;
+    fire(aimVector() * scalarVelocity);
 }
 
 void WeaponWagon::fire(QVector3D velocity)
@@ -63,15 +60,20 @@ void WeaponWagon::fire(QVector3D velocity)
     QVector3D worldProjectilePosition = position() + rotation().rotatedVector(relativeProjectilePosition);
 
     m_world.scheduleAction(
-        [this, worldProjectilePosition, velocity]()
+        [this, velocity]()
         {
             auto projectile = new Projectile(m_world);
-            projectile->moveTo(worldProjectilePosition);
+            projectile->moveTo(modelToWorld(localCameraCenter()));
             projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * -1000.0f));
             m_world.addObject(projectile);
             return false;
         }
     );
+}
+
+QVector3D WeaponWagon::aimVector()
+{
+    return (modelToWorld(localCameraCenter()) - modelToWorld(localCameraEye())).normalized();
 }
 
 float WeaponWagon::cooldownRate() const

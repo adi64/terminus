@@ -30,8 +30,7 @@ protected:
      */
     void fire(QVector3D velocity);
 
-protected:
-    QVector3D m_normalizedAimVector;
+    virtual QVector3D aimVector();
 };
 
 }
