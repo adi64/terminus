@@ -21,6 +21,7 @@ Item
     {
         id: terminus
         anchors.fill: parent
+        focus: true
 
         function winGame()
         {
@@ -30,9 +31,9 @@ Item
         {
             loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
         }
-        function loadUI(isReversed)
+        function loadUI(ui, isReversed)
         {
-            uiLoader.setSource("qrc:/source/qml/UserInterface.qml", { "game": terminus, "isReversed": isReversed })
+            uiLoader.setSource(ui, { "game": terminus, "isReversed": isReversed })
         }
 
         Component.onCompleted:
@@ -54,11 +55,16 @@ Item
             }
         }
 
+        Keys.onPressed:
+        {
+            terminus.keyInput(event.key)
+            event.accepted = true
+        }
+
         Loader
         {
             id: uiLoader
             anchors.fill: parent
-            focus: true
         }
     }
 }

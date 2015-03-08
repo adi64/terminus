@@ -22,16 +22,9 @@ import Game 1.0
 Item
 {
     anchors.fill: parent
-    focus: true
 
     property Game game
     property bool isReversed: false
-
-    Keys.onPressed:
-    {
-        game.keyInput(event.key)
-        event.accepted = true
-    }
 
     MultiPointTouchArea
     {

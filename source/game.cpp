@@ -30,6 +30,7 @@ Game::Game()
 : m_eventHandler(this)
 , m_networkManager(*this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
+, m_uiIsActive(false) // is set to true on create world
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -60,9 +61,36 @@ void Game::joinNetworkGame(QString host)
 
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
+    m_isPlayerOne = isPlayerOne;
     m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+    showUI();
+}
+
+void Game::toggleUI()
+{
+    if(m_uiIsActive)
+    {
+        hideUI();
+    }
+    else
+    {
+        showUI();
+    }
+}
+
+void Game::showUI()
+{
+    m_uiIsActive = true;
     updateQMLData();
-    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, QVariant(!isPlayerOne)));
+    QString uiFile = "qrc:/source/qml/UserInterface.qml";
+    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
+}
+
+void Game::hideUI()
+{
+    m_uiIsActive = false;
+    QString uiFile = "";
+    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
 }
 
 World & Game::world() const
@@ -139,7 +167,11 @@ void Game::sync()
     {
        m_world->update();
     }
-    updateQMLData();
+
+    if(m_uiIsActive)
+    {
+        updateQMLData();
+    }
 
     m_timer.adjust("frameTimer", 0);
 }

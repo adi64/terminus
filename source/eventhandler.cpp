@@ -115,6 +115,8 @@ void EventHandler::keyPressEvent(Qt::Key key)
         m_game->togglePaused();
         m_game->networkManager().sendPauseCommand(m_game->isPaused());
         break;
+    case Qt::Key_U:
+        m_game->toggleUI();
     default:
         break;
     }

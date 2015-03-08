@@ -56,6 +56,10 @@ public:
 
     void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
 
+    void toggleUI();
+    void showUI();
+    void hideUI();
+
     World & world() const;
     QVariant & qmlData();
     DeferredActionHandler & deferredActionHandler();
@@ -113,6 +117,9 @@ protected:
     QOpenGLFunctions m_gl;
 
     std::unique_ptr<QTimer> m_renderTrigger;
+
+    bool m_isPlayerOne;
+    bool m_uiIsActive;
 };
 
 }
