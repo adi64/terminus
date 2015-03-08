@@ -1033,11 +1033,11 @@ void btSolveLDLT (const btScalar *L, const btScalar *d, btScalar *b, int n, int 
 // rows will be swapped by exchanging row pointers. otherwise the data will
 // be copied.
 
-static void btSwapRowsAndCols (BTATYPE A, int n, int i1, int i2, int nskip, 
+static void btSwapRowsAndCols (BTATYPE A, int n, int i1, int i2, int /*nskip*/,
   int do_fast_row_swaps)
 {
   btAssert (A && n > 0 && i1 >= 0 && i2 >= 0 && i1 < n && i2 < n &&
-    nskip >= n && i1 < i2);
+    /*nskip >= n &&*/ i1 < i2);
 
 # ifdef BTROWPTRS
   btScalar *A_i1 = A[i1];
@@ -1205,7 +1205,7 @@ struct btLCP
 		bool *_state, int *_findex, int *_p, int *_C, btScalar **Arows);
 	int getNub() const { return m_nub; }
 	void transfer_i_to_C (int i);
-	void transfer_i_to_N (int i) { m_nN++; }			// because we can assume C and N span 1:i-1
+    void transfer_i_to_N (int /*i*/) { m_nN++; }			// because we can assume C and N span 1:i-1
 	void transfer_i_from_N_to_C (int i);
 	void transfer_i_from_C_to_N (int i, btAlignedObjectArray<btScalar>& scratch);
 	int numC() const { return m_nC; }
@@ -1551,10 +1551,10 @@ inline size_t btEstimateLDLTAddTLTmpbufSize(int nskip)
 
 
 void btLDLTRemove (btScalar **A, const int *p, btScalar *L, btScalar *d,
-    int n1, int n2, int r, int nskip, btAlignedObjectArray<btScalar>& scratch)
+    int /*n1*/, int n2, int r, int nskip, btAlignedObjectArray<btScalar>& scratch)
 {
-  btAssert(A && p && L && d && n1 > 0 && n2 > 0 && r >= 0 && r < n2 &&
-	   n1 >= n2 && nskip >= n1);
+  btAssert(A && p && L && d/* && n1 > 0*/ && n2 > 0 && r >= 0 && r < n2/* &&
+       n1 >= n2 && nskip >= n1*/);
   #ifdef BT_DEBUG
 	for (int i=0; i<n2; ++i) 
 		btAssert(p[i] >= 0 && p[i] < n1);

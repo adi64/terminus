@@ -226,11 +226,11 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     program.release();
 }
 
-void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
-void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
@@ -275,7 +275,7 @@ QVector3D AbstractGraphicsObject::modelToWorld(const QVector3D & vModel)
     return v4.toVector3DAffine();
 }
 
-void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
 {
 }
 

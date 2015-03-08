@@ -225,8 +225,8 @@ void btGImpactCollisionAlgorithm::addContactPoint(const btCollisionObjectWrapper
 void btGImpactCollisionAlgorithm::shape_vs_shape_collision(
 					  const btCollisionObjectWrapper * body0Wrap,
 					  const btCollisionObjectWrapper* body1Wrap,
-					  const btCollisionShape * shape0,
-					  const btCollisionShape * shape1)
+                      const btCollisionShape * /*shape0*/,
+                      const btCollisionShape * /*shape1*/)
 {
 
 
@@ -901,7 +901,7 @@ void btGImpactCollisionAlgorithm::processCollision (const btCollisionObjectWrapp
 }
 
 
-btScalar btGImpactCollisionAlgorithm::calculateTimeOfImpact(btCollisionObject* body0,btCollisionObject* body1,const btDispatcherInfo& dispatchInfo,btManifoldResult* resultOut)
+btScalar btGImpactCollisionAlgorithm::calculateTimeOfImpact(btCollisionObject* /*body0*/,btCollisionObject* /*body1*/,const btDispatcherInfo& /*dispatchInfo*/,btManifoldResult* /*resultOut*/)
 {
 	return 1.f;
 
