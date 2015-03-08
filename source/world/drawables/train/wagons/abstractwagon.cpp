@@ -53,6 +53,9 @@ void AbstractWagon::localUpdate()
 void AbstractWagon::onBindCamera()
 {
     m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+    m_previousCenter = worldToModel(m_camera->center());
+    m_previousEye = worldToModel(m_camera->eye());
+    m_world.timer().adjust(m_cameraTimer, 0);
 }
 
 void AbstractWagon::adjustCamera()
@@ -62,10 +65,10 @@ void AbstractWagon::adjustCamera()
         return;
     }
     const int transitionTime = 200;
-    float previousInfluence = 1.f - MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
+    float currentInfluence = MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
 
-    auto vCenterM = MathUtil::mix(localCameraCenter(), m_previousCenter, previousInfluence);
-    auto vEyeM = MathUtil::mix(localCameraEye(), m_previousEye, previousInfluence);
+    auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
+    auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
 
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
