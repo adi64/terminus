@@ -15,7 +15,7 @@ public:
 
     virtual void primaryAction() override;
     virtual void primaryActionDebug() override;
-    virtual float cooldownRate() const override;
+    virtual float cooldownTime() const override;
     void setAimVector(const QVector3D & aimVector);
 
     virtual WagonType wagonType() const override;
@@ -30,8 +30,7 @@ protected:
      */
     void fire(QVector3D velocity);
 
-protected:
-    QVector3D m_normalizedAimVector;
+    virtual QVector3D aimVector();
 };
 
 }

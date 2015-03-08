@@ -28,7 +28,6 @@ Game::Game()
 : m_eventHandler(this)
 , m_deferredActionHandler(this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_paused(true)
 , m_setupComplete(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -79,14 +78,6 @@ void Game::moveInput(int type, qreal x, qreal y)
 
 void Game::sync()
 {
-    // check if it's our first frame
-    if(!m_setupComplete)
-    {
-        m_setupComplete = true;
-        m_paused = false;
-        //TODO m_timeStamp->restart();
-    }
-
     // process scheduled events
     m_deferredActionHandler.processDeferredActions();
 
@@ -96,7 +87,7 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    if(!m_paused)
+    if(!m_timer.isPaused())
     {
        m_world->update();
     }
@@ -141,12 +132,12 @@ void Game::handleWindowChanged(QQuickWindow * win)
 
 void Game::setPaused(bool paused)
 {
-    m_paused = paused;
+    m_timer.pause(paused);
 }
 
 void Game::togglePaused()
 {
-    m_paused = !m_paused;
+    m_timer.pause();
 }
 
 /*!

@@ -390,7 +390,8 @@ HEADERS += \
     source/eventhandler.h \
     source/game.h \
     source/util/timer.h \
-    source/resources/light.h
+    source/resources/light.h \
+    source/world/drawables/explosion.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -574,5 +575,6 @@ SOURCES += \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/resources/light.cpp
+    source/resources/light.cpp \
+    source/world/drawables/explosion.cpp
 

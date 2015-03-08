@@ -23,7 +23,6 @@ public:
 
 protected:
     virtual unsigned int maxAgeInMilliseconds() const;
-    bool m_active;
 
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
