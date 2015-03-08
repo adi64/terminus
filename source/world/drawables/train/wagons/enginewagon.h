@@ -24,6 +24,8 @@ public:
     virtual WagonType wagonType() const override;
 
     void playSound() const;
+protected:
+    virtual QVector3D lightPosition();
 
 protected:
     LightManager::ID m_headLight;
