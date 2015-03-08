@@ -1,9 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>data/base.obj</file>
-        <file>data/engine.obj</file>
-        <file>data/repair.obj</file>
         <file>data/terrain.obj</file>
+        <file>data/engineWagon.obj</file>
+        <file>data/weaponWagon.obj</file>
+        <file>data/repairWagon.obj</file>
         <file>data/weapon.obj</file>
         <file>data/ico2.obj</file>
     </qresource>

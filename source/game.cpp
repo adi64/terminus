@@ -78,12 +78,6 @@ void Game::moveInput(int type, qreal x, qreal y)
 
 void Game::sync()
 {
-//    // check if it's our first frame
-//    if(!m_setupComplete)
-//    {
-//        m_setupComplete = true;
-//    }
-
     // process scheduled events
     m_deferredActionHandler.processDeferredActions();
 

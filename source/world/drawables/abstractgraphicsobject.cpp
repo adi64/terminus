@@ -166,9 +166,24 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
         m_modelMatrix.translate(position());
         m_modelMatrix.rotate(rotation());
         m_modelMatrix.scale(scale());
+        m_modelMatrixInverted = m_modelMatrix.inverted();
         m_modelMatrixChanged = false;
     }
     return m_modelMatrix;
+}
+
+QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
+{
+    if(m_modelMatrixChanged)
+    {
+        m_modelMatrix.setToIdentity();
+        m_modelMatrix.translate(position());
+        m_modelMatrix.rotate(rotation());
+        m_modelMatrix.scale(scale());
+        m_modelMatrixInverted = m_modelMatrix.inverted();
+        m_modelMatrixChanged = false;
+    }
+    return m_modelMatrixInverted;
 }
 
 void AbstractGraphicsObject::localUpdate()
@@ -246,6 +261,18 @@ void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
+}
+
+QVector3D AbstractGraphicsObject::worldToModel(const QVector3D & vWorld)
+{
+    QVector4D v4 = modelMatrixInverted() * QVector4D(vWorld, 1.f);
+    return v4.toVector3DAffine();
+}
+
+QVector3D AbstractGraphicsObject::modelToWorld(const QVector3D & vModel)
+{
+    QVector4D v4 = modelMatrix() * QVector4D(vModel, 1.f);
+    return v4.toVector3DAffine();
 }
 
 void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
