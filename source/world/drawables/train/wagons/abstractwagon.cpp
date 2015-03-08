@@ -22,7 +22,6 @@ AbstractWagon::AbstractWagon(World & world, Train * train)
 , m_train(train)
 {
     m_cooldownTimer = m_world.timer().allocateTimer();
-    //m_world.timer().adjust(m_cooldownTimer, (Timer::TimerMSec)cooldownTime());
     m_cameraTimer = m_world.timer().allocateTimer();
 }
 
