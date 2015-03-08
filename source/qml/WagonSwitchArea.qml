@@ -19,6 +19,9 @@ Item
     property Game game: parent.game
     property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
+    property bool isReversed: parent.isReversed
+    property bool leftVisible: isReversed? currentWagon > 0 : currentWagon + 1 < totalWagons
+    property bool rightVisible: isReversed? currentWagon + 1 < totalWagons : currentWagon > 0
 
     Image
     {
@@ -39,7 +42,7 @@ Item
             id: nextButton
             source: "qrc:/data/NextButton.png"
             anchors.fill: parent
-            visible: currentWagon + 1 < totalWagons? true : false
+            visible: leftVisible
         }
 
         MultiPointTouchArea
@@ -66,7 +69,7 @@ Item
             id: prevButton
             source: "qrc:/data/PrevButton.png"
             anchors.fill: parent
-            visible: currentWagon > 0? true : false
+            visible: rightVisible
         }
 
         MultiPointTouchArea
