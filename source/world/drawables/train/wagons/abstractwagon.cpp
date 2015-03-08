@@ -31,27 +31,21 @@ AbstractWagon::~AbstractWagon()
     m_world.timer().releaseTimer(m_cameraTimer);
 }
 
+void AbstractWagon::primaryAction()
+{
+    if(isDisabled() || isOnCooldown())
+    {
+        return;
+    }
+
+    primaryActionInternal();
+
+    resetCooldown();
+}
+
 void AbstractWagon::primaryActionDebug()
 {
-    // TODO FIXME
-//    // bypass cooldown
-//    m_onCooldown = false;
-//    m_cooldown = 1.f;
-
-//    // save wagon health and status
-//    auto healthStatus = m_health;
-//    auto disabledStatus = m_disabled;
-
-//    // temporarily awaken the wagon from the dead if necessary
-//    m_health = maxHealth();
-//    m_disabled = false;
-
-//    // act like nothing happened
-    primaryAction();
-
-//    // restore wagon health and status
-//    m_health = healthStatus;
-//    m_disabled = disabledStatus;
+    primaryActionInternal();
 }
 
 void AbstractWagon::localUpdate()

@@ -27,13 +27,8 @@ RepairWagon::~RepairWagon()
     deallocatePhysics();
 }
 
-void RepairWagon::primaryAction()
+void RepairWagon::primaryActionInternal()
 {
-    if(isDisabled() || isOnCooldown())
-    {
-        return;
-    }
-
     for(int i = 0; i < m_train->size(); i++)
     {
         auto wagon = m_train->wagonAt(i);
@@ -45,8 +40,6 @@ void RepairWagon::primaryAction()
         float healing = wagon->currentHealth() + missingHealth / 4.f;
         wagon->setHealth(healing);
     }
-
-    resetCooldown();
 }
 
 float RepairWagon::cooldownTime() const

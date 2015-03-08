@@ -36,16 +36,9 @@ EngineWagon::~EngineWagon()
     deallocatePhysics();
 }
 
-void EngineWagon::primaryAction()
+void EngineWagon::primaryActionInternal()
 {
-    if(isDisabled() || isOnCooldown())
-    {
-        return;
-    }
-
     m_train->setVelocity(m_train->velocity() + 0.002f);
-
-    resetCooldown();
 }
 
 float EngineWagon::cooldownTime() const

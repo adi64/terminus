@@ -20,6 +20,7 @@ void LocalPlayer::primaryAction()
 
 void LocalPlayer::primaryActionDebug()
 {
+    AbstractPlayer::primaryActionDebug();
     m_world.networkManager().sendPrimaryActionCommand(m_selectedWagonIndex, m_camera.normalizedLook());
 }
 

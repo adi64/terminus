@@ -17,7 +17,7 @@ public:
 
     virtual void localUpdate() override;
 
-    virtual void primaryAction() override;
+    virtual void primaryActionInternal() override;
 
     virtual float maxHealth() const;
 

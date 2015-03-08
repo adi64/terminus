@@ -34,19 +34,12 @@ WeaponWagon::~WeaponWagon()
     deallocatePhysics();
 }
 
-void WeaponWagon::primaryAction()
+void WeaponWagon::primaryActionInternal()
 {
-    if(isDisabled() || isOnCooldown())
-    {
-        return;
-    }
-
     auto scalarVelocity = 100.f;
     fire(aimVector() * scalarVelocity);
 
     SoundManager::getInstance()->playSound("shot");
-
-    resetCooldown();
 }
 
 void WeaponWagon::fire(QVector3D velocity)
