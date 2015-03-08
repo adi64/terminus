@@ -22,7 +22,7 @@ public:
     virtual void onCollisionWith(AbstractPhysicsObject* other) override;
 
 protected:
-    virtual unsigned int maxAgeInMilliseconds() const;
+    virtual int maxAgeInMilliseconds() const;
 
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;

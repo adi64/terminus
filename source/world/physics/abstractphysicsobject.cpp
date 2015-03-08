@@ -50,7 +50,7 @@ void AbstractPhysicsObject::deallocatePhysics()
  * This default implementation does nothing and only exists so that subclasses can override it with custom functionality (like dealing damage).
  * Movement changes are handled by bullet.
  */
-void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject *other)
+void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject * /*other*/)
 {
 
 }

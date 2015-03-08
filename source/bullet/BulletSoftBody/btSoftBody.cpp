@@ -2020,7 +2020,7 @@ void				btSoftBody::RayFromToCaster::Process(const btDbvtNode* leaf)
 
 //
 btScalar			btSoftBody::RayFromToCaster::rayFromToTriangle(	const btVector3& rayFrom,
-																   const btVector3& rayTo,
+                                                                   const btVector3& /*rayTo*/,
 																   const btVector3& rayNormalizedDirection,
 																   const btVector3& a,
 																   const btVector3& b,
@@ -2761,7 +2761,7 @@ void					btSoftBody::dampClusters()
 }
 
 //
-void				btSoftBody::Joint::Prepare(btScalar dt,int)
+void				btSoftBody::Joint::Prepare(btScalar /*dt*/,int)
 {
 	m_bodies[0].activate();
 	m_bodies[1].activate();
@@ -2788,7 +2788,7 @@ void				btSoftBody::LJoint::Prepare(btScalar dt,int iterations)
 }
 
 //
-void				btSoftBody::LJoint::Solve(btScalar dt,btScalar sor)
+void				btSoftBody::LJoint::Solve(btScalar /*dt*/,btScalar sor)
 {
 	const btVector3		va=m_bodies[0].velocity(m_rpos[0]);
 	const btVector3		vb=m_bodies[1].velocity(m_rpos[1]);
@@ -2801,7 +2801,7 @@ void				btSoftBody::LJoint::Solve(btScalar dt,btScalar sor)
 }
 
 //
-void				btSoftBody::LJoint::Terminate(btScalar dt)
+void				btSoftBody::LJoint::Terminate(btScalar /*dt*/)
 {
 	if(m_split>0)
 	{
@@ -2831,7 +2831,7 @@ void				btSoftBody::AJoint::Prepare(btScalar dt,int iterations)
 }
 
 //
-void				btSoftBody::AJoint::Solve(btScalar dt,btScalar sor)
+void				btSoftBody::AJoint::Solve(btScalar /*dt*/,btScalar sor)
 {
 	const btVector3		va=m_bodies[0].angularVelocity();
 	const btVector3		vb=m_bodies[1].angularVelocity();
@@ -2846,7 +2846,7 @@ void				btSoftBody::AJoint::Solve(btScalar dt,btScalar sor)
 }
 
 //
-void				btSoftBody::AJoint::Terminate(btScalar dt)
+void				btSoftBody::AJoint::Terminate(btScalar /*dt*/)
 {
 	if(m_split>0)
 	{
@@ -2878,7 +2878,7 @@ void				btSoftBody::CJoint::Prepare(btScalar dt,int iterations)
 }
 
 //
-void				btSoftBody::CJoint::Solve(btScalar dt,btScalar sor)
+void				btSoftBody::CJoint::Solve(btScalar /*dt*/,btScalar sor)
 {
 	const btVector3		va=m_bodies[0].velocity(m_rpos[0]);
 	const btVector3		vb=m_bodies[1].velocity(m_rpos[1]);
@@ -2920,7 +2920,7 @@ void				btSoftBody::CJoint::Solve(btScalar dt,btScalar sor)
 }
 
 //
-void				btSoftBody::CJoint::Terminate(btScalar dt)
+void				btSoftBody::CJoint::Terminate(btScalar /*dt*/)
 {
 	if(m_split>0)
 	{
@@ -2999,7 +2999,7 @@ void				btSoftBody::applyForces()
 }
 
 //
-void				btSoftBody::PSolve_Anchors(btSoftBody* psb,btScalar kst,btScalar ti)
+void				btSoftBody::PSolve_Anchors(btSoftBody* psb,btScalar kst,btScalar /*ti*/)
 {
 	const btScalar	kAHR=psb->m_cfg.kAHR*kst;
 	const btScalar	dt=psb->m_sst.sdt;
@@ -3019,7 +3019,7 @@ void				btSoftBody::PSolve_Anchors(btSoftBody* psb,btScalar kst,btScalar ti)
 }
 
 //
-void btSoftBody::PSolve_RContacts(btSoftBody* psb, btScalar kst, btScalar ti)
+void btSoftBody::PSolve_RContacts(btSoftBody* psb, btScalar kst, btScalar /*ti*/)
 {
 	const btScalar	dt = psb->m_sst.sdt;
 	const btScalar	mrg = psb->getCollisionShape()->getMargin();
@@ -3049,7 +3049,7 @@ void btSoftBody::PSolve_RContacts(btSoftBody* psb, btScalar kst, btScalar ti)
 }
 
 //
-void				btSoftBody::PSolve_SContacts(btSoftBody* psb,btScalar,btScalar ti)
+void				btSoftBody::PSolve_SContacts(btSoftBody* psb,btScalar,btScalar /*ti*/)
 {
 	for(int i=0,ni=psb->m_scontacts.size();i<ni;++i)
 	{
@@ -3082,7 +3082,7 @@ void				btSoftBody::PSolve_SContacts(btSoftBody* psb,btScalar,btScalar ti)
 }
 
 //
-void				btSoftBody::PSolve_Links(btSoftBody* psb,btScalar kst,btScalar ti)
+void				btSoftBody::PSolve_Links(btSoftBody* psb,btScalar kst,btScalar /*ti*/)
 {
 	for(int i=0,ni=psb->m_links.size();i<ni;++i)
 	{			

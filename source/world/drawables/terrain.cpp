@@ -151,7 +151,7 @@ void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
-void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);

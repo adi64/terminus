@@ -118,6 +118,8 @@ DISTFILES += \
 
 RC_FILE = data/myapp.rc
 
+QMAKE_CXXFLAGS += -fno-strict-aliasing
+
 INCLUDEPATH += \
     source/bullet \
     source

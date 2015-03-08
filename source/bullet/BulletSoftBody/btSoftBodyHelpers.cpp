@@ -15,6 +15,7 @@ subject to the following restrictions:
 ///btSoftBodyHelpers.cpp by Nathanael Presson
 
 #include "btSoftBodyInternals.h"
+
 #include <stdio.h>
 #include <string.h>
 #include "btSoftBodyHelpers.h"
@@ -1114,19 +1115,19 @@ static int nextLine(const char* buffer)
 /* Create from TetGen .ele, .face, .node data							*/ 
 btSoftBody*	btSoftBodyHelpers::CreateFromTetGenData(btSoftBodyWorldInfo& worldInfo,
 													const char* ele,
-													const char* face,
+                                                    const char* /*face*/,
 													const char* node,
-													bool bfacelinks,
+                                                    bool /*bfacelinks*/,
 													bool btetralinks,
-													bool bfacesfromtetras)
+                                                    bool /*bfacesfromtetras*/)
 {
 btAlignedObjectArray<btVector3>	pos;
 int								nnode=0;
 int								ndims=0;
 int								nattrb=0;
 int								hasbounds=0;
-int result = sscanf(node,"%d %d %d %d",&nnode,&ndims,&nattrb,&hasbounds);
-result = sscanf(node,"%d %d %d %d",&nnode,&ndims,&nattrb,&hasbounds);
+sscanf(node,"%d %d %d %d",&nnode,&ndims,&nattrb,&hasbounds);
+sscanf(node,"%d %d %d %d",&nnode,&ndims,&nattrb,&hasbounds);
 node += nextLine(node);
 
 pos.resize(nnode);

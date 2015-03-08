@@ -140,14 +140,14 @@ public:
 		return(localGetSupportingVertex(vec));
 	}
 	//notice that the vectors should be unit length
-	virtual void	batchedUnitVectorGetSupportingVertexWithoutMargin(const btVector3* vectors,btVector3* supportVerticesOut,int numVectors) const
+    virtual void	batchedUnitVectorGetSupportingVertexWithoutMargin(const btVector3* /*vectors*/,btVector3* /*supportVerticesOut*/,int /*numVectors*/) const
 	{}
 
 
-	virtual void	calculateLocalInertia(btScalar mass,btVector3& inertia) const
+    virtual void	calculateLocalInertia(btScalar /*mass*/,btVector3& /*inertia*/) const
 	{}
 
-	virtual void getAabb(const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
+    virtual void getAabb(const btTransform& /*t*/,btVector3& /*aabbMin*/,btVector3& /*aabbMax*/) const
 	{}
 
 	virtual int	getShapeType() const { return SOFTBODY_SHAPE_PROXYTYPE; }

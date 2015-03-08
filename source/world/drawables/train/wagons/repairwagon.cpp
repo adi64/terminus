@@ -29,7 +29,12 @@ RepairWagon::~RepairWagon()
 
 void RepairWagon::primaryActionInternal()
 {
-    for(int i = 0; i < m_train->size(); i++)
+    if(isDisabled() || isOnCooldown())
+    {
+        return;
+    }
+
+    for(unsigned int i = 0; i < m_train->size(); i++)
     {
         auto wagon = m_train->wagonAt(i);
         if(wagon->isDisabled())

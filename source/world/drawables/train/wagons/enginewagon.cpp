@@ -28,7 +28,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
-    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 64.f, 45.f, 0.4f));
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, lightPosition(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -54,7 +54,7 @@ float EngineWagon::maxHealth() const
 void EngineWagon::localUpdate()
 {
     auto & light = m_world.lightManager().get(m_headLight);
-    light.setPosition(position());
+    light.setPosition(lightPosition());
     light.setDirection(worldFront());
     
     std::string materialName = "base_Orange";
@@ -76,6 +76,11 @@ void EngineWagon::playSound() const
     {
         localManager->playSound("machine");
     }
+}
+
+QVector3D EngineWagon::lightPosition()
+{
+    return modelToWorld({minBB().x(), 0.f, 0.f});
 }
 
 float EngineWagon::length() const

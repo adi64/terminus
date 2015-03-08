@@ -22,7 +22,7 @@ public:
      * This default implementation does nothing and only exists so that subclasses can override it with custom functionality (like dealing damage).
      * Movement changes are handled by bullet.
      */
-    virtual void onCollisionWith(AbstractPhysicsObject* other);
+    virtual void onCollisionWith(AbstractPhysicsObject * other);
 
     /*!
      * \brief Set whether this PhysicsObject originated in this local game instance or in a remote instance
