@@ -181,7 +181,6 @@ void NetworkManager::newCommand(AbstractCommand *command)
         return;
     }
 
-    qDebug() << "ermergerd new command!";
     command->setGame(&m_game);
     m_game.deferredActionHandler().scheduleAction( [=](){ command->run(); delete command; return false; } );
 }
