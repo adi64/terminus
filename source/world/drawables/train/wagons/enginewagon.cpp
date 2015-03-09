@@ -34,7 +34,8 @@ EngineWagon::EngineWagon(World & world, Train * train)
     }
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
-    initializePhysics(new btSphereShape(1.0), 1000.f);
+    QVector3D bb = (maxBB() - minBB()) / 2.f;
+    initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 
     m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, lightPosition(), worldFront(), 64.f, 45.f, 0.4f));
 }

@@ -28,7 +28,8 @@ RepairWagon::RepairWagon(World & world, Train * train)
     }
     m_material = ResourceManager::getInstance()->getMaterial("base_Violet");
 
-    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+    QVector3D bb = (maxBB() - minBB()) / 2.f;
+    initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 }
 
 RepairWagon::~RepairWagon()
