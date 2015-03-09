@@ -6,6 +6,7 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <resources/soundmanager.h>
 
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
@@ -56,6 +57,8 @@ void RepairWagon::primaryAction()
     }
 
     resetCooldown();
+
+    SoundManager::getInstance()->playSound("repairAction");
 }
 
 float RepairWagon::cooldownTime() const

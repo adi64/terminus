@@ -52,6 +52,8 @@ void EngineWagon::primaryAction()
     m_train->setVelocity(m_train->velocity() + 0.002f);
 
     resetCooldown();
+
+    SoundManager::getInstance()->playSound("engineAction");
 }
 
 float EngineWagon::cooldownTime() const

@@ -12,6 +12,8 @@
 #include <world/drawables/explosion.h>
 #include <world/world.h>
 
+#include <resources/soundmanager.h>
+
 namespace terminus
 {
 
@@ -64,6 +66,8 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
     }
 
     m_world.addObject(new Explosion(m_world, position()));
+
+    SoundManager::getInstance()->playSound("explosion");
 
     dispose();
 }
