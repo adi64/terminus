@@ -82,8 +82,8 @@ void main()
 
     //fog calculation
     float fFogHeight = smoothstep(25.0, 100.0, v_positionW.y);
-    vec3 fogColor = mix(vec3(0.4, 0.43, 0.5), vec3(0.35, 0.4, 0.5), fFogHeight);
-    float fDensity = mix(0.015, 0.0025, fFogHeight);
+    vec3 fogColor = mix(vec3(0.3, 0.33, 0.4), vec3(0.35, 0.4, 0.5), fFogHeight);
+    float fDensity = mix(0.02, 0.002, fFogHeight);
     float fFog = 1.0 - exp(-pow(fDensity * (-v_positionC.z), 2.0));
 
     gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
