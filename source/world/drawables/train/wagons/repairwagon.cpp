@@ -26,7 +26,7 @@ RepairWagon::RepairWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("repair_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Violet");
+    m_material = ResourceManager::getInstance()->getMaterial("base_repairMat");
 
     QVector3D bb = (maxBB() - minBB()) / 2.f;
     initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
@@ -64,7 +64,7 @@ float RepairWagon::cooldownTime() const
 
 void RepairWagon::localUpdate()
 {
-    std::string materialName = "base_Violet";
+    std::string materialName = "base_repairMat";
     if(isDisabled())
     {
         materialName = "base_Grey";

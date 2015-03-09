@@ -32,7 +32,7 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("weapon_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
+    m_material = ResourceManager::getInstance()->getMaterial("base_weaponMat");
 
     QVector3D bb = (maxBB() - minBB()) / 2.f;
     initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
@@ -87,7 +87,7 @@ WagonType WeaponWagon::wagonType() const
 
 void WeaponWagon::localUpdate()
 {
-    std::string materialName = "base_Blue";
+    std::string materialName = "base_weaponMat";
     if(isDisabled())
     {
         materialName = "base_Grey";

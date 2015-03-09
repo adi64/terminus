@@ -32,7 +32,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("engine_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
+    m_material = ResourceManager::getInstance()->getMaterial("base_engineMat");
 
     QVector3D bb = (maxBB() - minBB()) / 2.f;
     initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
@@ -66,7 +66,7 @@ void EngineWagon::localUpdate()
     light.setPosition(lightPosition());
     light.setDirection(worldFront());
     
-    std::string materialName = "base_Orange";
+    std::string materialName = "base_engineMat";
     if(isDisabled())
     {
         materialName = "base_Grey";
@@ -89,7 +89,7 @@ void EngineWagon::playSound() const
 
 QVector3D EngineWagon::lightPosition()
 {
-    return modelToWorld({maxBB().x(), maxBB().y() * 0.5, 0.f});
+    return modelToWorld({maxBB().x(), maxBB().y() * 0.5f, 0.f});
 }
 
 WagonType EngineWagon::wagonType() const
