@@ -88,7 +88,7 @@ void EngineWagon::playSound() const
 
 QVector3D EngineWagon::lightPosition()
 {
-    return modelToWorld({maxBB().x(), maxBB().y() * 0.5, 0.f});
+    return modelToWorld({maxBB().x(), maxBB().y() * 0.5f, 0.f});
 }
 
 WagonType EngineWagon::wagonType() const
