@@ -68,7 +68,7 @@ void WeaponWagon::fire(QVector3D velocity)
         {
             auto projectile = new Projectile(m_world);
             projectile->moveTo(modelToWorld(localCameraCenter()));
-            projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * -1000.0f));
+            projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * 1000.0f));
             m_world.addObject(projectile);
             return false;
         }
