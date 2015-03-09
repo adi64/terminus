@@ -30,7 +30,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("engine_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
+    m_material = ResourceManager::getInstance()->getMaterial("base_engineMat");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
@@ -65,7 +65,7 @@ void EngineWagon::localUpdate()
     light.setPosition(lightPosition());
     light.setDirection(worldFront());
     
-    std::string materialName = "base_Orange";
+    std::string materialName = "base_engineMat";
     if(isDisabled())
     {
         materialName = "base_Grey";
