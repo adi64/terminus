@@ -38,13 +38,13 @@ Item
         switch(wagonType)
         {
         case 1:
-            return Qt.rgba(0.8, 0.48, 0.08, opac); //orange
+            return Qt.rgba(0.5725, 0.4, 0.2353, opac); //engine
         case 2:
-            return Qt.rgba(0.08, 0.48, 0.8, opac); //blue
+            return Qt.rgba(0.3216, 0.5882, 0.5647, opac); //weapon
         case 3:
-            return Qt.rgba(0.48, 0.08, 0.8, opac); //purple
+            return Qt.rgba(0.6196, 0.7333, 0.2745, opac); //repair
         default:
-            return Qt.rgba(0.4, 0.4, 0.4, opac); //grey
+            return Qt.rgba(0.0, 0.0, 0.0, opac); //invalid
         }
     }
 
