@@ -12,7 +12,7 @@ ClientReadyCommand::ClientReadyCommand(Timer::TimerMSec timeStamp)
 
 }
 
-ClientReadyCommand::ClientReadyCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
+ClientReadyCommand::ClientReadyCommand(Timer::TimerMSec timeStamp, QJsonObject)
 : AbstractCommand(timeStamp)
 {
 

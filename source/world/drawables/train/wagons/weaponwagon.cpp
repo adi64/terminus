@@ -47,22 +47,25 @@ void WeaponWagon::primaryActionInternal()
 {
     auto scalarVelocity = 100.f;
     fire(aimVector() * scalarVelocity);
-
-    SoundManager::getInstance()->playSound("shot");
 }
 
 void WeaponWagon::fire(QVector3D velocity)
 {
+    auto projectilePosition = modelToWorld(localCameraCenter());
+    auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
+
     m_world.scheduleAction(
-        [this, velocity]()
+        [this, projectilePosition, projectileVelocity]()
         {
             auto projectile = new Projectile(m_world);
-            projectile->moveTo(modelToWorld(localCameraCenter()));
-            projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * 1000.0f));
+            projectile->moveTo(projectilePosition);
+            projectile->setLinearVelocity(projectileVelocity);
             m_world.addObject(projectile);
             return false;
         }
     );
+
+    m_world.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
 
     SoundManager::getInstance()->playSound("shot");
 }

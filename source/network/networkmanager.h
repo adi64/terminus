@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QString>
 
+#include <util/timer.h>
+
 #include <network/networkendpoint.h>
 
 namespace terminus
@@ -14,12 +16,14 @@ class AbstractCommand;
 class Game;
 class NetworkClient;
 class NetworkServer;
+class Train;
 
 class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
     NetworkManager(Game &game);
+    ~NetworkManager();
 
     void startServer(unsigned short port);
     void startClient(QString host, unsigned short port);
@@ -31,6 +35,7 @@ public:
     void sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
     void sendProjectileHitCommand(int wagonIndex, float damage);
     void sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection);
+    void sendSyncCommand(const Train &playerTrain);
     void sendClientReadyCommand();
 
     void clientReady();
@@ -44,6 +49,9 @@ public:
     NetworkServer *networkServer() const;
     NetworkClient *networkClient() const;
 
+public slots:
+    void update();
+
 protected slots:
     void newCommand(AbstractCommand* command);
     void prepareAndSyncNewGame();
@@ -51,6 +59,8 @@ protected slots:
 protected:
     Game & m_game;
     std::unique_ptr<NetworkEndpoint> m_networkEndpoint;
+
+    Timer::TimerID m_syncTimer;
 
     enum EndpointType
     {

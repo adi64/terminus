@@ -158,7 +158,7 @@ void Timer::adjust(std::string name, Timer::TimerMSec newNow)
 
 Timer::TimerID Timer::freeTimerID()
 {
-    for(TimerID id = 0; id < std::numeric_limits<TimerID>::max(); id++)
+    for(TimerID id = 1; id < std::numeric_limits<TimerID>::max(); id++)
     {
         if(m_timeStamps.count(id) == 0)
             return id;

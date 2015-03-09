@@ -4,6 +4,7 @@
 
 #include <game.h>
 #include <world/drawables/projectile.h>
+#include <resources/soundmanager.h>
 
 namespace terminus
 {
@@ -36,7 +37,10 @@ namespace terminus
         projectile->setSpawnedLocally(false);
         projectile->moveTo(m_startPosition);
         projectile->setLinearVelocity(m_velocity);
+
         m_game->world().addObject(projectile);
+
+        SoundManager::getInstance()->playSound("shot");
     }
 
     Commands ProjectileFiredCommand::commandType() const

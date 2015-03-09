@@ -122,6 +122,11 @@ float Train::travelledDistance() const
     return m_travelledDistance;
 }
 
+void Train::setTravelledDistance(float travelledDistance)
+{
+    m_travelledDistance = travelledDistance;
+}
+
 float Train::travelledDistanceRelative() const
 {
     return m_travelledDistance / m_track->length();

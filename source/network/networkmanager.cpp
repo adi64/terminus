@@ -5,6 +5,7 @@
 #include <game.h>
 #include <world/world.h>
 #include <world/drawables/terrain.h>
+#include <world/drawables/train/train.h>
 
 #include <util/timer.h>
 
@@ -15,6 +16,7 @@
 #include <network/commands/projectilehitcommand.h>
 #include <network/commands/primaryactioncommand.h>
 #include <network/commands/pausecommand.h>
+#include <network/commands/synccommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
@@ -29,8 +31,13 @@ NetworkManager::NetworkManager(Game &game)
     : m_game(game)
     , m_networkEndpoint(nullptr)
     , m_endpointType(EndpointType::INVALID)
+    , m_syncTimer(0)
 {
+}
 
+NetworkManager::~NetworkManager()
+{
+    m_game.timer().releaseTimer(m_syncTimer);
 }
 
 void NetworkManager::startServer(unsigned short port)
@@ -69,6 +76,24 @@ void NetworkManager::startClient(QString host, unsigned short port)
     client->connectToHost(host, port);
 }
 
+void NetworkManager::update()
+{
+    // lazy initialize
+    if(m_syncTimer == 0)
+    {
+        m_syncTimer = m_game.timer().allocateTimer();
+    }
+
+    auto timeSinceLastSync = m_game.timer().get(m_syncTimer);
+    if(timeSinceLastSync > 1000)
+    {
+        // send sync command
+        sendSyncCommand(m_game.world().localPlayerTrain());
+
+        m_game.timer().adjust(m_syncTimer, 0);
+    }
+}
+
 void NetworkManager::sendMessage(AbstractCommand *command)
 {
     if(isConnected())
@@ -104,6 +129,12 @@ void NetworkManager::sendProjectileHitCommand(int wagonIndex, float damage)
 void NetworkManager::sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection)
 {
     auto command = PrimaryActionCommand(m_game.timer().get(), selectedWagonIndex, aimDirection);
+    sendMessage(&command);
+}
+
+void NetworkManager::sendSyncCommand(const Train &playerTrain)
+{
+    auto command = SyncCommand(m_game.timer().get(), playerTrain);
     sendMessage(&command);
 }
 

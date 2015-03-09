@@ -89,6 +89,8 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 
     SoundManager::getInstance()->playSound("music");
+
+    connect(this, &World::updateNetworkSignal, &(networkManager()), &NetworkManager::update);
 }
 
 World::~World()
@@ -126,6 +128,8 @@ void World::update()
 
     m_enemyPlayer->update();
     m_localPlayer->update();
+
+    emit updateNetworkSignal();
 }
 
 void World::render(QOpenGLFunctions & gl) const

@@ -9,7 +9,8 @@ enum Commands {
     Command_ProjectileFired = 2,
     Command_ProjectileHit   = 3,
     Command_ClientReady     = 4,
-    Command_PrimaryAction   = 5
+    Command_PrimaryAction   = 5,
+    Command_Sync            = 6
 };
 
 } // namespace terminus

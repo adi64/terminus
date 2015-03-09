@@ -9,6 +9,7 @@
 #include <network/commands/projectilehitcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/commands/primaryactioncommand.h>
+#include <network/commands/synccommand.h>
 #include <network/networkconnection.h>
 
 namespace terminus
@@ -99,6 +100,9 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
         break;
     case Command_PrimaryAction:
         cmd = new PrimaryActionCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_Sync:
+        cmd = new SyncCommand(timeStamp, json.object()["parameter"].toObject());
         break;
 
     // ...

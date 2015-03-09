@@ -3,6 +3,7 @@
 #include <game.h>
 #include <world/world.h>
 #include <world/drawables/train/train.h>
+#include <world/drawables/explosion.h>
 #include <player/localplayer.h>
 
 namespace terminus
@@ -39,6 +40,8 @@ void ProjectileHitCommand::doWork()
     auto wagon = m_game->world().localPlayer().train()->wagonAt(wagonIndex());
     assert(wagon != nullptr);
     wagon->setHealth(wagon->currentHealth() - m_damage);
+
+    m_game->world().addObject(new Explosion(m_game->world(), wagon->position()));
 }
 
 } // namespace terminus

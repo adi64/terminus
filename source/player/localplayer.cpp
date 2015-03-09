@@ -15,13 +15,11 @@ LocalPlayer::LocalPlayer(World & world, Train *train)
 void LocalPlayer::primaryAction()
 {
     AbstractPlayer::primaryAction();
-    m_world.networkManager().sendPrimaryActionCommand(m_selectedWagonIndex, m_camera.normalizedLook());
 }
 
 void LocalPlayer::primaryActionDebug()
 {
     AbstractPlayer::primaryActionDebug();
-    m_world.networkManager().sendPrimaryActionCommand(m_selectedWagonIndex, m_camera.normalizedLook());
 }
 
 }

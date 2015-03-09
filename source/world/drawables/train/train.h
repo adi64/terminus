@@ -48,6 +48,7 @@ public:
     void setVelocity(float velocity);
 
     float travelledDistance() const;
+    void setTravelledDistance(float travelledDistance);
     float travelledDistanceRelative() const;
 
     QVector3D headPosition() const;
