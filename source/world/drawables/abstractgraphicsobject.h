@@ -78,7 +78,7 @@ public:
 
     virtual QVector3D worldUp();
     virtual QVector3D worldFront();
-    virtual QVector3D worldRight();
+    virtual QVector3D worldLeft();
 
     virtual QVector3D position() const;
     virtual QQuaternion rotation() const;

@@ -156,15 +156,15 @@ bool Train::localRenderEnabled() const
 
 void Train::calculateWagonOffset()
 {
-    const auto wagonGap = 0.6f;
+    const auto wagonGap = 0.3f;
 
     float accumulatedOffset = 0.0f;
 
     for(auto & wagon : m_wagons)
     {
-        accumulatedOffset += 0.5f * wagon->length() + wagonGap;
+        accumulatedOffset += wagon->maxBB().x();
         wagon->setPositionOffset(accumulatedOffset);
-        accumulatedOffset += 0.5f * wagon->length();
+        accumulatedOffset -= wagon->minBB().x() + wagonGap;
     }
 }
 

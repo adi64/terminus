@@ -16,7 +16,6 @@ public:
     virtual void primaryActionInternal() override;
     virtual float cooldownTime() const override;
 
-    virtual float length() const override;
     virtual WagonType wagonType() const override;
 };
 

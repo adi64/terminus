@@ -54,7 +54,7 @@ void main()
         vec3 l = normalize(mix(-lightDir, lightPos - v_positionC, isLightPS));
         vec3 n = normalize(v_normalC);
         vec3 h = normalize(l + v);
-        vec3 d = normalize(lightDir);
+        vec3 d = normalize(-lightDir);
 
         float dist = length(lightPos - v_positionC);
         float fAttenuation = mix(1.0, 1.0 / (1.0 + linAttenuation * dist + quadAttenuation * dist * dist), isLightPS);

@@ -22,7 +22,7 @@ Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_ico1");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
     m_lifeTimer = m_world.timer().allocateTimer();

@@ -53,10 +53,10 @@ void AbstractWagon::localUpdate()
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
     QVector3D t = m_train->track()->tangentAt(travelledDistance);
-    float angleY = 90.f + atan2(t.x(), t.z()) * 180.f / MathUtil::PI;
+    float angleY = atan2(-t.z(), t.x()) * 180.f / MathUtil::PI;
     KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
-    QVector3D trackOffset(0.f, 0.7f, 0.f);
+    QVector3D trackOffset(0.f, 0.0f, 0.f);
     setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
 }
@@ -146,7 +146,7 @@ void AbstractWagon::setHealth(float health)
 
 float AbstractWagon::length() const
 {
-    return 1.f;
+    return maxBB().x() - minBB().x();
 }
 
 float AbstractWagon::isOtherTrainLeft() const
@@ -197,11 +197,11 @@ QVector3D AbstractWagon::localCameraCenter()
     auto yBaseM = vBBMaxM.y() + 1.f;
     if(isOtherTrainLeft())
     {
-        return {xCenterM, yBaseM, vBBMaxM.z()};
+        return {xCenterM, yBaseM, vBBMinM.z()};
     }
     else
     {
-        return {xCenterM, yBaseM, vBBMinM.z()};
+        return {xCenterM, yBaseM, vBBMaxM.z()};
     }
 }
 
@@ -215,11 +215,11 @@ QVector3D AbstractWagon::localCameraEye()
     auto & vEyeOff = m_cameraEyeOffset;
     if(isOtherTrainLeft())
     {
-        return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
+        return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
     }
     else
     {
-        return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
+        return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
     }
 }
 
