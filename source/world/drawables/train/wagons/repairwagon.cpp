@@ -7,6 +7,7 @@
 #include <resources/material.h>
 #include <resources/program.h>
 
+#include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
 
@@ -17,8 +18,16 @@ RepairWagon::RepairWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("repairWagon_repairWagon");
+    if(m_train->track()->isOtherTrackLeft())
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("repair_right");
+    }
+    else
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("repair_left");
+    }
     m_material = ResourceManager::getInstance()->getMaterial("base_Violet");
+
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
 }
 
@@ -65,11 +74,6 @@ void RepairWagon::localUpdate()
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::localUpdate();
-}
-
-float RepairWagon::length() const
-{
-    return 13.2f;
 }
 
 WagonType RepairWagon::wagonType() const

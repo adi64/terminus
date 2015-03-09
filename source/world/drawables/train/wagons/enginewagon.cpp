@@ -11,6 +11,7 @@
 #include <resources/material.h>
 #include <resources/program.h>
 
+#include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
 
@@ -21,7 +22,14 @@ EngineWagon::EngineWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("engineWagon_engineWagon");
+    if(m_train->track()->isOtherTrackLeft())
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("engine_right");
+    }
+    else
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("engine_left");
+    }
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
@@ -80,12 +88,7 @@ void EngineWagon::playSound() const
 
 QVector3D EngineWagon::lightPosition()
 {
-    return modelToWorld({minBB().x(), 0.f, 0.f});
-}
-
-float EngineWagon::length() const
-{
-    return 15.44f;
+    return modelToWorld({maxBB().x(), maxBB().y() * 0.5, 0.f});
 }
 
 WagonType EngineWagon::wagonType() const

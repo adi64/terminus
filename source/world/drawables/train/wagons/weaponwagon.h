@@ -19,7 +19,6 @@ public:
     void setAimVector(const QVector3D & aimVector);
 
     virtual WagonType wagonType() const override;
-    virtual float length() const override;
 
 protected:
     /*!

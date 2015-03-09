@@ -20,7 +20,6 @@ public:
     virtual void primaryAction() override;
     virtual float cooldownTime() const override;
 
-    virtual float length() const override;
     virtual WagonType wagonType() const override;
 
     void playSound() const;

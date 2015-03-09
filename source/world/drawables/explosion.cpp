@@ -15,7 +15,7 @@ Explosion::Explosion(World & world, const QVector3D & position)
 : AbstractGraphicsObject(world)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("ico2_Icosphere");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_ico2");
     m_material = ResourceManager::getInstance()->getMaterial("base_OrangeHalf");
 
     setPosition(position);
