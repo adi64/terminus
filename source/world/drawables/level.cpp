@@ -214,10 +214,10 @@ void Level::generateTracks(){
         return;
 
     float minDist = 32.f,
-            playerMinZ = totalHeight() / 2.f + 25.f,
-            playerMaxZ = totalHeight() / 2.f + 100.f,
-            enemyMinZ = totalHeight() / 2.f - 100.f,
-            enemyMaxZ = totalHeight() / 2.f - 25.f;
+            playerMinZ = totalHeight() / 2.f + 20.f,
+            playerMaxZ = totalHeight() / 2.f + 60.f,
+            enemyMinZ = totalHeight() / 2.f - 60.f,
+            enemyMaxZ = totalHeight() / 2.f - 20.f;
     float xStep = 64.f,
             xBegin = totalHeight() / 2.f - xStep,
             xEnd = totalWidth() - totalHeight() / 2.f + xStep;
@@ -309,10 +309,10 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 }
 
 float Level::terrainHeight(float x, float z, float fTrack){
-    float mountainBase = 150.f,
+    float mountainBase = 140.f,
             mountainDiff = 120.f,
-            valleyBase = 40.f,
-            valleyDiff = 80.f,
+            valleyBase = 30.f,
+            valleyDiff = 60.f,
             landscapeFreq = 0.01f;
     float rockBegin = 60.f,
             rockEnd = 200.f,
@@ -323,8 +323,8 @@ float Level::terrainHeight(float x, float z, float fTrack){
             groundTerrainInfluence = 2.f,
             groundRockInfluence = 5.f,
             groundFreq = 1.f;
-    float borderBegin = 12.5f,
-            borderEnd = 125.f;
+    float borderBegin = 10.f,
+            borderEnd = 75.f;
 
     float center = totalHeight() / 2.f,
             dXBorder = x - MathUtil::clamp(center, totalWidth() - center, x),
