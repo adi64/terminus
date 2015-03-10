@@ -45,6 +45,16 @@ Item
             height: parent.height
             color: "grey"
         }
+
+        Text
+        {
+            id: cdBarText
+            text: "Cooldown"
+            font.family: "Helvetica"
+            font.pointSize: 12
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
     Rectangle
@@ -64,6 +74,16 @@ Item
             width: parent.width * progress
             height: parent.height
             color: "grey"
+        }
+
+        Text
+        {
+            id: progressBarText
+            text: "Level Progress"
+            font.family: "Helvetica"
+            font.pointSize: 12
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 

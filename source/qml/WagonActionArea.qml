@@ -19,12 +19,18 @@ Item
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
     property bool isDisabled: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["isDisabled"]
     property int wagonType: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["type"]
+    property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
 
     function setText()
     {
         if(isDisabled)
         {
             return "Destroyed";
+        }
+
+        if(cooldown != 0)
+        {
+            return "Reloading";
         }
 
         switch(wagonType)
