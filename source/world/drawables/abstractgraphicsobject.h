@@ -85,11 +85,13 @@ public:
     virtual QVector3D scale() const;
     virtual QMatrix4x4 modelMatrix() const;
     virtual QMatrix4x4 modelMatrixInverted() const;
+    virtual QMatrix4x4 * parentModelMatrix() const;
 
     virtual void setPosition(const QVector3D & position);
     virtual void setRotation(const QQuaternion & eulerAngles);
     virtual void setScale(const QVector3D & scale);
     virtual void setScale(float scale);
+    virtual void setParentModelMatrix(QMatrix4x4 * matrix);
 
 protected:
     /*!
@@ -152,6 +154,8 @@ protected:
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;
     mutable QMatrix4x4 m_modelMatrixInverted;
+
+    QMatrix4x4 * m_parentModelMatrix;
 };
 
 }
