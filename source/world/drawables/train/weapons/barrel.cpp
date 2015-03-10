@@ -23,11 +23,8 @@ Barrel::~Barrel()
 
 void Barrel::localUpdate()
 {
-//    setPosition(position);
 
-//        qDebug() << __FILE__ << __PRETTY_FUNCTION__;
-
-//    KinematicPhysicsObject::localUpdate();
+    KinematicPhysicsObject::localUpdate();
 }
 
 short Barrel::myCollisionType() const

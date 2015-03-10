@@ -24,12 +24,8 @@ Turret::~Turret()
 
 void Turret::localUpdate()
 {
-//    setPosition(position);
-//    m_scale = QVector3D(position.x(), position.x(), position.x())/10;
 
-//    qDebug() << __FILE__ << __LINE__;
-
-//    KinematicPhysicsObject::localUpdate();
+    KinematicPhysicsObject::localUpdate();
 }
 
 short Turret::myCollisionType() const
