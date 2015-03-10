@@ -33,6 +33,7 @@ NetworkManager::NetworkManager(Game &game)
     , m_syncTimer(0)
     , m_endpointType(EndpointType::INVALID)
 {
+    connect(this, &NetworkManager::sendCommand, this, &NetworkManager::on_sendCommand);
 }
 
 NetworkManager::~NetworkManager()
@@ -85,7 +86,7 @@ void NetworkManager::update()
     }
 
     auto timeSinceLastSync = m_game.timer().get(m_syncTimer);
-    if(timeSinceLastSync > 1000)
+    if(timeSinceLastSync > 5000)
     {
         // send sync command
         sendSyncCommand(m_game.world().localPlayerTrain());
@@ -100,48 +101,50 @@ void NetworkManager::sendMessage(AbstractCommand *command)
     {
         m_networkEndpoint->sendMessage(command);
     }
+
+    delete command;
 }
 
 void NetworkManager::sendPauseCommand(bool pause)
 {
-    auto command = PauseCommand(m_game.timer().get(), pause);
-    sendMessage(&command);
+    auto command = new PauseCommand(m_game.timer().get(), pause);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed)
 {
-    auto command = PrepareNewGameCommand(m_game.timer().get(), isPlayerOne, terrainSeed);
-    sendMessage(&command);
+    auto command = new PrepareNewGameCommand(m_game.timer().get(), isPlayerOne, terrainSeed);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity)
 {
-    auto command = ProjectileFiredCommand(m_game.timer().get(), startPosition, velocity);
-    sendMessage(&command);
+    auto command = new ProjectileFiredCommand(m_game.timer().get(), startPosition, velocity);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendProjectileHitCommand(int wagonIndex, float damage)
 {
-    auto command = ProjectileHitCommand(m_game.timer().get(), true, wagonIndex, damage);
-    sendMessage(&command);
+    auto command = new ProjectileHitCommand(m_game.timer().get(), true, wagonIndex, damage);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection)
 {
-    auto command = PrimaryActionCommand(m_game.timer().get(), selectedWagonIndex, aimDirection);
-    sendMessage(&command);
+    auto command = new PrimaryActionCommand(m_game.timer().get(), selectedWagonIndex, aimDirection);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendSyncCommand(const Train &playerTrain)
 {
-    auto command = SyncCommand(m_game.timer().get(), playerTrain);
-    sendMessage(&command);
+    auto command = new SyncCommand(m_game.timer().get(), playerTrain);
+    emit sendCommand(command);
 }
 
 void NetworkManager::sendClientReadyCommand()
 {
-    auto command = ClientReadyCommand(m_game.timer().get());
-    sendMessage(&command);
+    auto command = new ClientReadyCommand(m_game.timer().get());
+    emit sendCommand(command);
 }
 
 void NetworkManager::clientReady()
@@ -224,6 +227,11 @@ void NetworkManager::prepareAndSyncNewGame()
     // pause game
     sendPauseCommand(true);
     m_game.setPaused(true);
+}
+
+void NetworkManager::on_sendCommand(AbstractCommand *command)
+{
+    sendMessage(command);
 }
 
 } // namespace terminus

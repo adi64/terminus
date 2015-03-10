@@ -49,12 +49,16 @@ public:
     NetworkServer *networkServer() const;
     NetworkClient *networkClient() const;
 
+signals:
+    void sendCommand(AbstractCommand *command);
+
 public slots:
     void update();
 
 protected slots:
     void newCommand(AbstractCommand* command);
     void prepareAndSyncNewGame();
+    void on_sendCommand(AbstractCommand* command);
 
 protected:
     Game & m_game;

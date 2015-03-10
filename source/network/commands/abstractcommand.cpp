@@ -16,8 +16,8 @@ QJsonObject AbstractCommand::VectorToJsonObject(QVector3D vector)
 {
     QJsonObject jsonObject;
     jsonObject.insert("x", vector.x());
-    jsonObject.insert("y", vector.x());
-    jsonObject.insert("z", vector.x());
+    jsonObject.insert("y", vector.y());
+    jsonObject.insert("z", vector.z());
 
     return jsonObject;
 }
