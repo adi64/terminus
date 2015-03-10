@@ -28,7 +28,7 @@ Item
             return "Destroyed";
         }
 
-        if(cooldown != 0)
+        if(cooldown != 1)
         {
             return "Reloading";
         }
