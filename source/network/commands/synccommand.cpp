@@ -67,6 +67,11 @@ void SyncCommand::doWork()
     if(m_game->networkManager().isClient())
     {
         m_game->timer().adjust(m_timeStamp);
+
+        // TODO FIXME MAJOR HACK INCOMING
+        // while we're at it, also sync positions
+        m_game->world().localPlayerTrain().setVelocity(m_velocity);
+        m_game->world().localPlayerTrain().setTravelledDistance(m_travelledDistance);
     }
 
     for(unsigned int i=0; i<m_wagonHealthVector.size(); ++i)
@@ -74,12 +79,11 @@ void SyncCommand::doWork()
         m_game->world().enemyPlayerTrain().wagonAt(i)->setHealth(m_wagonHealthVector[i]);
     }
 
-
-
     m_game->world().enemyPlayerTrain().setVelocity(m_velocity);
     m_game->world().enemyPlayerTrain().setTravelledDistance(m_travelledDistance);
 
-    qDebug() << "##### playerTrain travelledDistance: " << m_travelledDistance << " -> " << m_game->world().enemyPlayerTrain().wagonAt(1)->position();
+    qDebug() << ">> remote travelledDistance: " << m_travelledDistance << " -> " << m_game->world().enemyPlayerTrain().wagonAt(1)->position() <<
+                " local travelledDistance: " << m_game->world().localPlayerTrain().travelledDistance() << " -> " << m_game->world().localPlayerTrain().wagonAt(1)->position();
 }
 
 } // namespace terminus

@@ -73,6 +73,7 @@ void Train::localUpdate()
 {
     if(m_followedTrain)
     {
+        qDebug() << "following train " << m_followedTrain;
         float dX = m_followedTrain->headPosition().x() - headPosition().x();
         m_velocity = MathUtil::mix(base_velocity * 0.5, base_velocity * 1.5, MathUtil::linstep(-50.f, 50.f, dX));
     }
