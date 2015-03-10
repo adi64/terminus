@@ -105,7 +105,8 @@ void WeaponWagon::localUpdate()
 
     if(weapon())        //after AbstractWagon::localUpdate() the position is the correct one
     {
-        weapon()->setPosition(m_position);
+        weapon()->setParentModelMatrix(&m_modelMatrix);
+        weapon()->modelMatrix();
         weapon()->setCameraAttributes(localCameraEye(), localCameraCenter());
     }
 }

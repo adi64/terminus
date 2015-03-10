@@ -1,6 +1,9 @@
 #include "Weapon.h"
 
+#include <cmath>
+
 #include <resources/soundmanager.h>
+#include <util/mathutil.h>
 
 #include <world/physics/kinematicphysicsobject.h>
 #include <world/drawables/train/weapons/turret.h>
@@ -47,10 +50,22 @@ void Weapon::fire(QVector3D velocity, QVector3D cameraCenter)
 
 void Weapon::localUpdate()
 {
-    m_turret->setPosition(m_position);
-    m_turret->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), (m_cameraEye - m_camerameraCenter).y));
+    QVector3D lookAt = (m_cameraEye - m_cameraCenter).normalized();
 
-    m_barrel->setPosition(m_position);
+    float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
+    float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
+    float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
+
+    m_turret->setParentModelMatrix(&m_modelMatrix);
+    QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
+    QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
+    QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
+
+    m_turret->setRotation(xz_rotation + y_rotationX);
+
+    m_barrel->setParentModelMatrix(&m_modelMatrix);
+    m_barrel->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
+
 
     AbstractGraphicsObject::localUpdate();
 }
