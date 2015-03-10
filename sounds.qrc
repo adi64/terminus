@@ -1,11 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/sounds/hover.wav</file>
         <file>data/sounds/level.wav</file>
+        <file>data/sounds/engine.wav</file>
+        <file>data/sounds/explosion.wav</file>
+        <file>data/sounds/repair.wav</file>
         <file>data/sounds/shot.wav</file>
-        <file>data/sounds/explosion_1.wav</file>
-        <file>data/sounds/repair_1.wav</file>
-        <file>data/sounds/shoot_1.wav</file>
-        <file>data/sounds/engine_2.wav</file>
     </qresource>
 </RCC>

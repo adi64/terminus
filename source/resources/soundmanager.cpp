@@ -33,24 +33,20 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    QSoundEffect * soundShot = new QSoundEffect();
-    soundShot->setSource(QUrl::fromLocalFile(":/data/sounds/shoot_1.wav"));
-    m_sounds["shot"] = soundShot;
-
-    QSoundEffect * soundEngine = new QSoundEffect();
-    soundEngine->setSource(QUrl::fromLocalFile(":/data/sounds/hover.wav"));
-    m_sounds["machine"] = soundEngine;
+    QSoundEffect * soundShotAction = new QSoundEffect();
+    soundShotAction->setSource(QUrl::fromLocalFile(":/data/sounds/shot.wav"));
+    m_sounds["shot"] = soundShotAction;
 
     QSoundEffect * soundExplosion = new QSoundEffect();
-    soundExplosion->setSource(QUrl::fromLocalFile(":/data/sounds/explosion_1.wav"));
+    soundExplosion->setSource(QUrl::fromLocalFile(":/data/sounds/explosion.wav"));
     m_sounds["explosion"] = soundExplosion;
 
     QSoundEffect * soundRepairAction = new QSoundEffect();
-    soundRepairAction->setSource(QUrl::fromLocalFile(":/data/sounds/repair_1.wav"));
+    soundRepairAction->setSource(QUrl::fromLocalFile(":/data/sounds/repair.wav"));
     m_sounds["repairAction"] = soundRepairAction;
 
     QSoundEffect * soundEngineAction = new QSoundEffect();
-    soundEngineAction->setSource(QUrl::fromLocalFile(":/data/sounds/engine_2.wav"));
+    soundEngineAction->setSource(QUrl::fromLocalFile(":/data/sounds/engine.wav"));
     m_sounds["engineAction"] = soundEngineAction;
 
     QSoundEffect * soundBackgroundMusic = new QSoundEffect();
