@@ -32,7 +32,10 @@ namespace terminus
 
     void PrepareNewGameCommand::doWork()
     {
+        qDebug() << "game timer pre-sync: " << m_game->timer().get();
+        qDebug() << "network timer: " << m_timeStamp;
         m_game->timer().adjust(m_timeStamp);
+        qDebug() << "game timer post-sync: " << m_game->timer().get();
         m_game->createWorld(true, m_isPlayerOne, m_terrainSeed);
         m_game->networkManager().sendClientReadyCommand();
     }

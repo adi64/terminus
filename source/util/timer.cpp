@@ -4,6 +4,8 @@
 
 #include <assert.h>
 
+#include <QDebug>
+
 namespace terminus
 {
 
@@ -136,6 +138,7 @@ Timer::TimerMSec Timer::get(std::string name)
 
 void Timer::adjust(Timer::TimerMSec newNow)
 {
+    qDebug() << "adjusting main timer from " << get() << " to " << newNow;
     m_baseTimeStamp = m_clock.now() - fromMSec(newNow);
 }
 

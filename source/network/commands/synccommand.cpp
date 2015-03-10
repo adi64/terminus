@@ -6,6 +6,7 @@
 
 #include <game.h>
 #include <world/world.h>
+#include <world/drawables/train/wagons/abstractwagon.h>
 
 namespace terminus
 {
@@ -65,10 +66,12 @@ void SyncCommand::doWork()
         m_game->world().enemyPlayerTrain().wagonAt(i)->setHealth(m_wagonHealthVector[i]);
     }
 
-    qDebug() << "received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
+    qDebug() << "##### received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
 
     m_game->world().enemyPlayerTrain().setVelocity(m_velocity);
     m_game->world().enemyPlayerTrain().setTravelledDistance(m_travelledDistance);
+
+    qDebug() << "##### playerTrain travelledDistance: " << m_travelledDistance << " -> " << m_game->world().enemyPlayerTrain().wagonAt(1)->position();
 }
 
 } // namespace terminus
