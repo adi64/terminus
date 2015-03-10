@@ -253,7 +253,7 @@ void btMultiBodyConstraintSolver::setupMultiBodyContactConstraint(btMultiBodySol
 																 const btVector3& contactNormal,
 																 btManifoldPoint& cp, const btContactSolverInfo& infoGlobal,
 																 btScalar& relaxation,
-																 bool isFriction, btScalar desiredVelocity, btScalar cfmSlip)
+                                                                 bool isFriction, btScalar /*desiredVelocity*/, btScalar /*cfmSlip*/)
 {
 			
 	BT_PROFILE("setupMultiBodyContactConstraint");

@@ -761,7 +761,7 @@ btVector3* btKinematicCharacterController::getUpAxisDirections()
 	return sUpAxisDirection;
 }
 
-void btKinematicCharacterController::debugDraw(btIDebugDraw* debugDrawer)
+void btKinematicCharacterController::debugDraw(btIDebugDraw* /*debugDrawer*/)
 {
 }
 

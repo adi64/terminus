@@ -3,6 +3,7 @@
 #include <QString>
 #include <memory>
 
+#include <util/timer.h>
 #include <world/physics/kinematicphysicsobject.h>
 
 namespace terminus
@@ -21,6 +22,7 @@ class AbstractWagon : public KinematicPhysicsObject
 {
 public:
     AbstractWagon(World & world, Train * train);
+    virtual ~AbstractWagon();
 
     virtual void primaryAction() = 0;
     virtual void primaryActionDebug();
@@ -36,8 +38,9 @@ public:
     virtual float currentHealth() const;
     virtual float maxHealth() const;
 
+    virtual void resetCooldown() const;
     virtual float cooldown() const;
-    virtual float cooldownRate() const = 0;
+    virtual float cooldownTime() const = 0;
     virtual bool isOnCooldown() const;
 
     virtual bool isDisabled() const;
@@ -48,19 +51,27 @@ public:
 
     virtual void setPositionOffset(float accumulatedOffset);
 
+    virtual void onCollisionWith(AbstractPhysicsObject * other) override;
+
 protected:
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
 
-protected:
+    virtual QVector3D localCameraCenter();
+    virtual QVector3D localCameraEye();
 
+protected:
     QVector3D m_cameraEyeOffset;
+    QVector3D m_previousEye;
+    QVector3D m_previousCenter;
+    Timer::TimerID m_cameraTimer;
 
     float m_positionOffset;
     float m_health;
     bool m_disabled;
-    float m_cooldown;
-    bool m_onCooldown;
+
+    Timer::TimerID m_cooldownTimer;
+
     Train *m_train;
 };
 

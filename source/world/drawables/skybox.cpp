@@ -17,7 +17,7 @@ SkyBox::SkyBox(World & world)
 , m_cubeMapOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("envmap");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_ScreenQuad");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_squad");
 
     m_imageNX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_nx.png"));
     m_imagePX = std::unique_ptr<QImage>(new QImage(":/data/env_cube_px.png"));
@@ -27,7 +27,7 @@ SkyBox::SkyBox(World & world)
     m_imagePZ = std::unique_ptr<QImage>(new QImage(":/data/env_cube_pz.png"));
 }
 
-void SkyBox::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void SkyBox::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
     allocateCubeMap(gl);
 

@@ -23,36 +23,41 @@ varying float v_color;
 varying float v_shade;
 
 
-//decode packet adjacent-vertex-offset
-vec2 dec(float offset)
+//decode packed adjacent-vertex-offset
+vec2 decodeOffset(float offset)
 {
     return vec2(floor(mod(offset, 3.0)) - 1.0, floor(mod(offset/3.0, 3.0)) - 1.0);
 }
 
-//extract displacement vector from the terrain map
-vec3 getDisplacement(vec2 coord)
+//read displacement vector from the terrain map
+vec3 displacement(vec2 coord)
 {
     vec3 raw = texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz;
     return vec3(raw.x - 0.5, raw.y * 200.0, raw.z - 0.5);
 }
 
+//calculate model space vector corresponding to texture coordinate offsets
+vec3 texOffset2Vector(vec2 texOffset, float isOddRow)
+{
+    return vec3((texOffset.x + texOffset.y * isOddRow * 0.5) * posInfo.x, 0.0, texOffset.y * posInfo.y);
+}
+
 void main()
 {
     //---model space---
+    //extract parameters
+    vec3 dPatch = vec3(posInfo.z, 0.0, posInfo.w);
+    vec2 texOffset1 = decodeOffset(a_normal.x),
+          texOffset2 = decodeOffset(a_normal.y);
+    float isOddRow = a_normal.z;
     //offset position attribute with current patch position and displacement from the terrain map
-    vec3 dispVertex = getDisplacement(a_texCoord.xy);
-    vec3 dispPatch = vec3(posInfo.z, 0.0, posInfo.w);
-    vec3 position = a_position + dispVertex + dispPatch;
-    //calculate vectors to the other triangle vertices and calculate the face normal
-    vec2 offset0 = dec(a_normal.x),
-          offset1 = dec(a_normal.y);
-    vec3 dispV0 = getDisplacement(a_texCoord.xy + offset0),
-          dispV1 = getDisplacement(a_texCoord.xy + offset1);
-    vec3 baseV0 = vec3((offset0.x + offset0.y * a_normal.z * 0.5) * posInfo.x, 0.0, offset0.y * posInfo.y),
-          baseV1 = vec3((offset1.x + offset1.y * a_normal.z * 0.5) * posInfo.x, 0.0, offset1.y * posInfo.y);
-    vec3 normal = normalize( cross(
-                    baseV0 + dispV0 - dispVertex,
-                    baseV1 + dispV1 - dispVertex));
+    vec3 dVertex = displacement(a_texCoord.xy);
+    vec3 position = a_position + dVertex + dPatch;
+    //calculate vectors to the other triangle vertices and the face normal
+    vec3 dVertex1 = texOffset2Vector(texOffset1, isOddRow) + displacement(a_texCoord.xy + texOffset1),
+          dVertex2 = texOffset2Vector(texOffset2, isOddRow) + displacement(a_texCoord.xy + texOffset2);
+    vec3 normal = normalize(cross(dVertex1 - dVertex, dVertex2 - dVertex));
+
     //use pseudo pseudorandom function on normal to provide a face specific factor to fragment shader
     v_shade = mod(normal.y * 10000.0 , 1.0);
     //steepness dependent factor to distinguish snowy and rocky triangles

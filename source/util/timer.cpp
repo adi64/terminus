@@ -18,8 +18,40 @@ std::chrono::steady_clock::duration Timer::fromMSec(Timer::TimerMSec duration)
 }
 
 Timer::Timer()
+: m_isPaused(false)
 {
     m_baseTimeStamp = m_clock.now();
+}
+
+void Timer::pause()
+{
+    if(m_isPaused)
+    {
+        endPause();
+    }
+    else
+    {
+        startPause();
+    }
+    m_isPaused = !m_isPaused;
+}
+
+void Timer::pause(bool flag)
+{
+    if(m_isPaused && !flag)
+    {
+        endPause();
+    }
+    else if(!m_isPaused && flag)
+    {
+        startPause();
+    }
+    m_isPaused = flag;
+}
+
+bool Timer::isPaused()
+{
+    return m_isPaused;
 }
 
 Timer::TimerID Timer::allocateTimer()
@@ -132,12 +164,23 @@ Timer::TimerID Timer::freeTimerID()
             return id;
     }
     assert(false); //no free timer id left
+    return 0;
 }
 
 std::chrono::steady_clock::time_point Timer::localNow()
 {
-    return m_clock.now() - m_baseTimeStamp.time_since_epoch();
-    //TODO think whether this should be a duration rather than a time_point
+    return (m_isPaused? m_pauseNow : m_clock.now()) - m_baseTimeStamp.time_since_epoch();
+}
+
+void Timer::startPause()
+{
+    m_pauseNow = m_clock.now();
+}
+
+void Timer::endPause()
+{
+    std::chrono::steady_clock::duration pauseDuration = m_clock.now() - m_pauseNow;
+    m_baseTimeStamp += pauseDuration;
 }
 
 }

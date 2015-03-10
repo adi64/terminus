@@ -450,7 +450,7 @@ bool	btClampNormal(const btVector3& edge,const btVector3& tri_normal_org,const b
 
 
 /// Changes a btManifoldPoint collision normal to the normal from the mesh.
-void btAdjustInternalEdgeContacts(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap,const btCollisionObjectWrapper* colObj1Wrap, int partId0, int index0, int normalAdjustFlags)
+void btAdjustInternalEdgeContacts(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap,const btCollisionObjectWrapper* /*colObj1Wrap*/, int partId0, int index0, int normalAdjustFlags)
 {
 	//btAssert(colObj0->getCollisionShape()->getShapeType() == TRIANGLE_SHAPE_PROXYTYPE);
 	if (colObj0Wrap->getCollisionShape()->getShapeType() != TRIANGLE_SHAPE_PROXYTYPE)

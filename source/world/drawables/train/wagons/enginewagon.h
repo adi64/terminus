@@ -18,12 +18,13 @@ public:
     virtual void localUpdate() override;
 
     virtual void primaryAction() override;
-    virtual float cooldownRate() const override;
+    virtual float cooldownTime() const override;
 
-    virtual float length() const override;
     virtual WagonType wagonType() const override;
 
     void playSound() const;
+protected:
+    virtual QVector3D lightPosition();
 
 protected:
     LightManager::ID m_headLight;

@@ -78,12 +78,13 @@ public:
 
     virtual QVector3D worldUp();
     virtual QVector3D worldFront();
-    virtual QVector3D worldRight();
+    virtual QVector3D worldLeft();
 
     virtual QVector3D position() const;
     virtual QQuaternion rotation() const;
     virtual QVector3D scale() const;
     virtual QMatrix4x4 modelMatrix() const;
+    virtual QMatrix4x4 modelMatrixInverted() const;
 
 protected:
     /*!
@@ -131,6 +132,9 @@ protected:
     virtual void setScale(const QVector3D & scale);
     virtual void setScale(float scale);
 
+    virtual QVector3D worldToModel(const QVector3D & vWorld);
+    virtual QVector3D modelToWorld(const QVector3D & vModel);
+
     /*!
      * \brief doForAllChildren - calls callback for every child object
      * \param callback
@@ -139,8 +143,11 @@ protected:
      */
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback);
 
+    virtual void dispose();
+
 protected:
     World & m_world;
+    bool m_validState;
 
     Camera * m_camera;
 
@@ -153,6 +160,7 @@ protected:
     QVector3D m_scale;
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;
+    mutable QMatrix4x4 m_modelMatrixInverted;
 };
 
 }

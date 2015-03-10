@@ -4,8 +4,8 @@
 
 #include <QVector3D>
 
+#include <util/timer.h>
 #include <world/camera.h>
-
 #include <world/world.h>
 
 namespace terminus
@@ -32,6 +32,8 @@ public:
     void primaryActionDebug();
     void primaryActionCharge(bool charge = true);
 
+    virtual void animateHit();
+
     virtual void update();
 
 protected:
@@ -42,6 +44,9 @@ protected:
 
     Camera m_camera;
     Train *m_train;
+
+    bool m_animationInProgress;
+    Timer::TimerID m_animationTimer;
 
     unsigned int m_selectedWagonIndex;
 };

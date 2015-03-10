@@ -109,12 +109,12 @@ void Terrain::localUpdate()
 void Terrain::localRender(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_world.localPlayer().camera().eye();
-    QPoint pid = m_level.positionToPatchID(camPos.x(), camPos.z());
+    QPoint patchID = m_level.positionToPatchID(camPos.x(), camPos.z());
 
     const int radius = 3;
-    for(int iX = std::max(0, pid.x() - radius); iX < std::min(m_level.patchCountS(), pid.x() + radius); iX++)
+    for(int iX = std::max(0, patchID.x() - radius); iX < std::min(m_level.patchCountS(), patchID.x() + radius); iX++)
     {
-        for(int iZ = std::max(0, pid.y() - radius); iZ < std::min(m_level.patchCountT(), pid.y() + radius); iZ++)
+        for(int iZ = std::max(0, patchID.y() - radius); iZ < std::min(m_level.patchCountT(), patchID.y() + radius); iZ++)
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
@@ -148,7 +148,7 @@ void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
-void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);

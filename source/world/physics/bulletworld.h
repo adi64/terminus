@@ -2,19 +2,7 @@
 
 #include <unordered_map>
 
-
-
-// save diagnostic state
-#pragma GCC diagnostic push
-
-// ignore "unused parameter" warnings
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <bullet/btBulletDynamicsCommon.h>
-
-// turn the warnings back on
-#pragma GCC diagnostic pop
-
-
 
 namespace terminus
 {

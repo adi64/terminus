@@ -530,7 +530,7 @@ void	btSequentialImpulseConstraintSolver::applyAnisotropicFriction(btCollisionOb
 
 
 
-void btSequentialImpulseConstraintSolver::setupFrictionConstraint(btSolverConstraint& solverConstraint, const btVector3& normalAxis,int  solverBodyIdA,int solverBodyIdB,btManifoldPoint& cp,const btVector3& rel_pos1,const btVector3& rel_pos2,btCollisionObject* colObj0,btCollisionObject* colObj1, btScalar relaxation, btScalar desiredVelocity, btScalar cfmSlip)
+void btSequentialImpulseConstraintSolver::setupFrictionConstraint(btSolverConstraint& solverConstraint, const btVector3& normalAxis,int  solverBodyIdA,int solverBodyIdB,btManifoldPoint& cp,const btVector3& rel_pos1,const btVector3& rel_pos2,btCollisionObject* /*colObj0*/,btCollisionObject* /*colObj1*/, btScalar relaxation, btScalar desiredVelocity, btScalar cfmSlip)
 {
 
 
@@ -628,8 +628,8 @@ btSolverConstraint&	btSequentialImpulseConstraintSolver::addFrictionConstraint(c
 
 
 void btSequentialImpulseConstraintSolver::setupRollingFrictionConstraint(	btSolverConstraint& solverConstraint, const btVector3& normalAxis1,int solverBodyIdA,int  solverBodyIdB,
-									btManifoldPoint& cp,const btVector3& rel_pos1,const btVector3& rel_pos2,
-									btCollisionObject* colObj0,btCollisionObject* colObj1, btScalar relaxation,
+                                    btManifoldPoint& cp,const btVector3& /*rel_pos1*/,const btVector3& /*rel_pos2*/,
+                                    btCollisionObject* /*colObj0*/,btCollisionObject* /*colObj1*/, btScalar /*relaxation*/,
 									btScalar desiredVelocity, btScalar cfmSlip)
 
 {
@@ -1748,7 +1748,7 @@ btScalar btSequentialImpulseConstraintSolver::solveSingleIteration(int iteration
 }
 
 
-void btSequentialImpulseConstraintSolver::solveGroupCacheFriendlySplitImpulseIterations(btCollisionObject** bodies,int numBodies,btPersistentManifold** manifoldPtr, int numManifolds,btTypedConstraint** constraints,int numConstraints,const btContactSolverInfo& infoGlobal,btIDebugDraw* debugDrawer)
+void btSequentialImpulseConstraintSolver::solveGroupCacheFriendlySplitImpulseIterations(btCollisionObject** /*bodies*/,int /*numBodies*/,btPersistentManifold** /*manifoldPtr*/, int /*numManifolds*/,btTypedConstraint** /*constraints*/,int /*numConstraints*/,const btContactSolverInfo& infoGlobal,btIDebugDraw* /*debugDrawer*/)
 {
 	int iteration;
 	if (infoGlobal.m_splitImpulse)
@@ -1808,7 +1808,7 @@ btScalar btSequentialImpulseConstraintSolver::solveGroupCacheFriendlyIterations(
 	return 0.f;
 }
 
-btScalar btSequentialImpulseConstraintSolver::solveGroupCacheFriendlyFinish(btCollisionObject** bodies,int numBodies,const btContactSolverInfo& infoGlobal)
+btScalar btSequentialImpulseConstraintSolver::solveGroupCacheFriendlyFinish(btCollisionObject** /*bodies*/,int /*numBodies*/,const btContactSolverInfo& infoGlobal)
 {
 	int numPoolConstraints = m_tmpSolverContactConstraintPool.size();
 	int i,j;

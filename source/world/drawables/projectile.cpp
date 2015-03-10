@@ -9,6 +9,7 @@
 #include <resources/program.h>
 #include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/explosion.h>
 #include <world/world.h>
 
 namespace terminus
@@ -16,10 +17,9 @@ namespace terminus
 
 Projectile::Projectile(World & world)
 : DynamicPhysicsObject(world)
-, m_active(true)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_Icosahedron");
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_ico1");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
     m_lifeTimer = m_world.timer().allocateTimer();
@@ -41,17 +41,11 @@ void Projectile::localUpdate()
 
     if(m_world.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
     {
-        m_world.scheduleAction(
-            [this]()
-            {
-                m_world.deleteNode(this);
-                delete(this);
-                return false;
-            });
+        dispose();
     }
 }
 
-void Projectile::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void Projectile::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & program) const
 {
     program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
@@ -63,21 +57,18 @@ float Projectile::damage() const
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
-    if(!m_active)
-    {
-        return;
-    }
-
     auto otherWagon = dynamic_cast<AbstractWagon*>(other);
     if(otherWagon)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
     }
 
-    m_active = false;
+    m_world.addObject(new Explosion(m_world, position()));
+
+    dispose();
 }
 
-unsigned int Projectile::maxAgeInMilliseconds() const
+int Projectile::maxAgeInMilliseconds() const
 {
     return 5000;
 }

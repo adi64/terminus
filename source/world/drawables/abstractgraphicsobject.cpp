@@ -12,6 +12,7 @@ namespace terminus
 
 AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 : m_world(world)
+, m_validState(true)
 , m_camera(nullptr)
 , m_position(0.0, 0.0, 0.0)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
@@ -22,11 +23,15 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 
 AbstractGraphicsObject::~AbstractGraphicsObject()
 {
-
 }
 
 void AbstractGraphicsObject::update()
 {
+    if(!m_validState)
+    {
+        return;
+    }
+
     localUpdate();
 
     if(m_camera)
@@ -43,10 +48,16 @@ void AbstractGraphicsObject::update()
 
 void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 {
+    if(!m_validState)
+    {
+        return;
+    }
+
     if(localRenderEnabled())
     {
         localRender(gl);
     }
+
     doForAllChildren(
         [gl](AbstractGraphicsObject & child) mutable
         {
@@ -121,17 +132,17 @@ const QVector3D & AbstractGraphicsObject::maxBB() const
 
 QVector3D AbstractGraphicsObject::worldUp()
 {
-    return m_rotation.rotatedVector(QVector3D(0.f, 1.f, 0.f)).normalized();
+    return (modelToWorld({0.f, 1.f, 0.f}) - position()).normalized();
 }
 
 QVector3D AbstractGraphicsObject::worldFront()
 {
-    return m_rotation.rotatedVector(QVector3D(1.f, 0.f, 0.f)).normalized();
+    return (modelToWorld({1.f, 0.f, 0.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::worldRight()
+QVector3D AbstractGraphicsObject::worldLeft()
 {
-    return m_rotation.rotatedVector(QVector3D(0.f, 0.f, 1.f)).normalized();
+    return (modelToWorld({0.f, 0.f, 1.f}) - position()).normalized();
 }
 
 QVector3D AbstractGraphicsObject::position() const
@@ -155,9 +166,24 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
         m_modelMatrix.translate(position());
         m_modelMatrix.rotate(rotation());
         m_modelMatrix.scale(scale());
+        m_modelMatrixInverted = m_modelMatrix.inverted();
         m_modelMatrixChanged = false;
     }
     return m_modelMatrix;
+}
+
+QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
+{
+    if(m_modelMatrixChanged)
+    {
+        m_modelMatrix.setToIdentity();
+        m_modelMatrix.translate(position());
+        m_modelMatrix.rotate(rotation());
+        m_modelMatrix.scale(scale());
+        m_modelMatrixInverted = m_modelMatrix.inverted();
+        m_modelMatrixChanged = false;
+    }
+    return m_modelMatrixInverted;
 }
 
 void AbstractGraphicsObject::localUpdate()
@@ -204,11 +230,11 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     program.release();
 }
 
-void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
-void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & gl, Program & program) const
+void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
 {
 }
 
@@ -241,8 +267,36 @@ void AbstractGraphicsObject::setScale(float scale)
     m_modelMatrixChanged = true;
 }
 
-void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+QVector3D AbstractGraphicsObject::worldToModel(const QVector3D & vWorld)
 {
+    QVector4D v4 = modelMatrixInverted() * QVector4D(vWorld, 1.f);
+    return v4.toVector3DAffine();
+}
+
+QVector3D AbstractGraphicsObject::modelToWorld(const QVector3D & vModel)
+{
+    QVector4D v4 = modelMatrix() * QVector4D(vModel, 1.f);
+    return v4.toVector3DAffine();
+}
+
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
+{
+}
+
+void AbstractGraphicsObject::dispose()
+{
+    if(!m_validState)
+    {
+        return;
+    }
+
+    m_world.scheduleAction(
+        [this]()
+        {
+            m_world.deleteObject(this);
+            return false;
+        });
+    m_validState = false;
 }
 
 }

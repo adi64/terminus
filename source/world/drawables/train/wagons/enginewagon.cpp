@@ -11,6 +11,7 @@
 #include <resources/material.h>
 #include <resources/program.h>
 
+#include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
 #include <world/world.h>
 
@@ -21,12 +22,19 @@ EngineWagon::EngineWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    m_geometry = ResourceManager::getInstance()->getGeometry("engine_engine");
+    if(m_train->track()->isOtherTrackLeft())
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("engine_right");
+    }
+    else
+    {
+        m_geometry = ResourceManager::getInstance()->getGeometry("engine_left");
+    }
     m_material = ResourceManager::getInstance()->getMaterial("base_Orange");
 
     initializePhysics(new btSphereShape(1.0), 1000.f);
 
-    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, position(), worldFront(), 64.f, 45.f, 0.4f));
+    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, lightPosition(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -36,18 +44,17 @@ EngineWagon::~EngineWagon()
 
 void EngineWagon::primaryAction()
 {
-    if(isDisabled() || m_onCooldown)
+    if(isDisabled() || isOnCooldown())
     {
         return;
     }
 
     m_train->setVelocity(m_train->velocity() + 0.002f);
 
-    m_onCooldown = true;
-    m_cooldown = 0.f;
+    resetCooldown();
 }
 
-float EngineWagon::cooldownRate() const
+float EngineWagon::cooldownTime() const
 {
     return 15000.f;
 }
@@ -55,7 +62,7 @@ float EngineWagon::cooldownRate() const
 void EngineWagon::localUpdate()
 {
     auto & light = m_world.lightManager().get(m_headLight);
-    light.setPosition(position());
+    light.setPosition(lightPosition());
     light.setDirection(worldFront());
     
     std::string materialName = "base_Orange";
@@ -79,9 +86,9 @@ void EngineWagon::playSound() const
     }
 }
 
-float EngineWagon::length() const
+QVector3D EngineWagon::lightPosition()
 {
-    return 6.0f;
+    return modelToWorld({maxBB().x(), maxBB().y() * 0.5, 0.f});
 }
 
 WagonType EngineWagon::wagonType() const

@@ -629,7 +629,7 @@ void							btDbvtBroadphase::getBroadphaseAabb(btVector3& aabbMin,btVector3& aab
 	aabbMax=bounds.Maxs();
 }
 
-void btDbvtBroadphase::resetPool(btDispatcher* dispatcher)
+void btDbvtBroadphase::resetPool(btDispatcher* /*dispatcher*/)
 {
 	
 	int totalObjects = m_sets[0].m_leaves + m_sets[1].m_leaves;

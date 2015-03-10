@@ -48,6 +48,7 @@ LightManager::ID LightManager::getFreeSlot()
         }
     }
     assert(false);// this is reached if no free slot is left
+    return 0;
 }
 
 } // namespace terminus
