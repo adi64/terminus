@@ -93,15 +93,6 @@ protected:
     virtual void localUpdate();
 
     /*!
-     * \brief AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do)
-     * \param position - parent position
-     * \param rotation - parent rotation
-     *
-     * Use this methode instead of the localUpdate() without parameters, when child objects behaviour depends on these parents arguments
-     */
-    virtual void localUpdate(QVector3D position, QQuaternion rotation);
-
-    /*!
      * \brief AbstractGraphicsObject::localRender - render this object using geometry, program and material set in the respective members
      * \param gl - GL functions
      *

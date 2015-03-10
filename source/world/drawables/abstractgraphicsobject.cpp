@@ -190,10 +190,6 @@ void AbstractGraphicsObject::localUpdate()
 {
 }
 
-void AbstractGraphicsObject::localUpdate(QVector3D position, QQuaternion rotation)
-{
-}
-
 void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
 {
     if(!m_geometry || !*m_geometry)
