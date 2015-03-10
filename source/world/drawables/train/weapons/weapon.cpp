@@ -1,8 +1,11 @@
 #include "Weapon.h"
 
+#include <resources/soundmanager.h>
+
 #include <world/physics/kinematicphysicsobject.h>
 #include <world/drawables/train/weapons/turret.h>
 #include <world/drawables/train/weapons/barrel.h>
+#include <world/drawables/projectile.h>
 
 #include <qDebug>
 
@@ -16,8 +19,8 @@ Weapon::Weapon(World & world)
  , m_scattering(0.0)
  , m_thrust(0.0)
  , m_magazineSize(0)
- , m_turret(std::unique_ptr<Turret>(new Turret(world, "base_ico1", "base_Red")))
- , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, "base_ico1", "base_Blue")))
+ , m_turret(std::unique_ptr<Turret>(new Turret(world, "engine_right", "base_Red")))
+ , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, "weapon_right", "base_Blue")))
 {
 
 }
@@ -26,16 +29,28 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::fire()
+void Weapon::fire(QVector3D velocity, QVector3D cameraCenter)
 {
-    qDebug() << "Aye Sir!";
+    m_world.scheduleAction(
+        [this, velocity, cameraCenter]()
+        {
+            auto projectile = new Projectile(m_world);
+            projectile->moveTo(modelToWorld(cameraCenter));
+            projectile->setLinearVelocity(velocity + (worldFront() * /*m_train->velocity() * */1000.0f));
+            m_world.addObject(projectile);
+            return false;
+        }
+    );
+
+    SoundManager::getInstance()->playSound("shot");
 }
 
 void Weapon::localUpdate()
 {
-//    setPosition(position);
-//    m_turret->localUpdate(position + weaponOffset(), rotation);
-//    m_barrel->localUpdate(position + weaponOffset(), rotation);
+    m_turret->setPosition(m_position);
+    m_turret->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), (m_cameraEye - m_camerameraCenter).y));
+
+    m_barrel->setPosition(m_position);
 
     AbstractGraphicsObject::localUpdate();
 }
@@ -95,9 +110,14 @@ void Weapon::setMagazineSize(int amount)
     m_magazineSize = amount;
 }
 
+void Weapon::setCameraAttributes(QVector3D cameraEye, QVector3D cameraCenter)
+{
+    m_cameraEye = cameraEye;
+    m_cameraCenter = cameraCenter;
+}
+
 void terminus::Weapon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
-    qDebug() << __FILE__ << __LINE__;
     callback(*m_turret);
     callback(*m_barrel);
 }
