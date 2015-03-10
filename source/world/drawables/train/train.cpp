@@ -85,6 +85,8 @@ void Train::localUpdate()
     {
         m_travelledDistance = 0.0;
     }
+
+    AbstractGraphicsObject::localUpdate();
 }
 
 AbstractWagon *Train::wagonAt(unsigned int index) const
