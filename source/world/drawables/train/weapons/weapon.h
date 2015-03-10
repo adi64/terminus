@@ -12,14 +12,12 @@ class Weapon : public AbstractGraphicsObject
 {
 
 public:
-    Weapon(std::shared_ptr<Scene> scene);
+    Weapon(World & world);
     virtual ~Weapon();
 
 public:
-    virtual void render(QOpenGLFunctions & gl) const override;
-
     void fire();
-    virtual void localUpdate(QVector3D position, QQuaternion rotation) override;
+    virtual void localUpdate() override;
 
     QVector3D weaponOffset();
 
@@ -38,6 +36,7 @@ public:
 
 protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
+    virtual bool localRenderEnabled() const override;
 
 protected:
     float m_damage;

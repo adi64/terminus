@@ -1,12 +1,14 @@
 #include "barrel.h"
 
+#include <QDebug>
+
 #include <resources/resourcemanager.h>
 
 namespace terminus
 {
 
-Barrel::Barrel(std::shared_ptr<Scene> scene, std::string geometry, std::string material)
- : KinematicPhysicsObject(scene)
+Barrel::Barrel(World & world, std::string geometry, std::string material)
+ : KinematicPhysicsObject(world)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry(geometry);
@@ -19,16 +21,23 @@ Barrel::~Barrel()
 {
 }
 
-void Barrel::localUpdate(QVector3D position, QQuaternion rotation)
+void Barrel::localUpdate()
 {
+//    setPosition(position);
 
+//        qDebug() << __FILE__ << __PRETTY_FUNCTION__;
+
+//    KinematicPhysicsObject::localUpdate();
 }
 
-void Barrel::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
+short Barrel::myCollisionType() const
 {
-    setPosition(position);
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
+}
 
-    KinematicPhysicsObject::update(elapsedMilliseconds);
+short Barrel::possibleCollisionTypes() const
+{
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
 }
 
 } //terminus

@@ -9,15 +9,15 @@
 namespace terminus
 {
 
-Weapon::Weapon(std::shared_ptr<Scene> scene)
- : AbstractGraphicsObject(scene)
+Weapon::Weapon(World & world)
+ : AbstractGraphicsObject(world)
  , m_damage(0.0)
  , m_reloadTime(0.0)
  , m_scattering(0.0)
  , m_thrust(0.0)
  , m_magazineSize(0)
- , m_turret(std::unique_ptr<Turret>(new Turret(m_scene, "base_Icosahedron", "base_Red")))
- , m_barrel(std::unique_ptr<Barrel>(new Barrel(m_scene, "base_Icosahedron", "base_Red")))
+ , m_turret(std::unique_ptr<Turret>(new Turret(world, "base_ico1", "base_Red")))
+ , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, "base_ico1", "base_Blue")))
 {
 
 }
@@ -26,21 +26,18 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::render(QOpenGLFunctions & gl) const
-{
-    m_turret->render(gl);
-    m_barrel->render(gl);
-}
-
 void Weapon::fire()
 {
     qDebug() << "Aye Sir!";
 }
 
-void Weapon::localUpdate(QVector3D position, QQuaternion rotation)
+void Weapon::localUpdate()
 {
-    m_turret->update(elapsedMilliseconds, position + weaponOffset(), rotation);
-    m_barrel->update(elapsedMilliseconds, position + weaponOffset(), rotation);
+//    setPosition(position);
+//    m_turret->localUpdate(position + weaponOffset(), rotation);
+//    m_barrel->localUpdate(position + weaponOffset(), rotation);
+
+    AbstractGraphicsObject::localUpdate();
 }
 
 QVector3D Weapon::weaponOffset()
@@ -100,8 +97,14 @@ void Weapon::setMagazineSize(int amount)
 
 void terminus::Weapon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
+    qDebug() << __FILE__ << __LINE__;
     callback(*m_turret);
     callback(*m_barrel);
+}
+
+bool terminus::Weapon::localRenderEnabled() const
+{
+    return false;
 }
 
 } //terminus

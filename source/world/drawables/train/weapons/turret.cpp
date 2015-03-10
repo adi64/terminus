@@ -1,13 +1,15 @@
 #include "turret.h"
 
+#include <QDebug>
+
 #include <resources/resourcemanager.h>
 #include <world/drawables/abstractgraphicsobject.h>
 
 namespace terminus
 {
 
-Turret::Turret(std::shared_ptr<Scene> scene, std::string geometry, std::string material)
- : KinematicPhysicsObject(scene)
+Turret::Turret(World & world, std::string geometry, std::string material)
+ : KinematicPhysicsObject(world)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry(geometry);
@@ -20,21 +22,24 @@ Turret::~Turret()
 {
 }
 
-void Turret::localUpdate(QVector3D position, QQuaternion rotation)
+void Turret::localUpdate()
 {
+//    setPosition(position);
+//    m_scale = QVector3D(position.x(), position.x(), position.x())/10;
 
+//    qDebug() << __FILE__ << __LINE__;
+
+//    KinematicPhysicsObject::localUpdate();
 }
 
-void Turret::update(int elapsedMilliseconds, QVector3D position, QQuaternion rotation)
+short Turret::myCollisionType() const
 {
-    setPosition(position);
-
-    KinematicPhysicsObject::update(elapsedMilliseconds);
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_WAGON;
 }
 
-void Turret::preRender(QOpenGLFunctions& gl, Program & program) const
+short Turret::possibleCollisionTypes() const
 {
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
+    return BulletWorld::CollisionTypes::COLLISIONTYPE_PROJECTILE;
 }
 
 } //terminus

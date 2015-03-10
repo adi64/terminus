@@ -9,11 +9,15 @@ class Turret : public KinematicPhysicsObject
 {
 
 public:
-    Turret(std::shared_ptr<Scene> scene, std::string geometry, std::string material);
+    Turret(World & world, std::string geometry, std::string material);
     ~Turret();
 
 public:
-    virtual void localUpdate(QVector3D position, QQuaternion rotation) override;
+    virtual void localUpdate() override;
+
+protected:
+    virtual short myCollisionType() const override;
+    virtual short possibleCollisionTypes() const override;
 };
 
 } //terminus
