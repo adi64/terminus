@@ -17,6 +17,7 @@
 #include <network/commands/primaryactioncommand.h>
 #include <network/commands/pausecommand.h>
 #include <network/commands/synccommand.h>
+#include <network/commands/gameendedcommand.h>
 #include <network/networkconnection.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
@@ -38,7 +39,8 @@ NetworkManager::NetworkManager(Game &game)
 
 NetworkManager::~NetworkManager()
 {
-    m_game.timer().releaseTimer(m_syncTimer);
+    // timer can be freed before NetworkManager
+    //m_game.timer().releaseTimer(m_syncTimer);
 }
 
 void NetworkManager::startServer(unsigned short port)
@@ -86,7 +88,7 @@ void NetworkManager::update()
     }
 
     auto timeSinceLastSync = m_game.timer().get(m_syncTimer);
-    if(timeSinceLastSync > 5000)
+    if(timeSinceLastSync > 500)
     {
         // send sync command
         sendSyncCommand(m_game.world().localPlayerTrain());
@@ -138,6 +140,12 @@ void NetworkManager::sendPrimaryActionCommand(unsigned int selectedWagonIndex, Q
 void NetworkManager::sendSyncCommand(const Train &playerTrain)
 {
     auto command = new SyncCommand(m_game.timer().get(), playerTrain);
+    emit sendCommand(command);
+}
+
+void NetworkManager::sendGameEndedCommand(bool firstPlayerWon)
+{
+    auto command = new GameEndedCommand(m_game.timer().get(), firstPlayerWon);
     emit sendCommand(command);
 }
 

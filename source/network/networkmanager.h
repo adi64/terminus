@@ -36,6 +36,7 @@ public:
     void sendProjectileHitCommand(int wagonIndex, float damage);
     void sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection);
     void sendSyncCommand(const Train &playerTrain);
+    void sendGameEndedCommand(bool firstPlayerWon);
     void sendClientReadyCommand();
 
     void clientReady();

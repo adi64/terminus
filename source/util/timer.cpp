@@ -40,6 +40,7 @@ void Timer::pause()
 
 void Timer::pause(bool flag)
 {
+    qDebug() << __FILE__ << __PRETTY_FUNCTION__ << " flag = " << flag << " timer = " << get();
     if(m_isPaused && !flag)
     {
         endPause();
@@ -112,7 +113,7 @@ bool Timer::isAllocated(std::string name)
 
 Timer::TimerMSec Timer::get()
 {
-    return toMSec(m_clock.now() - m_baseTimeStamp);
+    return toMSec((m_isPaused? m_pauseNow : m_clock.now()) - m_baseTimeStamp);
 }
 
 Timer::TimerMSec Timer::get(TimerID id)
@@ -139,7 +140,7 @@ Timer::TimerMSec Timer::get(std::string name)
 void Timer::adjust(Timer::TimerMSec newNow)
 {
     qDebug() << "adjusting main timer from " << get() << " to " << newNow;
-    m_baseTimeStamp = m_clock.now() - fromMSec(newNow);
+    m_baseTimeStamp = (m_isPaused? m_pauseNow : m_clock.now()) - fromMSec(newNow);
 }
 
 void Timer::adjust(Timer::TimerID id, Timer::TimerMSec newNow)

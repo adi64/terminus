@@ -412,7 +412,8 @@ HEADERS += \
     source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
-    source/network/commands/synccommand.h
+    source/network/commands/synccommand.h \
+    source/network/commands/gameendedcommand.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -611,4 +612,5 @@ SOURCES += \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/network/commands/synccommand.cpp
+    source/network/commands/synccommand.cpp \
+    source/network/commands/gameendedcommand.cpp

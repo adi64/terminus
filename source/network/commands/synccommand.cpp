@@ -61,12 +61,20 @@ void SyncCommand::doWork()
 {
     assert(m_game->world().enemyPlayerTrain().size() == m_wagonHealthVector.size());
 
+    qDebug() << "##### received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
+
+    // synchronize timer if we are client
+    if(m_game->networkManager().isClient())
+    {
+        m_game->timer().adjust(m_timeStamp);
+    }
+
     for(unsigned int i=0; i<m_wagonHealthVector.size(); ++i)
     {
         m_game->world().enemyPlayerTrain().wagonAt(i)->setHealth(m_wagonHealthVector[i]);
     }
 
-    qDebug() << "##### received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
+
 
     m_game->world().enemyPlayerTrain().setVelocity(m_velocity);
     m_game->world().enemyPlayerTrain().setTravelledDistance(m_travelledDistance);
