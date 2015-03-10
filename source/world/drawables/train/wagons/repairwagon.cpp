@@ -6,6 +6,7 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <resources/soundmanager.h>
 
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
@@ -55,6 +56,8 @@ void RepairWagon::primaryActionInternal()
         float healing = wagon->currentHealth() + missingHealth / 4.f;
         wagon->setHealth(healing);
     }
+
+    SoundManager::getInstance()->playSound("repairAction");
 }
 
 float RepairWagon::cooldownTime() const

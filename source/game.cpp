@@ -19,7 +19,6 @@
 #include <player/localplayer.h>
 
 #include <resources/resourcemanager.h>
-#include <resources/soundmanager.h>
 #include <world/world.h>
 #include <network/networkmanager.h>
 

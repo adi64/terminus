@@ -48,6 +48,8 @@ EngineWagon::~EngineWagon()
 void EngineWagon::primaryActionInternal()
 {
     m_train->setVelocity(m_train->velocity() + 0.002f);
+
+    SoundManager::getInstance()->playSound("engineAction");
 }
 
 float EngineWagon::cooldownTime() const
@@ -57,7 +59,7 @@ float EngineWagon::cooldownTime() const
 
 float EngineWagon::maxHealth() const
 {
-    return 1000.f;
+    return 200.f;
 }
 
 void EngineWagon::localUpdate()

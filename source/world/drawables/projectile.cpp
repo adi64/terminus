@@ -15,6 +15,8 @@
 #include <network/networkmanager.h>
 #include <player/abstractplayer.h>
 
+#include <resources/soundmanager.h>
+
 namespace terminus
 {
 
@@ -55,7 +57,7 @@ void Projectile::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & program) 
 
 float Projectile::damage() const
 {
-    return 30.0f;
+    return 10.0f;
 }
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
@@ -83,6 +85,8 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
     }
 
     m_world.addObject(new Explosion(m_world, position()));
+
+    SoundManager::getInstance()->playSound("explosion");
 
     dispose();
 }
