@@ -33,8 +33,8 @@ namespace terminus
 World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
-, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
+, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
 , m_rightTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
 , m_leftTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {

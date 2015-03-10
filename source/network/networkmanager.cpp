@@ -30,8 +30,8 @@ namespace terminus
 NetworkManager::NetworkManager(Game &game)
     : m_game(game)
     , m_networkEndpoint(nullptr)
-    , m_endpointType(EndpointType::INVALID)
     , m_syncTimer(0)
+    , m_endpointType(EndpointType::INVALID)
 {
 }
 
