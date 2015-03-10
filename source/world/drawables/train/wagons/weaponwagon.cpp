@@ -3,7 +3,6 @@
 #include <QDebug>
 
 #include <resources/resourcemanager.h>
-#include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
@@ -53,8 +52,6 @@ void WeaponWagon::primaryAction()
     auto scalarVelocity = 100.f;
     fire(aimVector() * scalarVelocity);
 
-    SoundManager::getInstance()->playSound("shot");
-
     resetCooldown();
 }
 
@@ -66,18 +63,7 @@ void WeaponWagon::primaryActionDebug()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
-    /*m_world.scheduleAction(
-        [this, velocity]()
-        {
-            auto projectile = new Projectile(m_world);
-            projectile->moveTo(modelToWorld(localCameraCenter()));
-            projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * 1000.0f));
-            m_world.addObject(projectile);
-            return false;
-        }
-    );*/
-
-    weapon()->fire();
+    weapon()->fire(velocity, localCameraCenter());
 }
 
 QVector3D WeaponWagon::aimVector()
@@ -116,6 +102,12 @@ void WeaponWagon::localUpdate()
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::localUpdate();
+
+    if(weapon())        //after AbstractWagon::localUpdate() the position is the correct one
+    {
+        weapon()->setPosition(m_position);
+        weapon()->setCameraAttributes(localCameraEye(), localCameraCenter());
+    }
 }
 
 void WeaponWagon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
