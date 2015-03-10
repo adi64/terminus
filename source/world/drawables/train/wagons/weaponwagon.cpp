@@ -20,6 +20,7 @@ namespace terminus
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
 : AbstractWagon(world, train)
+, m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     if(m_train->track()->isOtherTrackLeft())
@@ -31,6 +32,8 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
         m_geometry = ResourceManager::getInstance()->getGeometry("weapon_left");
     }
     m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
+
+    setWeapon(new Weapon(world));
 
     initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
 }
@@ -63,7 +66,7 @@ void WeaponWagon::primaryActionDebug()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
-    m_world.scheduleAction(
+    /*m_world.scheduleAction(
         [this, velocity]()
         {
             auto projectile = new Projectile(m_world);
@@ -72,7 +75,9 @@ void WeaponWagon::fire(QVector3D velocity)
             m_world.addObject(projectile);
             return false;
         }
-    );
+    );*/
+
+    weapon()->fire();
 }
 
 QVector3D WeaponWagon::aimVector()
@@ -90,6 +95,16 @@ WagonType WeaponWagon::wagonType() const
     return WEAPON_WAGON;
 }
 
+void WeaponWagon::setWeapon(Weapon *weapon)
+{
+    m_weapon.reset(weapon);
+}
+
+Weapon * WeaponWagon::weapon()
+{
+    return m_weapon.get();
+}
+
 void WeaponWagon::localUpdate()
 {
     std::string materialName = "base_Blue";
@@ -101,6 +116,11 @@ void WeaponWagon::localUpdate()
     m_material = ResourceManager::getInstance()->getMaterial(materialName);
 
     AbstractWagon::localUpdate();
+}
+
+void WeaponWagon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+{
+    callback(*m_weapon);
 }
 
 } //namespace terminus

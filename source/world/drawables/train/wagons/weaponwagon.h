@@ -2,6 +2,8 @@
 
 #include "abstractwagon.h"
 
+#include <world/drawables/train/weapons/weapon.h>
+
 namespace terminus
 {
 
@@ -16,9 +18,12 @@ public:
     virtual void primaryAction() override;
     virtual void primaryActionDebug() override;
     virtual float cooldownTime() const override;
-    void setAimVector(const QVector3D & aimVector);
-
     virtual WagonType wagonType() const override;
+
+public:
+    void setAimVector(const QVector3D & aimVector);
+    void setWeapon(Weapon * weapon);
+    Weapon * weapon();
 
 protected:
     /*!
@@ -30,6 +35,11 @@ protected:
     void fire(QVector3D velocity);
 
     virtual QVector3D aimVector();
+
+    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
+
+protected:
+    std::unique_ptr<Weapon> m_weapon;
 };
 
 }
