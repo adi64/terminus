@@ -86,6 +86,11 @@ public:
     virtual QMatrix4x4 modelMatrix() const;
     virtual QMatrix4x4 modelMatrixInverted() const;
 
+    virtual void setPosition(const QVector3D & position);
+    virtual void setRotation(const QQuaternion & eulerAngles);
+    virtual void setScale(const QVector3D & scale);
+    virtual void setScale(float scale);
+
 protected:
     /*!
      * \brief AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do)
@@ -117,11 +122,6 @@ protected:
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
 
     virtual bool localRenderEnabled() const;
-
-    virtual void setPosition(const QVector3D & position);
-    virtual void setRotation(const QQuaternion & eulerAngles);
-    virtual void setScale(const QVector3D & scale);
-    virtual void setScale(float scale);
 
     virtual QVector3D worldToModel(const QVector3D & vWorld);
     virtual QVector3D modelToWorld(const QVector3D & vModel);
