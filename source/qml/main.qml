@@ -4,8 +4,8 @@ import QtQuick.Window 2.0
 
 Item
 {
-    width: 1024
-    height: 768
+    width: Screen.width
+    height: Screen.height
 
     Loader
     {

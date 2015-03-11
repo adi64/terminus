@@ -15,7 +15,7 @@ namespace terminus
 Level::Level(unsigned int seed)
 : m_vertexCountS(64)
 , m_vertexCountT(73)
-, m_patchCountS(32)
+, m_patchCountS(8)
 , m_patchCountT(2)
 , m_vertexWidth(1.f)
 , m_vertexHeight(sqrt(3.f)/2.f)
