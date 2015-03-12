@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>data/base.mtl</file>
-    </qresource>
-</RCC>
