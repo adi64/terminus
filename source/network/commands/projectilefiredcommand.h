@@ -8,7 +8,16 @@
 
 namespace terminus
 {
-
+/*!
+ * \brief The ProjectileFiredCommand indicates that a projectile has been fired
+ * and contains the position as well as the movement vector.
+ *
+ * A projectile that gets spawned as result of this command has the
+ * AbstractPhysicsObject::m_spawnedLocally flag set to false. This means that
+ * collisions of this projectile do not deal any damage.
+ *
+ * \sa ProjectileHitCommand, Projectile
+ */
 class ProjectileFiredCommand : public AbstractCommand
 {
 public:

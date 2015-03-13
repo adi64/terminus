@@ -7,6 +7,7 @@
 namespace terminus
 {
 
+// TODO FIXME this command is not used any more!
 class PrimaryActionCommand : public AbstractCommand
 {
 public:

@@ -8,7 +8,10 @@
 
 namespace terminus
 {
-
+/*!
+ *\brief The PrepareNewGameCommand gets sent to the client to synchronize the
+ * game timer, terrain seed and client player position (left or right track)
+ */
 class PrepareNewGameCommand : public AbstractCommand
 {
 public:

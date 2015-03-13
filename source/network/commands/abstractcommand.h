@@ -16,6 +16,12 @@ namespace terminus
     class NetworkServer;
 	class NetworkConnection;
 
+    /*!
+     * \brief The AbstractCommand class defines the interface that every
+     * command has to implement.
+     *
+     * It also provides some convenience and commonly used methods and members.
+     */
     class AbstractCommand
 	{
 	public:
@@ -31,6 +37,11 @@ namespace terminus
         void run();
         virtual void doWork() = 0;
         virtual Commands commandType() const = 0;
+
+        /*!
+         * \brief Every command must define how its members can be serialized.
+         * \return A QJsonObject containing the parameters / members
+         */
         virtual QJsonObject toJson() const = 0;
         Timer::TimerMSec timeStamp() const;
 	signals:

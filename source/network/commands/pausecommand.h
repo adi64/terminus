@@ -5,6 +5,9 @@
 namespace terminus
 {
 
+/*!
+ * \brief The PauseCommand pauses or unpauses the game.
+ */
 class PauseCommand : public AbstractCommand
 {
 public:

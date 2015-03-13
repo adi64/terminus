@@ -10,6 +10,14 @@
 namespace terminus
 {
 
+/*!
+ * \brief The SyncCommand is used to continuously synchronize two games.
+ *
+ * It contains the local player train's travelled distance, velocity and
+ * health information of the wagons. It also synchronizes the game timers.
+ *
+ * \sa AbstractWagon, Train and Timer
+ */
 class SyncCommand : public AbstractCommand
 {
 public:

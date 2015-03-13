@@ -3,6 +3,9 @@
 namespace terminus
 {
 
+/*!
+ * \brief The Commands enum stores all command types with corresponding ID.
+ */
 enum Commands {
     Command_Pause           = 0,
     Command_PrepareNewGame  = 1,

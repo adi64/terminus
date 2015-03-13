@@ -5,6 +5,10 @@
 namespace terminus
 {
 
+/*!
+ * \brief The GameEndedCommand ends the current game and displays a screen
+ * indicating the winner.
+ */
 class GameEndedCommand : public AbstractCommand
 {
 public:
