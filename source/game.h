@@ -60,12 +60,35 @@ public:
      */
     ~Game();
 
+    /*!
+     * \brief Sets up a local game against an AI player with the local plaer
+     * being the one on the right
+     */
     Q_INVOKABLE void startLocalGame();
+
+    /*!
+     * \brief Start a paused game and wait for a connecting player
+     */
     Q_INVOKABLE void hostNetworkGame();
+
+    /*!
+     * \brief Try to connect to the given host and receive game information
+     * \param host The IP address of the host
+     */
     Q_INVOKABLE void joinNetworkGame(QString host);
 
+    /*!
+     * \brief Generic method to create a World
+     * \param isNetworkGame Whether the local game is a network game
+     * \param isPlayerOne Whether the local player is player one (right track)
+     * \param terrainSeed The seed used to initialize the Perlin noise function
+     * to generate the terrain
+     */
     void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
 
+    /*!
+     * \brief Hide or show the UI
+     */
     void toggleUI();
     void showUI();
     void hideUI();
