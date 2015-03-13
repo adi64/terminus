@@ -28,7 +28,6 @@ Game::Game()
 : m_eventHandler(this)
 , m_deferredActionHandler(this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_setupComplete(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -187,7 +186,7 @@ void Game::updateQMLData()
     dataMap.insert("PlayerTrain", playerTrainMap);
     dataMap.insert("EnemyTrain", enemyTrainMap);
     m_qmlData.setValue(dataMap);
-    qmlDataChanged();
+    emit qmlDataChanged();
 }
 
 QVariant & Game::qmlData()
