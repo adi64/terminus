@@ -5,6 +5,11 @@
 namespace terminus
 {
 
+/*!
+ * \brief A kinematic physics object is a "scripted" physics object, meaning
+ * that it will set its own movement. It will be used in collision detection,
+ * but bullet will not simulate its movement.
+ */
 class KinematicPhysicsObject : public AbstractPhysicsObject
 {
 public:

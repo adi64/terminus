@@ -8,6 +8,16 @@
 namespace terminus
 {
 
+/*!
+ * \brief The AbstractPhysicsObject class represents a graphical scene element
+ * with a physics-based aspect, meaning that it can move and collide with
+ * other AbstractPhysicsObjects.
+ *
+ * The most important aspect is that an AbstractPhysicsObject contains a Bullet
+ * representation in form of a btRigidBody.
+ *
+ * \sa BulletWorld
+ */
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {    
 public:
@@ -52,8 +62,9 @@ protected:
     /*!
      * \brief Shared pointer to the bullet world that this object lives in
      *
-     * Every physics object holds a shared pointer to the BulletWorld it lives in
-     * in order to extend the BulletWorld's lifetime to the point where this physics object dies
+     * Every physics object holds a shared pointer to the BulletWorld it
+     * lives in in order to extend the BulletWorld's lifetime to the point
+     * where this physics object dies
      */
     std::shared_ptr<BulletWorld> m_bulletWorld;
     std::unique_ptr<btRigidBody> m_btRigidBody;
