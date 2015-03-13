@@ -12,6 +12,10 @@ namespace terminus
 	class AbstractCommand;
 	class NetworkConnection;
 
+    /*!
+     * \brief The NetworkServer class provides a server implementation of the
+     * NetworkEndpoint interface.
+     */
     class NetworkServer : public NetworkEndpoint
 	{
 		Q_OBJECT

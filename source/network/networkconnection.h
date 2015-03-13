@@ -8,7 +8,11 @@
 
 namespace terminus
 {
-	class NetworkConnection : public QObject
+    /*!
+     * \brief The NetworkConnection class provides a thin abstraction layer
+     * over QTcpSocket and convenience methods to interface that socket.
+     */
+    class NetworkConnection : public QObject
 	{
 		Q_OBJECT
 	public:

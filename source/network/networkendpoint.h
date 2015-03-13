@@ -8,6 +8,13 @@ namespace terminus {
 class AbstractCommand;
 class NetworkConnection;
 
+/*!
+ * \brief The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement.
+ *
+ * It provides an active NetworkConnection and means to send an AbstractCommand over that NetworkConnection.
+ *
+ * \sa NetworkServer, NetworkClient and NetworkConnection
+ */
 class NetworkEndpoint : public QObject
 {
     Q_OBJECT

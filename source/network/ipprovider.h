@@ -3,7 +3,12 @@
 
 namespace terminus
 {
-
+/*!
+ * \brief A small helper class to determine the local IP address
+ *
+ * This class is used on QML side to display the local IP address when hosting
+ * a multiplayer game.
+ */
 class IPProvider : public QObject
 {
     Q_OBJECT
