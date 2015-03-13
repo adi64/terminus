@@ -29,7 +29,10 @@ Game::Game()
 : m_eventHandler(this)
 , m_networkManager(*this)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
+<<<<<<< HEAD
 , m_uiIsActive(false) // is set to true on create world
+=======
+>>>>>>> master
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 

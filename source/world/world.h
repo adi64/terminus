@@ -35,6 +35,14 @@ class NetworkManager;
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
 
+/*!
+ * \brief The World class represents a running game instance and contains all
+ * graphical (3D) elements of the scene.
+ *
+ * A running game consists of a Terrain, two Train instances, other graphical elements
+ * (Projectile, Skybox, ...) and two AbstractPlayer s controlling the two trains.
+ * It also holds the BulletWorld, an encapsulation of all bullet-related classes and methods.
+ */
 class World : public QObject
 {
     Q_OBJECT
