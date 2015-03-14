@@ -1,6 +1,21 @@
 import QtQuick 2.3
 import Game 1.0
 
+/*
+ * MultiplayerMenu.qml
+ * A MultiplayerMenu consists of:
+ * + a background image
+ * + a headline
+ * + an ipprovider (see ipprovider.h)
+ * + a TextInput that looks similar to the MenuButtons
+ * + multiple MenuButtons
+ * The MultiplayerMenu works similar to the MainMenu. Main
+ * difference is the TextInput that displays the current IP
+ * address of the device. The entered address will be used
+ * when joining a game that is hosted on a different device.
+ *
+ */
+
 Item
 {
     id: multiplayerMenu

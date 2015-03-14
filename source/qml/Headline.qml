@@ -1,7 +1,14 @@
 import QtQuick 2.3
 
 /*
- * Headline for
+ * Headline.qml
+ * The Headline Item consists of:
+ * + a Text element
+ * The Headline is a plain Text element that is
+ * preformatted to be in the upper center of the screen.
+ * The text of the headline can be set with the text
+ * property.
+ *
  */
 
 Item

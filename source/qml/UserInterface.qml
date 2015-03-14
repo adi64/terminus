@@ -36,26 +36,6 @@ Item
         onReleased: if(-5 < (t.x - t.startX) < 5 && -5 < (t.y - t.startY) < 5) { game.buttonInput(5) }
     }
 
-    MouseArea
-    {
-        id: mouseCamera
-        anchors.fill: parent
-        cursorShape: "BlankCursor"
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton
-        enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? false : true
-        onPositionChanged:
-        {
-            if (containsMouse)
-                if (Qt.platform.os !== "android" && Qt.platform.os !== "ios")
-                    game.moveInput(1, mouse.x, mouse.y)
-        }
-        onReleased:
-        {
-            game.buttonInput(6)
-        }
-    }
-
     Reticle{}
 
     StatusBarContainer{}
