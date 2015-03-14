@@ -1,5 +1,17 @@
 import QtQuick 2.3
 
+/*
+ * Victory.qml
+ * The Victory Item consists of:
+ * + a background image
+ * + a Headline
+ * + a MenuButton
+ * Shows the Victory screen which will be loaded by Game.
+ * The button provides a way back to the MainMenu as well as
+ * a motivational text.
+ *
+ */
+
 Item
 {
     id: victoryScreen

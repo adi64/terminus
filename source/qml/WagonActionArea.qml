@@ -2,7 +2,16 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Displays the ActionButton (Fire, Repair, Faster) and the surrounding ActionArea
+ * WagonActionArea.qml
+ * The WagonActionArea Item consists of:
+ * + a background image
+ * + a button with an image
+ * + a MultiPointTouchArea for the button
+ * + a Text element on the button
+ * The WagonActionArea displays a button that calls the primaryAction
+ * for the current wagon. The text is dependant on wagonType, isDisabled
+ * and cooldown.
+ *
  */
 
 Item

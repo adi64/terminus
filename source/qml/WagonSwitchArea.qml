@@ -2,7 +2,14 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Displays WagonSwitchButtons and the container element WagonArea
+ * WagonSwitchArea.qml
+ * The WagonSwitchArea Item consists of:
+ * + a background image
+ * + two buttons with an image
+ * + two MultiPointTouchArea for the button
+ * The WagonSwitchArea displays two buttons to switch wagons. They are
+ * only visible if the action is actually possible.
+ *
  */
 
 Item

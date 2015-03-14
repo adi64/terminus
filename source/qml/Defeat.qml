@@ -1,5 +1,17 @@
 import QtQuick 2.3
 
+/*
+ * Defeat.qml
+ * The Defeat Item consists of:
+ * + a background image
+ * + a Headline
+ * + a MenuButton
+ * Shows the Defeat screen which will be loaded by Game.
+ * The button provides a way back to the MainMenu as well as
+ * a motivational text.
+ *
+ */
+
 Item
 {
     id: defeatScreen

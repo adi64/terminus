@@ -95,6 +95,7 @@ Item
             }
             onReleased:
             {
+                // 6 is the int value for the button value mouseButton (see eventhandler.h)
                 terminus.buttonInput(6)
             }
         }

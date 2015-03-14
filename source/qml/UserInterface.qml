@@ -3,11 +3,21 @@ import QtSensors 5.3
 import Game 1.0
 
 /*
- * Initializes UserInterface
- * UserInterface is a container for all UI elements
+ * UserInterface.qml
+ * The UserInterface Item consists of:
+ * + a MultiPointTouchArea
+ * + the Reticle
+ * + the WagonSwitchArea
+ * + the WagonActionArea
+ * + an OrientationSensor
+ * + a Gyroscope
+ * The UI initializes the on-screen buttons and graphics as well as
+ * starting the necessary sensors. It is not necessary when playing on
+ * desktop (mouse and keyboard) but provides information that can be useful.
+ * The game property has to be set when constructing a UserInterface.
  *
  * Interaction will sent a integer to identify the type of interaction
- *
+ * (see eventhandler.h)
  * enum InteractionType
  * {
  *      MOUSE_MOVEMENT = 1,
@@ -43,7 +53,6 @@ Item
     WagonActionArea
     {
         id: actionArea
-        //visible: Qt.platform.os === ("android" || "ios")? true : false
         onFire:
         {
             game.buttonInput(5)
@@ -53,7 +62,6 @@ Item
     WagonSwitchArea
     {
         id: switchArea
-        //visible: Qt.platform.os === ("android" || "ios")? true : false
         onSwitchToNextWagon:
         {
             isReversed? game.buttonInput(4) : game.buttonInput(3)
