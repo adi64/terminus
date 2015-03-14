@@ -220,8 +220,8 @@ void Game::handleWindowChanged(QQuickWindow * win)
         // and nothing would show.
         m_window->setClearBeforeRendering(false);
         // trigger redraws periodically
-        //connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        //m_renderTrigger->start(1000 / 60);
+        connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
+        m_renderTrigger->start(1000 / 60);
     }
 }
 
