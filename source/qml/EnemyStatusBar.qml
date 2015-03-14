@@ -2,7 +2,15 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Shows container for multiple PlayerWagonStatus
+ * EnemyStatusBar.qml
+ * The EnemyStatusBar Item consists of:
+ * + a background image
+ * + eight EnemyWagonStatuses
+ * This is a container for EnemyWagonStatuses. It gets a
+ * reference to Game and isReversed to provide to the children.
+ * It takes the parent width to set its height to remain the same
+ * aspect ratio on all devices.
+ *
  */
 
 Item

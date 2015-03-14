@@ -2,7 +2,16 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Shows health, type and optionally cooldown of a player wagon
+ * EnemyWagonStatus.qml
+ * The EnemyWagonStatus Item consists of:
+ * + a health bar
+ * + a cooldown bar
+ * This element should be nested in a StatusBar element.
+ * It will load various data provided by game.qmlData (see game.cpp).
+ * The position is determined by the wagonIndex and totalWagons. Color
+ * is dependant on wagonType and isDisabled. The health bar uses the
+ * ratio of health/maxHealth and the cooldown bar uses (1 - cooldown).
+ *
  */
 
 Item

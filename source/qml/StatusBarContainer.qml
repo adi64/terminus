@@ -2,7 +2,14 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Container element for EnemyStatusBar and PlayerStatusBar
+ * StatusBarContainer.qml
+ * The StatusBarContainer Item consists of:
+ * + EnemyStatusBar (see EnemyStatusBar.qml)
+ * + PlayerStatusBar (see PlayerStatusBar.qml)
+ * This is a container for both status bars. It will use
+ * the parents game reference and isReversed property and
+ * save it, since its children will access these as well.
+ *
  */
 
 Item

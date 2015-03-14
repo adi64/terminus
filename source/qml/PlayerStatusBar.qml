@@ -2,7 +2,20 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Shows container for multiple PlayerWagonStatus
+ * PlayerStatusBar.qml
+ * The PlayerStatusBar Item consists of:
+ * + a background image
+ * + a cooldown bar for the current wagon
+ * + a progress bar
+ * + eight EnemyWagonStatuses
+ * This is a container for PlayerWagonStatuses. It gets a
+ * reference to Game and isReversed to provide to the children.
+ * It takes the parent width to set its height to remain the same
+ * aspect ratio on all devices.
+ * Additionally it has a larger cooldown bar for the current wagon
+ * and a progress bar. The required information are stored in game.qmlData
+ * (see game.cpp).
+ *
  */
 
 Item
