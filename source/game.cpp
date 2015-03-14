@@ -28,6 +28,8 @@ namespace terminus
 Game::Game()
 : m_eventHandler(this)
 , m_networkManager(*this)
+, m_glIsInitialized(false)
+, m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_uiIsActive(false) // is set to true on create world
 {
@@ -38,7 +40,12 @@ Game::Game()
 
 Game::~Game()
 {
-
+    if(m_window)
+    {
+        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
+        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
+        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
+    }
 }
 
 void Game::startLocalGame()
@@ -179,11 +186,10 @@ void Game::sync()
 
 void Game::render()
 {
-    static bool glInitialized = false;
-    if(!glInitialized)
+    if(!m_glIsInitialized)
     {
         m_gl.initializeOpenGLFunctions();
-        glInitialized = true;
+        m_glIsInitialized = true;
     }
 
     if(m_world)
@@ -199,16 +205,23 @@ void Game::cleanup()
 
 void Game::handleWindowChanged(QQuickWindow * win)
 {
-    if (win) {
-        connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
-        connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-        connect(win, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
+    if(m_window)
+    {
+        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
+        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
+        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
+    }
+    m_window = win;
+    if (m_window) {
+        connect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
-        win->setClearBeforeRendering(false);
+        m_window->setClearBeforeRendering(false);
         // trigger redraws periodically
-        connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
-        m_renderTrigger->start(1000 / 60);
+        //connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
+        //m_renderTrigger->start(1000 / 60);
     }
 }
 

@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     view.show();
     //view.showFullScreen();
 
-    QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
+    QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()), Qt::QueuedConnection);
 
     return app.exec();
 }

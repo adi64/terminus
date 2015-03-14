@@ -43,10 +43,15 @@ Item
         {
             loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
         }
+        function stopGame()
+        {
+            loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
+        }
         function loadUI(ui, isReversed)
         {
             uiLoader.setSource(ui, { "game": terminus, "isReversed": isReversed })
         }
+
 
         Component.onCompleted:
         {

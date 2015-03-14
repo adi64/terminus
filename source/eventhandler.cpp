@@ -103,7 +103,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         }
         break;
     case Qt::Key_Escape:
-        QApplication::quit();
+        QMetaObject::invokeMethod(m_game, "stopGame", Qt::DirectConnection);
         break;
     case Qt::Key_Space:
         player.toggleCameraLock();

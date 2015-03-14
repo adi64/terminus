@@ -168,20 +168,24 @@ protected:
      */
     void updateQMLData();
 
-    std::unique_ptr<World> m_world;
-
+protected:
     EventHandler m_eventHandler;
     DeferredActionHandler m_deferredActionHandler;
     NetworkManager m_networkManager;
     Timer m_timer;
 
     QVariant m_qmlData;
+
+    bool m_glIsInitialized;
     QOpenGLFunctions m_gl;
 
+    QQuickWindow * m_window;
     std::unique_ptr<QTimer> m_renderTrigger; //! The timer that triggers a redraw
 
     bool m_isPlayerOne;
     bool m_uiIsActive;
+
+    std::unique_ptr<World> m_world;
 };
 
 }
