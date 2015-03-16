@@ -15,7 +15,7 @@
 #include <player/aiplayer.h>
 
 #include <eventhandler.h>
-#include <deferredactionhandler.h>
+#include <actionscheduler.h>
 #include <player/localplayer.h>
 
 #include <resources/resourcemanager.h>
@@ -28,10 +28,10 @@ namespace terminus
 Game::Game()
 : m_eventHandler(this)
 , m_networkManager(*this)
-, m_glIsInitialized(false)
 , m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_uiIsActive(false) // is set to true on create world
+, m_isGLInitialized(false)
+, m_isUIActive(false) // is set to true on create world
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -74,7 +74,7 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 
 void Game::toggleUI()
 {
-    if(m_uiIsActive)
+    if(m_isUIActive)
     {
         hideUI();
     }
@@ -86,7 +86,7 @@ void Game::toggleUI()
 
 void Game::showUI()
 {
-    m_uiIsActive = true;
+    m_isUIActive = true;
     updateQMLData();
     QString uiFile = "qrc:/source/qml/UserInterface.qml";
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
@@ -94,7 +94,7 @@ void Game::showUI()
 
 void Game::hideUI()
 {
-    m_uiIsActive = false;
+    m_isUIActive = false;
     QString uiFile = "";
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
 }
@@ -105,12 +105,12 @@ World & Game::world() const
     return *m_world;
 }
 
-DeferredActionHandler & Game::deferredActionHandler()
+ActionScheduler & Game::scheduler()
 {
-    return m_deferredActionHandler;
+    return m_scheduler;
 }
 
-NetworkManager &Game::networkManager()
+NetworkManager & Game::networkManager()
 {
     return m_networkManager;
 }
@@ -143,7 +143,7 @@ void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
 void Game::sync()
 {
     // process scheduled events
-    m_deferredActionHandler.processDeferredActions();
+    m_scheduler.executeActions();
 
     if(!m_world)
     {
@@ -176,7 +176,7 @@ void Game::sync()
        m_world->update();
     }
 
-    if(m_uiIsActive)
+    if(m_isUIActive)
     {
         updateQMLData();
     }
@@ -186,10 +186,10 @@ void Game::sync()
 
 void Game::render()
 {
-    if(!m_glIsInitialized)
+    if(!m_isGLInitialized)
     {
         m_gl.initializeOpenGLFunctions();
-        m_glIsInitialized = true;
+        m_isGLInitialized = true;
     }
 
     if(m_world)

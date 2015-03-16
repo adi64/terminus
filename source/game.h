@@ -6,7 +6,7 @@
 #include <QOpenGLFunctions>
 #include <QQuickItem>
 
-#include <deferredactionhandler.h>
+#include <actionscheduler.h>
 #include <eventhandler.h>
 #include <network/networkmanager.h>
 #include <util/timer.h>
@@ -95,7 +95,7 @@ public:
 
     World & world() const;
     QVariant & qmlData();
-    DeferredActionHandler & deferredActionHandler();
+    ActionScheduler & scheduler();
 
     NetworkManager & networkManager();
 
@@ -170,20 +170,19 @@ protected:
 
 protected:
     EventHandler m_eventHandler;
-    DeferredActionHandler m_deferredActionHandler;
+    ActionScheduler m_scheduler;
     NetworkManager m_networkManager;
     Timer m_timer;
 
     QVariant m_qmlData;
 
-    bool m_glIsInitialized;
-    QOpenGLFunctions m_gl;
-
     QQuickWindow * m_window;
     std::unique_ptr<QTimer> m_renderTrigger; //! The timer that triggers a redraw
+    bool m_isGLInitialized;
+    QOpenGLFunctions m_gl;
 
     bool m_isPlayerOne;
-    bool m_uiIsActive;
+    bool m_isUIActive;
 
     std::unique_ptr<World> m_world;
 };

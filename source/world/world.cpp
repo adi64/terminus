@@ -23,7 +23,7 @@
 #include <world/camera.h>
 #include <world/physics/abstractphysicsobject.h>
 #include <world/physics/bulletworld.h>
-#include <deferredactionhandler.h>
+#include <actionscheduler.h>
 
 #include <resources/soundmanager.h>
 
@@ -202,9 +202,9 @@ std::shared_ptr<BulletWorld> World::bulletWorld()
     return m_bulletWorld;
 }
 
-void World::scheduleAction(DeferredAction event)
+void World::scheduleAction(ActionScheduler::Action event)
 {
-    m_game.deferredActionHandler().scheduleAction(event);
+    m_game.scheduler().scheduleAction(event);
 }
 
 NetworkManager & World::networkManager()

@@ -1,22 +1,20 @@
-#include "deferredactionhandler.h"
-
-#include "game.h"
+#include "actionscheduler.h"
 
 namespace terminus
 {
 
-DeferredActionHandler::DeferredActionHandler()
+ActionScheduler::ActionScheduler()
 : m_currentActionList(0)
 {
 }
 
-void DeferredActionHandler::scheduleAction(const DeferredAction& action)
+void ActionScheduler::scheduleAction(const Action& action)
 {
     std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
     m_actionList[m_currentActionList].push_back(action);
 }
 
-void DeferredActionHandler::processDeferredActions()
+void ActionScheduler::executeActions()
 {
     std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
     int previousActionList = m_currentActionList;

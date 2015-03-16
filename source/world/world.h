@@ -12,7 +12,7 @@
 #include <world/physics/bulletworld.h>
 #include <resources/lightmanager.h>
 #include <world/camera.h>
-#include <deferredactionhandler.h>
+#include <actionscheduler.h>
 
 class QOpenGLFunctions;
 class QOpenGLShaderProgram;
@@ -84,8 +84,8 @@ public:
 
     LightManager & lightManager();
 
-    void setInitialTimeStamp(const std::shared_ptr<QTime> &timeStamp);
-    void scheduleAction(DeferredAction event);
+    void setInitialTimeStamp(const std::shared_ptr<QTime> & timeStamp);
+    void scheduleAction(ActionScheduler::Action event);
 
     void addObject(AbstractGraphicsObject * node);
     void deleteObject(AbstractGraphicsObject * object);

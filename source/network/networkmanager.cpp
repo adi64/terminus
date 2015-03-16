@@ -224,7 +224,7 @@ void NetworkManager::newCommand(AbstractCommand *command)
     }
 
     command->setGame(&m_game);
-    m_game.deferredActionHandler().scheduleAction( [=](){ command->run(); delete command; return false; } );
+    m_game.scheduler().scheduleAction( [=](){ command->run(); delete command; return false; } );
 }
 
 void NetworkManager::prepareAndSyncNewGame()

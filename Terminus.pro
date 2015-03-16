@@ -409,11 +409,11 @@ HEADERS += \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
     source/world/world.h \
-    source/deferredactionhandler.h \
     source/eventhandler.h \
     source/game.h \
     source/network/commands/synccommand.h \
-    source/network/commands/gameendedcommand.h
+    source/network/commands/gameendedcommand.h \
+    source/actionscheduler.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -607,10 +607,10 @@ SOURCES += \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
     source/world/world.cpp \
-    source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
     source/network/commands/synccommand.cpp \
-    source/network/commands/gameendedcommand.cpp
+    source/network/commands/gameendedcommand.cpp \
+    source/actionscheduler.cpp
