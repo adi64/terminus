@@ -6,3 +6,15 @@
  * License: Creative Commons Attribution 3.0 License (https://creativecommons.org/licenses/by/3.0/)
  * File Description: Place here your custom scripts
  */
+
+function showHide(show) {
+    if (!show.hasClass("hide")) {
+        show.addClass('hide');
+    } else {
+        show.removeClass('hide');
+    }
+}
+
+$("#impressum_link").click(function () {
+    showHide($("#impressum"));
+})

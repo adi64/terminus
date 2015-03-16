@@ -1025,15 +1025,22 @@
 					<h1 class="title text-center" id="contact">Contact Us</h1>
 					<div class="space"></div>
 					<div class="row">
+						<!--
 						<div class="col-sm-6">
-							<div class="footer-content">
-								<p class="large">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel nam magnam natus tempora cumque, aliquam deleniti voluptatibus voluptas. Repellat vel, et itaque commodi iste ab, laudantium voluptas deserunt nobis.</p>
+						-->
+							<div class="footer-content text-center">
+								<p class="large">
+									Want to give feedback, suggest new features, express your joy or simply want to say hi? Drop us a line!
+								</p>
 								<ul class="list-icons">
+									<!--
 									<li><i class="fa fa-map-marker pr-10"></i> One infinity loop, 54100</li>
 									<li><i class="fa fa-phone pr-10"></i> +00 1234567890</li>
 									<li><i class="fa fa-fax pr-10"></i> +00 1234567891 </li>
-									<li><i class="fa fa-envelope-o pr-10"></i> your@email.com</li>
+									-->
+									<li><i class="fa fa-envelope-o pr-10"></i><a href="mailto:mail@terminus-game.com">mail@terminus-game.com</a></li>
 								</ul>
+								<!--
 								<ul class="social-links">
 									<li class="facebook"><a target="_blank" href="https://www.facebook.com/pages/HtmlCoder/714570988650168"><i class="fa fa-facebook"></i></a></li>
 									<li class="twitter"><a target="_blank" href="https://twitter.com/HtmlcoderMe"><i class="fa fa-twitter"></i></a></li>
@@ -1044,15 +1051,19 @@
 									<li class="flickr"><a target="_blank" href="http://www.flickr.com"><i class="fa fa-flickr"></i></a></li>
 									<li class="pinterest"><a target="_blank" href="http://www.pinterest.com"><i class="fa fa-pinterest"></i></a></li>
 								</ul>
+								-->
 							</div>
+						<!--
 						</div>
+						-->
+						<!--
 						<div class="col-sm-6">
 							<div class="footer-content">
-								<form role="form" id="footer-form">
+								<form role="form" id="footer-form" action="mailto:mail@terminus-game.com">
 									<div class="form-group has-feedback">
-										<label class="sr-only" for="name2">Name</label>
-										<input type="text" class="form-control" id="name2" placeholder="Name" name="name2" required>
-										<i class="fa fa-user form-control-feedback"></i>
+										<label class="sr-only" for="mail-subject">Subject</label>
+										<input type="text" class="form-control" id="mail-subject" placeholder="Subject" name="subject" required>
+										<i class="fa fa-pencil form-control-feedback"></i>
 									</div>
 									<div class="form-group has-feedback">
 										<label class="sr-only" for="email2">Email address</label>
@@ -1060,14 +1071,15 @@
 										<i class="fa fa-envelope form-control-feedback"></i>
 									</div>
 									<div class="form-group has-feedback">
-										<label class="sr-only" for="message2">Message</label>
-										<textarea class="form-control" rows="8" id="message2" placeholder="Message" name="message2" required></textarea>
+										<label class="sr-only" for="mail-body">Message</label>
+										<textarea class="form-control" rows="8" id="mail-body" placeholder="Message" name="body" required></textarea>
 										<i class="fa fa-pencil form-control-feedback"></i>
 									</div>
 									<input type="submit" value="Send" class="btn btn-default">
 								</form>
 							</div>
 						</div>
+						-->
 					</div>
 				</div>
 			</div>
@@ -1078,8 +1090,22 @@
 			<div class="subfooter">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12">
-							<p class="text-center">Copyright © 2014 Worthy by <a target="_blank" href="http://htmlcoder.me">HtmlCoder</a>.</p>
+						<div class="col-md-12 text-center">
+							<p>Made by Fabian Dumke, Lukas Durdel, Adrian Holfter, Florian Richter</p>
+							<p>Template: Worthy by <a target="_blank" href="http://htmlcoder.me">HtmlCoder</a>.</p>
+							<p><a href="#impressum" id="impressum_link">Impressum</a></p>
+							<p id="impressum" style="font-size: 11px" class="hide">
+								Angaben gemäß § 5 TMG: <br/>
+
+								Adrian Holfter <br/>
+								Stahnsdorfer Str. 142c <br/>
+
+								14482 Potsdam <br/>
+								Kontakt: <br/>
+
+								Telefon: +4915755781979 <br/>
+								E-Mail: aholfter+terminus@googlemail.com 
+							</p>
 						</div>
 					</div>
 				</div>
