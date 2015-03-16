@@ -161,6 +161,10 @@ blockquote {
 	background-color: #ffffff;
 	padding: 80px 0;
 }
+.section-grey {
+	background-color: #cccccc;
+	padding: 80px 0;
+}
 
 /* Backgrounds
 ----------------------------------------------------------------------------- */
