@@ -442,11 +442,13 @@ textarea {
 }
 
 /* Large devices (Large desktops 1200px and up) */
+/*
 @media (min-width:1200px) {
 	.modal-lg {
 		width: 1140px;
 	}
 }
+*/
 
 /* Media
 ---------------------------------- */
@@ -545,7 +547,7 @@ textarea {
 	margin: 10px 10px 10px 0;
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;https://github.com/Fidge123/terminus
 	-ms-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
 }
