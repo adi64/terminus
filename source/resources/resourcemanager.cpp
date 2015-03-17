@@ -10,7 +10,7 @@
 
 #include <QFile>
 #include <QString>
-#include <QDebug> //TODO remove in the end
+#include <QDebug>
 
 #include "geometry.h"
 

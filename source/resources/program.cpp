@@ -1,6 +1,5 @@
 #include "program.h"
 
-#include <QDebug>
 #include <QOpenGLShaderProgram>
 
 Program::Program()

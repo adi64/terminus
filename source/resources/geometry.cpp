@@ -3,20 +3,12 @@
 #include <string>
 #include <math.h>
 
-#include <QDebug>
 #include <QOpenGLShaderProgram>
 
 #include "indextriple.h"
 
 namespace terminus
 {
-
-Geometry::Geometry()
-: m_isOnGPU(false)
-, m_vbo(nullptr)
-, m_ibo(nullptr)
-{
-}
 
 Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
 : m_isOnGPU(false)

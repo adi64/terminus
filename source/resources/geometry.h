@@ -14,17 +14,32 @@
 namespace terminus
 {
 
+/*!
+ * \brief The struct wraps the important vertex data attributes position, texture coordinate and normal vector.
+ */
 struct Vertex{
     GLfloat position[3];
     GLfloat texCoord[3];
     GLfloat normal[3];
 };
 
+/*!
+ * \brief The Geometry class wraps the vertices data of one drawable object.
+ *
+ * Vertices data is stored as an index and a vertex buffer. In order to get rendered, a game object has to reference one geometry.
+ */
 class Geometry
 {
 
 public:
-    Geometry(); //construct NULL-Object --- what do we need this for?
+    /*!
+     * \brief General geometry constructor
+     * \param indexBuffer
+     * \param vertexBuffer
+     *
+     * Supplied geometry data will be stored in the respective member.
+     * If no BBox values are given, the BBox will be calculated automatically.
+     */
     Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer);
     Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer, const QVector3D & minBBox, const QVector3D & maxBBox);
     virtual ~Geometry();
@@ -32,7 +47,16 @@ public:
     virtual const QVector3D & bBoxMin() const;
     virtual const QVector3D & bBoxMax() const;
 
+    /*!
+     * \brief The geometry specific attributes position, texture coordinate and normal vector are set on the used program.
+     * \param program
+     */
     virtual void setAttributes(Program & program);
+
+    /*!
+     * \brief By invoking the draw function, both index and vertex buffer are going to be bound and the geometry will be drawn.
+     * \param gl
+     */
     virtual void draw(QOpenGLFunctions & gl) const;
 
 protected:

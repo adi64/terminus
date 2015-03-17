@@ -12,10 +12,22 @@
 namespace terminus
 {
 
+/*!
+ * \brief The ResourceManager class loads geometry, material and shader progam data during initialization.
+ *
+ * Loaded data is stored in three corresponding member variables of type "std::map<std::string, std::shared_ptr<std::unique_ptr< #data# >>>".
+ * Having two pointers secures to have valid data accessable at all times. By the time data is updated during runtime,
+ * classes with references to stored data will automatically load the recent data.
+ * Implemented as a singelton, accessibility for all classes is safely ensured.
+ */
 class ResourceManager
 {
 public:
+    /*!
+     * \brief Returns the singelton instance of the SoundManager class
+     */
     static ResourceManager* getInstance();
+
 protected:
     static ResourceManager* m_instance;
 
