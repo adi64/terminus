@@ -1,31 +1,29 @@
 #include "world.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QTime>
 
 #include <game.h>
-#include <world/drawables/train/train.h>
-#include <world/drawables/terrain.h>
-#include <world/drawables/skybox.h>
-#include <world/drawables/projectile.h>
-#include <world/drawables/train/wagons/enginewagon.h>
-#include <world/drawables/train/wagons/weaponwagon.h>
-#include <world/drawables/train/wagons/repairwagon.h>
-
 #include <player/abstractplayer.h>
 #include <player/aiplayer.h>
 #include <player/localplayer.h>
 #include <player/remoteplayer.h>
-
+#include <resources/soundmanager.h>
+#include <util/actionscheduler.h>
 #include <world/camera.h>
+#include <world/drawables/projectile.h>
+#include <world/drawables/skybox.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/train/train.h>
+#include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/physics/abstractphysicsobject.h>
 #include <world/physics/bulletworld.h>
-#include <actionscheduler.h>
 
-#include <resources/soundmanager.h>
 
 namespace terminus
 {

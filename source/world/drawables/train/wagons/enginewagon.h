@@ -1,8 +1,7 @@
 #pragma once
 
-#include <resources/lightmanager.h>
-
-#include "abstractwagon.h"
+#include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/lightmanager.h>
 
 namespace terminus
 {

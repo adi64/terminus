@@ -14,8 +14,6 @@ class AbstractGraphicsObject;
 
 class Camera
 {
-
-
 public:
     Camera(const QVector3D & eye    = QVector3D(0.0, 0.0, 1.0),
            const QVector3D & center = QVector3D(0.0, 0.0, 0.0),

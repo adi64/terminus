@@ -378,8 +378,6 @@ HEADERS += \
     source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
-    source/resources/light.h \
-    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
@@ -398,7 +396,6 @@ HEADERS += \
     source/world/drawables/train/train.hpp \
     source/world/drawables/abstractgraphicsobject.h \
     source/world/drawables/explosion.h \
-    source/world/drawables/level.h \
     source/world/drawables/projectile.h \
     source/world/drawables/skybox.h \
     source/world/drawables/terrain.h \
@@ -413,7 +410,10 @@ HEADERS += \
     source/game.h \
     source/network/commands/synccommand.h \
     source/network/commands/gameendedcommand.h \
-    source/actionscheduler.h
+    source/world/light.h \
+    source/world/lightmanager.h \
+    source/world/level.h \
+    source/util/actionscheduler.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -578,8 +578,6 @@ SOURCES += \
     source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
-    source/resources/light.cpp \
-    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
@@ -596,7 +594,6 @@ SOURCES += \
     source/world/drawables/train/train.cpp \
     source/world/drawables/abstractgraphicsobject.cpp \
     source/world/drawables/explosion.cpp \
-    source/world/drawables/level.cpp \
     source/world/drawables/projectile.cpp \
     source/world/drawables/skybox.cpp \
     source/world/drawables/terrain.cpp \
@@ -613,4 +610,7 @@ SOURCES += \
     source/bullet/clew/clew.c \
     source/network/commands/synccommand.cpp \
     source/network/commands/gameendedcommand.cpp \
-    source/actionscheduler.cpp
+    source/world/light.cpp \
+    source/world/lightmanager.cpp \
+    source/world/level.cpp \
+    source/util/actionscheduler.cpp

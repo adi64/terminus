@@ -1,26 +1,24 @@
 #include "game.h"
 
-#include <assert.h>
-#include <memory>
+#include <cassert>
 #include <chrono>
+#include <memory>
 
-#include <QQuickView>
 #include <QApplication>
-#include <QTimer>
-#include <QTime>
-#include <QVariant>
-#include <QMap>
 #include <QList>
-
-#include <player/aiplayer.h>
+#include <QMap>
+#include <QQuickView>
+#include <QTimer>
+#include <QVariant>
 
 #include <eventhandler.h>
-#include <actionscheduler.h>
-#include <player/localplayer.h>
-
-#include <resources/resourcemanager.h>
-#include <world/world.h>
 #include <network/networkmanager.h>
+#include <player/aiplayer.h>
+#include <player/localplayer.h>
+#include <resources/resourcemanager.h>
+#include <util/actionscheduler.h>
+#include <world/world.h>
+
 
 namespace terminus
 {

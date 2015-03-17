@@ -8,32 +8,31 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
+#include <util/actionscheduler.h>
 #include <util/timer.h>
-#include <world/physics/bulletworld.h>
-#include <resources/lightmanager.h>
 #include <world/camera.h>
-#include <actionscheduler.h>
+#include <world/lightmanager.h>
+#include <world/physics/bulletworld.h>
 
 class QOpenGLFunctions;
 class QOpenGLShaderProgram;
 class QTime;
 
-class btDiscreteDynamicsWorld;
 class btCollisionObject;
+class btDiscreteDynamicsWorld;
 
 namespace terminus
 {
-class Game;
-class Train;
-class Terrain;
-class SkyBox;
-class AbstractPlayer;
-class AIPlayer;
-class LocalPlayer;
-class NetworkManager;
-
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
+class AbstractPlayer;
+class AIPlayer;
+class Game;
+class LocalPlayer;
+class NetworkManager;
+class SkyBox;
+class Terrain;
+class Train;
 
 /*!
  * \brief The World class represents a running game instance and contains all

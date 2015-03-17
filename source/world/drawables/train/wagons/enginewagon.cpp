@@ -4,15 +4,14 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 
-#include <resources/resourcemanager.h>
-#include <resources/light.h>
-#include <resources/soundmanager.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-
+#include <resources/resourcemanager.h>
+#include <resources/soundmanager.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
+#include <world/light.h>
 #include <world/world.h>
 
 namespace terminus

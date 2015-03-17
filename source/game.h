@@ -6,9 +6,9 @@
 #include <QOpenGLFunctions>
 #include <QQuickItem>
 
-#include <actionscheduler.h>
 #include <eventhandler.h>
 #include <network/networkmanager.h>
+#include <util/actionscheduler.h>
 #include <util/timer.h>
 
 class QTimer;

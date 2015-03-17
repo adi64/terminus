@@ -2,10 +2,9 @@
 
 #include <memory>
 
+#include <world/drawables/abstractgraphicsobject.h>
+#include <world/level.h>
 #include <world/physics/kinematicphysicsobject.h>
-#include "abstractgraphicsobject.h"
-#include "track.h"
-#include "level.h"
 
 namespace terminus
 {

@@ -4,8 +4,8 @@
 
 #include <QVector3D>
 
-#include <resources/light.h>
 #include <resources/program.h>
+#include <world/light.h>
 
 namespace terminus
 {
