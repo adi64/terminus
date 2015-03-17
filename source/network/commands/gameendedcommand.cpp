@@ -9,9 +9,9 @@
 namespace terminus
 {
 
-GameEndedCommand::GameEndedCommand(Timer::TimerMSec timeStamp, bool firstPlayerWon)
+GameEndedCommand::GameEndedCommand(Timer::TimerMSec timeStamp, bool youWin)
 : AbstractCommand(timeStamp)
-, m_firstPlayerWon(firstPlayerWon)
+, m_youWin(youWin)
 {
 
 }
@@ -19,19 +19,18 @@ GameEndedCommand::GameEndedCommand(Timer::TimerMSec timeStamp, bool firstPlayerW
 GameEndedCommand::GameEndedCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
 : AbstractCommand(timeStamp)
 {
-    m_firstPlayerWon = jsonObject.value("firstPlayerWon").toBool();
+    m_youWin = jsonObject.value("youWin").toBool();
 }
 
 QJsonObject GameEndedCommand::toJson() const
 {
     QJsonObject jsonObject;
-    jsonObject.insert("firstPlayerWon", m_firstPlayerWon);
+    jsonObject.insert("youWin", m_youWin);
     return jsonObject;}
 
 void GameEndedCommand::doWork()
 {
-    auto isFirstPlayer = m_game->world().localPlayer().train()->track()->isOtherTrackLeft();
-    if((isFirstPlayer == firstPlayerWon()))
+    if(m_youWin)
     {
         QMetaObject::invokeMethod(m_game, "winGame", Qt::AutoConnection);
     }

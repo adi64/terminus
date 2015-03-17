@@ -12,7 +12,7 @@ namespace terminus
 class GameEndedCommand : public AbstractCommand
 {
 public:
-    GameEndedCommand(Timer::TimerMSec timeStamp, bool firstPlayerWon);
+    GameEndedCommand(Timer::TimerMSec timeStamp, bool youWin);
     GameEndedCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;
@@ -20,10 +20,10 @@ public:
 
     virtual Commands commandType() const override { return Commands::Command_GameEnded; }
 
-    bool firstPlayerWon() const { return m_firstPlayerWon; }
-protected:
+    bool youWin() const { return m_youWin; }
 
-    bool m_firstPlayerWon;
+protected:
+    bool m_youWin;
 };
 
 } // namespace terminus

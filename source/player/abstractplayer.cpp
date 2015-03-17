@@ -130,4 +130,14 @@ terminus::Train *terminus::AbstractPlayer::train()
     return m_train;
 }
 
+bool AbstractPlayer::hasWon()
+{
+    return m_train->travelledDistanceRelative() == 1.0f;
+}
+
+bool AbstractPlayer::hasLost()
+{
+    return m_train->wagonAt(0)->isDisabled();
+}
+
 } // namespace terminus

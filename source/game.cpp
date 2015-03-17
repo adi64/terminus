@@ -69,7 +69,7 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 void Game::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
-    m_networkManager.sendGameEndedCommand(localPlayerWins == m_isPlayerOne);
+    m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
     if(showMessage)
     {
         if(localPlayerWins)
@@ -174,19 +174,6 @@ void Game::sync()
 
     if(!m_world)
     {
-        return;
-    }
-
-    // check winning / losing condition
-    if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
-            || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
-    {
-        endGame(true, true);
-        return;
-    }
-    else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
-    {
-        endGame(false, true);
         return;
     }
 

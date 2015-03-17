@@ -127,9 +127,9 @@ void NetworkManager::sendSyncCommand(const Train &playerTrain)
     emit sendCommand(command);
 }
 
-void NetworkManager::sendGameEndedCommand(bool firstPlayerWon)
+void NetworkManager::sendGameEndedCommand(bool youWin)
 {
-    auto command = new GameEndedCommand(m_game.timer().get(), firstPlayerWon);
+    auto command = new GameEndedCommand(m_game.timer().get(), youWin);
     emit sendCommand(command);
 }
 

@@ -128,6 +128,15 @@ void World::update()
     m_enemyPlayer->update();
     m_localPlayer->update();
 
+    if(m_enemyPlayer->hasWon() || m_localPlayer->hasLost())
+    {
+        m_game.endGame(false, true);
+    }
+    else if(m_localPlayer->hasWon() || m_enemyPlayer->hasLost())
+    {
+        m_game.endGame(true, true);
+    }
+
     emit updateNetworkSignal();
 }
 

@@ -26,6 +26,9 @@ public:
 
     Train * train();
 
+    bool hasWon();
+    bool hasLost();
+
     void toggleCameraLock();
 
     unsigned int selectedWagonIndex() const;
