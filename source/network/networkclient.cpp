@@ -1,11 +1,10 @@
+#include "networkclient.h"
+
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-
-#include "networkserver.h"
-#include "networkclient.h"
-#include "networkconnection.h"
+#include <QTcpSocket>
 
 namespace terminus
 {

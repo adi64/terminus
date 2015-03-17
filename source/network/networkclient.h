@@ -3,9 +3,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QAbstractSocket>
-
-#include <network/commands/abstractcommand.h>
 
 #include <network/networkendpoint.h>
 
@@ -26,7 +23,6 @@ public:
 protected slots:
     void onSocketConnected();
     void onSocketDisconnected();
-
 };
 
 } //namespace terminus

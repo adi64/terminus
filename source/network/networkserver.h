@@ -3,15 +3,13 @@
 #include <memory>
 
 #include <QObject>
-#include <QTcpServer>
 
 #include <network/networkendpoint.h>
 
+class QTcpServer;
+
 namespace terminus
 {
-
-class AbstractCommand;
-class NetworkConnection;
 
 /*!
  * \brief The NetworkServer class provides a server implementation of the

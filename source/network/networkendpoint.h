@@ -8,7 +8,6 @@ class QTcpSocket;
 namespace terminus {
 
 class AbstractCommand;
-class NetworkConnection;
 
 /*!
  * \brief The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement.

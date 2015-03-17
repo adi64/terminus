@@ -1,14 +1,8 @@
 #include "networkmanager.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <game.h>
-#include <world/world.h>
-#include <world/drawables/terrain.h>
-#include <world/drawables/train/train.h>
-
-#include <util/timer.h>
-
 #include <network/commands/abstractcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/commands/clientreadycommand.h>
@@ -18,12 +12,15 @@
 #include <network/commands/pausecommand.h>
 #include <network/commands/synccommand.h>
 #include <network/commands/gameendedcommand.h>
-#include <network/networkconnection.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
 #include <network/networkserver.h>
+#include <util/timer.h>
+#include <world/world.h>
+#include <world/drawables/terrain.h>
+#include <world/drawables/train/train.h>
 
-#include <QDebug>
+
 
 namespace terminus
 {
@@ -94,16 +91,6 @@ void NetworkManager::setEndpoint(NetworkEndpoint * endpoint)
     connect(m_networkEndpoint.get(), &NetworkServer::stateChanged, this, &NetworkManager::onEndpointStateChange);
 }
 
-void NetworkManager::sendMessage(AbstractCommand * command)
-{
-    if(isConnected())
-    {
-        m_networkEndpoint->sendCommand(command);
-    }
-
-    delete command;
-}
-
 void NetworkManager::sendPauseCommand(bool pause)
 {
     auto command = new PauseCommand(m_game.timer().get(), pause);
@@ -170,7 +157,6 @@ NetworkManager::Mode NetworkManager::mode()
 void NetworkManager::clientReady()
 {
     // unpause both clients
-    qDebug() << __FILE__ << __LINE__ << "Client is ready, unpausing game!";
     sendPauseCommand(false);
     m_game.setPaused(false);
 }
@@ -187,23 +173,9 @@ bool NetworkManager::isConnected() const
     return m_networkEndpoint->state() == NetworkEndpoint::State::Connected;
 }
 
-//QString NetworkManager::localIPAddress() const
-//{
-//    assert(m_endpointType != EndpointType::INVALID);
-//    if(m_networkEndpoint->activePlayerConnection())
-//    {
-//        return m_networkEndpoint->activePlayerConnection()->localAddress().toString();
-//    }
-//    else
-//    {
-//        qDebug() << "";
-//        return QString();
-//    }
-//}
-
-void NetworkManager::onReceivedCommand(AbstractCommand *command)
+void NetworkManager::onReceivedCommand(AbstractCommand * command)
 {
-    if(!command)
+    if(!command || m_mode == Mode::Singleplayer)
     {
         return;
     }
@@ -220,9 +192,17 @@ void NetworkManager::onEndpointStateChange(NetworkEndpoint::State state)
     }
 }
 
-void NetworkManager::onSendCommand(AbstractCommand *command)
+void NetworkManager::onSendCommand(AbstractCommand * command)
 {
-    sendMessage(command);
+    if(!command || m_mode == Mode::Singleplayer)
+    {
+        return;
+    }
+
+    assert(m_networkEndpoint);
+    m_networkEndpoint->sendCommand(command);
+
+    delete command;
 }
 
 } // namespace terminus

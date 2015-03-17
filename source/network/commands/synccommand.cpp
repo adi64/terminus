@@ -1,12 +1,13 @@
 #include "synccommand.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <QJsonArray>
 
 #include <game.h>
-#include <world/world.h>
+#include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -61,8 +62,6 @@ void SyncCommand::doWork()
 {
     assert(m_game->world().enemyPlayerTrain().size() == m_wagonHealthVector.size());
 
-    qDebug() << "##### received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
-
     // synchronize timer if we are client
     if(m_game->networkManager().mode() == NetworkManager::Mode::MultiplayerClient)
     {
@@ -78,8 +77,6 @@ void SyncCommand::doWork()
 
     m_game->world().enemyPlayerTrain().setVelocity(m_velocity);
     m_game->world().enemyPlayerTrain().setTravelledDistance(m_travelledDistance);
-
-    qDebug() << "##### playerTrain travelledDistance: " << m_travelledDistance << " -> " << m_game->world().enemyPlayerTrain().wagonAt(1)->position();
 }
 
 } // namespace terminus

@@ -4,8 +4,6 @@
 #include <chrono>
 #include <memory>
 
-#include <QDebug>
-
 #include <QApplication>
 #include <QList>
 #include <QMap>
@@ -40,7 +38,6 @@ Game::Game()
 
 Game::~Game()
 {
-    qDebug() << "~GAME()";
     disconnectSignals();
 }
 
@@ -62,7 +59,7 @@ void Game::joinNetworkGame(QString host)
 
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
-    m_timer.pause(true);
+    m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
     m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
@@ -72,7 +69,6 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 void Game::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
-    qDebug() << "END GAME" << localPlayerWins << showMessage;
     m_networkManager.sendGameEndedCommand(localPlayerWins == m_isPlayerOne);
     if(showMessage)
     {
@@ -185,13 +181,11 @@ void Game::sync()
     if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
             || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
     {
-        qDebug() << "GAME SYNC WIN";
         endGame(true, true);
         return;
     }
     else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
     {
-        qDebug() << "GAME SYNC LOOSE";
         endGame(false, true);
         return;
     }

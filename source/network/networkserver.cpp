@@ -4,10 +4,8 @@
 
 #include <QDebug>
 #include <QHostAddress>
-
-#include <network/commands/abstractcommand.h>
-#include <network/commands/preparenewgamecommand.h>
-#include "networkconnection.h"
+#include <QTcpServer>
+#include <QTcpSocket>
 
 namespace terminus
 {
@@ -31,8 +29,6 @@ bool NetworkServer::listen(unsigned short port)
         return false;
     }
 
-    qDebug() << "Listening on Port" << port;
-
     enterState(State::Listening);
 
     return true;
@@ -47,12 +43,11 @@ void NetworkServer::onClientConnected()
     connect(m_socket, &QTcpSocket::disconnected, this, &NetworkServer::onClientDisconnected);
     connect(m_socket, &QTcpSocket::readyRead,    this, &NetworkServer::onDataReceived);
 
-    qDebug() << "Client connected!";
-
     enterState(State::Connected);
 }
 
-void NetworkServer::onClientDisconnected() {
+void NetworkServer::onClientDisconnected()
+{
     m_socket = nullptr;
     enterState(State::Disconnected);
 }

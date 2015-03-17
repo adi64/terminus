@@ -1,19 +1,20 @@
 #include "networkendpoint.h"
 
+#include <cassert>
+
 #include <QtEndian>
 #include <QJsonDocument>
 #include <QTcpSocket>
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/clientreadycommand.h>
+#include <network/commands/gameendedcommand.h>
 #include <network/commands/pausecommand.h>
-#include <network/commands/projectilefiredcommand.h>
-#include <network/commands/projectilehitcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/commands/primaryactioncommand.h>
+#include <network/commands/projectilefiredcommand.h>
+#include <network/commands/projectilehitcommand.h>
 #include <network/commands/synccommand.h>
-#include <network/commands/gameendedcommand.h>
-#include <network/networkconnection.h>
 
 namespace terminus
 {
@@ -23,7 +24,6 @@ NetworkEndpoint::NetworkEndpoint(QObject *parent)
 , m_state(State::Disconnected)
 , m_socket(nullptr)
 {
-
 }
 
 NetworkEndpoint::~NetworkEndpoint()
@@ -129,6 +129,8 @@ void NetworkEndpoint::sendMessage(const QString & message)
     }
     assert(socket());
     QTcpSocket & tcpSocket = *socket();
+
+    qDebug() << "send:" << message;
 
     QByteArray utf8Message = message.toUtf8();
 

@@ -4,11 +4,10 @@
 
 #include <vector>
 
-#include <world/drawables/train/train.h>
-#include <world/drawables/train/wagons/abstractwagon.h>
-
 namespace terminus
 {
+
+class Train;
 
 /*!
  * \brief The SyncCommand is used to continuously synchronize two games.

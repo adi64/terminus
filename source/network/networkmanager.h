@@ -47,8 +47,6 @@ public:
 
     bool isConnected() const;
 
-    void sendMessage(AbstractCommand *command);
-
     void sendPauseCommand(bool pause);
     void sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed);
     void sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
@@ -72,10 +70,8 @@ public:
 
     Mode mode();
 
-    //QString localIPAddress() const;
-
 signals:
-    void sendCommand(AbstractCommand *command);
+    void sendCommand(AbstractCommand * command);
 
 public slots:
     void update();
