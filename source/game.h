@@ -86,6 +86,8 @@ public:
      */
     void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
 
+    void endGame(bool localPlayerWins, bool showMessage);
+
     /*!
      * \brief Hide or show the UI
      */

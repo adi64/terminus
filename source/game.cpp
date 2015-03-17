@@ -55,7 +55,6 @@ void Game::hostNetworkGame()
 {
     m_networkManager.startServer(defaultPort);
     createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
-    setPaused(true);
 }
 
 void Game::joinNetworkGame(QString host)
@@ -65,9 +64,31 @@ void Game::joinNetworkGame(QString host)
 
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
+    m_timer.pause(true);
+    m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
     m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
     showUI();
+}
+
+void Game::endGame(bool localPlayerWins, bool showMessage)
+{
+    m_networkManager.sendGameEndedCommand(localPlayerWins == m_isPlayerOne);
+    if(showMessage)
+    {
+        if(localPlayerWins)
+        {
+            QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
+        }
+        else
+        {
+            QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
+        }
+    }
+    else
+    {
+        QMetaObject::invokeMethod(this, "stopGame", Qt::AutoConnection);
+    }
 }
 
 void Game::toggleUI()
@@ -120,22 +141,34 @@ Timer & Game::timer()
 
 void Game::buttonInput(int type)
 {
-    m_eventHandler.buttonInput(type);
+    if(m_world)
+    {
+        m_eventHandler.buttonInput(type);;
+    }
 }
 
 void Game::keyInput(Qt::Key key)
 {
-    m_eventHandler.keyInput(key);
+    if(m_world)
+    {
+        m_eventHandler.keyInput(key);
+    }
 }
 
 void Game::moveInput(int type, qreal x, qreal y)
 {
-    m_eventHandler.moveInput(type, x, y);
+    if(m_world)
+    {
+        m_eventHandler.moveInput(type, x, y);
+    }
 }
 
 void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
 {
-    m_eventHandler.touchInput(oldx, oldy, x, y);
+    if(m_world)
+    {
+        m_eventHandler.touchInput(oldx, oldy, x, y);
+    }
 }
 
 void Game::sync()
@@ -152,14 +185,12 @@ void Game::sync()
     if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
             || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
     {
-        m_networkManager.sendGameEndedCommand(m_isPlayerOne);
-        QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
+        endGame(true, true);
         return;
     }
     else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
     {
-        m_networkManager.sendGameEndedCommand(!m_isPlayerOne);
-        QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
+        endGame(false, true);
         return;
     }
 
@@ -231,6 +262,7 @@ void Game::setPaused(bool paused)
 void Game::togglePaused()
 {
     m_timer.pause();
+    m_networkManager.sendPauseCommand(m_timer.isPaused());
 }
 
 /*!

@@ -103,7 +103,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         }
         break;
     case Qt::Key_Escape:
-        QMetaObject::invokeMethod(m_game, "stopGame", Qt::DirectConnection);
+        m_game->endGame(false, false);
         break;
     case Qt::Key_Space:
         player.toggleCameraLock();
@@ -113,7 +113,6 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_P:
         m_game->togglePaused();
-        m_game->networkManager().sendPauseCommand(m_game->isPaused());
         break;
     case Qt::Key_U:
         m_game->toggleUI();

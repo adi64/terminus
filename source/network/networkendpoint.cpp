@@ -10,6 +10,7 @@
 #include <network/commands/preparenewgamecommand.h>
 #include <network/commands/primaryactioncommand.h>
 #include <network/commands/synccommand.h>
+#include <network/commands/gameendedcommand.h>
 #include <network/networkconnection.h>
 
 namespace terminus
@@ -83,20 +84,20 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     auto timeStamp = AbstractCommand::TimeStampFromJsonValue(json.object()["timeStamp"]);
 
     switch (type) {
-    case Command_ProjectileFired:
-        cmd = new ProjectileFiredCommand(timeStamp, json.object()["parameter"].toObject());
+    case Command_Pause:
+        cmd = new PauseCommand(timeStamp, json.object()["parameter"].toObject());
         break;
     case Command_PrepareNewGame:
         cmd = new PrepareNewGameCommand(timeStamp, json.object()["parameter"].toObject());
         break;
-    case Command_ClientReady:
-        cmd = new ClientReadyCommand(timeStamp, json.object()["parameter"].toObject());
-        break;
-    case Command_Pause:
-        cmd = new PauseCommand(timeStamp, json.object()["parameter"].toObject());
+    case Command_ProjectileFired:
+        cmd = new ProjectileFiredCommand(timeStamp, json.object()["parameter"].toObject());
         break;
     case Command_ProjectileHit:
         cmd = new ProjectileHitCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_ClientReady:
+        cmd = new ClientReadyCommand(timeStamp, json.object()["parameter"].toObject());
         break;
     case Command_PrimaryAction:
         cmd = new PrimaryActionCommand(timeStamp, json.object()["parameter"].toObject());
@@ -104,9 +105,10 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     case Command_Sync:
         cmd = new SyncCommand(timeStamp, json.object()["parameter"].toObject());
         break;
-
-    // ...
-
+    case Command_GameEnded:
+        cmd = new GameEndedCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+        //...
     default:
         qDebug() << "error parsing client request";
         return nullptr;

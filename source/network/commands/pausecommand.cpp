@@ -23,11 +23,12 @@ QJsonObject PauseCommand::toJson() const
 {
     QJsonObject jsonObject;
     jsonObject.insert("pause", m_pause);
-    return jsonObject;}
+    return jsonObject;
+}
 
 void PauseCommand::doWork()
 {
-    m_game->setPaused(m_pause);
+    m_game->timer().pause(m_pause);
 }
 
 

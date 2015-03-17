@@ -31,8 +31,7 @@ QJsonObject GameEndedCommand::toJson() const
 void GameEndedCommand::doWork()
 {
     auto isFirstPlayer = m_game->world().localPlayer().train()->track()->isOtherTrackLeft();
-
-    if((isFirstPlayer && firstPlayerWon()) || (!isFirstPlayer && !firstPlayerWon()))
+    if((isFirstPlayer == firstPlayerWon()))
     {
         QMetaObject::invokeMethod(m_game, "winGame", Qt::AutoConnection);
     }
