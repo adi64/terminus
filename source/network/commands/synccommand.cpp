@@ -64,7 +64,7 @@ void SyncCommand::doWork()
     qDebug() << "##### received timestamp: " << m_timeStamp << " local timestamp: " << m_game->timer().get() << " offset: " << m_game->timer().get() - m_timeStamp;
 
     // synchronize timer if we are client
-    if(m_game->networkManager().isClient())
+    if(m_game->networkManager().mode() == NetworkManager::Mode::MultiplayerClient)
     {
         m_game->timer().adjust(m_timeStamp);
     }

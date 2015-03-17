@@ -7,37 +7,26 @@
 
 #include <network/commands/abstractcommand.h>
 
-#include "networkendpoint.h"
+#include <network/networkendpoint.h>
 
 namespace terminus
 {
-	class NetworkConnection;
 
-    class NetworkClient : public NetworkEndpoint
-	{
-		Q_OBJECT
-	public:
-        NetworkClient(QObject *parent = 0);
-		virtual ~NetworkClient();
+class NetworkConnection;
 
-		void connectToHost(QString host, unsigned short port);
-		void disconnect();
+class NetworkClient : public NetworkEndpoint
+{
+    Q_OBJECT
 
-		QString host();
-        quint16 port();
+public:
+    NetworkClient(QObject *parent = 0);
 
-	public slots:
-		void setHost(QString host);
-		void setPort(QString port);
-        void setPort(quint16 port);
-		void socketConnected();
-        void socketDisconnected();
-	private:
-		void connectToDefaultHost();
-        void sendMessage(QJsonDocument &jsonDocument);
+    void connectClient(QString host, unsigned short port);
 
-        NetworkConnection *m_connection;
-		QString m_host;
-		quint16 m_port;
-	};
-}
+protected slots:
+    void onSocketConnected();
+    void onSocketDisconnected();
+
+};
+
+} //namespace terminus

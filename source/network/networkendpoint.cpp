@@ -1,6 +1,8 @@
 #include "networkendpoint.h"
 
+#include <QtEndian>
 #include <QJsonDocument>
+#include <QTcpSocket>
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/clientreadycommand.h>
@@ -17,67 +19,68 @@ namespace terminus
 {
 
 NetworkEndpoint::NetworkEndpoint(QObject *parent)
-    : QObject(parent)
-    , m_expectedMessageSize(0)
-    , m_activePlayerConnection(nullptr)
+: QObject(parent)
+, m_state(State::Disconnected)
+, m_socket(nullptr)
 {
 
 }
 
-void NetworkEndpoint::sendMessage(AbstractCommand *command)
+NetworkEndpoint::~NetworkEndpoint()
 {
-    if(m_activePlayerConnection)
+    disconnect();
+}
+
+void NetworkEndpoint::sendCommand(AbstractCommand * command)
+{
+    sendMessage(serializeCommand(command));
+}
+
+void NetworkEndpoint::disconnect()
+{
+    if(socket())
     {
-        sendMessage(m_activePlayerConnection, command);
-    }
-    else
-    {
-        qDebug() << "There is no active player connection!";
+        socket()->disconnectFromHost();
     }
 }
 
-NetworkConnection *NetworkEndpoint::activePlayerConnection()
+NetworkEndpoint::State NetworkEndpoint::state()
 {
-    return m_activePlayerConnection;
+    return m_state;
 }
 
-void NetworkEndpoint::receiveMessages()
+QTcpSocket * NetworkEndpoint::socket()
 {
-    NetworkConnection* socket = dynamic_cast<NetworkConnection*>(sender());
-
-    auto in = socket->inDataStream();
-
-    // are we receiving the beginning of a message?
-    if (m_expectedMessageSize == 0) {
-        quint16 blockSize = 0;
-
-        if (socket->bytesAvailable() < (int)sizeof(quint16))
-            return;
-
-        *in >> blockSize;
-
-        m_expectedMessageSize = blockSize;
-    }
-
-    // wait until the rest of the message is received, if necessary
-    if (socket->bytesAvailable() < m_expectedMessageSize)
-        return;
-
-    QString str;
-    *in >> str;
-
-    m_expectedMessageSize = 0;
-
-    qDebug() << "client message: " << str;
-
-    AbstractCommand* cmd = createCommandForRequest(str);
-
-    emit receivedCommand(cmd);
+    return m_socket;
 }
 
-AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request)
+void NetworkEndpoint::setSocket(QTcpSocket * socket)
 {
-    QJsonDocument json = QJsonDocument::fromJson(request.toUtf8());
+    m_socket = socket;
+}
+
+void NetworkEndpoint::enterState(NetworkEndpoint::State state)
+{
+    m_state = state;
+    emit stateChanged(m_state);
+}
+
+QString NetworkEndpoint::serializeCommand(AbstractCommand * command)
+{
+    QJsonDocument message;
+    QJsonObject mainObject;
+
+    mainObject.insert("commandType", QJsonValue(command->commandType()));
+    mainObject.insert("timeStamp", AbstractCommand::TimeStampToJsonValue(command->timeStamp()));
+    mainObject.insert("parameter", QJsonValue(command->toJson()));
+    message.setObject(mainObject);
+
+    return QString(message.toJson(QJsonDocument::JsonFormat::Compact));
+}
+
+AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
+{
+    QJsonDocument json = QJsonDocument::fromJson(message.toUtf8());
     AbstractCommand* cmd;
 
     int type = json.object()["commandType"].toInt();
@@ -117,41 +120,55 @@ AbstractCommand *NetworkEndpoint::createCommandForRequest(const QString &request
     return cmd;
 }
 
-void NetworkEndpoint::sendMessage(NetworkConnection *client, AbstractCommand *command)
+void NetworkEndpoint::sendMessage(const QString & message)
 {
-    QJsonDocument message;
+    if(m_state != State::Connected)
+    {
+        qDebug() << "Can not send message as there is no open connection.";
+        return;
+    }
+    assert(socket());
+    QTcpSocket & tcpSocket = *socket();
 
-    QJsonObject mainObject;
+    QByteArray utf8Message = message.toUtf8();
 
-    mainObject.insert("commandType", QJsonValue(command->commandType()));
-    mainObject.insert("timeStamp", AbstractCommand::TimeStampToJsonValue(command->timeStamp()));
-    mainObject.insert("parameter", QJsonValue(command->toJson()));
+    uchar lengthBuffer[2];
+    qToBigEndian<quint16>(utf8Message.size(), lengthBuffer);
+    tcpSocket.write((char*)lengthBuffer, 2);
 
-    message.setObject(mainObject);
-
-    sendMessage(client, message);
+    tcpSocket.write(utf8Message);
 }
 
-void NetworkEndpoint::sendMessage(NetworkConnection* client, QJsonDocument &message) {
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_5_4);
+void NetworkEndpoint::onDataReceived()
+{
+    assert(socket());
+    QTcpSocket & tcpSocket = *socket();
 
-    QString msgString = QString(message.toJson(QJsonDocument::JsonFormat::Compact));
+    while(true)
+    {
+        if (tcpSocket.bytesAvailable() < 4)
+        {
+            break;
+        }
 
-    qDebug() << "sending message " << msgString;
+        uchar buffer[2];
+        tcpSocket.peek((char*)buffer, 2);
+        unsigned short messageLength = qFromBigEndian<quint16>(buffer);
 
-    // message size will go here
-    out << (quint16) 0;
+        if (tcpSocket.bytesAvailable() < messageLength)
+        {
+            break;
+        }
 
-    out << msgString;
+        tcpSocket.read(2);
 
-    // write message size
-    out.device()->seek(0);
-    out << (quint16) (block.size() - sizeof(quint16));
-
-    client->write(block);
+        QByteArray utf8Message = tcpSocket.read(messageLength);
+        AbstractCommand * command = deserializeCommand(QString::fromUtf8(utf8Message));
+        if(command)
+        {
+            emit receivedCommand(command);
+        }
+    }
 }
-
 
 } // namespace terminus

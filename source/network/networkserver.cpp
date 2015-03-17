@@ -1,5 +1,7 @@
 #include "networkserver.h"
 
+#include <cassert>
+
 #include <QDebug>
 #include <QHostAddress>
 
@@ -9,90 +11,50 @@
 
 namespace terminus
 {
-    NetworkServer::NetworkServer(QObject* parent)
-        : NetworkEndpoint(parent)
-        , m_server(new QTcpServer(this))
-		, m_listenPort(4711)
-		, m_listenPortForced(false)
-	{
-        connect(m_server, &QTcpServer::newConnection, this, &NetworkServer::newConnection);
-	}
 
-    QString NetworkServer::serverBusyMessage()
-	{
-		return "Command denied: Server is busy";
-	}
+NetworkServer::NetworkServer(QObject* parent)
+: NetworkEndpoint(parent)
+, m_server(new QTcpServer(this))
+{
+    connect(m_server, &QTcpServer::newConnection, this, &NetworkServer::onClientConnected);
+}
 
-    bool NetworkServer::start() {
-		unsigned short originalListenPort = m_listenPort;
+NetworkServer::~NetworkServer()
+{
+    m_server->close();
+}
 
-        while (!m_server->listen(QHostAddress::Any, m_listenPort)) {
-			m_listenPort++;
-
-			// error on overflow
-			if (m_listenPortForced ||  m_listenPort < originalListenPort) {
-				qDebug() << "Could not start server";
-				return false;
-			}
-		}
-
-		qDebug() << "Listening on Port" << m_listenPort;
-
-		emit listening();
-
-        return true;
+bool NetworkServer::listen(unsigned short port)
+{
+    if(!m_server->listen(QHostAddress::Any, port)) {
+        qDebug() << "Could not start server";
+        return false;
     }
 
-    void NetworkServer::setListenPort(unsigned short port)
-	{
-		if (port != 0)
-		{
-			m_listenPort = port;
-			m_listenPortForced = true;
-		}
-		else
-		{
-			m_listenPort = 4711;
-			m_listenPortForced = false;
-		}
-	}
+    qDebug() << "Listening on Port" << port;
 
-    unsigned short NetworkServer::listenPort() {
-		return m_listenPort;
-	}
+    enterState(State::Listening);
 
-    void NetworkServer::newConnection() {
-        auto socket = m_server->nextPendingConnection();
-        connect(socket, &QTcpSocket::disconnected, socket, &QTcpSocket::deleteLater);
-
-        auto clientConnection = NetworkConnection::fromTcpSocket(socket);
-
-        connect(clientConnection, &NetworkConnection::disconnected, this, &NetworkServer::clientDisconnected);
-        connect(clientConnection, &NetworkConnection::readyRead, this, &NetworkServer::receiveMessages);
-
-        qDebug() << "Client " << clientConnection->peerAddress().toString() << ":" << clientConnection->peerPort() << " connected!";
-
-        m_activePlayerConnection = clientConnection;
-
-        emit prepareAndSyncNewGame();
-	}
-
-    void NetworkServer::clientDisconnected() {
-        qDebug() << "Client disconnected!";
-        m_activePlayerConnection = nullptr;
-
-		auto connection = dynamic_cast<NetworkConnection*>(sender());
-		if (!connection)
-		{
-			qDebug() << "Sender was no NetworkConnection";
-			return;
-		}
-
-		auto command = dynamic_cast<AbstractCommand*>(connection->parent());
-		if (!command)
-		{
-			qDebug() << "Parent of NetworkConnection was no AbstractCommand";
-			return;
-		}
-	}
+    return true;
 }
+
+void NetworkServer::onClientConnected()
+{
+    m_socket = m_server->nextPendingConnection();
+    m_server->close();
+
+    connect(m_socket, &QTcpSocket::disconnected, m_socket, &QTcpSocket::deleteLater);
+    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkServer::onClientDisconnected);
+    connect(m_socket, &QTcpSocket::readyRead,    this, &NetworkServer::onDataReceived);
+
+    qDebug() << "Client connected!";
+
+    enterState(State::Connected);
+}
+
+void NetworkServer::onClientDisconnected() {
+    m_socket = nullptr;
+    enterState(State::Disconnected);
+}
+
+} //namespace terminus

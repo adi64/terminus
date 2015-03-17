@@ -29,54 +29,39 @@ namespace terminus
 {
 
 NetworkManager::NetworkManager(Game &game)
-    : m_game(game)
-    , m_networkEndpoint(nullptr)
-    , m_syncTimer(0)
-    , m_endpointType(EndpointType::INVALID)
+: m_game(game)
+, m_mode(Mode::Singleplayer)
+, m_networkEndpoint(nullptr)
+, m_syncTimer(0)
 {
-    connect(this, &NetworkManager::sendCommand, this, &NetworkManager::on_sendCommand);
+    connect(this, &NetworkManager::sendCommand, this, &NetworkManager::onSendCommand);
 }
 
 NetworkManager::~NetworkManager()
 {
-    // timer can be freed before NetworkManager
-    //m_game.timer().releaseTimer(m_syncTimer);
+    m_game.timer().releaseTimer(m_syncTimer);
 }
 
 void NetworkManager::startServer(unsigned short port)
 {
     auto server = new NetworkServer;
-    server->setListenPort(port);
 
-    if(m_networkEndpoint)
-    {
-        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
-        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
-    }
-    connect(server, &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
-    connect(server, &NetworkServer::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
+    setEndpoint(server);
 
-    m_networkEndpoint.reset(server);
-    m_endpointType = EndpointType::SERVER;
+    m_mode = Mode::MultiplayerHost;
 
-    server->start();
+    server->listen(port);
 }
 
 void NetworkManager::startClient(QString host, unsigned short port)
 {
     auto client = new NetworkClient;
 
-    if(m_networkEndpoint)
-    {
-        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
-        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::prepareAndSyncNewGame, this, &NetworkManager::prepareAndSyncNewGame);
-    }
-    connect(client, &NetworkEndpoint::receivedCommand, this, &NetworkManager::newCommand);
+    setEndpoint(client);
 
-    m_networkEndpoint.reset(client);
-    m_endpointType = EndpointType::CLIENT;
+    m_mode = Mode::MultiplayerClient;
 
-    client->connectToHost(host, port);
+    client->connectClient(host, port);
 }
 
 void NetworkManager::update()
@@ -97,11 +82,23 @@ void NetworkManager::update()
     }
 }
 
-void NetworkManager::sendMessage(AbstractCommand *command)
+void NetworkManager::setEndpoint(NetworkEndpoint * endpoint)
+{
+    if(m_networkEndpoint)
+    {
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::onReceivedCommand);
+        disconnect(m_networkEndpoint.get(), &NetworkEndpoint::stateChanged, this, &NetworkManager::onEndpointStateChange);
+    }
+    m_networkEndpoint.reset(endpoint);
+    connect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::onReceivedCommand);
+    connect(m_networkEndpoint.get(), &NetworkServer::stateChanged, this, &NetworkManager::onEndpointStateChange);
+}
+
+void NetworkManager::sendMessage(AbstractCommand * command)
 {
     if(isConnected())
     {
-        m_networkEndpoint->sendMessage(command);
+        m_networkEndpoint->sendCommand(command);
     }
 
     delete command;
@@ -155,78 +152,6 @@ void NetworkManager::sendClientReadyCommand()
     emit sendCommand(command);
 }
 
-void NetworkManager::clientReady()
-{
-    // unpause both clients
-    qDebug() << __FILE__ << __LINE__ << "Client is ready, unpausing game!";
-    sendPauseCommand(false);
-    m_game.setPaused(false);
-}
-
-bool NetworkManager::isClient() const
-{
-    return m_endpointType == EndpointType::CLIENT;
-}
-
-bool NetworkManager::isServer() const
-{
-    return m_endpointType == EndpointType::SERVER;
-}
-
-bool NetworkManager::isConnected() const
-{
-    if(m_endpointType == EndpointType::INVALID)
-    {
-        return false;
-    }
-
-    assert(m_networkEndpoint != nullptr);
-
-    if(m_networkEndpoint->activePlayerConnection() != nullptr)
-    {
-        return m_networkEndpoint->activePlayerConnection()->isConnected();
-    }
-
-    return false;
-}
-
-QString NetworkManager::localIPAddress() const
-{
-    assert(m_endpointType != EndpointType::INVALID);
-    if(m_networkEndpoint->activePlayerConnection())
-    {
-        return m_networkEndpoint->activePlayerConnection()->localAddress().toString();
-    }
-    else
-    {
-        qDebug() << "There is no active network connection!";
-        return QString();
-    }
-}
-
-NetworkServer *NetworkManager::networkServer() const
-{
-    assert(isServer());
-    return dynamic_cast<NetworkServer*>(m_networkEndpoint.get());
-}
-
-NetworkClient *NetworkManager::networkClient() const
-{
-    assert(isClient());
-    return dynamic_cast<NetworkClient*>(m_networkEndpoint.get());
-}
-
-void NetworkManager::newCommand(AbstractCommand *command)
-{
-    if(!command)
-    {
-        return;
-    }
-
-    command->setGame(&m_game);
-    m_game.scheduler().scheduleAction( [=](){ command->run(); delete command; return false; } );
-}
-
 void NetworkManager::prepareAndSyncNewGame()
 {
     // assume that a client is always second player
@@ -237,7 +162,65 @@ void NetworkManager::prepareAndSyncNewGame()
     m_game.setPaused(true);
 }
 
-void NetworkManager::on_sendCommand(AbstractCommand *command)
+NetworkManager::Mode NetworkManager::mode()
+{
+    return m_mode;
+}
+
+void NetworkManager::clientReady()
+{
+    // unpause both clients
+    qDebug() << __FILE__ << __LINE__ << "Client is ready, unpausing game!";
+    sendPauseCommand(false);
+    m_game.setPaused(false);
+}
+
+bool NetworkManager::isConnected() const
+{
+    if(m_mode == Mode::Singleplayer)
+    {
+        return false;
+    }
+
+    assert(m_networkEndpoint != nullptr);
+
+    return m_networkEndpoint->state() == NetworkEndpoint::State::Connected;
+}
+
+//QString NetworkManager::localIPAddress() const
+//{
+//    assert(m_endpointType != EndpointType::INVALID);
+//    if(m_networkEndpoint->activePlayerConnection())
+//    {
+//        return m_networkEndpoint->activePlayerConnection()->localAddress().toString();
+//    }
+//    else
+//    {
+//        qDebug() << "";
+//        return QString();
+//    }
+//}
+
+void NetworkManager::onReceivedCommand(AbstractCommand *command)
+{
+    if(!command)
+    {
+        return;
+    }
+
+    command->setGame(&m_game);
+    m_game.scheduler().scheduleAction( [=](){ command->run(); delete command; return false; } );
+}
+
+void NetworkManager::onEndpointStateChange(NetworkEndpoint::State state)
+{
+    if(state == NetworkEndpoint::State::Connected && m_mode == Mode::MultiplayerHost)
+    {
+        prepareAndSyncNewGame();
+    }
+}
+
+void NetworkManager::onSendCommand(AbstractCommand *command)
 {
     sendMessage(command);
 }

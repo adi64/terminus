@@ -31,11 +31,21 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    NetworkManager(Game &game);
-    ~NetworkManager();
+    enum class Mode
+    {
+        Singleplayer,
+        MultiplayerHost,
+        MultiplayerClient
+    };
+
+public:
+    NetworkManager(Game & game);
+    virtual ~NetworkManager();
 
     void startServer(unsigned short port);
     void startClient(QString host, unsigned short port);
+
+    bool isConnected() const;
 
     void sendMessage(AbstractCommand *command);
 
@@ -55,15 +65,14 @@ public:
      * World using the provided terrain seed and now is ready to start the game
      */
     void clientReady();
+    /*!
+     * \brief Send game info to client and pause game
+     */
+    void prepareAndSyncNewGame();
 
-    bool isClient() const;
-    bool isServer() const;
-    bool isConnected() const;
+    Mode mode();
 
-    QString localIPAddress() const;
-
-    NetworkServer *networkServer() const;
-    NetworkClient *networkClient() const;
+    //QString localIPAddress() const;
 
 signals:
     void sendCommand(AbstractCommand *command);
@@ -71,17 +80,23 @@ signals:
 public slots:
     void update();
 
+protected:
+    void setEndpoint(NetworkEndpoint * endpoint);
+
 protected slots:
     /*!
-     * \brief Receive a command, set its Game pointer and schedule it
-     * \param command A Pointer to the received command
+     * \brief called if the underlying NetworkEndpoint receives a Command
+     * \param command a Pointer to the received command
+     * command is scheduled to be executed for the next frame update
      */
-    void newCommand(AbstractCommand* command);
+    void onReceivedCommand(AbstractCommand * command);
 
     /*!
-     * \brief Send game info to client and pause game
+     * \brief called if the underlying NetworkEndpoints gets or looses its connection
+     * \param state
+     * This only reacts to a client connecting to a Server and prepares the multiplayer session accordingly
      */
-    void prepareAndSyncNewGame();
+    void onEndpointStateChange(NetworkEndpoint::State state);
 
     /*!
      * \brief Slot-wrapper for sendMessage()
@@ -92,10 +107,12 @@ protected slots:
      * the one that created the socket. By using Qt::AutoConnection, messages
      * are queued and guaranteed to execute in the right thread.
      */
-    void on_sendCommand(AbstractCommand* command);
+    void onSendCommand(AbstractCommand* command);
 
 protected:
     Game & m_game;
+
+    Mode m_mode;
 
     /*!
      * \brief The NetworkEndpoint is stored as a pointer because it will be
@@ -108,13 +125,6 @@ protected:
      * \brief The timer that determines when sync messages are sent
      */
     Timer::TimerID m_syncTimer;
-
-    enum EndpointType
-    {
-        SERVER,
-        CLIENT,
-        INVALID
-    } m_endpointType;
 };
 
 } // namespace terminus

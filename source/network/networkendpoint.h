@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QString>
 
+class QTcpSocket;
+
 namespace terminus {
 
 class AbstractCommand;
@@ -18,28 +20,44 @@ class NetworkConnection;
 class NetworkEndpoint : public QObject
 {
     Q_OBJECT
+public:
+    enum class State
+    {
+        Listening,
+        Connected,
+        Disconnected
+    };
 
 public:
     NetworkEndpoint(QObject * parent = 0);
+    virtual ~NetworkEndpoint();
 
-    void sendMessage(AbstractCommand *command);
+    void sendCommand(AbstractCommand *command);
+    void disconnect();
 
-    NetworkConnection *activePlayerConnection();
+    State state();
 
 signals:
-    void receivedCommand(AbstractCommand *command);
-    void prepareAndSyncNewGame();
+    void receivedCommand(AbstractCommand * command);
+    void stateChanged(State newState);
 
 protected:
-    void receiveMessages();
+    QTcpSocket * socket();
+    void setSocket(QTcpSocket * socket);
 
-    void sendMessage(NetworkConnection *client, AbstractCommand *command);
-    void sendMessage(NetworkConnection *client, QJsonDocument &message);
+    void enterState(State state);
 
-    AbstractCommand *createCommandForRequest(const QString &request);
+    QString serializeCommand(AbstractCommand * command);
+    AbstractCommand * deserializeCommand(const QString & message);
 
-    quint16 m_expectedMessageSize;
-    NetworkConnection *m_activePlayerConnection;
+    void sendMessage(const QString & message);
+
+protected slots:
+    void onDataReceived();
+
+protected:
+    State m_state;
+    QTcpSocket * m_socket;
 };
 
 }

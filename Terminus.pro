@@ -368,7 +368,6 @@ HEADERS += \
     source/network/commands/projectilehitcommand.h \
     source/network/ipprovider.h \
     source/network/networkclient.h \
-    source/network/networkconnection.h \
     source/network/networkendpoint.h \
     source/network/networkmanager.h \
     source/network/networkserver.h \
@@ -568,7 +567,6 @@ SOURCES += \
     source/network/commands/projectilehitcommand.cpp \
     source/network/ipprovider.cpp \
     source/network/networkclient.cpp \
-    source/network/networkconnection.cpp \
     source/network/networkendpoint.cpp \
     source/network/networkmanager.cpp \
     source/network/networkserver.cpp \
