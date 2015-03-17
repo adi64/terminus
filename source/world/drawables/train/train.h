@@ -24,13 +24,38 @@ public:
     Train(World & world, Track * track);
     ~Train();
 
+    /*!
+     * \brief Adds a wagon of the given WagonType to the end of the train.
+     *
+     * A wagon of the given type will be constructed and added to the end of
+     * the train. No additional EngineWagons can be added.
+     */
     template<typename WagonType>
     void addWagon();
 
+    /*!
+     * \brief Inserts a wagon of the given WagonType at the given position.
+     *
+     * A wagon of the given type will be constructed and inserted at the given
+     * position. No additional EngineWagons can be added.
+     */
     template<typename WagonType>
     void insertWagon(int targetPos);
 
+    /*!
+     * \brief Removes the wagon at the given index
+     *
+     * The EngineWagon at index 0 cannot be removed.
+     */
     void removeWagon(unsigned int index);
+
+    /*!
+     * \brief Moves the wagon at position wagonPos to position targetPos
+     * \param wagonPos The index of the wagon to be moved
+     * \param targetPos The index where the wagon should be moved to
+     *
+     * The EngineWagon at index 0 cannot be moved.
+     */
     void moveWagon(unsigned int wagonPos, unsigned int targetPos);
 
     /*!
@@ -47,15 +72,30 @@ public:
     float velocity() const;
     void setVelocity(float velocity);
 
+    /*!
+     * \brief Returns the travelled distance of the train's head on the spline
+     */
     float travelledDistance() const;
+
+    /*!
+     * \brief Set the travelled distance of the train's head on the spline
+     */
     void setTravelledDistance(float travelledDistance);
+
+    /*!
+     * \brief Returns the ratio of travelled distance to track length
+     */
     float travelledDistanceRelative() const;
 
     QVector3D headPosition() const;
-    unsigned int size() const;
-    bool isPlayerControlled() const;
 
-    // TODO FIXME remove this getter since a camera will have the ability to be bound to any AbstractGraphicsObject which then knows the camera itself.
+    /*!
+     * \brief Returns the number of wagons in this train
+     */
+    unsigned int size() const;
+
+    // TODO FIXME remove this getter since a camera will have the ability to be
+    // bound to any AbstractGraphicsObject which then knows the camera itself.
     AbstractPlayer &player() const;
     void setPlayer(AbstractPlayer *player);
 
@@ -73,8 +113,15 @@ protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
 
 protected:
+    /*!
+     * \brief The vector containing all wagons
+     *
+     * Every train has exactly one EngineWagon which must be at index 0.
+     * It cannot be moved or removed and no additional EngineWagons can be
+     * added to the train.
+     */
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
-    bool m_isRunning;
+
     bool m_hasEngine; //!< Every train needs exactly one engine
 
     float m_velocity;
@@ -86,7 +133,8 @@ protected:
     /*!
      * \brief A pointer to the player that controls this train.
      *
-     * Since the controlling player of a train can change, this is stored as a simple pointer.
+     * Since the controlling player of a train can change, this is stored as a
+     * simple pointer.
      */
     AbstractPlayer *m_player;
 };
