@@ -142,7 +142,7 @@ void NetworkManager::sendClientReadyCommand()
 void NetworkManager::prepareAndSyncNewGame()
 {
     // assume that a client is always second player
-    sendPrepareNewGameCommand(false, m_game.world().terrain().seed());
+    sendPrepareNewGameCommand(false, m_game.world().level().config().seed());
 
     // pause game
     sendPauseCommand(true);

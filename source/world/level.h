@@ -11,6 +11,7 @@
 #include <util/polyline.h>
 #include <util/catmullromspline.h>
 #include <util/perlinnoise.h>
+#include <world/levelconfiguration.h>
 
 namespace terminus
 {
@@ -18,81 +19,49 @@ namespace terminus
 class Level
 {
 public:
-    Level(unsigned int seed);
+    Level();
+    Level(const LevelConfiguration & config);
     virtual ~Level();
 
-    virtual void generateLevel();
-    virtual void resetLevel();
+    void generateLevel();
+    void resetLevel();
 
-    virtual unsigned int seed() const;
-    virtual int vertexCountS() const;
-    virtual int vertexCountT() const;
-    virtual int patchCountS() const;
-    virtual int patchCountT() const;
-    virtual int totalVertexCountS() const;
-    virtual int totalVertexCountT() const;
-    virtual float vertexWidthUnscaled() const;
-    virtual float vertexHeightUnscaled() const;
-    virtual float patchWidthUnscaled() const;
-    virtual float patchHeightUnscaled() const;
-    virtual float vertexWidth() const;
-    virtual float vertexHeight() const;
-    virtual float patchWidth() const;
-    virtual float patchHeight() const;
-    virtual int totalWidth() const;
-    virtual int totalHeight() const;
-    virtual float scale() const;
-    virtual QPoint positionToVertexID(float x, float z) const;
-    virtual QPoint positionToPatchID(float x, float z) const;
-    virtual QVector2D vertexIDToPosition(int s, int t) const;
+    void configure(const LevelConfiguration & config);
+    const LevelConfiguration & config() const;
 
-    virtual const void * terrainMapData() const;
-    virtual std::unique_ptr<Polyline> rightTrack() const;
-    virtual std::unique_ptr<Polyline> enemyTrack() const;
-
-    virtual const void * heightMapData() const;
-    virtual int heightMapSizeS() const;
-    virtual int heightMapSizeT() const;
-    virtual float heightMapScaleS() const;
-    virtual float heightMapScaleT() const;
+    std::vector<GLfloat> * copyTerrainMapData() const;
+    Polyline * createRightTrackCourse() const;
+    Polyline * createLeftTrackCourse() const;
 
 protected:
-    virtual float trackHeight() const;
+    float trackHeight() const;
 
-    virtual void generateTracks();
+    void generateTracks();
 
-    virtual void generateTerrainMap();
-    virtual QVector2D terrainDisplacement(float x, float z);
-    virtual void setTrackEnvironment(const CatmullRomSpline &track);
-    virtual float terrainHeight(float x, float z, float fTrack);
+    void generateTerrainMap();
+    QVector2D terrainDisplacement(float x, float z);
+    void setTrackEnvironment(const CatmullRomSpline &track);
+    float terrainHeight(float x, float z, float fTrack);
 
-    virtual int tMapIndex(int s, int t) const;
-    virtual void tMapSetXYZ(int i, float dx, float dy, float dz);
-    virtual QVector3D tMapGetXYZ(int i) const;
-    virtual void tMapSetW(int i, float w);
-    virtual float tMapGetW(int i) const;
-
-    virtual void generateHeightMap();
+    int tMapIndex(int s, int t) const;
+    void tMapSetXYZ(int i, float dx, float dy, float dz);
+    QVector3D tMapGetXYZ(int i) const;
+    void tMapSetW(int i, float w);
+    float tMapGetW(int i) const;
 
 protected:
-    int m_vertexCountS, m_vertexCountT;
-    int m_patchCountS, m_patchCountT;
-    float m_vertexWidth, m_vertexHeight;
-    float m_scale;
+    LevelConfiguration m_config;
 
     PerlinNoise m_noise;
 
     bool m_tracksGenerated;
-    float m_trackHeight;// might become a PerlinNoise instance...
+    float m_trackHeight; // might become a PerlinNoise instance...
+    std::unique_ptr<CatmullRomSpline> m_rightTrack;
+    std::unique_ptr<CatmullRomSpline> m_leftTrack;
 
     bool m_texGenerated;
     std::vector<GLfloat> m_terrainMapData;
 
-    bool m_heightGenerated;
-    std::vector<float> m_heightMapData;
-
-    std::unique_ptr<CatmullRomSpline> m_rightTrack;
-    std::unique_ptr<CatmullRomSpline> m_leftTrack;
 };
 
 }

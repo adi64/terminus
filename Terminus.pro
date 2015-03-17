@@ -412,7 +412,8 @@ HEADERS += \
     source/world/light.h \
     source/world/lightmanager.h \
     source/world/level.h \
-    source/util/actionscheduler.h
+    source/util/actionscheduler.h \
+    source/world/levelconfiguration.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -611,4 +612,5 @@ SOURCES += \
     source/world/light.cpp \
     source/world/lightmanager.cpp \
     source/world/level.cpp \
-    source/util/actionscheduler.cpp
+    source/util/actionscheduler.cpp \
+    source/world/levelconfiguration.cpp

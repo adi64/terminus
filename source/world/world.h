@@ -11,6 +11,7 @@
 #include <util/actionscheduler.h>
 #include <util/timer.h>
 #include <world/camera.h>
+#include <world/level.h>
 #include <world/lightmanager.h>
 #include <world/physics/bulletworld.h>
 
@@ -76,14 +77,13 @@ public:
     Train & localPlayerTrain();
     Train & enemyPlayerTrain();
 
-    Terrain & terrain();
+    Level & level();
     Timer & timer();
 
     NetworkManager & networkManager();
 
     LightManager & lightManager();
 
-    void setInitialTimeStamp(const std::shared_ptr<QTime> & timeStamp);
     void scheduleAction(ActionScheduler::Action event);
 
     void addObject(AbstractGraphicsObject * node);
@@ -102,8 +102,9 @@ signals:
     void updateNetworkSignal();
 
 protected:
-
     Game & m_game;
+
+    Level m_level;
 
     LightManager m_lightManager;
 

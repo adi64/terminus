@@ -29,6 +29,13 @@ unsigned int PerlinNoise::seed() const
     return m_seed;
 }
 
+void PerlinNoise::seed(unsigned int seed)
+{
+    m_seed = seed;
+    m_rng.seed(m_seed);
+    m_gradientGrid.clear();
+}
+
 float PerlinNoise::noise(int layer, float x, float y)
 {
     int x0 = std::floor(x),

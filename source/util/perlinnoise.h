@@ -18,19 +18,21 @@ public:
     PerlinNoise(unsigned int seed);
     virtual ~PerlinNoise();
 
-    virtual unsigned int seed() const;
-    virtual float noise(int layer, float x, float y);
+    unsigned int seed() const;
+    void seed(unsigned int seed);
 
-    virtual float symmetricRnd();
-    virtual float asymmetricRnd();
+    float noise(int layer, float x, float y);
+
+    float symmetricRnd();
+    float asymmetricRnd();
 
 protected:
-    virtual float dotGradient(int layer, int iX, int iY, float x, float y);
+    float dotGradient(int layer, int iX, int iY, float x, float y);
 
-    virtual int gradientIndex(int iX, int iY);
-    virtual void generateGradients(int layer);
+    int gradientIndex(int iX, int iY);
+    void generateGradients(int layer);
 
-    virtual std::vector<QVector2D> & gradients(int layer);
+    std::vector<QVector2D> & gradients(int layer);
 
 protected:
     unsigned int m_seed;

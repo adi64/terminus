@@ -30,12 +30,15 @@ namespace terminus
 
 World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
+, m_level(LevelConfiguration(terrainSeed))
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
-, m_terrain(std::unique_ptr<Terrain>(new Terrain(*this, terrainSeed)))
-, m_rightTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack())))
-, m_leftTrain(std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack())))
 {
+    m_level.generateLevel();
+    m_terrain = std::unique_ptr<Terrain>(new Terrain(*this, m_level));
+    m_terrain->configureWith(m_level);
+    m_rightTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
+    m_leftTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
 
     Train* playerTrain = nullptr;
     Train* enemyTrain = nullptr;
@@ -165,24 +168,24 @@ LocalPlayer & World::localPlayer()
     return *m_localPlayer;
 }
 
-AbstractPlayer &World::enemyPlayer()
+AbstractPlayer & World::enemyPlayer()
 {
     return *m_enemyPlayer;
 }
 
-Train &World::localPlayerTrain()
+Train & World::localPlayerTrain()
 {
     return *(localPlayer().train());
 }
 
-Train &World::enemyPlayerTrain()
+Train & World::enemyPlayerTrain()
 {
     return *(enemyPlayer().train());
 }
 
-Terrain &World::terrain()
+Level & World::level()
 {
-    return *m_terrain;
+    return m_level;
 }
 
 Timer & World::timer()
@@ -190,7 +193,7 @@ Timer & World::timer()
     return m_game.timer();
 }
 
-LightManager &World::lightManager()
+LightManager & World::lightManager()
 {
     return m_lightManager;
 }
