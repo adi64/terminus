@@ -151,7 +151,7 @@ public slots:
      *
      * \sa sync() and render()
      */
-    void handleWindowChanged(QQuickWindow* win);
+    void handleWindowChanged(QQuickWindow * win);
 
     /*!
      * \brief Pause or continue ingame time
@@ -165,16 +165,19 @@ signals:
     void qmlDataChanged();
 
 protected:
+    void connectSignals(QQuickWindow * win);
+    void disconnectSignals();
     /*!
      * \brief Update the data storage used by the UI to display game info
      */
     void updateQMLData();
 
 protected:
+    Timer m_timer;
     EventHandler m_eventHandler;
     ActionScheduler m_scheduler;
     NetworkManager m_networkManager;
-    Timer m_timer;
+
 
     QVariant m_qmlData;
 

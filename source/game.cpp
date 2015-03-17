@@ -4,6 +4,8 @@
 #include <chrono>
 #include <memory>
 
+#include <QDebug>
+
 #include <QApplication>
 #include <QList>
 #include <QMap>
@@ -38,12 +40,8 @@ Game::Game()
 
 Game::~Game()
 {
-    if(m_window)
-    {
-        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
-        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
-        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
-    }
+    qDebug() << "~GAME()";
+    disconnectSignals();
 }
 
 void Game::startLocalGame()
@@ -73,6 +71,8 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 
 void Game::endGame(bool localPlayerWins, bool showMessage)
 {
+    disconnectSignals();
+    qDebug() << "END GAME" << localPlayerWins << showMessage;
     m_networkManager.sendGameEndedCommand(localPlayerWins == m_isPlayerOne);
     if(showMessage)
     {
@@ -185,11 +185,13 @@ void Game::sync()
     if (m_world->localPlayerTrain().travelledDistanceRelative() == 1.0f
             || m_world->enemyPlayerTrain().wagonAt(0)->isDisabled())
     {
+        qDebug() << "GAME SYNC WIN";
         endGame(true, true);
         return;
     }
     else if (m_world->localPlayerTrain().wagonAt(0)->isDisabled())
     {
+        qDebug() << "GAME SYNC LOOSE";
         endGame(false, true);
         return;
     }
@@ -234,17 +236,8 @@ void Game::cleanup()
 
 void Game::handleWindowChanged(QQuickWindow * win)
 {
-    if(m_window)
-    {
-        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
-        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
-        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
-    }
-    m_window = win;
+    connectSignals(win);
     if (m_window) {
-        connect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
-        connect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-        connect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         m_window->setClearBeforeRendering(false);
@@ -263,6 +256,27 @@ void Game::togglePaused()
 {
     m_timer.pause();
     m_networkManager.sendPauseCommand(m_timer.isPaused());
+}
+
+void Game::connectSignals(QQuickWindow *win)
+{
+    disconnectSignals();
+    m_window = win;
+    if (m_window) {
+        connect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
+    }
+}
+
+void Game::disconnectSignals()
+{
+    if(m_window)
+    {
+        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
+        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
+        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
+    }
 }
 
 /*!
