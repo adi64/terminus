@@ -1,4 +1,6 @@
+#ifdef GL_ES
 precision mediump float;
+#endif
 
 uniform vec4 fSpecularitySnow;
 uniform vec4 cEmitSnow;
