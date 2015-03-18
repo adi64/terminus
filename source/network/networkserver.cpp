@@ -2,7 +2,6 @@
 
 #include <cassert>
 
-#include <QDebug>
 #include <QHostAddress>
 #include <QTcpServer>
 #include <QTcpSocket>
@@ -25,7 +24,6 @@ NetworkServer::~NetworkServer()
 bool NetworkServer::listen(unsigned short port)
 {
     if(!m_server->listen(QHostAddress::Any, port)) {
-        qDebug() << "Could not start server";
         return false;
     }
 

@@ -2,16 +2,18 @@
 
 #include <chrono>
 
-#include "mathutil.h"
+#include <util/mathutil.h>
 
 namespace terminus
 {
-const float PerlinNoise::fScale = 1.f / sqrt(0.5f);
+
+const float PerlinNoise::fScale = sqrt(2.f) / 2.f;
 
 PerlinNoise::PerlinNoise()
 : PerlinNoise(std::chrono::system_clock::now().time_since_epoch().count())
 {
 }
+
 PerlinNoise::PerlinNoise(unsigned int seed)
 : m_seed(seed)
 , m_rng(seed)
@@ -20,20 +22,17 @@ PerlinNoise::PerlinNoise(unsigned int seed)
 , m_gradientCount(256)
 {
 }
-PerlinNoise::~PerlinNoise()
-{
-}
-
-unsigned int PerlinNoise::seed() const
-{
-    return m_seed;
-}
 
 void PerlinNoise::seed(unsigned int seed)
 {
     m_seed = seed;
     m_rng.seed(m_seed);
     m_gradientGrid.clear();
+}
+
+unsigned int PerlinNoise::seed() const
+{
+    return m_seed;
 }
 
 float PerlinNoise::noise(int layer, float x, float y)

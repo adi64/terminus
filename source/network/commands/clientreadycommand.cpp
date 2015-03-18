@@ -20,12 +20,13 @@ ClientReadyCommand::ClientReadyCommand(Timer::TimerMSec timeStamp, QJsonObject)
 
 QJsonObject ClientReadyCommand::toJson() const
 {
-    QJsonObject jsonObject;
-    return jsonObject;}
+    return {};
+}
 
 void ClientReadyCommand::doWork()
 {
-    m_game->networkManager().clientReady();
+    m_game->networkManager().sendPauseCommand(false);
+    m_game->setPaused(false);
 }
 
 } // namespace terminus

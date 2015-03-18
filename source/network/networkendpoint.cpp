@@ -2,16 +2,19 @@
 
 #include <cassert>
 
-#include <QtEndian>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QString>
 #include <QTcpSocket>
+#include <QtEndian>
 
 #include <network/commands/abstractcommand.h>
 #include <network/commands/clientreadycommand.h>
 #include <network/commands/gameendedcommand.h>
 #include <network/commands/pausecommand.h>
 #include <network/commands/preparenewgamecommand.h>
-#include <network/commands/primaryactioncommand.h>
 #include <network/commands/projectilefiredcommand.h>
 #include <network/commands/projectilehitcommand.h>
 #include <network/commands/synccommand.h>
@@ -71,7 +74,7 @@ QString NetworkEndpoint::serializeCommand(AbstractCommand * command)
     QJsonObject mainObject;
 
     mainObject.insert("commandType", QJsonValue(command->commandType()));
-    mainObject.insert("timeStamp", AbstractCommand::TimeStampToJsonValue(command->timeStamp()));
+    mainObject.insert("timeStamp", QJsonValue(static_cast<double>(command->timeStamp())));
     mainObject.insert("parameter", QJsonValue(command->toJson()));
     message.setObject(mainObject);
 
@@ -84,7 +87,7 @@ AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
     AbstractCommand* cmd;
 
     int type = json.object()["commandType"].toInt();
-    auto timeStamp = AbstractCommand::TimeStampFromJsonValue(json.object()["timeStamp"]);
+    auto timeStamp = static_cast<Timer::TimerMSec>(json.object()["timeStamp"].toDouble());
 
     switch (type) {
     case Command_Pause:
@@ -102,9 +105,6 @@ AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
     case Command_ClientReady:
         cmd = new ClientReadyCommand(timeStamp, json.object()["parameter"].toObject());
         break;
-    case Command_PrimaryAction:
-        cmd = new PrimaryActionCommand(timeStamp, json.object()["parameter"].toObject());
-        break;
     case Command_Sync:
         cmd = new SyncCommand(timeStamp, json.object()["parameter"].toObject());
         break;
@@ -113,7 +113,6 @@ AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
         break;
         //...
     default:
-        qDebug() << "error parsing client request";
         return nullptr;
     }
 

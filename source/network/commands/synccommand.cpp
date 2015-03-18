@@ -73,8 +73,6 @@ void SyncCommand::doWork()
         m_game->world().enemyPlayerTrain().wagonAt(i)->setHealth(m_wagonHealthVector[i]);
     }
 
-
-
     m_game->world().enemyPlayerTrain().setVelocity(m_velocity);
     m_game->world().enemyPlayerTrain().setTravelledDistance(m_travelledDistance);
 }

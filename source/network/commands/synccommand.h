@@ -1,8 +1,8 @@
 #pragma once
 
-#include "abstractcommand.h"
-
 #include <vector>
+
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
@@ -10,7 +10,7 @@ namespace terminus
 class Train;
 
 /*!
- * \brief The SyncCommand is used to continuously synchronize two games.
+ * \brief The SyncCommand is used to keep shared game state synchronized.
  *
  * It contains the local player train's travelled distance, velocity and
  * health information of the wagons. It also synchronizes the game timers.

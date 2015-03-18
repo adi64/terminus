@@ -8,15 +8,17 @@ ActionScheduler::ActionScheduler()
 {
 }
 
-void ActionScheduler::scheduleAction(const Action& action)
+void ActionScheduler::scheduleAction(const Action & action)
 {
     std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
+
     m_actionList[m_currentActionList].push_back(action);
 }
 
 void ActionScheduler::executeActions()
 {
     std::unique_lock<std::recursive_mutex> actionListLock(m_actionListMutex);
+
     int previousActionList = m_currentActionList;
     m_currentActionList = (m_currentActionList + 1) % 2;
 
@@ -30,4 +32,4 @@ void ActionScheduler::executeActions()
     m_actionList[previousActionList].clear();
 }
 
-}
+} //namespace terminus

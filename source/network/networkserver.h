@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <QObject>
 
 #include <network/networkendpoint.h>
@@ -12,8 +10,10 @@ namespace terminus
 {
 
 /*!
- * \brief The NetworkServer class provides a server implementation of the
- * NetworkEndpoint interface.
+ * \brief The NetworkServer implements the NetworkEndpoint interface
+ * as the server role of a TCP connection
+ *
+ * \sa NetworkEndpoint
  */
 class NetworkServer : public NetworkEndpoint
 {

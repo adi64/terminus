@@ -88,8 +88,6 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
     m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
     m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
-
-    connect(this, &World::updateNetworkSignal, &(networkManager()), &NetworkManager::update);
 }
 
 World::~World()
@@ -136,8 +134,6 @@ void World::update()
     {
         m_game.endGame(true, true);
     }
-
-    emit updateNetworkSignal();
 }
 
 void World::render(QOpenGLFunctions & gl) const

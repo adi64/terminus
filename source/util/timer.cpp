@@ -1,10 +1,7 @@
 #include "timer.h"
 
+#include <cassert>
 #include <limits>
-
-#include <assert.h>
-
-#include <QDebug>
 
 namespace terminus
 {
@@ -40,7 +37,6 @@ void Timer::pause()
 
 void Timer::pause(bool flag)
 {
-    qDebug() << __FILE__ << __PRETTY_FUNCTION__ << " flag = " << flag << " timer = " << get();
     if(m_isPaused && !flag)
     {
         endPause();
@@ -139,7 +135,6 @@ Timer::TimerMSec Timer::get(std::string name)
 
 void Timer::adjust(Timer::TimerMSec newNow)
 {
-    qDebug() << "adjusting main timer from " << get() << " to " << newNow;
     m_baseTimeStamp = (m_isPaused? m_pauseNow : m_clock.now()) - fromMSec(newNow);
 }
 
@@ -187,4 +182,4 @@ void Timer::endPause()
     m_baseTimeStamp += pauseDuration;
 }
 
-}
+} //namespace terminus

@@ -363,7 +363,6 @@ HEADERS += \
     source/network/commands/commands.h \
     source/network/commands/pausecommand.h \
     source/network/commands/preparenewgamecommand.h \
-    source/network/commands/primaryactioncommand.h \
     source/network/commands/projectilefiredcommand.h \
     source/network/commands/projectilehitcommand.h \
     source/network/ipprovider.h \
@@ -563,7 +562,6 @@ SOURCES += \
     source/network/commands/clientreadycommand.cpp \
     source/network/commands/pausecommand.cpp \
     source/network/commands/preparenewgamecommand.cpp \
-    source/network/commands/primaryactioncommand.cpp \
     source/network/commands/projectilefiredcommand.cpp \
     source/network/commands/projectilehitcommand.cpp \
     source/network/ipprovider.cpp \

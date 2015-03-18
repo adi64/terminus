@@ -1,10 +1,6 @@
 #include "gameendedcommand.h"
 
 #include <game.h>
-#include <world/world.h>
-#include <player/localplayer.h>
-#include <world/drawables/train/train.h>
-#include <world/drawables/track.h>
 
 namespace terminus
 {
