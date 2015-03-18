@@ -198,17 +198,17 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 
 float Level::terrainHeight(float x, float z, float fTrack){
     float mountainBase = 140.f,
-            mountainDiff = 120.f,
+            mountainDiff = 180.f,
             valleyBase = 30.f,
             valleyDiff = 60.f,
             landscapeFreq = 0.01f;
-    float rockBegin = 60.f,
-            rockEnd = 200.f,
+    float rockBegin = 100.f,
+            rockEnd = 180.f,
             rockFreq = 0.05f,
             rockMinInfluence = 5.f,
-            rockMaxInfluence = 20.f;
-    float groundTrackInfluence = 0.1f,
-            groundTerrainInfluence = 2.f,
+            rockMaxInfluence = 40.f;
+    float groundTrackInfluence = 0.5f,
+            groundTerrainInfluence = 2.5f,
             groundRockInfluence = 5.f,
             groundFreq = 1.f;
     float borderBegin = 10.f,
