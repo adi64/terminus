@@ -129,8 +129,6 @@ void NetworkEndpoint::sendMessage(const QString & message)
     assert(socket());
     QTcpSocket & tcpSocket = *socket();
 
-    qDebug() << "send:" << message;
-
     QByteArray utf8Message = message.toUtf8();
 
     uchar lengthBuffer[2];
