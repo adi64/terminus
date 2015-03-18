@@ -50,9 +50,22 @@ public:
      */
     virtual void localUpdate() override;
 
+    /*!
+     * \brief Is called when the camera is bound to this wagon.
+     *
+     * The previous camera position is saved, to implement smooth camera transition.
+     */
     virtual void onBindCamera() override;
+
+    /*!
+     * \brief Is called during this wagons update step, if the camera is currently bound.
+     */
     virtual void adjustCamera();
-    virtual void moveEvent(QVector3D movement);
+
+    /*!
+     * \brief This event is send by the camera when it is rotated.
+     * \param rotation
+     */
     virtual void rotateEvent(QVector2D rotation);
 
     virtual void setHealth(float health);
@@ -91,7 +104,16 @@ protected:
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
 
+    /*!
+     * \brief Calculates the camera position vector in model space.
+     * \return
+     */
     virtual QVector3D localCameraCenter();
+
+    /*!
+     * \brief Calculates the camera eye vector in model space.
+     * \return
+     */
     virtual QVector3D localCameraEye();
 
 protected:

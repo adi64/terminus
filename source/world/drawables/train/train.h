@@ -16,6 +16,12 @@ class AbstractPlayer;
 class Track;
 class Camera;
 
+/*!
+ * \brief The Train class works as a logical container for all wagons one train consists of.
+ *
+ * The train itself isn't rendered, but implements all functionality used for determining the current position on the track
+ * and the resulting positions for all corresponding wagons.
+ */
 class Train : public AbstractGraphicsObject
 {
 public:
