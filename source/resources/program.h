@@ -9,6 +9,9 @@
 
 class QOpenGLShaderProgram;
 
+namespace terminus
+{
+
 /*!
  * \brief The program class implements the basic functionality used for binding programs to openGL
  */
@@ -56,3 +59,5 @@ private:
     bool m_isBound;
     bool m_isOnGPU;
 };
+
+} //namespace terminus

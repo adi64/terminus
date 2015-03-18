@@ -11,6 +11,15 @@ namespace terminus
 
 class Level;
 
+/*!
+ * \brief The Terrain class renders the terrain using patches and a
+ * displacement texture.
+ * Patches that are too far from the current camera position are culled.
+ *
+ * This class also contains the two tracks as children.
+ *
+ * \sa Track
+ */
 class Terrain : public AbstractGraphicsObject
 {
 public:
@@ -20,13 +29,18 @@ public:
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
+    /*!
+     * \brief sets the displacement texture and track courses according to level
+     * \param level
+     */
     void configureWith(const Level & level);
 
-    Track *rightTrack() const;
-    Track *leftTrack() const;
+    Track & rightTrack() const;
+    Track & leftTrack() const;
 
 protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
+
     void renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const;
 
     void allocateTerrainMap(QOpenGLFunctions & gl) const;

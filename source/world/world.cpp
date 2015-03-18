@@ -37,8 +37,8 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_level.generateLevel();
     m_terrain = std::unique_ptr<Terrain>(new Terrain(*this, m_level));
     m_terrain->configureWith(m_level);
-    m_rightTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->rightTrack()));
-    m_leftTrain = std::unique_ptr<Train>(new Train(*this, m_terrain->leftTrack()));
+    m_rightTrain = std::unique_ptr<Train>(new Train(*this, &(m_terrain->rightTrack())));
+    m_leftTrain = std::unique_ptr<Train>(new Train(*this, &(m_terrain->leftTrack())));
 
     Train* playerTrain = nullptr;
     Train* enemyTrain = nullptr;

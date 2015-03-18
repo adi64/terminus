@@ -23,7 +23,7 @@ EngineWagon::EngineWagon(World & world, Train * train)
     setHealth(maxHealth());
 
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    if(m_train->track()->isOtherTrackLeft())
+    if(m_train->track()->isRightTrack())
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("engine_right");
     }

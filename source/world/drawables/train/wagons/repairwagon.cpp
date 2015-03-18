@@ -19,7 +19,7 @@ RepairWagon::RepairWagon(World & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    if(m_train->track()->isOtherTrackLeft())
+    if(m_train->track()->isRightTrack())
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("repair_right");
     }

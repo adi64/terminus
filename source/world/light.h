@@ -7,12 +7,14 @@ namespace terminus
 {
 
 /*!
- * \brief A represenation of a light source.
+ * \brief The Light class represents a light source with a packed,
+ * shader compatible memory layout.
+ *
+ * \sa LightManager
  */
 class Light
 {
 public:
-    static constexpr int vectorCount = 3;
     /*!
      * \brief The type of a light source
      *
@@ -26,8 +28,17 @@ public:
         SPOT        = 3  //! Spot light, defined by position, direction, cut-off angle, attenuation and color.
     };
 
-public:
+    /*!
+     * \brief the number of 4d vectors occupied by an instance of this class
+     */
+    static constexpr int vectorCount = 3;
+
+    /*!
+     * \brief a light that has no effect on the scene
+     */
     static const Light nullLight;
+
+public:
     static Light createAmbient(const QVector3D & color);
     static Light createDirectional(const QVector3D & color, const QVector3D & direction);
     static Light createPoint(const QVector3D & color, const QVector3D & position, float intensity);

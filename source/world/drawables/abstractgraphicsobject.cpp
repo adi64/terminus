@@ -4,6 +4,7 @@
 #include <QQuaternion>
 
 #include <player/localplayer.h>
+#include <resources/program.h>
 #include <world/lightmanager.h>
 #include <world/world.h>
 

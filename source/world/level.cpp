@@ -2,12 +2,7 @@
 
 #include <cmath>
 
-#include <QVector2D>
-#include <QVector4D>
-#include <QDebug>
-
 #include <util/mathutil.h>
-#include <util/perlinnoise.h>
 
 namespace terminus
 {
@@ -23,10 +18,6 @@ Level::Level(const LevelConfiguration & config)
 , m_texGenerated(false)
 {
     configure(config);
-}
-
-Level::~Level()
-{
 }
 
 void Level::configure(const LevelConfiguration & config)

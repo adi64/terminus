@@ -7,6 +7,7 @@
 
 #include <player/abstractplayer.h>
 #include <util/mathutil.h>
+#include <util/polyline.h>
 #include <util/timer.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
@@ -52,12 +53,12 @@ void AbstractWagon::localUpdate()
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
-    QVector3D t = m_train->track()->tangentAt(travelledDistance);
+    QVector3D t = m_train->track()->course().getTangent(travelledDistance);
     float angleY = atan2(-t.z(), t.x()) * 180.f / MathUtil::PI;
     KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
 
     QVector3D trackOffset(0.f, 0.f, 0.f);
-    setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
+    setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
 }
 
@@ -147,7 +148,7 @@ float AbstractWagon::length() const
 
 bool AbstractWagon::isOtherTrainLeft() const
 {
-    return m_train->track()->isOtherTrackLeft();
+    return m_train->track()->isRightTrack();
 }
 
 bool AbstractWagon::isDisabled() const

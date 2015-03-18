@@ -15,6 +15,13 @@
 namespace terminus
 {
 
+/*!
+ * \brief The LevelConfiguration class contains all information necessary to
+ * configure a Level instance as well as some convenience methods to convert
+ * between model and texture space coordinates.
+ *
+ * \sa Level
+ */
 class LevelConfiguration
 {
 public:

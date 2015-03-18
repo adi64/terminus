@@ -11,10 +11,11 @@
 #include <world/world.h>
 #include <resources/geometry.h>
 #include <resources/material.h>
-#include <resources/program.h>
 
 namespace terminus
 {
+
+class Program;
 
 class AbstractGraphicsObject
 {

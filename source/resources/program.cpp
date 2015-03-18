@@ -2,6 +2,9 @@
 
 #include <QOpenGLShaderProgram>
 
+namespace terminus
+{
+
 Program::Program()
 : m_program(nullptr)
 , m_isBound(false)
@@ -14,7 +17,6 @@ Program::Program(std::string vertexSrc, std::string fragmentSrc)
 , m_program(nullptr)
 , m_isBound(false)
 , m_isOnGPU(false)
-
 {
 }
 
@@ -140,3 +142,5 @@ void Program::setUniform(std::string name, const QVector4D * values, int count)
         m_program->setUniformValueArray(location, values, count);
     }
 }
+
+} //namespace terminus

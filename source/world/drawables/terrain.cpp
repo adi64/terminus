@@ -1,17 +1,14 @@
 #include "terrain.h"
 
-#include <QPoint>
-#include <QDebug>
-
+#include <cassert>
 #include <string>
 
-#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+#include <QOpenGLFunctions>
+#include <QPoint>
 
 #include <player/localplayer.h>
 #include <resources/resourcemanager.h>
-#include <resources/geometry.h>
-#include <resources/material.h>
-#include <resources/program.h>
+#include <world/camera.h>
 #include <world/level.h>
 #include <world/world.h>
 
@@ -54,14 +51,16 @@ Terrain::Terrain(World & world, const Level & level)
     setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
 }
 
-Track *Terrain::rightTrack() const
+Track & Terrain::rightTrack() const
 {
-    return m_rightTrack.get();
+    assert(m_rightTrack);
+    return *(m_rightTrack.get());
 }
 
-Track *Terrain::leftTrack() const
+Track & Terrain::leftTrack() const
 {
-    return m_leftTrack.get();
+    assert(m_leftTrack);
+    return *(m_leftTrack.get());
 }
 
 void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)

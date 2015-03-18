@@ -1,6 +1,6 @@
 #include "light.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <util/mathutil.h>
 

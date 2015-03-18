@@ -78,9 +78,9 @@ void Train::localUpdate()
     // move forward
     m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
 
-    if(m_travelledDistance >= m_track->length())
+    if(m_travelledDistance >= m_track->course().length())
     {
-        m_travelledDistance = m_track->length();
+        m_travelledDistance = m_track->course().length();
     }
 }
 
@@ -126,12 +126,12 @@ void Train::setTravelledDistance(float travelledDistance)
 
 float Train::travelledDistanceRelative() const
 {
-    return m_travelledDistance / m_track->length();
+    return m_travelledDistance / m_track->course().length();
 }
 
 QVector3D Train::headPosition() const
 {
-    return m_track->positionAt(travelledDistance());
+    return m_track->course().getPosition(travelledDistance());
 }
 
 unsigned int Train::size() const
