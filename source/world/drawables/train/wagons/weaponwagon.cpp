@@ -15,6 +15,8 @@
 
 #include <player/abstractplayer.h>
 
+#include <network/networkmanager.h>
+
 namespace terminus
 {
 
@@ -30,9 +32,10 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("weapon_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
+    m_material = ResourceManager::getInstance()->getMaterial("base_weaponMat");
 
-    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+    QVector3D bb = (maxBB() - minBB()) / 2.f;
+    initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 }
 
 WeaponWagon::~WeaponWagon()
@@ -40,39 +43,31 @@ WeaponWagon::~WeaponWagon()
     deallocatePhysics();
 }
 
-void WeaponWagon::primaryAction()
+void WeaponWagon::primaryActionInternal()
 {
-    if(isDisabled() || isOnCooldown())
-    {
-        return;
-    }
-
     auto scalarVelocity = 100.f;
-    fire(aimVector() * scalarVelocity);
-
-    SoundManager::getInstance()->playSound("shot");
-
-    resetCooldown();
-}
-
-void WeaponWagon::primaryActionDebug()
-{
-    auto scalarVelocity = 100.0;
     fire(aimVector() * scalarVelocity);
 }
 
 void WeaponWagon::fire(QVector3D velocity)
 {
+    auto projectilePosition = modelToWorld(localCameraCenter());
+    auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
+
     m_world.scheduleAction(
-        [this, velocity]()
+        [this, projectilePosition, projectileVelocity]()
         {
             auto projectile = new Projectile(m_world);
-            projectile->moveTo(modelToWorld(localCameraCenter()));
-            projectile->setLinearVelocity(velocity + (worldFront() * m_train->velocity() * 1000.0f));
+            projectile->moveTo(projectilePosition);
+            projectile->setLinearVelocity(projectileVelocity);
             m_world.addObject(projectile);
             return false;
         }
     );
+
+    m_world.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
+
+    SoundManager::getInstance()->playSound("shot");
 }
 
 QVector3D WeaponWagon::aimVector()
@@ -92,7 +87,7 @@ WagonType WeaponWagon::wagonType() const
 
 void WeaponWagon::localUpdate()
 {
-    std::string materialName = "base_Blue";
+    std::string materialName = "base_weaponMat";
     if(isDisabled())
     {
         materialName = "base_Grey";

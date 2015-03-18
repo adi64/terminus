@@ -2,7 +2,20 @@ import QtQuick 2.3
 import Game 1.0
 
 /*
- * Shows container for multiple PlayerWagonStatus
+ * PlayerStatusBar.qml
+ * The PlayerStatusBar Item consists of:
+ * + a background image
+ * + a cooldown bar for the current wagon
+ * + a progress bar
+ * + eight EnemyWagonStatuses
+ * This is a container for PlayerWagonStatuses. It gets a
+ * reference to Game and isReversed to provide to the children.
+ * It takes the parent width to set its height to remain the same
+ * aspect ratio on all devices.
+ * Additionally it has a larger cooldown bar for the current wagon
+ * and a progress bar. The required information are stored in game.qmlData
+ * (see game.cpp).
+ *
  */
 
 Item
@@ -10,6 +23,7 @@ Item
     id: playerStatus
 
     property Game game: parent.game
+    property bool isReversed: parent.isReversed
 
     property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
     property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
@@ -44,6 +58,16 @@ Item
             height: parent.height
             color: "grey"
         }
+
+        Text
+        {
+            id: cdBarText
+            text: "Cooldown"
+            font.family: "Helvetica"
+            font.pointSize: 12
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
     Rectangle
@@ -64,6 +88,16 @@ Item
             height: parent.height
             color: "grey"
         }
+
+        Text
+        {
+            id: progressBarText
+            text: "Level Progress"
+            font.family: "Helvetica"
+            font.pointSize: 12
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
     Item
@@ -75,6 +109,7 @@ Item
         height: parent.height
 
         property Game game: parent.game
+        property bool isReversed: parent.isReversed
 
         PlayerWagonStatus
         {

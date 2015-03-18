@@ -13,7 +13,9 @@ namespace terminus
 class Track : public AbstractGraphicsObject
 {
 public:
-    Track(World & world, std::unique_ptr<Polyline> controlPoints, bool isOtherTrackLeft);
+    Track(World & world, bool isOtherTrackLeft);
+
+    void setCourse(Polyline * course);
 
     QVector3D positionAt(float distance);
     QVector3D tangentAt(float distance);

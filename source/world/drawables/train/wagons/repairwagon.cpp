@@ -6,6 +6,7 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <resources/soundmanager.h>
 
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
@@ -26,9 +27,10 @@ RepairWagon::RepairWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("repair_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Violet");
+    m_material = ResourceManager::getInstance()->getMaterial("base_repairMat");
 
-    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+    QVector3D bb = (maxBB() - minBB()) / 2.f;
+    initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 }
 
 RepairWagon::~RepairWagon()
@@ -36,7 +38,7 @@ RepairWagon::~RepairWagon()
     deallocatePhysics();
 }
 
-void RepairWagon::primaryAction()
+void RepairWagon::primaryActionInternal()
 {
     if(isDisabled() || isOnCooldown())
     {
@@ -55,7 +57,7 @@ void RepairWagon::primaryAction()
         wagon->setHealth(healing);
     }
 
-    resetCooldown();
+    SoundManager::getInstance()->playSound("repairAction");
 }
 
 float RepairWagon::cooldownTime() const
@@ -65,7 +67,7 @@ float RepairWagon::cooldownTime() const
 
 void RepairWagon::localUpdate()
 {
-    std::string materialName = "base_Violet";
+    std::string materialName = "base_repairMat";
     if(isDisabled())
     {
         materialName = "base_Grey";

@@ -12,8 +12,7 @@ class EventHandler
 
     enum InteractionType
     {
-        MOUSE_MOVEMENT = 0,
-        TOUCH_MOVEMENT = 1,
+        MOUSE_MOVEMENT = 1,
         GYRO_MOVEMENT = 2,
         NEXT_WAGON_BUTTON = 3,
         PREV_WAGON_BUTTON = 4,
@@ -27,6 +26,7 @@ public:
     void buttonInput(int type);
     void keyInput(Qt::Key key);
     void moveInput(int type, qreal x, qreal y);
+    void touchInput(qreal oldx, qreal oldy, qreal x, qreal y);
 
 protected:
     void keyPressEvent(Qt::Key key);

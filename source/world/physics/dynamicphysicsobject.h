@@ -5,6 +5,10 @@
 namespace terminus
 {
 
+/*!
+ * \brief A dynamic physics object is a physics object that is mostly passive.
+ * It will be affected by forces and its movement will be simulated by Bullet.
+ */
 class DynamicPhysicsObject : public AbstractPhysicsObject
 {
 public:

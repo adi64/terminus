@@ -8,13 +8,37 @@
 namespace terminus
 {
 
+/*!
+ * \brief The AbstractPhysicsObject class represents a graphical scene element
+ * with a physics-based aspect, meaning that it can move and collide with
+ * other AbstractPhysicsObjects.
+ *
+ * The most important aspect is that an AbstractPhysicsObject contains a Bullet
+ * representation in form of a btRigidBody.
+ *
+ * \sa BulletWorld
+ */
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {    
 public:
     AbstractPhysicsObject(World & world);
 
     virtual void moveTo(const QVector3D & newPosition);
+
+    /*!
+     * \brief Gets called on collision with another AbstractPhysicsObject
+     * \param other AbstractPhysicsObject that we collided with
+     *
+     * This default implementation does nothing and only exists so that subclasses can override it with custom functionality (like dealing damage).
+     * Movement changes are handled by bullet.
+     */
     virtual void onCollisionWith(AbstractPhysicsObject * other);
+
+    /*!
+     * \brief Set whether this PhysicsObject originated in this local game instance or in a remote instance
+     * \param spawnedLocally
+     */
+    virtual void setSpawnedLocally(bool spawnedLocally);
 
 protected:
     virtual void initializePhysics(btCollisionShape * collisionShape, btScalar mass);
@@ -38,11 +62,13 @@ protected:
     /*!
      * \brief Shared pointer to the bullet world that this object lives in
      *
-     * Every physics object holds a shared pointer to the BulletWorld it lives in
-     * in order to extend the BulletWorld's lifetime to the point where this physics object dies
+     * Every physics object holds a shared pointer to the BulletWorld it
+     * lives in in order to extend the BulletWorld's lifetime to the point
+     * where this physics object dies
      */
     std::shared_ptr<BulletWorld> m_bulletWorld;
     std::unique_ptr<btRigidBody> m_btRigidBody;
+    bool m_spawnedLocally;
 };
 
 }

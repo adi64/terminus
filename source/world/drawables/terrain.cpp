@@ -12,9 +12,8 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-#include <world/drawables/track.h>
+#include <world/level.h>
 #include <world/world.h>
-
 
 #define TEXFORMAT GL_RGBA
 #ifdef Q_OS_LINUX
@@ -39,37 +38,20 @@
 namespace terminus
 {
 
-Terrain::Terrain(World & world)
-: KinematicPhysicsObject(world)
+Terrain::Terrain(World & world, const Level & level)
+: AbstractGraphicsObject(world)
 , m_terrainMapOnGPU(false)
-{   
+{
     m_program = ResourceManager::getInstance()->getProgram("terrain");
     m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
     m_material = ResourceManager::getInstance()->getMaterial("base_Terrain");
 
-    m_level.generateLevel();
-    setScale(m_level.scale());
-    m_rightTrack = std::unique_ptr<Track>(new Track(m_world, m_level.rightTrack(), true));
-    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack(), false));
-    
-    auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
-                                               m_level.heightMapSizeT(),
-                                               m_level.heightMapData(),
-                                               1.f /*ignored for PHY_FLOAT*/,
-                                               0.f, 200.f,
-                                               1 /*y axix*/,
-                                               PHY_ScalarType::PHY_FLOAT,
-                                               false);
+    m_rightTrack = std::unique_ptr<Track>(new Track(m_world, true));
+    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, false));
 
-    shape->setLocalScaling(btVector3(m_level.heightMapScaleS(), 1.f, m_level.heightMapScaleT()));
-    initializePhysics(shape, 1.f);
+    configureWith(level);
 
     setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
-}
-
-Terrain::~Terrain()
-{
-    deallocatePhysics();
 }
 
 Track *Terrain::rightTrack() const
@@ -94,27 +76,15 @@ void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> ca
     }
 }
 
-void Terrain::localUpdate()
-{
-    QVector3D pos = position();
-    QQuaternion rot = rotation();
-
-    btTransform transform = m_btRigidBody->getCenterOfMassTransform();
-    transform.setOrigin(btVector3(pos.x() + m_level.totalWidth() / 2.f, pos.y(), pos.z() + m_level.totalHeight() / 2.f));
-    transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
-
-    AbstractPhysicsObject::localUpdate();
-}
-
 void Terrain::localRender(QOpenGLFunctions& gl) const
 {
     QVector3D camPos = m_world.localPlayer().camera().eye();
-    QPoint patchID = m_level.positionToPatchID(camPos.x(), camPos.z());
+    QPoint patchID = m_levelConfig.positionToPatchID(camPos.x(), camPos.z());
 
     const int radius = 3;
-    for(int iX = std::max(0, patchID.x() - radius); iX < std::min(m_level.patchCountS(), patchID.x() + radius); iX++)
+    for(int iX = std::max(0, patchID.x() - radius); iX < std::min(m_levelConfig.patchCountS(), patchID.x() + radius); iX++)
     {
-        for(int iZ = std::max(0, patchID.y() - radius); iZ < std::min(m_level.patchCountT(), patchID.y() + radius); iZ++)
+        for(int iZ = std::max(0, patchID.y() - radius); iZ < std::min(m_levelConfig.patchCountT(), patchID.y() + radius); iZ++)
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
@@ -132,14 +102,14 @@ void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
     AbstractGraphicsObject::localRenderSetup(gl, program);
 
     program.setUniform("levelMap", 0);
-    QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_level.vertexCountS() - 1)),
-                      static_cast<float>(m_currentPatchZ * (m_level.vertexCountT() - 1)),
-                      static_cast<float>(m_level.totalVertexCountS() - 1),
-                      static_cast<float>(m_level.totalVertexCountT() - 1));
-    QVector4D posInfo(m_level.vertexWidthUnscaled(),
-                      m_level.vertexHeightUnscaled(),
-                      m_currentPatchX * m_level.patchWidthUnscaled(),
-                      m_currentPatchZ * m_level.patchHeightUnscaled());
+    QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_levelConfig.vertexCountS() - 1)),
+                      static_cast<float>(m_currentPatchZ * (m_levelConfig.vertexCountT() - 1)),
+                      static_cast<float>(m_levelConfig.totalVertexCountS() - 1),
+                      static_cast<float>(m_levelConfig.totalVertexCountT() - 1));
+    QVector4D posInfo(m_levelConfig.vertexWidthUnscaled(),
+                      m_levelConfig.vertexHeightUnscaled(),
+                      m_currentPatchX * m_levelConfig.patchWidthUnscaled(),
+                      m_currentPatchZ * m_levelConfig.patchHeightUnscaled());
     program.setUniform("texInfo", texInfo);
     program.setUniform("posInfo", posInfo);
 
@@ -154,16 +124,26 @@ void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) c
     gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Terrain::configureWith(const Level & level)
+{
+    m_levelConfig = level.config();
+    setScale(m_levelConfig.scale());
+    m_leftTrack->setCourse(level.createLeftTrackCourse());
+    m_rightTrack->setCourse(level.createRightTrackCourse());
+    m_terrainMapData.reset(level.copyTerrainMapData());
+    m_terrainMapValid = true;
+}
+
 void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
 {
-    if(m_terrainMapOnGPU)
+    if(m_terrainMapOnGPU && m_terrainMapValid)
         return;
 
-    const void * data = m_level.terrainMapData();
+    if(!m_terrainMapOnGPU)
+        gl.glGenTextures(1, &m_terrainMap);
 
-    gl.glGenTextures(1, &m_terrainMap);
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
+    gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -181,17 +161,6 @@ void Terrain::deallocateTerrainMap(QOpenGLFunctions & gl) const
     gl.glDeleteTextures(1, &m_terrainMap);
 
     m_terrainMapOnGPU = false;
-}
-
-short Terrain::myCollisionType() const
-{
-    return BulletWorld::CollisionTypes::COLLISIONTYPE_TERRAIN;
-}
-
-short Terrain::possibleCollisionTypes() const
-{
-    // collision detection with terrain does not work yet
-    return BulletWorld::CollisionTypes::COLLISIONTYPE_NOTHING;
 }
 
 } //namespace terminus

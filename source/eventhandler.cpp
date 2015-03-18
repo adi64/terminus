@@ -11,6 +11,8 @@
 #include <player/abstractplayer.h>
 #include <player/localplayer.h>
 
+#include <network/networkmanager.h>
+
 #include <game.h>
 
 namespace terminus
@@ -49,12 +51,22 @@ void EventHandler::moveInput(int type, qreal x, qreal y)
     {
     case MOUSE_MOVEMENT:
         mouseMoveEvent(x, y); break;
-    /*case TOUCH_MOVEMENT:
-        touchMoveEvent(x, y); break;*/
     case GYRO_MOVEMENT:
         gyroMoveEvent(x, y); break;
     default: break;
     }
+}
+
+void EventHandler::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
+{
+    const double sensitivity = 0.5;
+
+    auto offset = QVector2D(oldx, oldy) - QVector2D(x, y);
+    auto rotation = offset * sensitivity;
+
+    rotation *= QVector2D(1.0, 1.0);
+
+    m_game->world().localPlayer().camera().rotateEvent(rotation);
 }
 
 void EventHandler::keyPressEvent(Qt::Key key)
@@ -91,7 +103,7 @@ void EventHandler::keyPressEvent(Qt::Key key)
         }
         break;
     case Qt::Key_Escape:
-        QApplication::quit();
+        m_game->endGame(false, false);
         break;
     case Qt::Key_Space:
         player.toggleCameraLock();
@@ -102,6 +114,8 @@ void EventHandler::keyPressEvent(Qt::Key key)
     case Qt::Key_P:
         m_game->togglePaused();
         break;
+    case Qt::Key_U:
+        m_game->toggleUI();
     default:
         break;
     }
@@ -131,7 +145,7 @@ void EventHandler::mouseMoveEvent(qreal x, qreal y)
 
 void EventHandler::gyroMoveEvent(qreal x, qreal y)
 {
-    const double sensitivity = 0.03;
+    const double sensitivity = 0.06;
 
     auto offset = QVector2D(x, y);
     auto rotation = offset * sensitivity;

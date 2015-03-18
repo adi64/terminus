@@ -1,8 +1,7 @@
 #pragma once
 
-#include <resources/lightmanager.h>
-
-#include "abstractwagon.h"
+#include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/lightmanager.h>
 
 namespace terminus
 {
@@ -17,7 +16,10 @@ public:
 
     virtual void localUpdate() override;
 
-    virtual void primaryAction() override;
+    virtual void primaryActionInternal() override;
+
+    virtual float maxHealth() const;
+
     virtual float cooldownTime() const override;
 
     virtual WagonType wagonType() const override;

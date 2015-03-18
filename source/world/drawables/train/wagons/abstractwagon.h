@@ -24,8 +24,9 @@ public:
     AbstractWagon(World & world, Train * train);
     virtual ~AbstractWagon();
 
-    virtual void primaryAction() = 0;
-    virtual void primaryActionDebug();
+    virtual void primaryAction() final;
+    virtual void primaryActionDebug() final;
+    virtual void primaryActionInternal() = 0;
 
     virtual void localUpdate() override;
 

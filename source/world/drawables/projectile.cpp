@@ -9,8 +9,13 @@
 #include <resources/program.h>
 #include <util/timer.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/train/train.h>
 #include <world/drawables/explosion.h>
 #include <world/world.h>
+#include <network/networkmanager.h>
+#include <player/abstractplayer.h>
+
+#include <resources/soundmanager.h>
 
 namespace terminus
 {
@@ -52,18 +57,36 @@ void Projectile::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & program) 
 
 float Projectile::damage() const
 {
-    return 30.0f;
+    return 10.0f;
 }
 
 void Projectile::onCollisionWith(AbstractPhysicsObject *other)
 {
+    // don't to damage if this projectile was not spawned locally - the other client will inform us of damage events and such
+    if(!m_spawnedLocally)
+    {
+        return;
+    }
+
     auto otherWagon = dynamic_cast<AbstractWagon*>(other);
     if(otherWagon)
     {
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
+
+        // send hit event if enemy train was hit
+        for(unsigned int i=0; i<m_world.enemyPlayer().train()->size(); ++i)
+        {
+            if(m_world.enemyPlayer().train()->wagonAt(i) == otherWagon)
+            {
+                m_world.networkManager().sendProjectileHitCommand(i, damage());
+                break;
+            }
+        }
     }
 
     m_world.addObject(new Explosion(m_world, position()));
+
+    SoundManager::getInstance()->playSound("explosion");
 
     dispose();
 }

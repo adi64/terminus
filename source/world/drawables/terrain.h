@@ -2,26 +2,25 @@
 
 #include <memory>
 
-#include <world/physics/kinematicphysicsobject.h>
-#include "abstractgraphicsobject.h"
-#include "track.h"
-#include "level.h"
+#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/track.h>
+#include <world/levelconfiguration.h>
 
 namespace terminus
 {
 
-class Track;
+class Level;
 
-class Terrain : public KinematicPhysicsObject
+class Terrain : public AbstractGraphicsObject
 {
 public:
-    Terrain(World & world);
-    virtual ~Terrain();
+    Terrain(World & world, const Level & level);
 
-    virtual void localUpdate() override;
     virtual void localRender(QOpenGLFunctions& gl) const override;
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+
+    void configureWith(const Level & level);
 
     Track *rightTrack() const;
     Track *leftTrack() const;
@@ -33,16 +32,15 @@ protected:
     void allocateTerrainMap(QOpenGLFunctions & gl) const;
     void deallocateTerrainMap(QOpenGLFunctions & gl) const;
 
-    virtual short myCollisionType() const override;
-    virtual short possibleCollisionTypes() const override;
-
 protected:
-    Level m_level;
+    LevelConfiguration m_levelConfig;
 
     std::unique_ptr<Track> m_rightTrack;
     std::unique_ptr<Track> m_leftTrack;
 
+    std::unique_ptr<std::vector<GLfloat>> m_terrainMapData;
     mutable bool m_terrainMapOnGPU;
+    mutable bool m_terrainMapValid;
     mutable GLuint m_terrainMap;
 
     mutable int m_currentPatchX;

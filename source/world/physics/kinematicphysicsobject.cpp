@@ -18,7 +18,9 @@ void KinematicPhysicsObject::localUpdate()
     QQuaternion rot = rotation();
 
     btTransform transform = m_btRigidBody->getCenterOfMassTransform();
-    transform.setOrigin(btVector3(pos.x(), pos.y(), pos.z()));
+    auto& offset = (minBB() + maxBB()) / 2.f;
+    btVector3 originVec(pos.x() + offset.x(), pos.y() + offset.y(), pos.z() + offset.z());
+    transform.setOrigin(originVec);
     transform.setRotation(btQuaternion(rot.x(), rot.y(), rot.z(), rot.scalar()));
     m_btRigidBody->setCenterOfMassTransform(transform);
 

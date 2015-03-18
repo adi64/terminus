@@ -1,138 +1,109 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-import QtSensors 5.3
 import Game 1.0
 
 /*
- * Interaction will sent a integer to identify the type of interaction
+ * Game.qml
+ * The Game Item consists of:
+ * + a Game element (see game.h)
+ * + a Loader which is for enabling and disabling the UI
+ * The Game is the main component that connects C++ and QML. The
+ * QML side provides management to access different states such as
+ * the Victory and Defeat screen. It also offers a method to load/unload
+ * the UserInterface element.
+ * The Game holds a reference to the main-Loader and knows if it is a
+ * network game, the host and the ip address it should connect to. It also
+ * contains the keyboard focus and sends keyboard events to C++ as well as
+ * containing the MouseArea that is responsible for camera and shooting
+ * to be able to navigate while the UI is disabled.
  *
- * enum InteractionType
- * {
- *      MOUSE_MOVEMENT = 0,
- *      TOUCH_MOVEMENT = 1,
- *      GYRO_MOVEMENT = 2,
- *      NEXT_WAGON_BUTTON = 3,
- *      PREV_WAGON_BUTTON = 4,
- *      ACTION_BUTTON = 5,
- *      LEFT_MOUSE_BUTTON = 6
- *  };
  */
 
 Item
 {
-    width: Screen.width
-    height: Screen.height
+    anchors.fill: parent
 
-    /*
-     * Initializes Game in an empty fullscreen Item
-     * After initialization setUI is called to get a reference to UI Element
-     */
+    property Loader loader
+    property bool network
+    property bool host
+    property string ip
 
     Game
     {
         id: terminus
         anchors.fill: parent
+        focus: true
 
-        /*
-         * Initializes UserInterface
-         * UserInterface is a container for all UI elements
-         */
-        Item
+        function winGame()
         {
+            loader.setSource("qrc:/source/qml/Victory.qml", { "loader": loader })
+        }
+        function loseGame()
+        {
+            loader.setSource("qrc:/source/qml/Defeat.qml", { "loader": loader })
+        }
+        function stopGame()
+        {
+            loader.setSource("qrc:/source/qml/MainMenu.qml", { "loader": loader })
+        }
+        function loadUI(ui, isReversed)
+        {
+            uiLoader.setSource(ui, { "game": terminus, "isReversed": isReversed })
+        }
+
+
+        Component.onCompleted:
+        {
+            if(network)
+            {
+                if(host)
+                {
+                    hostNetworkGame()
+                }
+                else
+                {
+                    joinNetworkGame(ip)
+                }
+            }
+            else
+            {
+                startLocalGame()
+            }
+        }
+
+        Keys.onPressed:
+        {
+            terminus.keyInput(event.key)
+            event.accepted = true
+        }
+
+        MouseArea
+        {
+            id: mouseCamera
             anchors.fill: parent
-            focus: true
-
-            property Game game: terminus
-
-            Keys.onPressed:
+            cursorShape: "BlankCursor"
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton
+            enabled: Qt.platform.os === "android" || Qt.platform.os === "ios"? false : true
+            onPositionChanged:
             {
-                terminus.keyInput(event.key)
-                event.accepted = true
+                // make sure the mouse is actually a mouse and not someone using touch
+                if (containsMouse)
+                    if (Qt.platform.os !== "android" && Qt.platform.os !== "ios")
+                        terminus.moveInput(1, mouse.x, mouse.y)
             }
-
-            MouseArea
+            onReleased:
             {
-                id: mouseCamera
-                anchors.fill: parent
-                cursorShape: "BlankCursor"
-                hoverEnabled: true
-                acceptedButtons: Qt.LeftButton
-                enabled: Qt.platform.os === ("android" || "ios")? false : true
-                onPositionChanged:
-                {
-                    if (containsMouse){
-                        terminus.moveInput(0, mouse.x, mouse.y)
-                    }
-                }
-                onReleased:
-                {
-                    terminus.buttonInput(6)
-                }
+                // 6 is the int value for the button value mouseButton (see eventhandler.h)
+                terminus.buttonInput(6)
             }
+        }
 
-            Reticle{}
-
-            StatusBarContainer{}
-
-            WagonActionArea
-            {
-                id: actionArea
-                //visible: Qt.platform.os === ("android" || "ios")? true : false
-                onFire:
-                {
-                    terminus.buttonInput(5)
-                }
-            }
-
-            WagonSwitchArea
-            {
-                id: switchArea
-                //visible: Qt.platform.os === ("android" || "ios")? true : false
-                onSwitchToNextWagon:
-                {
-                    terminus.buttonInput(3)
-                }
-                onSwitchToPreviousWagon:
-                {
-                    terminus.buttonInput(4)
-                }
-            }
-
-            OrientationSensor
-            {
-                id: orientationSensor
-                dataRate: 50
-                active: true
-                onReadingChanged:
-                {
-                    if (reading.orientation === OrientationReading.LeftUp)
-                    {
-                        gyro.orientation = -1
-                    }
-                    if (reading.orientation === OrientationReading.RightUp)
-                    {
-                        gyro.orientation = 1
-                    }
-                }
-            }
-
-            Gyroscope
-            {
-                id: gyro
-                dataRate: 50
-                active: true
-
-                property int orientation: 1
-
-                onReadingChanged:
-                {
-                    terminus.moveInput(
-                                       2
-                                     , gyro.reading.x * -orientation
-                                     , gyro.reading.y * orientation)
-                }
-            }
+        Loader
+        {
+            id: uiLoader
+            anchors.fill: parent
         }
     }
 }

@@ -23,13 +23,20 @@ public:
     AbstractPlayer(World & world, Train * train);
 
     Camera & camera();
+
+    Train * train();
+
+    bool hasWon();
+    bool hasLost();
+
     void toggleCameraLock();
 
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
-    void primaryAction();
-    void primaryActionDebug();
+    void switchToWagon(unsigned int wagonIndex);
+    virtual void primaryAction();
+    virtual void primaryActionDebug();
     void primaryActionCharge(bool charge = true);
 
     virtual void animateHit();

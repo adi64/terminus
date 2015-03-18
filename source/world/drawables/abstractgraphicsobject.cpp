@@ -1,10 +1,10 @@
 #include "abstractgraphicsobject.h"
 
-#include <QQuaternion>
 #include <QDebug>
+#include <QQuaternion>
 
-#include <resources/lightmanager.h>
 #include <player/localplayer.h>
+#include <world/lightmanager.h>
 #include <world/world.h>
 
 namespace terminus

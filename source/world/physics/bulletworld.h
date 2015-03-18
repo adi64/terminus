@@ -11,6 +11,8 @@ class AbstractPhysicsObject;
 
 /*!
  * \brief A Wrapper class for a btDiscreteDynamicsWorld
+ *
+ * Additionally contains helper functions and a map from btCollisionObject to AbstractPhysicsObject
  */
 class BulletWorld
 {
@@ -58,12 +60,25 @@ public:
      */
     int	stepSimulation(btScalar timeStep, int maxSubSteps = 1, btScalar fixedTimeStep = btScalar(1.)/btScalar(60.));
 
+    /*!
+     * \brief Add mapping from btCollisionObject to AbstractPhysicsObject
+     * to m_collisionMap
+     * \param collisionObject A pointer to a btCollisionObject (referenced in
+     * btRigidBody of AbstractPhysicsObject)
+     * \param graphicsObject A pointer to the corresponding AbstractPhysicsObject
+     */
     void addCollisionMapping(const btCollisionObject * collisionObject, AbstractPhysicsObject * graphicsObject);
+
+    /*!
+     * \brief Remove mapping from m_collisionMap
+     * \param collisionObject A pointer to a btCollisionObject
+     */
     void removeCollisionMapping(const btCollisionObject * collisionObject);
     AbstractPhysicsObject * getPhysicsObjectForCollisionObject(const btCollisionObject * collisionObject) const;
 
     /*!
      * \brief Bitfield values that describe the groups of objects that can collide with each other
+     *
      * \sa AbstractPhysicsObject::myCollisionType() and AbstractPhysicsObject::possibleCollisionTypes()
      */
     enum CollisionTypes
@@ -78,7 +93,8 @@ protected:
     /*!
      * \brief A Callback that is called on every simulation tick
      *
-     * This method gets called on every simulation tick (substep). At this point, we can check for colliding objects and dispatch collision events.
+     * This method gets called on every simulation tick (substep).
+     * At this point, we can check for colliding objects and dispatch collision events.
      */
     void btTickCallback(btDynamicsWorld * world, btScalar timeStep);
 
@@ -87,6 +103,13 @@ protected:
     btCollisionDispatcher * m_bulletDispatcher;
     btSequentialImpulseConstraintSolver * m_bulletSolver;
     btDiscreteDynamicsWorld * m_bulletWorld;
+
+    /*!
+     * \brief This map is used to get the AbstractPhysicsObject belonging to a
+     * btCollisionObject.
+     *
+     * \sa btTickCallback
+     */
     std::unordered_map<const btCollisionObject*, AbstractPhysicsObject*> m_collisionMap;
 };
 
