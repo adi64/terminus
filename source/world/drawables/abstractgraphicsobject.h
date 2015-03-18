@@ -3,20 +3,22 @@
 #include <memory>
 #include <functional>
 
-#include <QOpenGLFunctions>
 #include <QVector3D>
 #include <QQuaternion>
 #include <QMatrix4x4>
 
-#include <world/world.h>
-#include <resources/geometry.h>
-#include <resources/material.h>
+class QOpenGLFunctions;
 
 namespace terminus
 {
 
 class Program;
+class World;
 
+/*!
+ * \brief The AbstractGraphicsObject class is the root of a class hierarchy of
+ * objects that contain independen game logic and are visible in the game.
+ */
 class AbstractGraphicsObject
 {
 public:
@@ -28,114 +30,219 @@ public:
     virtual ~AbstractGraphicsObject();
 
     /*!
-     * \brief AbstractGraphicsObject::update - update object hierarchy beginning at this object
-     * \param elapsedMilliseconds
+     * \brief update object hierarchy beginning at this object
      *
-     * In general there is no need to override this.
+     * This method is not meant to be overridden as it contains logic to
+     * update child objects.
+     *
      * \sa AbstractGraphicsObject::localUpdate
      */
     virtual void update() final;
 
     /*!
-     * \brief AbstractGraphicsObject::render - render object hierarchy beginning at this object
-     * \param gl - GL functions
+     * \brief render object hierarchy beginning at this object
+     * \param gl
      *
-     * In general there is no need to override this.
+     * This method is not meant to be overridden as it contains logic to
+     * update child objects.
+     *
      * \sa AbstractGraphicsObject::localRender
      */
     virtual void render(QOpenGLFunctions & gl) final;
 
     /*!
-     * \brief unbindCamera - unbinds the scene camera from the object
-     *
-     * Call this function, if the object is not supposed to use camera anymore.
-     */
-    virtual void unbindCamera(Camera * cam);
-
-    /*!
-     * \brief bindCamera - binds the scene camera to this object
+     * \brief binds a camera to track this object
      * \param cam
      *
-     * The object is now supposed to set the camera parameters in update.
+     * Once a camera has been bound, it passes move and rotate events on to this
+     * object and adjustCamera() will be called from update()
+     *
+     * \sa adjustCamera()
+     * \sa moveEvent()
+     * \sa rotateEvent()
      */
-    virtual void bindCamera(Camera * cam);
+    virtual void bindCamera(Camera * camera);
+    /*!
+     * \brief release a camera so that it wont track this object any longer
+     *
+     * \sa bindCamera()
+     */
+    virtual void unbindCamera(Camera * camera);
 
     /*!
-     * \brief adjustCamera - camera movement has to be done here
-     *
-     * If an object is currently the camera host, this methode is used to adjust the camera position and viewing vectors.
-     * Should be overwritten by classes, which intend to host the camera.
+     * \brief override this method to perform specific actions once a camera
+     * has been bound
      */
-
     virtual void onBindCamera();
+    /*!
+     * \brief override this method to perform specific actions once a camera
+     * has been released
+     */
     virtual void onUnbindCamera();
-
+    /*!
+     * \brief override this method to adjust the parameters of a bound camera
+     * according to this objects own state
+     */
     virtual void adjustCamera();
+    /*!
+     * \brief override this method to react to move events received
+     * by a bound camera
+     * \param movement
+     */
     virtual void moveEvent(QVector3D movement);
+    /*!
+     * \brief override this method to react to rotate events received
+     * by a bound camera
+     * \param rotation
+     */
     virtual void rotateEvent(QVector2D rotation);
 
-    virtual const QVector3D & minBB() const;
-    virtual const QVector3D & maxBB() const;
+    /*!
+     * \return the minimum vector of this objects AABB given that it has
+     * a an associated Geometry instance
+     */
+    const QVector3D & minBB() const;
+    /*!
+     * \return the maximum vector of this objects AABB given that it has
+     * a an associated Geometry instance
+     */
+    const QVector3D & maxBB() const;
 
-    virtual QVector3D worldUp();
-    virtual QVector3D worldFront();
-    virtual QVector3D worldLeft();
+    /*!
+     * \return the up-vector of the model coordinate system transformed
+     * to world space
+     */
+    QVector3D worldUp();
+    /*!
+     * \return the front-vector of the model coordinate system transformed
+     * to world space
+     */
+    QVector3D worldFront();
+    /*!
+     * \return the side-vector of the model coordinate system transformed
+     * to world space
+     */
+    QVector3D worldSide();
 
-    virtual QVector3D position() const;
-    virtual QQuaternion rotation() const;
-    virtual QVector3D scale() const;
-    virtual QMatrix4x4 modelMatrix() const;
-    virtual QMatrix4x4 modelMatrixInverted() const;
+    /*!
+     * \return the position vector that was used to construct the model matrix
+     */
+    QVector3D position() const;
+    /*!
+     * \return the quaternion that was used to construct the model matrix
+     */
+    QQuaternion rotation() const;
+    /*!
+     * \return the scaling vector that was used to construct the model matrix
+     */
+    QVector3D scale() const;
+
+    /*!
+     * \return this objects model matrix
+     *
+     * If necessary, the matrix is recalculated from the
+     * position, rotation and scaling information
+     */
+    QMatrix4x4 modelMatrix() const;
+    /*!
+     * \return this objects inverted model matrix
+     *
+     * If necessary, the matrix is recalculated from the model matrix
+     */
+    QMatrix4x4 modelMatrixInverted() const;
 
 protected:
     /*!
-     * \brief AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do)
+     * \brief override this method to update this objects state
      */
     virtual void localUpdate();
 
     /*!
-     * \brief AbstractGraphicsObject::localRender - render this object using geometry, program and material set in the respective members
-     * \param gl - GL functions
+     * \brief this method contains the default render code using #m_geometry,
+     * #m_program and #m_material
+     * \param gl
      *
-     * Overrrite this if custom render code is needed
+     * localRenderSetup() and localRenderCleanup are called from here and are
+     * the preferred way to customize the rendering process over overriding
+     * this method entirely
      */
     virtual void localRender(QOpenGLFunctions & gl) const;
-
     /*!
-     * \brief AbstractGraphicsObject::localRenderSetup - use this to configure additional render states
-     * \param gl - GL functions
-     * \param program - program bound for rendering
+     * \brief override this method to customize the rendering process
+     * \param gl
+     * \param program - already bound
      *
-     * Set object specific uniforms, textures &c here
+     * Here is the right place to set additional uniforms
+     * and to bind textures &c.
      */
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const;
-
     /*!
-     * \brief AbstractGraphicsObject::localRenderCleanup - use this to clean up render states set in AbstractGraphicsObject::localRenderSetup
-     * \param gl - GL functions
-     * \param program - program bound for rendering
+     * \brief override this method to customize the rendering process
+     * \param gl
+     * \param program - still bound
+     *
+     * Here is the right place to clean up rendering states
+     * set in localRenderSetup().
      */
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
-
+    /*!
+     * \brief override this method to disable or enable rendering conditionally
+     * \return true if localRender() shall be called
+     */
     virtual bool localRenderEnabled() const;
 
-    virtual void setPosition(const QVector3D & position);
-    virtual void setRotation(const QQuaternion & eulerAngles);
-    virtual void setScale(const QVector3D & scale);
-    virtual void setScale(float scale);
-
-    virtual QVector3D worldToModel(const QVector3D & vWorld);
-    virtual QVector3D modelToWorld(const QVector3D & vModel);
-
     /*!
-     * \brief doForAllChildren - calls callback for every child object
+     * \brief override this method to make child objects known
      * \param callback
      *
-     * subclasses with children must override this method accordingly
+     * callback must be called once for every child object
      */
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback);
 
-    virtual void dispose();
+    /*!
+     * \brief sets the position and invalidates the model matrices
+     * \param position
+     */
+    void setPosition(const QVector3D & position);
+    /*!
+     * \brief sets the rotation and invalidates the model matrices
+     * \param rotation
+     */
+    void setRotation(const QQuaternion & rotation);
+    /*!
+     * \brief sets the scale and invalidates the model matrices
+     * \param scale
+     */
+    void setScale(const QVector3D & scale);
+    /*!
+     * \brief sets the scale uniformly on all three axes
+     * and invalidates the model matrices
+     * \param scale
+     */
+    void setScale(float scale);
+
+    /*!
+     * \param vWorld
+     * \return the model space position corresponding to vWorld in world space
+     *
+     * \sa modelMatrixInverted()
+     */
+    QVector3D worldToModel(const QVector3D & vWorld);
+    /*!
+     * \param vModel
+     * \return the world space position corresponding to vModel in model space
+     *
+     * \sa modelMatrix()
+     */
+    QVector3D modelToWorld(const QVector3D & vModel);
+
+    /*!
+     * \brief remove this object from the world and delete it
+     * as soon as it is safe to do so
+     *
+     * \sa World::deleteObject()
+     */
+    void dispose();
 
 protected:
     World & m_world;
@@ -152,6 +259,7 @@ protected:
     QVector3D m_scale;
     mutable bool m_modelMatrixChanged;
     mutable QMatrix4x4 m_modelMatrix;
+    mutable bool m_modelMatrixInvertedChanged;
     mutable QMatrix4x4 m_modelMatrixInverted;
 };
 

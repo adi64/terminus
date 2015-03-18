@@ -1,21 +1,14 @@
 #include "projectile.h"
 
-#include <QDebug>
-
-
-#include <resources/resourcemanager.h>
-#include <resources/geometry.h>
-#include <resources/material.h>
-#include <resources/program.h>
-#include <util/timer.h>
-#include <world/drawables/train/wagons/abstractwagon.h>
-#include <world/drawables/train/train.h>
-#include <world/drawables/explosion.h>
-#include <world/world.h>
 #include <network/networkmanager.h>
 #include <player/abstractplayer.h>
-
+#include <resources/resourcemanager.h>
 #include <resources/soundmanager.h>
+#include <util/timer.h>
+#include <world/drawables/explosion.h>
+#include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/train/train.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -30,7 +23,7 @@ Projectile::Projectile(World & world)
     m_lifeTimer = m_world.timer().allocateTimer();
 
     initializePhysics(new btSphereShape(1.0), 1.f);
-    setScale(0.3f); //TODO scale collision sphere as well
+    setScale(0.3f);
 }
 
 Projectile::~Projectile()
@@ -48,11 +41,6 @@ void Projectile::localUpdate()
     {
         dispose();
     }
-}
-
-void Projectile::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & program) const
-{
-    program.setUniform(std::string("lightDirection"), QVector3D(100.0, 20.0, -100.0));
 }
 
 float Projectile::damage() const

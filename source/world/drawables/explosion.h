@@ -11,10 +11,11 @@ namespace terminus
 {
 
 /*!
- * \brief The Explosion class provides a renderable explosion effect, which is triggered when a projectile hits a weagon.
+ * \brief The Explosion class renders an explosion effect
  *
- * It sole purpose is simulating an explosion without influencing any game logic.
- * The Explosion spawns at the position the weagon is hit by a projectile.
+ * Explosions will be spawned by Projectiles that collide with a Wagon
+ *
+ * \sa Projectile
  */
 class Explosion : public AbstractGraphicsObject
 {
