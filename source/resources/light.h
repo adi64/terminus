@@ -42,6 +42,9 @@ public:
     void setIntensity(float intensity);
     void setCutoff(float cutoffDegrees, float cutoffBorder);
 
+    void setActive(bool active);
+    bool isActive();
+
 protected:
     QVector4D positionType;
     QVector4D directionIntensity;

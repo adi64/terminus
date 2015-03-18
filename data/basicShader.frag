@@ -34,6 +34,7 @@ void main()
         //extract light parameters
         int iBase = i * lightComponents;
         float type = light[iBase].w;
+        float isLightActive = 1.0 - step(4.0, type);
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));
@@ -65,7 +66,7 @@ void main()
 
         vec3 diffuse = cDiffuse.rgb * fDiffuse;
         vec3 specular = cSpecular.rgb * fSpecular;
-        color += lightColor * (diffuse + specular) * fAttenuation * fSpot;
+        color += lightColor * (diffuse + specular) * fAttenuation * fSpot * isLightActive;
     }
 
     //fog calculation

@@ -6,6 +6,7 @@
 
 #include <world/camera.h>
 #include <world/world.h>
+#include <world/drawables/terrain.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <player/abstractplayer.h>
@@ -101,6 +102,33 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_P:
         m_game->togglePaused();
+        break;
+    case Qt::Key_T:
+        m_game->world().terrain().debug();
+        break;
+    case Qt::Key_1:
+        m_game->world().lightManager().get(0).setActive(!m_game->world().lightManager().get(0).isActive());
+        break;
+    case Qt::Key_2:
+        m_game->world().lightManager().get(1).setActive(!m_game->world().lightManager().get(1).isActive());
+        break;
+    case Qt::Key_3:
+        m_game->world().lightManager().get(2).setActive(!m_game->world().lightManager().get(2).isActive());
+        break;
+    case Qt::Key_4:
+        m_game->world().lightManager().get(3).setActive(!m_game->world().lightManager().get(3).isActive());
+        break;
+    case Qt::Key_5:
+        m_game->world().lightManager().get(4).setActive(!m_game->world().lightManager().get(4).isActive());
+        break;
+    case Qt::Key_6:
+        m_game->world().lightManager().get(5).setActive(!m_game->world().lightManager().get(5).isActive());
+        break;
+    case Qt::Key_7:
+        m_game->world().lightManager().get(6).setActive(!m_game->world().lightManager().get(6).isActive());
+        break;
+    case Qt::Key_8:
+        m_game->world().lightManager().get(7).setActive(!m_game->world().lightManager().get(7).isActive());
         break;
     default:
         break;

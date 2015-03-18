@@ -9,7 +9,6 @@
 
 namespace terminus
 {
-
 class Track;
 
 class Terrain : public KinematicPhysicsObject
@@ -22,6 +21,8 @@ public:
     virtual void localRender(QOpenGLFunctions& gl) const override;
     virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+
+    void debug();
 
     Track *rightTrack() const;
     Track *leftTrack() const;
@@ -47,6 +48,8 @@ protected:
 
     mutable int m_currentPatchX;
     mutable int m_currentPatchZ;
+
+    mutable bool m_debugChanged;
 };
 
 }

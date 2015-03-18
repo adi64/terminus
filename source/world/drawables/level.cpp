@@ -27,6 +27,7 @@ Level::Level()
 , m_terrainMapData(totalVertexCountS() * totalVertexCountT() * 4, 0.f)
 , m_heightGenerated(false)
 , m_heightMapData(heightMapSizeS() * heightMapSizeS(), 0.f)
+, m_debugState(0)
 {
 }
 
@@ -140,7 +141,7 @@ const void * Level::terrainMapData() const
     return m_terrainMapData.data();
 }
 
-std::unique_ptr<Polyline> Level::rightTrack() const
+Polyline * Level::rightTrack() const
 {
     std::vector<QVector3D> points;
     if(m_rightTrack)
@@ -156,10 +157,10 @@ std::unique_ptr<Polyline> Level::rightTrack() const
         points.push_back(QVector3D(0.f, 0.f, totalHeight()));
         points.push_back(QVector3D(totalWidth(), 0.f, totalHeight()));
     }
-    return std::unique_ptr<Polyline>(new Polyline(points));
+    return new Polyline(points);
 }
 
-std::unique_ptr<Polyline> Level::enemyTrack() const
+Polyline * Level::leftTrack() const
 {
     std::vector<QVector3D> points;
     if(m_leftTrack)
@@ -175,7 +176,7 @@ std::unique_ptr<Polyline> Level::enemyTrack() const
         points.push_back(QVector3D(0.f, 0.f, 0.f));
         points.push_back(QVector3D(totalWidth(), 0.f, 0.f));
     }
-    return std::unique_ptr<Polyline>(new Polyline(points));
+    return new Polyline(points);
 }
 
 const void * Level::heightMapData() const
@@ -197,6 +198,19 @@ float Level::heightMapScaleS() const
 float Level::heightMapScaleT() const
 {
     return vertexHeight() * 2.f;
+}
+
+void Level::debug(int state)
+{
+    if(m_debugState == state)
+    {
+        return;
+    }
+
+    m_debugState = state;
+    m_texGenerated = false;
+    m_heightGenerated = false;
+    generateLevel();
 }
 
 float Level::trackHeight() const
@@ -304,6 +318,10 @@ void Level::setTrackEnvironment(const CatmullRomSpline & track)
 }
 
 float Level::terrainHeight(float x, float z, float fTrack){
+    bool includeBase = (m_debugState & DebugNoBase) != 0;
+    bool includeRock = (m_debugState & DebugNoRock) != 0;
+    bool includeGround = (m_debugState & DebugNoGround) != 0;
+    bool includeTrack = (m_debugState & DebugNoTracks) != 0;
     float mountainBase = 140.f,
             mountainDiff = 120.f,
             valleyBase = 30.f,
@@ -326,17 +344,17 @@ float Level::terrainHeight(float x, float z, float fTrack){
             dZBorder = z - center,
             fToBorder = MathUtil::smoothstep(borderBegin, borderEnd, sqrt(dXBorder * dXBorder + dZBorder * dZBorder));
 
-    float height = MathUtil::mix(valleyBase, mountainBase, fToBorder)
-                    + m_noise.noise(1, landscapeFreq * x, landscapeFreq * z)
-                    * MathUtil::mix(valleyDiff, mountainDiff, fToBorder);
+    float hBase = m_noise.noise(1, landscapeFreq * x, landscapeFreq * z)
+                        * MathUtil::mix(valleyDiff, mountainDiff, fToBorder)
+                        + MathUtil::mix(valleyBase, mountainBase, fToBorder);
 
-    float fRockyness = MathUtil::smoothstep(rockBegin, rockEnd, height);
-    float rockOffset = m_noise.noise(1, rockFreq * x, rockFreq * z)
+    float fRockyness = MathUtil::smoothstep(rockBegin, rockEnd, hBase);
+    float hRock = m_noise.noise(1, rockFreq * x, rockFreq * z)
                         * MathUtil::mix(rockMinInfluence, rockMaxInfluence, fRockyness);
 
-    float groundOffset = m_noise.noise(1, groundFreq * x, groundFreq * z)
-                * MathUtil::mix(MathUtil::mix(groundTerrainInfluence, groundRockInfluence, fRockyness), groundTrackInfluence, fTrack);
-    return MathUtil::mix(height + rockOffset, trackHeight(), fTrack) + groundOffset;
+    float hGround = m_noise.noise(1, groundFreq * x, groundFreq * z)
+                        * MathUtil::mix(MathUtil::mix(groundTerrainInfluence, groundRockInfluence, fRockyness), groundTrackInfluence, fTrack);
+    return MathUtil::mix((includeBase? hBase : 0.f) + (includeRock? hRock : 0.f), trackHeight(), (includeTrack? fTrack : 0.f)) + (includeGround? hGround : 0.f);
 }
 
 int Level::tMapIndex(int s, int t) const

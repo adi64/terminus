@@ -42,6 +42,7 @@ namespace terminus
 Terrain::Terrain(World & world)
 : KinematicPhysicsObject(world)
 , m_terrainMapOnGPU(false)
+, m_debugChanged(false)
 {   
     m_program = ResourceManager::getInstance()->getProgram("terrain");
     m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
@@ -50,7 +51,7 @@ Terrain::Terrain(World & world)
     m_level.generateLevel();
     setScale(m_level.scale());
     m_rightTrack = std::unique_ptr<Track>(new Track(m_world, m_level.rightTrack(), true));
-    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, m_level.enemyTrack(), false));
+    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, m_level.leftTrack(), false));
     
     auto shape = new btHeightfieldTerrainShape(m_level.heightMapSizeS(),
                                                m_level.heightMapSizeT(),
@@ -154,14 +155,27 @@ void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) c
     gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Terrain::debug()
+{
+    static int state = 0;
+    state = (state + 1) % 16;
+    m_level.debug(state);
+    m_leftTrack->setCourse(m_level.leftTrack());
+    m_rightTrack->setCourse(m_level.rightTrack());
+    m_debugChanged = true;
+}
+
 void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
 {
-    if(m_terrainMapOnGPU)
+    if(m_terrainMapOnGPU && !m_debugChanged)
         return;
 
     const void * data = m_level.terrainMapData();
 
-    gl.glGenTextures(1, &m_terrainMap);
+    if(!m_debugChanged)
+    {
+        gl.glGenTextures(1, &m_terrainMap);
+    }
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
     gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_level.totalVertexCountS(), m_level.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, data);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -170,6 +184,7 @@ void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     gl.glBindTexture(GL_TEXTURE_2D, 0);
 
+    m_debugChanged = false;
     m_terrainMapOnGPU = true;
 }
 

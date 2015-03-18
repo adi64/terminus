@@ -9,6 +9,7 @@
 #include <bullet/btBulletDynamicsCommon.h>
 
 #include <util/timer.h>
+#include <world/drawables/terrain.h>
 #include <world/physics/bulletworld.h>
 #include <resources/lightmanager.h>
 #include <world/camera.h>
@@ -23,9 +24,9 @@ class btCollisionObject;
 
 namespace terminus
 {
+
 class Game;
 class Train;
-class Terrain;
 class SkyBox;
 class AbstractPlayer;
 class AIPlayer;

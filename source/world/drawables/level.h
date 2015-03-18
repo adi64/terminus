@@ -18,6 +18,14 @@ namespace terminus
 class Level
 {
 public:
+
+    static constexpr int Normal = 0;
+    static constexpr int DebugNoBase = 1;
+    static constexpr int DebugNoRock = 2;
+    static constexpr int DebugNoGround = 4;
+    static constexpr int DebugNoTracks = 8;
+
+public:
     Level();
     virtual ~Level();
 
@@ -46,14 +54,16 @@ public:
     virtual QVector2D vertexIDToPosition(int s, int t) const;
 
     virtual const void * terrainMapData() const;
-    virtual std::unique_ptr<Polyline> rightTrack() const;
-    virtual std::unique_ptr<Polyline> enemyTrack() const;
+    virtual Polyline * rightTrack() const;
+    virtual Polyline * leftTrack() const;
 
     virtual const void * heightMapData() const;
     virtual int heightMapSizeS() const;
     virtual int heightMapSizeT() const;
     virtual float heightMapScaleS() const;
     virtual float heightMapScaleT() const;
+
+    virtual void debug(int state = Normal);
 
 protected:
     virtual float trackHeight() const;
@@ -92,6 +102,8 @@ protected:
 
     std::unique_ptr<CatmullRomSpline> m_rightTrack;
     std::unique_ptr<CatmullRomSpline> m_leftTrack;
+
+    int m_debugState;
 };
 
 }

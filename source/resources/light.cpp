@@ -82,4 +82,24 @@ void Light::setCutoff(float cutoffDegrees, float cutoffBorder)
     colorCutOff.setW(floor(MathUtil::clamp(0.f, 90.f, cutoffDegrees)) + MathUtil::clamp(0.f, 1.f, cutoffBorder) * 0.5f);
 }
 
+void Light::setActive(bool active)
+{
+    int type = (int) positionType.w();
+    if(active)
+    {
+        type = type % 4;
+    }
+    else
+    {
+        type = 4 + type % 4;
+    }
+    positionType.setW((int) type);
+}
+
+bool Light::isActive()
+{
+    int type = (int) positionType.w();
+    return type == (type % 4);
+}
+
 }// namespace terminus

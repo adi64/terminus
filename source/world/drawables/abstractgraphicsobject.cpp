@@ -5,6 +5,7 @@
 
 #include <resources/lightmanager.h>
 #include <player/localplayer.h>
+#include <world/camera.h>
 #include <world/world.h>
 
 namespace terminus

@@ -40,12 +40,14 @@ void main()
     float fSpecularity = mix(fSpecularityRock.r, fSpecularitySnow.r, v_color);
 
     vec3 color = cEmit.rgb;
+    vec3 ambientLight = vec3(0.0, 0.0, 0.0);
 
     for(int i = 0; i < lightCount; i++)
     {
         //extract light parameters
         int iBase = i * lightComponents;
         float type = light[iBase].w;
+        float isLightActive = 1.0 - step(4.0, type);
         float isLightDPS = float(step(LIGHT_DIRECTIONAL, type));
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));
@@ -77,14 +79,16 @@ void main()
 
         vec3 diffuse = cDiffuse.rgb * fDiffuse;
         vec3 specular = cSpecular.rgb * fSpecular;
-        color += lightColor * (diffuse + specular) * fSpot * fAttenuation;
+        color += lightColor * (diffuse + specular) * fSpot * fAttenuation * isLightActive;
+        ambientLight += lightColor * (1.0 - isLightPS) * isLightActive;
     }
 
     //fog calculation
     float fFogHeight = smoothstep(25.0, 100.0, v_positionW.y);
-    vec3 fogColor = mix(vec3(0.3, 0.33, 0.4), vec3(0.35, 0.4, 0.5), fFogHeight);
+    vec3 fogColor = mix(vec3(0.3, 0.33, 0.4), vec3(0.45, 0.5, 0.6), fFogHeight) * ambientLight;
     float fDensity = mix(0.02, 0.002, fFogHeight);
     float fFog = 1.0 - exp(-pow(fDensity * (-v_positionC.z), 2.0));
 
-    gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
+    //gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
+    gl_FragColor = vec4(color, fAlpha.r);
 }

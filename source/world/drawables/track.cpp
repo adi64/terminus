@@ -6,11 +6,16 @@
 namespace terminus
 {
 
-Track::Track(World & world, std::unique_ptr<Polyline> controlPoints, bool isOtherTrackLeft)
+Track::Track(World & world, Polyline * course, bool isOtherTrackLeft)
 : AbstractGraphicsObject(world)
-, m_course(std::move(controlPoints))
 , m_isOtherTrackLeft(isOtherTrackLeft)
 {
+    setCourse(course);
+}
+
+void Track::setCourse(Polyline * course)
+{
+    m_course.reset(course);
 }
 
 QVector3D Track::positionAt(float distance)

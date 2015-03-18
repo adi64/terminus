@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstractphysicsobject.h"
+#include <world/physics/abstractphysicsobject.h>
 
 namespace terminus
 {
