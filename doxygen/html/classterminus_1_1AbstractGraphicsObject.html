@@ -98,6 +98,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1AbstractGraphicsObject.html" title="The AbstractGraphicsObject class is the root of a class hierarchy of objects that contain independen ...">AbstractGraphicsObject</a> class is the root of a class hierarchy of objects that contain independen game logic and are visible in the game.  
+ <a href="classterminus_1_1AbstractGraphicsObject.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="abstractgraphicsobject_8h_source.html">abstractgraphicsobject.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for terminus::AbstractGraphicsObject:</div>
@@ -106,18 +109,18 @@ Inheritance diagram for terminus::AbstractGraphicsObject:</div>
   <img src="classterminus_1_1AbstractGraphicsObject.png" usemap="#terminus::AbstractGraphicsObject_map" alt=""/>
   <map id="terminus::AbstractGraphicsObject_map" name="terminus::AbstractGraphicsObject_map">
 <area href="classterminus_1_1AbstractPhysicsObject.html" title="The AbstractPhysicsObject class represents a graphical scene element with a physics-based aspect..." alt="terminus::AbstractPhysicsObject" shape="rect" coords="105,56,305,80"/>
-<area href="classterminus_1_1Explosion.html" alt="terminus::Explosion" shape="rect" coords="315,56,515,80"/>
-<area href="classterminus_1_1SkyBox.html" alt="terminus::SkyBox" shape="rect" coords="525,56,725,80"/>
-<area href="classterminus_1_1Terrain.html" alt="terminus::Terrain" shape="rect" coords="735,56,935,80"/>
-<area href="classterminus_1_1Track.html" alt="terminus::Track" shape="rect" coords="945,56,1145,80"/>
-<area href="classterminus_1_1Train.html" alt="terminus::Train" shape="rect" coords="1155,56,1355,80"/>
+<area href="classterminus_1_1Explosion.html" title="The Explosion class renders an explosion effect. " alt="terminus::Explosion" shape="rect" coords="315,56,515,80"/>
+<area href="classterminus_1_1SkyBox.html" title="The SkyBox class renders an environment map in the form of a cube map on a screen aligned quad in the..." alt="terminus::SkyBox" shape="rect" coords="525,56,725,80"/>
+<area href="classterminus_1_1Terrain.html" title="The Terrain class renders the terrain using patches and a displacement texture. Patches that are too ..." alt="terminus::Terrain" shape="rect" coords="735,56,935,80"/>
+<area href="classterminus_1_1Track.html" title="The Track class represents a track that a Train moves on. It is currently not rendered. The course is represented by a Polyline instance. " alt="terminus::Track" shape="rect" coords="945,56,1145,80"/>
+<area href="classterminus_1_1Train.html" title="The Train class works as a logical container for all wagons one train consists of. " alt="terminus::Train" shape="rect" coords="1155,56,1355,80"/>
 <area href="classterminus_1_1DynamicPhysicsObject.html" title="A dynamic physics object is a physics object that is mostly passive. It will be affected by forces an..." alt="terminus::DynamicPhysicsObject" shape="rect" coords="0,112,200,136"/>
 <area href="classterminus_1_1KinematicPhysicsObject.html" title="A kinematic physics object is a "scripted" physics object, meaning that it will set its own movement..." alt="terminus::KinematicPhysicsObject" shape="rect" coords="210,112,410,136"/>
-<area href="classterminus_1_1Projectile.html" alt="terminus::Projectile" shape="rect" coords="0,168,200,192"/>
+<area href="classterminus_1_1Projectile.html" title="The Projectile class simulates and renders a projectile. It also handles collisions with Wagons..." alt="terminus::Projectile" shape="rect" coords="0,168,200,192"/>
 <area href="classterminus_1_1AbstractWagon.html" title="The AbstractWagon class provides a common interface for all wagon types and contains common functiona..." alt="terminus::AbstractWagon" shape="rect" coords="210,168,410,192"/>
-<area href="classterminus_1_1EngineWagon.html" alt="terminus::EngineWagon" shape="rect" coords="0,224,200,248"/>
-<area href="classterminus_1_1RepairWagon.html" alt="terminus::RepairWagon" shape="rect" coords="210,224,410,248"/>
-<area href="classterminus_1_1WeaponWagon.html" alt="terminus::WeaponWagon" shape="rect" coords="420,224,620,248"/>
+<area href="classterminus_1_1EngineWagon.html" title="The EngineWagon class provides a wagon type, which primary action increases the trains velocity..." alt="terminus::EngineWagon" shape="rect" coords="0,224,200,248"/>
+<area href="classterminus_1_1RepairWagon.html" title="The RepairWagon class provides a wagon type, which primary action increases the health of all still f..." alt="terminus::RepairWagon" shape="rect" coords="210,224,410,248"/>
+<area href="classterminus_1_1WeaponWagon.html" title="The WeaponWagon class provides a wagon type, which primary action shoots projectiles in the faced dir..." alt="terminus::WeaponWagon" shape="rect" coords="420,224,620,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -128,81 +131,91 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2cf2af6edbb51ab902eaadff18a6fa76"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a2cf2af6edbb51ab902eaadff18a6fa76">~AbstractGraphicsObject</a> ()</td></tr>
 <tr class="separator:a2cf2af6edbb51ab902eaadff18a6fa76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7858a76aea68efb6ae8a44d603b199a8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8">update</a> () final</td></tr>
-<tr class="memdesc:a7858a76aea68efb6ae8a44d603b199a8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8" title="AbstractGraphicsObject::update - update object hierarchy beginning at this object. ">AbstractGraphicsObject::update</a> - update object hierarchy beginning at this object.  <a href="#a7858a76aea68efb6ae8a44d603b199a8">More...</a><br /></td></tr>
+<tr class="memdesc:a7858a76aea68efb6ae8a44d603b199a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">update object hierarchy beginning at this object  <a href="#a7858a76aea68efb6ae8a44d603b199a8">More...</a><br /></td></tr>
 <tr class="separator:a7858a76aea68efb6ae8a44d603b199a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2903751f085341ff8aa09f2c2785327"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa2903751f085341ff8aa09f2c2785327">render</a> (QOpenGLFunctions &amp;gl) final</td></tr>
-<tr class="memdesc:aa2903751f085341ff8aa09f2c2785327"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa2903751f085341ff8aa09f2c2785327" title="AbstractGraphicsObject::render - render object hierarchy beginning at this object. ">AbstractGraphicsObject::render</a> - render object hierarchy beginning at this object.  <a href="#aa2903751f085341ff8aa09f2c2785327">More...</a><br /></td></tr>
+<tr class="memdesc:aa2903751f085341ff8aa09f2c2785327"><td class="mdescLeft">&#160;</td><td class="mdescRight">render object hierarchy beginning at this object  <a href="#aa2903751f085341ff8aa09f2c2785327">More...</a><br /></td></tr>
 <tr class="separator:aa2903751f085341ff8aa09f2c2785327"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42b2c9ff8f513bdcae72b6f6e024dfba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a42b2c9ff8f513bdcae72b6f6e024dfba">unbindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *cam)</td></tr>
-<tr class="memdesc:a42b2c9ff8f513bdcae72b6f6e024dfba"><td class="mdescLeft">&#160;</td><td class="mdescRight">unbindCamera - unbinds the scene camera from the object  <a href="#a42b2c9ff8f513bdcae72b6f6e024dfba">More...</a><br /></td></tr>
-<tr class="separator:a42b2c9ff8f513bdcae72b6f6e024dfba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57591970610df2f9ef4608bb4fd39915"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a57591970610df2f9ef4608bb4fd39915">bindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *cam)</td></tr>
-<tr class="memdesc:a57591970610df2f9ef4608bb4fd39915"><td class="mdescLeft">&#160;</td><td class="mdescRight">bindCamera - binds the scene camera to this object  <a href="#a57591970610df2f9ef4608bb4fd39915">More...</a><br /></td></tr>
-<tr class="separator:a57591970610df2f9ef4608bb4fd39915"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a46f98027e6b6508182c880d89728b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a40a46f98027e6b6508182c880d89728b">bindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *camera)</td></tr>
+<tr class="memdesc:a40a46f98027e6b6508182c880d89728b"><td class="mdescLeft">&#160;</td><td class="mdescRight">binds a camera to track this object  <a href="#a40a46f98027e6b6508182c880d89728b">More...</a><br /></td></tr>
+<tr class="separator:a40a46f98027e6b6508182c880d89728b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eccd9d1726fb167a16ed461a5fc287a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a2eccd9d1726fb167a16ed461a5fc287a">unbindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *camera)</td></tr>
+<tr class="memdesc:a2eccd9d1726fb167a16ed461a5fc287a"><td class="mdescLeft">&#160;</td><td class="mdescRight">release a camera so that it wont track this object any longer  <a href="#a2eccd9d1726fb167a16ed461a5fc287a">More...</a><br /></td></tr>
+<tr class="separator:a2eccd9d1726fb167a16ed461a5fc287a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecf7886e12b07d1b0b1f26c7de32a254"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aecf7886e12b07d1b0b1f26c7de32a254">onBindCamera</a> ()</td></tr>
-<tr class="memdesc:aecf7886e12b07d1b0b1f26c7de32a254"><td class="mdescLeft">&#160;</td><td class="mdescRight">adjustCamera - camera movement has to be done here  <a href="#aecf7886e12b07d1b0b1f26c7de32a254">More...</a><br /></td></tr>
+<tr class="memdesc:aecf7886e12b07d1b0b1f26c7de32a254"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to perform specific actions once a camera has been bound  <a href="#aecf7886e12b07d1b0b1f26c7de32a254">More...</a><br /></td></tr>
 <tr class="separator:aecf7886e12b07d1b0b1f26c7de32a254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a852078c527b63e6ccc09ff0af6bdbf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5a852078c527b63e6ccc09ff0af6bdbf">onUnbindCamera</a> ()</td></tr>
+<tr class="memdesc:a5a852078c527b63e6ccc09ff0af6bdbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to perform specific actions once a camera has been released  <a href="#a5a852078c527b63e6ccc09ff0af6bdbf">More...</a><br /></td></tr>
 <tr class="separator:a5a852078c527b63e6ccc09ff0af6bdbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8b7a523221413d6ab978e9b6cd2ec5b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae8b7a523221413d6ab978e9b6cd2ec5b">adjustCamera</a> ()</td></tr>
+<tr class="memdesc:ae8b7a523221413d6ab978e9b6cd2ec5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to adjust the parameters of a bound camera according to this objects own state  <a href="#ae8b7a523221413d6ab978e9b6cd2ec5b">More...</a><br /></td></tr>
 <tr class="separator:ae8b7a523221413d6ab978e9b6cd2ec5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70a30e354a60dceddadeee31a02d8c33"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a70a30e354a60dceddadeee31a02d8c33">moveEvent</a> (QVector3D movement)</td></tr>
+<tr class="memdesc:a70a30e354a60dceddadeee31a02d8c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to react to move events received by a bound camera  <a href="#a70a30e354a60dceddadeee31a02d8c33">More...</a><br /></td></tr>
 <tr class="separator:a70a30e354a60dceddadeee31a02d8c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d596d3c6726d37adc52d28071cb59e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6d596d3c6726d37adc52d28071cb59e6">rotateEvent</a> (QVector2D <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a>)</td></tr>
+<tr class="memdesc:a6d596d3c6726d37adc52d28071cb59e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to react to rotate events received by a bound camera  <a href="#a6d596d3c6726d37adc52d28071cb59e6">More...</a><br /></td></tr>
 <tr class="separator:a6d596d3c6726d37adc52d28071cb59e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ecd28bed32898f6a2bc2f55475dc8e"><td class="memItemLeft" align="right" valign="top">virtual const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa5ecd28bed32898f6a2bc2f55475dc8e">minBB</a> () const </td></tr>
+<tr class="memitem:aa5ecd28bed32898f6a2bc2f55475dc8e"><td class="memItemLeft" align="right" valign="top">const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa5ecd28bed32898f6a2bc2f55475dc8e">minBB</a> () const </td></tr>
 <tr class="separator:aa5ecd28bed32898f6a2bc2f55475dc8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab578baf5362a788a2d158259cc3619d8"><td class="memItemLeft" align="right" valign="top">virtual const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ab578baf5362a788a2d158259cc3619d8">maxBB</a> () const </td></tr>
+<tr class="memitem:ab578baf5362a788a2d158259cc3619d8"><td class="memItemLeft" align="right" valign="top">const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ab578baf5362a788a2d158259cc3619d8">maxBB</a> () const </td></tr>
 <tr class="separator:ab578baf5362a788a2d158259cc3619d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16d237053e9102310e396a09d0c364a3"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a16d237053e9102310e396a09d0c364a3">worldUp</a> ()</td></tr>
+<tr class="memitem:a16d237053e9102310e396a09d0c364a3"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a16d237053e9102310e396a09d0c364a3">worldUp</a> ()</td></tr>
 <tr class="separator:a16d237053e9102310e396a09d0c364a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c47ab3d70d32f750dae2536e2201305"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1c47ab3d70d32f750dae2536e2201305">worldFront</a> ()</td></tr>
+<tr class="memitem:a1c47ab3d70d32f750dae2536e2201305"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1c47ab3d70d32f750dae2536e2201305">worldFront</a> ()</td></tr>
 <tr class="separator:a1c47ab3d70d32f750dae2536e2201305"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0292bb0709144fa983af8857f057508a"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0292bb0709144fa983af8857f057508a">worldLeft</a> ()</td></tr>
-<tr class="separator:a0292bb0709144fa983af8857f057508a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd03b119279a558828ed7d7c9ff40cd"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a> () const </td></tr>
+<tr class="memitem:a5d989e832e92c1f9d73c43d26d126768"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5d989e832e92c1f9d73c43d26d126768">worldSide</a> ()</td></tr>
+<tr class="separator:a5d989e832e92c1f9d73c43d26d126768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dd03b119279a558828ed7d7c9ff40cd"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a> () const </td></tr>
 <tr class="separator:a3dd03b119279a558828ed7d7c9ff40cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35fe8458b32f93afefcd0ac77f964fd2"><td class="memItemLeft" align="right" valign="top">virtual QQuaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a> () const </td></tr>
+<tr class="memitem:a35fe8458b32f93afefcd0ac77f964fd2"><td class="memItemLeft" align="right" valign="top">QQuaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a> () const </td></tr>
 <tr class="separator:a35fe8458b32f93afefcd0ac77f964fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942ad5583e11876de8bb2574096b2ede"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a> () const </td></tr>
+<tr class="memitem:a942ad5583e11876de8bb2574096b2ede"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a> () const </td></tr>
 <tr class="separator:a942ad5583e11876de8bb2574096b2ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83b0d0859e1ffc59c50e1e714d3241b8"><td class="memItemLeft" align="right" valign="top">virtual QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a83b0d0859e1ffc59c50e1e714d3241b8">modelMatrix</a> () const </td></tr>
+<tr class="memitem:a83b0d0859e1ffc59c50e1e714d3241b8"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a83b0d0859e1ffc59c50e1e714d3241b8">modelMatrix</a> () const </td></tr>
 <tr class="separator:a83b0d0859e1ffc59c50e1e714d3241b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b8ed65b38052442b3b5b6354977d21c"><td class="memItemLeft" align="right" valign="top">virtual QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6b8ed65b38052442b3b5b6354977d21c">modelMatrixInverted</a> () const </td></tr>
+<tr class="memitem:a6b8ed65b38052442b3b5b6354977d21c"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6b8ed65b38052442b3b5b6354977d21c">modelMatrixInverted</a> () const </td></tr>
 <tr class="separator:a6b8ed65b38052442b3b5b6354977d21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a0d1fcea1643c23a204529a7fd84768a2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2">localUpdate</a> ()</td></tr>
-<tr class="memdesc:a0d1fcea1643c23a204529a7fd84768a2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2" title="AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do) ...">AbstractGraphicsObject::localUpdate</a> - update the state of this object (as yet nothing to do)  <a href="#a0d1fcea1643c23a204529a7fd84768a2">More...</a><br /></td></tr>
+<tr class="memdesc:a0d1fcea1643c23a204529a7fd84768a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to update this objects state  <a href="#a0d1fcea1643c23a204529a7fd84768a2">More...</a><br /></td></tr>
 <tr class="separator:a0d1fcea1643c23a204529a7fd84768a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9eef174f4dd222af8eca95eb3e731cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf">localRender</a> (QOpenGLFunctions &amp;gl) const </td></tr>
-<tr class="memdesc:af9eef174f4dd222af8eca95eb3e731cf"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="AbstractGraphicsObject::localRender - render this object using geometry, program and material set in ...">AbstractGraphicsObject::localRender</a> - render this object using geometry, program and material set in the respective members.  <a href="#af9eef174f4dd222af8eca95eb3e731cf">More...</a><br /></td></tr>
+<tr class="memdesc:af9eef174f4dd222af8eca95eb3e731cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">this method contains the default render code using <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a>, <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a> and <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5b9d944520fb2d0fdcc56480ca45f51f">m_material</a>  <a href="#af9eef174f4dd222af8eca95eb3e731cf">More...</a><br /></td></tr>
 <tr class="separator:af9eef174f4dd222af8eca95eb3e731cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8306ae04d7dd1a79e3bc7647c572fc2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2">localRenderSetup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classProgram.html">Program</a> &amp;program) const </td></tr>
-<tr class="memdesc:ac8306ae04d7dd1a79e3bc7647c572fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a> - use this to configure additional render states.  <a href="#ac8306ae04d7dd1a79e3bc7647c572fc2">More...</a><br /></td></tr>
+<tr class="memitem:ac8306ae04d7dd1a79e3bc7647c572fc2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2">localRenderSetup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classterminus_1_1Program.html">Program</a> &amp;program) const </td></tr>
+<tr class="memdesc:ac8306ae04d7dd1a79e3bc7647c572fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to customize the rendering process  <a href="#ac8306ae04d7dd1a79e3bc7647c572fc2">More...</a><br /></td></tr>
 <tr class="separator:ac8306ae04d7dd1a79e3bc7647c572fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fecc4c04f92d6a97d02a592bb8c642d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d">localRenderCleanup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classProgram.html">Program</a> &amp;program) const </td></tr>
-<tr class="memdesc:a8fecc4c04f92d6a97d02a592bb8c642d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d" title="AbstractGraphicsObject::localRenderCleanup - use this to clean up render states set in AbstractGraphi...">AbstractGraphicsObject::localRenderCleanup</a> - use this to clean up render states set in <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a>.  <a href="#a8fecc4c04f92d6a97d02a592bb8c642d">More...</a><br /></td></tr>
+<tr class="memitem:a8fecc4c04f92d6a97d02a592bb8c642d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d">localRenderCleanup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classterminus_1_1Program.html">Program</a> &amp;program) const </td></tr>
+<tr class="memdesc:a8fecc4c04f92d6a97d02a592bb8c642d"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to customize the rendering process  <a href="#a8fecc4c04f92d6a97d02a592bb8c642d">More...</a><br /></td></tr>
 <tr class="separator:a8fecc4c04f92d6a97d02a592bb8c642d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67bae1c57cd73754f85e51f5dc5e8e85"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a67bae1c57cd73754f85e51f5dc5e8e85">localRenderEnabled</a> () const </td></tr>
+<tr class="memdesc:a67bae1c57cd73754f85e51f5dc5e8e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to disable or enable rendering conditionally  <a href="#a67bae1c57cd73754f85e51f5dc5e8e85">More...</a><br /></td></tr>
 <tr class="separator:a67bae1c57cd73754f85e51f5dc5e8e85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a037be1843cb407f80c91814944935709"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a037be1843cb407f80c91814944935709">setPosition</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a>)</td></tr>
-<tr class="separator:a037be1843cb407f80c91814944935709"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2294db4aea2c17c25b1c80920482ecc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af2294db4aea2c17c25b1c80920482ecc">setRotation</a> (const QQuaternion &amp;eulerAngles)</td></tr>
-<tr class="separator:af2294db4aea2c17c25b1c80920482ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a451d33d6884a1eb1559b0348500fabc4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a451d33d6884a1eb1559b0348500fabc4">setScale</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
-<tr class="separator:a451d33d6884a1eb1559b0348500fabc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0da24d929f7a4871884d37916e11b3b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae0da24d929f7a4871884d37916e11b3b">setScale</a> (float <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
-<tr class="separator:ae0da24d929f7a4871884d37916e11b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60717e6462641cf54841e7e53433340e"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a60717e6462641cf54841e7e53433340e">worldToModel</a> (const QVector3D &amp;vWorld)</td></tr>
-<tr class="separator:a60717e6462641cf54841e7e53433340e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84196c32f4cf7e900a70ed4db50f35d0"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a84196c32f4cf7e900a70ed4db50f35d0">modelToWorld</a> (const QVector3D &amp;vModel)</td></tr>
-<tr class="separator:a84196c32f4cf7e900a70ed4db50f35d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc7eda26a816bf1fdfa125dd877ac614"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#afc7eda26a816bf1fdfa125dd877ac614">doForAllChildren</a> (std::function&lt; void(<a class="el" href="classterminus_1_1AbstractGraphicsObject.html">AbstractGraphicsObject</a> &amp;)&gt; callback)</td></tr>
-<tr class="memdesc:afc7eda26a816bf1fdfa125dd877ac614"><td class="mdescLeft">&#160;</td><td class="mdescRight">doForAllChildren - calls callback for every child object  <a href="#afc7eda26a816bf1fdfa125dd877ac614">More...</a><br /></td></tr>
+<tr class="memdesc:afc7eda26a816bf1fdfa125dd877ac614"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to make child objects known  <a href="#afc7eda26a816bf1fdfa125dd877ac614">More...</a><br /></td></tr>
 <tr class="separator:afc7eda26a816bf1fdfa125dd877ac614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03f988bc851c28fabdb6d0e3c16d1a0e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a03f988bc851c28fabdb6d0e3c16d1a0e">dispose</a> ()</td></tr>
+<tr class="memitem:a037be1843cb407f80c91814944935709"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a037be1843cb407f80c91814944935709">setPosition</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a>)</td></tr>
+<tr class="memdesc:a037be1843cb407f80c91814944935709"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the position and invalidates the model matrices  <a href="#a037be1843cb407f80c91814944935709">More...</a><br /></td></tr>
+<tr class="separator:a037be1843cb407f80c91814944935709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b34d1ee42ff0affa70c7b6975d9b1fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1b34d1ee42ff0affa70c7b6975d9b1fb">setRotation</a> (const QQuaternion &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a>)</td></tr>
+<tr class="memdesc:a1b34d1ee42ff0affa70c7b6975d9b1fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the rotation and invalidates the model matrices  <a href="#a1b34d1ee42ff0affa70c7b6975d9b1fb">More...</a><br /></td></tr>
+<tr class="separator:a1b34d1ee42ff0affa70c7b6975d9b1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a451d33d6884a1eb1559b0348500fabc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a451d33d6884a1eb1559b0348500fabc4">setScale</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memdesc:a451d33d6884a1eb1559b0348500fabc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the scale and invalidates the model matrices  <a href="#a451d33d6884a1eb1559b0348500fabc4">More...</a><br /></td></tr>
+<tr class="separator:a451d33d6884a1eb1559b0348500fabc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0da24d929f7a4871884d37916e11b3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae0da24d929f7a4871884d37916e11b3b">setScale</a> (float <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memdesc:ae0da24d929f7a4871884d37916e11b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the scale uniformly on all three axes and invalidates the model matrices  <a href="#ae0da24d929f7a4871884d37916e11b3b">More...</a><br /></td></tr>
+<tr class="separator:ae0da24d929f7a4871884d37916e11b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60717e6462641cf54841e7e53433340e"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a60717e6462641cf54841e7e53433340e">worldToModel</a> (const QVector3D &amp;vWorld)</td></tr>
+<tr class="separator:a60717e6462641cf54841e7e53433340e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84196c32f4cf7e900a70ed4db50f35d0"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a84196c32f4cf7e900a70ed4db50f35d0">modelToWorld</a> (const QVector3D &amp;vModel)</td></tr>
+<tr class="separator:a84196c32f4cf7e900a70ed4db50f35d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f988bc851c28fabdb6d0e3c16d1a0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a03f988bc851c28fabdb6d0e3c16d1a0e">dispose</a> ()</td></tr>
+<tr class="memdesc:a03f988bc851c28fabdb6d0e3c16d1a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">remove this object from the world and delete it as soon as it is safe to do so  <a href="#a03f988bc851c28fabdb6d0e3c16d1a0e">More...</a><br /></td></tr>
 <tr class="separator:a03f988bc851c28fabdb6d0e3c16d1a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -213,7 +226,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a8da8d85d7b68ab507e7edc49138550c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80a12439295eb5445d8f920ce80a42d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Camera.html">Camera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a80a12439295eb5445d8f920ce80a42d6">m_camera</a></td></tr>
 <tr class="separator:a80a12439295eb5445d8f920ce80a42d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8f292ceb2824816f9686bcd16608758"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classProgram.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a></td></tr>
+<tr class="memitem:ac8f292ceb2824816f9686bcd16608758"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Program.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a></td></tr>
 <tr class="separator:ac8f292ceb2824816f9686bcd16608758"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85bad53a45f291474d34d88eb897ffbc"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Geometry.html">Geometry</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a></td></tr>
 <tr class="separator:a85bad53a45f291474d34d88eb897ffbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,10 +242,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ae354312e74d563699c620bd4d4ba45a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23693cc75a6e4fca763dbcd11622a1c0"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a23693cc75a6e4fca763dbcd11622a1c0">m_modelMatrix</a></td></tr>
 <tr class="separator:a23693cc75a6e4fca763dbcd11622a1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58055a86363f9fd40bf5250b4815453e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a58055a86363f9fd40bf5250b4815453e">m_modelMatrixInvertedChanged</a></td></tr>
+<tr class="separator:a58055a86363f9fd40bf5250b4815453e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0055824ae0abf2954f5b2c812237752e"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0055824ae0abf2954f5b2c812237752e">m_modelMatrixInverted</a></td></tr>
 <tr class="separator:a0055824ae0abf2954f5b2c812237752e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1AbstractGraphicsObject.html" title="The AbstractGraphicsObject class is the root of a class hierarchy of objects that contain independen ...">AbstractGraphicsObject</a> class is the root of a class hierarchy of objects that contain independen game logic and are visible in the game. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1cabb33dee7128d7900e64b8dd76e5fa"></a>
 <div class="memitem">
 <div class="memproto">
@@ -297,11 +314,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>override this method to adjust the parameters of a bound camera according to this objects own state </p>
+
 <p>Reimplemented in <a class="el" href="classterminus_1_1AbstractWagon.html#a39f4ea3f31da509eae2cb0b3a07a3b1d">terminus::AbstractWagon</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a57591970610df2f9ef4608bb4fd39915"></a>
+<a class="anchor" id="a40a46f98027e6b6508182c880d89728b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -312,7 +331,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void terminus::AbstractGraphicsObject::bindCamera </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classterminus_1_1Camera.html">Camera</a> *&#160;</td>
-          <td class="paramname"><em>cam</em></td><td>)</td>
+          <td class="paramname"><em>camera</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -323,13 +342,18 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>bindCamera - binds the scene camera to this object </p>
+<p>binds a camera to track this object </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cam</td><td>The object is now supposed to set the camera parameters in update. </td></tr>
+    <tr><td class="paramname">cam</td><td>Once a camera has been bound, it passes move and rotate events on to this object and <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae8b7a523221413d6ab978e9b6cd2ec5b" title="override this method to adjust the parameters of a bound camera according to this objects own state ...">adjustCamera()</a> will be called from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8" title="update object hierarchy beginning at this object ">update()</a></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae8b7a523221413d6ab978e9b6cd2ec5b" title="override this method to adjust the parameters of a bound camera according to this objects own state ...">adjustCamera()</a> </dd>
+<dd>
+<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a70a30e354a60dceddadeee31a02d8c33" title="override this method to react to move events received by a bound camera ">moveEvent()</a> </dd>
+<dd>
+<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6d596d3c6726d37adc52d28071cb59e6" title="override this method to react to rotate events received by a bound camera ">rotateEvent()</a> </dd></dl>
 
 </div>
 </div>
@@ -349,10 +373,13 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>remove this object from the world and delete it as soon as it is safe to do so </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1World.html#a5764389d569b81ee9246cc45ac02f6bb">World::deleteObject()</a> </dd></dl>
 
 </div>
 </div>
@@ -378,10 +405,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>doForAllChildren - calls callback for every child object </p>
+<p>override this method to make child objects known </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">callback</td><td>subclasses with children must override this method accordingly </td></tr>
+    <tr><td class="paramname">callback</td><td>callback must be called once for every child object </td></tr>
   </table>
   </dd>
 </dl>
@@ -412,14 +439,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="AbstractGraphicsObject::localRender - render this object using geometry, program and material set in ...">AbstractGraphicsObject::localRender</a> - render this object using geometry, program and material set in the respective members. </p>
+<p>this method contains the default render code using <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a>, <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a> and <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5b9d944520fb2d0fdcc56480ca45f51f">m_material</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions</td></tr>
+    <tr><td class="paramname">gl</td><td><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="override this method to customize the rendering process ">localRenderSetup()</a> and localRenderCleanup are called from here and are the preferred way to customize the rendering process over overriding this method entirely </td></tr>
   </table>
   </dd>
 </dl>
-<p>Overrrite this if custom render code is needed </p>
 
 <p>Reimplemented in <a class="el" href="classterminus_1_1Terrain.html#aeb61687038f2ccb5880e003767865c7c">terminus::Terrain</a>.</p>
 
@@ -441,7 +467,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em>&#160;</td>
         </tr>
         <tr>
@@ -457,16 +483,17 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d" title="AbstractGraphicsObject::localRenderCleanup - use this to clean up render states set in AbstractGraphi...">AbstractGraphicsObject::localRenderCleanup</a> - use this to clean up render states set in <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a>. </p>
+<p>override this method to customize the rendering process </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions </td></tr>
-    <tr><td class="paramname">program</td><td>- program bound for rendering </td></tr>
+    <tr><td class="paramname">gl</td><td></td></tr>
+    <tr><td class="paramname">program</td><td>- still bound</td></tr>
   </table>
   </dd>
 </dl>
+<p>Here is the right place to clean up rendering states set in <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="override this method to customize the rendering process ">localRenderSetup()</a>. </p>
 
-<p>Reimplemented in <a class="el" href="classterminus_1_1Explosion.html#a3d85580fa99c7ee13289b1dd314ce70e">terminus::Explosion</a>, <a class="el" href="classterminus_1_1SkyBox.html#a5712760b1be2de7c446d1c1129007a08">terminus::SkyBox</a>, and <a class="el" href="classterminus_1_1Terrain.html#a246dfba04ad3dead15b7060f43b31548">terminus::Terrain</a>.</p>
+<p>Reimplemented in <a class="el" href="classterminus_1_1Explosion.html#a3d85580fa99c7ee13289b1dd314ce70e">terminus::Explosion</a>, <a class="el" href="classterminus_1_1Terrain.html#a246dfba04ad3dead15b7060f43b31548">terminus::Terrain</a>, and <a class="el" href="classterminus_1_1SkyBox.html#a5712760b1be2de7c446d1c1129007a08">terminus::SkyBox</a>.</p>
 
 </div>
 </div>
@@ -491,6 +518,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>override this method to disable or enable rendering conditionally </p>
+<dl class="section return"><dt>Returns</dt><dd>true if <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="this method contains the default render code using m_geometry, m_program and m_material ...">localRender()</a> shall be called </dd></dl>
+
 <p>Reimplemented in <a class="el" href="classterminus_1_1Train.html#a09242060eefc177b5d33f090a7da461a">terminus::Train</a>, and <a class="el" href="classterminus_1_1Track.html#af3a719949068b794a3f992b599e2e7a1">terminus::Track</a>.</p>
 
 </div>
@@ -511,7 +541,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em>&#160;</td>
         </tr>
         <tr>
@@ -527,17 +557,17 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a> - use this to configure additional render states. </p>
+<p>override this method to customize the rendering process </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions </td></tr>
-    <tr><td class="paramname">program</td><td>- program bound for rendering</td></tr>
+    <tr><td class="paramname">gl</td><td></td></tr>
+    <tr><td class="paramname">program</td><td>- already bound</td></tr>
   </table>
   </dd>
 </dl>
-<p>Set object specific uniforms, textures &amp;c here </p>
+<p>Here is the right place to set additional uniforms and to bind textures &amp;c. </p>
 
-<p>Reimplemented in <a class="el" href="classterminus_1_1Explosion.html#a32dfd91018ddf057dce6da3fc242c222">terminus::Explosion</a>, <a class="el" href="classterminus_1_1SkyBox.html#a9e923b4f6c9b6616b643c288284938e7">terminus::SkyBox</a>, <a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41">terminus::Terrain</a>, and <a class="el" href="classterminus_1_1Projectile.html#ab110d7b17a72efb4132908ddbf4767ad">terminus::Projectile</a>.</p>
+<p>Reimplemented in <a class="el" href="classterminus_1_1Explosion.html#a32dfd91018ddf057dce6da3fc242c222">terminus::Explosion</a>, <a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41">terminus::Terrain</a>, and <a class="el" href="classterminus_1_1SkyBox.html#a9e923b4f6c9b6616b643c288284938e7">terminus::SkyBox</a>.</p>
 
 </div>
 </div>
@@ -562,18 +592,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2" title="AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do) ...">AbstractGraphicsObject::localUpdate</a> - update the state of this object (as yet nothing to do) </p>
+<p>override this method to update this objects state </p>
 
-<p>Reimplemented in <a class="el" href="classterminus_1_1Train.html#ad96e21dc888f2dfa0a38d7f7225476c1">terminus::Train</a>, <a class="el" href="classterminus_1_1AbstractWagon.html#ae717e06b1cfde412a368b3a36c2af5bb">terminus::AbstractWagon</a>, <a class="el" href="classterminus_1_1Explosion.html#a95c0356640cb32178b04e40fea953e86">terminus::Explosion</a>, <a class="el" href="classterminus_1_1KinematicPhysicsObject.html#a11f94b35a33ecfbe4cf225f2b5bdf50d">terminus::KinematicPhysicsObject</a>, <a class="el" href="classterminus_1_1Projectile.html#ab5cde5d38165f3f01796c2c45f226dff">terminus::Projectile</a>, <a class="el" href="classterminus_1_1EngineWagon.html#a6bf40991e1ced365f79f4b2dd88cad63">terminus::EngineWagon</a>, <a class="el" href="classterminus_1_1DynamicPhysicsObject.html#a249c0e30250b1724681d79f58d86307b">terminus::DynamicPhysicsObject</a>, <a class="el" href="classterminus_1_1RepairWagon.html#a4525b4f1d6d05bc9593972f8f8bcb781">terminus::RepairWagon</a>, and <a class="el" href="classterminus_1_1WeaponWagon.html#abdd47b2a4c94702cfce8762af36b4c47">terminus::WeaponWagon</a>.</p>
+<p>Reimplemented in <a class="el" href="classterminus_1_1Train.html#ad96e21dc888f2dfa0a38d7f7225476c1">terminus::Train</a>, <a class="el" href="classterminus_1_1AbstractWagon.html#ae717e06b1cfde412a368b3a36c2af5bb">terminus::AbstractWagon</a>, <a class="el" href="classterminus_1_1Explosion.html#a95c0356640cb32178b04e40fea953e86">terminus::Explosion</a>, <a class="el" href="classterminus_1_1Projectile.html#ab5cde5d38165f3f01796c2c45f226dff">terminus::Projectile</a>, <a class="el" href="classterminus_1_1EngineWagon.html#a6bf40991e1ced365f79f4b2dd88cad63">terminus::EngineWagon</a>, <a class="el" href="classterminus_1_1KinematicPhysicsObject.html#a11f94b35a33ecfbe4cf225f2b5bdf50d">terminus::KinematicPhysicsObject</a>, <a class="el" href="classterminus_1_1RepairWagon.html#a4525b4f1d6d05bc9593972f8f8bcb781">terminus::RepairWagon</a>, <a class="el" href="classterminus_1_1WeaponWagon.html#abdd47b2a4c94702cfce8762af36b4c47">terminus::WeaponWagon</a>, and <a class="el" href="classterminus_1_1DynamicPhysicsObject.html#a249c0e30250b1724681d79f58d86307b">terminus::DynamicPhysicsObject</a>.</p>
 
 </div>
 </div>
 <a class="anchor" id="ab578baf5362a788a2d158259cc3619d8"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">const QVector3D &amp; terminus::AbstractGraphicsObject::maxBB </td>
@@ -582,21 +609,14 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the maximum vector of this objects AABB given that it has a an associated <a class="el" href="classterminus_1_1Geometry.html" title="The Geometry class wraps the vertices data of one drawable object. ">Geometry</a> instance </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="aa5ecd28bed32898f6a2bc2f55475dc8e"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">const QVector3D &amp; terminus::AbstractGraphicsObject::minBB </td>
@@ -605,21 +625,14 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the minimum vector of this objects AABB given that it has a an associated <a class="el" href="classterminus_1_1Geometry.html" title="The Geometry class wraps the vertices data of one drawable object. ">Geometry</a> instance </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="a83b0d0859e1ffc59c50e1e714d3241b8"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QMatrix4x4 terminus::AbstractGraphicsObject::modelMatrix </td>
@@ -628,21 +641,15 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>this objects model matrix</dd></dl>
+<p>If necessary, the matrix is recalculated from the position, rotation and scaling information </p>
 
 </div>
 </div>
 <a class="anchor" id="a6b8ed65b38052442b3b5b6354977d21c"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QMatrix4x4 terminus::AbstractGraphicsObject::modelMatrixInverted </td>
@@ -651,12 +658,9 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>this objects inverted model matrix</dd></dl>
+<p>If necessary, the matrix is recalculated from the model matrix </p>
 
 </div>
 </div>
@@ -677,10 +681,18 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vModel</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the world space position corresponding to vModel in model space</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a83b0d0859e1ffc59c50e1e714d3241b8">modelMatrix()</a> </dd></dl>
 
 </div>
 </div>
@@ -706,7 +718,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classterminus_1_1AbstractWagon.html#a1221b46369913cf3e57d72ef39cb7309">terminus::AbstractWagon</a>.</p>
+<p>override this method to react to move events received by a bound camera </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">movement</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -731,8 +749,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>adjustCamera - camera movement has to be done here </p>
-<p>If an object is currently the camera host, this methode is used to adjust the camera position and viewing vectors. Should be overwritten by classes, which intend to host the camera. </p>
+<p>override this method to perform specific actions once a camera has been bound </p>
 
 <p>Reimplemented in <a class="el" href="classterminus_1_1AbstractWagon.html#ae740ff88108b75e22f8022648d346051">terminus::AbstractWagon</a>.</p>
 
@@ -759,14 +776,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>override this method to perform specific actions once a camera has been released </p>
+
 </div>
 </div>
 <a class="anchor" id="a3dd03b119279a558828ed7d7c9ff40cd"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QVector3D terminus::AbstractGraphicsObject::position </td>
@@ -775,12 +791,8 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the position vector that was used to construct the model matrix </dd></dl>
 
 </div>
 </div>
@@ -806,14 +818,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa2903751f085341ff8aa09f2c2785327" title="AbstractGraphicsObject::render - render object hierarchy beginning at this object. ">AbstractGraphicsObject::render</a> - render object hierarchy beginning at this object. </p>
+<p>render object hierarchy beginning at this object </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions</td></tr>
+    <tr><td class="paramname">gl</td><td>This method is not meant to be overridden as it contains logic to update child objects.</td></tr>
   </table>
   </dd>
 </dl>
-<p>In general there is no need to override this. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="AbstractGraphicsObject::localRender - render this object using geometry, program and material set in ...">AbstractGraphicsObject::localRender</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="this method contains the default render code using m_geometry, m_program and m_material ...">AbstractGraphicsObject::localRender</a> </dd></dl>
 
 </div>
 </div>
@@ -839,6 +851,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>override this method to react to rotate events received by a bound camera </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rotation</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Reimplemented in <a class="el" href="classterminus_1_1AbstractWagon.html#a6dee662e1402caceb8fb6e91b02b0c7e">terminus::AbstractWagon</a>.</p>
 
 </div>
@@ -846,9 +866,6 @@ Protected Attributes</h2></td></tr>
 <a class="anchor" id="a35fe8458b32f93afefcd0ac77f964fd2"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QQuaternion terminus::AbstractGraphicsObject::rotation </td>
@@ -857,21 +874,14 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the quaternion that was used to construct the model matrix </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="a942ad5583e11876de8bb2574096b2ede"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QVector3D terminus::AbstractGraphicsObject::scale </td>
@@ -880,12 +890,8 @@ Protected Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the scaling vector that was used to construct the model matrix </dd></dl>
 
 </div>
 </div>
@@ -906,14 +912,22 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>sets the position and invalidates the model matrices </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a class="anchor" id="af2294db4aea2c17c25b1c80920482ecc"></a>
+<a class="anchor" id="a1b34d1ee42ff0affa70c7b6975d9b1fb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -924,16 +938,24 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void terminus::AbstractGraphicsObject::setRotation </td>
           <td>(</td>
           <td class="paramtype">const QQuaternion &amp;&#160;</td>
-          <td class="paramname"><em>eulerAngles</em></td><td>)</td>
+          <td class="paramname"><em>rotation</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>sets the rotation and invalidates the model matrices </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rotation</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -954,10 +976,18 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>sets the scale and invalidates the model matrices </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scale</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -978,14 +1008,22 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>sets the scale uniformly on all three axes and invalidates the model matrices </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scale</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a class="anchor" id="a42b2c9ff8f513bdcae72b6f6e024dfba"></a>
+<a class="anchor" id="a2eccd9d1726fb167a16ed461a5fc287a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -996,7 +1034,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void terminus::AbstractGraphicsObject::unbindCamera </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classterminus_1_1Camera.html">Camera</a> *&#160;</td>
-          <td class="paramname"><em>cam</em></td><td>)</td>
+          <td class="paramname"><em>camera</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1007,8 +1045,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>unbindCamera - unbinds the scene camera from the object </p>
-<p>Call this function, if the object is not supposed to use camera anymore. </p>
+<p>release a camera so that it wont track this object any longer </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a40a46f98027e6b6508182c880d89728b" title="binds a camera to track this object ">bindCamera()</a> </dd></dl>
 
 </div>
 </div>
@@ -1033,23 +1071,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8" title="AbstractGraphicsObject::update - update object hierarchy beginning at this object. ">AbstractGraphicsObject::update</a> - update object hierarchy beginning at this object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">elapsedMilliseconds</td><td>In general there is no need to override this. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2" title="AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do) ...">AbstractGraphicsObject::localUpdate</a> </dd></dl>
+<p>update object hierarchy beginning at this object </p>
+<p>This method is not meant to be overridden as it contains logic to update child objects.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2" title="override this method to update this objects state ">AbstractGraphicsObject::localUpdate</a> </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="a1c47ab3d70d32f750dae2536e2201305"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QVector3D terminus::AbstractGraphicsObject::worldFront </td>
@@ -1058,35 +1088,24 @@ Protected Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the front-vector of the model coordinate system transformed to world space </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a0292bb0709144fa983af8857f057508a"></a>
+<a class="anchor" id="a5d989e832e92c1f9d73c43d26d126768"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QVector3D terminus::AbstractGraphicsObject::worldLeft </td>
+          <td class="memname">QVector3D terminus::AbstractGraphicsObject::worldSide </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the side-vector of the model coordinate system transformed to world space </dd></dl>
 
 </div>
 </div>
@@ -1107,19 +1126,24 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vWorld</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the model space position corresponding to vWorld in world space</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6b8ed65b38052442b3b5b6354977d21c">modelMatrixInverted()</a> </dd></dl>
 
 </div>
 </div>
 <a class="anchor" id="a16d237053e9102310e396a09d0c364a3"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">QVector3D terminus::AbstractGraphicsObject::worldUp </td>
@@ -1128,12 +1152,8 @@ Protected Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the up-vector of the model coordinate system transformed to world space </dd></dl>
 
 </div>
 </div>
@@ -1258,6 +1278,26 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a58055a86363f9fd40bf5250b4815453e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool terminus::AbstractGraphicsObject::m_modelMatrixInvertedChanged</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aebf570c9ed6ff004a81ece6432742588"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1286,7 +1326,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt;std::unique_ptr&lt;<a class="el" href="classProgram.html">Program</a>&gt; &gt; terminus::AbstractGraphicsObject::m_program</td>
+          <td class="memname">std::shared_ptr&lt;std::unique_ptr&lt;<a class="el" href="classterminus_1_1Program.html">Program</a>&gt; &gt; terminus::AbstractGraphicsObject::m_program</td>
         </tr>
       </table>
   </td>
@@ -1385,7 +1425,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

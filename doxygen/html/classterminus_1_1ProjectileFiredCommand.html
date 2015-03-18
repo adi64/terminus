@@ -121,8 +121,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a86e6f0508e620d2568a1797ce842fb48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every command must define how its members can be serialized.  <a href="#a86e6f0508e620d2568a1797ce842fb48">More...</a><br /></td></tr>
 <tr class="separator:a86e6f0508e620d2568a1797ce842fb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b524a63d7f06665a593d7870e1ea616"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a8b524a63d7f06665a593d7870e1ea616">doWork</a> () override</td></tr>
+<tr class="memdesc:a8b524a63d7f06665a593d7870e1ea616"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Commands must define its effects on the receiving game.  <a href="#a8b524a63d7f06665a593d7870e1ea616">More...</a><br /></td></tr>
 <tr class="separator:a8b524a63d7f06665a593d7870e1ea616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95ffeb3cd204a4dc192956745b731fb5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceterminus.html#a6735375a840006e544df73e21dbe1eb0">Commands</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a95ffeb3cd204a4dc192956745b731fb5">commandType</a> () const override</td></tr>
+<tr class="memdesc:a95ffeb3cd204a4dc192956745b731fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Command must specify its type.  <a href="#a95ffeb3cd204a4dc192956745b731fb5">More...</a><br /></td></tr>
 <tr class="separator:a95ffeb3cd204a4dc192956745b731fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bcf5eecf4febce2f8c9dca4f86b2320"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a9bcf5eecf4febce2f8c9dca4f86b2320">startPosition</a> () const </td></tr>
 <tr class="separator:a9bcf5eecf4febce2f8c9dca4f86b2320"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,10 +136,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af1871d4ab22249fda02e9eadfa7ed3bb inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#af1871d4ab22249fda02e9eadfa7ed3bb">~AbstractCommand</a> ()</td></tr>
 <tr class="separator:af1871d4ab22249fda02e9eadfa7ed3bb inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe77274e120cfc49915832e604a0b119 inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#afe77274e120cfc49915832e604a0b119">setGame</a> (<a class="el" href="classterminus_1_1Game.html">Game</a> *game)</td></tr>
+<tr class="memdesc:afe77274e120cfc49915832e604a0b119 inherit pub_methods_classterminus_1_1AbstractCommand"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the game instance this command should operate on  <a href="#afe77274e120cfc49915832e604a0b119">More...</a><br /></td></tr>
 <tr class="separator:afe77274e120cfc49915832e604a0b119 inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2520368efbb3f7771054c9b305bcaf62 inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a2520368efbb3f7771054c9b305bcaf62">run</a> ()</td></tr>
-<tr class="separator:a2520368efbb3f7771054c9b305bcaf62 inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46cfe520037d7100aaf28a60daf6ac7d inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a> () const </td></tr>
+<tr class="memdesc:a46cfe520037d7100aaf28a60daf6ac7d inherit pub_methods_classterminus_1_1AbstractCommand"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the time as counted by the sending game that this command was created and sent  <a href="#a46cfe520037d7100aaf28a60daf6ac7d">More...</a><br /></td></tr>
 <tr class="separator:a46cfe520037d7100aaf28a60daf6ac7d inherit pub_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -147,32 +149,23 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:afddaaca702fb62f76f6f1455b3138430"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ProjectileFiredCommand.html#afddaaca702fb62f76f6f1455b3138430">m_velocity</a></td></tr>
 <tr class="separator:afddaaca702fb62f76f6f1455b3138430"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classterminus_1_1AbstractCommand"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classterminus_1_1AbstractCommand')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classterminus_1_1AbstractCommand.html">terminus::AbstractCommand</a></td></tr>
-<tr class="memitem:aa2b373bda3cf347143d564df372134bf inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa2b373bda3cf347143d564df372134bf">m_timeStamp</a></td></tr>
-<tr class="separator:aa2b373bda3cf347143d564df372134bf inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19eecf577ab78769616da0bde94d1ec1 inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Game.html">Game</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a19eecf577ab78769616da0bde94d1ec1">m_game</a></td></tr>
 <tr class="separator:a19eecf577ab78769616da0bde94d1ec1 inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b373bda3cf347143d564df372134bf inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa2b373bda3cf347143d564df372134bf">m_timeStamp</a></td></tr>
+<tr class="separator:aa2b373bda3cf347143d564df372134bf inherit pro_attribs_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header signals_classterminus_1_1AbstractCommand"><td colspan="2" onclick="javascript:toggleInherit('signals_classterminus_1_1AbstractCommand')"><img src="closed.png" alt="-"/>&#160;Signals inherited from <a class="el" href="classterminus_1_1AbstractCommand.html">terminus::AbstractCommand</a></td></tr>
-<tr class="memitem:a41e186957c49e7e2ca219689d65bc600 inherit signals_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a41e186957c49e7e2ca219689d65bc600">started</a> ()</td></tr>
-<tr class="separator:a41e186957c49e7e2ca219689d65bc600 inherit signals_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2641e6db4c81ddbb6d16ad86ca2ac531 inherit signals_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a2641e6db4c81ddbb6d16ad86ca2ac531">done</a> ()</td></tr>
-<tr class="separator:a2641e6db4c81ddbb6d16ad86ca2ac531 inherit signals_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_static_methods_classterminus_1_1AbstractCommand"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classterminus_1_1AbstractCommand')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classterminus_1_1AbstractCommand.html">terminus::AbstractCommand</a></td></tr>
-<tr class="memitem:ab8d248fef9c1a9731fa966ff498790d2 inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#ab8d248fef9c1a9731fa966ff498790d2">VectorToJsonObject</a> (QVector3D vector)</td></tr>
-<tr class="separator:ab8d248fef9c1a9731fa966ff498790d2 inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a260e82bb688ad5f3729868522df0049f inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a260e82bb688ad5f3729868522df0049f">VectorFromJsonObject</a> (QJsonObject jsonObject)</td></tr>
-<tr class="separator:a260e82bb688ad5f3729868522df0049f inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe270e8c91af734331a7c769caea28b inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static QJsonValue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#adbe270e8c91af734331a7c769caea28b">TimeStampToJsonValue</a> (<a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a> <a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a>)</td></tr>
-<tr class="separator:adbe270e8c91af734331a7c769caea28b inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771667ba1b143a26c010226b9b6e399e inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a771667ba1b143a26c010226b9b6e399e">TimeStampFromJsonValue</a> (QJsonValue jsonValue)</td></tr>
-<tr class="separator:a771667ba1b143a26c010226b9b6e399e inherit pub_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_static_methods_classterminus_1_1AbstractCommand"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classterminus_1_1AbstractCommand')"><img src="closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="classterminus_1_1AbstractCommand.html">terminus::AbstractCommand</a></td></tr>
+<tr class="memitem:ab8d248fef9c1a9731fa966ff498790d2 inherit pro_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#ab8d248fef9c1a9731fa966ff498790d2">VectorToJsonObject</a> (QVector3D vector)</td></tr>
+<tr class="separator:ab8d248fef9c1a9731fa966ff498790d2 inherit pro_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a260e82bb688ad5f3729868522df0049f inherit pro_static_methods_classterminus_1_1AbstractCommand"><td class="memItemLeft" align="right" valign="top">static QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a260e82bb688ad5f3729868522df0049f">VectorFromJsonObject</a> (QJsonObject jsonObject)</td></tr>
+<tr class="separator:a260e82bb688ad5f3729868522df0049f inherit pro_static_methods_classterminus_1_1AbstractCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classterminus_1_1ProjectileFiredCommand.html" title="The ProjectileFiredCommand indicates that a projectile has been fired and contains the position as we...">ProjectileFiredCommand</a> indicates that a projectile has been fired and contains the position as well as the movement vector. </p>
 <p>A projectile that gets spawned as result of this command has the <a class="el" href="classterminus_1_1AbstractPhysicsObject.html#a912343eefcf3521ad426b585acd14d23">AbstractPhysicsObject::m_spawnedLocally</a> flag set to false. This means that collisions of this projectile do not deal any damage.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1ProjectileHitCommand.html" title="The ProjectileHitCommand indicates that a projectile hit a wagon. It contains the wagonIndex as well ...">ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1Projectile.html">Projectile</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1ProjectileHitCommand.html" title="The ProjectileHitCommand indicates that a projectile hit a wagon. It contains the wagonIndex as well ...">ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1Projectile.html" title="The Projectile class simulates and renders a projectile. It also handles collisions with Wagons...">Projectile</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac355010e52a7d83b7634b54f1ec6dc84"></a>
 <div class="memitem">
@@ -254,6 +247,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Every Command must specify its type. </p>
+<dl class="section return"><dt>Returns</dt><dd>enum constant from Commands</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceterminus.html#a6735375a840006e544df73e21dbe1eb0" title="The Commands enum stores all command types with corresponding ID. ">Commands</a> </dd></dl>
+
 <p>Implements <a class="el" href="classterminus_1_1AbstractCommand.html#a06eec771c473f7fdbb8330b0a0f4ead0">terminus::AbstractCommand</a>.</p>
 
 </div>
@@ -278,6 +275,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Every Commands must define its effects on the receiving game. </p>
+<p>This Method is guaranteed to be executed in the receiving game's frame update context with a valid <a class="el" href="classterminus_1_1Game.html" title="The Game class is the main entry point. It subclasses QQuickItem and handles all communication betwee...">Game</a> instance in m_game </p>
 
 <p>Implements <a class="el" href="classterminus_1_1AbstractCommand.html#aa5c3ee612d53f226831533acb7abca70">terminus::AbstractCommand</a>.</p>
 
@@ -389,7 +389,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

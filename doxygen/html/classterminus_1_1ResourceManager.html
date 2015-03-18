@@ -117,7 +117,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2ed198c7d2845ae123bb929e3e1d7ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06b8ca5df2dcdcb1af71cd4ff00e7dcb"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Material.html">Material</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a06b8ca5df2dcdcb1af71cd4ff00e7dcb">getMaterial</a> (std::string name)</td></tr>
 <tr class="separator:a06b8ca5df2dcdcb1af71cd4ff00e7dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50ac335dc72f84ae9f2fb8fc1bf44083"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classProgram.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a50ac335dc72f84ae9f2fb8fc1bf44083">getProgram</a> (std::string name)</td></tr>
+<tr class="memitem:a50ac335dc72f84ae9f2fb8fc1bf44083"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Program.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a50ac335dc72f84ae9f2fb8fc1bf44083">getProgram</a> (std::string name)</td></tr>
 <tr class="separator:a50ac335dc72f84ae9f2fb8fc1bf44083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -140,13 +140,13 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a038f6f45858d5ca10ac377bab8f2e498"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads material data from .mtl files.  <a href="#a038f6f45858d5ca10ac377bab8f2e498">More...</a><br /></td></tr>
 <tr class="separator:a038f6f45858d5ca10ac377bab8f2e498"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcf3689376148695c70bac1c8a173a66"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#abcf3689376148695c70bac1c8a173a66">loadProgram</a> (std::string path)</td></tr>
-<tr class="memdesc:abcf3689376148695c70bac1c8a173a66"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structterminus_1_1Vertex.html" title="The struct wraps the important vertex data attributes position, texture coordinate and normal vector...">Vertex</a> and fragment shader files are loaded an combined into on program instance from the <a class="el" href="classProgram.html" title="The program class implements the basic functionality used for binding programs to openGL...">Program</a> class.  <a href="#abcf3689376148695c70bac1c8a173a66">More...</a><br /></td></tr>
+<tr class="memdesc:abcf3689376148695c70bac1c8a173a66"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structterminus_1_1Vertex.html" title="The struct wraps the important vertex data attributes position, texture coordinate and normal vector...">Vertex</a> and fragment shader files are loaded an combined into on program instance from the <a class="el" href="classterminus_1_1Program.html" title="The program class implements the basic functionality used for binding programs to openGL...">Program</a> class.  <a href="#abcf3689376148695c70bac1c8a173a66">More...</a><br /></td></tr>
 <tr class="separator:abcf3689376148695c70bac1c8a173a66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f35fe4f6e7f5f97799352692ad8afe2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a8f35fe4f6e7f5f97799352692ad8afe2">putGeometry</a> (std::string name, <a class="el" href="classterminus_1_1Geometry.html">Geometry</a> *geometry)</td></tr>
 <tr class="separator:a8f35fe4f6e7f5f97799352692ad8afe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5b2b163af58a2219fb891ed5432f91"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#aba5b2b163af58a2219fb891ed5432f91">putMaterial</a> (std::string name, <a class="el" href="classterminus_1_1Material.html">Material</a> *material)</td></tr>
 <tr class="separator:aba5b2b163af58a2219fb891ed5432f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e8ed31c38f645b985250c4c9044e0aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a2e8ed31c38f645b985250c4c9044e0aa">putProgram</a> (std::string name, <a class="el" href="classProgram.html">Program</a> *program)</td></tr>
+<tr class="memitem:a2e8ed31c38f645b985250c4c9044e0aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a2e8ed31c38f645b985250c4c9044e0aa">putProgram</a> (std::string name, <a class="el" href="classterminus_1_1Program.html">Program</a> *program)</td></tr>
 <tr class="separator:a2e8ed31c38f645b985250c4c9044e0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
@@ -164,7 +164,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a41dc71bace7aac6372a650942a7db64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad5a2c0227807d8e50a9273b39f49be"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Material.html">Material</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#a1ad5a2c0227807d8e50a9273b39f49be">m_materialStorage</a></td></tr>
 <tr class="separator:a1ad5a2c0227807d8e50a9273b39f49be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcdf4f62d6ee140527812097b006c156"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classProgram.html">Program</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#adcdf4f62d6ee140527812097b006c156">m_programStorage</a></td></tr>
+<tr class="memitem:adcdf4f62d6ee140527812097b006c156"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Program.html">Program</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ResourceManager.html#adcdf4f62d6ee140527812097b006c156">m_programStorage</a></td></tr>
 <tr class="separator:adcdf4f62d6ee140527812097b006c156"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
@@ -381,7 +381,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classProgram.html">Program</a> &gt; &gt; terminus::ResourceManager::getProgram </td>
+          <td class="memname">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Program.html">Program</a> &gt; &gt; terminus::ResourceManager::getProgram </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -547,7 +547,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structterminus_1_1Vertex.html" title="The struct wraps the important vertex data attributes position, texture coordinate and normal vector...">Vertex</a> and fragment shader files are loaded an combined into on program instance from the <a class="el" href="classProgram.html" title="The program class implements the basic functionality used for binding programs to openGL...">Program</a> class. </p>
+<p><a class="el" href="structterminus_1_1Vertex.html" title="The struct wraps the important vertex data attributes position, texture coordinate and normal vector...">Vertex</a> and fragment shader files are loaded an combined into on program instance from the <a class="el" href="classterminus_1_1Program.html" title="The program class implements the basic functionality used for binding programs to openGL...">Program</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td></td></tr>
@@ -666,7 +666,7 @@ Static Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> *&#160;</td>
           <td class="paramname"><em>program</em>&#160;</td>
         </tr>
         <tr>
@@ -753,7 +753,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;std::string, std::shared_ptr&lt;std::unique_ptr&lt;<a class="el" href="classProgram.html">Program</a>&gt; &gt; &gt; terminus::ResourceManager::m_programStorage</td>
+          <td class="memname">std::map&lt;std::string, std::shared_ptr&lt;std::unique_ptr&lt;<a class="el" href="classterminus_1_1Program.html">Program</a>&gt; &gt; &gt; terminus::ResourceManager::m_programStorage</td>
         </tr>
       </table>
   </td>
@@ -772,7 +772,7 @@ Static Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

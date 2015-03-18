@@ -90,7 +90,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-slots">Public Slots</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-slots">Protected Slots</a> &#124;
@@ -102,7 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager class provides the highest level of abstraction regarding network functionality...">NetworkManager</a> class provides the highest level of abstraction regarding network functionality.  
+<p>The <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> implements the basic functionality for the multiplayer mode of this game.  
  <a href="classterminus_1_1NetworkManager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="networkmanager_8h_source.html">networkmanager.h</a>&gt;</code></p>
@@ -123,14 +122,10 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="separator:a25e085d19239a9c0ed1c1660cab8b424"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
-Public Slots</h2></td></tr>
-<tr class="memitem:a8c76834c2e36f5f0819422a173921bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a8c76834c2e36f5f0819422a173921bb7">update</a> ()</td></tr>
-<tr class="separator:a8c76834c2e36f5f0819422a173921bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a435e5b8e7aadfa89819cccd20039ddbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a435e5b8e7aadfa89819cccd20039ddbf">sendCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
+<tr class="memdesc:a435e5b8e7aadfa89819cccd20039ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">sends a command  <a href="#a435e5b8e7aadfa89819cccd20039ddbf">More...</a><br /></td></tr>
 <tr class="separator:a435e5b8e7aadfa89819cccd20039ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -140,11 +135,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad08d3e61771adba6c16119d987de39a3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#ad08d3e61771adba6c16119d987de39a3">~NetworkManager</a> ()</td></tr>
 <tr class="separator:ad08d3e61771adba6c16119d987de39a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fd815c3dd0334a144d259456060cb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a2fd815c3dd0334a144d259456060cb20">startServer</a> (unsigned short port)</td></tr>
+<tr class="memdesc:a2fd815c3dd0334a144d259456060cb20"><td class="mdescLeft">&#160;</td><td class="mdescRight">starts this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> in <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a63ddc0096cbc51fab98dd8775f365502">Mode::MultiplayerHost</a> and creates the respective <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#a2fd815c3dd0334a144d259456060cb20">More...</a><br /></td></tr>
 <tr class="separator:a2fd815c3dd0334a144d259456060cb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a634d9bb2b8a3243794638c885f2fdf5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a634d9bb2b8a3243794638c885f2fdf5d">startClient</a> (QString host, unsigned short port)</td></tr>
+<tr class="memdesc:a634d9bb2b8a3243794638c885f2fdf5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">starts this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> in <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a2a7d7e17cdd0170888d215e304b21793">Mode::MultiplayerClient</a> and creates the respective <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#a634d9bb2b8a3243794638c885f2fdf5d">More...</a><br /></td></tr>
 <tr class="separator:a634d9bb2b8a3243794638c885f2fdf5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac510be2e5425ca26372fd27731faab15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#ac510be2e5425ca26372fd27731faab15">isConnected</a> () const </td></tr>
-<tr class="separator:ac510be2e5425ca26372fd27731faab15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c76834c2e36f5f0819422a173921bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a8c76834c2e36f5f0819422a173921bb7">update</a> ()</td></tr>
+<tr class="memdesc:a8c76834c2e36f5f0819422a173921bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks the sync timer and sends a sync command as necessary  <a href="#a8c76834c2e36f5f0819422a173921bb7">More...</a><br /></td></tr>
+<tr class="separator:a8c76834c2e36f5f0819422a173921bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a84806770e0f62ce453a8f037de022f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a1a84806770e0f62ce453a8f037de022f">sendPauseCommand</a> (bool pause)</td></tr>
 <tr class="separator:a1a84806770e0f62ce453a8f037de022f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f5c3741612cd5979683a4a96ade591d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a3f5c3741612cd5979683a4a96ade591d">sendPrepareNewGameCommand</a> (bool isPlayerOne, unsigned int terrainSeed)</td></tr>
@@ -153,19 +151,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad4d8e22389168e54ba710797af5002bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5762c1ad8b0e6ea44c0ea12ae976bb25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a5762c1ad8b0e6ea44c0ea12ae976bb25">sendProjectileHitCommand</a> (int wagonIndex, float damage)</td></tr>
 <tr class="separator:a5762c1ad8b0e6ea44c0ea12ae976bb25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafd74ade44c9db65bcf55e0f9f6b4cea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#aafd74ade44c9db65bcf55e0f9f6b4cea">sendPrimaryActionCommand</a> (unsigned int selectedWagonIndex, QVector3D aimDirection)</td></tr>
-<tr class="separator:aafd74ade44c9db65bcf55e0f9f6b4cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13bcfb4519634dc73dd1d5e7a3f8b49f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a13bcfb4519634dc73dd1d5e7a3f8b49f">sendSyncCommand</a> (const <a class="el" href="classterminus_1_1Train.html">Train</a> &amp;playerTrain)</td></tr>
 <tr class="separator:a13bcfb4519634dc73dd1d5e7a3f8b49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99c2191748842e9170328b24171cc72c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a99c2191748842e9170328b24171cc72c">sendGameEndedCommand</a> (bool youWin)</td></tr>
 <tr class="separator:a99c2191748842e9170328b24171cc72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad93b3075012d3f2b4f15f66db01f5a55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#ad93b3075012d3f2b4f15f66db01f5a55">sendClientReadyCommand</a> ()</td></tr>
 <tr class="separator:ad93b3075012d3f2b4f15f66db01f5a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac28c3dc83bfa799d6c1044285e1a6438"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#ac28c3dc83bfa799d6c1044285e1a6438">clientReady</a> ()</td></tr>
-<tr class="memdesc:ac28c3dc83bfa799d6c1044285e1a6438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpauses the game when the client is ready.  <a href="#ac28c3dc83bfa799d6c1044285e1a6438">More...</a><br /></td></tr>
-<tr class="separator:ac28c3dc83bfa799d6c1044285e1a6438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d7801807dd191523d173a99aab05f84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a9d7801807dd191523d173a99aab05f84">prepareAndSyncNewGame</a> ()</td></tr>
-<tr class="memdesc:a9d7801807dd191523d173a99aab05f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send game info to client and pause game.  <a href="#a9d7801807dd191523d173a99aab05f84">More...</a><br /></td></tr>
+<tr class="memdesc:a9d7801807dd191523d173a99aab05f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiates the command sequence of a multiplayer game.  <a href="#a9d7801807dd191523d173a99aab05f84">More...</a><br /></td></tr>
 <tr class="separator:a9d7801807dd191523d173a99aab05f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71e8ee6338debc78fda945bc0000bce1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424">Mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a71e8ee6338debc78fda945bc0000bce1">mode</a> ()</td></tr>
 <tr class="separator:a71e8ee6338debc78fda945bc0000bce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,10 +166,10 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-slots"></a>
 Protected Slots</h2></td></tr>
 <tr class="memitem:a307aa2d8a6a41251462d9e45e5c581e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a307aa2d8a6a41251462d9e45e5c581e3">onReceivedCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
-<tr class="memdesc:a307aa2d8a6a41251462d9e45e5c581e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">called if the underlying <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> receives a Command  <a href="#a307aa2d8a6a41251462d9e45e5c581e3">More...</a><br /></td></tr>
+<tr class="memdesc:a307aa2d8a6a41251462d9e45e5c581e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">called if the underlying <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> receives an <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a>  <a href="#a307aa2d8a6a41251462d9e45e5c581e3">More...</a><br /></td></tr>
 <tr class="separator:a307aa2d8a6a41251462d9e45e5c581e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a551ba22c50e445b27ec24b84b7513391"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a551ba22c50e445b27ec24b84b7513391">onEndpointStateChange</a> (<a class="el" href="classterminus_1_1NetworkEndpoint.html#a774a92f9199f383ef79925312e492882">NetworkEndpoint::State</a> state)</td></tr>
-<tr class="memdesc:a551ba22c50e445b27ec24b84b7513391"><td class="mdescLeft">&#160;</td><td class="mdescRight">called if the underlying NetworkEndpoints gets or looses its connection  <a href="#a551ba22c50e445b27ec24b84b7513391">More...</a><br /></td></tr>
+<tr class="memdesc:a551ba22c50e445b27ec24b84b7513391"><td class="mdescLeft">&#160;</td><td class="mdescRight">called if the underlying NetworkEndpoints changes its state  <a href="#a551ba22c50e445b27ec24b84b7513391">More...</a><br /></td></tr>
 <tr class="separator:a551ba22c50e445b27ec24b84b7513391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d5f841373f533503781038c257a6459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a1d5f841373f533503781038c257a6459">onSendCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
 <tr class="memdesc:a1d5f841373f533503781038c257a6459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slot-wrapper for sendMessage()  <a href="#a1d5f841373f533503781038c257a6459">More...</a><br /></td></tr>
@@ -185,25 +178,28 @@ Protected Slots</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:aa4867d1d51ed8f48ecbcc5fea6d0c1a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#aa4867d1d51ed8f48ecbcc5fea6d0c1a7">setEndpoint</a> (<a class="el" href="classterminus_1_1NetworkEndpoint.html">NetworkEndpoint</a> *endpoint)</td></tr>
+<tr class="memdesc:aa4867d1d51ed8f48ecbcc5fea6d0c1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets a new <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> and connects its signals  <a href="#aa4867d1d51ed8f48ecbcc5fea6d0c1a7">More...</a><br /></td></tr>
 <tr class="separator:aa4867d1d51ed8f48ecbcc5fea6d0c1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a5740290e83c0aadb54af6bac624c8fd4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Game.html">Game</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a5740290e83c0aadb54af6bac624c8fd4">m_game</a></td></tr>
+<tr class="memdesc:a5740290e83c0aadb54af6bac624c8fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1Game.html" title="The Game class is the main entry point. It subclasses QQuickItem and handles all communication betwee...">Game</a> instance that this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> is associated to.  <a href="#a5740290e83c0aadb54af6bac624c8fd4">More...</a><br /></td></tr>
 <tr class="separator:a5740290e83c0aadb54af6bac624c8fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c3304d0f9dba64b0d2517e25ae75b88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424">Mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a7c3304d0f9dba64b0d2517e25ae75b88">m_mode</a></td></tr>
+<tr class="memdesc:a7c3304d0f9dba64b0d2517e25ae75b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">operation mode of this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a>  <a href="#a7c3304d0f9dba64b0d2517e25ae75b88">More...</a><br /></td></tr>
 <tr class="separator:a7c3304d0f9dba64b0d2517e25ae75b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94896c8595e816dc8d79ed979dd1244d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classterminus_1_1NetworkEndpoint.html">NetworkEndpoint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a94896c8595e816dc8d79ed979dd1244d">m_networkEndpoint</a></td></tr>
-<tr class="memdesc:a94896c8595e816dc8d79ed979dd1244d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> is stored as a pointer because it will be replaced dynamically (e.g. when stopping server and connecting as client)  <a href="#a94896c8595e816dc8d79ed979dd1244d">More...</a><br /></td></tr>
+<tr class="memdesc:a94896c8595e816dc8d79ed979dd1244d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> that is used for low-level network communication.  <a href="#a94896c8595e816dc8d79ed979dd1244d">More...</a><br /></td></tr>
 <tr class="separator:a94896c8595e816dc8d79ed979dd1244d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93907e79b8049c500927d8ab811a4a3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#a259c6e5da4c80377fad568dd3d840396">Timer::TimerID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkManager.html#a93907e79b8049c500927d8ab811a4a3b">m_syncTimer</a></td></tr>
-<tr class="memdesc:a93907e79b8049c500927d8ab811a4a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timer that determines when sync messages are sent.  <a href="#a93907e79b8049c500927d8ab811a4a3b">More...</a><br /></td></tr>
+<tr class="memdesc:a93907e79b8049c500927d8ab811a4a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer that determines when sync commands should be sent  <a href="#a93907e79b8049c500927d8ab811a4a3b">More...</a><br /></td></tr>
 <tr class="separator:a93907e79b8049c500927d8ab811a4a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager class provides the highest level of abstraction regarding network functionality...">NetworkManager</a> class provides the highest level of abstraction regarding network functionality. </p>
-<p>It provides methods to send network commands to the other connected game, if any. It can start a network server or client and then provides a connection to the other player.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> and NetworkConnection </dd></dl>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> implements the basic functionality for the multiplayer mode of this game. </p>
+<p>It provides an interface to initiate network connections, send commands and schedule received commands for execution.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </dd></dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a25e085d19239a9c0ed1c1660cab8b424"></a>
 <div class="memitem">
@@ -274,39 +270,6 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac28c3dc83bfa799d6c1044285e1a6438"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::NetworkManager::clientReady </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Unpauses the game when the client is ready. </p>
-<p>Gets called when the client signals that it successfully created the <a class="el" href="classterminus_1_1World.html" title="The World class represents a running game instance and contains all graphical (3D) elements of the sc...">World</a> using the provided terrain seed and now is ready to start the game </p>
-
-</div>
-</div>
-<a class="anchor" id="ac510be2e5425ca26372fd27731faab15"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool terminus::NetworkManager::isConnected </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a71e8ee6338debc78fda945bc0000bce1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -319,6 +282,8 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>operation mode of this network manager</dd></dl>
+<p>Before either <a class="el" href="classterminus_1_1NetworkManager.html#a634d9bb2b8a3243794638c885f2fdf5d" title="starts this NetworkManager in Mode::MultiplayerClient and creates the respective NetworkEndpoint ...">startClient()</a> or <a class="el" href="classterminus_1_1NetworkManager.html#a2fd815c3dd0334a144d259456060cb20" title="starts this NetworkManager in Mode::MultiplayerHost and creates the respective NetworkEndpoint ...">startServer()</a> the mode is <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a1dcc626e56db5397bea841d584be1e46">Mode::Singleplayer</a> </p>
 
 </div>
 </div>
@@ -344,7 +309,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>called if the underlying NetworkEndpoints gets or looses its connection </p>
+<p>called if the underlying NetworkEndpoints changes its state </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>This only reacts to a client connecting to a Server and prepares the multiplayer session accordingly </td></tr>
@@ -376,13 +341,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>called if the underlying <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> receives a Command </p>
+<p>called if the underlying <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> receives an <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">command</td><td>a Pointer to the received command command is scheduled to be executed for the next frame update </td></tr>
+    <tr><td class="paramname">command</td><td>- ownership is taken</td></tr>
   </table>
   </dd>
 </dl>
+<p>command is scheduled to be executed for the next frame update </p>
 
 </div>
 </div>
@@ -432,7 +398,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Send game info to client and pause game. </p>
+<p>Initiates the command sequence of a multiplayer game. </p>
+<p>Gets called if a NetworServer goes from State::Listening to State::Connected and is therefore only relevant in <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a63ddc0096cbc51fab98dd8775f365502">Mode::MultiplayerHost</a> </p>
 
 </div>
 </div>
@@ -472,6 +439,16 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>sends a command </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>- takes ownership</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This method may be called from any thread and uses a QueuedConnection to route this request to the network thread</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkManager.html#a1d5f841373f533503781038c257a6459" title="Slot-wrapper for sendMessage() ">onSendCommand()</a> </dd></dl>
 
 </div>
 </div>
@@ -522,32 +499,6 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>terrainSeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aafd74ade44c9db65bcf55e0f9f6b4cea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::NetworkManager::sendPrimaryActionCommand </td>
-          <td>(</td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>selectedWagonIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">QVector3D&#160;</td>
-          <td class="paramname"><em>aimDirection</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -649,6 +600,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>sets a new <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> and connects its signals </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">endpoint</td><td>- ownership managed by QObject parent mechanism</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The previous NetworkEndpoints signals will be disconnected </p>
+
 </div>
 </div>
 <a class="anchor" id="a634d9bb2b8a3243794638c885f2fdf5d"></a>
@@ -675,6 +635,16 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>starts this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> in <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a2a7d7e17cdd0170888d215e304b21793">Mode::MultiplayerClient</a> and creates the respective <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">host</td><td></td></tr>
+    <tr><td class="paramname">port</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkClient.html" title="The NetworkServer implements the NetworkEndpoint interface as the client role of a TCP connection...">NetworkClient</a> </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a2fd815c3dd0334a144d259456060cb20"></a>
@@ -691,14 +661,20 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>starts this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> in <a class="el" href="classterminus_1_1NetworkManager.html#a25e085d19239a9c0ed1c1660cab8b424a63ddc0096cbc51fab98dd8775f365502">Mode::MultiplayerHost</a> and creates the respective <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">port</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a> </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a8c76834c2e36f5f0819422a173921bb7"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void terminus::NetworkManager::update </td>
@@ -707,12 +683,10 @@ Protected Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>checks the sync timer and sends a sync command as necessary </p>
+<p>This method is meant to be called by the associated game during its frame update </p>
 
 </div>
 </div>
@@ -735,6 +709,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="classterminus_1_1Game.html" title="The Game class is the main entry point. It subclasses QQuickItem and handles all communication betwee...">Game</a> instance that this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> is associated to. </p>
+
 </div>
 </div>
 <a class="anchor" id="a7c3304d0f9dba64b0d2517e25ae75b88"></a>
@@ -754,6 +730,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>operation mode of this <a class="el" href="classterminus_1_1NetworkManager.html" title="The NetworkManager implements the basic functionality for the multiplayer mode of this game...">NetworkManager</a> </p>
 
 </div>
 </div>
@@ -775,7 +753,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> is stored as a pointer because it will be replaced dynamically (e.g. when stopping server and connecting as client) </p>
+<p><a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> that is used for low-level network communication. </p>
+<p>A pointer is necessary as specific subclasses of <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> may be used </p>
 
 </div>
 </div>
@@ -797,7 +776,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The timer that determines when sync messages are sent. </p>
+<p>timer that determines when sync commands should be sent </p>
 
 </div>
 </div>
@@ -808,7 +787,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

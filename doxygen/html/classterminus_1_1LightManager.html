@@ -100,6 +100,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1LightManager.html" title="The LightManager class manages slots that can be filled with Light instances and is able to set those...">LightManager</a> class manages slots that can be filled with <a class="el" href="classterminus_1_1Light.html" title="The Light class represents a light source with a packed, shader compatible memory layout...">Light</a> instances and is able to set those lights as a uniform array on a shader program.  
+ <a href="classterminus_1_1LightManager.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="lightmanager_8h_source.html">lightmanager.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -110,26 +113,28 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a16e90fafa1e3e3ee8ef88af3ee0c9b6f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a16e90fafa1e3e3ee8ef88af3ee0c9b6f">freeSlots</a> () const </td></tr>
-<tr class="memdesc:a16e90fafa1e3e3ee8ef88af3ee0c9b6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a constructed light to the internal storage.  <a href="#a16e90fafa1e3e3ee8ef88af3ee0c9b6f">More...</a><br /></td></tr>
 <tr class="separator:a16e90fafa1e3e3ee8ef88af3ee0c9b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bb105ba4ee8501e6d6e65674fadaa9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1LightManager.html#a12c9556bbb0d63387555a7791d791b02">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a0bb105ba4ee8501e6d6e65674fadaa9d">add</a> (const <a class="el" href="classterminus_1_1Light.html">Light</a> &amp;light)</td></tr>
+<tr class="memdesc:a0bb105ba4ee8501e6d6e65674fadaa9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a light in the next free slot.  <a href="#a0bb105ba4ee8501e6d6e65674fadaa9d">More...</a><br /></td></tr>
 <tr class="separator:a0bb105ba4ee8501e6d6e65674fadaa9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac56938ea396604fadabac4542cab6f85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Light.html">Light</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#ac56938ea396604fadabac4542cab6f85">get</a> (<a class="el" href="classterminus_1_1LightManager.html#a12c9556bbb0d63387555a7791d791b02">ID</a> slot)</td></tr>
 <tr class="separator:ac56938ea396604fadabac4542cab6f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f2813b1e80ea6346e2650db93792692"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a6f2813b1e80ea6346e2650db93792692">remove</a> (<a class="el" href="classterminus_1_1LightManager.html#a12c9556bbb0d63387555a7791d791b02">ID</a> slot)</td></tr>
+<tr class="memdesc:a6f2813b1e80ea6346e2650db93792692"><td class="mdescLeft">&#160;</td><td class="mdescRight">mark the given slot as free and store the <a class="el" href="classterminus_1_1Light.html#a60764291ff48d3f006695ab822836a2b" title="a light that has no effect on the scene ">Light::nullLight</a> in it  <a href="#a6f2813b1e80ea6346e2650db93792692">More...</a><br /></td></tr>
 <tr class="separator:a6f2813b1e80ea6346e2650db93792692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0c1ef9e32c75be6a125ec62995720a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#ab0c1ef9e32c75be6a125ec62995720a7">setUniforms</a> (<a class="el" href="classProgram.html">Program</a> &amp;program) const </td></tr>
+<tr class="memitem:ab0c1ef9e32c75be6a125ec62995720a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#ab0c1ef9e32c75be6a125ec62995720a7">setUniforms</a> (<a class="el" href="classterminus_1_1Program.html">Program</a> &amp;program) const </td></tr>
+<tr class="memdesc:ab0c1ef9e32c75be6a125ec62995720a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the lights managed by this class as a uniform array  <a href="#ab0c1ef9e32c75be6a125ec62995720a7">More...</a><br /></td></tr>
 <tr class="separator:ab0c1ef9e32c75be6a125ec62995720a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a34a81aa8c70410cb49bb4adf5fbd8cd2"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a34a81aa8c70410cb49bb4adf5fbd8cd2">slotCount</a> = 8</td></tr>
+<tr class="memdesc:a34a81aa8c70410cb49bb4adf5fbd8cd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of slots managed by this class  <a href="#a34a81aa8c70410cb49bb4adf5fbd8cd2">More...</a><br /></td></tr>
 <tr class="separator:a34a81aa8c70410cb49bb4adf5fbd8cd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a35fdbdbf4f4e68a3e0294698fbd3a467"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1LightManager.html#a12c9556bbb0d63387555a7791d791b02">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a35fdbdbf4f4e68a3e0294698fbd3a467">getFreeSlot</a> ()</td></tr>
-<tr class="memdesc:a35fdbdbf4f4e68a3e0294698fbd3a467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a free LightID.  <a href="#a35fdbdbf4f4e68a3e0294698fbd3a467">More...</a><br /></td></tr>
 <tr class="separator:a35fdbdbf4f4e68a3e0294698fbd3a467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -139,7 +144,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a7308569b4d8298d3cad60161d466cc9e"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classterminus_1_1LightManager.html#a12c9556bbb0d63387555a7791d791b02">ID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1LightManager.html#a7308569b4d8298d3cad60161d466cc9e">m_usedSlots</a></td></tr>
 <tr class="separator:a7308569b4d8298d3cad60161d466cc9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1LightManager.html" title="The LightManager class manages slots that can be filled with Light instances and is able to set those...">LightManager</a> class manages slots that can be filled with <a class="el" href="classterminus_1_1Light.html" title="The Light class represents a light source with a packed, shader compatible memory layout...">Light</a> instances and is able to set those lights as a uniform array on a shader program. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1Light.html" title="The Light class represents a light source with a packed, shader compatible memory layout...">Light</a> </dd></dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a12c9556bbb0d63387555a7791d791b02"></a>
 <div class="memitem">
 <div class="memproto">
@@ -167,6 +175,16 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts a light in the next free slot. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">light</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of the slot that the light was inserted in</dd></dl>
+<p>It is an invalid operation to call this method if <a class="el" href="classterminus_1_1LightManager.html#a16e90fafa1e3e3ee8ef88af3ee0c9b6f">freeSlots()</a> == 0 </p>
+
 </div>
 </div>
 <a class="anchor" id="a16e90fafa1e3e3ee8ef88af3ee0c9b6f"></a>
@@ -181,15 +199,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Adds a constructed light to the internal storage. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">light</td><td>The light to be added </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The ID of the newly created light </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of yet unoccupied light slots </dd></dl>
 
 </div>
 </div>
@@ -206,6 +216,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slot</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>get a reference to the <a class="el" href="classterminus_1_1Light.html" title="The Light class represents a light source with a packed, shader compatible memory layout...">Light</a> instance contained in a particular slot </dd></dl>
 
 </div>
 </div>
@@ -230,9 +247,6 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return a free LightID. </p>
-<dl class="section return"><dt>Returns</dt><dd>A free LightID </dd></dl>
-
 </div>
 </div>
 <a class="anchor" id="a6f2813b1e80ea6346e2650db93792692"></a>
@@ -249,6 +263,14 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>mark the given slot as free and store the <a class="el" href="classterminus_1_1Light.html#a60764291ff48d3f006695ab822836a2b" title="a light that has no effect on the scene ">Light::nullLight</a> in it </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slot</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="ab0c1ef9e32c75be6a125ec62995720a7"></a>
@@ -258,12 +280,20 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">void terminus::LightManager::setUniforms </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>sets the lights managed by this class as a uniform array </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">program</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -326,6 +356,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>number of slots managed by this class </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
@@ -335,7 +367,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -92,17 +92,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a href="networkserver_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="networkendpoint_8h.html">network/networkendpoint.h</a>&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="networkendpoint_8h.html">network/networkendpoint.h</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>QTcpServer;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>QTcpServer;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceterminus.html">terminus</a></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceterminus.html">terminus</a></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classterminus_1_1NetworkServer.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classterminus_1_1NetworkServer.html">NetworkServer</a> : <span class="keyword">public</span> <a class="code" href="classterminus_1_1NetworkEndpoint.html">NetworkEndpoint</a></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    Q_OBJECT</div>
@@ -122,19 +120,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <span class="comment">//namespace terminus</span></div>
 <div class="ttc" id="classterminus_1_1NetworkEndpoint_html"><div class="ttname"><a href="classterminus_1_1NetworkEndpoint.html">terminus::NetworkEndpoint</a></div><div class="ttdoc">The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...</div><div class="ttdef"><b>Definition:</b> networkendpoint.h:19</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html_a2e93a9acde4e8146fb1f9f4fd9bd1bcb"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a2e93a9acde4e8146fb1f9f4fd9bd1bcb">terminus::NetworkServer::onClientDisconnected</a></div><div class="ttdeci">void onClientDisconnected()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:49</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html"><div class="ttname"><a href="classterminus_1_1NetworkServer.html">terminus::NetworkServer</a></div><div class="ttdoc">The NetworkServer class provides a server implementation of the NetworkEndpoint interface. </div><div class="ttdef"><b>Definition:</b> networkserver.h:18</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html_a2e93a9acde4e8146fb1f9f4fd9bd1bcb"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a2e93a9acde4e8146fb1f9f4fd9bd1bcb">terminus::NetworkServer::onClientDisconnected</a></div><div class="ttdeci">void onClientDisconnected()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:47</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html"><div class="ttname"><a href="classterminus_1_1NetworkServer.html">terminus::NetworkServer</a></div><div class="ttdoc">The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...</div><div class="ttdef"><b>Definition:</b> networkserver.h:18</div></div>
 <div class="ttc" id="networkendpoint_8h_html"><div class="ttname"><a href="networkendpoint_8h.html">networkendpoint.h</a></div></div>
 <div class="ttc" id="namespaceterminus_html"><div class="ttname"><a href="namespaceterminus.html">terminus</a></div><div class="ttdef"><b>Definition:</b> eventhandler.cpp:18</div></div>
 <div class="ttc" id="classterminus_1_1NetworkServer_html_a5dfd7ed7508ca020050a1781ad126702"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a5dfd7ed7508ca020050a1781ad126702">terminus::NetworkServer::m_server</a></div><div class="ttdeci">QTcpServer * m_server</div><div class="ttdef"><b>Definition:</b> networkserver.h:32</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html_a90da4f70bc38b27fe7d80f5359063f97"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a90da4f70bc38b27fe7d80f5359063f97">terminus::NetworkServer::onClientConnected</a></div><div class="ttdeci">void onClientConnected()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:37</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html_a969ff31a1ed2ae9b8ebdddd28d36f9e5"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a969ff31a1ed2ae9b8ebdddd28d36f9e5">terminus::NetworkServer::~NetworkServer</a></div><div class="ttdeci">virtual ~NetworkServer()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:20</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html_a8d23fa8c03ba298f2c02c92fb22f84cd"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a8d23fa8c03ba298f2c02c92fb22f84cd">terminus::NetworkServer::listen</a></div><div class="ttdeci">bool listen(unsigned short port)</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:25</div></div>
-<div class="ttc" id="classterminus_1_1NetworkServer_html_af9d0a587bb909e52982e57df1ba9b33f"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#af9d0a587bb909e52982e57df1ba9b33f">terminus::NetworkServer::NetworkServer</a></div><div class="ttdeci">NetworkServer(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:13</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html_a90da4f70bc38b27fe7d80f5359063f97"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a90da4f70bc38b27fe7d80f5359063f97">terminus::NetworkServer::onClientConnected</a></div><div class="ttdeci">void onClientConnected()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:35</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html_a969ff31a1ed2ae9b8ebdddd28d36f9e5"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a969ff31a1ed2ae9b8ebdddd28d36f9e5">terminus::NetworkServer::~NetworkServer</a></div><div class="ttdeci">virtual ~NetworkServer()</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:19</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html_a8d23fa8c03ba298f2c02c92fb22f84cd"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#a8d23fa8c03ba298f2c02c92fb22f84cd">terminus::NetworkServer::listen</a></div><div class="ttdeci">bool listen(unsigned short port)</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:24</div></div>
+<div class="ttc" id="classterminus_1_1NetworkServer_html_af9d0a587bb909e52982e57df1ba9b33f"><div class="ttname"><a href="classterminus_1_1NetworkServer.html#af9d0a587bb909e52982e57df1ba9b33f">terminus::NetworkServer::NetworkServer</a></div><div class="ttdeci">NetworkServer(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> networkserver.cpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

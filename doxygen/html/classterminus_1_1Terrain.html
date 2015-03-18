@@ -98,6 +98,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1Terrain.html" title="The Terrain class renders the terrain using patches and a displacement texture. Patches that are too ...">Terrain</a> class renders the terrain using patches and a displacement texture. Patches that are too far from the current camera position are culled.  
+ <a href="classterminus_1_1Terrain.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="terrain_8h_source.html">terrain.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for terminus::Terrain:</div>
@@ -105,7 +108,7 @@ Inheritance diagram for terminus::Terrain:</div>
  <div class="center">
   <img src="classterminus_1_1Terrain.png" usemap="#terminus::Terrain_map" alt=""/>
   <map id="terminus::Terrain_map" name="terminus::Terrain_map">
-<area href="classterminus_1_1AbstractGraphicsObject.html" alt="terminus::AbstractGraphicsObject" shape="rect" coords="0,0,200,24"/>
+<area href="classterminus_1_1AbstractGraphicsObject.html" title="The AbstractGraphicsObject class is the root of a class hierarchy of objects that contain independen ..." alt="terminus::AbstractGraphicsObject" shape="rect" coords="0,0,200,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -114,73 +117,78 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af74ca22ee71c12a50b764223b2795851"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#af74ca22ee71c12a50b764223b2795851">Terrain</a> (<a class="el" href="classterminus_1_1World.html">World</a> &amp;world, const <a class="el" href="classterminus_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="separator:af74ca22ee71c12a50b764223b2795851"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb61687038f2ccb5880e003767865c7c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#aeb61687038f2ccb5880e003767865c7c">localRender</a> (QOpenGLFunctions &amp;gl) const override</td></tr>
-<tr class="memdesc:aeb61687038f2ccb5880e003767865c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="AbstractGraphicsObject::localRender - render this object using geometry, program and material set in ...">AbstractGraphicsObject::localRender</a> - render this object using geometry, program and material set in the respective members.  <a href="#aeb61687038f2ccb5880e003767865c7c">More...</a><br /></td></tr>
+<tr class="memdesc:aeb61687038f2ccb5880e003767865c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">this method contains the default render code using <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a>, <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a> and <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5b9d944520fb2d0fdcc56480ca45f51f">m_material</a>  <a href="#aeb61687038f2ccb5880e003767865c7c">More...</a><br /></td></tr>
 <tr class="separator:aeb61687038f2ccb5880e003767865c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66a95be1ef15521494502836dce79a41"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41">localRenderSetup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classProgram.html">Program</a> &amp;program) const override</td></tr>
-<tr class="memdesc:a66a95be1ef15521494502836dce79a41"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a> - use this to configure additional render states.  <a href="#a66a95be1ef15521494502836dce79a41">More...</a><br /></td></tr>
+<tr class="memitem:a66a95be1ef15521494502836dce79a41"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41">localRenderSetup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classterminus_1_1Program.html">Program</a> &amp;program) const override</td></tr>
+<tr class="memdesc:a66a95be1ef15521494502836dce79a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to customize the rendering process  <a href="#a66a95be1ef15521494502836dce79a41">More...</a><br /></td></tr>
 <tr class="separator:a66a95be1ef15521494502836dce79a41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a246dfba04ad3dead15b7060f43b31548"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a246dfba04ad3dead15b7060f43b31548">localRenderCleanup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classProgram.html">Program</a> &amp;program) const override</td></tr>
-<tr class="memdesc:a246dfba04ad3dead15b7060f43b31548"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d" title="AbstractGraphicsObject::localRenderCleanup - use this to clean up render states set in AbstractGraphi...">AbstractGraphicsObject::localRenderCleanup</a> - use this to clean up render states set in <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a>.  <a href="#a246dfba04ad3dead15b7060f43b31548">More...</a><br /></td></tr>
+<tr class="memitem:a246dfba04ad3dead15b7060f43b31548"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a246dfba04ad3dead15b7060f43b31548">localRenderCleanup</a> (QOpenGLFunctions &amp;gl, <a class="el" href="classterminus_1_1Program.html">Program</a> &amp;program) const override</td></tr>
+<tr class="memdesc:a246dfba04ad3dead15b7060f43b31548"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to customize the rendering process  <a href="#a246dfba04ad3dead15b7060f43b31548">More...</a><br /></td></tr>
 <tr class="separator:a246dfba04ad3dead15b7060f43b31548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c0d9b2d1231e7a886b5582534a3746a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a4c0d9b2d1231e7a886b5582534a3746a">configureWith</a> (const <a class="el" href="classterminus_1_1Level.html">Level</a> &amp;level)</td></tr>
+<tr class="memdesc:a4c0d9b2d1231e7a886b5582534a3746a"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the displacement texture and track courses according to level  <a href="#a4c0d9b2d1231e7a886b5582534a3746a">More...</a><br /></td></tr>
 <tr class="separator:a4c0d9b2d1231e7a886b5582534a3746a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19eb20fd1b84200ca98e04e2e8a7ac7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Track.html">Track</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a19eb20fd1b84200ca98e04e2e8a7ac7d">rightTrack</a> () const </td></tr>
-<tr class="separator:a19eb20fd1b84200ca98e04e2e8a7ac7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee7567135e743cc752913eb7a79811a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Track.html">Track</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a0ee7567135e743cc752913eb7a79811a">leftTrack</a> () const </td></tr>
-<tr class="separator:a0ee7567135e743cc752913eb7a79811a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2c161936c4a6ed5e4823c4c281fd88b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Track.html">Track</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#ab2c161936c4a6ed5e4823c4c281fd88b">rightTrack</a> () const </td></tr>
+<tr class="separator:ab2c161936c4a6ed5e4823c4c281fd88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcb07c6a70f5abcd45842ff472787761"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Track.html">Track</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#abcb07c6a70f5abcd45842ff472787761">leftTrack</a> () const </td></tr>
+<tr class="separator:abcb07c6a70f5abcd45842ff472787761"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classterminus_1_1AbstractGraphicsObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classterminus_1_1AbstractGraphicsObject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html">terminus::AbstractGraphicsObject</a></td></tr>
 <tr class="memitem:a1cabb33dee7128d7900e64b8dd76e5fa inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1cabb33dee7128d7900e64b8dd76e5fa">AbstractGraphicsObject</a> (<a class="el" href="classterminus_1_1World.html">World</a> &amp;world)</td></tr>
 <tr class="separator:a1cabb33dee7128d7900e64b8dd76e5fa inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cf2af6edbb51ab902eaadff18a6fa76 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a2cf2af6edbb51ab902eaadff18a6fa76">~AbstractGraphicsObject</a> ()</td></tr>
 <tr class="separator:a2cf2af6edbb51ab902eaadff18a6fa76 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7858a76aea68efb6ae8a44d603b199a8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8">update</a> () final</td></tr>
-<tr class="memdesc:a7858a76aea68efb6ae8a44d603b199a8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a7858a76aea68efb6ae8a44d603b199a8" title="AbstractGraphicsObject::update - update object hierarchy beginning at this object. ">AbstractGraphicsObject::update</a> - update object hierarchy beginning at this object.  <a href="#a7858a76aea68efb6ae8a44d603b199a8">More...</a><br /></td></tr>
+<tr class="memdesc:a7858a76aea68efb6ae8a44d603b199a8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">update object hierarchy beginning at this object  <a href="#a7858a76aea68efb6ae8a44d603b199a8">More...</a><br /></td></tr>
 <tr class="separator:a7858a76aea68efb6ae8a44d603b199a8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2903751f085341ff8aa09f2c2785327 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa2903751f085341ff8aa09f2c2785327">render</a> (QOpenGLFunctions &amp;gl) final</td></tr>
-<tr class="memdesc:aa2903751f085341ff8aa09f2c2785327 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa2903751f085341ff8aa09f2c2785327" title="AbstractGraphicsObject::render - render object hierarchy beginning at this object. ">AbstractGraphicsObject::render</a> - render object hierarchy beginning at this object.  <a href="#aa2903751f085341ff8aa09f2c2785327">More...</a><br /></td></tr>
+<tr class="memdesc:aa2903751f085341ff8aa09f2c2785327 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">render object hierarchy beginning at this object  <a href="#aa2903751f085341ff8aa09f2c2785327">More...</a><br /></td></tr>
 <tr class="separator:aa2903751f085341ff8aa09f2c2785327 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42b2c9ff8f513bdcae72b6f6e024dfba inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a42b2c9ff8f513bdcae72b6f6e024dfba">unbindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *cam)</td></tr>
-<tr class="memdesc:a42b2c9ff8f513bdcae72b6f6e024dfba inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">unbindCamera - unbinds the scene camera from the object  <a href="#a42b2c9ff8f513bdcae72b6f6e024dfba">More...</a><br /></td></tr>
-<tr class="separator:a42b2c9ff8f513bdcae72b6f6e024dfba inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57591970610df2f9ef4608bb4fd39915 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a57591970610df2f9ef4608bb4fd39915">bindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *cam)</td></tr>
-<tr class="memdesc:a57591970610df2f9ef4608bb4fd39915 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">bindCamera - binds the scene camera to this object  <a href="#a57591970610df2f9ef4608bb4fd39915">More...</a><br /></td></tr>
-<tr class="separator:a57591970610df2f9ef4608bb4fd39915 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a46f98027e6b6508182c880d89728b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a40a46f98027e6b6508182c880d89728b">bindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *camera)</td></tr>
+<tr class="memdesc:a40a46f98027e6b6508182c880d89728b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">binds a camera to track this object  <a href="#a40a46f98027e6b6508182c880d89728b">More...</a><br /></td></tr>
+<tr class="separator:a40a46f98027e6b6508182c880d89728b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eccd9d1726fb167a16ed461a5fc287a inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a2eccd9d1726fb167a16ed461a5fc287a">unbindCamera</a> (<a class="el" href="classterminus_1_1Camera.html">Camera</a> *camera)</td></tr>
+<tr class="memdesc:a2eccd9d1726fb167a16ed461a5fc287a inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">release a camera so that it wont track this object any longer  <a href="#a2eccd9d1726fb167a16ed461a5fc287a">More...</a><br /></td></tr>
+<tr class="separator:a2eccd9d1726fb167a16ed461a5fc287a inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecf7886e12b07d1b0b1f26c7de32a254 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aecf7886e12b07d1b0b1f26c7de32a254">onBindCamera</a> ()</td></tr>
-<tr class="memdesc:aecf7886e12b07d1b0b1f26c7de32a254 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">adjustCamera - camera movement has to be done here  <a href="#aecf7886e12b07d1b0b1f26c7de32a254">More...</a><br /></td></tr>
+<tr class="memdesc:aecf7886e12b07d1b0b1f26c7de32a254 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to perform specific actions once a camera has been bound  <a href="#aecf7886e12b07d1b0b1f26c7de32a254">More...</a><br /></td></tr>
 <tr class="separator:aecf7886e12b07d1b0b1f26c7de32a254 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a852078c527b63e6ccc09ff0af6bdbf inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5a852078c527b63e6ccc09ff0af6bdbf">onUnbindCamera</a> ()</td></tr>
+<tr class="memdesc:a5a852078c527b63e6ccc09ff0af6bdbf inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to perform specific actions once a camera has been released  <a href="#a5a852078c527b63e6ccc09ff0af6bdbf">More...</a><br /></td></tr>
 <tr class="separator:a5a852078c527b63e6ccc09ff0af6bdbf inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8b7a523221413d6ab978e9b6cd2ec5b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae8b7a523221413d6ab978e9b6cd2ec5b">adjustCamera</a> ()</td></tr>
+<tr class="memdesc:ae8b7a523221413d6ab978e9b6cd2ec5b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to adjust the parameters of a bound camera according to this objects own state  <a href="#ae8b7a523221413d6ab978e9b6cd2ec5b">More...</a><br /></td></tr>
 <tr class="separator:ae8b7a523221413d6ab978e9b6cd2ec5b inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70a30e354a60dceddadeee31a02d8c33 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a70a30e354a60dceddadeee31a02d8c33">moveEvent</a> (QVector3D movement)</td></tr>
+<tr class="memdesc:a70a30e354a60dceddadeee31a02d8c33 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to react to move events received by a bound camera  <a href="#a70a30e354a60dceddadeee31a02d8c33">More...</a><br /></td></tr>
 <tr class="separator:a70a30e354a60dceddadeee31a02d8c33 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d596d3c6726d37adc52d28071cb59e6 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6d596d3c6726d37adc52d28071cb59e6">rotateEvent</a> (QVector2D <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a>)</td></tr>
+<tr class="memdesc:a6d596d3c6726d37adc52d28071cb59e6 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to react to rotate events received by a bound camera  <a href="#a6d596d3c6726d37adc52d28071cb59e6">More...</a><br /></td></tr>
 <tr class="separator:a6d596d3c6726d37adc52d28071cb59e6 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ecd28bed32898f6a2bc2f55475dc8e inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa5ecd28bed32898f6a2bc2f55475dc8e">minBB</a> () const </td></tr>
+<tr class="memitem:aa5ecd28bed32898f6a2bc2f55475dc8e inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#aa5ecd28bed32898f6a2bc2f55475dc8e">minBB</a> () const </td></tr>
 <tr class="separator:aa5ecd28bed32898f6a2bc2f55475dc8e inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab578baf5362a788a2d158259cc3619d8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ab578baf5362a788a2d158259cc3619d8">maxBB</a> () const </td></tr>
+<tr class="memitem:ab578baf5362a788a2d158259cc3619d8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">const QVector3D &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ab578baf5362a788a2d158259cc3619d8">maxBB</a> () const </td></tr>
 <tr class="separator:ab578baf5362a788a2d158259cc3619d8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16d237053e9102310e396a09d0c364a3 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a16d237053e9102310e396a09d0c364a3">worldUp</a> ()</td></tr>
+<tr class="memitem:a16d237053e9102310e396a09d0c364a3 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a16d237053e9102310e396a09d0c364a3">worldUp</a> ()</td></tr>
 <tr class="separator:a16d237053e9102310e396a09d0c364a3 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c47ab3d70d32f750dae2536e2201305 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1c47ab3d70d32f750dae2536e2201305">worldFront</a> ()</td></tr>
+<tr class="memitem:a1c47ab3d70d32f750dae2536e2201305 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1c47ab3d70d32f750dae2536e2201305">worldFront</a> ()</td></tr>
 <tr class="separator:a1c47ab3d70d32f750dae2536e2201305 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0292bb0709144fa983af8857f057508a inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0292bb0709144fa983af8857f057508a">worldLeft</a> ()</td></tr>
-<tr class="separator:a0292bb0709144fa983af8857f057508a inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd03b119279a558828ed7d7c9ff40cd inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a> () const </td></tr>
+<tr class="memitem:a5d989e832e92c1f9d73c43d26d126768 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5d989e832e92c1f9d73c43d26d126768">worldSide</a> ()</td></tr>
+<tr class="separator:a5d989e832e92c1f9d73c43d26d126768 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dd03b119279a558828ed7d7c9ff40cd inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a> () const </td></tr>
 <tr class="separator:a3dd03b119279a558828ed7d7c9ff40cd inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35fe8458b32f93afefcd0ac77f964fd2 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QQuaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a> () const </td></tr>
+<tr class="memitem:a35fe8458b32f93afefcd0ac77f964fd2 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QQuaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a> () const </td></tr>
 <tr class="separator:a35fe8458b32f93afefcd0ac77f964fd2 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942ad5583e11876de8bb2574096b2ede inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a> () const </td></tr>
+<tr class="memitem:a942ad5583e11876de8bb2574096b2ede inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a> () const </td></tr>
 <tr class="separator:a942ad5583e11876de8bb2574096b2ede inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83b0d0859e1ffc59c50e1e714d3241b8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a83b0d0859e1ffc59c50e1e714d3241b8">modelMatrix</a> () const </td></tr>
+<tr class="memitem:a83b0d0859e1ffc59c50e1e714d3241b8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a83b0d0859e1ffc59c50e1e714d3241b8">modelMatrix</a> () const </td></tr>
 <tr class="separator:a83b0d0859e1ffc59c50e1e714d3241b8 inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b8ed65b38052442b3b5b6354977d21c inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6b8ed65b38052442b3b5b6354977d21c">modelMatrixInverted</a> () const </td></tr>
+<tr class="memitem:a6b8ed65b38052442b3b5b6354977d21c inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a6b8ed65b38052442b3b5b6354977d21c">modelMatrixInverted</a> () const </td></tr>
 <tr class="separator:a6b8ed65b38052442b3b5b6354977d21c inherit pub_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a9084427d7b39f9f0b57e631dd69dd105"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#a9084427d7b39f9f0b57e631dd69dd105">doForAllChildren</a> (std::function&lt; void(<a class="el" href="classterminus_1_1AbstractGraphicsObject.html">AbstractGraphicsObject</a> &amp;)&gt; callback) override</td></tr>
-<tr class="memdesc:a9084427d7b39f9f0b57e631dd69dd105"><td class="mdescLeft">&#160;</td><td class="mdescRight">doForAllChildren - calls callback for every child object  <a href="#a9084427d7b39f9f0b57e631dd69dd105">More...</a><br /></td></tr>
+<tr class="memdesc:a9084427d7b39f9f0b57e631dd69dd105"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to make child objects known  <a href="#a9084427d7b39f9f0b57e631dd69dd105">More...</a><br /></td></tr>
 <tr class="separator:a9084427d7b39f9f0b57e631dd69dd105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1b4624d24348fb8cccddbd139bc645b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Terrain.html#ad1b4624d24348fb8cccddbd139bc645b">renderPatch</a> (QOpenGLFunctions &amp;gl, int iX, int iZ) const </td></tr>
 <tr class="separator:ad1b4624d24348fb8cccddbd139bc645b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,23 +198,29 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aae8500cf06fc4c70f9763e4a51067a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classterminus_1_1AbstractGraphicsObject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classterminus_1_1AbstractGraphicsObject')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html">terminus::AbstractGraphicsObject</a></td></tr>
 <tr class="memitem:a0d1fcea1643c23a204529a7fd84768a2 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2">localUpdate</a> ()</td></tr>
-<tr class="memdesc:a0d1fcea1643c23a204529a7fd84768a2 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0d1fcea1643c23a204529a7fd84768a2" title="AbstractGraphicsObject::localUpdate - update the state of this object (as yet nothing to do) ...">AbstractGraphicsObject::localUpdate</a> - update the state of this object (as yet nothing to do)  <a href="#a0d1fcea1643c23a204529a7fd84768a2">More...</a><br /></td></tr>
+<tr class="memdesc:a0d1fcea1643c23a204529a7fd84768a2 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to update this objects state  <a href="#a0d1fcea1643c23a204529a7fd84768a2">More...</a><br /></td></tr>
 <tr class="separator:a0d1fcea1643c23a204529a7fd84768a2 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67bae1c57cd73754f85e51f5dc5e8e85 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a67bae1c57cd73754f85e51f5dc5e8e85">localRenderEnabled</a> () const </td></tr>
+<tr class="memdesc:a67bae1c57cd73754f85e51f5dc5e8e85 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">override this method to disable or enable rendering conditionally  <a href="#a67bae1c57cd73754f85e51f5dc5e8e85">More...</a><br /></td></tr>
 <tr class="separator:a67bae1c57cd73754f85e51f5dc5e8e85 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a037be1843cb407f80c91814944935709 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a037be1843cb407f80c91814944935709">setPosition</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a>)</td></tr>
+<tr class="memitem:a037be1843cb407f80c91814944935709 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a037be1843cb407f80c91814944935709">setPosition</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a3dd03b119279a558828ed7d7c9ff40cd">position</a>)</td></tr>
+<tr class="memdesc:a037be1843cb407f80c91814944935709 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the position and invalidates the model matrices  <a href="#a037be1843cb407f80c91814944935709">More...</a><br /></td></tr>
 <tr class="separator:a037be1843cb407f80c91814944935709 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2294db4aea2c17c25b1c80920482ecc inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af2294db4aea2c17c25b1c80920482ecc">setRotation</a> (const QQuaternion &amp;eulerAngles)</td></tr>
-<tr class="separator:af2294db4aea2c17c25b1c80920482ecc inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a451d33d6884a1eb1559b0348500fabc4 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a451d33d6884a1eb1559b0348500fabc4">setScale</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memitem:a1b34d1ee42ff0affa70c7b6975d9b1fb inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a1b34d1ee42ff0affa70c7b6975d9b1fb">setRotation</a> (const QQuaternion &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a35fe8458b32f93afefcd0ac77f964fd2">rotation</a>)</td></tr>
+<tr class="memdesc:a1b34d1ee42ff0affa70c7b6975d9b1fb inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the rotation and invalidates the model matrices  <a href="#a1b34d1ee42ff0affa70c7b6975d9b1fb">More...</a><br /></td></tr>
+<tr class="separator:a1b34d1ee42ff0affa70c7b6975d9b1fb inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a451d33d6884a1eb1559b0348500fabc4 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a451d33d6884a1eb1559b0348500fabc4">setScale</a> (const QVector3D &amp;<a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memdesc:a451d33d6884a1eb1559b0348500fabc4 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the scale and invalidates the model matrices  <a href="#a451d33d6884a1eb1559b0348500fabc4">More...</a><br /></td></tr>
 <tr class="separator:a451d33d6884a1eb1559b0348500fabc4 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0da24d929f7a4871884d37916e11b3b inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae0da24d929f7a4871884d37916e11b3b">setScale</a> (float <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memitem:ae0da24d929f7a4871884d37916e11b3b inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ae0da24d929f7a4871884d37916e11b3b">setScale</a> (float <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a942ad5583e11876de8bb2574096b2ede">scale</a>)</td></tr>
+<tr class="memdesc:ae0da24d929f7a4871884d37916e11b3b inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the scale uniformly on all three axes and invalidates the model matrices  <a href="#ae0da24d929f7a4871884d37916e11b3b">More...</a><br /></td></tr>
 <tr class="separator:ae0da24d929f7a4871884d37916e11b3b inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60717e6462641cf54841e7e53433340e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a60717e6462641cf54841e7e53433340e">worldToModel</a> (const QVector3D &amp;vWorld)</td></tr>
+<tr class="memitem:a60717e6462641cf54841e7e53433340e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a60717e6462641cf54841e7e53433340e">worldToModel</a> (const QVector3D &amp;vWorld)</td></tr>
 <tr class="separator:a60717e6462641cf54841e7e53433340e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84196c32f4cf7e900a70ed4db50f35d0 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a84196c32f4cf7e900a70ed4db50f35d0">modelToWorld</a> (const QVector3D &amp;vModel)</td></tr>
+<tr class="memitem:a84196c32f4cf7e900a70ed4db50f35d0 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a84196c32f4cf7e900a70ed4db50f35d0">modelToWorld</a> (const QVector3D &amp;vModel)</td></tr>
 <tr class="separator:a84196c32f4cf7e900a70ed4db50f35d0 inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03f988bc851c28fabdb6d0e3c16d1a0e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a03f988bc851c28fabdb6d0e3c16d1a0e">dispose</a> ()</td></tr>
+<tr class="memitem:a03f988bc851c28fabdb6d0e3c16d1a0e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a03f988bc851c28fabdb6d0e3c16d1a0e">dispose</a> ()</td></tr>
+<tr class="memdesc:a03f988bc851c28fabdb6d0e3c16d1a0e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">remove this object from the world and delete it as soon as it is safe to do so  <a href="#a03f988bc851c28fabdb6d0e3c16d1a0e">More...</a><br /></td></tr>
 <tr class="separator:a03f988bc851c28fabdb6d0e3c16d1a0e inherit pro_methods_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -236,7 +250,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a8da8d85d7b68ab507e7edc49138550c6 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80a12439295eb5445d8f920ce80a42d6 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Camera.html">Camera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a80a12439295eb5445d8f920ce80a42d6">m_camera</a></td></tr>
 <tr class="separator:a80a12439295eb5445d8f920ce80a42d6 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8f292ceb2824816f9686bcd16608758 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classProgram.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a></td></tr>
+<tr class="memitem:ac8f292ceb2824816f9686bcd16608758 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Program.html">Program</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a></td></tr>
 <tr class="separator:ac8f292ceb2824816f9686bcd16608758 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85bad53a45f291474d34d88eb897ffbc inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; std::unique_ptr&lt; <a class="el" href="classterminus_1_1Geometry.html">Geometry</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a></td></tr>
 <tr class="separator:a85bad53a45f291474d34d88eb897ffbc inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,10 +266,16 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ae354312e74d563699c620bd4d4ba45a3 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23693cc75a6e4fca763dbcd11622a1c0 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a23693cc75a6e4fca763dbcd11622a1c0">m_modelMatrix</a></td></tr>
 <tr class="separator:a23693cc75a6e4fca763dbcd11622a1c0 inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58055a86363f9fd40bf5250b4815453e inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a58055a86363f9fd40bf5250b4815453e">m_modelMatrixInvertedChanged</a></td></tr>
+<tr class="separator:a58055a86363f9fd40bf5250b4815453e inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0055824ae0abf2954f5b2c812237752e inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memItemLeft" align="right" valign="top">QMatrix4x4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a0055824ae0abf2954f5b2c812237752e">m_modelMatrixInverted</a></td></tr>
 <tr class="separator:a0055824ae0abf2954f5b2c812237752e inherit pro_attribs_classterminus_1_1AbstractGraphicsObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1Terrain.html" title="The Terrain class renders the terrain using patches and a displacement texture. Patches that are too ...">Terrain</a> class renders the terrain using patches and a displacement texture. Patches that are too far from the current camera position are culled. </p>
+<p>This class also contains the two tracks as children.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1Track.html" title="The Track class represents a track that a Train moves on. It is currently not rendered. The course is represented by a Polyline instance. ">Track</a> </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af74ca22ee71c12a50b764223b2795851"></a>
 <div class="memitem">
 <div class="memproto">
@@ -321,6 +341,14 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>sets the displacement texture and track courses according to level </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="aae8500cf06fc4c70f9763e4a51067a5a"></a>
@@ -369,10 +397,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>doForAllChildren - calls callback for every child object </p>
+<p>override this method to make child objects known </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">callback</td><td>subclasses with children must override this method accordingly </td></tr>
+    <tr><td class="paramname">callback</td><td>callback must be called once for every child object </td></tr>
   </table>
   </dd>
 </dl>
@@ -381,12 +409,12 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0ee7567135e743cc752913eb7a79811a"></a>
+<a class="anchor" id="abcb07c6a70f5abcd45842ff472787761"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classterminus_1_1Track.html">Track</a> * terminus::Terrain::leftTrack </td>
+          <td class="memname"><a class="el" href="classterminus_1_1Track.html">Track</a> &amp; terminus::Terrain::leftTrack </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -418,14 +446,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf" title="AbstractGraphicsObject::localRender - render this object using geometry, program and material set in ...">AbstractGraphicsObject::localRender</a> - render this object using geometry, program and material set in the respective members. </p>
+<p>this method contains the default render code using <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a85bad53a45f291474d34d88eb897ffbc">m_geometry</a>, <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8f292ceb2824816f9686bcd16608758">m_program</a> and <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a5b9d944520fb2d0fdcc56480ca45f51f">m_material</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions</td></tr>
+    <tr><td class="paramname">gl</td><td><a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41" title="override this method to customize the rendering process ">localRenderSetup()</a> and localRenderCleanup are called from here and are the preferred way to customize the rendering process over overriding this method entirely </td></tr>
   </table>
   </dd>
 </dl>
-<p>Overrrite this if custom render code is needed </p>
 
 <p>Reimplemented from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#af9eef174f4dd222af8eca95eb3e731cf">terminus::AbstractGraphicsObject</a>.</p>
 
@@ -447,7 +474,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em>&#160;</td>
         </tr>
         <tr>
@@ -463,14 +490,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d" title="AbstractGraphicsObject::localRenderCleanup - use this to clean up render states set in AbstractGraphi...">AbstractGraphicsObject::localRenderCleanup</a> - use this to clean up render states set in <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a>. </p>
+<p>override this method to customize the rendering process </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions </td></tr>
-    <tr><td class="paramname">program</td><td>- program bound for rendering </td></tr>
+    <tr><td class="paramname">gl</td><td></td></tr>
+    <tr><td class="paramname">program</td><td>- still bound</td></tr>
   </table>
   </dd>
 </dl>
+<p>Here is the right place to clean up rendering states set in <a class="el" href="classterminus_1_1Terrain.html#a66a95be1ef15521494502836dce79a41" title="override this method to customize the rendering process ">localRenderSetup()</a>. </p>
 
 <p>Reimplemented from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#a8fecc4c04f92d6a97d02a592bb8c642d">terminus::AbstractGraphicsObject</a>.</p>
 
@@ -492,7 +520,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classProgram.html">Program</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classterminus_1_1Program.html">Program</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em>&#160;</td>
         </tr>
         <tr>
@@ -508,15 +536,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2" title="AbstractGraphicsObject::localRenderSetup - use this to configure additional render states...">AbstractGraphicsObject::localRenderSetup</a> - use this to configure additional render states. </p>
+<p>override this method to customize the rendering process </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gl</td><td>- GL functions </td></tr>
-    <tr><td class="paramname">program</td><td>- program bound for rendering</td></tr>
+    <tr><td class="paramname">gl</td><td></td></tr>
+    <tr><td class="paramname">program</td><td>- already bound</td></tr>
   </table>
   </dd>
 </dl>
-<p>Set object specific uniforms, textures &amp;c here </p>
+<p>Here is the right place to set additional uniforms and to bind textures &amp;c. </p>
 
 <p>Reimplemented from <a class="el" href="classterminus_1_1AbstractGraphicsObject.html#ac8306ae04d7dd1a79e3bc7647c572fc2">terminus::AbstractGraphicsObject</a>.</p>
 
@@ -562,12 +590,12 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a19eb20fd1b84200ca98e04e2e8a7ac7d"></a>
+<a class="anchor" id="ab2c161936c4a6ed5e4823c4c281fd88b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classterminus_1_1Track.html">Track</a> * terminus::Terrain::rightTrack </td>
+          <td class="memname"><a class="el" href="classterminus_1_1Track.html">Track</a> &amp; terminus::Terrain::rightTrack </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -765,7 +793,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:34 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

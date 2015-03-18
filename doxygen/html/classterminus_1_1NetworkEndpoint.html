@@ -101,7 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> class provides a common interface that <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer class provides a server implementation of the NetworkEndpoint interface. ">NetworkServer</a> and <a class="el" href="classterminus_1_1NetworkClient.html">NetworkClient</a> implement.  
+<p>The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> class provides a common interface that <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a> and <a class="el" href="classterminus_1_1NetworkClient.html" title="The NetworkServer implements the NetworkEndpoint interface as the client role of a TCP connection...">NetworkClient</a> implement.  
  <a href="classterminus_1_1NetworkEndpoint.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="networkendpoint_8h_source.html">networkendpoint.h</a>&gt;</code></p>
@@ -111,8 +111,8 @@ Inheritance diagram for terminus::NetworkEndpoint:</div>
  <div class="center">
   <img src="classterminus_1_1NetworkEndpoint.png" usemap="#terminus::NetworkEndpoint_map" alt=""/>
   <map id="terminus::NetworkEndpoint_map" name="terminus::NetworkEndpoint_map">
-<area href="classterminus_1_1NetworkClient.html" alt="terminus::NetworkClient" shape="rect" coords="0,112,160,136"/>
-<area href="classterminus_1_1NetworkServer.html" title="The NetworkServer class provides a server implementation of the NetworkEndpoint interface. " alt="terminus::NetworkServer" shape="rect" coords="170,112,330,136"/>
+<area href="classterminus_1_1NetworkClient.html" title="The NetworkServer implements the NetworkEndpoint interface as the client role of a TCP connection..." alt="terminus::NetworkClient" shape="rect" coords="0,112,160,136"/>
+<area href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection..." alt="terminus::NetworkServer" shape="rect" coords="170,112,330,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -127,8 +127,10 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:aacfbac6b5d64179e8f2b0c8d4535d333"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#aacfbac6b5d64179e8f2b0c8d4535d333">receivedCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
+<tr class="memdesc:aacfbac6b5d64179e8f2b0c8d4535d333"><td class="mdescLeft">&#160;</td><td class="mdescRight">fired for every <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> received from the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#aacfbac6b5d64179e8f2b0c8d4535d333">More...</a><br /></td></tr>
 <tr class="separator:aacfbac6b5d64179e8f2b0c8d4535d333"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af65283015353b286732c2685a7cc3e37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#af65283015353b286732c2685a7cc3e37">stateChanged</a> (<a class="el" href="classterminus_1_1NetworkEndpoint.html#a774a92f9199f383ef79925312e492882">State</a> newState)</td></tr>
+<tr class="memdesc:af65283015353b286732c2685a7cc3e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">fired after state of this <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> is changed  <a href="#af65283015353b286732c2685a7cc3e37">More...</a><br /></td></tr>
 <tr class="separator:af65283015353b286732c2685a7cc3e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -138,8 +140,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e55e1780596a873fcc801fb7584beb9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a9e55e1780596a873fcc801fb7584beb9">~NetworkEndpoint</a> ()</td></tr>
 <tr class="separator:a9e55e1780596a873fcc801fb7584beb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d48d274fbfafb2bc8929a6d1c012a42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a5d48d274fbfafb2bc8929a6d1c012a42">sendCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
+<tr class="memdesc:a5d48d274fbfafb2bc8929a6d1c012a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">serializes command and sends it to the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#a5d48d274fbfafb2bc8929a6d1c012a42">More...</a><br /></td></tr>
 <tr class="separator:a5d48d274fbfafb2bc8929a6d1c012a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aead5d50fa4792829a074f317edb87866"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#aead5d50fa4792829a074f317edb87866">disconnect</a> ()</td></tr>
+<tr class="memdesc:aead5d50fa4792829a074f317edb87866"><td class="mdescLeft">&#160;</td><td class="mdescRight">disconnect the underlying socket  <a href="#aead5d50fa4792829a074f317edb87866">More...</a><br /></td></tr>
 <tr class="separator:aead5d50fa4792829a074f317edb87866"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19351055176380cf3e2cda62f2b6089b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a774a92f9199f383ef79925312e492882">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a19351055176380cf3e2cda62f2b6089b">state</a> ()</td></tr>
 <tr class="separator:a19351055176380cf3e2cda62f2b6089b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,9 +176,9 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:afb67a92e508ca5e3c5d7f0c58400a4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> class provides a common interface that <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer class provides a server implementation of the NetworkEndpoint interface. ">NetworkServer</a> and <a class="el" href="classterminus_1_1NetworkClient.html">NetworkClient</a> implement. </p>
-<p>It provides an active NetworkConnection and means to send an <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> over that NetworkConnection.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer class provides a server implementation of the NetworkEndpoint interface. ">NetworkServer</a>, <a class="el" href="classterminus_1_1NetworkClient.html">NetworkClient</a> and NetworkConnection </dd></dl>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> class provides a common interface that <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a> and <a class="el" href="classterminus_1_1NetworkClient.html" title="The NetworkServer implements the NetworkEndpoint interface as the client role of a TCP connection...">NetworkClient</a> implement. </p>
+<p>It manages an underlying TcpSocket and implements logic to serialize and deserialize AbstractCommands</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a>, <a class="el" href="classterminus_1_1NetworkClient.html" title="The NetworkServer implements the NetworkEndpoint interface as the client role of a TCP connection...">NetworkClient</a>, <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> </dd></dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a774a92f9199f383ef79925312e492882"></a>
 <div class="memitem">
@@ -282,6 +286,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>disconnect the underlying socket </p>
+
 </div>
 </div>
 <a class="anchor" id="ab2216a367293a42a201d8c4f2d3d055c"></a>
@@ -353,6 +359,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>fired for every <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> received from the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>- ownership passes to receiver of this signal </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a5d48d274fbfafb2bc8929a6d1c012a42"></a>
@@ -368,6 +382,14 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>serializes command and sends it to the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>- ownership is not taken </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -478,6 +500,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>current state of this <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </dd></dl>
 
 </div>
 </div>
@@ -502,6 +525,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>fired after state of this <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> is changed </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newState</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -553,7 +584,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

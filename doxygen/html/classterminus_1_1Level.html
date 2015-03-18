@@ -98,6 +98,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1Level.html" title="The Level class is a generator for level data such as terrain geometry and track courses. ">Level</a> class is a generator for level data such as terrain geometry and track courses.  
+ <a href="classterminus_1_1Level.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="level_8h_source.html">level.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -106,13 +109,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9f06bfdccb8d1430f9b96017a606a662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50036b85d3d0019d1fd6aa7732a15a19"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a50036b85d3d0019d1fd6aa7732a15a19">Level</a> (const <a class="el" href="classterminus_1_1LevelConfiguration.html">LevelConfiguration</a> &amp;<a class="el" href="classterminus_1_1Level.html#ac1323c7cd8355ea9e4342ed8f7a5f3be">config</a>)</td></tr>
 <tr class="separator:a50036b85d3d0019d1fd6aa7732a15a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3419e6ff029fed64a6b8322a70ebfd33"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a3419e6ff029fed64a6b8322a70ebfd33">~Level</a> ()</td></tr>
-<tr class="separator:a3419e6ff029fed64a6b8322a70ebfd33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcafa7945ab959771f2fd2dc8e193170"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#abcafa7945ab959771f2fd2dc8e193170">generateLevel</a> ()</td></tr>
+<tr class="memdesc:abcafa7945ab959771f2fd2dc8e193170"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate terrain and tracks if not already generated  <a href="#abcafa7945ab959771f2fd2dc8e193170">More...</a><br /></td></tr>
 <tr class="separator:abcafa7945ab959771f2fd2dc8e193170"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a744eebd50a70f881938b6a3e4500ee64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a744eebd50a70f881938b6a3e4500ee64">resetLevel</a> ()</td></tr>
+<tr class="memdesc:a744eebd50a70f881938b6a3e4500ee64"><td class="mdescLeft">&#160;</td><td class="mdescRight">discard terrain and tracks if already generated  <a href="#a744eebd50a70f881938b6a3e4500ee64">More...</a><br /></td></tr>
 <tr class="separator:a744eebd50a70f881938b6a3e4500ee64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a403edd25dec7e6c1e357461dca7cb5e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a403edd25dec7e6c1e357461dca7cb5e6">configure</a> (const <a class="el" href="classterminus_1_1LevelConfiguration.html">LevelConfiguration</a> &amp;<a class="el" href="classterminus_1_1Level.html#ac1323c7cd8355ea9e4342ed8f7a5f3be">config</a>)</td></tr>
+<tr class="memdesc:a403edd25dec7e6c1e357461dca7cb5e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">set a new configuration and discard the previously generated terrain and tracks if already generated  <a href="#a403edd25dec7e6c1e357461dca7cb5e6">More...</a><br /></td></tr>
 <tr class="separator:a403edd25dec7e6c1e357461dca7cb5e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1323c7cd8355ea9e4342ed8f7a5f3be"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classterminus_1_1LevelConfiguration.html">LevelConfiguration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#ac1323c7cd8355ea9e4342ed8f7a5f3be">config</a> () const </td></tr>
 <tr class="separator:ac1323c7cd8355ea9e4342ed8f7a5f3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +171,11 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a7ccee4fd3cae584f71e6090e6c9d3972"><td class="memItemLeft" align="right" valign="top">std::vector&lt; GLfloat &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a7ccee4fd3cae584f71e6090e6c9d3972">m_terrainMapData</a></td></tr>
 <tr class="separator:a7ccee4fd3cae584f71e6090e6c9d3972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1Level.html" title="The Level class is a generator for level data such as terrain geometry and track courses. ">Level</a> class is a generator for level data such as terrain geometry and track courses. </p>
+<p>It uses a <a class="el" href="classterminus_1_1LevelConfiguration.html" title="The LevelConfiguration class contains all information necessary to configure a Level instance as well...">LevelConfiguration</a> instance that specifies the dimensions of the generated terrain and a seed value for the pseudo random number generator.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1LevelConfiguration.html" title="The LevelConfiguration class contains all information necessary to configure a Level instance as well...">LevelConfiguration</a> </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a9f06bfdccb8d1430f9b96017a606a662"></a>
 <div class="memitem">
 <div class="memproto">
@@ -199,29 +207,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3419e6ff029fed64a6b8322a70ebfd33"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">terminus::Level::~Level </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac1323c7cd8355ea9e4342ed8f7a5f3be"></a>
 <div class="memitem">
@@ -235,6 +220,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the current <a class="el" href="classterminus_1_1LevelConfiguration.html" title="The LevelConfiguration class contains all information necessary to configure a Level instance as well...">LevelConfiguration</a> </dd></dl>
 
 </div>
 </div>
@@ -252,6 +238,14 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>set a new configuration and discard the previously generated terrain and tracks if already generated </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a7591ce3f41acaaa8f31bec7246267d87"></a>
@@ -266,6 +260,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>a copy of the generated terrain displacement map that can be used to fill an OpenGL texture object </dd></dl>
 
 </div>
 </div>
@@ -281,6 +276,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>a newly created <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> instance that approximates the course of the left track </dd></dl>
 
 </div>
 </div>
@@ -296,6 +292,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>a newly created <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> instance that approximates the course of the right track </dd></dl>
 
 </div>
 </div>
@@ -311,6 +308,8 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>generate terrain and tracks if not already generated </p>
 
 </div>
 </div>
@@ -372,6 +371,8 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>discard terrain and tracks if already generated </p>
 
 </div>
 </div>
@@ -826,7 +827,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

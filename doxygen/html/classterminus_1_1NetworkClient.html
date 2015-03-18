@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a> implements the <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> interface as the client role of a TCP connection.  
+ <a href="classterminus_1_1NetworkClient.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="networkclient_8h_source.html">networkclient.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for terminus::NetworkClient:</div>
@@ -120,8 +123,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e55e1780596a873fcc801fb7584beb9 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a9e55e1780596a873fcc801fb7584beb9">~NetworkEndpoint</a> ()</td></tr>
 <tr class="separator:a9e55e1780596a873fcc801fb7584beb9 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d48d274fbfafb2bc8929a6d1c012a42 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a5d48d274fbfafb2bc8929a6d1c012a42">sendCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
+<tr class="memdesc:a5d48d274fbfafb2bc8929a6d1c012a42 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="mdescLeft">&#160;</td><td class="mdescRight">serializes command and sends it to the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#a5d48d274fbfafb2bc8929a6d1c012a42">More...</a><br /></td></tr>
 <tr class="separator:a5d48d274fbfafb2bc8929a6d1c012a42 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aead5d50fa4792829a074f317edb87866 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#aead5d50fa4792829a074f317edb87866">disconnect</a> ()</td></tr>
+<tr class="memdesc:aead5d50fa4792829a074f317edb87866 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="mdescLeft">&#160;</td><td class="mdescRight">disconnect the underlying socket  <a href="#aead5d50fa4792829a074f317edb87866">More...</a><br /></td></tr>
 <tr class="separator:aead5d50fa4792829a074f317edb87866 inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19351055176380cf3e2cda62f2b6089b inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a774a92f9199f383ef79925312e492882">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a19351055176380cf3e2cda62f2b6089b">state</a> ()</td></tr>
 <tr class="separator:a19351055176380cf3e2cda62f2b6089b inherit pub_methods_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,8 +151,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a774a92f9199f383ef79925312e492882 inherit pub_types_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header signals_classterminus_1_1NetworkEndpoint"><td colspan="2" onclick="javascript:toggleInherit('signals_classterminus_1_1NetworkEndpoint')"><img src="closed.png" alt="-"/>&#160;Signals inherited from <a class="el" href="classterminus_1_1NetworkEndpoint.html">terminus::NetworkEndpoint</a></td></tr>
 <tr class="memitem:aacfbac6b5d64179e8f2b0c8d4535d333 inherit signals_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#aacfbac6b5d64179e8f2b0c8d4535d333">receivedCommand</a> (<a class="el" href="classterminus_1_1AbstractCommand.html">AbstractCommand</a> *command)</td></tr>
+<tr class="memdesc:aacfbac6b5d64179e8f2b0c8d4535d333 inherit signals_classterminus_1_1NetworkEndpoint"><td class="mdescLeft">&#160;</td><td class="mdescRight">fired for every <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> received from the opposite <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a>  <a href="#aacfbac6b5d64179e8f2b0c8d4535d333">More...</a><br /></td></tr>
 <tr class="separator:aacfbac6b5d64179e8f2b0c8d4535d333 inherit signals_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af65283015353b286732c2685a7cc3e37 inherit signals_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#af65283015353b286732c2685a7cc3e37">stateChanged</a> (<a class="el" href="classterminus_1_1NetworkEndpoint.html#a774a92f9199f383ef79925312e492882">State</a> newState)</td></tr>
+<tr class="memdesc:af65283015353b286732c2685a7cc3e37 inherit signals_classterminus_1_1NetworkEndpoint"><td class="mdescLeft">&#160;</td><td class="mdescRight">fired after state of this <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> is changed  <a href="#af65283015353b286732c2685a7cc3e37">More...</a><br /></td></tr>
 <tr class="separator:af65283015353b286732c2685a7cc3e37 inherit signals_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classterminus_1_1NetworkEndpoint"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classterminus_1_1NetworkEndpoint')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classterminus_1_1NetworkEndpoint.html">terminus::NetworkEndpoint</a></td></tr>
 <tr class="memitem:a47ebb2d4df675fd981cfc3d695963620 inherit pro_methods_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">QTcpSocket *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#a47ebb2d4df675fd981cfc3d695963620">socket</a> ()</td></tr>
@@ -168,7 +175,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:afb67a92e508ca5e3c5d7f0c58400a4b4 inherit pro_attribs_classterminus_1_1NetworkEndpoint"><td class="memItemLeft" align="right" valign="top">QTcpSocket *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1NetworkEndpoint.html#afb67a92e508ca5e3c5d7f0c58400a4b4">m_socket</a></td></tr>
 <tr class="separator:afb67a92e508ca5e3c5d7f0c58400a4b4 inherit pro_attribs_classterminus_1_1NetworkEndpoint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1NetworkServer.html" title="The NetworkServer implements the NetworkEndpoint interface as the server role of a TCP connection...">NetworkServer</a> implements the <a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> interface as the client role of a TCP connection. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classterminus_1_1NetworkEndpoint.html" title="The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement...">NetworkEndpoint</a> </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a50b708d7b55214014d004a9bf981e51b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +275,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
