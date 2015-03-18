@@ -1,6 +1,9 @@
-#Terminus
+Terminus                         {#mainpage}
+============
 
 Game Programming Seminar 2014/15
+
+http://terminus-game.com
 
 ##How to run
 
