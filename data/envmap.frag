@@ -8,7 +8,7 @@ varying vec3 v_eye;
 
 void main()
 {
+    // read fragment color from the environment map
     vec3 eye = normalize(v_eye);
-    vec4 color = textureCube(cubemap, eye).bgra;
-    gl_FragColor = color;
+    gl_FragColor = textureCube(cubemap, eye).bgra;
 }

@@ -20,15 +20,15 @@ varying vec3 v_positionW;
 
 void main()
 {
-    //world space:
+    //---model space---
     vec4 position4 = mModel * vec4(a_position, 1.0);
     v_positionW = position4.xyz / position4.w;
 
-    //camera space:
+    //---camera space---
     v_normalC = mViewNorm * mModelNorm * a_normal;
     position4 = mView * mModel * vec4(a_position, 1.0);
     v_positionC = position4.xyz / position4.w;
 
-    //screen space:
+    //---screen space---
     gl_Position = mProjection * mView * mModel * vec4(a_position, 1.0);
 }
