@@ -3,6 +3,7 @@
 #include <game.h>
 #include <resources/soundmanager.h>
 #include <world/drawables/projectile.h>
+#include <world/world.h>
 
 namespace terminus
 {

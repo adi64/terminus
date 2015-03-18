@@ -1,10 +1,11 @@
 #include "camera.h"
 
-#include <assert.h>
+#include <cassert>
+
 #include <QQuaternion>
 
-#include <world/drawables/abstractgraphicsobject.h>
 #include <util/mathutil.h>
+#include <world/drawables/abstractgraphicsobject.h>
 
 namespace terminus
 {

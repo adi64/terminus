@@ -1,9 +1,10 @@
 #pragma once
 
-#include <QVector3D>
-#include <QPoint>
 #include <QMatrix3x3>
 #include <QMatrix4x4>
+#include <QPoint>
+#include <QVector3D>
+#include <QVector2D>
 
 #include <resources/program.h>
 

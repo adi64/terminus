@@ -7,6 +7,7 @@
 #include <resources/material.h>
 #include <resources/program.h>
 #include <world/lightmanager.h>
+#include <world/camera.h>
 #include <world/world.h>
 
 namespace terminus

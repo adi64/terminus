@@ -7,11 +7,16 @@
 #include <QQuaternion>
 #include <QMatrix4x4>
 
+#include <resources/geometry.h>
+#include <resources/material.h>
+#include <resources/program.h>
+
 class QOpenGLFunctions;
 
 namespace terminus
 {
 
+class Camera;
 class Program;
 class World;
 
