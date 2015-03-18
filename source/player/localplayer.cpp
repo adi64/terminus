@@ -12,14 +12,4 @@ LocalPlayer::LocalPlayer(World & world, Train *train)
 
 }
 
-void LocalPlayer::primaryAction()
-{
-    AbstractPlayer::primaryAction();
-}
-
-void LocalPlayer::primaryActionDebug()
-{
-    AbstractPlayer::primaryActionDebug();
-}
-
-}
+} // namespace terminus

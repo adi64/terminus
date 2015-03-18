@@ -35,9 +35,17 @@ public:
     void switchToNextWagon();
     void switchToPreviousWagon();
     void switchToWagon(unsigned int wagonIndex);
+
+    /*!
+     * \brief Trigger the primary action of the currently selected wagon
+     */
     virtual void primaryAction();
+
+    /*!
+     * \brief Trigger the primary debug action of the currently selected wagon
+     * (typically the primary action without cooldown limitations etc.)
+     */
     virtual void primaryActionDebug();
-    void primaryActionCharge(bool charge = true);
 
     virtual void animateHit();
 
