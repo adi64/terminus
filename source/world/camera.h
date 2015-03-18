@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QVector3D>
-#include <QVector2D>
+#include <QPoint>
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 
@@ -12,6 +12,16 @@ namespace terminus
 
 class AbstractGraphicsObject;
 
+/*!
+ * \brief The Camera class manages view and projection matrices that define
+ * a view of a 3D scene.
+ *
+ * It also contains a mechanism that allows it to be bound to
+ * AbstractGraphicsObjects in order to track their movement and
+ * implements a simple navigation mechanism that is active if it is not bound.
+ *
+ * \sa AbstractGraphicsObject
+ */
 class Camera
 {
 public:
@@ -38,13 +48,11 @@ public:
     float fovy() const;
     void setFovy(float fovy);
 
-    const QVector2D & viewport() const; // should be int, but whatever
-    void setViewport(const QVector2D & viewport);
+    const QPoint & viewport() const;
+    void setViewport(const QPoint & viewport);
     void setViewport(int width, int height);
 
     float aspectRatio() const;
-
-    void setMatrices(Program & program, const QMatrix4x4 & model) const;
 
     const QMatrix4x4 & view() const;
     const QMatrix4x4 & projection() const;
@@ -54,26 +62,53 @@ public:
     const QMatrix4x4 & viewProjectionInverted() const;
     const QMatrix3x3 & normal() const;
 
-    void changed();
+    /*!
+     * \brief sets the view and projection as well as the given model matrix
+     * as uniforms on the given shader program
+     * \param program
+     * \param model
+     */
+    void setMatrices(Program & program, const QMatrix4x4 & model) const;
 
     /*!
-     * \brief bindToGraphicsObject - locks camera to a new object
-     * \param object - an AbstractGraphicsObject to which the camera will be m_lockedEyeAngle to
+     * \brief bind camera to track an AbstractGraphicsObject
+     * \param object
      *
-     * passing a nullptr frees the camera
+     * passing a nullptr releases the camera
      */
     void bindTo(AbstractGraphicsObject * object);
-
     /*!
-     * \brief unbind - bind to nullptr
+     * \brief release the camera from the object it is currently bound to
      */
     void unbind();
-
+    /*!
+     * \brief is called if an object releases this camera
+     * \param object
+     */
     void unbound(AbstractGraphicsObject * object);
-
+    /*!
+     * \return true if this camera is currently bound to track an
+     * AbstractGraphicsObject
+     */
     bool isBound() const;
 
+    /*!
+     * \brief called if the GUI requests the camera to be moved
+     * \param movement
+     *
+     * If this camera is bound to an object, this object's moveEvent() method
+     * will be called.
+     * Otherwise the camera is moved according to a simple navigation mechanism.
+     */
     void moveEvent(QVector3D movement);
+    /*!
+     * \brief called if the GUI requests the camera to be rotated
+     * \param rotation
+     *
+     * If this camera is bound to an object, this object's rotateEvent() method
+     * will be called.
+     * Otherwise the camera is rotated according to a simple navigation mechanism.
+     */
     void rotateEvent(QVector2D rotation);
 
 protected:
@@ -89,7 +124,7 @@ protected:
     float m_zNear;
     float m_zFar;
 
-    QVector2D m_viewport;
+    QPoint m_viewport;
 
     mutable QMatrix4x4 m_view;
     mutable QMatrix4x4 m_viewInverted;
@@ -108,10 +143,9 @@ protected:
     mutable bool m_normalChanged;
 
     /*!
-     * \brief m_associatedObject - object that this camera is locked to, or nullptr otherwise
+     * \brief object that this camera is bound to in order to track it
      */
     AbstractGraphicsObject * m_associatedObject;
 };
-
 
 } // namespace terminus

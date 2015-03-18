@@ -20,7 +20,7 @@ enum WagonType
 
 /*!
  * \brief The AbstractWagon class provides a common interface for all wagon
- * types and contains common functionality like position calculation etc.
+ * types and contains common functionality like position calculation &c.
  */
 class AbstractWagon : public KinematicPhysicsObject
 {
@@ -51,19 +51,21 @@ public:
     virtual void localUpdate() override;
 
     /*!
-     * \brief Is called when the camera is bound to this wagon.
-     *
-     * The previous camera position is saved, to implement smooth camera transition.
+     * \brief saves the previous camera position to animate the
+     * camera transition
      */
     virtual void onBindCamera() override;
 
     /*!
-     * \brief Is called during this wagons update step, if the camera is currently bound.
+     * \brief moves the camera according to this wagons position and orientation
+     *
+     * \sa localCameraCenter()
+     * \sa localCameraEye()
      */
     virtual void adjustCamera();
 
     /*!
-     * \brief This event is send by the camera when it is rotated.
+     * \brief rotates the camera position in model space
      * \param rotation
      */
     virtual void rotateEvent(QVector2D rotation);
