@@ -1,4 +1,6 @@
-Terminus                         {#mainpage}
+#{mainpage}
+
+Terminus
 ============
 
 Game Programming Seminar 2014/15
