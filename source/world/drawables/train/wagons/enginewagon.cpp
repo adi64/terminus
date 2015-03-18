@@ -82,7 +82,7 @@ void EngineWagon::playSound() const
 {
     SoundManager * localManager = SoundManager::getInstance();
 
-    if(!localManager->sound("machine")->isPlaying())        //maybe defining the strings in a typedef?
+    if(!localManager->sound("machine")->isPlaying())
     {
         localManager->playSound("machine");
     }
