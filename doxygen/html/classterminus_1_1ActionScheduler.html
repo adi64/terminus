@@ -98,20 +98,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1ActionScheduler.html" title="The ActionScheduler class maintains a list of actions, that should be executed later in a specific co...">ActionScheduler</a> class maintains a list of actions, that should be executed later in a specific context.  
+ <a href="classterminus_1_1ActionScheduler.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="actionscheduler_8h_source.html">actionscheduler.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a3b0b79a638edfbf51c214f7ac696a6b4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#a3b0b79a638edfbf51c214f7ac696a6b4">Action</a> = std::function&lt; bool(void)&gt;</td></tr>
+<tr class="memdesc:a3b0b79a638edfbf51c214f7ac696a6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">functions that can be stored as actions can not have parameters and must return a bool whether they should be scheduled again  <a href="#a3b0b79a638edfbf51c214f7ac696a6b4">More...</a><br /></td></tr>
 <tr class="separator:a3b0b79a638edfbf51c214f7ac696a6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a09f9bc6b38004af4b79e80eee2067b94"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#a09f9bc6b38004af4b79e80eee2067b94">ActionScheduler</a> ()</td></tr>
 <tr class="separator:a09f9bc6b38004af4b79e80eee2067b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a661a2d5db87b3743b33c00f2abd17db7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#a661a2d5db87b3743b33c00f2abd17db7">scheduleAction</a> (const <a class="el" href="classterminus_1_1ActionScheduler.html#a3b0b79a638edfbf51c214f7ac696a6b4">Action</a> &amp;event)</td></tr>
-<tr class="separator:a661a2d5db87b3743b33c00f2abd17db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea33e98666a915d5209967d439f7a31b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#aea33e98666a915d5209967d439f7a31b">scheduleAction</a> (const <a class="el" href="classterminus_1_1ActionScheduler.html#a3b0b79a638edfbf51c214f7ac696a6b4">Action</a> &amp;action)</td></tr>
+<tr class="memdesc:aea33e98666a915d5209967d439f7a31b"><td class="mdescLeft">&#160;</td><td class="mdescRight">add an Action to the action list  <a href="#aea33e98666a915d5209967d439f7a31b">More...</a><br /></td></tr>
+<tr class="separator:aea33e98666a915d5209967d439f7a31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20649c08f7637a0f7a36cfc21e31d7d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#a20649c08f7637a0f7a36cfc21e31d7d5">executeActions</a> ()</td></tr>
+<tr class="memdesc:a20649c08f7637a0f7a36cfc21e31d7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute all Actions currently contained in the action list and possibly schedule them again  <a href="#a20649c08f7637a0f7a36cfc21e31d7d5">More...</a><br /></td></tr>
 <tr class="separator:a20649c08f7637a0f7a36cfc21e31d7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -123,7 +129,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a086750f01bfd30adc4aa70a797f63c6a"><td class="memItemLeft" align="right" valign="top">std::recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1ActionScheduler.html#a086750f01bfd30adc4aa70a797f63c6a">m_actionListMutex</a></td></tr>
 <tr class="separator:a086750f01bfd30adc4aa70a797f63c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1ActionScheduler.html" title="The ActionScheduler class maintains a list of actions, that should be executed later in a specific co...">ActionScheduler</a> class maintains a list of actions, that should be executed later in a specific context. </p>
+<p>This class can be safely used across multiple threads. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a3b0b79a638edfbf51c214f7ac696a6b4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -133,6 +142,8 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>functions that can be stored as actions can not have parameters and must return a bool whether they should be scheduled again </p>
 
 </div>
 </div>
@@ -166,9 +177,11 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>execute all Actions currently contained in the action list and possibly schedule them again </p>
+
 </div>
 </div>
-<a class="anchor" id="a661a2d5db87b3743b33c00f2abd17db7"></a>
+<a class="anchor" id="aea33e98666a915d5209967d439f7a31b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -176,11 +189,19 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void terminus::ActionScheduler::scheduleAction </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classterminus_1_1ActionScheduler.html#a3b0b79a638edfbf51c214f7ac696a6b4">Action</a> &amp;&#160;</td>
-          <td class="paramname"><em>event</em></td><td>)</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>add an Action to the action list </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -252,7 +273,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

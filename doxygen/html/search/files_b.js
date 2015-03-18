@@ -8,8 +8,6 @@ var searchData=
   ['polyline_2eh',['polyline.h',['../polyline_8h.html',1,'']]],
   ['preparenewgamecommand_2ecpp',['preparenewgamecommand.cpp',['../preparenewgamecommand_8cpp.html',1,'']]],
   ['preparenewgamecommand_2eh',['preparenewgamecommand.h',['../preparenewgamecommand_8h.html',1,'']]],
-  ['primaryactioncommand_2ecpp',['primaryactioncommand.cpp',['../primaryactioncommand_8cpp.html',1,'']]],
-  ['primaryactioncommand_2eh',['primaryactioncommand.h',['../primaryactioncommand_8h.html',1,'']]],
   ['program_2ecpp',['program.cpp',['../program_8cpp.html',1,'']]],
   ['program_2eh',['program.h',['../program_8h.html',1,'']]],
   ['projectile_2ecpp',['projectile.cpp',['../projectile_8cpp.html',1,'']]],

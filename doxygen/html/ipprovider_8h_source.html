@@ -95,31 +95,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceterminus.html">terminus</a></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classterminus_1_1IPProvider.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a> : <span class="keyword">public</span> QObject</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classterminus_1_1IPProvider.html#aacc4d8ee1c58c59d9c82cc5c8c5edb7d">   15</a></span>&#160;    Q_PROPERTY(QString <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a> READ <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a> NOTIFY <a class="code" href="classterminus_1_1IPProvider.html#a95fe9d6039e0abea0b6b58e9556c6552">localIPChanged</a>())</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;public:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    explicit <a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a>(QObject *parent = 0);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ~<a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    QString <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a>() const;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;signals:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classterminus_1_1IPProvider.html#a95fe9d6039e0abea0b6b58e9556c6552">localIPChanged</a>();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;public slots:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;} <span class="comment">// namespace terminus</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classterminus_1_1IPProvider.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classterminus_1_1IPProvider.html#aacc4d8ee1c58c59d9c82cc5c8c5edb7d">   16</a></span>&#160;    Q_PROPERTY(QString <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a> READ <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a> NOTIFY <a class="code" href="classterminus_1_1IPProvider.html#a95fe9d6039e0abea0b6b58e9556c6552">localIPChanged</a>())</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;public:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    explicit <a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a>(QObject *parent = 0);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    ~<a class="code" href="classterminus_1_1IPProvider.html">IPProvider</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    QString <a class="code" href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">localIP</a>() const;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;signals:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classterminus_1_1IPProvider.html#a95fe9d6039e0abea0b6b58e9556c6552">localIPChanged</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;public slots:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;} <span class="comment">// namespace terminus</span></div>
 <div class="ttc" id="classterminus_1_1IPProvider_html_a95fe9d6039e0abea0b6b58e9556c6552"><div class="ttname"><a href="classterminus_1_1IPProvider.html#a95fe9d6039e0abea0b6b58e9556c6552">terminus::IPProvider::localIPChanged</a></div><div class="ttdeci">void localIPChanged()</div></div>
 <div class="ttc" id="classterminus_1_1IPProvider_html_aebc20b7de9ce1c94e42883d15b98b2ce"><div class="ttname"><a href="classterminus_1_1IPProvider.html#aebc20b7de9ce1c94e42883d15b98b2ce">terminus::IPProvider::localIP</a></div><div class="ttdeci">QString localIP() const </div></div>
-<div class="ttc" id="classterminus_1_1IPProvider_html"><div class="ttname"><a href="classterminus_1_1IPProvider.html">terminus::IPProvider</a></div><div class="ttdoc">A small helper class to determine the local IP address. </div><div class="ttdef"><b>Definition:</b> ipprovider.h:12</div></div>
+<div class="ttc" id="classterminus_1_1IPProvider_html"><div class="ttname"><a href="classterminus_1_1IPProvider.html">terminus::IPProvider</a></div><div class="ttdoc">A small helper class to determine the local IP address. </div><div class="ttdef"><b>Definition:</b> ipprovider.h:13</div></div>
 <div class="ttc" id="namespaceterminus_html"><div class="ttname"><a href="namespaceterminus.html">terminus</a></div><div class="ttdef"><b>Definition:</b> eventhandler.cpp:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

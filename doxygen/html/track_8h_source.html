@@ -94,57 +94,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QVector3D&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="abstractgraphicsobject_8h.html">abstractgraphicsobject.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="polyline_8h.html">util/polyline.h</a>&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceterminus.html">terminus</a></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classterminus_1_1Track.html">Track</a> : <span class="keyword">public</span> <a class="code" href="classterminus_1_1AbstractGraphicsObject.html">AbstractGraphicsObject</a></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="classterminus_1_1Track.html#a94712a07a677f14813b58ab02da364ca">Track</a>(<a class="code" href="classterminus_1_1World.html">World</a> &amp; world, <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#a55f7618816942a7312f47292c2aab03b">isOtherTrackLeft</a>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classterminus_1_1Track.html#a520939a773370409f8b10a9dbb8b0435">setCourse</a>(<a class="code" href="classterminus_1_1Polyline.html">Polyline</a> * course);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    QVector3D <a class="code" href="classterminus_1_1Track.html#aa99ba6d6bda5c89a23196dad512931ab">positionAt</a>(<span class="keywordtype">float</span> distance);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    QVector3D <a class="code" href="classterminus_1_1Track.html#a1abdac49c3970afb0027573c37db3f9b">tangentAt</a>(<span class="keywordtype">float</span> distance);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="classterminus_1_1Track.html#a91326a1e0ca0bee21a7c81b1dbd7a1e9">length</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#a55f7618816942a7312f47292c2aab03b">isOtherTrackLeft</a>();</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="abstractgraphicsobject_8h.html">world/drawables/abstractgraphicsobject.h</a>&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="polyline_8h.html">util/polyline.h</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceterminus.html">terminus</a></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classterminus_1_1Track.html">Track</a> : <span class="keyword">public</span> <a class="code" href="classterminus_1_1AbstractGraphicsObject.html">AbstractGraphicsObject</a></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classterminus_1_1Track.html#acfa80d5524a60777a6af5704c62fcbb6">Track</a>(<a class="code" href="classterminus_1_1World.html">World</a> &amp; world, <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#a7c42283d094625874f533ec4850eaa49">isRightTrack</a>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classterminus_1_1Polyline.html">Polyline</a> &amp; <a class="code" href="classterminus_1_1Track.html#aeefecc3ed3bba54ecc79da2b839a5a41">course</a>();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#af3a719949068b794a3f992b599e2e7a1">localRenderEnabled</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">   30</a></span>&#160;    std::unique_ptr&lt;Polyline&gt; <a class="code" href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">m_course</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classterminus_1_1Track.html#a520939a773370409f8b10a9dbb8b0435">setCourse</a>(<a class="code" href="classterminus_1_1Polyline.html">Polyline</a> * course);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">   32</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">m_isOtherTrackLeft</a>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="ttc" id="classterminus_1_1Polyline_html"><div class="ttname"><a href="classterminus_1_1Polyline.html">terminus::Polyline</a></div><div class="ttdef"><b>Definition:</b> polyline.h:10</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_aa99ba6d6bda5c89a23196dad512931ab"><div class="ttname"><a href="classterminus_1_1Track.html#aa99ba6d6bda5c89a23196dad512931ab">terminus::Track::positionAt</a></div><div class="ttdeci">QVector3D positionAt(float distance)</div><div class="ttdef"><b>Definition:</b> track.cpp:21</div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#a7c42283d094625874f533ec4850eaa49">isRightTrack</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#af3a719949068b794a3f992b599e2e7a1">localRenderEnabled</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">   42</a></span>&#160;    std::unique_ptr&lt;Polyline&gt; <a class="code" href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">m_course</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">   44</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">m_isOtherTrackLeft</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="ttc" id="classterminus_1_1Polyline_html"><div class="ttname"><a href="classterminus_1_1Polyline.html">terminus::Polyline</a></div><div class="ttdoc">The Polyline class implements a sequence of line segments and is used to approximate a real spline...</div><div class="ttdef"><b>Definition:</b> polyline.h:14</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_acfa80d5524a60777a6af5704c62fcbb6"><div class="ttname"><a href="classterminus_1_1Track.html#acfa80d5524a60777a6af5704c62fcbb6">terminus::Track::Track</a></div><div class="ttdeci">Track(World &amp;world, bool isRightTrack)</div><div class="ttdef"><b>Definition:</b> track.cpp:8</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_aeefecc3ed3bba54ecc79da2b839a5a41"><div class="ttname"><a href="classterminus_1_1Track.html#aeefecc3ed3bba54ecc79da2b839a5a41">terminus::Track::course</a></div><div class="ttdeci">Polyline &amp; course()</div><div class="ttdef"><b>Definition:</b> track.cpp:15</div></div>
 <div class="ttc" id="abstractgraphicsobject_8h_html"><div class="ttname"><a href="abstractgraphicsobject_8h.html">abstractgraphicsobject.h</a></div></div>
-<div class="ttc" id="classterminus_1_1Track_html_a520939a773370409f8b10a9dbb8b0435"><div class="ttname"><a href="classterminus_1_1Track.html#a520939a773370409f8b10a9dbb8b0435">terminus::Track::setCourse</a></div><div class="ttdeci">void setCourse(Polyline *course)</div><div class="ttdef"><b>Definition:</b> track.cpp:16</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_a1abdac49c3970afb0027573c37db3f9b"><div class="ttname"><a href="classterminus_1_1Track.html#a1abdac49c3970afb0027573c37db3f9b">terminus::Track::tangentAt</a></div><div class="ttdeci">QVector3D tangentAt(float distance)</div><div class="ttdef"><b>Definition:</b> track.cpp:26</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_af91cab6a4b93a1e154aa6f7193fb0406"><div class="ttname"><a href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">terminus::Track::m_course</a></div><div class="ttdeci">std::unique_ptr&lt; Polyline &gt; m_course</div><div class="ttdef"><b>Definition:</b> track.h:30</div></div>
-<div class="ttc" id="classterminus_1_1AbstractGraphicsObject_html"><div class="ttname"><a href="classterminus_1_1AbstractGraphicsObject.html">terminus::AbstractGraphicsObject</a></div><div class="ttdef"><b>Definition:</b> abstractgraphicsobject.h:19</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_af92e6152e55a4fea60c2641d9b76039e"><div class="ttname"><a href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">terminus::Track::m_isOtherTrackLeft</a></div><div class="ttdeci">bool m_isOtherTrackLeft</div><div class="ttdef"><b>Definition:</b> track.h:32</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_a55f7618816942a7312f47292c2aab03b"><div class="ttname"><a href="classterminus_1_1Track.html#a55f7618816942a7312f47292c2aab03b">terminus::Track::isOtherTrackLeft</a></div><div class="ttdeci">bool isOtherTrackLeft()</div><div class="ttdef"><b>Definition:</b> track.cpp:36</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_a94712a07a677f14813b58ab02da364ca"><div class="ttname"><a href="classterminus_1_1Track.html#a94712a07a677f14813b58ab02da364ca">terminus::Track::Track</a></div><div class="ttdeci">Track(World &amp;world, bool isOtherTrackLeft)</div><div class="ttdef"><b>Definition:</b> track.cpp:9</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_af3a719949068b794a3f992b599e2e7a1"><div class="ttname"><a href="classterminus_1_1Track.html#af3a719949068b794a3f992b599e2e7a1">terminus::Track::localRenderEnabled</a></div><div class="ttdeci">virtual bool localRenderEnabled() const override</div><div class="ttdef"><b>Definition:</b> track.cpp:41</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_a520939a773370409f8b10a9dbb8b0435"><div class="ttname"><a href="classterminus_1_1Track.html#a520939a773370409f8b10a9dbb8b0435">terminus::Track::setCourse</a></div><div class="ttdeci">void setCourse(Polyline *course)</div><div class="ttdoc">change the course of this track </div><div class="ttdef"><b>Definition:</b> track.cpp:21</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_af91cab6a4b93a1e154aa6f7193fb0406"><div class="ttname"><a href="classterminus_1_1Track.html#af91cab6a4b93a1e154aa6f7193fb0406">terminus::Track::m_course</a></div><div class="ttdeci">std::unique_ptr&lt; Polyline &gt; m_course</div><div class="ttdef"><b>Definition:</b> track.h:42</div></div>
+<div class="ttc" id="classterminus_1_1AbstractGraphicsObject_html"><div class="ttname"><a href="classterminus_1_1AbstractGraphicsObject.html">terminus::AbstractGraphicsObject</a></div><div class="ttdoc">The AbstractGraphicsObject class is the root of a class hierarchy of objects that contain independen ...</div><div class="ttdef"><b>Definition:</b> abstractgraphicsobject.h:27</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_af92e6152e55a4fea60c2641d9b76039e"><div class="ttname"><a href="classterminus_1_1Track.html#af92e6152e55a4fea60c2641d9b76039e">terminus::Track::m_isOtherTrackLeft</a></div><div class="ttdeci">bool m_isOtherTrackLeft</div><div class="ttdef"><b>Definition:</b> track.h:44</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_a7c42283d094625874f533ec4850eaa49"><div class="ttname"><a href="classterminus_1_1Track.html#a7c42283d094625874f533ec4850eaa49">terminus::Track::isRightTrack</a></div><div class="ttdeci">bool isRightTrack()</div><div class="ttdef"><b>Definition:</b> track.cpp:26</div></div>
+<div class="ttc" id="classterminus_1_1Track_html_af3a719949068b794a3f992b599e2e7a1"><div class="ttname"><a href="classterminus_1_1Track.html#af3a719949068b794a3f992b599e2e7a1">terminus::Track::localRenderEnabled</a></div><div class="ttdeci">virtual bool localRenderEnabled() const override</div><div class="ttdoc">override this method to disable or enable rendering conditionally </div><div class="ttdef"><b>Definition:</b> track.cpp:31</div></div>
 <div class="ttc" id="classterminus_1_1World_html"><div class="ttname"><a href="classterminus_1_1World.html">terminus::World</a></div><div class="ttdoc">The World class represents a running game instance and contains all graphical (3D) elements of the sc...</div><div class="ttdef"><b>Definition:</b> world.h:46</div></div>
-<div class="ttc" id="classterminus_1_1Track_html_a91326a1e0ca0bee21a7c81b1dbd7a1e9"><div class="ttname"><a href="classterminus_1_1Track.html#a91326a1e0ca0bee21a7c81b1dbd7a1e9">terminus::Track::length</a></div><div class="ttdeci">float length()</div><div class="ttdef"><b>Definition:</b> track.cpp:31</div></div>
 <div class="ttc" id="namespaceterminus_html"><div class="ttname"><a href="namespaceterminus.html">terminus</a></div><div class="ttdef"><b>Definition:</b> eventhandler.cpp:18</div></div>
-<div class="ttc" id="classterminus_1_1Track_html"><div class="ttname"><a href="classterminus_1_1Track.html">terminus::Track</a></div><div class="ttdef"><b>Definition:</b> track.h:13</div></div>
+<div class="ttc" id="classterminus_1_1Track_html"><div class="ttname"><a href="classterminus_1_1Track.html">terminus::Track</a></div><div class="ttdoc">The Track class represents a track that a Train moves on. It is currently not rendered. The course is represented by a Polyline instance. </div><div class="ttdef"><b>Definition:</b> track.h:16</div></div>
 <div class="ttc" id="polyline_8h_html"><div class="ttname"><a href="polyline_8h.html">polyline.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

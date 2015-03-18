@@ -89,9 +89,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classterminus_1_1AbstractCommand-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -109,24 +108,16 @@ Inheritance diagram for terminus::AbstractCommand:</div>
  <div class="center">
   <img src="classterminus_1_1AbstractCommand.png" usemap="#terminus::AbstractCommand_map" alt=""/>
   <map id="terminus::AbstractCommand_map" name="terminus::AbstractCommand_map">
-<area href="classterminus_1_1ClientReadyCommand.html" title="The ClientReadyCommand signals to the server that the client has successfully created the World and i..." alt="terminus::ClientReadyCommand" shape="rect" coords="233,56,456,80"/>
-<area href="classterminus_1_1GameEndedCommand.html" title="The GameEndedCommand ends the current game and displays a screen indicating the winner. " alt="terminus::GameEndedCommand" shape="rect" coords="233,112,456,136"/>
-<area href="classterminus_1_1PauseCommand.html" title="The PauseCommand pauses or unpauses the game. " alt="terminus::PauseCommand" shape="rect" coords="233,168,456,192"/>
-<area href="classterminus_1_1PrepareNewGameCommand.html" title="The PrepareNewGameCommand gets sent to the client to synchronize the game timer, terrain seed and cli..." alt="terminus::PrepareNewGameCommand" shape="rect" coords="233,224,456,248"/>
-<area href="classterminus_1_1PrimaryActionCommand.html" alt="terminus::PrimaryActionCommand" shape="rect" coords="233,280,456,304"/>
-<area href="classterminus_1_1ProjectileFiredCommand.html" title="The ProjectileFiredCommand indicates that a projectile has been fired and contains the position as we..." alt="terminus::ProjectileFiredCommand" shape="rect" coords="233,336,456,360"/>
-<area href="classterminus_1_1ProjectileHitCommand.html" title="The ProjectileHitCommand indicates that a projectile hit a wagon. It contains the wagonIndex as well ..." alt="terminus::ProjectileHitCommand" shape="rect" coords="233,392,456,416"/>
-<area href="classterminus_1_1SyncCommand.html" title="The SyncCommand is used to continuously synchronize two games. " alt="terminus::SyncCommand" shape="rect" coords="233,448,456,472"/>
+<area href="classterminus_1_1ClientReadyCommand.html" title="The ClientReadyCommand signals to the server that the client has successfully created the World and i..." alt="terminus::ClientReadyCommand" shape="rect" coords="0,56,223,80"/>
+<area href="classterminus_1_1GameEndedCommand.html" title="The GameEndedCommand signals that the remote game detected a winning or losing condition. It will display a victory or defeat screen accordingly. " alt="terminus::GameEndedCommand" shape="rect" coords="233,56,456,80"/>
+<area href="classterminus_1_1PauseCommand.html" title="The PauseCommand pauses or unpauses the local game due to the remote game being paused. " alt="terminus::PauseCommand" shape="rect" coords="466,56,689,80"/>
+<area href="classterminus_1_1PrepareNewGameCommand.html" title="The PrepareNewGameCommand is sent to the client when a multiplayer session begins to synchronize the ..." alt="terminus::PrepareNewGameCommand" shape="rect" coords="699,56,922,80"/>
+<area href="classterminus_1_1ProjectileFiredCommand.html" title="The ProjectileFiredCommand indicates that a projectile has been fired and contains the position as we..." alt="terminus::ProjectileFiredCommand" shape="rect" coords="932,56,1155,80"/>
+<area href="classterminus_1_1ProjectileHitCommand.html" title="The ProjectileHitCommand indicates that a projectile hit a wagon. It contains the wagonIndex as well ..." alt="terminus::ProjectileHitCommand" shape="rect" coords="1165,56,1388,80"/>
+<area href="classterminus_1_1SyncCommand.html" title="The SyncCommand is used to keep shared game state synchronized. " alt="terminus::SyncCommand" shape="rect" coords="1398,56,1621,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
-Signals</h2></td></tr>
-<tr class="memitem:a41e186957c49e7e2ca219689d65bc600"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a41e186957c49e7e2ca219689d65bc600">started</a> ()</td></tr>
-<tr class="separator:a41e186957c49e7e2ca219689d65bc600"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2641e6db4c81ddbb6d16ad86ca2ac531"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a2641e6db4c81ddbb6d16ad86ca2ac531">done</a> ()</td></tr>
-<tr class="separator:a2641e6db4c81ddbb6d16ad86ca2ac531"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3510e5a9e805b1be4cc4427e97a0b8e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a3510e5a9e805b1be4cc4427e97a0b8e6">AbstractCommand</a> (<a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a> <a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a>)</td></tr>
@@ -134,40 +125,38 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af1871d4ab22249fda02e9eadfa7ed3bb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#af1871d4ab22249fda02e9eadfa7ed3bb">~AbstractCommand</a> ()</td></tr>
 <tr class="separator:af1871d4ab22249fda02e9eadfa7ed3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe77274e120cfc49915832e604a0b119"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#afe77274e120cfc49915832e604a0b119">setGame</a> (<a class="el" href="classterminus_1_1Game.html">Game</a> *game)</td></tr>
+<tr class="memdesc:afe77274e120cfc49915832e604a0b119"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the game instance this command should operate on  <a href="#afe77274e120cfc49915832e604a0b119">More...</a><br /></td></tr>
 <tr class="separator:afe77274e120cfc49915832e604a0b119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2520368efbb3f7771054c9b305bcaf62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a2520368efbb3f7771054c9b305bcaf62">run</a> ()</td></tr>
-<tr class="separator:a2520368efbb3f7771054c9b305bcaf62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c3ee612d53f226831533acb7abca70"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa5c3ee612d53f226831533acb7abca70">doWork</a> ()=0</td></tr>
-<tr class="separator:aa5c3ee612d53f226831533acb7abca70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46cfe520037d7100aaf28a60daf6ac7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a> () const </td></tr>
+<tr class="memdesc:a46cfe520037d7100aaf28a60daf6ac7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the time as counted by the sending game that this command was created and sent  <a href="#a46cfe520037d7100aaf28a60daf6ac7d">More...</a><br /></td></tr>
+<tr class="separator:a46cfe520037d7100aaf28a60daf6ac7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06eec771c473f7fdbb8330b0a0f4ead0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceterminus.html#a6735375a840006e544df73e21dbe1eb0">Commands</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a06eec771c473f7fdbb8330b0a0f4ead0">commandType</a> () const =0</td></tr>
+<tr class="memdesc:a06eec771c473f7fdbb8330b0a0f4ead0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Command must specify its type.  <a href="#a06eec771c473f7fdbb8330b0a0f4ead0">More...</a><br /></td></tr>
 <tr class="separator:a06eec771c473f7fdbb8330b0a0f4ead0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc21de04f565fe1d23c683e319be2b72"><td class="memItemLeft" align="right" valign="top">virtual QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#acc21de04f565fe1d23c683e319be2b72">toJson</a> () const =0</td></tr>
 <tr class="memdesc:acc21de04f565fe1d23c683e319be2b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every command must define how its members can be serialized.  <a href="#acc21de04f565fe1d23c683e319be2b72">More...</a><br /></td></tr>
 <tr class="separator:acc21de04f565fe1d23c683e319be2b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46cfe520037d7100aaf28a60daf6ac7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a> () const </td></tr>
-<tr class="separator:a46cfe520037d7100aaf28a60daf6ac7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5c3ee612d53f226831533acb7abca70"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa5c3ee612d53f226831533acb7abca70">doWork</a> ()=0</td></tr>
+<tr class="memdesc:aa5c3ee612d53f226831533acb7abca70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Commands must define its effects on the receiving game.  <a href="#aa5c3ee612d53f226831533acb7abca70">More...</a><br /></td></tr>
+<tr class="separator:aa5c3ee612d53f226831533acb7abca70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab8d248fef9c1a9731fa966ff498790d2"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#ab8d248fef9c1a9731fa966ff498790d2">VectorToJsonObject</a> (QVector3D vector)</td></tr>
 <tr class="separator:ab8d248fef9c1a9731fa966ff498790d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a260e82bb688ad5f3729868522df0049f"><td class="memItemLeft" align="right" valign="top">static QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a260e82bb688ad5f3729868522df0049f">VectorFromJsonObject</a> (QJsonObject jsonObject)</td></tr>
 <tr class="separator:a260e82bb688ad5f3729868522df0049f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe270e8c91af734331a7c769caea28b"><td class="memItemLeft" align="right" valign="top">static QJsonValue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#adbe270e8c91af734331a7c769caea28b">TimeStampToJsonValue</a> (<a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a> <a class="el" href="classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d">timeStamp</a>)</td></tr>
-<tr class="separator:adbe270e8c91af734331a7c769caea28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771667ba1b143a26c010226b9b6e399e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a771667ba1b143a26c010226b9b6e399e">TimeStampFromJsonValue</a> (QJsonValue jsonValue)</td></tr>
-<tr class="separator:a771667ba1b143a26c010226b9b6e399e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa2b373bda3cf347143d564df372134bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa2b373bda3cf347143d564df372134bf">m_timeStamp</a></td></tr>
-<tr class="separator:aa2b373bda3cf347143d564df372134bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19eecf577ab78769616da0bde94d1ec1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Game.html">Game</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#a19eecf577ab78769616da0bde94d1ec1">m_game</a></td></tr>
 <tr class="separator:a19eecf577ab78769616da0bde94d1ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b373bda3cf347143d564df372134bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1AbstractCommand.html#aa2b373bda3cf347143d564df372134bf">m_timeStamp</a></td></tr>
+<tr class="separator:aa2b373bda3cf347143d564df372134bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classterminus_1_1AbstractCommand.html" title="The AbstractCommand class defines the interface that every command has to implement. ">AbstractCommand</a> class defines the interface that every command has to implement. </p>
-<p>It also provides some convenience and commonly used methods and members. </p>
+<p>It also provides some convenience methods for JSON conversion and members commonly used by all commands. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a3510e5a9e805b1be4cc4427e97a0b8e6"></a>
 <div class="memitem">
@@ -230,30 +219,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a95ffeb3cd204a4dc192956745b731fb5">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#a34db831e4a8408bf45ae344a6dba617e">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#a061a2361d5420ba1908eee78363dedba">terminus::PrepareNewGameCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a323910e8d6587dd3d09689dda11cfd73">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#abf7ed23c4c5e213ca2fd04e6aafd5651">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#ad28635bac01446ff91fba0ef143f0b19">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PauseCommand.html#a78867cd6187098cbccca03627e561fb3">terminus::PauseCommand</a>, and <a class="el" href="classterminus_1_1PrimaryActionCommand.html#aa73062cedd3f7da460152905b495bf22">terminus::PrimaryActionCommand</a>.</p>
+<p>Every Command must specify its type. </p>
+<dl class="section return"><dt>Returns</dt><dd>enum constant from Commands</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceterminus.html#a6735375a840006e544df73e21dbe1eb0" title="The Commands enum stores all command types with corresponding ID. ">Commands</a> </dd></dl>
 
-</div>
-</div>
-<a class="anchor" id="a2641e6db4c81ddbb6d16ad86ca2ac531"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::AbstractCommand::done </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a95ffeb3cd204a4dc192956745b731fb5">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#a34db831e4a8408bf45ae344a6dba617e">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#abf7ed23c4c5e213ca2fd04e6aafd5651">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a323910e8d6587dd3d09689dda11cfd73">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#ad28635bac01446ff91fba0ef143f0b19">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#a061a2361d5420ba1908eee78363dedba">terminus::PrepareNewGameCommand</a>, and <a class="el" href="classterminus_1_1PauseCommand.html#a78867cd6187098cbccca03627e561fb3">terminus::PauseCommand</a>.</p>
 
 </div>
 </div>
@@ -278,22 +248,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a8b524a63d7f06665a593d7870e1ea616">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#a0557880970b16aaf903094ed29fe3817">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#a6f1c375057d5880babd045205e9635c0">terminus::PrepareNewGameCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a0a3506dcfd5851196b311dfed467987c">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#ac5eebed8170e9c4d1222184ad32b694e">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#a3d1eeea76d87dcdefddfb5fe4f348bba">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PauseCommand.html#a0622b7fa3be1cc130fcb53928ea4934f">terminus::PauseCommand</a>, and <a class="el" href="classterminus_1_1PrimaryActionCommand.html#aab7d76620bce45e03902e159e736c3cd">terminus::PrimaryActionCommand</a>.</p>
+<p>Every Commands must define its effects on the receiving game. </p>
+<p>This Method is guaranteed to be executed in the receiving game's frame update context with a valid <a class="el" href="classterminus_1_1Game.html" title="The Game class is the main entry point. It subclasses QQuickItem and handles all communication betwee...">Game</a> instance in m_game </p>
 
-</div>
-</div>
-<a class="anchor" id="a2520368efbb3f7771054c9b305bcaf62"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::AbstractCommand::run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a8b524a63d7f06665a593d7870e1ea616">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#a0557880970b16aaf903094ed29fe3817">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#ac5eebed8170e9c4d1222184ad32b694e">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a0a3506dcfd5851196b311dfed467987c">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#a3d1eeea76d87dcdefddfb5fe4f348bba">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#a6f1c375057d5880babd045205e9635c0">terminus::PrepareNewGameCommand</a>, and <a class="el" href="classterminus_1_1PauseCommand.html#a0622b7fa3be1cc130fcb53928ea4934f">terminus::PauseCommand</a>.</p>
 
 </div>
 </div>
@@ -311,28 +269,13 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="a41e186957c49e7e2ca219689d65bc600"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::AbstractCommand::started </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>set the game instance this command should operate on </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">game</td><td>- ownership not taken </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -349,53 +292,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="a771667ba1b143a26c010226b9b6e399e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a> terminus::AbstractCommand::TimeStampFromJsonValue </td>
-          <td>(</td>
-          <td class="paramtype">QJsonValue&#160;</td>
-          <td class="paramname"><em>jsonValue</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adbe270e8c91af734331a7c769caea28b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QJsonValue terminus::AbstractCommand::TimeStampToJsonValue </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classterminus_1_1Timer.html#ab3fe602679d2095899748d1304f126ca">Timer::TimerMSec</a>&#160;</td>
-          <td class="paramname"><em>timeStamp</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>get the time as counted by the sending game that this command was created and sent </p>
+<dl class="section return"><dt>Returns</dt><dd>timestamp in milliseconds </dd></dl>
 
 </div>
 </div>
@@ -423,7 +321,7 @@ Protected Attributes</h2></td></tr>
 <p>Every command must define how its members can be serialized. </p>
 <dl class="section return"><dt>Returns</dt><dd>A QJsonObject containing the parameters / members </dd></dl>
 
-<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a86e6f0508e620d2568a1797ce842fb48">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#abc5dc088c9cf92963a2f80d866b94f49">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#af78a883145b54f22f95f98ee5fa18b26">terminus::PrepareNewGameCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a42cfe52ff228ca06823d029248c9be41">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#aa146f25fa58f96d664dba670a74861aa">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#a60ba5eaa703da58a2562cbe861f070fe">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PauseCommand.html#a9a07e7c3a295510f78df3927dfa8de00">terminus::PauseCommand</a>, and <a class="el" href="classterminus_1_1PrimaryActionCommand.html#aea1fce6e6fb8b74aa289485189ffd21e">terminus::PrimaryActionCommand</a>.</p>
+<p>Implemented in <a class="el" href="classterminus_1_1ProjectileFiredCommand.html#a86e6f0508e620d2568a1797ce842fb48">terminus::ProjectileFiredCommand</a>, <a class="el" href="classterminus_1_1SyncCommand.html#abc5dc088c9cf92963a2f80d866b94f49">terminus::SyncCommand</a>, <a class="el" href="classterminus_1_1ProjectileHitCommand.html#aa146f25fa58f96d664dba670a74861aa">terminus::ProjectileHitCommand</a>, <a class="el" href="classterminus_1_1ClientReadyCommand.html#a42cfe52ff228ca06823d029248c9be41">terminus::ClientReadyCommand</a>, <a class="el" href="classterminus_1_1GameEndedCommand.html#a60ba5eaa703da58a2562cbe861f070fe">terminus::GameEndedCommand</a>, <a class="el" href="classterminus_1_1PrepareNewGameCommand.html#af78a883145b54f22f95f98ee5fa18b26">terminus::PrepareNewGameCommand</a>, and <a class="el" href="classterminus_1_1PauseCommand.html#a9a07e7c3a295510f78df3927dfa8de00">terminus::PauseCommand</a>.</p>
 
 </div>
 </div>
@@ -444,7 +342,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -468,7 +366,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -523,7 +421,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

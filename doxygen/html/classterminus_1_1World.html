@@ -89,7 +89,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classterminus_1_1World-members.html">List of all members</a>  </div>
@@ -111,11 +110,6 @@ Inheritance diagram for terminus::World:</div>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
-Signals</h2></td></tr>
-<tr class="memitem:a4279d57b931817f35c3931054b5f801e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1World.html#a4279d57b931817f35c3931054b5f801e">updateNetworkSignal</a> ()</td></tr>
-<tr class="separator:a4279d57b931817f35c3931054b5f801e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6a0501ea678e4729f4f902af673aa6ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1World.html#a6a0501ea678e4729f4f902af673aa6ad">World</a> (<a class="el" href="classterminus_1_1Game.html">Game</a> &amp;game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)</td></tr>
@@ -186,7 +180,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classterminus_1_1World.html" title="The World class represents a running game instance and contains all graphical (3D) elements of the sc...">World</a> class represents a running game instance and contains all graphical (3D) elements of the scene. </p>
-<p>A running game consists of a <a class="el" href="classterminus_1_1Terrain.html">Terrain</a>, two <a class="el" href="classterminus_1_1Train.html">Train</a> instances, other graphical elements (<a class="el" href="classterminus_1_1Projectile.html">Projectile</a>, Skybox, ...) and two <a class="el" href="classterminus_1_1AbstractPlayer.html" title="The AbstractPlayer class is the base class for interacting with a train and a camera. ">AbstractPlayer</a> s controlling the two trains. It also holds the <a class="el" href="classterminus_1_1BulletWorld.html" title="A Wrapper class for a btDiscreteDynamicsWorld. ">BulletWorld</a>, an encapsulation of all bullet-related classes and methods. </p>
+<p>A running game consists of a <a class="el" href="classterminus_1_1Terrain.html" title="The Terrain class renders the terrain using patches and a displacement texture. Patches that are too ...">Terrain</a>, two <a class="el" href="classterminus_1_1Train.html" title="The Train class works as a logical container for all wagons one train consists of. ">Train</a> instances, other graphical elements (<a class="el" href="classterminus_1_1Projectile.html" title="The Projectile class simulates and renders a projectile. It also handles collisions with Wagons...">Projectile</a>, Skybox, ...) and two <a class="el" href="classterminus_1_1AbstractPlayer.html" title="The AbstractPlayer class is the base class for interacting with a train and a camera. ">AbstractPlayer</a> s controlling the two trains. It also holds the <a class="el" href="classterminus_1_1BulletWorld.html" title="A Wrapper class for a btDiscreteDynamicsWorld. ">BulletWorld</a>, an encapsulation of all bullet-related classes and methods. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6a0501ea678e4729f4f902af673aa6ad"></a>
 <div class="memitem">
@@ -522,29 +516,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4279d57b931817f35c3931054b5f801e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void terminus::World::updateNetworkSignal </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a70bd5e7850b6e30be457c579c4123863"></a>
 <div class="memitem">
@@ -773,7 +744,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:34 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

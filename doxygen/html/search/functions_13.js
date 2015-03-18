@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['tangentat',['tangentAt',['../classterminus_1_1Track.html#a1abdac49c3970afb0027573c37db3f9b',1,'terminus::Track']]],
   ['terrain',['Terrain',['../classterminus_1_1Terrain.html#af74ca22ee71c12a50b764223b2795851',1,'terminus::Terrain']]],
   ['terraindisplacement',['terrainDisplacement',['../classterminus_1_1Level.html#a64529cb1dbb7cebf49d3f95feb470d37',1,'terminus::Level']]],
   ['terrainheight',['terrainHeight',['../classterminus_1_1Level.html#a71fe3defe0e26b4f6d84cad96b728945',1,'terminus::Level']]],
@@ -8,8 +7,6 @@ var searchData=
   ['textureindex',['textureIndex',['../classterminus_1_1IndexTriple.html#aeced555ce1dfb52d54ba516cdcdb8302',1,'terminus::IndexTriple']]],
   ['timer',['Timer',['../classterminus_1_1Timer.html#afd445b4b3a54911916c4cef5f4681a86',1,'terminus::Timer::Timer()'],['../classterminus_1_1Game.html#aa6aae1b92e4a05637f3f961c55a38361',1,'terminus::Game::timer()'],['../classterminus_1_1World.html#a5d5615e68cc2da27b574a409628109fb',1,'terminus::World::timer()']]],
   ['timestamp',['timeStamp',['../classterminus_1_1AbstractCommand.html#a46cfe520037d7100aaf28a60daf6ac7d',1,'terminus::AbstractCommand']]],
-  ['timestampfromjsonvalue',['TimeStampFromJsonValue',['../classterminus_1_1AbstractCommand.html#a771667ba1b143a26c010226b9b6e399e',1,'terminus::AbstractCommand']]],
-  ['timestamptojsonvalue',['TimeStampToJsonValue',['../classterminus_1_1AbstractCommand.html#adbe270e8c91af734331a7c769caea28b',1,'terminus::AbstractCommand']]],
   ['tmapgetw',['tMapGetW',['../classterminus_1_1Level.html#acbddcbfdaf9e8fd82a9e58f5b2c6b9f1',1,'terminus::Level']]],
   ['tmapgetxyz',['tMapGetXYZ',['../classterminus_1_1Level.html#abd7eb9afddb96bbb883f166026392c29',1,'terminus::Level']]],
   ['tmapindex',['tMapIndex',['../classterminus_1_1Level.html#ae6239c74b34ccbeb1293eb1362439e0e',1,'terminus::Level']]],
@@ -19,7 +16,7 @@ var searchData=
   ['togglecameralock',['toggleCameraLock',['../classterminus_1_1AbstractPlayer.html#a2767cf2c185f09c87833132eb23e2eb6',1,'terminus::AbstractPlayer']]],
   ['togglepaused',['togglePaused',['../classterminus_1_1Game.html#ae95652aef3329806ba66f1db15dfedb6',1,'terminus::Game']]],
   ['toggleui',['toggleUI',['../classterminus_1_1Game.html#a9c2c6f8bb8e9bceb3d6ef0808d14c0b9',1,'terminus::Game']]],
-  ['tojson',['toJson',['../classterminus_1_1AbstractCommand.html#acc21de04f565fe1d23c683e319be2b72',1,'terminus::AbstractCommand::toJson()'],['../classterminus_1_1ClientReadyCommand.html#a42cfe52ff228ca06823d029248c9be41',1,'terminus::ClientReadyCommand::toJson()'],['../classterminus_1_1GameEndedCommand.html#a60ba5eaa703da58a2562cbe861f070fe',1,'terminus::GameEndedCommand::toJson()'],['../classterminus_1_1PauseCommand.html#a9a07e7c3a295510f78df3927dfa8de00',1,'terminus::PauseCommand::toJson()'],['../classterminus_1_1PrepareNewGameCommand.html#af78a883145b54f22f95f98ee5fa18b26',1,'terminus::PrepareNewGameCommand::toJson()'],['../classterminus_1_1PrimaryActionCommand.html#aea1fce6e6fb8b74aa289485189ffd21e',1,'terminus::PrimaryActionCommand::toJson()'],['../classterminus_1_1ProjectileFiredCommand.html#a86e6f0508e620d2568a1797ce842fb48',1,'terminus::ProjectileFiredCommand::toJson()'],['../classterminus_1_1ProjectileHitCommand.html#aa146f25fa58f96d664dba670a74861aa',1,'terminus::ProjectileHitCommand::toJson()'],['../classterminus_1_1SyncCommand.html#abc5dc088c9cf92963a2f80d866b94f49',1,'terminus::SyncCommand::toJson()']]],
+  ['tojson',['toJson',['../classterminus_1_1AbstractCommand.html#acc21de04f565fe1d23c683e319be2b72',1,'terminus::AbstractCommand::toJson()'],['../classterminus_1_1ClientReadyCommand.html#a42cfe52ff228ca06823d029248c9be41',1,'terminus::ClientReadyCommand::toJson()'],['../classterminus_1_1GameEndedCommand.html#a60ba5eaa703da58a2562cbe861f070fe',1,'terminus::GameEndedCommand::toJson()'],['../classterminus_1_1PauseCommand.html#a9a07e7c3a295510f78df3927dfa8de00',1,'terminus::PauseCommand::toJson()'],['../classterminus_1_1PrepareNewGameCommand.html#af78a883145b54f22f95f98ee5fa18b26',1,'terminus::PrepareNewGameCommand::toJson()'],['../classterminus_1_1ProjectileFiredCommand.html#a86e6f0508e620d2568a1797ce842fb48',1,'terminus::ProjectileFiredCommand::toJson()'],['../classterminus_1_1ProjectileHitCommand.html#aa146f25fa58f96d664dba670a74861aa',1,'terminus::ProjectileHitCommand::toJson()'],['../classterminus_1_1SyncCommand.html#abc5dc088c9cf92963a2f80d866b94f49',1,'terminus::SyncCommand::toJson()']]],
   ['tomsec',['toMSec',['../classterminus_1_1Timer.html#a6fda9d7e6d044a2bcc56fdbb2c2941c1',1,'terminus::Timer']]],
   ['tostring',['toString',['../tostring_8h.html#a1e803cea7d2670ece91f5465281446ba',1,'tostring.h']]],
   ['totalheight',['totalHeight',['../classterminus_1_1LevelConfiguration.html#a464ed2d54f6e4d5fbf135e5fecbf5262',1,'terminus::LevelConfiguration']]],
@@ -29,9 +26,9 @@ var searchData=
   ['touchchargefire',['touchChargeFire',['../classterminus_1_1EventHandler.html#ac6674bafc00f85b9867c39bb12ae4e40',1,'terminus::EventHandler']]],
   ['touchfire',['touchFire',['../classterminus_1_1EventHandler.html#a98db074915217d7d23a40635502f0070',1,'terminus::EventHandler']]],
   ['touchinput',['touchInput',['../classterminus_1_1EventHandler.html#abf6862d9d5761897cb24288e7c082973',1,'terminus::EventHandler::touchInput()'],['../classterminus_1_1Game.html#af7b8983bef18257dc8f59c819a8f5bb1',1,'terminus::Game::touchInput()']]],
-  ['track',['Track',['../classterminus_1_1Track.html#a94712a07a677f14813b58ab02da364ca',1,'terminus::Track::Track()'],['../classterminus_1_1Train.html#ab4abdc79eff53f2339db098755527722',1,'terminus::Train::track()']]],
+  ['track',['Track',['../classterminus_1_1Track.html#acfa80d5524a60777a6af5704c62fcbb6',1,'terminus::Track::Track()'],['../classterminus_1_1Train.html#ab4abdc79eff53f2339db098755527722',1,'terminus::Train::track()']]],
   ['trackheight',['trackHeight',['../classterminus_1_1Level.html#ae7e58d0c0e3a887c331aa89a74c0bfc4',1,'terminus::Level']]],
-  ['train',['train',['../classterminus_1_1AbstractPlayer.html#a80156dcc80c159e4d2b0c6f7540575f5',1,'terminus::AbstractPlayer::train()'],['../classterminus_1_1Train.html#a67f8ba349f4ee42f6f9880ff8c71412a',1,'terminus::Train::Train()']]],
+  ['train',['Train',['../classterminus_1_1Train.html#a67f8ba349f4ee42f6f9880ff8c71412a',1,'terminus::Train::Train()'],['../classterminus_1_1AbstractPlayer.html#a80156dcc80c159e4d2b0c6f7540575f5',1,'terminus::AbstractPlayer::train()']]],
   ['travelleddistance',['travelledDistance',['../classterminus_1_1Train.html#ac0e31d3fc28d4bb42c4fc92b15def678',1,'terminus::Train']]],
   ['travelleddistancerelative',['travelledDistanceRelative',['../classterminus_1_1Train.html#a50b2ec4521008942cb58053219121c3e',1,'terminus::Train']]]
 ];

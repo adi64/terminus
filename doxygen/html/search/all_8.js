@@ -16,11 +16,10 @@ var searchData=
   ['ipprovider_2eh',['ipprovider.h',['../ipprovider_8h.html',1,'']]],
   ['isallocated',['isAllocated',['../classterminus_1_1Timer.html#a29199e72719e37fd99fa997e850947ec',1,'terminus::Timer::isAllocated(TimerID id)'],['../classterminus_1_1Timer.html#af2d1f52c317ca07996ffc22f390198d9',1,'terminus::Timer::isAllocated(std::string name)']]],
   ['isbound',['isBound',['../classterminus_1_1Camera.html#ae0816c32ee5c14b5c5a664dfaef32c02',1,'terminus::Camera']]],
-  ['isconnected',['isConnected',['../classterminus_1_1NetworkManager.html#ac510be2e5425ca26372fd27731faab15',1,'terminus::NetworkManager']]],
   ['isdisabled',['isDisabled',['../classterminus_1_1AbstractWagon.html#a862d7361a5cf46ff82e0fa708807719a',1,'terminus::AbstractWagon']]],
   ['isoncooldown',['isOnCooldown',['../classterminus_1_1AbstractWagon.html#a1709b23c18355134605bc623b4bce1c2',1,'terminus::AbstractWagon']]],
-  ['isothertrackleft',['isOtherTrackLeft',['../classterminus_1_1Track.html#a55f7618816942a7312f47292c2aab03b',1,'terminus::Track']]],
   ['isothertrainleft',['isOtherTrainLeft',['../classterminus_1_1AbstractWagon.html#a2e5f4d73848cfd461a7e84f5c83c8434',1,'terminus::AbstractWagon']]],
   ['ispaused',['isPaused',['../classterminus_1_1Game.html#a6fa18d024c2319cbbcf497565b508ac0',1,'terminus::Game::isPaused()'],['../classterminus_1_1Timer.html#aa909cd9e46d87517b481a2ecacf313bb',1,'terminus::Timer::isPaused()']]],
-  ['isplayerone',['isPlayerOne',['../classterminus_1_1PrepareNewGameCommand.html#a1f70f7f47005b0b79c7c380c25db05e5',1,'terminus::PrepareNewGameCommand']]]
+  ['isplayerone',['isPlayerOne',['../classterminus_1_1PrepareNewGameCommand.html#a1f70f7f47005b0b79c7c380c25db05e5',1,'terminus::PrepareNewGameCommand']]],
+  ['isrighttrack',['isRightTrack',['../classterminus_1_1Track.html#a7c42283d094625874f533ec4850eaa49',1,'terminus::Track']]]
 ];

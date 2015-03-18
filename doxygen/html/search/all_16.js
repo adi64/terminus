@@ -10,11 +10,11 @@ var searchData=
   ['weaponwagon_2ecpp',['weaponwagon.cpp',['../weaponwagon_8cpp.html',1,'']]],
   ['weaponwagon_2eh',['weaponwagon.h',['../weaponwagon_8h.html',1,'']]],
   ['world',['World',['../classterminus_1_1World.html',1,'terminus']]],
-  ['world',['world',['../classterminus_1_1Game.html#afb516618cb45f92b5510c2ad4e804c6f',1,'terminus::Game::world()'],['../classterminus_1_1World.html#a6a0501ea678e4729f4f902af673aa6ad',1,'terminus::World::World(Game &amp;game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)'],['../classterminus_1_1World.html#a4cb462cfcebc64b9e148e19ba530aef8',1,'terminus::World::World(const World &amp;other)=delete']]],
+  ['world',['World',['../classterminus_1_1World.html#a6a0501ea678e4729f4f902af673aa6ad',1,'terminus::World::World(Game &amp;game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)'],['../classterminus_1_1World.html#a4cb462cfcebc64b9e148e19ba530aef8',1,'terminus::World::World(const World &amp;other)=delete'],['../classterminus_1_1Game.html#afb516618cb45f92b5510c2ad4e804c6f',1,'terminus::Game::world()']]],
   ['world_2ecpp',['world.cpp',['../world_8cpp.html',1,'']]],
   ['world_2eh',['world.h',['../world_8h.html',1,'']]],
   ['worldfront',['worldFront',['../classterminus_1_1AbstractGraphicsObject.html#a1c47ab3d70d32f750dae2536e2201305',1,'terminus::AbstractGraphicsObject']]],
-  ['worldleft',['worldLeft',['../classterminus_1_1AbstractGraphicsObject.html#a0292bb0709144fa983af8857f057508a',1,'terminus::AbstractGraphicsObject']]],
+  ['worldside',['worldSide',['../classterminus_1_1AbstractGraphicsObject.html#a5d989e832e92c1f9d73c43d26d126768',1,'terminus::AbstractGraphicsObject']]],
   ['worldtomodel',['worldToModel',['../classterminus_1_1AbstractGraphicsObject.html#a60717e6462641cf54841e7e53433340e',1,'terminus::AbstractGraphicsObject']]],
   ['worldup',['worldUp',['../classterminus_1_1AbstractGraphicsObject.html#a16d237053e9102310e396a09d0c364a3',1,'terminus::AbstractGraphicsObject']]]
 ];

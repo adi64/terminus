@@ -98,14 +98,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> class implements a sequence of line segments and is used to approximate a real spline.  
+ <a href="classterminus_1_1Polyline.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="polyline_8h_source.html">polyline.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4b72cfb779b254fa030941f973aea8f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Polyline.html#a4b72cfb779b254fa030941f973aea8f8">Polyline</a> (const std::vector&lt; QVector3D &gt; &amp;controlPoints={{0.f, 0.f, 0.f},{1.f, 0.f, 0.f}})</td></tr>
 <tr class="separator:a4b72cfb779b254fa030941f973aea8f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52006a48f46d030c7e76927c6ab34daf"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Polyline.html#a52006a48f46d030c7e76927c6ab34daf">~Polyline</a> ()</td></tr>
-<tr class="separator:a52006a48f46d030c7e76927c6ab34daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab52f56882cdb963957415c139163159b"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Polyline.html#ab52f56882cdb963957415c139163159b">getPosition</a> (float distance) const </td></tr>
 <tr class="separator:ab52f56882cdb963957415c139163159b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e58ee3ff97b1868b5f5c00b73721486"><td class="memItemLeft" align="right" valign="top">QVector3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Polyline.html#a8e58ee3ff97b1868b5f5c00b73721486">getTangent</a> (float distance) const </td></tr>
@@ -129,7 +130,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a103c857f834fd74b33b2a63a837efbee"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Polyline.html#a103c857f834fd74b33b2a63a837efbee">m_tEnd</a></td></tr>
 <tr class="separator:a103c857f834fd74b33b2a63a837efbee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> class implements a sequence of line segments and is used to approximate a real spline. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a4b72cfb779b254fa030941f973aea8f8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -142,29 +145,6 @@ Protected Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a52006a48f46d030c7e76927c6ab34daf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">terminus::Polyline::~Polyline </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -230,6 +210,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">distance</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>position on this <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> at the given distance from the origin position (first control point) </dd></dl>
 
 </div>
 </div>
@@ -246,6 +233,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">distance</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>tangent of this <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> at the given distance from the origin position (first control point) </dd></dl>
 
 </div>
 </div>
@@ -261,6 +255,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>maximum distance that this <a class="el" href="classterminus_1_1Polyline.html" title="The Polyline class implements a sequence of line segments and is used to approximate a real spline...">Polyline</a> is defined for </dd></dl>
 
 </div>
 </div>
@@ -332,7 +327,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 17:21:33 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 21:47:11 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
