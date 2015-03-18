@@ -6,9 +6,11 @@
 namespace terminus
 {
 
+/*!
+ * \brief The EngineWagon class provides a wagon type, which primary action increases the trains velocity.
+ */
 class EngineWagon : public AbstractWagon
 {
-
 
 public:
     EngineWagon(World & world, Train * train);
@@ -25,6 +27,7 @@ public:
     virtual WagonType wagonType() const override;
 
     void playSound() const;
+
 protected:
     virtual QVector3D lightPosition();
 

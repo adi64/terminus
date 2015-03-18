@@ -5,6 +5,9 @@
 namespace terminus
 {
 
+/*!
+ * \brief The WeaponWagon class provides a wagon type, which primary action shoots projectiles in the faced direction.
+ */
 class WeaponWagon : public AbstractWagon
 {
 public:
