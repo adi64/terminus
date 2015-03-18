@@ -149,7 +149,7 @@ float AbstractWagon::length() const
     return maxBB().x() - minBB().x();
 }
 
-float AbstractWagon::isOtherTrainLeft() const
+bool AbstractWagon::isOtherTrainLeft() const
 {
     return m_train->track()->isOtherTrackLeft();
 }
