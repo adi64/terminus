@@ -1,9 +1,5 @@
 #include "networkclient.h"
 
-#include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 #include <QTcpSocket>
 
 namespace terminus
@@ -19,7 +15,6 @@ NetworkClient::NetworkClient(QObject * parent)
 }
 
 void NetworkClient::connectClient(QString host, unsigned short port) {
-    qDebug() << "Connecting to " << host << ":" << port;
     m_socket->connectToHost(host, port);
 }
 

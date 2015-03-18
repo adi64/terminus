@@ -7,13 +7,26 @@
 namespace terminus
 {
 
+/*!
+ * \brief The CatmullRomSpline class implements a spline, that is determined by
+ * control points that lie on the spline
+ */
 class CatmullRomSpline
 {
 public:
     CatmullRomSpline(const std::vector<QVector2D> & controlPoints);
     virtual ~CatmullRomSpline();
 
+    /*!
+     * \brief evaluate the spline function for the given parameter
+     * \param param
+     * \return point on the spline that corresponds to param
+     */
     virtual QVector2D getPosition(float param) const;
+
+    /*!
+     * \return the maximum parameter that this spline is defined for
+     */
     virtual float length() const;
 
 protected:

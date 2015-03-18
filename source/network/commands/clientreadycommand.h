@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstractcommand.h"
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
@@ -8,8 +8,7 @@ namespace terminus
 /*!
  * \brief The ClientReadyCommand signals to the server that the client has
  * successfully created the World and is ready to start the game.
- *
- * \sa NetworkManager::clientReady()
+ * It will subsequently unpause the local and remote game.
  */
 class ClientReadyCommand : public AbstractCommand
 {

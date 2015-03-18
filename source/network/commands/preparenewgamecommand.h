@@ -1,16 +1,14 @@
 #pragma once
 
-#include <QDir>
-#include <QJsonArray>
-#include <QVector3D>
-
-#include "abstractcommand.h"
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
+
 /*!
- *\brief The PrepareNewGameCommand gets sent to the client to synchronize the
- * game timer, terrain seed and client player position (left or right track)
+ *\brief The PrepareNewGameCommand is sent to the client when a multiplayer
+ * session begins to synchronize the game timer, terrain seed and client player
+ * position (left or right track)
  */
 class PrepareNewGameCommand : public AbstractCommand
 {
@@ -29,4 +27,5 @@ protected:
     bool m_isPlayerOne;
     unsigned int m_terrainSeed;
 };
+
 }

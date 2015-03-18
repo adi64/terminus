@@ -1,7 +1,7 @@
 #include "pausecommand.h"
 
 #include <game.h>
-#include <world/world.h>
+#include <util/timer.h>
 
 namespace terminus
 {
@@ -30,6 +30,5 @@ void PauseCommand::doWork()
 {
     m_game->timer().pause(m_pause);
 }
-
 
 } // namespace terminus

@@ -6,8 +6,9 @@ namespace terminus
 {
 
 /*!
- * \brief The GameEndedCommand ends the current game and displays a screen
- * indicating the winner.
+ * \brief The GameEndedCommand signals that the remote game detected a
+ * winning or losing condition.
+ * It will display a victory or defeat screen accordingly.
  */
 class GameEndedCommand : public AbstractCommand
 {

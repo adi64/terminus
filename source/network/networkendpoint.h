@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QObject>
-#include <QString>
 
+class QString;
 class QTcpSocket;
 
 namespace terminus {
@@ -12,9 +12,9 @@ class AbstractCommand;
 /*!
  * \brief The NetworkEndpoint class provides a common interface that NetworkServer and NetworkClient implement.
  *
- * It provides an active NetworkConnection and means to send an AbstractCommand over that NetworkConnection.
+ * It manages an underlying TcpSocket and implements logic to serialize and deserialize AbstractCommands
  *
- * \sa NetworkServer, NetworkClient and NetworkConnection
+ * \sa NetworkServer, NetworkClient, AbstractCommand
  */
 class NetworkEndpoint : public QObject
 {
@@ -31,13 +31,33 @@ public:
     NetworkEndpoint(QObject * parent = 0);
     virtual ~NetworkEndpoint();
 
-    void sendCommand(AbstractCommand *command);
+    /*!
+     * \brief serializes command and sends it to the opposite NetworkEndpoint
+     * \param command - ownership is not taken
+     */
+    void sendCommand(AbstractCommand * command);
+
+    /*!
+     * \brief disconnect the underlying socket
+     */
     void disconnect();
 
+    /*!
+     * \return current state of this NetworkEndpoint
+     */
     State state();
 
 signals:
+    /*!
+     * \brief fired for every AbstractCommand received from the opposite NetworkEndpoint
+     * \param command - ownership passes to receiver of this signal
+     */
     void receivedCommand(AbstractCommand * command);
+
+    /*!
+     * \brief fired after state of this NetworkEndpoint is changed
+     * \param newState
+     */
     void stateChanged(State newState);
 
 protected:

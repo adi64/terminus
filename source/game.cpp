@@ -188,6 +188,8 @@ void Game::sync()
        m_world->update();
     }
 
+    m_networkManager.update();
+
     if(m_isUIActive)
     {
         updateQMLData();

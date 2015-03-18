@@ -1,12 +1,14 @@
 #pragma once
 
-#include "abstractcommand.h"
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
 /*!
  * \brief The ProjectileHitCommand indicates that a projectile hit a wagon.
  * It contains the wagonIndex as well as the damage dealt.
+ *
+ * It will update the local wagon health value.
  *
  * \sa Projectile, AbstractWagon
  */

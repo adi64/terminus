@@ -1,10 +1,8 @@
 #include "train.h"
 
+#include <cassert>
 #include <memory>
 
-#include <assert.h>
-
-#include <QDebug>
 #include <QOpenGLFunctions>
 
 #include <util/mathutil.h>
@@ -90,7 +88,6 @@ AbstractWagon *Train::wagonAt(unsigned int index) const
 {
     if(index >= m_wagons.size())
     {
-        qDebug() << "Index: " << index << " > " << m_wagons.size() << " Wagons";
         return nullptr;
     }
 

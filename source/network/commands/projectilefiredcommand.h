@@ -1,13 +1,12 @@
 #pragma once
 
-#include <QDir>
-#include <QJsonArray>
 #include <QVector3D>
 
-#include "abstractcommand.h"
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
+
 /*!
  * \brief The ProjectileFiredCommand indicates that a projectile has been fired
  * and contains the position as well as the movement vector.
@@ -31,9 +30,11 @@ public:
 
     QVector3D startPosition() const;
     QVector3D velocity() const;
+
 protected:
 
     QVector3D m_startPosition;
     QVector3D m_velocity;
 };
+
 }

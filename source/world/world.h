@@ -98,9 +98,6 @@ public:
      */
     std::shared_ptr<BulletWorld> bulletWorld();
 
-signals:
-    void updateNetworkSignal();
-
 protected:
     Game & m_game;
 

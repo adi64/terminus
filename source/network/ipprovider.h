@@ -3,6 +3,7 @@
 
 namespace terminus
 {
+
 /*!
  * \brief A small helper class to determine the local IP address
  *

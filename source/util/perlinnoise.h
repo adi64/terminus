@@ -9,6 +9,10 @@
 namespace terminus
 {
 
+/*!
+ * \brief The PerlinNoise class implements a two dimensional noise function
+ * using multiple selectable gradient vector grids (layers).
+ */
 class PerlinNoise
 {
 protected:
@@ -16,14 +20,38 @@ protected:
 public:
     PerlinNoise();
     PerlinNoise(unsigned int seed);
-    virtual ~PerlinNoise();
 
-    unsigned int seed() const;
+    /*!
+     * \brief seeds the underlying random number generator
+     * and invalidates the previously generated gradient grids
+     * \param seed
+     */
     void seed(unsigned int seed);
+    /*!
+     * \return the seed that was last used to seed the underlying
+     * random number generator
+     */
+    unsigned int seed() const;
 
+    /*!
+     * \brief evaluates the noise function at the given coordinates
+     * \param layer
+     * \param x
+     * \param y
+     * \return noise value
+     *
+     * The coordinates can exceed the size of the gradient grid,
+     * as they will be wrapped.
+     */
     float noise(int layer, float x, float y);
 
+    /*!
+     * \return a single random value from [-1.0;1.0]
+     */
     float symmetricRnd();
+    /*!
+     * \return a single random value from [0.0;1.0]
+     */
     float asymmetricRnd();
 
 protected:

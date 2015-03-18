@@ -1,7 +1,5 @@
 #include "bulletworld.h"
 
-#include <QDebug>
-
 #include <world/physics/abstractphysicsobject.h>
 
 namespace terminus
@@ -82,7 +80,6 @@ AbstractPhysicsObject *BulletWorld::getPhysicsObjectForCollisionObject(const btC
     }
     catch(std::exception e)
     {
-        qDebug() << "could not find AbstractGraphicsObject for collisionObject " << collisionObject;
         return nullptr;
     }
 }

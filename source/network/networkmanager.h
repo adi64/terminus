@@ -19,13 +19,11 @@ class NetworkServer;
 class Train;
 
 /*!
- * \brief The NetworkManager class provides the highest level of abstraction
- * regarding network functionality.
+ * \brief The NetworkManager implements the basic functionality for the multiplayer mode of this game
  *
- * It provides methods to send network commands to the other connected game,
- * if any. It can start a network server or client and then provides a connection to the other player.
+ * It provides an interface to initiate network connections, send commands and schedule received commands for execution.
  *
- * \sa NetworkEndpoint and NetworkConnection
+ * \sa NetworkEndpoint
  */
 class NetworkManager : public QObject
 {
@@ -42,54 +40,87 @@ public:
     NetworkManager(Game & game);
     virtual ~NetworkManager();
 
+    /*!
+     * \brief starts this NetworkManager in Mode::MultiplayerHost and creates the respective NetworkEndpoint
+     * \param port
+     *
+     * \sa NetworkServer
+     */
     void startServer(unsigned short port);
+    /*!
+     * \brief starts this NetworkManager in Mode::MultiplayerClient and creates the respective NetworkEndpoint
+     * \param host
+     * \param port
+     *
+     * \sa NetworkClient
+     */
     void startClient(QString host, unsigned short port);
 
-    bool isConnected() const;
+    /*!
+     * \brief checks the sync timer and sends a sync command as necessary
+     *
+     * This method is meant to be called by the associated game during its frame update
+     */
+    void update();
+
 
     void sendPauseCommand(bool pause);
     void sendPrepareNewGameCommand(bool isPlayerOne, unsigned int terrainSeed);
     void sendProjectileFiredCommand(QVector3D startPosition, QVector3D velocity);
     void sendProjectileHitCommand(int wagonIndex, float damage);
-    void sendPrimaryActionCommand(unsigned int selectedWagonIndex, QVector3D aimDirection);
     void sendSyncCommand(const Train &playerTrain);
     void sendGameEndedCommand(bool youWin);
     void sendClientReadyCommand();
 
     /*!
-     * \brief Unpauses the game when the client is ready.
+     * \brief Initiates the command sequence of a multiplayer game
      *
-     * Gets called when the client signals that it successfully created the
-     * World using the provided terrain seed and now is ready to start the game
-     */
-    void clientReady();
-    /*!
-     * \brief Send game info to client and pause game
+     * Gets called if a NetworServer goes from State::Listening to State::Connected
+     * and is therefore only relevant in Mode::MultiplayerHost
      */
     void prepareAndSyncNewGame();
 
+    /*!
+     * \return operation mode of this network manager
+     *
+     * Before either startClient() or startServer() the mode is Mode::Singleplayer
+     */
     Mode mode();
 
 signals:
+    /*!
+     * \brief sends a command
+     * \param command - takes ownership
+     *
+     * This method may be called from any thread and uses a QueuedConnection to
+     * route this request to the network thread
+     *
+     * \sa onSendCommand()
+     */
     void sendCommand(AbstractCommand * command);
 
-public slots:
-    void update();
-
 protected:
+    /*!
+     * \brief sets a new NetworkEndpoint and connects its signals
+     * \param endpoint - ownership managed by QObject parent mechanism
+     *
+     * The previous NetworkEndpoints signals will be disconnected
+     */
     void setEndpoint(NetworkEndpoint * endpoint);
 
 protected slots:
     /*!
-     * \brief called if the underlying NetworkEndpoint receives a Command
-     * \param command a Pointer to the received command
+     * \brief called if the underlying NetworkEndpoint receives an AbstractCommand
+     * \param command - ownership is taken
+     *
      * command is scheduled to be executed for the next frame update
      */
     void onReceivedCommand(AbstractCommand * command);
 
     /*!
-     * \brief called if the underlying NetworkEndpoints gets or looses its connection
+     * \brief called if the underlying NetworkEndpoints changes its state
      * \param state
+     *
      * This only reacts to a client connecting to a Server and prepares the multiplayer session accordingly
      */
     void onEndpointStateChange(NetworkEndpoint::State state);
@@ -106,19 +137,25 @@ protected slots:
     void onSendCommand(AbstractCommand* command);
 
 protected:
+    /*!
+     * \brief Game instance that this NetworkManager is associated to
+     */
     Game & m_game;
 
+    /*!
+     * \brief operation mode of this NetworkManager
+     */
     Mode m_mode;
 
     /*!
-     * \brief The NetworkEndpoint is stored as a pointer because it will be
-     * replaced dynamically (e.g. when stopping server and connecting as
-     * client)
+     * \brief NetworkEndpoint that is used for low-level network communication
+     *
+     * A pointer is necessary as specific subclasses of NetworkEndpoint may be used
      */
     std::unique_ptr<NetworkEndpoint> m_networkEndpoint;
 
     /*!
-     * \brief The timer that determines when sync messages are sent
+     * \brief timer that determines when sync commands should be sent
      */
     Timer::TimerID m_syncTimer;
 };

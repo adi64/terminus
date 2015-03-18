@@ -1,12 +1,13 @@
 #pragma once
 
-#include "abstractcommand.h"
+#include <network/commands/abstractcommand.h>
 
 namespace terminus
 {
 
 /*!
- * \brief The PauseCommand pauses or unpauses the game.
+ * \brief The PauseCommand pauses or unpauses the local game due to the remote
+ * game being paused.
  */
 class PauseCommand : public AbstractCommand
 {
