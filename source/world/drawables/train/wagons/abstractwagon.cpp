@@ -85,10 +85,6 @@ void AbstractWagon::adjustCamera()
     m_camera->setEye(modelToWorld(vEyeM));
 }
 
-void AbstractWagon::moveEvent(QVector3D /*movement*/)
-{
-}
-
 void AbstractWagon::rotateEvent(QVector2D rotation)
 {
     auto scale = 0.025f;
