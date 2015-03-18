@@ -29,8 +29,16 @@ public:
      */
     virtual void update() override;
 protected:
+    /*!
+     * \brief Switches randomly to next or previous wagon
+     */
     void switchWagon();
-    void fire(WeaponWagon * focusedWagon);
+
+    /*!
+     * \brief Finds a target wagon and fires a projectile from the currently
+     * focusedWagon in that direction
+     */
+    void fire();
 protected:
     Train *m_enemyTrain;
     AbstractWagon* m_targetEnemyWagon;
