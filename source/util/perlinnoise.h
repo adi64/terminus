@@ -43,33 +43,33 @@ public:
      * The coordinates can exceed the size of the gradient grid,
      * as they will be wrapped.
      */
-    float noise(int layer, float x, float y);
+    float noise(int layer, float x, float y) const;
 
     /*!
      * \return a single random value from [-1.0;1.0]
      */
-    float symmetricRnd();
+    float symmetricRnd() const;
     /*!
      * \return a single random value from [0.0;1.0]
      */
-    float asymmetricRnd();
+    float asymmetricRnd() const;
 
 protected:
-    float dotGradient(int layer, int iX, int iY, float x, float y);
+    float dotGradient(int layer, int iX, int iY, float x, float y) const;
 
-    int gradientIndex(int iX, int iY);
-    void generateGradients(int layer);
+    int gradientIndex(int iX, int iY) const;
+    void generateGradients(int layer) const;
 
-    std::vector<QVector2D> & gradients(int layer);
+    std::vector<QVector2D> & gradients(int layer) const;
 
 protected:
     unsigned int m_seed;
-    std::default_random_engine m_rng;
-    std::uniform_real_distribution<float> m_distSym;
-    std::uniform_real_distribution<float> m_distAsym;
+    mutable std::default_random_engine m_rng;
+    mutable std::uniform_real_distribution<float> m_distSym;
+    mutable std::uniform_real_distribution<float> m_distAsym;
 
     int m_gradientCount;
-    std::map<int,std::vector<QVector2D>> m_gradientGrid;
+    mutable std::map<int,std::vector<QVector2D>> m_gradientGrid;
 };
 
 }//namespace terminus

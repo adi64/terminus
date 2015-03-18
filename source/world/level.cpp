@@ -14,7 +14,6 @@ Level::Level()
 
 Level::Level(const LevelConfiguration & config)
 : m_tracksGenerated(false)
-, m_trackHeight(100.f)
 , m_texGenerated(false)
 {
     configure(config);
@@ -58,7 +57,7 @@ Polyline * Level::createRightTrackCourse() const
         for(float param = 0.0; param <= m_rightTrack->length(); param += 0.1)
         {
             QVector2D pointInPlane = m_rightTrack->getPosition(param);
-            points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
+            points.push_back(QVector3D(pointInPlane.x(), trackHeight(pointInPlane.x(), pointInPlane.y()), pointInPlane.y()));
         }
     }
     else
@@ -77,7 +76,7 @@ Polyline * Level::createLeftTrackCourse() const
         for(float param = 0.0; param <= m_leftTrack->length(); param += 0.1)
         {
             QVector2D pointInPlane = m_leftTrack->getPosition(param);
-            points.push_back(QVector3D(pointInPlane.x(), trackHeight(), pointInPlane.y()));
+            points.push_back(QVector3D(pointInPlane.x(), trackHeight(pointInPlane.x(), pointInPlane.y()), pointInPlane.y()));
         }
     }
     else
@@ -88,9 +87,14 @@ Polyline * Level::createLeftTrackCourse() const
     return new Polyline(points);
 }
 
-float Level::trackHeight() const
+float Level::trackHeight(float x, float z) const
 {
-    return m_trackHeight;
+    float trackBase = 100.f,
+            terrainDiff = 25.f,
+            terrainFreq = 0.003f;
+    return trackBase
+            + m_noise.noise(3, x * terrainFreq, z * terrainFreq)
+            * terrainDiff;
 }
 
 void Level::generateTracks(){
@@ -225,7 +229,7 @@ float Level::terrainHeight(float x, float z, float fTrack){
 
     float groundOffset = m_noise.noise(1, groundFreq * x, groundFreq * z)
                 * MathUtil::mix(MathUtil::mix(groundTerrainInfluence, groundRockInfluence, fRockyness), groundTrackInfluence, fTrack);
-    return MathUtil::mix(height + rockOffset, trackHeight(), fTrack) + groundOffset;
+    return MathUtil::mix(height + rockOffset, trackHeight(x, z), fTrack) + groundOffset;
 }
 
 int Level::tMapIndex(int s, int t) const

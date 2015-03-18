@@ -66,7 +66,7 @@ public:
     Polyline * createLeftTrackCourse() const;
 
 protected:
-    float trackHeight() const;
+    float trackHeight(float x, float z) const;
 
     void generateTracks();
 
@@ -87,7 +87,6 @@ protected:
     PerlinNoise m_noise;
 
     bool m_tracksGenerated;
-    float m_trackHeight; // might become a PerlinNoise instance...
     std::unique_ptr<CatmullRomSpline> m_rightTrack;
     std::unique_ptr<CatmullRomSpline> m_leftTrack;
 

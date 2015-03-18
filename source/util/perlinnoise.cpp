@@ -35,7 +35,7 @@ unsigned int PerlinNoise::seed() const
     return m_seed;
 }
 
-float PerlinNoise::noise(int layer, float x, float y)
+float PerlinNoise::noise(int layer, float x, float y) const
 {
     int x0 = std::floor(x),
          x1 = x0 + 1,
@@ -56,24 +56,25 @@ float PerlinNoise::noise(int layer, float x, float y)
     return MathUtil::clamp(-1.f, 1.f, value * fScale);
 }
 
-float PerlinNoise::symmetricRnd()
+float PerlinNoise::symmetricRnd() const
 {
     return m_distSym(m_rng);
 }
 
-float PerlinNoise::asymmetricRnd()
+float PerlinNoise::asymmetricRnd() const
 {
     return m_distAsym(m_rng);
 }
 
-float PerlinNoise::dotGradient(int layer, int iX, int iY, float x, float y) {
+float PerlinNoise::dotGradient(int layer, int iX, int iY, float x, float y) const
+{
     QVector2D gradient = gradients(layer)[gradientIndex(iX, iY)];
      float dx = x - static_cast<float>(iX),
             dy = y - static_cast<float>(iY);
      return dx * gradient.x() + dy * gradient.y();
- }
+}
 
-int PerlinNoise::gradientIndex(int iX, int iY)
+int PerlinNoise::gradientIndex(int iX, int iY) const
 {
     iY %= m_gradientCount;
     iX %= m_gradientCount;
@@ -82,7 +83,7 @@ int PerlinNoise::gradientIndex(int iX, int iY)
     return iY * m_gradientCount + iX;
 }
 
-void PerlinNoise::generateGradients(int layer)
+void PerlinNoise::generateGradients(int layer) const
 {
     m_gradientGrid[layer] = std::vector<QVector2D>(m_gradientCount * m_gradientCount);
 
@@ -97,7 +98,7 @@ void PerlinNoise::generateGradients(int layer)
     }
 }
 
-std::vector<QVector2D> & PerlinNoise::gradients(int layer)
+std::vector<QVector2D> & PerlinNoise::gradients(int layer) const
 {
     if(m_gradientGrid.count(layer) == 0)
     {

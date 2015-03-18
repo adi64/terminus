@@ -55,7 +55,10 @@ void AbstractWagon::localUpdate()
 
     QVector3D t = m_train->track()->course().getTangent(travelledDistance);
     float angleY = atan2(-t.z(), t.x()) * 180.f / MathUtil::PI;
-    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
+    QVector3D t2 = QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), -angleY).rotatedVector(t);
+    float angleZ = atan2(t.y(), t.x()) * 180.f / MathUtil::PI;
+    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY)
+                                            * QQuaternion::fromAxisAndAngle(QVector3D(0.f, 0.f, 1.f), angleZ));
 
     QVector3D trackOffset(0.f, 0.f, 0.f);
     setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
