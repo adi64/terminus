@@ -10,6 +10,12 @@ class QVector3D;
 namespace terminus
 {
 
+/*!
+ * \brief The Explosion class provides a renderable explosion effect, which is triggered when a projectile hits a weagon.
+ *
+ * It sole purpose is simulating an explosion without influencing any game logic.
+ * The Explosion spawns at the position the weagon is hit by a projectile.
+ */
 class Explosion : public AbstractGraphicsObject
 {
 public:
