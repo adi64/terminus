@@ -18,6 +18,10 @@ enum WagonType
     REPAIR_WAGON = 3
 };
 
+/*!
+ * \brief The AbstractWagon class provides a common interface for all wagon
+ * types and contains common functionality like position calculation etc.
+ */
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:

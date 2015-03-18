@@ -40,3 +40,6 @@ Terminus.pro.user~
 # SoundFiles
 
 music/not_used
+
+# Doxygen
+doxygen

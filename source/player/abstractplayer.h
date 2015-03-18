@@ -15,7 +15,8 @@ class AbstractWagon;
 class Train;
 
 /*!
- * \brief Base class for interacting with a train and a camera
+ * \brief The AbstractPlayer class is the base class for interacting with a
+ * train and a camera.
  */
 class AbstractPlayer
 {
@@ -37,12 +38,12 @@ public:
     void switchToWagon(unsigned int wagonIndex);
 
     /*!
-     * \brief Trigger the primary action of the currently selected wagon
+     * \brief Triggers the primary action of the currently selected wagon
      */
     virtual void primaryAction();
 
     /*!
-     * \brief Trigger the primary debug action of the currently selected wagon
+     * \brief Triggers the primary debug action of the currently selected wagon
      * (typically the primary action without cooldown limitations etc.)
      */
     virtual void primaryActionDebug();

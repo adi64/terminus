@@ -23,6 +23,10 @@ class AbstractPhysicsObject : public AbstractGraphicsObject
 public:
     AbstractPhysicsObject(World & world);
 
+    /*!
+     * \brief Moves object to new position
+     * \param newPosition The position to move this object to
+     */
     virtual void moveTo(const QVector3D & newPosition);
 
     /*!

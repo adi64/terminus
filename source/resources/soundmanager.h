@@ -14,7 +14,7 @@ namespace terminus
 /*!
  * \brief The SoundManager class provides basic music and sound playing functionality.
  * All needed sound effects are stored in the member variable m_sounds.
- * Implemented as a singelton, accessibility for all classes is safely ensured.
+ * Implemented as a singelton, accessibility for all classes is ensured.
  */
 class SoundManager : public QObject
 {
