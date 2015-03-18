@@ -37,6 +37,7 @@ h1 {
 	font-size: 38px;
 	font-weight: 700;
 	margin-bottom: 20px;
+	color: #fff
 }
 h2 {
 	font-size: 28px;
@@ -152,17 +153,22 @@ blockquote {
 	z-index: 2;
 }
 .subfooter {
-	background-color: #fafafa;
-	border-top: 1px solid #f3f3f3;
-	border-bottom: 1px solid #f3f3f3;
+	color: #aaa;
+	background-color: #202020;
+	border-top: 1px solid #aaaaaa;
+	border-bottom: 1px solid #aaaaaa;
 	padding: 40px 0;
 }
 .section {
-	background-color: #ffffff;
+	color: #fff;
+	background-color: #303030;
+	border-top: 1px solid #aaaaaa;
+	border-bottom: 1px solid #aaaaaa;
 	padding: 80px 0;
 }
 .section-grey {
-	background-color: #cccccc;
+	color: #fff;
+	background-color: #202020;
 	padding: 80px 0;
 }
 
@@ -230,7 +236,7 @@ blockquote {
 	background-color: rgba(0, 0, 0, 0.7);
 }
 .translucent-bg.blue:after {
-	background-color: rgba(85, 172, 238, 0.7);
+	background-color: rgba(50, 50, 50, 0.7);
 }
 .translucent-bg .container {
 	z-index: 3;
@@ -315,8 +321,10 @@ blockquote {
 	transition: all 0.2s ease-in-out;
 }
 .btn-default {
-	color: #55acee;
 	border: 1px solid #cccccc;
+	background-color: #555555;
+	border-color: #ffffff;
+	color: #ffffff;
 }
 .btn-default:hover {
 	color: #ffffff;
@@ -377,7 +385,7 @@ blockquote {
 }
 .panel-heading a:hover {
 	text-decoration: none;
-	background-color: #55acee;
+	background-color: #330000;
 	color: #ffffff;
 }
 .panel-title a i {
@@ -391,15 +399,15 @@ blockquote {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus,
 .nav-pills > li > a:hover {
-	background-color: #55acee;
-	border-color: #55acee;
+	background-color: #555555;
+	border-color: #ffffff;
 	color: #ffffff;
 }
 .nav-pills > li > a {
 	border-radius: 0;
 	padding: 8px 20px;
 	border: 1px solid #cacaca;
-	color: #666666;
+	color: #ffffff;
 	font-size: 12px;
 	text-transform: uppercase;
 	font-weight: 300;
@@ -596,7 +604,7 @@ textarea {
 	font-size: 36px;
 }
 .social-links li a {
-	color: #333333;
+	color: #ffffff;
 	-webkit-transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
 	-o-transition: all 0.2s ease-in-out;
