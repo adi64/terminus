@@ -218,7 +218,7 @@ void ResourceManager::loadMtl(std::string path)
     QFile mtlFile(path.c_str());
     if (!mtlFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "FATAL: *.obj file can not be opened";
+        qDebug() << "FATAL: *.mtl file can not be opened";
         return;
     }
     QTextStream mtlStream(&mtlFile);
