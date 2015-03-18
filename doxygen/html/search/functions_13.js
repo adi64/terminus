@@ -26,8 +26,8 @@ var searchData=
   ['touchchargefire',['touchChargeFire',['../classterminus_1_1EventHandler.html#ac6674bafc00f85b9867c39bb12ae4e40',1,'terminus::EventHandler']]],
   ['touchfire',['touchFire',['../classterminus_1_1EventHandler.html#a98db074915217d7d23a40635502f0070',1,'terminus::EventHandler']]],
   ['touchinput',['touchInput',['../classterminus_1_1EventHandler.html#abf6862d9d5761897cb24288e7c082973',1,'terminus::EventHandler::touchInput()'],['../classterminus_1_1Game.html#af7b8983bef18257dc8f59c819a8f5bb1',1,'terminus::Game::touchInput()']]],
-  ['track',['Track',['../classterminus_1_1Track.html#acfa80d5524a60777a6af5704c62fcbb6',1,'terminus::Track::Track()'],['../classterminus_1_1Train.html#ab4abdc79eff53f2339db098755527722',1,'terminus::Train::track()']]],
-  ['trackheight',['trackHeight',['../classterminus_1_1Level.html#ae7e58d0c0e3a887c331aa89a74c0bfc4',1,'terminus::Level']]],
+  ['track',['track',['../classterminus_1_1Train.html#ab4abdc79eff53f2339db098755527722',1,'terminus::Train::track()'],['../classterminus_1_1Track.html#acfa80d5524a60777a6af5704c62fcbb6',1,'terminus::Track::Track()']]],
+  ['trackheight',['trackHeight',['../classterminus_1_1Level.html#a5278b811db1d9a5632903742b43e01c8',1,'terminus::Level']]],
   ['train',['Train',['../classterminus_1_1Train.html#a67f8ba349f4ee42f6f9880ff8c71412a',1,'terminus::Train::Train()'],['../classterminus_1_1AbstractPlayer.html#a80156dcc80c159e4d2b0c6f7540575f5',1,'terminus::AbstractPlayer::train()']]],
   ['travelleddistance',['travelledDistance',['../classterminus_1_1Train.html#ac0e31d3fc28d4bb42c4fc92b15def678',1,'terminus::Train']]],
   ['travelleddistancerelative',['travelledDistanceRelative',['../classterminus_1_1Train.html#a50b2ec4521008942cb58053219121c3e',1,'terminus::Train']]]

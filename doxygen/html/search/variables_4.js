@@ -138,7 +138,6 @@ var searchData=
   ['m_5ftimestamp',['m_timeStamp',['../classterminus_1_1AbstractCommand.html#aa2b373bda3cf347143d564df372134bf',1,'terminus::AbstractCommand']]],
   ['m_5ftimestamps',['m_timeStamps',['../classterminus_1_1Timer.html#aaba2a2a6938fd4bdb92bea1938693d46',1,'terminus::Timer']]],
   ['m_5ftrack',['m_track',['../classterminus_1_1Train.html#aee43521ca879346d43f69b536e60d86b',1,'terminus::Train']]],
-  ['m_5ftrackheight',['m_trackHeight',['../classterminus_1_1Level.html#aead479ffb2c1b0016f3740a9eaf014a2',1,'terminus::Level']]],
   ['m_5ftracksgenerated',['m_tracksGenerated',['../classterminus_1_1Level.html#a39f69775beddf5045e2a0a3c2ad158be',1,'terminus::Level']]],
   ['m_5ftrain',['m_train',['../classterminus_1_1AbstractPlayer.html#afa52cb6faa8afaa02c9b382df05a1c42',1,'terminus::AbstractPlayer::m_train()'],['../classterminus_1_1AbstractWagon.html#a7f685ba2461d02345d2ca3f155ad7ed2',1,'terminus::AbstractWagon::m_train()']]],
   ['m_5ftravelleddistance',['m_travelledDistance',['../classterminus_1_1SyncCommand.html#a6e4010c992468489c9c871491ba57f15',1,'terminus::SyncCommand::m_travelledDistance()'],['../classterminus_1_1Train.html#aa183f8e4716e1623cbb4ac8336b10c70',1,'terminus::Train::m_travelledDistance()']]],

@@ -129,8 +129,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ae7e58d0c0e3a887c331aa89a74c0bfc4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#ae7e58d0c0e3a887c331aa89a74c0bfc4">trackHeight</a> () const </td></tr>
-<tr class="separator:ae7e58d0c0e3a887c331aa89a74c0bfc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5278b811db1d9a5632903742b43e01c8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a5278b811db1d9a5632903742b43e01c8">trackHeight</a> (float x, float z) const </td></tr>
+<tr class="separator:a5278b811db1d9a5632903742b43e01c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb3958ef964d94644ab279d588aebf67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#aeb3958ef964d94644ab279d588aebf67">generateTracks</a> ()</td></tr>
 <tr class="separator:aeb3958ef964d94644ab279d588aebf67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70d7cba4de7714e53305c4f5b24fa2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a70d7cba4de7714e53305c4f5b24fa2a5">generateTerrainMap</a> ()</td></tr>
@@ -160,8 +160,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:abe212a8d172713b11f835ff0f5094302"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39f69775beddf5045e2a0a3c2ad158be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a39f69775beddf5045e2a0a3c2ad158be">m_tracksGenerated</a></td></tr>
 <tr class="separator:a39f69775beddf5045e2a0a3c2ad158be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aead479ffb2c1b0016f3740a9eaf014a2"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#aead479ffb2c1b0016f3740a9eaf014a2">m_trackHeight</a></td></tr>
-<tr class="separator:aead479ffb2c1b0016f3740a9eaf014a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a526ae9b0961139b4c57071594f976420"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classterminus_1_1CatmullRomSpline.html">CatmullRomSpline</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a526ae9b0961139b4c57071594f976420">m_rightTrack</a></td></tr>
 <tr class="separator:a526ae9b0961139b4c57071594f976420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a702274e3b5d009880a3f1650c1aa97df"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classterminus_1_1CatmullRomSpline.html">CatmullRomSpline</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classterminus_1_1Level.html#a702274e3b5d009880a3f1650c1aa97df">m_leftTrack</a></td></tr>
@@ -636,7 +634,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae7e58d0c0e3a887c331aa89a74c0bfc4"></a>
+<a class="anchor" id="a5278b811db1d9a5632903742b43e01c8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -646,8 +644,19 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">float terminus::Level::trackHeight </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -780,26 +789,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aead479ffb2c1b0016f3740a9eaf014a2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float terminus::Level::m_trackHeight</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a39f69775beddf5045e2a0a3c2ad158be"></a>
 <div class="memitem">
 <div class="memproto">
@@ -827,7 +816,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 18 2015 21:47:10 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 18 2015 22:46:07 for Terminus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
