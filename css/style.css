@@ -71,7 +71,9 @@ a {
 	color: #55acee;
 }
 a:hover {
-	color: #339BEB;
+	background-color: rgba(85, 85, 85, 0.55);
+	border-color: #ffffff;
+	color: #ffffff;
 }
 a:focus,
 a:active {
@@ -327,9 +329,9 @@ blockquote {
 	color: #ffffff;
 }
 .btn-default:hover {
+	background-color: rgba(85, 85, 85, 0.55);
+	border-color: #ffffff;
 	color: #ffffff;
-	background-color: #339BEB;
-	border-color: #339BEB;
 }
 
 /* Collapse
@@ -437,9 +439,10 @@ textarea {
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
+	background-color: #ffffff;
 }
 .modal-header {
-	background-color: #55acee;
+	background-color: #555555;
 	color: #ffffff;
 }
 .modal-header h4 {
@@ -687,7 +690,7 @@ textarea {
 	bottom: -1px;
 	left: 0;
 	right: -1px;
-	background-color: rgba(85, 172, 238, 0.9);
+	background-color: rgba(85, 85, 85, 0.9);
 	cursor: pointer;
 	overflow: hidden;
 	opacity: 0;
