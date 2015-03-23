@@ -1551,7 +1551,7 @@ inline size_t btEstimateLDLTAddTLTmpbufSize(int nskip)
 
 
 void btLDLTRemove (btScalar **A, const int *p, btScalar *L, btScalar *d,
-    int /*n1*/, int n2, int r, int nskip, btAlignedObjectArray<btScalar>& scratch)
+    int n1, int n2, int r, int nskip, btAlignedObjectArray<btScalar>& scratch)
 {
   btAssert(A && p && L && d/* && n1 > 0*/ && n2 > 0 && r >= 0 && r < n2/* &&
        n1 >= n2 && nskip >= n1*/);
