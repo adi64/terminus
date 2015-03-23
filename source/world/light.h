@@ -31,7 +31,7 @@ public:
     /*!
      * \brief the number of 4d vectors occupied by an instance of this class
      */
-    static constexpr int vectorCount = 3;
+    static const int vectorCount = 3;
 
     /*!
      * \brief a light that has no effect on the scene

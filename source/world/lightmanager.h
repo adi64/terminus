@@ -26,7 +26,7 @@ public:
     /*!
      * \brief number of slots managed by this class
      */
-    static constexpr int slotCount = 8;
+    static const int slotCount = 8;
 
     /*!
      * \return the number of yet unoccupied light slots
