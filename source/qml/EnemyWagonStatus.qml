@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.5
 import Game 1.0
 
 /*
@@ -25,11 +25,11 @@ Item
     property bool isReversed: parent.isReversed
     property int index: isReversed? totalWagons - (wagonIndex + 1) : wagonIndex
 
-    property int wagonType: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["type"] : 0
-    property real health: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
-    property real maxHealth: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
-    property real cooldown: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
-    property bool isDisabled: load? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["isDisabled"] : true
+    property int wagonType: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["type"] : 0
+    property real health: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
+    property real maxHealth: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
+    property real cooldown: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
+    property bool isDisabled: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["isDisabled"] : true
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
@@ -40,12 +40,12 @@ Item
 
     function setColor(opac)
     {
-        if(isDisabled)
+        if (isDisabled)
         {
             return "grey";
         }
 
-        switch(wagonType)
+        switch (wagonType)
         {
         case 1:
             return Qt.rgba(0.5725, 0.4, 0.2353, opac); //engine

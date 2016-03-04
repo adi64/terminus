@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.5
 import Game 1.0
 
 /*
@@ -32,17 +32,17 @@ Item
 
     function setText()
     {
-        if(isDisabled)
+        if (isDisabled)
         {
             return "Destroyed";
         }
 
-        if(cooldown != 1)
+        if (cooldown != 1)
         {
             return "Reloading";
         }
 
-        switch(wagonType)
+        switch (wagonType)
         {
         case 1:
             return "Faster"; //engine

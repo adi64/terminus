@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.5
 
 /*
  * MainMenu.qml
@@ -60,7 +60,7 @@ Item
     {
         posNum: 2
         buttonText: "Quit"
-        visible: Qt.platform.os === ("android" || "ios")? false : true
+        visible: !(Qt.platform.os === "android" || Qt.platform.os === "ios")
 
         MouseArea
         {
