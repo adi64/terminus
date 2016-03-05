@@ -7,6 +7,7 @@
 #include <QQuickItem>
 
 #include <eventhandler.h>
+
 #include <network/networkmanager.h>
 #include <util/actionscheduler.h>
 #include <util/timer.h>
@@ -177,7 +178,6 @@ protected:
     EventHandler m_eventHandler;
     ActionScheduler m_scheduler;
     NetworkManager m_networkManager;
-
 
     QVariant m_qmlData;
 

@@ -10,8 +10,6 @@ class QOpenGLFunctions;
 namespace terminus
 {
 
-class ScreenAlignedQuad;
-
 /*!
  * \brief The SkyBox class renders an environment map in the form of a cube map
  * on a screen aligned quad in the background.

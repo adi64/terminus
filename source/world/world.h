@@ -31,6 +31,7 @@ class AIPlayer;
 class Game;
 class LocalPlayer;
 class NetworkManager;
+class PostprocessingManager;
 class SkyBox;
 class Terrain;
 class Train;
@@ -104,6 +105,8 @@ protected:
     Level m_level;
 
     LightManager m_lightManager;
+
+    std::unique_ptr<PostprocessingManager> m_postprocessingManager;
 
     std::shared_ptr<BulletWorld> m_bulletWorld;
 
