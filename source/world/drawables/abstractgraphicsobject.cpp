@@ -1,10 +1,13 @@
 #include "abstractgraphicsobject.h"
 
-#include <QQuaternion>
-#include <QDebug>
+#include <QOpenGLFunctions>
 
-#include <resources/lightmanager.h>
 #include <player/localplayer.h>
+#include <resources/geometry.h>
+#include <resources/material.h>
+#include <resources/program.h>
+#include <world/lightmanager.h>
+#include <world/camera.h>
 #include <world/world.h>
 
 namespace terminus
@@ -18,7 +21,8 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 , m_rotation(1.0, 0.0, 0.0, 0.0)
 , m_scale(1.0, 1.0, 1.0)
 , m_modelMatrixChanged(false)
-, m_parentModelMatrix(nullptr)      //is not deleted yet
+, m_modelMatrixInvertedChanged(false)
+, m_parentModelMatrix(nullptr)
 {
 }
 
@@ -66,13 +70,13 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
         });
 }
 
-void AbstractGraphicsObject::unbindCamera(Camera * cam)
+void AbstractGraphicsObject::unbindCamera(Camera * camera)
 {
-    if(cam != m_camera)
+    if(camera != m_camera)
     {
         return;
     }
-    if(cam)
+    if(camera)
     {
         m_camera->unbound(this);
     }
@@ -80,14 +84,14 @@ void AbstractGraphicsObject::unbindCamera(Camera * cam)
     onUnbindCamera();
 }
 
-void AbstractGraphicsObject::bindCamera(Camera * cam)
+void AbstractGraphicsObject::bindCamera(Camera * camera)
 {
-    if(m_camera == cam)
+    if(m_camera == camera)
     {
         return;
     }
     unbindCamera(m_camera);
-    m_camera = cam;
+    m_camera = camera;
     onBindCamera();
 }
 
@@ -141,7 +145,7 @@ QVector3D AbstractGraphicsObject::worldFront()
     return (modelToWorld({1.f, 0.f, 0.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::worldLeft()
+QVector3D AbstractGraphicsObject::worldSide()
 {
     return (modelToWorld({0.f, 0.f, 1.f}) - position()).normalized();
 }
@@ -161,18 +165,18 @@ QVector3D AbstractGraphicsObject::scale() const
 
 QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 {
-    if(m_modelMatrixChanged || m_parentModelMatrix)
+    if(m_modelMatrixChanged)
     {
         m_modelMatrix.setToIdentity();
         m_modelMatrix.translate(position());
         m_modelMatrix.rotate(rotation());
         m_modelMatrix.scale(scale());
-        m_modelMatrixInverted = m_modelMatrix.inverted();
-        if(m_parentModelMatrix)
-        {
-            m_modelMatrix = *m_parentModelMatrix * m_modelMatrix;
-        }
         m_modelMatrixChanged = false;
+    }
+
+    if(m_parentModelMatrix)
+    {
+        m_modelMatrix = *m_parentModelMatrix * m_modelMatrix;
     }
 
     return m_modelMatrix;
@@ -180,14 +184,10 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
 
 QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
 {
-    if(m_modelMatrixChanged)
+    if(m_modelMatrixInvertedChanged)
     {
-        m_modelMatrix.setToIdentity();
-        m_modelMatrix.translate(position());
-        m_modelMatrix.rotate(rotation());
-        m_modelMatrix.scale(scale());
-        m_modelMatrixInverted = m_modelMatrix.inverted();
-        m_modelMatrixChanged = false;
+        m_modelMatrixInverted = modelMatrix().inverted();
+        m_modelMatrixInvertedChanged = false;
     }
     return m_modelMatrixInverted;
 }
@@ -250,28 +250,36 @@ bool AbstractGraphicsObject::localRenderEnabled() const
     return true;
 }
 
+void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
+{
+}
+
 void AbstractGraphicsObject::setPosition(const QVector3D & position)
 {
     m_position = position;
     m_modelMatrixChanged = true;
+    m_modelMatrixInvertedChanged = true;
 }
 
-void AbstractGraphicsObject::setRotation(const QQuaternion &eulerAngles)
+void AbstractGraphicsObject::setRotation(const QQuaternion &rotation)
 {
-    m_rotation = eulerAngles;
+    m_rotation = rotation;
     m_modelMatrixChanged = true;
+    m_modelMatrixInvertedChanged = true;
 }
 
 void AbstractGraphicsObject::setScale(const QVector3D & scale)
 {
     m_scale = scale;
     m_modelMatrixChanged = true;
+    m_modelMatrixInvertedChanged = true;
 }
 
 void AbstractGraphicsObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
+    m_modelMatrixInvertedChanged = true;
 }
 
 void AbstractGraphicsObject::setParentModelMatrix(QMatrix4x4 * matrix)
@@ -291,10 +299,6 @@ QVector3D AbstractGraphicsObject::modelToWorld(const QVector3D & vModel)
     return v4.toVector3DAffine();
 }
 
-void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
-{
-}
-
 void AbstractGraphicsObject::dispose()
 {
     if(!m_validState)
@@ -311,4 +315,4 @@ void AbstractGraphicsObject::dispose()
     m_validState = false;
 }
 
-}
+} //namespace terminus

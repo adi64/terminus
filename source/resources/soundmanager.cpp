@@ -3,16 +3,8 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
-#include <QDebug>
-
-//TODO use unique or shared pointer instead of standard pointer for QSoundEffect
-
-//if Android doesn't like QMultimedia -> try libVLC
-
 namespace terminus
 {
-
-constexpr int c_maxVol = 100;
 
 SoundManager * SoundManager::m_instance = nullptr;
 
@@ -33,13 +25,21 @@ SoundManager::SoundManager()
 
 void SoundManager::initialize()
 {
-    QSoundEffect * soundShot = new QSoundEffect();
-    soundShot->setSource(QUrl::fromLocalFile(":/data/sounds/shot.wav"));
-    m_sounds["shot"] = soundShot;
+    QSoundEffect * soundShotAction = new QSoundEffect();
+    soundShotAction->setSource(QUrl::fromLocalFile(":/data/sounds/shot.wav"));
+    m_sounds["shot"] = soundShotAction;
 
-    QSoundEffect * soundEngine = new QSoundEffect();
-    soundEngine->setSource(QUrl::fromLocalFile(":/data/sounds/hover.wav"));
-    m_sounds["machine"] = soundEngine;
+    QSoundEffect * soundExplosion = new QSoundEffect();
+    soundExplosion->setSource(QUrl::fromLocalFile(":/data/sounds/explosion.wav"));
+    m_sounds["explosion"] = soundExplosion;
+
+    QSoundEffect * soundRepairAction = new QSoundEffect();
+    soundRepairAction->setSource(QUrl::fromLocalFile(":/data/sounds/repair.wav"));
+    m_sounds["repairAction"] = soundRepairAction;
+
+    QSoundEffect * soundEngineAction = new QSoundEffect();
+    soundEngineAction->setSource(QUrl::fromLocalFile(":/data/sounds/engine.wav"));
+    m_sounds["engineAction"] = soundEngineAction;
 
     QSoundEffect * soundBackgroundMusic = new QSoundEffect();
     soundBackgroundMusic->setSource(QUrl::fromLocalFile(":/data/sounds/level.wav"));
@@ -50,30 +50,16 @@ void SoundManager::initialize()
 
 SoundManager::~SoundManager()
 {
-    //TODO delete m_sounds contents
-    std::map<QString, QSoundEffect *>::iterator it;    //use const auto instead
+    std::map<QString, QSoundEffect *>::iterator it;
 
-    for(it = sounds().begin(); it != sounds().end(); it++)
+    for(it = sounds().begin(); it != sounds().end(); ++it)
     {
-        delete it->second;                             //is second correct?
+        delete it->second;
     }
 }
 
 void SoundManager::playSound(QString name)
 {
-    sound(name)->play();
-}
-
-void SoundManager::playSoundDistant(QString name, qreal distance)
-{
-    qreal relativeVolume = 1.0 - distance/c_maxVol;
-
-    if(relativeVolume <= 0)
-    {
-        relativeVolume = 0.0;
-    }
-
-    sound(name)->setVolume(relativeVolume);
     sound(name)->play();
 }
 

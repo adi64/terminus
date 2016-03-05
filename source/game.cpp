@@ -1,48 +1,117 @@
 #include "game.h"
 
-#include <assert.h>
+#include <cassert>
+#include <chrono>
 #include <memory>
 
-#include <QQuickView>
 #include <QApplication>
-#include <QTimer>
-#include <QTime>
-#include <QVariant>
-#include <QMap>
 #include <QList>
-
-#include <player/aiplayer.h>
+#include <QMap>
+#include <QQuickView>
+#include <QTimer>
+#include <QVariant>
 
 #include <eventhandler.h>
-#include <deferredactionhandler.h>
+#include <network/networkmanager.h>
+#include <player/aiplayer.h>
 #include <player/localplayer.h>
-
 #include <resources/resourcemanager.h>
-#include <resources/soundmanager.h>
+#include <util/actionscheduler.h>
 #include <world/world.h>
+
 
 namespace terminus
 {
 
 Game::Game()
 : m_eventHandler(this)
-, m_deferredActionHandler(this)
+, m_networkManager(*this)
+, m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_setupComplete(false)
+, m_isGLInitialized(false)
+, m_isUIActive(false) // is set to true on create world
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
-    SoundManager::getInstance()->playSound("music");
-
-    m_world = std::unique_ptr<World>(new World(*this));
-
-    updateQMLData();
 }
 
 Game::~Game()
 {
+    disconnectSignals();
+}
 
+void Game::startLocalGame()
+{
+    createWorld(false, true, std::chrono::system_clock::now().time_since_epoch().count());
+}
+
+void Game::hostNetworkGame()
+{
+    m_networkManager.startServer(defaultPort);
+    createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
+}
+
+void Game::joinNetworkGame(QString host)
+{
+    m_networkManager.startClient(host, defaultPort);
+}
+
+void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
+{
+    m_timer.pause(isNetworkGame);
+    m_timer.adjust(0);
+    m_isPlayerOne = isPlayerOne;
+    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+    showUI();
+}
+
+void Game::endGame(bool localPlayerWins, bool showMessage)
+{
+    disconnectSignals();
+    m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
+    if (showMessage)
+    {
+        if (localPlayerWins)
+        {
+            QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
+        }
+        else
+        {
+            QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
+        }
+    }
+    else
+    {
+        QMetaObject::invokeMethod(this, "stopGame", Qt::AutoConnection);
+    }
+}
+
+void Game::toggleUI()
+{
+    if (m_isUIActive)
+    {
+        hideUI();
+    }
+    else
+    {
+        showUI();
+    }
+}
+
+void Game::showUI()
+{
+    m_isUIActive = true;
+    updateQMLData();
+    QString uiFile = "qrc:/source/qml/UserInterface.qml";
+    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
+}
+
+void Game::hideUI()
+{
+    m_isUIActive = false;
+    QString uiFile = "";
+    QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
 }
 
 World & Game::world() const
@@ -51,9 +120,14 @@ World & Game::world() const
     return *m_world;
 }
 
-DeferredActionHandler & Game::deferredActionHandler()
+ActionScheduler & Game::scheduler()
 {
-    return m_deferredActionHandler;
+    return m_scheduler;
+}
+
+NetworkManager & Game::networkManager()
+{
+    return m_networkManager;
 }
 
 Timer & Game::timer()
@@ -63,23 +137,45 @@ Timer & Game::timer()
 
 void Game::buttonInput(int type)
 {
-    m_eventHandler.buttonInput(type);
+    if(m_world)
+    {
+        m_eventHandler.buttonInput(type);;
+    }
 }
 
 void Game::keyInput(Qt::Key key)
 {
-    m_eventHandler.keyInput(key);
+    if(m_world)
+    {
+        m_eventHandler.keyInput(key);
+    }
 }
 
 void Game::moveInput(int type, qreal x, qreal y)
 {
-    m_eventHandler.moveInput(type, x, y);
+    if(m_world)
+    {
+        m_eventHandler.moveInput(type, x, y);
+    }
+}
+
+void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
+{
+    if(m_world)
+    {
+        m_eventHandler.touchInput(oldx, oldy, x, y);
+    }
 }
 
 void Game::sync()
 {
     // process scheduled events
-    m_deferredActionHandler.processDeferredActions();
+    m_scheduler.executeActions();
+
+    if(!m_world)
+    {
+        return;
+    }
 
     #ifdef Q_OS_MAC
         m_world->localPlayer().camera().setViewport(window()->width() * 2, window()->height() * 2);
@@ -87,25 +183,33 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    if(!m_timer.isPaused())
+    if (!m_timer.isPaused())
     {
        m_world->update();
     }
-    updateQMLData();
+
+    m_networkManager.update();
+
+    if (m_isUIActive)
+    {
+        updateQMLData();
+    }
 
     m_timer.adjust("frameTimer", 0);
 }
 
 void Game::render()
 {
-    static bool glInitialized = false;
-    if(!glInitialized)
+    if (!m_isGLInitialized)
     {
         m_gl.initializeOpenGLFunctions();
-        glInitialized = true;
+        m_isGLInitialized = true;
     }
 
-    m_world->render(m_gl);
+    if (m_world)
+    {
+        m_world->render(m_gl);
+    }
 }
 
 void Game::cleanup()
@@ -115,20 +219,17 @@ void Game::cleanup()
 
 void Game::handleWindowChanged(QQuickWindow * win)
 {
-    if (win) {
-        connect(win, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
-        connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-        connect(win, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
+    connectSignals(win);
+    if (m_window)
+    {
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
-        win->setClearBeforeRendering(false);
+        m_window->setClearBeforeRendering(false);
         // trigger redraws periodically
         connect(m_renderTrigger.get(), &QTimer::timeout, win, &QQuickWindow::update);
         m_renderTrigger->start(1000 / 60);
     }
 }
-
-
 
 void Game::setPaused(bool paused)
 {
@@ -138,6 +239,29 @@ void Game::setPaused(bool paused)
 void Game::togglePaused()
 {
     m_timer.pause();
+    m_networkManager.sendPauseCommand(m_timer.isPaused());
+}
+
+void Game::connectSignals(QQuickWindow *win)
+{
+    disconnectSignals();
+    m_window = win;
+    if (m_window)
+    {
+        connect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
+        connect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);
+    }
+}
+
+void Game::disconnectSignals()
+{
+    if(m_window)
+    {
+        disconnect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()));
+        disconnect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()));
+        disconnect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()));
+    }
 }
 
 /*!
@@ -145,7 +269,7 @@ void Game::togglePaused()
  */
 void Game::updateQMLData()
 {
-    auto& playerTrain = m_world->playerTrain();
+    auto& playerTrain = m_world->localPlayerTrain();
     QList<QVariant> playerWagonList;
     for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
@@ -158,7 +282,7 @@ void Game::updateQMLData()
         playerWagonList.push_back(wagonMap);
     }
 
-    auto& enemyTrain = m_world->enemyTrain();
+    auto& enemyTrain = m_world->enemyPlayerTrain();
     QList<QVariant> enemyWagonList;
     for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {
@@ -187,7 +311,7 @@ void Game::updateQMLData()
     dataMap.insert("PlayerTrain", playerTrainMap);
     dataMap.insert("EnemyTrain", enemyTrainMap);
     m_qmlData.setValue(dataMap);
-    qmlDataChanged();
+    emit qmlDataChanged();
 }
 
 QVariant & Game::qmlData()

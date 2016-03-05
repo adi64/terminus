@@ -9,6 +9,12 @@
 
 class QOpenGLShaderProgram;
 
+namespace terminus
+{
+
+/*!
+ * \brief The program class implements the basic functionality used for binding programs to openGL
+ */
 class Program
 {
 public:
@@ -16,7 +22,18 @@ public:
     Program(std::string vertexSrc, std::string fragmentSrc);
     virtual ~Program();
 
+    /*!
+     * \brief Allocates space on the GPU
+     *
+     * Space is allocated only, when current data isn't stored on GPU yet.
+     */
     virtual void allocate();
+
+    /*!
+     * \brief Deallocates space on the GPU
+     *
+     * Space is deallocated only, when current data is present on GPU.
+     */
     virtual void deallocate();
 
     virtual void bind();
@@ -42,3 +59,5 @@ private:
     bool m_isBound;
     bool m_isOnGPU;
 };
+
+} //namespace terminus

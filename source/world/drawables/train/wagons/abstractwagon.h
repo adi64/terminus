@@ -18,20 +18,56 @@ enum WagonType
     REPAIR_WAGON = 3
 };
 
+/*!
+ * \brief The AbstractWagon class provides a common interface for all wagon
+ * types and contains common functionality like position calculation &c.
+ */
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
     AbstractWagon(World & world, Train * train);
     virtual ~AbstractWagon();
 
-    virtual void primaryAction() = 0;
-    virtual void primaryActionDebug();
+    /*!
+     * \brief Invokes wagon-specific primary action if the wagon is enabled
+     * and is not on cooldown
+     */
+    virtual void primaryAction() final;
 
+    /*!
+     * \brief Invokes wagon-specific primary action without any checks
+     */
+    virtual void primaryActionDebug() final;
+
+    /*!
+     * \brief The method that every wagon should override in order to define
+     * the wagon-specific primary action.
+     */
+    virtual void primaryActionInternal() = 0;
+
+    /*!
+     * \brief Updates wagon position and rotation
+     */
     virtual void localUpdate() override;
 
+    /*!
+     * \brief saves the previous camera position to animate the
+     * camera transition
+     */
     virtual void onBindCamera() override;
+
+    /*!
+     * \brief moves the camera according to this wagons position and orientation
+     *
+     * \sa localCameraCenter()
+     * \sa localCameraEye()
+     */
     virtual void adjustCamera();
-    virtual void moveEvent(QVector3D movement);
+
+    /*!
+     * \brief rotates the camera position in model space
+     * \param rotation
+     */
     virtual void rotateEvent(QVector2D rotation);
 
     virtual void setHealth(float health);
@@ -47,17 +83,39 @@ public:
     virtual WagonType wagonType() const;
     virtual float length() const;
 
-    virtual float isOtherTrainLeft() const;
+    /*!
+     * \brief Determines whether the primary view direction should be left or
+     * right
+     */
+    virtual bool isOtherTrainLeft() const;
 
+    /*!
+     * \brief Sets the distance between this wagon and the first wagon on the spline
+     * \param accumulatedOffset The distance on the spline, in abstract units
+     */
     virtual void setPositionOffset(float accumulatedOffset);
 
+    /*!
+     * \brief Shakes the camera if the wagon was hit by a Projectile
+     * \param other The AbstractPhysicsObject that hit this wagon
+     * \sa Projectile
+     */
     virtual void onCollisionWith(AbstractPhysicsObject * other) override;
 
 protected:
     virtual short myCollisionType() const override;
     virtual short possibleCollisionTypes() const override;
 
+    /*!
+     * \brief Calculates the camera position vector in model space.
+     * \return
+     */
     virtual QVector3D localCameraCenter();
+
+    /*!
+     * \brief Calculates the camera eye vector in model space.
+     * \return
+     */
     virtual QVector3D localCameraEye();
 
 protected:

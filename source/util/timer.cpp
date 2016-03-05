@@ -1,8 +1,7 @@
 #include "timer.h"
 
+#include <cassert>
 #include <limits>
-
-#include <assert.h>
 
 namespace terminus
 {
@@ -110,7 +109,7 @@ bool Timer::isAllocated(std::string name)
 
 Timer::TimerMSec Timer::get()
 {
-    return toMSec(m_clock.now() - m_baseTimeStamp);
+    return toMSec((m_isPaused? m_pauseNow : m_clock.now()) - m_baseTimeStamp);
 }
 
 Timer::TimerMSec Timer::get(TimerID id)
@@ -136,7 +135,7 @@ Timer::TimerMSec Timer::get(std::string name)
 
 void Timer::adjust(Timer::TimerMSec newNow)
 {
-    m_baseTimeStamp = m_clock.now() - fromMSec(newNow);
+    m_baseTimeStamp = (m_isPaused? m_pauseNow : m_clock.now()) - fromMSec(newNow);
 }
 
 void Timer::adjust(Timer::TimerID id, Timer::TimerMSec newNow)
@@ -158,7 +157,7 @@ void Timer::adjust(std::string name, Timer::TimerMSec newNow)
 
 Timer::TimerID Timer::freeTimerID()
 {
-    for(TimerID id = 0; id < std::numeric_limits<TimerID>::max(); id++)
+    for(TimerID id = 1; id < std::numeric_limits<TimerID>::max(); id++)
     {
         if(m_timeStamps.count(id) == 0)
             return id;
@@ -183,4 +182,4 @@ void Timer::endPause()
     m_baseTimeStamp += pauseDuration;
 }
 
-}
+} //namespace terminus

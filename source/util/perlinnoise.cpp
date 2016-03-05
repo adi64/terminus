@@ -2,16 +2,18 @@
 
 #include <chrono>
 
-#include "mathutil.h"
+#include <util/mathutil.h>
 
 namespace terminus
 {
-const float PerlinNoise::fScale = 1.f / sqrt(0.5f);
+
+const float PerlinNoise::fScale = sqrt(2.f) / 2.f;
 
 PerlinNoise::PerlinNoise()
 : PerlinNoise(std::chrono::system_clock::now().time_since_epoch().count())
 {
 }
+
 PerlinNoise::PerlinNoise(unsigned int seed)
 : m_seed(seed)
 , m_rng(seed)
@@ -20,16 +22,20 @@ PerlinNoise::PerlinNoise(unsigned int seed)
 , m_gradientCount(256)
 {
 }
-PerlinNoise::~PerlinNoise()
+
+void PerlinNoise::seed(unsigned int seed)
 {
+    m_seed = seed;
+    m_rng.seed(m_seed);
+    m_gradientGrid.clear();
 }
 
-unsigned int PerlinNoise::seed()
+unsigned int PerlinNoise::seed() const
 {
     return m_seed;
 }
 
-float PerlinNoise::noise(int layer, float x, float y)
+float PerlinNoise::noise(int layer, float x, float y) const
 {
     int x0 = std::floor(x),
          x1 = x0 + 1,
@@ -50,24 +56,25 @@ float PerlinNoise::noise(int layer, float x, float y)
     return MathUtil::clamp(-1.f, 1.f, value * fScale);
 }
 
-float PerlinNoise::symmetricRnd()
+float PerlinNoise::symmetricRnd() const
 {
     return m_distSym(m_rng);
 }
 
-float PerlinNoise::asymmetricRnd()
+float PerlinNoise::asymmetricRnd() const
 {
     return m_distAsym(m_rng);
 }
 
-float PerlinNoise::dotGradient(int layer, int iX, int iY, float x, float y) {
+float PerlinNoise::dotGradient(int layer, int iX, int iY, float x, float y) const
+{
     QVector2D gradient = gradients(layer)[gradientIndex(iX, iY)];
      float dx = x - static_cast<float>(iX),
             dy = y - static_cast<float>(iY);
      return dx * gradient.x() + dy * gradient.y();
- }
+}
 
-int PerlinNoise::gradientIndex(int iX, int iY)
+int PerlinNoise::gradientIndex(int iX, int iY) const
 {
     iY %= m_gradientCount;
     iX %= m_gradientCount;
@@ -76,7 +83,7 @@ int PerlinNoise::gradientIndex(int iX, int iY)
     return iY * m_gradientCount + iX;
 }
 
-void PerlinNoise::generateGradients(int layer)
+void PerlinNoise::generateGradients(int layer) const
 {
     m_gradientGrid[layer] = std::vector<QVector2D>(m_gradientCount * m_gradientCount);
 
@@ -91,7 +98,7 @@ void PerlinNoise::generateGradients(int layer)
     }
 }
 
-std::vector<QVector2D> & PerlinNoise::gradients(int layer)
+std::vector<QVector2D> & PerlinNoise::gradients(int layer) const
 {
     if(m_gradientGrid.count(layer) == 0)
     {

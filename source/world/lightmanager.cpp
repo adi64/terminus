@@ -1,10 +1,8 @@
 #include "lightmanager.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <resources/program.h>
-#include <util/tostring.h>
-#include <util/mathutil.h>
 
 namespace terminus
 {
@@ -51,4 +49,4 @@ LightManager::ID LightManager::getFreeSlot()
     return 0;
 }
 
-} // namespace terminus
+} //namespace terminus

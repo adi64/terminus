@@ -21,18 +21,18 @@ void AIPlayer::update()
 {
     AbstractPlayer::update();
 
-    if(m_train->wagonAt(m_selectedWagonIndex)->isDisabled())
+    if(selectedWagon()->isDisabled())
     {
         switchWagon();
         return;
     }
 
-    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(m_train->wagonAt(m_selectedWagonIndex));
+    auto focusedWeaponWagon = dynamic_cast<WeaponWagon*>(selectedWagon());
     if(focusedWeaponWagon)
     {
         if(!focusedWeaponWagon->isOnCooldown())
         {
-            fire(focusedWeaponWagon);
+            fire();
         }
         else
         {
@@ -41,7 +41,7 @@ void AIPlayer::update()
         return;
     }
 
-    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(m_train->wagonAt(m_selectedWagonIndex));
+    auto focusedRepairWagon = dynamic_cast<RepairWagon*>(selectedWagon());
     if(focusedRepairWagon)
     {
         focusedRepairWagon->primaryAction();
@@ -68,7 +68,7 @@ void AIPlayer::switchWagon()
     }
 }
 
-void AIPlayer::fire(WeaponWagon * focusedWagon)
+void AIPlayer::fire()
 {
     // find target
     if(!m_targetEnemyWagon)
@@ -76,7 +76,7 @@ void AIPlayer::fire(WeaponWagon * focusedWagon)
         m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
     }
 
-    auto aimDirection = (m_targetEnemyWagon->position() - focusedWagon->position());
+    auto aimDirection = (m_targetEnemyWagon->position() - selectedWagon()->position());
 
     // more up force
     aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.01f);
@@ -86,7 +86,7 @@ void AIPlayer::fire(WeaponWagon * focusedWagon)
     // set camera position accordingly
     m_camera.setEye(m_camera.center() - normalizedAimDirection);
 
-    focusedWagon->primaryAction();
+    selectedWagon()->primaryAction();
 }
 
 

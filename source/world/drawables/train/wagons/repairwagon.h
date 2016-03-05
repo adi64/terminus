@@ -5,6 +5,9 @@
 namespace terminus
 {
 
+/*!
+ * \brief The RepairWagon class provides a wagon type, which primary action increases the health of all still functional weagons by a fix percentage.
+ */
 class RepairWagon : public AbstractWagon
 {
 public:
@@ -13,7 +16,7 @@ public:
 
     virtual void localUpdate() override;
 
-    virtual void primaryAction() override;
+    virtual void primaryActionInternal() override;
     virtual float cooldownTime() const override;
 
     virtual WagonType wagonType() const override;

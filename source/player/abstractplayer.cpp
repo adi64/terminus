@@ -70,6 +70,12 @@ void AbstractPlayer::switchToPreviousWagon()
     }
 }
 
+void AbstractPlayer::switchToWagon(unsigned int wagonIndex)
+{
+    assert(wagonIndex < m_train->size());
+    m_selectedWagonIndex = wagonIndex;
+}
+
 void AbstractPlayer::primaryAction()
 {
     m_train->wagonAt(m_selectedWagonIndex)->primaryAction();
@@ -117,6 +123,21 @@ void AbstractPlayer::update()
 AbstractWagon * AbstractPlayer::selectedWagon()
 {
     return m_train->wagonAt(m_selectedWagonIndex);
+}
+
+terminus::Train *terminus::AbstractPlayer::train()
+{
+    return m_train;
+}
+
+bool AbstractPlayer::hasWon()
+{
+    return m_train->travelledDistanceRelative() == 1.0f;
+}
+
+bool AbstractPlayer::hasLost()
+{
+    return m_train->wagonAt(0)->isDisabled();
 }
 
 } // namespace terminus

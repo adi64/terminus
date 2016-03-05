@@ -15,7 +15,8 @@ class AbstractWagon;
 class Train;
 
 /*!
- * \brief Base class for interacting with a train and a camera
+ * \brief The AbstractPlayer class is the base class for interacting with a
+ * train and a camera.
  */
 class AbstractPlayer
 {
@@ -23,14 +24,29 @@ public:
     AbstractPlayer(World & world, Train * train);
 
     Camera & camera();
+
+    Train * train();
+
+    bool hasWon();
+    bool hasLost();
+
     void toggleCameraLock();
 
     unsigned int selectedWagonIndex() const;
     void switchToNextWagon();
     void switchToPreviousWagon();
-    void primaryAction();
-    void primaryActionDebug();
-    void primaryActionCharge(bool charge = true);
+    void switchToWagon(unsigned int wagonIndex);
+
+    /*!
+     * \brief Triggers the primary action of the currently selected wagon
+     */
+    virtual void primaryAction();
+
+    /*!
+     * \brief Triggers the primary debug action of the currently selected wagon
+     * (typically the primary action without cooldown limitations etc.)
+     */
+    virtual void primaryActionDebug();
 
     virtual void animateHit();
 

@@ -1,13 +1,10 @@
 #include "skybox.h"
 
 #include <QImage>
-#include <QOpenGLTexture>
-#include <QDebug>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
-#include <resources/geometry.h>
 #include <resources/program.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -54,7 +51,6 @@ void SkyBox::allocateCubeMap(QOpenGLFunctions &gl) const
 
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, m_imagePX->width(), m_imagePX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePX->bits());
     gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, m_imageNX->width(), m_imageNX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNX->bits());
@@ -78,4 +74,4 @@ void SkyBox::deallocateCubeMap(QOpenGLFunctions & gl) const
     m_cubeMapOnGPU = false;
 }
 
-}
+} //namespace terminus

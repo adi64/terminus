@@ -1,6 +1,6 @@
 #include "polyline.h"
 
-#include "mathutil.h"
+#include <util/mathutil.h>
 
 namespace terminus
 {
@@ -9,10 +9,6 @@ Polyline::Polyline(const std::vector<QVector3D> & controlPoints)
 : m_controlPoints(controlPoints)
 {
     calculateKnotSequence();
-}
-
-Polyline::~Polyline()
-{
 }
 
 QVector3D Polyline::getPosition(float distance) const
@@ -60,26 +56,6 @@ int Polyline::getIndex(float distance) const
         }
     }
     return 0;
-//TODO this algorithm seems not to terminate in certain cases, see also CatmullRomSpline as the same one is used there
-//    int searchBegin = 0,
-//         searchEnd = m_knotSequence.size();
-//    while(searchBegin < searchEnd)
-//    {
-//        int i = searchBegin + (searchEnd - searchBegin) / 2;
-//        if(distance < m_knotSequence[i])
-//        {
-//            searchEnd = i;
-//        }
-//        else if(distance > m_knotSequence[i+1])
-//        {
-//            searchBegin = i;
-//        }
-//        else
-//        {
-//            return i;
-//        }
-//    }
-//    return 1; //ERROR
 }
 
 }//namespace terminus

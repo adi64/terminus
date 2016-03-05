@@ -1,15 +1,18 @@
-import QtQuick 2.3
+import QtQuick 2.5
 
 /*
- * Creates a reticle out of 4 white bars with black borders
+ * Reticle.qml
+ * The Reticle Item consists of:
+ * + 4 white bars with a black border
+ * This displays a reticle in the center of the screen.
+ * It can be scaled using the factor property.
+ *
  */
 
-Rectangle
+Item
 {
     id: reticle
-    color: "transparent"
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.verticalCenter
+    anchors.centerIn: parent
 
     property real factor: 10
 

@@ -1,6 +1,6 @@
 #include "mathutil.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QVector3D>
 

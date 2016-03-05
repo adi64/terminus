@@ -14,6 +14,8 @@
 
 #include <player/abstractplayer.h>
 
+#include <network/networkmanager.h>
+
 namespace terminus
 {
 
@@ -22,7 +24,7 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
 , m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
-    if(m_train->track()->isOtherTrackLeft())
+    if(m_train->track()->isRightTrack())
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("weapon_right");
     }
@@ -30,11 +32,12 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("weapon_left");
     }
-    m_material = ResourceManager::getInstance()->getMaterial("base_Blue");
+    m_material = ResourceManager::getInstance()->getMaterial("base_weaponMat");
 
     setWeapon(new Weapon(world));
 
-    initializePhysics(new btBoxShape(btVector3(2.5, 1.0, 1.0)), 1000.f);
+    QVector3D bb = (maxBB() - minBB()) / 2.f;
+    initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 }
 
 WeaponWagon::~WeaponWagon()
@@ -42,23 +45,12 @@ WeaponWagon::~WeaponWagon()
     deallocatePhysics();
 }
 
-void WeaponWagon::primaryAction()
+void WeaponWagon::primaryActionInternal()
 {
-    if(isDisabled() || isOnCooldown())
-    {
-        return;
-    }
-
     auto scalarVelocity = 100.f;
     fire(aimVector() * scalarVelocity);
 
     resetCooldown();
-}
-
-void WeaponWagon::primaryActionDebug()
-{
-    auto scalarVelocity = 100.0;
-    fire(aimVector() * scalarVelocity);
 }
 
 void WeaponWagon::fire(QVector3D velocity)
@@ -93,7 +85,7 @@ Weapon * WeaponWagon::weapon()
 
 void WeaponWagon::localUpdate()
 {
-    std::string materialName = "base_Blue";
+    std::string materialName = "base_weaponMat";
     if(isDisabled())
     {
         materialName = "base_Grey";

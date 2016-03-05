@@ -1,7 +1,5 @@
 #include "bulletworld.h"
 
-#include <QDebug>
-
 #include <world/physics/abstractphysicsobject.h>
 
 namespace terminus
@@ -80,15 +78,14 @@ AbstractPhysicsObject *BulletWorld::getPhysicsObjectForCollisionObject(const btC
     {
         return m_collisionMap.at(collisionObject);
     }
-    catch(std::exception e)
+    catch(std::exception & e)
     {
-        qDebug() << "could not find AbstractGraphicsObject for collisionObject " << collisionObject;
         return nullptr;
     }
 }
 
 void BulletWorld::btTickCallback(btDynamicsWorld *world, btScalar)
-{   
+{
     int numManifolds = world->getDispatcher()->getNumManifolds();
 
     for (int i=0; i < numManifolds; ++i)

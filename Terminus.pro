@@ -109,7 +109,12 @@ DISTFILES += \
     source/qml/WagonSwitchArea.qml \
     source/qml/Game.qml \
     source/qml/MainMenu.qml \
-    source/qml/MenuButton.qml
+    source/qml/MenuButton.qml \
+    source/qml/MultiplayerMenu.qml \
+    source/qml/Victory.qml \
+    source/qml/Defeat.qml \
+    source/qml/Headline.qml \
+    source/qml/UserInterface.qml
 
 RC_FILE = data/myapp.rc
 
@@ -353,31 +358,48 @@ HEADERS += \
     source/bullet/LinearMath/btVector3.h \
     source/bullet/btBulletCollisionCommon.h \
     source/bullet/btBulletDynamicsCommon.h \
+    source/network/commands/abstractcommand.h \
+    source/network/commands/clientreadycommand.h \
+    source/network/commands/commands.h \
+    source/network/commands/gameendedcommand.h \
+    source/network/commands/pausecommand.h \
+    source/network/commands/preparenewgamecommand.h \
+    source/network/commands/projectilefiredcommand.h \
+    source/network/commands/projectilehitcommand.h \
+    source/network/commands/synccommand.h \
+    source/network/ipprovider.h \
+    source/network/networkclient.h \
+    source/network/networkendpoint.h \
+    source/network/networkmanager.h \
+    source/network/networkserver.h \
     source/player/abstractplayer.h \
     source/player/aiplayer.h \
     source/player/localplayer.h \
     source/player/remoteplayer.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
-    source/resources/lightmanager.h \
     source/resources/material.h \
     source/resources/program.h \
     source/resources/resourcemanager.h \
     source/resources/soundmanager.h \
+    source/util/actionscheduler.h \
     source/util/catmullromspline.h \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
-    source/util/tostring.h \
     source/util/timer.h \
+    source/util/tostring.h \
     source/world/drawables/train/wagons/abstractwagon.h \
     source/world/drawables/train/wagons/enginewagon.h \
     source/world/drawables/train/wagons/repairwagon.h \
     source/world/drawables/train/wagons/weaponwagon.h \
+    source/world/drawables/train/weapons/barrel.h \
+    source/world/drawables/train/weapons/turret.h \
+    source/world/drawables/train/weapons/weapon.h \
     source/world/drawables/train/train.h \
     source/world/drawables/train/train.hpp \
     source/world/drawables/abstractgraphicsobject.h \
-    source/world/drawables/level.h \
+    source/world/drawables/explosion.h \
     source/world/drawables/projectile.h \
     source/world/drawables/skybox.h \
     source/world/drawables/terrain.h \
@@ -387,16 +409,13 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/camera.h \
+    source/world/level.h \
+    source/world/levelconfiguration.h \
+    source/world/light.h \
+    source/world/lightmanager.h \
     source/world/world.h \
-    source/deferredactionhandler.h \
     source/eventhandler.h \
-    source/game.h \
-    source/util/timer.h \
-    source/resources/light.h \
-    source/world/drawables/explosion.h \
-    source/world/drawables/train/weapons/barrel.h \
-    source/world/drawables/train/weapons/turret.h \
-    source/world/drawables/train/weapons/weapon.h
+    source/game.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -542,18 +561,30 @@ SOURCES += \
     source/bullet/LinearMath/btQuickprof.cpp \
     source/bullet/LinearMath/btSerializer.cpp \
     source/bullet/LinearMath/btVector3.cpp \
-    source/bullet/clew/clew.c \
+    source/network/commands/abstractcommand.cpp \
+    source/network/commands/clientreadycommand.cpp \
+    source/network/commands/gameendedcommand.cpp \
+    source/network/commands/pausecommand.cpp \
+    source/network/commands/preparenewgamecommand.cpp \
+    source/network/commands/projectilefiredcommand.cpp \
+    source/network/commands/projectilehitcommand.cpp \
+    source/network/commands/synccommand.cpp \
+    source/network/ipprovider.cpp \
+    source/network/networkclient.cpp \
+    source/network/networkendpoint.cpp \
+    source/network/networkmanager.cpp \
+    source/network/networkserver.cpp \
     source/player/abstractplayer.cpp \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
     source/player/remoteplayer.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
-    source/resources/lightmanager.cpp \
     source/resources/material.cpp \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
     source/resources/soundmanager.cpp \
+    source/util/actionscheduler.cpp \
     source/util/catmullromspline.cpp \
     source/util/mathutil.cpp \
     source/util/perlinnoise.cpp \
@@ -563,9 +594,12 @@ SOURCES += \
     source/world/drawables/train/wagons/enginewagon.cpp \
     source/world/drawables/train/wagons/repairwagon.cpp \
     source/world/drawables/train/wagons/weaponwagon.cpp \
+    source/world/drawables/train/weapons/barrel.cpp \
+    source/world/drawables/train/weapons/turret.cpp \
+    source/world/drawables/train/weapons/weapon.cpp \
     source/world/drawables/train/train.cpp \
     source/world/drawables/abstractgraphicsobject.cpp \
-    source/world/drawables/level.cpp \
+    source/world/drawables/explosion.cpp \
     source/world/drawables/projectile.cpp \
     source/world/drawables/skybox.cpp \
     source/world/drawables/terrain.cpp \
@@ -575,14 +609,13 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/camera.cpp \
+    source/world/level.cpp \
+    source/world/levelconfiguration.cpp \
+    source/world/light.cpp \
+    source/world/lightmanager.cpp \
     source/world/world.cpp \
-    source/deferredactionhandler.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
-    source/resources/light.cpp \
-    source/world/drawables/explosion.cpp \
-    source/world/drawables/train/weapons/barrel.cpp \
-    source/world/drawables/train/weapons/turret.cpp \
-    source/world/drawables/train/weapons/weapon.cpp
+    source/bullet/clew/clew.c
 

@@ -1,10 +1,11 @@
 #include "camera.h"
 
-#include <assert.h>
+#include <cassert>
+
 #include <QQuaternion>
 
-#include <world/drawables/abstractgraphicsobject.h>
 #include <util/mathutil.h>
+#include <world/drawables/abstractgraphicsobject.h>
 
 namespace terminus
 {
@@ -153,17 +154,17 @@ void Camera::setFovy(const float fovy)
     invalidateMatrices();
 }
 
-const QVector2D & Camera::viewport() const
+const QPoint & Camera::viewport() const
 {
     return m_viewport;
 }
 
 void Camera::setViewport(int width, int height)
 {
-    return setViewport(QVector2D(width, height));
+    return setViewport(QPoint(width, height));
 }
 
-void Camera::setViewport(const QVector2D & viewport)
+void Camera::setViewport(const QPoint &viewport)
 {
     if (viewport == m_viewport)
     {

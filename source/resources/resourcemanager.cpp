@@ -10,7 +10,7 @@
 
 #include <QFile>
 #include <QString>
-#include <QDebug> //TODO remove in the end
+#include <QDebug>
 
 #include "geometry.h"
 
@@ -28,7 +28,7 @@ ResourceManager * ResourceManager::getInstance()
     return m_instance;
 }
 
-std::string ResourceManager::entityName(std::string path, std::string name)
+std::string ResourceManager::entityName(const std::string &path, const std::string &name)
 {
     std::string ename = entityName(path);
     ename.append("_");
@@ -36,7 +36,7 @@ std::string ResourceManager::entityName(std::string path, std::string name)
     return ename;
 }
 
-std::string ResourceManager::entityName(std::string path)
+std::string ResourceManager::entityName(const std::string &path)
 {
     std::string ename(path);
     size_t index = ename.find_last_of("\\/");
@@ -97,7 +97,7 @@ void ResourceManager::loadObj(std::string path)
     QFile objFile(path.c_str());
     if (!objFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "FATAL: *.obj file can not be opened";
+        qDebug() << "*.obj file can not be opened";
         return;
     }
     QTextStream objStream(&objFile);
@@ -140,7 +140,7 @@ void ResourceManager::loadObj(std::string path)
                 std::smatch match;
                 if(!std::regex_match(indexSpec[i], match, indexPattern))
                 {
-                    qDebug() << "FATAL: incorrect *.obj format";
+                    qDebug() << "incorrect *.obj format";
                     return;
                 }
                 indexTriples.push_back(IndexTriple(match[1], match[2], match[3]));
@@ -218,7 +218,7 @@ void ResourceManager::loadMtl(std::string path)
     QFile mtlFile(path.c_str());
     if (!mtlFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "FATAL: *.obj file can not be opened";
+        qDebug() << "*.mtl file can not be opened";
         return;
     }
     QTextStream mtlStream(&mtlFile);

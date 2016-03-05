@@ -1,4 +1,6 @@
+#ifdef GL_ES
 precision mediump float;
+#endif
 
 uniform mat4 mModel;
 uniform mat4 mView;

@@ -7,6 +7,7 @@
 
 #include <player/abstractplayer.h>
 #include <util/mathutil.h>
+#include <util/polyline.h>
 #include <util/timer.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
@@ -17,7 +18,8 @@ namespace terminus
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
 : KinematicPhysicsObject(world)
-, m_health(maxHealth())
+, m_positionOffset(0.f)
+, m_health(100.f)
 , m_disabled(false)
 , m_train(train)
 {
@@ -31,21 +33,36 @@ AbstractWagon::~AbstractWagon()
     m_world.timer().releaseTimer(m_cameraTimer);
 }
 
+void AbstractWagon::primaryAction()
+{
+    if(isDisabled() || isOnCooldown())
+    {
+        return;
+    }
+
+    primaryActionInternal();
+
+    resetCooldown();
+}
+
 void AbstractWagon::primaryActionDebug()
 {
-
+    primaryActionInternal();
 }
 
 void AbstractWagon::localUpdate()
 {
     auto travelledDistance = m_train->travelledDistance() - m_positionOffset;
 
-    QVector3D t = m_train->track()->tangentAt(travelledDistance);
+    QVector3D t = m_train->track()->course().getTangent(travelledDistance);
     float angleY = atan2(-t.z(), t.x()) * 180.f / MathUtil::PI;
-    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY));
+    QVector3D t2 = QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), -angleY).rotatedVector(t);
+    float angleZ = atan2(t2.y(), t2.x()) * 180.f / MathUtil::PI;
+    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY)
+                                            * QQuaternion::fromAxisAndAngle(QVector3D(0.f, 0.f, 1.f), angleZ));
 
-    QVector3D trackOffset(0.f, 0.0f, 0.f);
-    setPosition(m_train->track()->positionAt(travelledDistance) + trackOffset);
+    QVector3D trackOffset(0.f, 0.f, 0.f);
+    setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
 }
 
@@ -71,10 +88,6 @@ void AbstractWagon::adjustCamera()
 
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
-}
-
-void AbstractWagon::moveEvent(QVector3D /*movement*/)
-{
 }
 
 void AbstractWagon::rotateEvent(QVector2D rotation)
@@ -137,9 +150,9 @@ float AbstractWagon::length() const
     return maxBB().x() - minBB().x();
 }
 
-float AbstractWagon::isOtherTrainLeft() const
+bool AbstractWagon::isOtherTrainLeft() const
 {
-    return m_train->track()->isOtherTrackLeft();
+    return m_train->track()->isRightTrack();
 }
 
 bool AbstractWagon::isDisabled() const
@@ -185,11 +198,11 @@ QVector3D AbstractWagon::localCameraCenter()
     auto yBaseM = vBBMaxM.y() + 1.f;
     if(isOtherTrainLeft())
     {
-        return {xCenterM, yBaseM, vBBMinM.z()};
+        return {xCenterM, yBaseM, vBBMinM.z() - 1.f};
     }
     else
     {
-        return {xCenterM, yBaseM, vBBMaxM.z()};
+        return {xCenterM, yBaseM, vBBMaxM.z() + 1.f};
     }
 }
 

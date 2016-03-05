@@ -5,6 +5,10 @@ class QVector3D;
 namespace terminus
 {
 
+/*!
+ * \brief The MathUtil class provides helper functions for calculations
+ * such as interpolation and trigonometric functions.
+ */
 class MathUtil
 {
 public:

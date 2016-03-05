@@ -34,16 +34,21 @@ Weapon::~Weapon()
 
 void Weapon::fire(QVector3D velocity, QVector3D cameraCenter)
 {
+    auto projectilePosition = modelToWorld(cameraCenter());
+    auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
+
     m_world.scheduleAction(
-        [this, velocity, cameraCenter]()
+        [this, projectilePosition, projectileVelocity]()
         {
             auto projectile = new Projectile(m_world);
-            projectile->moveTo(modelToWorld(cameraCenter));
-            projectile->setLinearVelocity(velocity + (worldFront() * /*m_train->velocity() * */1000.0f));
+            projectile->moveTo(modelToWorld(projectilePosition));
+            projectile->setLinearVelocity(projectileVelocity);
             m_world.addObject(projectile);
             return false;
         }
     );
+
+    m_world.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
 
     SoundManager::getInstance()->playSound("shot");
 }

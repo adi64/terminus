@@ -10,6 +10,13 @@ class QVector3D;
 namespace terminus
 {
 
+/*!
+ * \brief The Explosion class renders an explosion effect
+ *
+ * Explosions will be spawned by Projectiles that collide with a Wagon
+ *
+ * \sa Projectile
+ */
 class Explosion : public AbstractGraphicsObject
 {
 public:

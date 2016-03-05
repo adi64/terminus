@@ -1,34 +1,29 @@
 #include "track.h"
 
-#include <QDebug>
-#include <QVector3D>
+#include <cassert>
 
 namespace terminus
 {
 
-Track::Track(World & world, std::unique_ptr<Polyline> controlPoints, bool isOtherTrackLeft)
+Track::Track(World & world, bool isOtherTrackLeft)
 : AbstractGraphicsObject(world)
-, m_course(std::move(controlPoints))
+, m_course(new Polyline)
 , m_isOtherTrackLeft(isOtherTrackLeft)
 {
 }
 
-QVector3D Track::positionAt(float distance)
+Polyline & Track::course()
 {
-    return m_course->getPosition(distance);
+    assert(m_course);
+    return *m_course;
 }
 
-QVector3D Track::tangentAt(float distance)
+void Track::setCourse(Polyline * course)
 {
-    return m_course->getTangent(distance);
+    m_course.reset(course);
 }
 
-float Track::length()
-{
-    return m_course->length();
-}
-
-bool Track::isOtherTrackLeft()
+bool Track::isRightTrack()
 {
     return m_isOtherTrackLeft;
 }
@@ -38,4 +33,4 @@ bool Track::localRenderEnabled() const
     return false;
 }
 
-}//namespace terminus
+} //namespace terminus

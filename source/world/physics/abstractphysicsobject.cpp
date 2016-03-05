@@ -11,6 +11,7 @@ namespace terminus
 AbstractPhysicsObject::AbstractPhysicsObject(World & world)
 : AbstractGraphicsObject(world)
 , m_bulletWorld(world.bulletWorld())
+, m_spawnedLocally(true)
 {
 }
 
@@ -53,5 +54,10 @@ void AbstractPhysicsObject::deallocatePhysics()
 void AbstractPhysicsObject::onCollisionWith(AbstractPhysicsObject * /*other*/)
 {
 
+}
+
+void AbstractPhysicsObject::setSpawnedLocally(bool spawnedLocally)
+{
+    m_spawnedLocally = spawnedLocally;
 }
 }

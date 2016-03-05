@@ -2,11 +2,11 @@
 
 #include <QVector3D>
 
-#include <world/world.h>
 #include <resources/resourcemanager.h>
 #include <resources/geometry.h>
 #include <resources/program.h>
 #include <util/mathutil.h>
+#include <world/world.h>
 
 namespace terminus
 {
@@ -53,5 +53,5 @@ void Explosion::localRenderCleanup(QOpenGLFunctions & gl, Program &) const
     gl.glEnable(GL_CULL_FACE);
 }
 
-}
+} //namespace terminus
 

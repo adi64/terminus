@@ -2,10 +2,9 @@
 
 #include <memory>
 
-#include "abstractgraphicsobject.h"
+#include <world/drawables/abstractgraphicsobject.h>
 
 class QImage;
-class QOpenGLTexture;
 class QOpenGLFunctions;
 
 namespace terminus
@@ -13,10 +12,14 @@ namespace terminus
 
 class ScreenAlignedQuad;
 
+/*!
+ * \brief The SkyBox class renders an environment map in the form of a cube map
+ * on a screen aligned quad in the background.
+ */
 class SkyBox : public AbstractGraphicsObject
 {
 public:
-    SkyBox(World & world);
+    explicit SkyBox(World & world);
 
     void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
     void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;

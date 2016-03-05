@@ -1,10 +1,8 @@
 #include "train.h"
 
+#include <cassert>
 #include <memory>
 
-#include <assert.h>
-
-#include <QDebug>
 #include <QOpenGLFunctions>
 
 #include <util/mathutil.h>
@@ -23,6 +21,7 @@ Train::Train(World & world, Track * track)
 , m_followedTrain(nullptr)
 , m_travelledDistance(0.0f)
 , m_track(track)
+, m_player(nullptr)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();
@@ -36,7 +35,7 @@ Train::~Train()
 void Train::removeWagon(unsigned int index)
 {
     assert(index < m_wagons.size());
-    assert(index > 0);//can not delete engine at index 0
+    assert(index > 0); // can not delete engine at index 0
 
     m_wagons.erase(m_wagons.begin() + index);
 
@@ -80,10 +79,9 @@ void Train::localUpdate()
     // move forward
     m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
 
-    // TODO FIXME - this wraps the train
-    if(m_travelledDistance > m_track->length())
+    if(m_travelledDistance >= m_track->course().length())
     {
-        m_travelledDistance = 0.0;
+        m_travelledDistance = m_track->course().length();
     }
 
     AbstractGraphicsObject::localUpdate();
@@ -93,7 +91,6 @@ AbstractWagon *Train::wagonAt(unsigned int index) const
 {
     if(index >= m_wagons.size())
     {
-        qDebug() << "Index: " << index << " > " << m_wagons.size() << " Wagons";
         return nullptr;
     }
 
@@ -125,14 +122,19 @@ float Train::travelledDistance() const
     return m_travelledDistance;
 }
 
+void Train::setTravelledDistance(float travelledDistance)
+{
+    m_travelledDistance = travelledDistance;
+}
+
 float Train::travelledDistanceRelative() const
 {
-    return m_travelledDistance / m_track->length();
+    return m_travelledDistance / m_track->course().length();
 }
 
 QVector3D Train::headPosition() const
 {
-    return m_track->positionAt(travelledDistance());
+    return m_track->course().getPosition(travelledDistance());
 }
 
 unsigned int Train::size() const
@@ -163,17 +165,19 @@ void Train::calculateWagonOffset()
 
     float accumulatedOffset = 0.0f;
 
-    for(auto & wagon : m_wagons)
+    for (auto & wagon : m_wagons)
     {
         accumulatedOffset += wagon->maxBB().x();
         wagon->setPositionOffset(accumulatedOffset);
         accumulatedOffset -= wagon->minBB().x() + wagonGap;
     }
+
+    setTravelledDistance(accumulatedOffset);
 }
 
 void Train::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
 {
-    for(auto & wagon : m_wagons)
+    for (auto & wagon : m_wagons)
     {
         if(wagon)
         {
