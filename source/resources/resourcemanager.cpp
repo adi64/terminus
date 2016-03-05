@@ -28,7 +28,7 @@ ResourceManager * ResourceManager::getInstance()
     return m_instance;
 }
 
-std::string ResourceManager::entityName(std::string path, std::string name)
+std::string ResourceManager::entityName(const std::string &path, const std::string &name)
 {
     std::string ename = entityName(path);
     ename.append("_");
@@ -36,7 +36,7 @@ std::string ResourceManager::entityName(std::string path, std::string name)
     return ename;
 }
 
-std::string ResourceManager::entityName(std::string path)
+std::string ResourceManager::entityName(const std::string &path)
 {
     std::string ename(path);
     size_t index = ename.find_last_of("\\/");

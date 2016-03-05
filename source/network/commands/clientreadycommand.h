@@ -13,7 +13,7 @@ namespace terminus
 class ClientReadyCommand : public AbstractCommand
 {
 public:
-    ClientReadyCommand(Timer::TimerMSec timeStamp);
+    explicit ClientReadyCommand(Timer::TimerMSec timeStamp);
     ClientReadyCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;

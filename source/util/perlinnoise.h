@@ -19,7 +19,7 @@ protected:
     static const float fScale;
 public:
     PerlinNoise();
-    PerlinNoise(unsigned int seed);
+    explicit PerlinNoise(unsigned int seed);
 
     /*!
      * \brief seeds the underlying random number generator

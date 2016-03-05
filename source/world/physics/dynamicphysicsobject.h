@@ -12,7 +12,7 @@ namespace terminus
 class DynamicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    DynamicPhysicsObject(World & world);
+    explicit DynamicPhysicsObject(World & world);
 
     virtual void localUpdate() override;
 

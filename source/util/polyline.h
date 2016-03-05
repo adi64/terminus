@@ -14,7 +14,7 @@ namespace terminus
 class Polyline
 {
 public:
-    Polyline(const std::vector<QVector3D> & controlPoints = {{0.f, 0.f, 0.f}, {1.f, 0.f, 0.f}});
+    explicit Polyline(const std::vector<QVector3D> & controlPoints = {{0.f, 0.f, 0.f}, {1.f, 0.f, 0.f}});
 
     /*!
      * \param distance

@@ -52,7 +52,7 @@ SoundManager::~SoundManager()
 {
     std::map<QString, QSoundEffect *>::iterator it;
 
-    for(it = sounds().begin(); it != sounds().end(); it++)
+    for(it = sounds().begin(); it != sounds().end(); ++it)
     {
         delete it->second;
     }

@@ -19,7 +19,7 @@ class NetworkServer : public NetworkEndpoint
 {
     Q_OBJECT
 public:
-    NetworkServer(QObject* parent = 0);
+    explicit NetworkServer(QObject* parent = nullptr);
     virtual ~NetworkServer();
 
     bool listen(unsigned short port);
