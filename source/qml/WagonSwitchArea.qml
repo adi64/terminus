@@ -24,8 +24,8 @@ Item
     height: parent.width / 8
 
     property Game game: parent.game
-    property int totalWagons: game.qmlData["PlayerTrain"]["wagons"].length
-    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
+    property int totalWagons: game.qmlData.playerTrain.length
+    property int currentWagon: game.qmlData.currentWagon
     property bool isReversed: parent.isReversed
     property bool leftVisible: isReversed? currentWagon > 0 : currentWagon + 1 < totalWagons
     property bool rightVisible: isReversed? currentWagon + 1 < totalWagons : currentWagon > 0

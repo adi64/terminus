@@ -24,10 +24,7 @@ Item
 
     property Game game: parent.game
     property bool isReversed: parent.isReversed
-
-    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
-    property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
-    property real progress: game.qmlData["PlayerTrain"]["progress"]
+    property int currentWagon: game.qmlData.currentWagon
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
@@ -54,7 +51,7 @@ Item
         {
             id: currentWagonCD
             anchors.bottom: parent.bottom
-            width: parent.width * (1 - cooldown)
+            width: parent.width * (1 - game.qmlData.playerTrain[currentWagon].cooldown)
             height: parent.height
             color: "grey"
         }
@@ -84,7 +81,7 @@ Item
         {
             id: currentLevelProgress
             anchors.bottom: parent.bottom
-            width: parent.width * progress
+            width: parent.width * game.qmlData.progress
             height: parent.height
             color: "grey"
         }
