@@ -13,7 +13,7 @@
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(World & world)
+AbstractGraphicsObject::AbstractGraphicsObject(World & world, const AbstractGraphicsObject * parent)
 : m_world(world)
 , m_validState(true)
 , m_camera(nullptr)
@@ -22,7 +22,7 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 , m_scale(1.0, 1.0, 1.0)
 , m_modelMatrixChanged(false)
 , m_modelMatrixInvertedChanged(false)
-, m_parentModelMatrix(nullptr)
+, m_parent(parent)
 {
 }
 
@@ -174,9 +174,9 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
         m_modelMatrixChanged = false;
     }
 
-    if(m_parentModelMatrix)
+    if(parent())
     {
-        m_modelMatrix = *m_parentModelMatrix * m_modelMatrix;
+        m_modelMatrix = parent()->modelMatrix() * m_modelMatrix;
     }
 
     return m_modelMatrix;
@@ -192,9 +192,12 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
     return m_modelMatrixInverted;
 }
 
-QMatrix4x4 * AbstractGraphicsObject::parentModelMatrix() const
+const AbstractGraphicsObject * AbstractGraphicsObject::parent() const
 {
-    return m_parentModelMatrix;
+    if(m_parent)
+        return m_parent;
+
+    return nullptr;
 }
 
 void AbstractGraphicsObject::localUpdate()
@@ -280,11 +283,6 @@ void AbstractGraphicsObject::setScale(float scale)
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
     m_modelMatrixInvertedChanged = true;
-}
-
-void AbstractGraphicsObject::setParentModelMatrix(QMatrix4x4 * matrix)
-{
-    m_parentModelMatrix = matrix;
 }
 
 QVector3D AbstractGraphicsObject::worldToModel(const QVector3D & vWorld)

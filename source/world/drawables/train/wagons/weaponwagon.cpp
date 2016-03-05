@@ -34,7 +34,7 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
     }
     m_material = ResourceManager::getInstance()->getMaterial("base_weaponMat");
 
-    setWeapon(new Weapon(world));
+    setWeapon(new Weapon(world, this));
 
     QVector3D bb = (maxBB() - minBB()) / 2.f;
     initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
@@ -55,7 +55,10 @@ void WeaponWagon::primaryActionInternal()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
-    weapon()->fire(velocity, localCameraCenter());
+    auto projectilePosition = modelToWorld(localCameraCenter());
+    auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
+
+    weapon()->fire(projectileVelocity, projectilePosition);
 }
 
 QVector3D WeaponWagon::aimVector()
@@ -95,12 +98,7 @@ void WeaponWagon::localUpdate()
 
     AbstractWagon::localUpdate();
 
-    if(weapon())        //after AbstractWagon::localUpdate() the position is the correct one
-    {
-        weapon()->setParentModelMatrix(&m_modelMatrix);
-        weapon()->modelMatrix();
-        weapon()->setCameraAttributes(localCameraEye(), localCameraCenter());
-    }
+    weapon()->localUpdate();
 }
 
 void WeaponWagon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)

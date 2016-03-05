@@ -5,6 +5,7 @@
 namespace terminus
 {
 
+class WeaponWagon;
 class Turret;
 class Barrel;
 
@@ -12,11 +13,11 @@ class Weapon : public AbstractGraphicsObject
 {
 
 public:
-    Weapon(World & world);
+    Weapon(World & world, const WeaponWagon * parent);
     virtual ~Weapon();
 
 public:
-    void fire(QVector3D velocity, QVector3D cameraCenter);
+    void fire(QVector3D velocity, QVector3D position);
     virtual void localUpdate() override;
 
     QVector3D weaponOffset();
@@ -33,15 +34,12 @@ public:
     void setScattering(float amount);
     void setThrust(float amount);
     void setMagazineSize(int amount);
-    void setCameraAttributes(QVector3D cameraEye, QVector3D cameraCenter);
 
 protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
     virtual bool localRenderEnabled() const override;
 
 protected:
-    QVector3D m_cameraEye;
-    QVector3D m_cameraCenter;
     float m_damage;
     float m_reloadTime;
     float m_scattering;

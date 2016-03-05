@@ -5,18 +5,22 @@
 #include <resources/soundmanager.h>
 #include <util/mathutil.h>
 
+#include <world/world.h>
 #include <world/physics/kinematicphysicsobject.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/weapons/turret.h>
 #include <world/drawables/train/weapons/barrel.h>
 #include <world/drawables/projectile.h>
+
+#include <network/networkmanager.h>
 
 #include <qDebug>
 
 namespace terminus
 {
 
-Weapon::Weapon(World & world)
- : AbstractGraphicsObject(world)
+Weapon::Weapon(World & world, const WeaponWagon * parent)
+ : AbstractGraphicsObject(world, parent)
  , m_damage(0.0)
  , m_reloadTime(0.0)
  , m_scattering(0.0)
@@ -25,54 +29,51 @@ Weapon::Weapon(World & world)
  , m_turret(std::unique_ptr<Turret>(new Turret(world, "engine_right", "base_Red")))
  , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, "weapon_right", "base_Blue")))
 {
-
 }
 
 Weapon::~Weapon()
 {
 }
 
-void Weapon::fire(QVector3D velocity, QVector3D cameraCenter)
+void Weapon::fire(QVector3D velocity, QVector3D position)
 {
-    auto projectilePosition = modelToWorld(cameraCenter());
-    auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
-
     m_world.scheduleAction(
-        [this, projectilePosition, projectileVelocity]()
+        [this, position, velocity]()
         {
             auto projectile = new Projectile(m_world);
-            projectile->moveTo(modelToWorld(projectilePosition));
-            projectile->setLinearVelocity(projectileVelocity);
+            projectile->moveTo(modelToWorld(position));
+            projectile->setLinearVelocity(velocity);
             m_world.addObject(projectile);
             return false;
         }
     );
 
-    m_world.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
+    m_world.networkManager().sendProjectileFiredCommand(position, velocity);
 
     SoundManager::getInstance()->playSound("shot");
 }
 
 void Weapon::localUpdate()
 {
-    QVector3D lookAt = (m_cameraEye - m_cameraCenter).normalized();
+      AbstractGraphicsObject::localUpdate();
 
-    float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
-    float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
-    float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
+      modelMatrix(); //muss das hier sein?
 
-    m_turret->setParentModelMatrix(&m_modelMatrix);
-    QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
-    QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
-    QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
+//    QVector3D lookAt = (m_cameraEye - m_cameraCenter).normalized();
 
-    m_turret->setRotation(xz_rotation + y_rotationX);
+//    float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
+//    float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
+//    float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
 
-    m_barrel->setParentModelMatrix(&m_modelMatrix);
-    m_barrel->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
+//    QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
+//    QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
+//    QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
 
+//    m_turret->setRotation(xz_rotation + y_rotationX);
+//    m_turret->localUpdate();
 
-    AbstractGraphicsObject::localUpdate();
+//    m_barrel->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
+//    m_barrel->localUpdate();
 }
 
 QVector3D Weapon::weaponOffset()
@@ -128,12 +129,6 @@ void Weapon::setThrust(float amount)
 void Weapon::setMagazineSize(int amount)
 {
     m_magazineSize = amount;
-}
-
-void Weapon::setCameraAttributes(QVector3D cameraEye, QVector3D cameraCenter)
-{
-    m_cameraEye = cameraEye;
-    m_cameraCenter = cameraCenter;
 }
 
 void terminus::Weapon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)

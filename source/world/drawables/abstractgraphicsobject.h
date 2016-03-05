@@ -27,7 +27,7 @@ class World;
 class AbstractGraphicsObject
 {
 public:
-    explicit AbstractGraphicsObject(World & world);
+    explicit AbstractGraphicsObject(World & world, const AbstractGraphicsObject * parent = nullptr);
     /*!
      * Do not delete this destructor, even if it is empty
      *  - otherwise std::shared_ptr<IncompleteType> in the header will break
@@ -156,7 +156,7 @@ public:
      */
     QMatrix4x4 modelMatrixInverted() const;
 
-    QMatrix4x4 * parentModelMatrix() const;
+    const AbstractGraphicsObject * parent() const;
 
 protected:
     /*!
@@ -228,8 +228,6 @@ protected:
      */
     void setScale(float scale);
 
-    void setParentModelMatrix(QMatrix4x4 * matrix);
-
     /*!
      * \param vWorld
      * \return the model space position corresponding to vWorld in world space
@@ -270,7 +268,8 @@ protected:
     mutable QMatrix4x4 m_modelMatrix;
     mutable bool m_modelMatrixInvertedChanged;
     mutable QMatrix4x4 m_modelMatrixInverted;
-    QMatrix4x4 m_parentModelMatrix;
+
+    const AbstractGraphicsObject * m_parent;
 };
 
 }
