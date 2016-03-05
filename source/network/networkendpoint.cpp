@@ -41,9 +41,9 @@ void NetworkEndpoint::sendCommand(AbstractCommand * command)
 
 void NetworkEndpoint::disconnect()
 {
-    if(socket())
+    if(m_socket)
     {
-        socket()->disconnectFromHost();
+        m_socket->disconnectFromHost();
     }
 }
 
@@ -126,8 +126,9 @@ void NetworkEndpoint::sendMessage(const QString & message)
         qDebug() << "Can not send message as there is no open connection.";
         return;
     }
-    assert(socket());
-    QTcpSocket & tcpSocket = *socket();
+
+    assert(m_socket);
+    QTcpSocket & tcpSocket = *m_socket;
 
     QByteArray utf8Message = message.toUtf8();
 
@@ -140,8 +141,8 @@ void NetworkEndpoint::sendMessage(const QString & message)
 
 void NetworkEndpoint::onDataReceived()
 {
-    assert(socket());
-    QTcpSocket & tcpSocket = *socket();
+    assert(m_socket);
+    QTcpSocket & tcpSocket = *m_socket;
 
     while(true)
     {

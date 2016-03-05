@@ -21,6 +21,7 @@ Train::Train(World & world, Track * track)
 , m_followedTrain(nullptr)
 , m_travelledDistance(0.0f)
 , m_track(track)
+, m_player(nullptr)
 {
     // Every train needs an engine
     addWagon<EngineWagon>();

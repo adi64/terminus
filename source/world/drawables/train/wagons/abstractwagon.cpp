@@ -18,6 +18,7 @@ namespace terminus
 
 AbstractWagon::AbstractWagon(World & world, Train * train)
 : KinematicPhysicsObject(world)
+, m_positionOffset(0.f)
 , m_health(100.f)
 , m_disabled(false)
 , m_train(train)
