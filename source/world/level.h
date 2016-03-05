@@ -27,7 +27,7 @@ class Level
 {
 public:
     Level();
-    Level(const LevelConfiguration & config);
+    explicit Level(const LevelConfiguration & config);
 
     /*!
      * \brief generate terrain and tracks if not already generated

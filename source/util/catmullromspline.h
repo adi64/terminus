@@ -14,7 +14,7 @@ namespace terminus
 class CatmullRomSpline
 {
 public:
-    CatmullRomSpline(const std::vector<QVector2D> & controlPoints);
+    explicit CatmullRomSpline(const std::vector<QVector2D> & controlPoints);
     virtual ~CatmullRomSpline();
 
     /*!

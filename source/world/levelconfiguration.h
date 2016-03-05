@@ -26,7 +26,7 @@ class LevelConfiguration
 {
 public:
     LevelConfiguration();
-    LevelConfiguration(unsigned int seed);
+    explicit LevelConfiguration(unsigned int seed);
 
     virtual unsigned int seed() const;
     virtual int vertexCountS() const;

@@ -20,7 +20,7 @@ class NetworkClient : public NetworkEndpoint
     Q_OBJECT
 
 public:
-    NetworkClient(QObject *parent = 0);
+    explicit NetworkClient(QObject *parent = nullptr);
 
     void connectClient(QString host, unsigned short port);
 

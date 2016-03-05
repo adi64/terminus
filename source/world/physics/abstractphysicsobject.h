@@ -19,9 +19,9 @@ namespace terminus
  * \sa BulletWorld
  */
 class AbstractPhysicsObject : public AbstractGraphicsObject
-{    
+{
 public:
-    AbstractPhysicsObject(World & world);
+    explicit AbstractPhysicsObject(World & world);
 
     /*!
      * \brief Moves object to new position

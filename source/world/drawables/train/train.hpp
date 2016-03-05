@@ -26,7 +26,7 @@ void Train::insertWagon(int targetPos)
 
     auto wagonRaw = new WagonType(m_world, this);
 
-    if((dynamic_cast<EngineWagon*>(wagonRaw) != nullptr))
+    if(dynamic_cast<EngineWagon*>(wagonRaw) != nullptr)
     {
         assert(!m_hasEngine);
         m_hasEngine = true;

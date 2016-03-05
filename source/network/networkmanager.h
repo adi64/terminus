@@ -37,7 +37,7 @@ public:
     };
 
 public:
-    NetworkManager(Game & game);
+    explicit NetworkManager(Game & game);
     virtual ~NetworkManager();
 
     /*!

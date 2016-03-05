@@ -16,7 +16,7 @@ class Material
 {
 public:
     Material();
-    Material(const std::map<std::string, QVector4D> & uniforms);
+    explicit Material(const std::map<std::string, QVector4D> & uniforms);
     virtual ~Material();
 
     /*!

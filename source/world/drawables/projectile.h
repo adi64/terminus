@@ -17,7 +17,7 @@ namespace terminus
 class Projectile : public DynamicPhysicsObject
 {
 public:
-    Projectile(World & world);
+    explicit Projectile(World & world);
     virtual ~Projectile();
 
     virtual void localUpdate() override;

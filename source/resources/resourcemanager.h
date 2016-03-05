@@ -38,14 +38,14 @@ protected:
      * \param name
      * \return resource identifier
      */
-    static std::string entityName(const std::string path, const std::string name);
+    static std::string entityName(const std::string & path, const std::string & name);
 
     /*!
      * \brief Generates a unique resource identifier from the resource's file path.
      * \param path
      * \return resource identifier
      */
-    static std::string entityName(const std::string path);
+    static std::string entityName(const std::string & path);
 
 public:
     virtual ~ResourceManager();

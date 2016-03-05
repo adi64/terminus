@@ -27,7 +27,7 @@ protected:
     static QVector3D VectorFromJsonObject(QJsonObject jsonObject);
 
 public:
-    AbstractCommand(Timer::TimerMSec timeStamp);
+    explicit AbstractCommand(Timer::TimerMSec timeStamp);
     virtual ~AbstractCommand();
 
     /*!

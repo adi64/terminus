@@ -28,7 +28,7 @@ public:
     };
 
 public:
-    NetworkEndpoint(QObject * parent = 0);
+    explicit NetworkEndpoint(QObject * parent = nullptr);
     virtual ~NetworkEndpoint();
 
     /*!

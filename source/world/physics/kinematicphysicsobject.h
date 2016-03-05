@@ -13,7 +13,7 @@ namespace terminus
 class KinematicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    KinematicPhysicsObject(World & world);
+    explicit KinematicPhysicsObject(World & world);
 
     virtual void localUpdate() override;
 

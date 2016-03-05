@@ -25,7 +25,7 @@ class EventHandler
     };
 
 public:
-    EventHandler(Game *game = nullptr);
+    explicit EventHandler(Game *game = nullptr);
 
     /*!
      * \brief Handles a click on a QML UI button
