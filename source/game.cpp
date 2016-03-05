@@ -70,9 +70,9 @@ void Game::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
     m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
-    if(showMessage)
+    if (showMessage)
     {
-        if(localPlayerWins)
+        if (localPlayerWins)
         {
             QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
         }
@@ -89,7 +89,7 @@ void Game::endGame(bool localPlayerWins, bool showMessage)
 
 void Game::toggleUI()
 {
-    if(m_isUIActive)
+    if (m_isUIActive)
     {
         hideUI();
     }
@@ -183,14 +183,14 @@ void Game::sync()
         m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
     #endif
 
-    if(!m_timer.isPaused())
+    if (!m_timer.isPaused())
     {
        m_world->update();
     }
 
     m_networkManager.update();
 
-    if(m_isUIActive)
+    if (m_isUIActive)
     {
         updateQMLData();
     }
@@ -200,13 +200,13 @@ void Game::sync()
 
 void Game::render()
 {
-    if(!m_isGLInitialized)
+    if (!m_isGLInitialized)
     {
         m_gl.initializeOpenGLFunctions();
         m_isGLInitialized = true;
     }
 
-    if(m_world)
+    if (m_world)
     {
         m_world->render(m_gl);
     }
@@ -220,7 +220,8 @@ void Game::cleanup()
 void Game::handleWindowChanged(QQuickWindow * win)
 {
     connectSignals(win);
-    if (m_window) {
+    if (m_window)
+    {
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         m_window->setClearBeforeRendering(false);
@@ -245,7 +246,8 @@ void Game::connectSignals(QQuickWindow *win)
 {
     disconnectSignals();
     m_window = win;
-    if (m_window) {
+    if (m_window)
+    {
         connect(m_window, SIGNAL(beforeRendering()), this, SLOT(render()), Qt::DirectConnection);
         connect(m_window, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
         connect(m_window, SIGNAL(sceneGraphInvalidated()), this, SLOT(cleanup()), Qt::DirectConnection);

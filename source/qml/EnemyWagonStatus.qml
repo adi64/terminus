@@ -20,16 +20,16 @@ Item
 
     property int wagonIndex
     property Game game: parent.game
-    property int totalWagons: game.qmlData["EnemyTrain"]["wagons"].length
+    property int totalWagons: game.qmlData.EnemyTrain.wagons.length
     property bool load: totalWagons > wagonIndex
     property bool isReversed: parent.isReversed
     property int index: isReversed? totalWagons - (wagonIndex + 1) : wagonIndex
 
-    property int wagonType: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["type"] : 0
-    property real health: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentHealth"] : 0
-    property real maxHealth: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["maxHealth"] : 0
-    property real cooldown: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["currentCooldown"] : 1
-    property bool isDisabled: load ? game.qmlData["EnemyTrain"]["wagons"][wagonIndex]["isDisabled"] : true
+    property int wagonType: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].type : 0
+    property real health: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].currentHealth : 0
+    property real maxHealth: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].maxHealth : 0
+    property real cooldown: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].currentCooldown : 1
+    property bool isDisabled: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].isDisabled : true
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
