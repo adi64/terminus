@@ -18,7 +18,6 @@ const float Train::base_velocity = 0.02;
 
 Train::Train(World & world, Track * track)
 : AbstractGraphicsObject(world)
-, m_hasEngine(false)
 , m_velocity(base_velocity)
 , m_followedTrain(nullptr)
 , m_travelledDistance(0.0f)
@@ -26,7 +25,7 @@ Train::Train(World & world, Track * track)
 , m_player(nullptr)
 {
     // Every train needs an engine
-    // addWagon<EngineWagon>();
+    addWagon<EngineWagon>();
 }
 
 Train::~Train()

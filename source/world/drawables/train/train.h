@@ -128,8 +128,6 @@ protected:
      */
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
 
-    bool m_hasEngine; //!< Every train needs exactly one engine
-
     float m_velocity;
     Train *m_followedTrain;
 

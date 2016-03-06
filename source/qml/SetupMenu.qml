@@ -5,19 +5,21 @@ Item {
     anchors.fill: parent
 
     property Loader loader
-    property var train: [0]
+    property var train: [1]
 
     function trainToString() {
         var trainString = "";
 
         train.forEach(function (wagon) {
             switch (wagon) {
-            case 0:
-                trainString += "Engine "; break;
             case 1:
-                trainString += "Weapon "; break;
+                trainString += "Engine "; break;
             case 2:
+                trainString += "Weapon "; break;
+            case 3:
                 trainString += "Repair "; break;
+            default:
+                break;
             }
         })
 
@@ -52,7 +54,7 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                train.push(1);
+                train.push(2);
                 button0.buttonText = trainToString();
             }
         }
@@ -68,7 +70,7 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                train.push(2);
+                train.push(3);
                 button0.buttonText = trainToString();
             }
         }

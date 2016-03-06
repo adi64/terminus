@@ -203,12 +203,16 @@ void World::initTrains(QList<WagonType> playerWagons, QList<WagonType> enemyWago
 {
     for (auto wagon : playerWagons)
     {
-        m_localPlayer->train()->addWagon(wagon);
+        if(wagon != ENGINE_WAGON) {
+            m_localPlayer->train()->addWagon(wagon);
+        }
     }
 
     for (auto wagon : enemyWagons)
     {
-        m_enemyPlayer->train()->addWagon(wagon);
+        if(wagon != ENGINE_WAGON) {
+            m_enemyPlayer->train()->addWagon(wagon);
+        }
     }
 }
 

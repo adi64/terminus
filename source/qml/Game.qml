@@ -26,7 +26,7 @@ Item
 
     property Loader loader
     property var playerTrain: []
-    property var enemyTrain: [0, 1, 2]
+    property var enemyTrain: [1, 2, 2, 2, 2, 2, 3, 2]
     property bool network
     property bool host
     property string ip
