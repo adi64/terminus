@@ -33,7 +33,7 @@ Item
     MenuButton
     {
         posNum: 0
-        buttonText: "SinglePlayer"
+        buttonText: "Singleplayer"
         loadSource: "qrc:/source/qml/SetupMenu.qml"
     }
 

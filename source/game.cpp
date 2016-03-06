@@ -83,16 +83,13 @@ void Game::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
     m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
-    if (showMessage)
+    if (showMessage && localPlayerWins)
     {
-        if (localPlayerWins)
-        {
-            QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
-        }
-        else
-        {
-            QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
-        }
+        QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
+    }
+    else if (showMessage && !localPlayerWins)
+    {
+        QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
     }
     else
     {
