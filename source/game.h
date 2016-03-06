@@ -36,7 +36,7 @@ const unsigned short defaultPort = 7331;
 class Game : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
+    Q_PROPERTY(QVariant qmlData READ qmlData WRITE writeQmlData NOTIFY qmlDataChanged())
 
 public:
     /*!
@@ -97,6 +97,7 @@ public:
 
     World & world() const;
     QVariant & qmlData();
+    Q_INVOKABLE void writeQmlData(QVariant qmlData);
     ActionScheduler & scheduler();
 
     NetworkManager & networkManager();
@@ -177,7 +178,6 @@ protected:
     EventHandler m_eventHandler;
     ActionScheduler m_scheduler;
     NetworkManager m_networkManager;
-
 
     QVariant m_qmlData;
 

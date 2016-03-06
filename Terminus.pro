@@ -114,7 +114,9 @@ DISTFILES += \
     source/qml/Victory.qml \
     source/qml/Defeat.qml \
     source/qml/Headline.qml \
-    source/qml/UserInterface.qml
+    source/qml/UserInterface.qml \
+    source/qml/SetupMenu.qml \
+    source/qml/SimpleButton.qml
 
 RC_FILE = data/myapp.rc
 

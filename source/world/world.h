@@ -5,12 +5,14 @@
 #include <unordered_map>
 
 #include <QObject>
+#include <QList>
 
 #include <bullet/btBulletDynamicsCommon.h>
 
 #include <util/actionscheduler.h>
 #include <util/timer.h>
 #include <world/camera.h>
+#include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/level.h>
 #include <world/lightmanager.h>
 #include <world/physics/bulletworld.h>
@@ -26,7 +28,7 @@ namespace terminus
 {
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
-class AbstractPlayer;
+class AbstractPlayer;\
 class AIPlayer;
 class Game;
 class LocalPlayer;
@@ -54,7 +56,12 @@ public:
      * \param isPlayerOne Whether the local player is "player one" or "player two"
      * \param terrainSeed Seed value for the noise generator to synchronize the terrain with the other network player
      */
-    World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed);
+    World(Game & game,
+          bool isNetworkGame,
+          bool isPlayerOne,
+          unsigned int terrainSeed,
+          QList<WagonType> playerWagons,
+          QList<WagonType> enemyWagons);
 
     /*!
      * \brief Delete copy constructor
@@ -97,6 +104,9 @@ public:
      * call it via this getter, but use their own stored copy.
      */
     std::shared_ptr<BulletWorld> bulletWorld();
+
+protected:
+    void initTrains(QList<WagonType> playerWagons, QList<WagonType> enemyWagons);
 
 protected:
     Game & m_game;

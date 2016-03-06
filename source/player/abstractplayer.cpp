@@ -125,7 +125,7 @@ AbstractWagon * AbstractPlayer::selectedWagon()
     return m_train->wagonAt(m_selectedWagonIndex);
 }
 
-terminus::Train *terminus::AbstractPlayer::train()
+terminus::Train * terminus::AbstractPlayer::train()
 {
     return m_train;
 }

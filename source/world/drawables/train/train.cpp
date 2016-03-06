@@ -9,6 +9,8 @@
 #include <util/timer.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 
 namespace terminus
 {
@@ -24,12 +26,29 @@ Train::Train(World & world, Track * track)
 , m_player(nullptr)
 {
     // Every train needs an engine
-    addWagon<EngineWagon>();
+    // addWagon<EngineWagon>();
 }
 
 Train::~Train()
 {
 
+}
+
+void Train::addWagon(WagonType type)
+{
+    switch (type) {
+    case ENGINE_WAGON:
+        addWagon<EngineWagon>();
+        break;
+    case WEAPON_WAGON:
+        addWagon<WeaponWagon>();
+        break;
+    case REPAIR_WAGON:
+        addWagon<RepairWagon>();
+        break;
+    default:
+        break;
+    }
 }
 
 void Train::removeWagon(unsigned int index)

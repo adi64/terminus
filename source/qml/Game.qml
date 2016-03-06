@@ -25,6 +25,8 @@ Item
     anchors.fill: parent
 
     property Loader loader
+    property var playerTrain: []
+    property var enemyTrain: [0, 1, 2]
     property bool network
     property bool host
     property string ip
@@ -55,27 +57,38 @@ Item
 
         Component.onCompleted:
         {
-            if(network)
+            var data = {
+                playerTrain: [],
+                enemyTrain: []
+            };
+
+            playerTrain.forEach(function (wagonType) {
+                data.playerTrain.push({ type: wagonType });
+            });
+            enemyTrain.forEach(function (wagonType) {
+                data.enemyTrain.push({ type: wagonType });
+            });
+
+            writeQmlData(data);
+
+            if(network && host)
             {
-                if(host)
-                {
-                    hostNetworkGame()
-                }
-                else
-                {
-                    joinNetworkGame(ip)
-                }
+                hostNetworkGame();
+            }
+            else if(network && !host)
+            {
+                joinNetworkGame(ip);
             }
             else
             {
-                startLocalGame()
+                startLocalGame();
             }
         }
 
         Keys.onPressed:
         {
-            terminus.keyInput(event.key)
-            event.accepted = true
+            terminus.keyInput(event.key);
+            event.accepted = true;
         }
 
         MouseArea
@@ -89,14 +102,16 @@ Item
             onPositionChanged:
             {
                 // make sure the mouse is actually a mouse and not someone using touch
-                if (containsMouse)
-                    if (Qt.platform.os !== "android" && Qt.platform.os !== "ios")
-                        terminus.moveInput(1, mouse.x, mouse.y)
+                if (containsMouse) {
+                    if (Qt.platform.os !== "android" && Qt.platform.os !== "ios") {
+                        terminus.moveInput(1, mouse.x, mouse.y);
+                    }
+                }
             }
             onReleased:
             {
                 // 6 is the int value for the button value mouseButton (see eventhandler.h)
-                terminus.buttonInput(6)
+                terminus.buttonInput(6);
             }
         }
 

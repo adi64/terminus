@@ -38,7 +38,7 @@ public:
      */
     template<typename WagonType>
     void addWagon();
-
+    void addWagon(WagonType type);
     /*!
      * \brief Inserts a wagon of the given WagonType at the given position.
      *

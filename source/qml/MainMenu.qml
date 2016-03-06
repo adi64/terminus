@@ -32,21 +32,9 @@ Item
 
     MenuButton
     {
-        id: button0
         posNum: 0
-        buttonText: "Singleplayer"
-        MouseArea
-        {
-            anchors.fill: parent
-            onPressed:
-            {
-                button0.buttonText = "Loading..."
-            }
-            onReleased:
-            {
-                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": false })
-            }
-        }
+        buttonText: "SinglePlayer"
+        loadSource: "qrc:/source/qml/SetupMenu.qml"
     }
 
     MenuButton
@@ -56,7 +44,7 @@ Item
         loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
     }
 
-    MenuButton
+    SimpleButton
     {
         posNum: 2
         buttonText: "Quit"

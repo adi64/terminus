@@ -62,7 +62,20 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
-    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+
+    QList<WagonType> playerTrain;
+    for (auto & wagon : m_qmlData.toMap()["playerTrain"].toList())
+    {
+        playerTrain.push_back(WagonType(wagon.toMap()["type"].toInt()));
+    }
+
+    QList<WagonType> enemyTrain;
+    for (auto & wagon : m_qmlData.toMap()["enemyTrain"].toList())
+    {
+        enemyTrain.push_back(WagonType(wagon.toMap()["type"].toInt()));
+    }
+
+    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed, playerTrain, enemyTrain));
     showUI();
 }
 
@@ -296,6 +309,11 @@ void Game::updateQMLData()
 QVariant & Game::qmlData()
 {
     return m_qmlData;
+}
+
+void Game::writeQmlData(QVariant qmlData)
+{
+    m_qmlData = qmlData;
 }
 
 }
