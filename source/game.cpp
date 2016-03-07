@@ -270,46 +270,25 @@ void Game::disconnectSignals()
 void Game::updateQMLData()
 {
     auto& playerTrain = m_world->localPlayerTrain();
-    QList<QVariant> playerWagonList;
+    QList<QVariant> playerTrainList;
     for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
-        QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", playerTrain.wagonAt(i)->wagonType());
-        wagonMap.insert("currentHealth", playerTrain.wagonAt(i)->currentHealth());
-        wagonMap.insert("maxHealth", playerTrain.wagonAt(i)->maxHealth());
-        wagonMap.insert("currentCooldown", playerTrain.wagonAt(i)->cooldown());
-        wagonMap.insert("isDisabled", playerTrain.wagonAt(i)->isDisabled());
-        playerWagonList.push_back(wagonMap);
+        playerTrainList.push_back(playerTrain.wagonAt(i)->getStatus());
     }
 
     auto& enemyTrain = m_world->enemyPlayerTrain();
-    QList<QVariant> enemyWagonList;
+    QList<QVariant> enemyTrainList;
     for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {
-        QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", enemyTrain.wagonAt(i)->wagonType());
-        wagonMap.insert("currentHealth", enemyTrain.wagonAt(i)->currentHealth());
-        wagonMap.insert("maxHealth", enemyTrain.wagonAt(i)->maxHealth());
-        wagonMap.insert("currentCooldown", enemyTrain.wagonAt(i)->cooldown());
-        wagonMap.insert("isDisabled", enemyTrain.wagonAt(i)->isDisabled());
-        QVariant wagon(wagonMap);
-        enemyWagonList.push_back(wagon);
+        enemyTrainList.push_back(enemyTrain.wagonAt(i)->getStatus());
     }
 
-    QMap<QString, QVariant> playerTrainMap;
-    playerTrainMap.insert("totalWagons", playerTrain.size());
-    playerTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
-    playerTrainMap.insert("wagons", playerWagonList);
-    float progress = playerTrain.travelledDistanceRelative();
-    playerTrainMap.insert("progress", progress);
-
-    QMap<QString, QVariant> enemyTrainMap;
-    enemyTrainMap.insert("totalWagons", playerTrain.size());
-    enemyTrainMap.insert("wagons", enemyWagonList);
-
-    QMap<QString, QVariant> dataMap;
-    dataMap.insert("PlayerTrain", playerTrainMap);
-    dataMap.insert("EnemyTrain", enemyTrainMap);
+    QMap<QString, QVariant> dataMap = {
+        std::make_pair("currentWagon", m_world->localPlayer().selectedWagonIndex()),
+        std::make_pair("progress", playerTrain.travelledDistanceRelative()),
+        std::make_pair("playerTrain", playerTrainList),
+        std::make_pair("enemyTrain", enemyTrainList)
+    };
     m_qmlData.setValue(dataMap);
     emit qmlDataChanged();
 }

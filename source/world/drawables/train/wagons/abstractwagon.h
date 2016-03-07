@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QString>
+#include <QMap>
+#include <QVariant>
 #include <memory>
 
 #include <util/timer.h>
@@ -82,6 +84,8 @@ public:
     virtual bool isDisabled() const;
     virtual WagonType wagonType() const;
     virtual float length() const;
+
+    virtual const QMap<QString, QVariant> getStatus() const;
 
     /*!
      * \brief Determines whether the primary view direction should be left or

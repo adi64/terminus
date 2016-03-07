@@ -150,6 +150,19 @@ float AbstractWagon::length() const
     return maxBB().x() - minBB().x();
 }
 
+const QMap<QString, QVariant> AbstractWagon::getStatus() const
+{
+    QMap<QString, QVariant> wagonMap = {
+        std::make_pair("type", wagonType()),
+        std::make_pair("currentHealth", m_health),
+        std::make_pair("maxHealth", maxHealth()),
+        std::make_pair("cooldown", cooldown()),
+        std::make_pair("isDisabled", m_disabled)
+    };
+
+    return wagonMap;
+}
+
 bool AbstractWagon::isOtherTrainLeft() const
 {
     return m_train->track()->isRightTrack();

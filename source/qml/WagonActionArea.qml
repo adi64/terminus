@@ -15,7 +15,7 @@ import Game 1.0
  */
 
 Item
-{    
+{
     signal fire
 
     id: actionArea
@@ -25,10 +25,8 @@ Item
     height: parent.width / 8
 
     property Game game: parent.game
-    property int currentWagon: game.qmlData["PlayerTrain"]["currentWagon"]
-    property bool isDisabled: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["isDisabled"]
-    property int wagonType: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["type"]
-    property real cooldown: game.qmlData["PlayerTrain"]["wagons"][currentWagon]["currentCooldown"]
+    property int currentWagon: game.qmlData.currentWagon
+    property bool isDisabled: game.qmlData.playerTrain[currentWagon].isDisabled
 
     function setText()
     {
@@ -37,12 +35,12 @@ Item
             return "Destroyed";
         }
 
-        if (cooldown != 1)
+        if (game.qmlData.playerTrain[currentWagon]["currentCooldown"] != 1)
         {
             return "Reloading";
         }
 
-        switch (wagonType)
+        switch (game.qmlData.playerTrain[currentWagon].type)
         {
         case 1:
             return "Faster"; //engine

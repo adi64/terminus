@@ -20,32 +20,26 @@ Item
 
     property int wagonIndex
     property Game game: parent.game
-    property int totalWagons: game.qmlData.EnemyTrain.wagons.length
-    property bool load: totalWagons > wagonIndex
+    property int totalWagons: game.qmlData.enemyTrain.length
     property bool isReversed: parent.isReversed
-    property int index: isReversed? totalWagons - (wagonIndex + 1) : wagonIndex
-
-    property int wagonType: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].type : 0
-    property real health: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].currentHealth : 0
-    property real maxHealth: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].maxHealth : 0
-    property real cooldown: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].currentCooldown : 1
-    property bool isDisabled: load ? game.qmlData.EnemyTrain.wagons[wagonIndex].isDisabled : true
+    property int index: isReversed ? totalWagons - (wagonIndex + 1) : wagonIndex
+    property real healthPercent: game.qmlData.enemyTrain[wagonIndex].currentHealth / game.qmlData.enemyTrain[wagonIndex].maxHealth
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: parent.width / 8 * (1 / 16 + index + (8 - totalWagons) / 2)
     width: (parent.width / 8) * (7 / 8)
     height: parent.height * 6 / 8
-    visible: load
+    visible: totalWagons > wagonIndex
 
     function setColor(opac)
     {
-        if (isDisabled)
+        if (game.qmlData.enemyTrain[wagonIndex].isDisabled)
         {
             return "grey";
         }
 
-        switch (wagonType)
+        switch (game.qmlData.enemyTrain[wagonIndex].type)
         {
         case 1:
             return Qt.rgba(0.5725, 0.4, 0.2353, opac); //engine
@@ -69,7 +63,7 @@ Item
             id: playerWagonCurrentHealth
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            width: parent.width * health / maxHealth
+            width: parent.width * healthPercent
             height: parent.height
             color: setColor(1.0)
         }
@@ -87,7 +81,7 @@ Item
         {
             id: playerWagonCurrentCooldown
             anchors.bottom: parent.bottom
-            width: parent.width * (1 - cooldown)
+            width: parent.width * (1 - game.qmlData.enemyTrain[wagonIndex].cooldown)
             height: parent.height
             color: "grey"
         }
