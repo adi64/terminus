@@ -5,12 +5,14 @@ Item {
     anchors.fill: parent
 
     property Loader loader
-    property var train: [1]
+    property var playerTrain: [1]
+    property var enemyTrain: [1]
+    property var activeTrain: playerTrain
 
     function trainToString() {
         var trainString = "";
 
-        train.forEach(function (wagon) {
+        activeTrain.forEach(function (wagon) {
             switch (wagon) {
             case 1:
                 trainString += "Engine "; break;
@@ -26,6 +28,14 @@ Item {
         return trainString;
     }
 
+    function activeTrainString() {
+        if (playerTrain.length > 1) {
+            return "Setup - Enemy Train";
+        } else {
+            return "Setup - Player Train";
+        }
+    }
+
     Image
     {
         source: "qrc:/data/MenuBackground.png"
@@ -34,12 +44,12 @@ Item {
 
     Headline
     {
-        text: "SETUP - My Train"
+        text: activeTrainString()
     }
 
     SimpleButton
     {
-        id: button0
+        id: trainButton
         posNum: 0
         buttonText: trainToString()
     }
@@ -54,8 +64,8 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                train.push(2);
-                button0.buttonText = trainToString();
+                activeTrain.push(2);
+                trainButton.buttonText = trainToString();
             }
         }
     }
@@ -70,8 +80,8 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                train.push(3);
-                button0.buttonText = trainToString();
+                activeTrain.push(3);
+                trainButton.buttonText = trainToString();
             }
         }
     }
@@ -86,11 +96,17 @@ Item {
             anchors.fill: parent
             onPressed:
             {
-                button0.buttonText = "Loading..."
+                trainButton.buttonText = "Loading..."
             }
             onReleased:
             {
-                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": false, "playerTrain": train })
+                if (playerTrain.length > 1 && enemyTrain.length > 1) {
+                    loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": false, "playerTrain": playerTrain, "enemyTrain": enemyTrain });
+                } else if (playerTrain.length > 1) {
+                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "playerTrain": playerTrain, "enemyTrain": enemyTrain, "activeTrain": enemyTrain });
+                } else {
+                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader });
+                }
             }
         }
     }
