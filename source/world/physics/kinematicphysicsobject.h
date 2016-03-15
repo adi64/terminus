@@ -4,6 +4,7 @@
 
 namespace terminus
 {
+class AbstractGraphicsObject;
 
 /*!
  * \brief A kinematic physics object is a "scripted" physics object, meaning
@@ -13,7 +14,7 @@ namespace terminus
 class KinematicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    explicit KinematicPhysicsObject(World & world);
+    explicit KinematicPhysicsObject(World & world, AbstractGraphicsObject * parent = nullptr);
 
     virtual void localUpdate() override;
 

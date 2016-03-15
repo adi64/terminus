@@ -13,7 +13,7 @@
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(World & world, const AbstractGraphicsObject * parent)
+AbstractGraphicsObject::AbstractGraphicsObject(World & world, AbstractGraphicsObject * parent)
 : m_world(world)
 , m_validState(true)
 , m_camera(nullptr)
@@ -192,12 +192,9 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
     return m_modelMatrixInverted;
 }
 
-const AbstractGraphicsObject * AbstractGraphicsObject::parent() const
+AbstractGraphicsObject * AbstractGraphicsObject::parent() const
 {
-    if(m_parent)
-        return m_parent;
-
-    return nullptr;
+    return m_parent;
 }
 
 void AbstractGraphicsObject::localUpdate()

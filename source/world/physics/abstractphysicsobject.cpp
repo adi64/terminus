@@ -8,8 +8,8 @@
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(World & world)
-: AbstractGraphicsObject(world)
+AbstractPhysicsObject::AbstractPhysicsObject(World & world, AbstractGraphicsObject * parent)
+: AbstractGraphicsObject(world, parent)
 , m_bulletWorld(world.bulletWorld())
 , m_spawnedLocally(true)
 {

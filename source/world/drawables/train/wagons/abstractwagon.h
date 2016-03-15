@@ -8,6 +8,7 @@
 
 namespace terminus
 {
+class AbstractGraphicsObject;
 class Train;
 
 enum WagonType
@@ -25,7 +26,7 @@ enum WagonType
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(World & world, Train * train);
+    AbstractWagon(World & world, AbstractGraphicsObject * parent, Train * train);
     virtual ~AbstractWagon();
 
     /*!
@@ -101,6 +102,8 @@ public:
      * \sa Projectile
      */
     virtual void onCollisionWith(AbstractPhysicsObject * other) override;
+
+    virtual Train * train();
 
 protected:
     virtual short myCollisionType() const override;

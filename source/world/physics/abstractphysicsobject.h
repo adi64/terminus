@@ -7,6 +7,7 @@
 
 namespace terminus
 {
+class AbstractGraphicsObject;
 
 /*!
  * \brief The AbstractPhysicsObject class represents a graphical scene element
@@ -21,7 +22,7 @@ namespace terminus
 class AbstractPhysicsObject : public AbstractGraphicsObject
 {
 public:
-    explicit AbstractPhysicsObject(World & world);
+    explicit AbstractPhysicsObject(World & world, AbstractGraphicsObject * parent = nullptr);
 
     /*!
      * \brief Moves object to new position

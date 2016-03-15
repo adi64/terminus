@@ -8,7 +8,6 @@
 #include <player/abstractplayer.h>
 #include <util/mathutil.h>
 #include <util/polyline.h>
-#include <util/timer.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/track.h>
@@ -16,8 +15,8 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon(World & world, Train * train)
-: KinematicPhysicsObject(world)
+AbstractWagon::AbstractWagon(World & world, AbstractGraphicsObject * parent, Train * train)
+: KinematicPhysicsObject(world, parent)
 , m_positionOffset(0.f)
 , m_health(100.f)
 , m_disabled(false)
@@ -177,6 +176,11 @@ void AbstractWagon::onCollisionWith(AbstractPhysicsObject *other)
     {
         m_train->player().animateHit();
     }
+}
+
+Train * AbstractWagon::train()
+{
+    return m_train;
 }
 
 short AbstractWagon::myCollisionType() const

@@ -7,8 +7,8 @@
 namespace terminus
 {
 
-KinematicPhysicsObject::KinematicPhysicsObject(World & world)
-    : AbstractPhysicsObject(world)
+KinematicPhysicsObject::KinematicPhysicsObject(World & world, AbstractGraphicsObject * parent)
+    : AbstractPhysicsObject(world, parent)
 {
 }
 

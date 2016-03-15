@@ -7,8 +7,8 @@
 namespace terminus
 {
 
-DynamicPhysicsObject::DynamicPhysicsObject(World & world)
-    : AbstractPhysicsObject(world)
+DynamicPhysicsObject::DynamicPhysicsObject(World & world, AbstractGraphicsObject * parent)
+    : AbstractPhysicsObject(world, parent)
 {
 }
 

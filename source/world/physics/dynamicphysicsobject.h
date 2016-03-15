@@ -4,6 +4,7 @@
 
 namespace terminus
 {
+class AbstractGraphicsObject;
 
 /*!
  * \brief A dynamic physics object is a physics object that is mostly passive.
@@ -12,7 +13,7 @@ namespace terminus
 class DynamicPhysicsObject : public AbstractPhysicsObject
 {
 public:
-    explicit DynamicPhysicsObject(World & world);
+    explicit DynamicPhysicsObject(World & world, AbstractGraphicsObject * parent = nullptr);
 
     virtual void localUpdate() override;
 
