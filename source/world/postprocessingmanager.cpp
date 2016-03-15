@@ -59,6 +59,8 @@ void PostprocessingManager::allocateFBO(QOpenGLFunctions &gl) const
     int windowWidth = m_world.localPlayer().camera().viewport().x();
     int windowHeight = m_world.localPlayer().camera().viewport().y();
 
+    qDebug() << "w/h: " << windowWidth << " " << windowHeight;
+
     // Texture
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glGenTextures(1, &m_fboTexture);
@@ -87,6 +89,8 @@ void PostprocessingManager::allocateFBO(QOpenGLFunctions &gl) const
     {
         qDebug() << "glCheckFramebufferStatus: error " << status;
     }
+
+    qDebug() << "fbo: " << m_fbo << " fboTexture: " << m_fboTexture << " rboDepth: " << m_rboDepth;
 
     gl.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

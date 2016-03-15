@@ -21,7 +21,8 @@ int main(int argc, char *argv[])
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl(QStringLiteral("qrc:/source/qml/main.qml")));
-    view.showFullScreen();
+    //view.showFullScreen();
+    view.show();
 
     QObject::connect((QObject*)view.engine(), SIGNAL(quit()), &app, SLOT(quit()), Qt::QueuedConnection);
 

@@ -15,8 +15,10 @@ import QtQuick.Window 2.0
 
 Item
 {
-    width: Screen.width
-    height: Screen.height
+    //width: Screen.width
+    //height: Screen.height
+    width: 1024
+    height: 768
 
     Loader
     {

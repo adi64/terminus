@@ -212,10 +212,10 @@ void Game::render()
     }
 
     // Motion blur!
-    constexpr float motionBlurFactor = 3.0;
-    glAccum(GL_MULT, 1.0 - (1.0 / motionBlurFactor));
-    glAccum(GL_ACCUM, 1.0 / motionBlurFactor);
-    glAccum(GL_RETURN, 1.0);
+    //constexpr float motionBlurFactor = 3.0;
+    //glAccum(GL_MULT, 1.0 - (1.0 / motionBlurFactor));
+    //glAccum(GL_ACCUM, 1.0 / motionBlurFactor);
+    //glAccum(GL_RETURN, 1.0);
 }
 
 void Game::cleanup()

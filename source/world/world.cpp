@@ -32,7 +32,7 @@ namespace terminus
 World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
 , m_level(LevelConfiguration(terrainSeed))
-//, m_postprocessingManager(std::unique_ptr<PostprocessingManager>(new PostprocessingManager(*this)))
+, m_postprocessingManager(std::unique_ptr<PostprocessingManager>(new PostprocessingManager(*this)))
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_skybox(std::unique_ptr<SkyBox>(new SkyBox(*this)))
 {
@@ -116,7 +116,7 @@ void World::update()
     // physics - never give bullet negative step times
     m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
-    //m_postprocessingManager->update();
+    m_postprocessingManager->update();
 
     m_skybox->update();
     m_terrain->update();
@@ -157,7 +157,7 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    //m_postprocessingManager->beforeRenderHook(gl);
+    m_postprocessingManager->beforeRenderHook(gl);
 
     m_skybox->render(gl);
     m_terrain->render(gl);
@@ -168,8 +168,8 @@ void World::render(QOpenGLFunctions & gl) const
         object->render(gl);
     }
 
-    //m_postprocessingManager->afterRenderHook(gl);
-    //m_postprocessingManager->render(gl);
+    m_postprocessingManager->afterRenderHook(gl);
+    m_postprocessingManager->render(gl);
 
     gl.glDisable(GL_BLEND);
     gl.glDisable(GL_DEPTH_TEST);
