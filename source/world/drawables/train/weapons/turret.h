@@ -4,13 +4,14 @@
 
 namespace terminus
 {
+class Weapon;
 
 class Turret : public KinematicPhysicsObject
 {
 
 public:
-    Turret(World & world, std::string geometry, std::string material);
-    ~Turret();
+    Turret(World & world, Weapon * parent, std::string geometry, std::string material);
+    virtual ~Turret();
 
 public:
     virtual void localUpdate() override;

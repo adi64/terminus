@@ -2,6 +2,8 @@
 
 #include <world/physics/kinematicphysicsobject.h>
 
+#include <util/timer.h>
+
 namespace terminus
 {
 
@@ -13,7 +15,7 @@ class Weapon : public AbstractGraphicsObject
 {
 
 public:
-    Weapon(World & world, const WeaponWagon * parent);
+    Weapon(World & world, WeaponWagon * parent);
     virtual ~Weapon();
 
 public:
@@ -21,6 +23,34 @@ public:
     virtual void localUpdate() override;
 
     QVector3D weaponOffset();
+
+    /*!
+     * \brief saves the previous camera position to animate the
+     * camera transition
+     */
+    virtual void onBindCamera() override;
+
+    /*!
+     * \brief moves the camera according to this wagons position and orientation
+     *
+     * \sa localCameraCenter()
+     * \sa localCameraEye()
+     */
+    virtual void adjustCamera() override;
+
+    /*!
+     * \brief Calculates the camera position vector in model space.
+     * \return
+     */
+    virtual QVector3D localCameraCenter();
+
+    /*!
+     * \brief Calculates the camera eye vector in model space.
+     * \return
+     */
+    virtual QVector3D localCameraEye();
+
+    virtual Camera * camera();
 
 public:
     float damage();
@@ -46,7 +76,11 @@ protected:
     float m_thrust;
     int m_magazineSize;
 
-protected:
+    QVector3D m_cameraEyeOffset;
+    QVector3D m_previousEye;
+    QVector3D m_previousCenter;
+    Timer::TimerID m_cameraTimer;
+
     std::unique_ptr<Turret> m_turret;
     std::unique_ptr<Barrel> m_barrel;
 

@@ -24,6 +24,12 @@ public:
 
     virtual WagonType wagonType() const override;
 
+    /*!
+     * \brief saves the previous camera position to animate the
+     * camera transition
+     */
+    virtual void onBindCamera() override;
+
 public:
     void setAimVector(const QVector3D & aimVector);
     void setWeapon(Weapon * weapon);

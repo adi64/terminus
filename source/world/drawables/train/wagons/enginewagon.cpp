@@ -18,7 +18,7 @@ namespace terminus
 {
 
 EngineWagon::EngineWagon(World & world, Train * train)
-: AbstractWagon(world, train)
+: AbstractWagon(world, nullptr, train)
 {
     setHealth(maxHealth());
 

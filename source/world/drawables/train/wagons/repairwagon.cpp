@@ -16,7 +16,7 @@ namespace terminus
 {
 
 RepairWagon::RepairWagon(World & world, Train * train)
-: AbstractWagon(world, train)
+: AbstractWagon(world, nullptr, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     if(m_train->track()->isRightTrack())

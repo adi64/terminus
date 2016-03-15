@@ -20,7 +20,7 @@ namespace terminus
 {
 
 WeaponWagon::WeaponWagon(World & world, Train * train)
-: AbstractWagon(world, train)
+: AbstractWagon(world, nullptr, train)
 , m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
@@ -74,6 +74,11 @@ float WeaponWagon::cooldownTime() const
 WagonType WeaponWagon::wagonType() const
 {
     return WEAPON_WAGON;
+}
+
+void WeaponWagon::onBindCamera()
+{
+    m_camera->bindTo(weapon());
 }
 
 void WeaponWagon::setWeapon(Weapon *weapon)
