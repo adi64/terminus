@@ -85,6 +85,8 @@ public:
 
     LightManager & lightManager();
 
+    QSize viewport() const;
+
     void scheduleAction(ActionScheduler::Action event);
 
     void addObject(AbstractGraphicsObject * node);

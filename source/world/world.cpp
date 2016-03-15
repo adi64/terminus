@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QTime>
+#include <QQuickWindow>
 
 #include <game.h>
 #include <player/abstractplayer.h>
@@ -14,7 +15,7 @@
 #include <resources/soundmanager.h>
 #include <util/actionscheduler.h>
 #include <world/camera.h>
-#include <world/postprocessingmanager.h>
+#include <world/postprocessing/postprocessingmanager.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/skybox.h>
 #include <world/drawables/terrain.h>
@@ -210,6 +211,11 @@ Timer & World::timer()
 LightManager & World::lightManager()
 {
     return m_lightManager;
+}
+
+QSize World::viewport() const
+{
+    return m_game.window()->size();
 }
 
 std::shared_ptr<BulletWorld> World::bulletWorld()

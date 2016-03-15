@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <world/drawables/abstractgraphicsobject.h>
+#include <resources/framebufferobject.h>
 
 class QImage;
 class QOpenGLFunctions;
@@ -26,18 +27,13 @@ public:
     void beforeRenderHook(QOpenGLFunctions &gl) const;
     void afterRenderHook(QOpenGLFunctions &gl) const;
 protected:
-    void allocateFBO(QOpenGLFunctions & gl) const;
-    void deallocateFBO(QOpenGLFunctions & gl) const;
 
     void applyMotionBlur(QOpenGLFunctions & gl) const;
 
     bool m_motionBlurEnabled;
     float m_motionBlurFactor;
 
-    mutable bool m_objectsOnGPU;
-    mutable GLuint m_fbo;
-    mutable GLuint m_fboTexture;
-    mutable GLuint m_rboDepth;
+    FrameBufferObject m_frameBufferObject;
 };
 
 }

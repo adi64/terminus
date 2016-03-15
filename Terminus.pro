@@ -361,10 +361,12 @@ HEADERS += \
     source/network/commands/abstractcommand.h \
     source/network/commands/clientreadycommand.h \
     source/network/commands/commands.h \
+    source/network/commands/gameendedcommand.h \
     source/network/commands/pausecommand.h \
     source/network/commands/preparenewgamecommand.h \
     source/network/commands/projectilefiredcommand.h \
     source/network/commands/projectilehitcommand.h \
+    source/network/commands/synccommand.h \
     source/network/ipprovider.h \
     source/network/networkclient.h \
     source/network/networkendpoint.h \
@@ -380,6 +382,7 @@ HEADERS += \
     source/resources/program.h \
     source/resources/resourcemanager.h \
     source/resources/soundmanager.h \
+    source/util/actionscheduler.h \
     source/util/catmullromspline.h \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
@@ -402,18 +405,17 @@ HEADERS += \
     source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
+    source/world/postprocessing/postprocessingmanager.h \
     source/world/camera.h \
+    source/world/level.h \
+    source/world/levelconfiguration.h \
+    source/world/light.h \
+    source/world/lightmanager.h \
     source/world/world.h \
     source/eventhandler.h \
     source/game.h \
-    source/network/commands/synccommand.h \
-    source/network/commands/gameendedcommand.h \
-    source/world/light.h \
-    source/world/lightmanager.h \
-    source/world/level.h \
-    source/world/postprocessingmanager.h \
-    source/util/actionscheduler.h \
-    source/world/levelconfiguration.h
+    source/world/postprocessing/abstracteffect.h \
+    source/resources/framebufferobject.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -561,10 +563,12 @@ SOURCES += \
     source/bullet/LinearMath/btVector3.cpp \
     source/network/commands/abstractcommand.cpp \
     source/network/commands/clientreadycommand.cpp \
+    source/network/commands/gameendedcommand.cpp \
     source/network/commands/pausecommand.cpp \
     source/network/commands/preparenewgamecommand.cpp \
     source/network/commands/projectilefiredcommand.cpp \
     source/network/commands/projectilehitcommand.cpp \
+    source/network/commands/synccommand.cpp \
     source/network/ipprovider.cpp \
     source/network/networkclient.cpp \
     source/network/networkendpoint.cpp \
@@ -580,6 +584,7 @@ SOURCES += \
     source/resources/program.cpp \
     source/resources/resourcemanager.cpp \
     source/resources/soundmanager.cpp \
+    source/util/actionscheduler.cpp \
     source/util/catmullromspline.cpp \
     source/util/mathutil.cpp \
     source/util/perlinnoise.cpp \
@@ -600,17 +605,16 @@ SOURCES += \
     source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
+    source/world/postprocessing/postprocessingmanager.cpp \
     source/world/camera.cpp \
+    source/world/level.cpp \
+    source/world/levelconfiguration.cpp \
+    source/world/light.cpp \
+    source/world/lightmanager.cpp \
     source/world/world.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
-    source/network/commands/synccommand.cpp \
-    source/network/commands/gameendedcommand.cpp \
-    source/world/light.cpp \
-    source/world/lightmanager.cpp \
-    source/world/level.cpp \
-    source/world/postprocessingmanager.cpp \
-    source/util/actionscheduler.cpp \
-    source/world/levelconfiguration.cpp
+    source/world/postprocessing/abstracteffect.cpp \
+    source/resources/framebufferobject.cpp
