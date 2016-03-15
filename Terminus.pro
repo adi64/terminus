@@ -415,7 +415,8 @@ HEADERS += \
     source/eventhandler.h \
     source/game.h \
     source/world/postprocessing/abstracteffect.h \
-    source/resources/framebufferobject.h
+    source/resources/framebufferobject.h \
+    source/world/postprocessing/motionblur.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -617,4 +618,5 @@ SOURCES += \
     source/main.cpp \
     source/bullet/clew/clew.c \
     source/world/postprocessing/abstracteffect.cpp \
-    source/resources/framebufferobject.cpp
+    source/resources/framebufferobject.cpp \
+    source/world/postprocessing/motionblur.cpp

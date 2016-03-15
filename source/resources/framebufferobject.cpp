@@ -20,7 +20,9 @@ FrameBufferObject::FrameBufferObject(int width, int height)
 
 FrameBufferObject::~FrameBufferObject()
 {
-
+    // TODO FIXME we should call deallocateFBO() here,
+    // but where do we get a valid OpenGL context?
+    // On program teardown this doesn't matter...
 }
 
 void FrameBufferObject::bindFBO(QOpenGLFunctions &gl) const
