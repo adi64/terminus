@@ -12,10 +12,32 @@ namespace terminus
 
 PostprocessingManager::PostprocessingManager(World &world)
 : AbstractGraphicsObject(world)
+, m_motionBlurEnabled(true)
+, m_motionBlurFactor(3.0)
 , m_objectsOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("postprocessing");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_squad");
+}
+
+void PostprocessingManager::setMotionBlur(bool enabled)
+{
+    m_motionBlurEnabled = enabled;
+}
+
+bool PostprocessingManager::motionBlurEnabled() const
+{
+    return m_motionBlurEnabled;
+}
+
+void PostprocessingManager::setMotionBlurFactor(float factor)
+{
+    m_motionBlurFactor = factor;
+}
+
+float PostprocessingManager::motionBlurFactor() const
+{
+    return m_motionBlurFactor;
 }
 
 void PostprocessingManager::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
@@ -28,6 +50,9 @@ void PostprocessingManager::localRenderCleanup(QOpenGLFunctions & gl, Program & 
 {
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glBindTexture(GL_TEXTURE_2D, 0);
+
+    if(m_motionBlurEnabled)
+        applyMotionBlur(gl);
 }
 
 void PostprocessingManager::beforeRenderHook(QOpenGLFunctions &gl) const
@@ -59,8 +84,6 @@ void PostprocessingManager::allocateFBO(QOpenGLFunctions &gl) const
     int windowWidth = m_world.localPlayer().camera().viewport().x();
     int windowHeight = m_world.localPlayer().camera().viewport().y();
 
-    qDebug() << "w/h: " << windowWidth << " " << windowHeight;
-
     // Texture
     gl.glActiveTexture(GL_TEXTURE0);
     gl.glGenTextures(1, &m_fboTexture);
@@ -90,8 +113,6 @@ void PostprocessingManager::allocateFBO(QOpenGLFunctions &gl) const
         qDebug() << "glCheckFramebufferStatus: error " << status;
     }
 
-    qDebug() << "fbo: " << m_fbo << " fboTexture: " << m_fboTexture << " rboDepth: " << m_rboDepth;
-
     gl.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     m_objectsOnGPU = true;
@@ -107,6 +128,21 @@ void PostprocessingManager::deallocateFBO(QOpenGLFunctions & gl) const
     gl.glDeleteFramebuffers(1, &m_fbo);
 
     m_objectsOnGPU = false;
+}
+
+void PostprocessingManager::applyMotionBlur(QOpenGLFunctions &gl) const
+{
+    static bool firstFrame = true;
+    if(firstFrame)
+    {
+        glAccum(GL_LOAD, 1.0);
+        firstFrame = false;
+        return;
+    }
+
+    glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
+    glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
+    glAccum(GL_RETURN, 1.0);
 }
 
 } //namespace terminus

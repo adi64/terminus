@@ -142,6 +142,8 @@ void World::update()
 
 void World::render(QOpenGLFunctions & gl) const
 {
+    m_postprocessingManager->beforeRenderHook(gl);
+
     gl.glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
 
     gl.glClearColor(0.5f, 0.55f, 0.6f, 1.0f);
@@ -157,8 +159,6 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDepthMask(GL_TRUE);
     gl.glDepthFunc(GL_LESS);
 
-    m_postprocessingManager->beforeRenderHook(gl);
-
     m_skybox->render(gl);
     m_terrain->render(gl);
     m_rightTrain->render(gl);
@@ -169,11 +169,12 @@ void World::render(QOpenGLFunctions & gl) const
     }
 
     m_postprocessingManager->afterRenderHook(gl);
-    m_postprocessingManager->render(gl);
 
     gl.glDisable(GL_BLEND);
     gl.glDisable(GL_DEPTH_TEST);
     gl.glDisable(GL_CULL_FACE);
+
+    m_postprocessingManager->render(gl);
 }
 
 LocalPlayer & World::localPlayer()
