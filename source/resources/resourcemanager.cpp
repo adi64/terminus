@@ -1,5 +1,6 @@
 #include "resourcemanager.h"
 
+#include <assert.h>
 #include <limits.h>
 #include <regex>
 #include <string>
@@ -70,22 +71,22 @@ void ResourceManager::loadResources()
     loadProgram(std::string(":/data/basicShader"));
     loadProgram(std::string(":/data/envmap"));
     loadProgram(std::string(":/data/terrain"));
-    loadProgram(std::string(":/data/postprocessing"));
+    loadProgram(std::string(":/data/postprocessing_passthrough"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
 {
-    return m_geometryStorage[name];
+    return m_geometryStorage.at(name);
 }
 
 std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(std::string name)
 {
-    return m_materialStorage[name];
+    return m_materialStorage.at(name);
 }
 
 std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(std::string name)
 {
-    return m_programStorage[name];
+    return m_programStorage.at(name);
 }
 
 void ResourceManager::loadObj(std::string path)
