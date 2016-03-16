@@ -7,49 +7,16 @@
 #include <world/world.h>
 #include <player/localplayer.h>
 
+#include <world/postprocessing/abstracteffect.h>
+#include <world/postprocessing/motionblur.h>
 namespace terminus
 {
 
 PostprocessingManager::PostprocessingManager(World &world)
-: AbstractGraphicsObject(world)
-, m_motionBlurEnabled(true)
-, m_motionBlurFactor(3.0)
+: m_world(world)
 , m_frameBufferObject(world.viewport())
+, m_motionBlur(std::unique_ptr<MotionBlur>(new MotionBlur(world)))
 {
-    m_program = ResourceManager::getInstance()->getProgram("postprocessing");
-    m_geometry = ResourceManager::getInstance()->getGeometry("base_squad");
-}
-
-void PostprocessingManager::setMotionBlur(bool enabled)
-{
-    m_motionBlurEnabled = enabled;
-}
-
-bool PostprocessingManager::motionBlurEnabled() const
-{
-    return m_motionBlurEnabled;
-}
-
-void PostprocessingManager::setMotionBlurFactor(float factor)
-{
-    m_motionBlurFactor = factor;
-}
-
-float PostprocessingManager::motionBlurFactor() const
-{
-    return m_motionBlurFactor;
-}
-
-void PostprocessingManager::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
-{
-    m_frameBufferObject.bindTexture(gl, GL_TEXTURE0);
-}
-void PostprocessingManager::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
-{
-    m_frameBufferObject.releaseTexture(gl, GL_TEXTURE0);
-
-    if(m_motionBlurEnabled)
-        applyMotionBlur(gl);
 }
 
 void PostprocessingManager::beforeRenderHook(QOpenGLFunctions & gl) const
@@ -61,23 +28,27 @@ void PostprocessingManager::afterRenderHook(QOpenGLFunctions & gl) const
 {
     m_frameBufferObject.releaseFBO(gl);
 
+    // clear real framebuffer
     glClearColor(1.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-void PostprocessingManager::applyMotionBlur(QOpenGLFunctions & /*gl*/) const
+void PostprocessingManager::applyEffects(QOpenGLFunctions & gl)
 {
-    static bool firstFrame = true;
-    if(firstFrame)
-    {
-        glAccum(GL_LOAD, 1.0);
-        firstFrame = false;
-        return;
-    }
+    applyEffect(gl, *m_motionBlur);
+}
 
-    glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
-    glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
-    glAccum(GL_RETURN, 1.0);
+void PostprocessingManager::applyEffect(QOpenGLFunctions & gl, AbstractEffect &effect)
+{
+    //m_frameBufferObject.bindFBO(gl);
+
+    m_frameBufferObject.bindTexture(gl);
+
+    effect.render(gl);
+
+    m_frameBufferObject.releaseTexture(gl);
+
+    //m_frameBufferObject.releaseFBO(gl);
 }
 
 } //namespace terminus

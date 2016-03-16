@@ -7,11 +7,11 @@ namespace terminus
 {
 
 AbstractEffect::AbstractEffect(World & world, DisabledBehaviour behaviour)
-: m_world(world)
+: AbstractGraphicsObject(world)
 , m_disabledBehaviour(behaviour)
 , m_enabled(true)
 {
-
+    m_geometry = ResourceManager::getInstance()->getGeometry("base_squad");
 }
 
 AbstractEffect::~AbstractEffect()
@@ -19,9 +19,11 @@ AbstractEffect::~AbstractEffect()
 
 }
 
-void AbstractEffect::apply(QOpenGLFunctions &gl) const
+void AbstractEffect::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
 {
-    internalApply(gl);
+}
+void AbstractEffect::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
+{
 }
 
 void AbstractEffect::enable(bool enabled)

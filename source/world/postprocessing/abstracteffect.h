@@ -1,12 +1,15 @@
 #pragma once
 
+#include <world/drawables/abstractgraphicsobject.h>
+#include <resources/resourcemanager.h>
+#include <world/world.h>
+
 class QOpenGLFunctions;
-class World;
 
 namespace terminus
 {
 
-class AbstractEffect
+class AbstractEffect : public AbstractGraphicsObject
 {
 public:
 
@@ -21,8 +24,8 @@ public:
     AbstractEffect(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~AbstractEffect();
 
-    void apply(QOpenGLFunctions & gl) const final;
-    virtual void internalApply(QOpenGLFunctions & gl) const = 0;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
     void enable(bool enabled = true);
     void disable();
@@ -31,7 +34,6 @@ public:
 protected:
     void applyDisabled() const;
 
-    World & m_world;
     DisabledBehaviour m_disabledBehaviour;
 
     bool m_enabled;

@@ -10,13 +10,16 @@ namespace terminus
 class MotionBlur : public AbstractEffect
 {
 public:
-    MotionBlur();
-    virtual ~MotionBlur(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    MotionBlur(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    virtual ~MotionBlur();
 
-    virtual void internalApply(QOpenGLFunctions & gl) const override;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
 protected:
     QMatrix4x4 m_previousViewProjectionMatrix;
+
+    float m_motionBlurFactor;
 };
 
 }

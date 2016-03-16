@@ -117,8 +117,6 @@ void World::update()
     // physics - never give bullet negative step times
     m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
 
-    m_postprocessingManager->update();
-
     m_skybox->update();
     m_terrain->update();
     m_rightTrain->update();
@@ -175,7 +173,7 @@ void World::render(QOpenGLFunctions & gl) const
     gl.glDisable(GL_DEPTH_TEST);
     gl.glDisable(GL_CULL_FACE);
 
-    m_postprocessingManager->render(gl);
+    m_postprocessingManager->applyEffects(gl);
 }
 
 LocalPlayer & World::localPlayer()

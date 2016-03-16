@@ -6,7 +6,7 @@
         <file>data/envmap.vert</file>
         <file>data/terrain.frag</file>
         <file>data/terrain.vert</file>
-        <file>data/postprocessing.frag</file>
-        <file>data/postprocessing.vert</file>
+        <file>data/postprocessing_passthrough.frag</file>
+        <file>data/postprocessing_passthrough.vert</file>
     </qresource>
 </RCC>
