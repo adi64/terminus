@@ -98,11 +98,6 @@ void Weapon::onBindCamera()
     m_previousCenter = worldToModel(m_camera->center());
     m_previousEye = worldToModel(m_camera->eye());
     m_world.timer().adjust(m_cameraTimer, 0);
-
-//    dynamic_cast<WeaponWagon*>(parent())->m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
-//    dynamic_cast<WeaponWagon*>(parent())->m_previousCenter = worldToModel(m_camera->center());
-//    dynamic_cast<WeaponWagon*>(parent())->m_previousEye = worldToModel(m_camera->eye());
-//    dynamic_cast<WeaponWagon*>(parent())->m_world.timer().adjust(m_cameraTimer, 0);
 }
 
 void terminus::Weapon::adjustCamera()
@@ -116,8 +111,6 @@ void terminus::Weapon::adjustCamera()
 
     auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
     auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
-
-    qDebug() << m_previousEye;
 
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
@@ -189,6 +182,24 @@ QVector3D Weapon::localCameraEye()
 Camera * Weapon::camera()
 {
     return m_camera;
+}
+
+QMatrix4x4 Weapon::modelMatrix() const
+{
+    if(parent())
+    {
+        parent()->modelMatrix();
+    }
+    return QMatrix4x4();
+}
+
+QMatrix4x4 Weapon::modelMatrixInverted() const
+{
+    if(parent())
+    {
+        parent()->modelMatrixInverted();
+    }
+    return QMatrix4x4();
 }
 
 float Weapon::damage()

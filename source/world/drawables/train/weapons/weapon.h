@@ -58,6 +58,9 @@ public:
 
     virtual Camera * camera();
 
+    virtual QMatrix4x4 modelMatrix() const override;
+    virtual QMatrix4x4 modelMatrixInverted() const override;
+
 public:
     float damage();
     float reloadTime();

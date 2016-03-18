@@ -148,13 +148,13 @@ public:
      * If necessary, the matrix is recalculated from the
      * position, rotation and scaling information
      */
-    QMatrix4x4 modelMatrix() const;
+    virtual QMatrix4x4 modelMatrix() const;
     /*!
      * \return this objects inverted model matrix
      *
      * If necessary, the matrix is recalculated from the model matrix
      */
-    QMatrix4x4 modelMatrixInverted() const;
+    virtual QMatrix4x4 modelMatrixInverted() const;
 
     AbstractGraphicsObject * parent() const;
 
