@@ -61,11 +61,6 @@ void WeaponWagon::fire(QVector3D velocity)
     weapon()->fire(projectileVelocity, projectilePosition);
 }
 
-QVector3D WeaponWagon::aimVector()
-{
-    return (modelToWorld(localCameraCenter()) - modelToWorld(localCameraEye())).normalized();
-}
-
 float WeaponWagon::cooldownTime() const
 {
     return 3000.f;
@@ -76,9 +71,9 @@ WagonType WeaponWagon::wagonType() const
     return WEAPON_WAGON;
 }
 
-void WeaponWagon::onBindCamera()
+void WeaponWagon::bindCameraToWeapon(Camera & camera)
 {
-    m_camera->bindTo(weapon());
+    camera.bindTo(m_weapon.get());
 }
 
 void WeaponWagon::setWeapon(Weapon *weapon)
@@ -104,6 +99,11 @@ void WeaponWagon::localUpdate()
     AbstractWagon::localUpdate();
 
     weapon()->localUpdate();
+}
+
+QVector3D WeaponWagon::aimVector()
+{
+    return (modelToWorld(localCameraCenter()) - modelToWorld(localCameraEye())).normalized();
 }
 
 void WeaponWagon::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)

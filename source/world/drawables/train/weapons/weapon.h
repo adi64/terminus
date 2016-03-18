@@ -39,6 +39,12 @@ public:
     virtual void adjustCamera() override;
 
     /*!
+     * \brief rotates the camera position in model space
+     * \param rotation
+     */
+    virtual void rotateEvent(QVector2D rotation) override;
+
+    /*!
      * \brief Calculates the camera position vector in model space.
      * \return
      */

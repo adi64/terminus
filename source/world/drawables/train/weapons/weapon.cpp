@@ -89,10 +89,20 @@ QVector3D Weapon::weaponOffset()
 
 void Weapon::onBindCamera()
 {
+    if(!parent())
+    {
+        return;
+    }
+
     m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
     m_previousCenter = worldToModel(m_camera->center());
     m_previousEye = worldToModel(m_camera->eye());
     m_world.timer().adjust(m_cameraTimer, 0);
+
+//    dynamic_cast<WeaponWagon*>(parent())->m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
+//    dynamic_cast<WeaponWagon*>(parent())->m_previousCenter = worldToModel(m_camera->center());
+//    dynamic_cast<WeaponWagon*>(parent())->m_previousEye = worldToModel(m_camera->eye());
+//    dynamic_cast<WeaponWagon*>(parent())->m_world.timer().adjust(m_cameraTimer, 0);
 }
 
 void terminus::Weapon::adjustCamera()
@@ -107,55 +117,73 @@ void terminus::Weapon::adjustCamera()
     auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
     auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
 
+    qDebug() << m_previousEye;
+
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
 }
 
+void Weapon::rotateEvent(QVector2D rotation)
+{
+    if(!parent())
+    {
+        return;
+    }
+
+    auto scale = 0.025f;
+    auto & vBBMinM = parent()->minBB();
+    auto & vBBMaxM = parent()->maxBB();
+    m_cameraEyeOffset.setX(
+        MathUtil::clamp(vBBMinM.x(), vBBMaxM.x(), m_cameraEyeOffset.x() + rotation.x() * scale));
+    m_cameraEyeOffset.setY(
+        MathUtil::clamp(-1.f, 3.f, m_cameraEyeOffset.y() + rotation.y() * scale));
+}
+
 QVector3D Weapon::localCameraCenter()
 {
-    auto & vBBMinM = minBB();
-    auto & vBBMaxM = maxBB();
+    if(!parent())
+    {
+        return {0.f, 0.f, 0.f};
+    }
+
+    auto & vBBMinM = parent()->minBB();
+    auto & vBBMaxM = parent()->maxBB();
 
     auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
     auto yBaseM = vBBMaxM.y() + 1.f;
 
-    if(parent())
+    if(dynamic_cast<WeaponWagon*>(parent())->isOtherTrainLeft())
     {
-        if(dynamic_cast<WeaponWagon*>(parent())->isOtherTrainLeft())
-        {
-            return {xCenterM, yBaseM, vBBMinM.z() - 1.f};
-        }
-        else
-        {
-            return {xCenterM, yBaseM, vBBMaxM.z() + 1.f};
-        }
+        return {xCenterM, yBaseM, vBBMinM.z() - 1.f};
     }
-
-    return {0.f, 0.f, 0.f};
+    else
+    {
+        return {xCenterM, yBaseM, vBBMaxM.z() + 1.f};
+    }
 }
 
 QVector3D Weapon::localCameraEye()
 {
-    auto & vBBMinM = minBB();
-    auto & vBBMaxM = maxBB();
+    if(!parent())
+    {
+        return {0.f, 0.f, 0.f};
+    }
+
+    auto & vBBMinM = parent()->minBB();
+    auto & vBBMaxM = parent()->maxBB();
 
     auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
     auto yBaseM = vBBMaxM.y() + 1.f;
     auto & vEyeOff = m_cameraEyeOffset;
 
-    if(parent())
+    if(dynamic_cast<WeaponWagon*>(parent())->isOtherTrainLeft())
     {
-        if(dynamic_cast<WeaponWagon*>(parent())->isOtherTrainLeft())
-        {
-            return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
-        }
-        else
-        {
-            return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
-        }
+        return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
     }
-
-    return {0.f, 0.f, 0.f};
+    else
+    {
+        return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
+    }
 }
 
 Camera * Weapon::camera()

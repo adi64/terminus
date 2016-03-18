@@ -28,7 +28,12 @@ void Barrel::localUpdate()
 {
     if(m_parent)
     {
+        if(!dynamic_cast<Weapon*>(parent())->camera())
+        {
+            return;
+        }
         Camera camera = *dynamic_cast<Weapon*>(parent())->camera();
+
         QVector3D lookAt = (camera.eye() - camera.center()).normalized();
 
         float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;

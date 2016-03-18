@@ -85,6 +85,8 @@ void AbstractWagon::adjustCamera()
     auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
     auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
 
+    //qDebug() << m_previousEye;
+
     m_camera->setCenter(modelToWorld(vCenterM));
     m_camera->setEye(modelToWorld(vEyeM));
 }

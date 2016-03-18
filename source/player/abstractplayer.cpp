@@ -7,6 +7,7 @@
 #include <util/mathutil.h>
 #include <world/camera.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 #include <world/drawables/train/train.h>
 
 namespace terminus
@@ -21,7 +22,7 @@ AbstractPlayer::AbstractPlayer(World & world, Train * train)
     assert(train);
 
     m_train->setPlayer(this);
-    m_camera.bindTo(selectedWagon());
+    bindCamera();
 }
 
 Camera & AbstractPlayer::camera()
@@ -37,7 +38,7 @@ void AbstractPlayer::toggleCameraLock()
     }
     else
     {
-        m_camera.bindTo(selectedWagon());
+        bindCamera();
     }
 }
 
@@ -53,7 +54,7 @@ void AbstractPlayer::switchToNextWagon()
         ++m_selectedWagonIndex;
         if(m_camera.isBound())
         {
-            m_camera.bindTo(selectedWagon());
+            bindCamera();
         }
     }
 }
@@ -65,7 +66,7 @@ void AbstractPlayer::switchToPreviousWagon()
         --m_selectedWagonIndex;
         if(m_camera.isBound())
         {
-            m_camera.bindTo(selectedWagon());
+            bindCamera();
         }
     }
 }
@@ -123,6 +124,18 @@ void AbstractPlayer::update()
 AbstractWagon * AbstractPlayer::selectedWagon()
 {
     return m_train->wagonAt(m_selectedWagonIndex);
+}
+
+void AbstractPlayer::bindCamera()
+{
+    if(selectedWagon()->wagonType() == WagonType::WEAPON_WAGON)
+    {
+        dynamic_cast<WeaponWagon*>(selectedWagon())->bindCameraToWeapon(m_camera);
+    }
+    else
+    {
+        m_camera.bindTo(selectedWagon());
+    }
 }
 
 terminus::Train *terminus::AbstractPlayer::train()

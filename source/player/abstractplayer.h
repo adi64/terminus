@@ -54,6 +54,7 @@ public:
 
 protected:
     AbstractWagon * selectedWagon();
+    virtual void bindCamera();
 
 protected:
     World & m_world;
