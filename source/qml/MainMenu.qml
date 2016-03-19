@@ -67,7 +67,7 @@ Item {
                 if (train.length < 2) {
                     loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "loaderSource": source });
                 } else {
-                    loader.setSource(source, { "loader": loader });
+                    loader.setSource(source, params);
                 }
             }
         }
