@@ -1,6 +1,10 @@
 #pragma once
 
+#include <QList>
+
 #include <network/commands/abstractcommand.h>
+
+#include <world/drawables/train/wagons/abstractwagon.h>
 
 namespace terminus
 {

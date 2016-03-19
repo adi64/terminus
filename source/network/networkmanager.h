@@ -71,6 +71,7 @@ public:
     void sendSyncCommand(const Train &playerTrain);
     void sendGameEndedCommand(bool youWin);
     void sendClientReadyCommand();
+    void sendSetTrainCommand();
 
     /*!
      * \brief Initiates the command sequence of a multiplayer game
