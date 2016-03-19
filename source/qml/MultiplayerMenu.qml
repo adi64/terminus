@@ -21,7 +21,8 @@ Item
     id: multiplayerMenu
     anchors.fill: parent
 
-    property Loader loader
+    property Loader loader;
+    property var train: [1];
 
     Image
     {
@@ -84,7 +85,7 @@ Item
             }
             onReleased:
             {
-                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "ip": inputBox.text })
+                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "ip": inputBox.text, "train": train })
             }
         }
     }
@@ -104,7 +105,7 @@ Item
             }
             onReleased:
             {
-                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "host": true })
+                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": true, "host": true, "train": train })
             }
         }
     }

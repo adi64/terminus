@@ -25,7 +25,7 @@ Item
     anchors.fill: parent
 
     property Loader loader
-    property var playerTrain: []
+    property var train: []
     property var enemyTrain: [1, 2, 2, 2, 2, 2, 3, 2]
     property bool network
     property bool host
@@ -62,7 +62,7 @@ Item
                 enemyTrain: []
             };
 
-            playerTrain.forEach(function (wagonType) {
+            train.forEach(function (wagonType) {
                 data.playerTrain.push({ type: wagonType });
             });
             enemyTrain.forEach(function (wagonType) {

@@ -5,14 +5,14 @@ Item {
     anchors.fill: parent
 
     property Loader loader
-    property var playerTrain: [1]
-    property var enemyTrain: [1]
-    property var activeTrain: playerTrain
+    property string loaderSource: ""
+    property var loaderParams: ({})
+    property var train: [1]
 
     function trainToString() {
         var trainString = "";
 
-        activeTrain.forEach(function (wagon) {
+        train.forEach(function (wagon) {
             switch (wagon) {
             case 1:
                 trainString += "E "; break;
@@ -28,89 +28,64 @@ Item {
         return trainString;
     }
 
-    function activeTrainString() {
-        if (playerTrain.length > 1) {
-            return "Setup - Enemy Train";
-        } else {
-            return "Setup - Player Train";
-        }
-    }
-
-    Image
-    {
+    Image {
         source: "qrc:/data/MenuBackground.png"
         anchors.fill: parent
     }
 
-    Headline
-    {
-        text: activeTrainString()
+    Headline {
+        text: "Setup"
     }
 
-    SimpleButton
-    {
+    SimpleButton {
         id: trainButton
         posNum: 0
         buttonText: trainToString()
     }
 
-    SimpleButton
-    {
+    SimpleButton {
         posNum: 1
         buttonText: "Add Weapon Wagon"
 
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onReleased:
-            {
-                if (activeTrain.length < 7) {
-                    activeTrain.push(2);
+            onReleased: {
+                if (train.length < 7) {
+                    train.push(2);
                     trainButton.buttonText = trainToString();
                 }
             }
         }
     }
 
-    SimpleButton
-    {
+    SimpleButton {
         posNum: 2
         buttonText: "Add Repair Wagon"
 
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onReleased:
-            {
-                if (activeTrain.length < 7) {
-                    activeTrain.push(3);
+            onReleased: {
+                if (train.length < 7) {
+                    train.push(3);
                     trainButton.buttonText = trainToString();
                 }
             }
         }
     }
 
-    SimpleButton
-    {
+    SimpleButton {
         posNum: 3
-        buttonText: "Start Game"
+        buttonText: "Confirm"
 
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onPressed:
-            {
-                trainButton.buttonText = "Loading..."
+            onPressed: {
+                trainButton.buttonText = "Loading...";
             }
-            onReleased:
-            {
-                if (playerTrain.length > 1 && enemyTrain.length > 1) {
-                    loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": false, "playerTrain": playerTrain, "enemyTrain": enemyTrain });
-                } else if (playerTrain.length > 1) {
-                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "playerTrain": playerTrain, "enemyTrain": enemyTrain, "activeTrain": enemyTrain });
-                } else {
-                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader });
-                }
+            onReleased: {
+                loaderParams.loader = loader;
+                loaderParams.train = train;
+                loader.setSource(loaderSource, loaderParams);
             }
         }
     }
