@@ -25,11 +25,17 @@ Item
     property Game game: parent.game
     property bool isReversed: parent.isReversed
     property int currentWagon: game.qmlData.currentWagon
+    property var train: game.qmlData.playerTrain
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
     height: parent.width / 16
+
+    function createWagonStatus(wagonIndex) {
+        var component = Qt.createComponent("qrc:/source/qml/PlayerWagonStatus.qml");
+        var status = component.createObject(playerStatusContainer, { "wagonIndex": wagonIndex })
+    }
 
     Image
     {
@@ -108,45 +114,10 @@ Item
         property Game game: parent.game
         property bool isReversed: parent.isReversed
 
-        PlayerWagonStatus
-        {
-            id: ewagon0
-            wagonIndex: 0
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon1
-            wagonIndex: 1
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon2
-            wagonIndex: 2
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon3
-            wagonIndex: 3
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon4
-            wagonIndex: 4
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon5
-            wagonIndex: 5
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon6
-            wagonIndex: 6
-        }
-        PlayerWagonStatus
-        {
-            id: ewagon7
-            wagonIndex: 7
+        Component.onCompleted: {
+            train.forEach(function (wagon, index) {
+                createWagonStatus(index);
+            });
         }
     }
 }
