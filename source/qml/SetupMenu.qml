@@ -15,11 +15,11 @@ Item {
         activeTrain.forEach(function (wagon) {
             switch (wagon) {
             case 1:
-                trainString += "Engine "; break;
+                trainString += "E "; break;
             case 2:
-                trainString += "Weapon "; break;
+                trainString += "W "; break;
             case 3:
-                trainString += "Repair "; break;
+                trainString += "R "; break;
             default:
                 break;
             }
