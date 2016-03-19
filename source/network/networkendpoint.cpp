@@ -113,7 +113,6 @@ AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
         cmd = new GameEndedCommand(timeStamp, json.object()["parameter"].toObject());
         break;
     case Command_SetTrain:
-        qDebug() << message;
         cmd = new SetTrainCommand(timeStamp, json.object()["parameter"].toObject());
         break;
         //...
