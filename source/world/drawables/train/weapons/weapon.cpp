@@ -60,10 +60,8 @@ void Weapon::localUpdate()
 {
     AbstractGraphicsObject::localUpdate();
 
-    modelMatrix(); //muss das hier sein?
+    //modelMatrix(); //muss das hier sein?
 
-    if(m_camera)
-    {
 //        QVector3D lookAt = (m_camera->eye() - m_camera->center()).normalized();
 
 //        float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
@@ -75,11 +73,10 @@ void Weapon::localUpdate()
 //        QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
 
 //        m_turret->setRotation(xz_rotation + y_rotationX);
-         m_turret->localUpdate();
+     m_turret->localUpdate();
 
 //        m_barrel->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
-         m_barrel->localUpdate();
-    }
+     m_barrel->localUpdate();
 }
 
 QVector3D Weapon::weaponOffset()
@@ -188,7 +185,7 @@ QMatrix4x4 Weapon::modelMatrix() const
 {
     if(parent())
     {
-        parent()->modelMatrix();
+        return parent()->modelMatrix();
     }
     return QMatrix4x4();
 }
@@ -197,7 +194,7 @@ QMatrix4x4 Weapon::modelMatrixInverted() const
 {
     if(parent())
     {
-        parent()->modelMatrixInverted();
+        return parent()->modelMatrixInverted();
     }
     return QMatrix4x4();
 }
