@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include <QDebug>
-#include <QOpenGLShaderProgram>
 #include <QTime>
 #include <QQuickWindow>
 

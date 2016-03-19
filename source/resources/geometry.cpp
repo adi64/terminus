@@ -3,8 +3,6 @@
 #include <string>
 #include <math.h>
 
-#include <QOpenGLShaderProgram>
-
 #include "indextriple.h"
 
 namespace terminus
@@ -56,20 +54,18 @@ void Geometry::allocate() const
      if(m_isOnGPU)
          return;
 
-     m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-     m_vbo->create();
-     m_vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
-     m_vbo->bind();
-     m_vbo->allocate(m_vertexBuffer.data(), m_vertexBuffer.size() * sizeof(Vertex));
+     //setup VertexBufferObject
+     glGenBuffers(1, &m_vbo);
+     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+     glBufferData(GL_ARRAY_BUFFER, m_vertexBuffer.size() * sizeof(Vertex), m_vertexBuffer.data(), GL_STATIC_DRAW);
+     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-     m_ibo = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-     m_ibo->create();
-     m_ibo->setUsagePattern(QOpenGLBuffer::StaticDraw);
-     m_ibo->bind();
-     m_ibo->allocate(m_indexBuffer.data(), m_indexBuffer.size() * sizeof(unsigned short));
+     glGenBuffers(1, &m_ibo);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer.size() * sizeof(unsigned short), m_indexBuffer.data(), GL_STATIC_DRAW);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-     m_vbo->release();
-     m_ibo->release();
+     //TODO-LW: Add error checks
 
      m_isOnGPU = true;
 }
@@ -79,18 +75,9 @@ void Geometry::deallocate() const
     if(!m_isOnGPU)
         return;
 
-    if(m_vbo)
-    {
-        m_vbo->destroy();
-        delete m_vbo;
-        m_vbo = nullptr;
-    }
-    if(m_ibo)
-    {
-        m_ibo->destroy();
-        delete m_ibo;
-        m_ibo = nullptr;
-    }
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteBuffers(1, &m_ibo);
+
     m_isOnGPU = false;
 }
 
@@ -106,26 +93,29 @@ const QVector3D & Geometry::bBoxMax() const
 
 void Geometry::setAttributes(Program & program)
 {
-    program.program().bindAttributeLocation("a_vertex", 0);
-    program.program().bindAttributeLocation("a_texCoord", 1);
-    program.program().bindAttributeLocation("a_normal", 2);
+    glBindAttribLocation(program.program(), 0, "a_vertex");
+    glBindAttribLocation(program.program(), 1, "a_texCoord");
+    glBindAttribLocation(program.program(), 2, "a_normal");
 }
 
-void Geometry::draw(QOpenGLFunctions & gl) const
+void Geometry::draw() const
 {
     allocate();
 
-    m_vbo->bind();
-    m_ibo->bind();
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
-    gl.glEnableVertexAttribArray(0); // positions
-    gl.glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
-    gl.glEnableVertexAttribArray(1); // texture coordinates
-    gl.glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3])));
-    gl.glEnableVertexAttribArray(2); // normals
-    gl.glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
+    glEnableVertexAttribArray(0); // positions
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
+    glEnableVertexAttribArray(1); // texture coordinates
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3])));
+    glEnableVertexAttribArray(2); // normals
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
 
-    gl.glDrawElements(GL_TRIANGLES, m_elementCount, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, m_elementCount, GL_UNSIGNED_SHORT, nullptr);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 }//namespace terminus

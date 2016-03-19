@@ -3,9 +3,8 @@
 #include <string>
 #include <vector>
 
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
-#include <QOpenGLFunctions>
+#include <GLES3/gl3.h>
+
 #include <QVector3D>
 
 #include "indextriple.h"
@@ -57,7 +56,7 @@ public:
      * \brief By invoking the draw function, both index and vertex buffer are going to be bound and the geometry will be drawn.
      * \param gl
      */
-    virtual void draw(QOpenGLFunctions & gl) const;
+    virtual void draw() const;
 
 protected:
     virtual void calculateBBox();
@@ -65,8 +64,8 @@ protected:
     virtual void deallocate() const;
 
     mutable bool m_isOnGPU;
-    mutable QOpenGLBuffer *m_vbo;
-    mutable QOpenGLBuffer *m_ibo;
+    mutable int m_vbo;
+    mutable int m_ibo;
 
     unsigned int m_elementCount;
 

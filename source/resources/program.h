@@ -27,21 +27,20 @@ public:
      *
      * Space is allocated only, when current data isn't stored on GPU yet.
      */
-    virtual void allocate();
+    virtual void allocate() const;
 
     /*!
      * \brief Deallocates space on the GPU
      *
      * Space is deallocated only, when current data is present on GPU.
      */
-    virtual void deallocate();
+    virtual void deallocate() const;
 
-    virtual void bind();
-    virtual void release();
+    virtual void bind() const;
+    virtual void release() const;
 
-    virtual QOpenGLShaderProgram & program();
+    virtual int program() const;
 
-    virtual void bindAttributeLocation(std::string name, int location);
     virtual void setUniform(std::string name, const QMatrix4x4 & value);
     virtual void setUniform(std::string name, const QMatrix3x3 & value);
     virtual void setUniform(std::string name, const QVector3D value);
@@ -54,7 +53,9 @@ private:
     std::string m_vertexSrc;
     std::string m_fragmentSrc;
 
-    QOpenGLShaderProgram * m_program;
+    int m_program;
+    int m_vertShader;
+    int m_fragShader;
 
     bool m_isBound;
     bool m_isOnGPU;

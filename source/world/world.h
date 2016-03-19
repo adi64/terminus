@@ -70,7 +70,7 @@ public:
     ~World();
 
     void update();
-    void render(QOpenGLFunctions & gl) const;
+    void render() const;
 
     LocalPlayer & localPlayer();
     AbstractPlayer & enemyPlayer();
