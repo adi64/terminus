@@ -19,10 +19,10 @@ public:
 
     virtual Commands commandType() const override;
 
-    const QList<WagonType> & trainConfig() const;
+    const QList<int> &trainConfig() const;
 
 protected:
-    QList<WagonType> m_trainConfig;
+    QList<int> m_trainConfig;
 };
 
 }

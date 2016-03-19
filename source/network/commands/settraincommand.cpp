@@ -16,7 +16,7 @@ SetTrainCommand::SetTrainCommand(Timer::TimerMSec timeStamp, const Train & train
     for(unsigned int i=0; i<train.size(); i++)
     {
         qDebug() << "SetTrainCommand: I have a wagon with type " << train.wagonAt(i)->wagonType();
-        m_trainConfig.append(train.wagonAt(i)->wagonType());
+        m_trainConfig.append(static_cast<int>(train.wagonAt(i)->wagonType()));
     }
 }
 
@@ -26,7 +26,7 @@ SetTrainCommand::SetTrainCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObj
     QJsonArray playerTrainConfigArray = jsonObject.value("trainConfig").toArray();
     for(int i = 0; i < playerTrainConfigArray.size(); i++)
     {
-        m_trainConfig.append(playerTrainConfigArray.at(i).toVariant().value<WagonType>());
+        m_trainConfig.append(playerTrainConfigArray.at(i).toInt());
     }
 }
 
@@ -35,9 +35,9 @@ QJsonObject SetTrainCommand::toJson() const
     QJsonObject jsonObject;
 
     QVariantList variantList;
-    for(const WagonType & wagonType : m_trainConfig)
+    for(int wagonTypeInt : m_trainConfig)
     {
-        variantList.append(QVariant(wagonType));
+        variantList.append(QVariant(wagonTypeInt));
     }
 
     QJsonArray playerTrainConfigArray = QJsonArray::fromVariantList(variantList);
@@ -56,8 +56,10 @@ void SetTrainCommand::doWork()
     }
 
     // add wagons
-    for(const WagonType wagonType : m_trainConfig)
+    for(const int wagonTypeInt : m_trainConfig)
     {
+        WagonType wagonType = static_cast<WagonType>(wagonTypeInt);
+
         qDebug() << "Adding wagon with type " << wagonType << " to enemy train";
 
         if(wagonType != WagonType::ENGINE_WAGON)
@@ -87,7 +89,7 @@ Commands SetTrainCommand::commandType() const
     return Command_SetTrain;
 }
 
-const QList<WagonType> &SetTrainCommand::trainConfig() const
+const QList<int> &SetTrainCommand::trainConfig() const
 {
     return m_trainConfig;
 }
