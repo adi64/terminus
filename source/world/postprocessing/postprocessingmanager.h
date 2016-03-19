@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include <resources/framebufferobject.h>
 
 #include <world/postprocessing/abstracteffect.h>
-#include <world/postprocessing/motionblur.h>
+#include <world/postprocessing/passthrough.h>
 
 class QOpenGLFunctions;
 
@@ -19,17 +20,19 @@ class PostprocessingManager
 public:
     PostprocessingManager(World & world);
 
-    void beforeRenderHook(QOpenGLFunctions &gl) const;
-    void afterRenderHook(QOpenGLFunctions &gl) const;
+    const FrameBufferObject & gBufferFBO() const;
 
-    void applyEffects(QOpenGLFunctions &gl);
+    void composeImage(QOpenGLFunctions &gl);
 protected:
-    void applyEffect(QOpenGLFunctions &gl, AbstractEffect & effect);
+    void applyEffect(QOpenGLFunctions &gl, AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
 
     World & m_world;
     FrameBufferObject m_frameBufferObject;
 
-    std::unique_ptr<MotionBlur> m_motionBlur;
+    std::unique_ptr<Passthrough> m_passthrough;
+
+    std::vector<std::unique_ptr<AbstractEffect>> m_effects;
+    std::vector<std::unique_ptr<FrameBufferObject>> m_effectFBOs;
 };
 
 }

@@ -141,7 +141,8 @@ void World::update()
 
 void World::render(QOpenGLFunctions & gl) const
 {
-    m_postprocessingManager->beforeRenderHook(gl);
+    // render to g-buffer instead of to the screen
+    m_postprocessingManager->gBufferFBO().bindFBO(gl);
 
     gl.glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
 
@@ -167,13 +168,19 @@ void World::render(QOpenGLFunctions & gl) const
         object->render(gl);
     }
 
-    m_postprocessingManager->afterRenderHook(gl);
+    m_postprocessingManager->gBufferFBO().releaseFBO(gl);
 
+    // clear real framebuffer
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    // disable stuff we don't need while post-processing
     gl.glDisable(GL_BLEND);
     gl.glDisable(GL_DEPTH_TEST);
     gl.glDisable(GL_CULL_FACE);
 
-    m_postprocessingManager->applyEffects(gl);
+    // apply post-processing effects and render image to screen
+    m_postprocessingManager->composeImage(gl);
 }
 
 LocalPlayer & World::localPlayer()

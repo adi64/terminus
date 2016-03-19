@@ -69,7 +69,7 @@ public:
      * \param program
      * \param model
      */
-    void setMatrices(Program & program, const QMatrix4x4 & model) const;
+    void setUniforms(Program & program, const QMatrix4x4 & model) const;
 
     /*!
      * \brief bind camera to track an AbstractGraphicsObject

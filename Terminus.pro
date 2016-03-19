@@ -417,7 +417,9 @@ HEADERS += \
     source/world/postprocessing/abstracteffect.h \
     source/resources/framebufferobject.h \
     source/world/postprocessing/motionblur.h \
-    source/world/postprocessing/passthrough.h
+    source/world/postprocessing/passthrough.h \
+    source/world/postprocessing/invert.h \
+    source/world/postprocessing/vignette.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -621,4 +623,6 @@ SOURCES += \
     source/world/postprocessing/abstracteffect.cpp \
     source/resources/framebufferobject.cpp \
     source/world/postprocessing/motionblur.cpp \
-    source/world/postprocessing/passthrough.cpp
+    source/world/postprocessing/passthrough.cpp \
+    source/world/postprocessing/invert.cpp \
+    source/world/postprocessing/vignette.cpp
