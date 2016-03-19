@@ -64,8 +64,10 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                activeTrain.push(2);
-                trainButton.buttonText = trainToString();
+                if (activeTrain.length < 7) {
+                    activeTrain.push(2);
+                    trainButton.buttonText = trainToString();
+                }
             }
         }
     }
@@ -80,8 +82,10 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                activeTrain.push(3);
-                trainButton.buttonText = trainToString();
+                if (activeTrain.length < 7) {
+                    activeTrain.push(3);
+                    trainButton.buttonText = trainToString();
+                }
             }
         }
     }
