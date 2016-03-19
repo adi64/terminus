@@ -25,11 +25,11 @@ Item
     anchors.fill: parent
 
     property Loader loader
-    property var train: []
-    property var enemyTrain: [1, 2, 2, 2, 2, 2, 3, 2]
     property bool network
     property bool host
     property string ip
+    property var train: []
+    property var enemyTrain: network ? [] : [1, 2, 2, 2, 2, 2, 3, 2]
 
     Game
     {

@@ -50,7 +50,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onReleased: {
-                if (train.length < 7) {
+                if (train.length < 8) {
                     train.push(2);
                     trainButton.buttonText = trainToString();
                 }
@@ -65,7 +65,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onReleased: {
-                if (train.length < 7) {
+                if (train.length < 8) {
                     train.push(3);
                     trainButton.buttonText = trainToString();
                 }
