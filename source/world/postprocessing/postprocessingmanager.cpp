@@ -14,7 +14,7 @@ namespace terminus
 
 PostprocessingManager::PostprocessingManager(World &world)
 : m_world(world)
-, m_frameBufferObject(world.viewport())
+, m_frameBufferObject(world.viewport(), { GL_RGBA })
 , m_motionBlur(std::unique_ptr<MotionBlur>(new MotionBlur(world)))
 {
 }
