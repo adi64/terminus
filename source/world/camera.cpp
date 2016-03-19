@@ -342,7 +342,7 @@ bool Camera::isBound() const
     return m_associatedObject;
 }
 
-void Camera::setMatrices(Program & program, const QMatrix4x4 & model) const
+void Camera::setUniforms(Program & program, const QMatrix4x4 & model) const
 {
     program.setUniform(std::string("mModel"), model);
     program.setUniform(std::string("mModelInv"), model.inverted());
@@ -352,5 +352,8 @@ void Camera::setMatrices(Program & program, const QMatrix4x4 & model) const
     program.setUniform(std::string("mViewNorm"), normal());
     program.setUniform(std::string("mProjection"), projection());
     program.setUniform(std::string("mProjectionInv"), projectionInverted());
+
+    program.setUniform(std::string("screenWidth"), static_cast<float>(m_viewport.x()));
+    program.setUniform(std::string("screenHeight"), static_cast<float>(m_viewport.y()));
 }
 } // namespace terminus

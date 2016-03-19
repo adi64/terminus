@@ -9,14 +9,37 @@
 
 #include <world/postprocessing/abstracteffect.h>
 #include <world/postprocessing/motionblur.h>
+#include <world/postprocessing/passthrough.h>
+#include <world/postprocessing/invert.h>
+#include <world/postprocessing/vignette.h>
+
 namespace terminus
 {
 
 PostprocessingManager::PostprocessingManager(World &world)
 : m_world(world)
 , m_frameBufferObject(world.viewport())
-, m_motionBlur(std::unique_ptr<MotionBlur>(new MotionBlur(world)))
 {
+    // initialize effects
+    auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
+    auto invertPtr = std::unique_ptr<Invert>(new Invert(world));
+    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
+
+    // create list of effects
+    m_effects.push_back(std::move(motionBlurPtr));
+    m_effects.push_back(std::move(invertPtr));
+    m_effects.push_back(std::move(vignettePtr));
+
+    // create FBO per effect
+    for(unsigned int i=0; i<m_effects.size(); i++)
+    {
+        auto fboPtr = std::unique_ptr<FrameBufferObject>(new FrameBufferObject(world.viewport()));
+
+        m_effectFBOs.push_back(std::move(fboPtr));
+    }
+
+    // last "effect" to render to screen instead of texture
+    m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));
 }
 
 void PostprocessingManager::beforeRenderHook(QOpenGLFunctions & gl) const
@@ -35,20 +58,37 @@ void PostprocessingManager::afterRenderHook(QOpenGLFunctions & gl) const
 
 void PostprocessingManager::applyEffects(QOpenGLFunctions & gl)
 {
-    applyEffect(gl, *m_motionBlur);
+    assert(m_effects.size() == m_effectFBOs.size());
+
+    for(unsigned int i = 0; i<m_effects.size(); i++)
+    {
+        AbstractEffect * effectPtr = m_effects[i].get();
+        FrameBufferObject * targetFBOPtr = m_effectFBOs[i].get();
+        FrameBufferObject * sourceFBOPtr = &m_frameBufferObject;
+
+        if(i > 0)
+            sourceFBOPtr = m_effectFBOs[i-1].get();
+
+        if(i == m_effects.size() -1)
+            targetFBOPtr = nullptr;
+
+        applyEffect(gl, effectPtr, sourceFBOPtr, targetFBOPtr);
+    }
 }
 
-void PostprocessingManager::applyEffect(QOpenGLFunctions & gl, AbstractEffect &effect)
+void PostprocessingManager::applyEffect(QOpenGLFunctions & gl, AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO)
 {
-    //m_frameBufferObject.bindFBO(gl);
+    if(targetFBO)
+        targetFBO->bindFBO(gl);
 
-    m_frameBufferObject.bindTexture(gl);
+    sourceFBO->bindTexture(gl);
 
-    effect.render(gl);
+    effect->render(gl);
 
-    m_frameBufferObject.releaseTexture(gl);
+    sourceFBO->releaseTexture(gl);
 
-    //m_frameBufferObject.releaseFBO(gl);
+    if(targetFBO)
+        targetFBO->releaseFBO(gl);
 }
 
 } //namespace terminus

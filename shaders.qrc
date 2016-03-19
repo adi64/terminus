@@ -8,5 +8,9 @@
         <file>data/terrain.vert</file>
         <file>data/postprocessing_passthrough.frag</file>
         <file>data/postprocessing_passthrough.vert</file>
+        <file>data/postprocessing_invert.frag</file>
+        <file>data/postprocessing_invert.vert</file>
+        <file>data/postprocessing_vignette.frag</file>
+        <file>data/postprocessing_vignette.vert</file>
     </qresource>
 </RCC>
