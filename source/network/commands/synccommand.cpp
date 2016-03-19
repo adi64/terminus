@@ -60,6 +60,15 @@ QJsonObject SyncCommand::toJson() const
 
 void SyncCommand::doWork()
 {
+    qDebug() << __FUNCTION__;
+
+    //TODO FIXME
+    if(m_game->world().enemyPlayerTrain().size() != m_wagonHealthVector.size())
+    {
+        qDebug() << "ERMERGERD" << m_game->world().enemyPlayerTrain().size() << " - " << m_wagonHealthVector.size();
+        return;
+    }
+
     assert(m_game->world().enemyPlayerTrain().size() == m_wagonHealthVector.size());
 
     // synchronize timer if we are client
