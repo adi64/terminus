@@ -75,6 +75,8 @@ void SetTrainCommand::doWork()
         // this means that we are ready and wait for host's go
         m_game->networkManager().sendClientReadyCommand();
     }
+
+    m_game->showUI();
 }
 
 Commands SetTrainCommand::commandType() const
