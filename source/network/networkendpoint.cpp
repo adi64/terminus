@@ -18,6 +18,7 @@
 #include <network/commands/projectilefiredcommand.h>
 #include <network/commands/projectilehitcommand.h>
 #include <network/commands/synccommand.h>
+#include <network/commands/settraincommand.h>
 
 namespace terminus
 {
@@ -110,6 +111,9 @@ AbstractCommand * NetworkEndpoint::deserializeCommand(const QString & message)
         break;
     case Command_GameEnded:
         cmd = new GameEndedCommand(timeStamp, json.object()["parameter"].toObject());
+        break;
+    case Command_SetTrain:
+        cmd = new SetTrainCommand(timeStamp, json.object()["parameter"].toObject());
         break;
         //...
     default:

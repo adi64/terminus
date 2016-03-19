@@ -138,3 +138,5 @@ protected:
 };
 
 }
+
+Q_DECLARE_METATYPE(terminus::WagonType)
