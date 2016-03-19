@@ -42,7 +42,7 @@ QJsonObject SetTrainCommand::toJson() const
 
     QJsonArray playerTrainConfigArray = QJsonArray::fromVariantList(variantList);
 
-    jsonObject.insert("playerTrainConfig", playerTrainConfigArray);
+    jsonObject.insert("trainConfig", playerTrainConfigArray);
 
     return jsonObject;
 }
