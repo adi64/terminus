@@ -20,10 +20,9 @@ class PostprocessingManager
 public:
     PostprocessingManager(World & world);
 
-    void beforeRenderHook(QOpenGLFunctions &gl) const;
-    void afterRenderHook(QOpenGLFunctions &gl) const;
+    const FrameBufferObject & gBufferFBO() const;
 
-    void applyEffects(QOpenGLFunctions &gl);
+    void composeImage(QOpenGLFunctions &gl);
 protected:
     void applyEffect(QOpenGLFunctions &gl, AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
 

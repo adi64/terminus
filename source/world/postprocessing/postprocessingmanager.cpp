@@ -42,21 +42,12 @@ PostprocessingManager::PostprocessingManager(World &world)
     m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));
 }
 
-void PostprocessingManager::beforeRenderHook(QOpenGLFunctions & gl) const
+const FrameBufferObject & PostprocessingManager::gBufferFBO() const
 {
-    m_frameBufferObject.bindFBO(gl);
+    return m_frameBufferObject;
 }
 
-void PostprocessingManager::afterRenderHook(QOpenGLFunctions & gl) const
-{
-    m_frameBufferObject.releaseFBO(gl);
-
-    // clear real framebuffer
-    glClearColor(1.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-}
-
-void PostprocessingManager::applyEffects(QOpenGLFunctions & gl)
+void PostprocessingManager::composeImage(QOpenGLFunctions & gl)
 {
     assert(m_effects.size() == m_effectFBOs.size());
 
