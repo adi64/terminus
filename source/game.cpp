@@ -62,7 +62,20 @@ void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
-    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+
+    QList<WagonType> playerTrain;
+    for (auto & wagon : m_qmlData.toMap()["playerTrain"].toList())
+    {
+        playerTrain.push_back(WagonType(wagon.toMap()["type"].toInt()));
+    }
+
+    QList<WagonType> enemyTrain;
+    for (auto & wagon : m_qmlData.toMap()["enemyTrain"].toList())
+    {
+        enemyTrain.push_back(WagonType(wagon.toMap()["type"].toInt()));
+    }
+
+    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed, playerTrain, enemyTrain));
     showUI();
 }
 
@@ -70,16 +83,13 @@ void Game::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
     m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
-    if (showMessage)
+    if (showMessage && localPlayerWins)
     {
-        if (localPlayerWins)
-        {
-            QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
-        }
-        else
-        {
-            QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
-        }
+        QMetaObject::invokeMethod(this, "winGame", Qt::AutoConnection);
+    }
+    else if (showMessage && !localPlayerWins)
+    {
+        QMetaObject::invokeMethod(this, "loseGame", Qt::AutoConnection);
     }
     else
     {
@@ -296,6 +306,11 @@ void Game::updateQMLData()
 QVariant & Game::qmlData()
 {
     return m_qmlData;
+}
+
+void Game::writeQmlData(QVariant qmlData)
+{
+    m_qmlData = qmlData;
 }
 
 }

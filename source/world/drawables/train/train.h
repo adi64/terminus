@@ -38,7 +38,7 @@ public:
      */
     template<typename WagonType>
     void addWagon();
-
+    void addWagon(WagonType type);
     /*!
      * \brief Inserts a wagon of the given WagonType at the given position.
      *
@@ -127,8 +127,6 @@ protected:
      * added to the train.
      */
     std::vector<std::unique_ptr<AbstractWagon>> m_wagons;
-
-    bool m_hasEngine; //!< Every train needs exactly one engine
 
     float m_velocity;
     Train *m_followedTrain;

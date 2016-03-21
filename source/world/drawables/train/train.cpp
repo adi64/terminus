@@ -9,6 +9,8 @@
 #include <util/timer.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/wagons/enginewagon.h>
+#include <world/drawables/train/wagons/repairwagon.h>
+#include <world/drawables/train/wagons/weaponwagon.h>
 
 namespace terminus
 {
@@ -16,7 +18,6 @@ const float Train::base_velocity = 0.02;
 
 Train::Train(World & world, Track * track)
 : AbstractGraphicsObject(world)
-, m_hasEngine(false)
 , m_velocity(base_velocity)
 , m_followedTrain(nullptr)
 , m_travelledDistance(0.0f)
@@ -30,6 +31,23 @@ Train::Train(World & world, Track * track)
 Train::~Train()
 {
 
+}
+
+void Train::addWagon(WagonType type)
+{
+    switch (type) {
+    case ENGINE_WAGON:
+        addWagon<EngineWagon>();
+        break;
+    case WEAPON_WAGON:
+        addWagon<WeaponWagon>();
+        break;
+    case REPAIR_WAGON:
+        addWagon<RepairWagon>();
+        break;
+    default:
+        break;
+    }
 }
 
 void Train::removeWagon(unsigned int index)

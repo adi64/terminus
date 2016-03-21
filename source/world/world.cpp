@@ -28,7 +28,12 @@
 namespace terminus
 {
 
-World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
+World::World(Game & game,
+             bool isNetworkGame,
+             bool isPlayerOne,
+             unsigned int terrainSeed,
+             QList<WagonType> playerWagons,
+             QList<WagonType> enemyWagons)
 : m_game(game)
 , m_level(LevelConfiguration(terrainSeed))
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
@@ -40,8 +45,8 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_rightTrain = std::unique_ptr<Train>(new Train(*this, &(m_terrain->rightTrack())));
     m_leftTrain = std::unique_ptr<Train>(new Train(*this, &(m_terrain->leftTrack())));
 
-    Train* playerTrain = nullptr;
-    Train* enemyTrain = nullptr;
+    Train * playerTrain = nullptr;
+    Train * enemyTrain = nullptr;
 
     if(isPlayerOne)
     {
@@ -65,21 +70,7 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
         m_enemyPlayer = std::unique_ptr<AbstractPlayer>(new AIPlayer(*this, enemyTrain, playerTrain));
     }
 
-    m_leftTrain->addWagon<WeaponWagon>();
-    m_leftTrain->addWagon<WeaponWagon>();
-    m_leftTrain->addWagon<RepairWagon>();
-    m_leftTrain->addWagon<WeaponWagon>();
-    m_leftTrain->addWagon<WeaponWagon>();
-    m_leftTrain->addWagon<RepairWagon>();
-    m_leftTrain->addWagon<WeaponWagon>();
-
-    m_rightTrain->addWagon<WeaponWagon>();
-    m_rightTrain->addWagon<WeaponWagon>();
-    m_rightTrain->addWagon<RepairWagon>();
-    m_rightTrain->addWagon<WeaponWagon>();
-    m_rightTrain->addWagon<WeaponWagon>();
-    m_rightTrain->addWagon<WeaponWagon>();
-    m_rightTrain->addWagon<RepairWagon>();
+    initTrains(playerWagons, enemyWagons);
 
     localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
     localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
@@ -206,6 +197,23 @@ LightManager & World::lightManager()
 std::shared_ptr<BulletWorld> World::bulletWorld()
 {
     return m_bulletWorld;
+}
+
+void World::initTrains(QList<WagonType> playerWagons, QList<WagonType> enemyWagons)
+{
+    for (auto wagon : playerWagons)
+    {
+        if(wagon != ENGINE_WAGON) {
+            m_localPlayer->train()->addWagon(wagon);
+        }
+    }
+
+    for (auto wagon : enemyWagons)
+    {
+        if(wagon != ENGINE_WAGON) {
+            m_enemyPlayer->train()->addWagon(wagon);
+        }
+    }
 }
 
 void World::scheduleAction(ActionScheduler::Action event)

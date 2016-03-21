@@ -59,7 +59,7 @@ protected:
     World & m_world;
 
     Camera m_camera;
-    Train *m_train;
+    Train * m_train;
 
     bool m_animationInProgress;
     Timer::TimerID m_animationTimer;

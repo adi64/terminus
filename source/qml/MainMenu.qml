@@ -12,61 +12,90 @@ import QtQuick 2.5
  *
  */
 
-Item
-{
+Item {
     id: mainMenu
     anchors.fill: parent
 
+    property var train: [1];
     property Loader loader
 
-    Image
-    {
+    Image {
         source: "qrc:/data/MenuBackground.png"
         anchors.fill: parent
     }
 
-    Headline
-    {
+    Headline {
         text: "TERMINUS"
     }
 
-    MenuButton
-    {
-        id: button0
+    SimpleButton {
         posNum: 0
         buttonText: "Singleplayer"
-        MouseArea
-        {
+
+        MouseArea {
             anchors.fill: parent
-            onPressed:
-            {
-                button0.buttonText = "Loading..."
+            onPressed: {
+                parent.buttonText = "Loading..."
             }
-            onReleased:
-            {
-                loader.setSource("qrc:/source/qml/Game.qml", { "loader": loader, "network": false })
+            onReleased: {
+                var source = "qrc:/source/qml/Game.qml";
+                var params = { "loader": loader, "network": false, "train": train };
+
+                if (train.length < 2) {
+                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "loaderSource": source, "loaderParams": params });
+                } else {
+                    loader.setSource(source, params);
+                }
+
             }
         }
     }
 
-    MenuButton
-    {
+    SimpleButton{
         posNum: 1
         buttonText: "Multiplayer"
-        loadSource: "qrc:/source/qml/MultiplayerMenu.qml"
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                parent.buttonText = "Loading..."
+            }
+            onReleased: {
+                var source = "qrc:/source/qml/MultiplayerMenu.qml";
+                var params = { "loader": loader, "train": train };
+
+                if (train.length < 2) {
+                    loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "loaderSource": source });
+                } else {
+                    loader.setSource(source, params);
+                }
+            }
+        }
     }
 
-    MenuButton
-    {
+    SimpleButton {
         posNum: 2
+        buttonText: "Train Setup"
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                parent.buttonText = "Loading..."
+            }
+            onReleased: {
+                loader.setSource("qrc:/source/qml/SetupMenu.qml", { "loader": loader, "loaderSource": "qrc:/source/qml/MainMenu.qml" });
+            }
+        }
+    }
+
+    SimpleButton {
+        posNum: 3
         buttonText: "Quit"
         visible: !(Qt.platform.os === "android" || Qt.platform.os === "ios")
 
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onReleased:
-            {
+            onReleased: {
                 Qt.quit()
             }
         }

@@ -1,5 +1,8 @@
 #include "preparenewgamecommand.h"
 
+#include <QJsonArray>
+#include <QVariantList>
+
 #include <game.h>
 #include <network/networkmanager.h>
 
@@ -24,6 +27,7 @@ PrepareNewGameCommand::PrepareNewGameCommand(Timer::TimerMSec timeStamp, QJsonOb
 QJsonObject PrepareNewGameCommand::toJson() const
 {
     QJsonObject jsonObject;
+
     jsonObject.insert("isPlayerOne", QJsonValue(m_isPlayerOne));
     jsonObject.insert("terrainSeed", QJsonValue(static_cast<signed int>(m_terrainSeed)));
     return jsonObject;
@@ -33,7 +37,7 @@ void PrepareNewGameCommand::doWork()
 {
     m_game->timer().adjust(m_timeStamp);
     m_game->createWorld(true, m_isPlayerOne, m_terrainSeed);
-    m_game->networkManager().sendClientReadyCommand();
+    m_game->networkManager().sendSetTrainCommand();
 }
 
 Commands PrepareNewGameCommand::commandType() const

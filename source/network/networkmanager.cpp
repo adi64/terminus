@@ -11,6 +11,7 @@
 #include <network/commands/pausecommand.h>
 #include <network/commands/synccommand.h>
 #include <network/commands/gameendedcommand.h>
+#include <network/commands/settraincommand.h>
 #include <network/networkclient.h>
 #include <network/networkendpoint.h>
 #include <network/networkserver.h>
@@ -122,6 +123,12 @@ void NetworkManager::sendGameEndedCommand(bool youWin)
 void NetworkManager::sendClientReadyCommand()
 {
     auto command = new ClientReadyCommand(m_game.timer().get());
+    emit sendCommand(command);
+}
+
+void NetworkManager::sendSetTrainCommand()
+{
+    auto command = new SetTrainCommand(m_game.timer().get(), m_game.world().localPlayerTrain());
     emit sendCommand(command);
 }
 
