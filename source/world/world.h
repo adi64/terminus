@@ -28,7 +28,7 @@ namespace terminus
 {
 class AbstractGraphicsObject;
 class AbstractPhysicsObject;
-class AbstractPlayer;\
+class AbstractPlayer;
 class AIPlayer;
 class Game;
 class LocalPlayer;
