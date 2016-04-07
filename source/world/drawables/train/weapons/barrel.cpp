@@ -35,14 +35,17 @@ void Barrel::localUpdate()
             QVector3D lookAt = (camera.eye() - camera.center()).normalized();
 
             float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
-            //float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
-            //float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
+            float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
+            float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
 
-    //        QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
-    //        QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
-    //        QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
+            //QQuaternion z_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
+            QQuaternion z_rotationY = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleZ);
+            QQuaternion x_rotationY = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleX);
+            QQuaternion y_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
 
-            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
+            setRotation(y_rotation);
+            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ));
+            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX));
         }
         else
         {

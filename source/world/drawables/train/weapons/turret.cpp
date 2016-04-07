@@ -45,7 +45,8 @@ void Turret::localUpdate()
             QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
     //        QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
 
-            setRotation(xz_rotation + y_rotationX);
+            //setRotation(xz_rotation + y_rotationX);
+            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
         }
         else
         {
