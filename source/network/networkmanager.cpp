@@ -41,13 +41,14 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::startServer(unsigned short port)
 {
-    auto server = new NetworkServer;
+    //auto server = new NetworkServer;
 
-    setEndpoint(server);
+    //setEndpoint(server);
 
-    m_mode = Mode::MultiplayerHost;
+    //m_mode = Mode::MultiplayerHost;
 
-    server->listen(port);
+    // TODO FIXME singleton
+    NetworkServer::instance()->listen(QHostAddress::Any, port);
 }
 
 void NetworkManager::startClient(QString host, unsigned short port)
@@ -81,7 +82,7 @@ void NetworkManager::setEndpoint(NetworkEndpoint * endpoint)
     }
     m_networkEndpoint.reset(endpoint);
     connect(m_networkEndpoint.get(), &NetworkEndpoint::receivedCommand, this, &NetworkManager::onReceivedCommand);
-    connect(m_networkEndpoint.get(), &NetworkServer::stateChanged, this, &NetworkManager::onEndpointStateChange);
+    connect(m_networkEndpoint.get(), &NetworkEndpoint::stateChanged, this, &NetworkManager::onEndpointStateChange);
 }
 
 void NetworkManager::sendPauseCommand(bool pause)

@@ -23,11 +23,20 @@
 namespace terminus
 {
 
-NetworkEndpoint::NetworkEndpoint(QObject *parent)
+NetworkEndpoint::NetworkEndpoint(QObject * parent, QTcpSocket * socket)
 : QObject(parent)
 , m_state(State::Disconnected)
-, m_socket(nullptr)
+, m_socket(socket)
 {
+    if(m_socket->isOpen() && m_socket->isReadable() && m_socket->isWritable())
+    {
+        m_state = State::Connected;
+    }
+
+    connect(m_socket, &QTcpSocket::connected,    this, &NetworkEndpoint::connected);
+    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkEndpoint::disconnected);
+
+    connect(m_socket, &QTcpSocket::readyRead,    this, &NetworkEndpoint::onDataReceived);
 }
 
 NetworkEndpoint::~NetworkEndpoint()
@@ -38,6 +47,7 @@ NetworkEndpoint::~NetworkEndpoint()
 void NetworkEndpoint::sendCommand(AbstractCommand * command)
 {
     sendMessage(serializeCommand(command));
+    delete command;
 }
 
 void NetworkEndpoint::disconnect()

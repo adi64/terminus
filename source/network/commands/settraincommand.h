@@ -12,6 +12,7 @@ class SetTrainCommand : public AbstractCommand
 {
 public:
     SetTrainCommand(Timer::TimerMSec timeStamp, const Train & train);
+    SetTrainCommand(Timer::TimerMSec timeStamp, const std::vector<WagonType> & trainConfig);
     SetTrainCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject);
 
     virtual QJsonObject toJson() const override;

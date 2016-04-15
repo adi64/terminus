@@ -1,6 +1,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <time.h>
 
 #include <QDebug>
 #include <QApplication>
@@ -8,11 +9,13 @@
 
 #include "game.h"
 
-#include <resources/resourcemanager.h>
 #include <network/ipprovider.h>
 
 int main(int argc, char *argv[])
 {
+    // seed PRNG
+    srand(time(NULL));
+
     QApplication app(argc, argv);
 
     qmlRegisterType<terminus::Game>("Game", 1, 0, "Game");

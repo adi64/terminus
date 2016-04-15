@@ -6,14 +6,30 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
+#include <network/commands/settraincommand.h>
+#include <network/commands/preparenewgamecommand.h>
+
 namespace terminus
 {
 
+// TODO FIXME singleton instance ptr
+NetworkServer * NetworkServer::s_instance = nullptr;
+
 NetworkServer::NetworkServer(QObject* parent)
-: NetworkEndpoint(parent)
+: QObject(parent)
 , m_server(new QTcpServer(this))
+, m_clientEndpoints{nullptr, nullptr}
+, m_clientReadyFlags{false, false}
+, m_terrainSeed(rand())
 {
+    m_trainConfigurations[0].clear();
+    m_trainConfigurations[1].clear();
     connect(m_server, &QTcpServer::newConnection, this, &NetworkServer::onClientConnected);
+}
+
+void NetworkServer::prepareNewGame()
+{
+    m_terrainSeed = rand();
 }
 
 NetworkServer::~NetworkServer()
@@ -21,33 +37,62 @@ NetworkServer::~NetworkServer()
     m_server->close();
 }
 
-bool NetworkServer::listen(unsigned short port)
+// TODO FIXME singleton instance getter
+NetworkServer *NetworkServer::instance()
 {
-    if(!m_server->listen(QHostAddress::Any, port)) {
-        return false;
+    if(!s_instance)
+    {
+        s_instance = new NetworkServer();
     }
+    return s_instance;
+}
 
-    enterState(State::Listening);
-
-    return true;
+bool NetworkServer::listen(const QHostAddress &address /* = QHostAddress::Any */, uint16_t port /* = 0 */)
+{
+    return m_server->listen(address, port);
 }
 
 void NetworkServer::onClientConnected()
 {
-    m_socket = m_server->nextPendingConnection();
-    m_server->close();
+    QTcpSocket* clientSocket = m_server->nextPendingConnection();
 
-    connect(m_socket, &QTcpSocket::disconnected, m_socket, &QTcpSocket::deleteLater);
-    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkServer::onClientDisconnected);
-    connect(m_socket, &QTcpSocket::readyRead,    this, &NetworkServer::onDataReceived);
+    if(m_clientEndpoints[0] && m_clientEndpoints[1])
+    {
+        // There are already two clients connected!
+        clientSocket->close();
+        return;
+    }
 
-    enterState(State::Connected);
+    uint8_t clientID = m_clientEndpoints[0] ? 1 : 0;
+
+    m_clientEndpoints[clientID] = std::unique_ptr<NetworkEndpoint>(new NetworkEndpoint(this, clientSocket));
+    m_trainConfigurations[clientID].clear();
+    m_clientReadyFlags[clientID] = false;
+
+    connect(m_clientEndpoints[clientID].get(), &NetworkEndpoint::disconnected, this, &NetworkServer::onClientDisconnected);
+    connect(m_clientEndpoints[clientID].get(), &NetworkEndpoint::receivedCommand, this, &NetworkServer::onReceivedCommand);
+
+    auto prepareNewGameCommand = new PrepareNewGameCommand(m_timer.get(), clientID == 0, m_terrainSeed);
+    m_clientEndpoints[clientID]->sendCommand(prepareNewGameCommand);
+
 }
 
 void NetworkServer::onClientDisconnected()
 {
-    m_socket = nullptr;
-    enterState(State::Disconnected);
+    // TODO FIXME for now, just delete / close all sockets
+    m_clientEndpoints[0] = nullptr;
+    m_clientEndpoints[1] = nullptr;
+
+    prepareNewGame();
+}
+
+void NetworkServer::onReceivedCommand(AbstractCommand *command)
+{
+    if(!command)
+        return;
+
+    //command->setGame(&m_game);
+    //m_game.scheduler().scheduleAction( [=](){ command->doWork(); delete command; return false; } );
 }
 
 } //namespace terminus

@@ -28,12 +28,12 @@ public:
     };
 
 public:
-    explicit NetworkEndpoint(QObject * parent = nullptr);
+    explicit NetworkEndpoint(QObject * parent = nullptr, QTcpSocket * socket = nullptr);
     virtual ~NetworkEndpoint();
 
     /*!
      * \brief serializes command and sends it to the opposite NetworkEndpoint
-     * \param command - ownership is not taken
+     * \param command - ownership is taken
      */
     void sendCommand(AbstractCommand * command);
 
@@ -48,6 +48,9 @@ public:
     State state();
 
 signals:
+    void connected();
+    void disconnected();
+
     /*!
      * \brief fired for every AbstractCommand received from the opposite NetworkEndpoint
      * \param command - ownership passes to receiver of this signal

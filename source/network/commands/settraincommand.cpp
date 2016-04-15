@@ -19,6 +19,16 @@ SetTrainCommand::SetTrainCommand(Timer::TimerMSec timeStamp, const Train & train
     }
 }
 
+SetTrainCommand::SetTrainCommand(Timer::TimerMSec timeStamp, const std::vector<WagonType> &trainConfig)
+    : AbstractCommand(timeStamp)
+{
+    m_trainConfig.clear();
+    for(const WagonType wagonType : trainConfig)
+    {
+        m_trainConfig.push_back(static_cast<const int>(wagonType));
+    }
+}
+
 SetTrainCommand::SetTrainCommand(Timer::TimerMSec timeStamp, QJsonObject jsonObject)
     : AbstractCommand(timeStamp)
 {
