@@ -28,8 +28,8 @@ Weapon::Weapon(World & world, WeaponWagon * parent)
  , m_scattering(0.0)
  , m_thrust(0.0)
  , m_magazineSize(0)
- , m_turret(std::unique_ptr<Turret>(new Turret(world, this, "bigTurret_bigTurret", "base_Red")))
- , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, this, "bigBarrel_bigBarrel", "base_Blue")))
+ , m_turret(std::unique_ptr<Turret>(new Turret(world, this, "base_ico1", "base_Red")))
+ , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, this, "base_ico1", "base_Blue")))
 {
     m_cameraTimer = m_world.timer().allocateTimer();
 }

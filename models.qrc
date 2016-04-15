@@ -5,8 +5,5 @@
         <file>data/weapon.obj</file>
         <file>data/repair.obj</file>
         <file>data/engine.obj</file>
-        <file>data/bigBarrel.obj</file>
-        <file>data/weaponWagon2.obj</file>
-        <file>data/bigTurret.obj</file>
     </qresource>
 </RCC>

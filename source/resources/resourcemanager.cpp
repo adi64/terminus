@@ -66,9 +66,6 @@ void ResourceManager::loadResources()
     loadObj(std::string(":/data/engine.obj"));
     loadObj(std::string(":/data/weapon.obj"));
     loadObj(std::string(":/data/repair.obj"));
-    loadObj(std::string(":/data/bigBarrel.obj"));
-    loadObj(std::string(":/data/bigTurret.obj"));
-    loadObj(std::string(":/data/weaponWagon2.obj"));
     loadMtl(std::string(":/data/base.mtl"));
     loadProgram(std::string(":/data/basicShader"));
     loadProgram(std::string(":/data/envmap"));
