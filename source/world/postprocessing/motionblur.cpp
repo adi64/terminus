@@ -17,12 +17,12 @@ MotionBlur::~MotionBlur()
 
 }
 
-void MotionBlur::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
+void MotionBlur::localRenderSetup(Program & /*program*/) const
 {
 
 }
 
-void MotionBlur::localRenderCleanup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
+void MotionBlur::localRenderCleanup(Program & /*program*/) const
 {
     static bool firstFrame = true;
     if(firstFrame)

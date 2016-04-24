@@ -76,5 +76,11 @@ void main()
     float fDensity = mix(0.02, 0.002, fFogHeight);
     float fFog = 1.0 - exp(-pow(fDensity * (-v_positionC.z), 2.0));
 
-    gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
+    //gl_FragColor = vec4(mix(color, fogColor, fFog), fAlpha.r);
+
+    gl_FragColor = vec4(light[0].w * 0.25, light[1].w, 0.0, 1.0);
+    //light format:
+    //  +0 - position3 type1;
+    //  +1 - direction3 intensity1;
+    //  +2 - color3 cutoff1;
 }

@@ -25,9 +25,9 @@ class Terrain : public AbstractGraphicsObject
 public:
     Terrain(World & world, const Level & level);
 
-    virtual void localRender(QOpenGLFunctions& gl) const override;
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
-    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRender() const override;
+    virtual void localRenderSetup(Program & program) const override;
+    virtual void localRenderCleanup(Program & program) const override;
 
     /*!
      * \brief sets the displacement texture and track courses according to level
@@ -41,10 +41,8 @@ public:
 protected:
     virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
 
-    void renderPatch(QOpenGLFunctions& gl, int iX, int iZ) const;
-
-    void allocateTerrainMap(QOpenGLFunctions & gl) const;
-    void deallocateTerrainMap(QOpenGLFunctions & gl) const;
+    void allocateTerrainMap() const;
+    void deallocateTerrainMap() const;
 
 protected:
     LevelConfiguration m_levelConfig;

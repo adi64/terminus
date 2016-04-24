@@ -19,7 +19,7 @@ class Program
 {
 public:
     Program();
-    Program(std::string vertexSrc, std::string fragmentSrc);
+    Program(std::vector<char> && vertexSrc, std::vector<char> && fragmentSrc);
     virtual ~Program();
 
     /*!
@@ -50,15 +50,15 @@ public:
     virtual void setUniform(std::string name, const QVector4D * values, int count);
 
 private:
-    std::string m_vertexSrc;
-    std::string m_fragmentSrc;
+    std::vector<char> m_vertexSrc;
+    std::vector<char> m_fragmentSrc;
 
-    int m_program;
-    int m_vertShader;
-    int m_fragShader;
+    mutable unsigned int m_program;
+    mutable unsigned int m_vertShader;
+    mutable unsigned int m_fragShader;
 
-    bool m_isBound;
-    bool m_isOnGPU;
+    mutable bool m_isBound;
+    mutable bool m_isOnGPU;
 };
 
 } //namespace terminus

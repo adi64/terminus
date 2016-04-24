@@ -19,10 +19,10 @@ AbstractEffect::~AbstractEffect()
 
 }
 
-void AbstractEffect::localRenderSetup(QOpenGLFunctions & gl, Program & /*program*/) const
+void AbstractEffect::localRenderSetup(Program & /*program*/) const
 {
 }
-void AbstractEffect::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
+void AbstractEffect::localRenderCleanup(Program & /*program*/) const
 {
 }
 

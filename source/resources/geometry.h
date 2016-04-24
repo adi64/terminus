@@ -47,13 +47,13 @@ public:
     virtual const QVector3D & bBoxMax() const;
 
     /*!
-     * \brief The geometry specific attributes position, texture coordinate and normal vector are set on the used program.
-     * \param program
-     */
-    virtual void setAttributes(Program & program);
-
-    /*!
      * \brief By invoking the draw function, both index and vertex buffer are going to be bound and the geometry will be drawn.
+     *
+     * Attributes will be mapped to the following locations:
+     * location = 0 : modelspace vertex position
+     * location = 1 : texture coordinates
+     * location = 2 : vertex normal
+     *
      * \param gl
      */
     virtual void draw() const;
@@ -64,8 +64,8 @@ protected:
     virtual void deallocate() const;
 
     mutable bool m_isOnGPU;
-    mutable int m_vbo;
-    mutable int m_ibo;
+    mutable unsigned int m_vbo;
+    mutable unsigned int m_ibo;
 
     unsigned int m_elementCount;
 

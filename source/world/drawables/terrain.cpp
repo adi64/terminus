@@ -75,7 +75,7 @@ void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> ca
     }
 }
 
-void Terrain::localRender(QOpenGLFunctions& gl) const
+void Terrain::localRender() const
 {
     QVector3D camPos = m_world.localPlayer().camera().eye();
     QPoint patchID = m_levelConfig.positionToPatchID(camPos.x(), camPos.z());
@@ -87,18 +87,18 @@ void Terrain::localRender(QOpenGLFunctions& gl) const
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
-            AbstractGraphicsObject::localRender(gl);
+            AbstractGraphicsObject::localRender();
         }
     }
 
     // render tracks
-    m_rightTrack->render(gl);
-    m_leftTrack->render(gl);
+    m_rightTrack->render();
+    m_leftTrack->render();
 }
 
-void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
+void Terrain::localRenderSetup(Program & program) const
 {
-    AbstractGraphicsObject::localRenderSetup(gl, program);
+    AbstractGraphicsObject::localRenderSetup(program);
 
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_levelConfig.vertexCountS() - 1)),
@@ -112,15 +112,15 @@ void Terrain::localRenderSetup(QOpenGLFunctions & gl, Program & program) const
     program.setUniform("texInfo", texInfo);
     program.setUniform("posInfo", posInfo);
 
-    allocateTerrainMap(gl);
-    gl.glActiveTexture(GL_TEXTURE0);
-    gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
+    allocateTerrainMap();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
-void Terrain::localRenderCleanup(QOpenGLFunctions & gl, Program & /*program*/) const
+void Terrain::localRenderCleanup(Program & /*program*/) const
 {
-    gl.glActiveTexture(GL_TEXTURE0);
-    gl.glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Terrain::configureWith(const Level & level)
@@ -133,31 +133,31 @@ void Terrain::configureWith(const Level & level)
     m_terrainMapValid = true;
 }
 
-void Terrain::allocateTerrainMap(QOpenGLFunctions & gl) const
+void Terrain::allocateTerrainMap() const
 {
     if(m_terrainMapOnGPU && m_terrainMapValid)
         return;
 
     if(!m_terrainMapOnGPU)
-        gl.glGenTextures(1, &m_terrainMap);
+        glGenTextures(1, &m_terrainMap);
 
-    gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
-    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    gl.glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, m_terrainMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     m_terrainMapOnGPU = true;
 }
 
-void Terrain::deallocateTerrainMap(QOpenGLFunctions & gl) const
+void Terrain::deallocateTerrainMap() const
 {
     if(!m_terrainMapOnGPU)
         return;
 
-    gl.glDeleteTextures(1, &m_terrainMap);
+    glDeleteTextures(1, &m_terrainMap);
 
     m_terrainMapOnGPU = false;
 }

@@ -43,14 +43,14 @@ void Explosion::localUpdate()
     }
 }
 
-void Explosion::localRenderSetup(QOpenGLFunctions & gl, Program &) const
+void Explosion::localRenderSetup(Program &) const
 {
-    gl.glDisable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
 }
 
-void Explosion::localRenderCleanup(QOpenGLFunctions & gl, Program &) const
+void Explosion::localRenderCleanup(Program &) const
 {
-    gl.glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 }
 
 } //namespace terminus

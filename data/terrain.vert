@@ -1,3 +1,5 @@
+#version 300 es
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -8,22 +10,31 @@ uniform mat4 mProjection;
 uniform mat3 mModelNorm;
 uniform mat3 mViewNorm;
 
-uniform vec3 lightDirection;
+uniform vec4 fSpecularitySnow;
+uniform vec4 cEmitSnow;
+uniform vec4 cDiffuseSnow;
+uniform vec4 cSpecularSnow;
+uniform vec4 fSpecularityRock;
+uniform vec4 cEmitRock;
+uniform vec4 cDiffuseRock;
+uniform vec4 cSpecularRock;
+uniform vec4 fAlpha;
 
 uniform sampler2D levelMap;
 uniform vec4 texInfo; //x - offset x; y - offset z; z - size x; w - size z
 uniform vec4 posInfo; //x - triangle width; y - triangle height; z - patch displacement x; w - patch displacement z
 
-attribute vec3 a_position;
-attribute vec3 a_texCoord;
-attribute vec3 a_normal; // x - encoded offset to adjacent vertex 0; y - encoded offset to adjacent vertex 0
+layout (location = 0) in vec3 a_position;
+layout (location = 1) in vec3 a_texCoord;
+layout (location = 2) in vec3 a_normal; // x - encoded offset to adjacent vertex 0; y - encoded offset to adjacent vertex 0
 
-varying vec3 v_normalC;
-varying vec3 v_positionC;
-varying vec3 v_positionW;
-varying float v_color;
-varying float v_shade;
-
+out vec3 v_normalCamSpace;
+out vec3 v_positionCamSpace;
+out vec3 v_emitColor;
+out vec3 v_diffuseColor;
+out float v_alpha;
+out vec3 v_specularColor;
+out float v_specularity;
 
 //decode packed adjacent-vertex-offset
 vec2 decodeOffset(float offset)
@@ -61,19 +72,21 @@ void main()
     vec3 normal = normalize(cross(dVertex1 - dVertex, dVertex2 - dVertex));
 
     //use pseudo pseudorandom function on normal to provide a face specific factor to fragment shader
-    v_shade = mod(normal.y * 10000.0 , 1.0);
+    float shade = mod(normal.y * 10000.0 , 1.0);
     //steepness dependent factor to distinguish snowy and rocky triangles
-    v_color = smoothstep(0.20, 0.35, abs(normal.y));
+    float rockyness = smoothstep(0.20, 0.35, abs(normal.y));
 
-    //---world space---
-    vec4 positionW4 = mModel * vec4(position, 1.0);
-    v_positionW = positionW4.xyz / positionW4.w;
+    v_emitColor = mix(cEmitRock.rgb, cEmitSnow.rgb, rockyness) * mix(0.8, 1.0, shade);
+    v_diffuseColor = mix(cDiffuseRock.rgb, cDiffuseSnow.rgb, rockyness) * mix(0.9, 1.0, shade);
+    v_specularColor = mix(cSpecularRock.rgb, cSpecularSnow.rgb, rockyness);
+    v_specularity = mix(fSpecularityRock.r, fSpecularitySnow.r, rockyness);
+    v_alpha = fAlpha.r;
 
     //---camera space---
     //transform the relevant vectors for phong model in fragment shader
-    v_normalC = mViewNorm * mModelNorm * normal;
-    vec4 positionC4 = mView * mModel * vec4(position, 1.0);
-    v_positionC = positionC4.xyz / positionC4.w;
+    v_normalCamSpace = mViewNorm * mModelNorm * normal;
+    vec4 position4 = mView * mModel * vec4(position, 1.0);
+    v_positionCamSpace = position4.xyz / position4.w;
 
     //---screen space---
     gl_Position = mProjection * mView * mModel * vec4(position, 1.0);

@@ -17,15 +17,15 @@ public:
     FrameBufferObject(int width, int height, std::initializer_list<int> colorAttachmentFormats = { GL_RGBA }, bool hasDepth = true);
     virtual ~FrameBufferObject();
 
-    void bindFBO(QOpenGLFunctions & gl) const;
-    void releaseFBO(QOpenGLFunctions & gl) const;
+    void bindFBO() const;
+    void releaseFBO() const;
 
-    void bindTexture(QOpenGLFunctions & gl, int colorAttachment = GL_COLOR_ATTACHMENT0, int textureUnit = GL_TEXTURE0) const;
-    void releaseTexture(QOpenGLFunctions & gl, int textureUnit = GL_TEXTURE0) const;
+    void bindTexture(int colorAttachment = GL_COLOR_ATTACHMENT0, int textureUnit = GL_TEXTURE0) const;
+    void releaseTexture(int textureUnit = GL_TEXTURE0) const;
 
 protected:
-    void allocateFBO(QOpenGLFunctions & gl) const;
-    void deallocateFBO(QOpenGLFunctions & gl) const;
+    void allocateFBO() const;
+    void deallocateFBO() const;
 
     int m_width;
     int m_height;

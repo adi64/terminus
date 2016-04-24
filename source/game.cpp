@@ -28,7 +28,6 @@ Game::Game()
 , m_networkManager(*this)
 , m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
-, m_isGLInitialized(false)
 , m_isUIActive(false) // is set to true on create world
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
@@ -200,15 +199,9 @@ void Game::sync()
 
 void Game::render()
 {
-    if (!m_isGLInitialized)
-    {
-        m_gl.initializeOpenGLFunctions();
-        m_isGLInitialized = true;
-    }
-
     if (m_world)
     {
-        m_world->render(m_gl);
+        m_world->render();
     }
 }
 

@@ -419,7 +419,8 @@ HEADERS += \
     source/world/postprocessing/motionblur.h \
     source/world/postprocessing/passthrough.h \
     source/world/postprocessing/invert.h \
-    source/world/postprocessing/vignette.h
+    source/world/postprocessing/vignette.h \
+    source/util/gldebug.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \

@@ -3,6 +3,8 @@
 #include <memory>
 #include <functional>
 
+#include <GLES3/gl3.h>
+
 #include <QVector3D>
 #include <QQuaternion>
 #include <QMatrix4x4>
@@ -10,8 +12,6 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
-
-class QOpenGLFunctions;
 
 namespace terminus
 {
@@ -46,14 +46,13 @@ public:
 
     /*!
      * \brief render object hierarchy beginning at this object
-     * \param gl
      *
      * This method is not meant to be overridden as it contains logic to
      * update child objects.
      *
      * \sa AbstractGraphicsObject::localRender
      */
-    virtual void render(QOpenGLFunctions & gl) final;
+    virtual void render() final;
 
     /*!
      * \brief binds a camera to track this object
@@ -165,31 +164,28 @@ protected:
     /*!
      * \brief this method contains the default render code using #m_geometry,
      * #m_program and #m_material
-     * \param gl
      *
      * localRenderSetup() and localRenderCleanup are called from here and are
      * the preferred way to customize the rendering process over overriding
      * this method entirely
      */
-    virtual void localRender(QOpenGLFunctions & gl) const;
+    virtual void localRender() const;
     /*!
      * \brief override this method to customize the rendering process
-     * \param gl
      * \param program - already bound
      *
      * Here is the right place to set additional uniforms
      * and to bind textures &c.
      */
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const;
+    virtual void localRenderSetup(Program & program) const;
     /*!
      * \brief override this method to customize the rendering process
-     * \param gl
      * \param program - still bound
      *
      * Here is the right place to clean up rendering states
      * set in localRenderSetup().
      */
-    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
+    virtual void localRenderCleanup(Program & program) const;
     /*!
      * \brief override this method to disable or enable rendering conditionally
      * \return true if localRender() shall be called

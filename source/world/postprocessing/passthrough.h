@@ -13,6 +13,7 @@ public:
     Passthrough(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~Passthrough();
 
+    void localRenderSetup(Program & program) const override;
 protected:
 };
 

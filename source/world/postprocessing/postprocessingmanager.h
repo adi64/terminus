@@ -15,16 +15,25 @@ namespace terminus
 
 class World;
 
+
+
 class PostprocessingManager
 {
 public:
     PostprocessingManager(World & world);
 
+    /* Color Attachment mapping:
+     * CA0: normal + depth
+     * CA1: cameraspace coordinates + object id
+     * CA2: emissive color + 0
+     * CA3: diffuse color + alpha
+     * CA4: specular color + specularity
+     */
     const FrameBufferObject & gBufferFBO() const;
 
-    void composeImage(QOpenGLFunctions &gl);
+    void composeImage();
 protected:
-    void applyEffect(QOpenGLFunctions &gl, AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
+    void applyEffect(AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
 
     World & m_world;
     FrameBufferObject m_frameBufferObject;

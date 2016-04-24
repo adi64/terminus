@@ -3,6 +3,8 @@
 #include <string>
 #include <math.h>
 
+#include "util/gldebug.h"
+
 #include "indextriple.h"
 
 namespace terminus
@@ -10,8 +12,8 @@ namespace terminus
 
 Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer)
 : m_isOnGPU(false)
-, m_vbo(nullptr)
-, m_ibo(nullptr)
+, m_vbo(0)
+, m_ibo(0)
 , m_vertexBuffer(vertexBuffer)
 , m_indexBuffer(indexBuffer)
 {
@@ -21,8 +23,8 @@ Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::v
 
 Geometry::Geometry(const std::vector<unsigned short> & indexBuffer, const std::vector<Vertex> & vertexBuffer, const QVector3D & minBBox, const QVector3D & maxBBox)
 : m_isOnGPU(false)
-, m_vbo(nullptr)
-, m_ibo(nullptr)
+, m_vbo(0)
+, m_ibo(0)
 , m_vertexBuffer(vertexBuffer)
 , m_indexBuffer(indexBuffer)
 , m_bBoxMin(minBBox)
@@ -54,6 +56,8 @@ void Geometry::allocate() const
      if(m_isOnGPU)
          return;
 
+     printGlError(__FILE__, __LINE__);
+
      //setup VertexBufferObject
      glGenBuffers(1, &m_vbo);
      glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -66,6 +70,7 @@ void Geometry::allocate() const
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
      //TODO-LW: Add error checks
+     printGlError(__FILE__, __LINE__);
 
      m_isOnGPU = true;
 }
@@ -91,16 +96,10 @@ const QVector3D & Geometry::bBoxMax() const
     return m_bBoxMax;
 }
 
-void Geometry::setAttributes(Program & program)
-{
-    glBindAttribLocation(program.program(), 0, "a_vertex");
-    glBindAttribLocation(program.program(), 1, "a_texCoord");
-    glBindAttribLocation(program.program(), 2, "a_normal");
-}
-
 void Geometry::draw() const
 {
     allocate();
+    printGlError(__FILE__, __LINE__);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
@@ -116,6 +115,8 @@ void Geometry::draw() const
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    printGlError(__FILE__, __LINE__);
 }
 
 }//namespace terminus

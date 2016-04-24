@@ -5,9 +5,9 @@ precision mediump float;
 uniform mat4 mProjectionInv;
 uniform mat4 mView;
 
-attribute vec3 a_vertex;
+layout (location = 0) in vec3 a_position;
 
-varying vec3 v_eye;
+out vec3 v_eye;
 
 void main()
 {

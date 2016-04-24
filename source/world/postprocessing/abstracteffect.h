@@ -24,8 +24,8 @@ public:
     AbstractEffect(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~AbstractEffect();
 
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
-    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderSetup(Program & program) const override;
+    virtual void localRenderCleanup(Program & program) const override;
 
     void enable(bool enabled = true);
     void disable();

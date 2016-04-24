@@ -1,6 +1,6 @@
 #include "abstractgraphicsobject.h"
 
-#include <QOpenGLFunctions>
+#include <util/gldebug.h>
 
 #include <player/localplayer.h>
 #include <resources/geometry.h>
@@ -50,7 +50,7 @@ void AbstractGraphicsObject::update()
         });
 }
 
-void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
+void AbstractGraphicsObject::render()
 {
     if(!m_validState)
     {
@@ -59,13 +59,13 @@ void AbstractGraphicsObject::render(QOpenGLFunctions & gl)
 
     if(localRenderEnabled())
     {
-        localRender(gl);
+        localRender();
     }
 
     doForAllChildren(
-        [gl](AbstractGraphicsObject & child) mutable
+        [](AbstractGraphicsObject & child) mutable
         {
-            child.render(gl);
+            child.render();
         });
 }
 
@@ -189,7 +189,7 @@ void AbstractGraphicsObject::localUpdate()
 {
 }
 
-void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
+void AbstractGraphicsObject::localRender() const
 {
     if(!m_geometry || !*m_geometry)
     {
@@ -205,31 +205,39 @@ void AbstractGraphicsObject::localRender(QOpenGLFunctions & gl) const
     Geometry & geometry = **m_geometry;
     Program & program = **m_program;
 
+    printGlError(__FILE__, __LINE__);
     program.bind();
 
+    printGlError(__FILE__, __LINE__);
     m_world.localPlayer().camera().setUniforms(program, modelMatrix());
     m_world.lightManager().setUniforms(program);
+    printGlError(__FILE__, __LINE__);
 
     if(m_material && *m_material)
     {
         (**m_material).setUniforms(program);
+        printGlError(__FILE__, __LINE__);
     }
 
-    localRenderSetup(gl, program);
+    localRenderSetup(program);
+    printGlError(__FILE__, __LINE__);
 
-    geometry.setAttributes(program);
-    geometry.draw(gl);
+    printGlError(__FILE__, __LINE__);
+    geometry.draw();
+    printGlError(__FILE__, __LINE__);
 
-    localRenderCleanup(gl, program);
+    localRenderCleanup(program);
+    printGlError(__FILE__, __LINE__);
 
     program.release();
+    printGlError(__FILE__, __LINE__);
 }
 
-void AbstractGraphicsObject::localRenderSetup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
+void AbstractGraphicsObject::localRenderSetup(Program & /*program*/) const
 {
 }
 
-void AbstractGraphicsObject::localRenderCleanup(QOpenGLFunctions & /*gl*/, Program & /*program*/) const
+void AbstractGraphicsObject::localRenderCleanup(Program & /*program*/) const
 {
 }
 

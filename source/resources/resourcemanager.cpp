@@ -29,7 +29,7 @@ ResourceManager * ResourceManager::getInstance()
     return m_instance;
 }
 
-std::string ResourceManager::entityName(std::string path, std::string name)
+std::string ResourceManager::entityName(const std::string & path, const std::string & name)
 {
     std::string ename = entityName(path);
     ename.append("_");
@@ -37,7 +37,7 @@ std::string ResourceManager::entityName(std::string path, std::string name)
     return ename;
 }
 
-std::string ResourceManager::entityName(std::string path)
+std::string ResourceManager::entityName(const std::string & path)
 {
     std::string ename(path);
     size_t index = ename.find_last_of("\\/");
@@ -67,31 +67,30 @@ void ResourceManager::loadResources()
     loadObj(std::string(":/data/engine.obj"));
     loadObj(std::string(":/data/weapon.obj"));
     loadObj(std::string(":/data/repair.obj"));
+
     loadMtl(std::string(":/data/base.mtl"));
-    loadProgram(std::string(":/data/basicShader"));
-    loadProgram(std::string(":/data/envmap"));
-    loadProgram(std::string(":/data/terrain"));
-    loadProgram(std::string(":/data/postprocessing_passthrough"));
-    loadProgram(std::string(":/data/postprocessing_invert"));
-    loadProgram(std::string(":/data/postprocessing_vignette"));
+
+    loadProgram(std::string("basicShader"), std::string(":/data/basicShader"), std::string(":/data/to_gbuffer"));
+    loadProgram(std::string("terrain"), std::string(":/data/terrain"), std::string(":/data/to_gbuffer"));
+    loadProgram(std::string("pp_passthrough"), std::string(":/data/postprocessing_passthrough"));
 }
 
-std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(std::string name)
+std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(const std::string & name)
 {
     return m_geometryStorage.at(name);
 }
 
-std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(std::string name)
+std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(const std::string & name)
 {
     return m_materialStorage.at(name);
 }
 
-std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(std::string name)
+std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(const std::string & name)
 {
     return m_programStorage.at(name);
 }
 
-void ResourceManager::loadObj(std::string path)
+void ResourceManager::loadObj(const std::string & path)
 {
     std::vector<QVector3D> positions;
     std::vector<QVector3D> texCoords;
@@ -215,7 +214,7 @@ void ResourceManager::loadObjGenerateAdd(std::vector<QVector3D> & positions,
     putGeometry(name, new Geometry(indexBuffer, vertexBuffer, bBoxMin, bBoxMax));
 }
 
-void ResourceManager::loadMtl(std::string path)
+void ResourceManager::loadMtl(const std::string & path)
 {
     std::map<std::string, QVector4D> uniforms;
     std::string objectName;
@@ -261,16 +260,38 @@ void ResourceManager::loadMtl(std::string path)
     }
 }
 
-void ResourceManager::loadProgram(std::string path)
+void ResourceManager::loadProgram(const std::string & name, const std::string & path)
 {
-    std::string vSrc(path);
-    std::string fSrc(path);
-    vSrc.append(".vert");
-    fSrc.append(".frag");
-    putProgram(entityName(path), new Program(vSrc, fSrc));
+    return loadProgram(name, path, path);
 }
 
-void ResourceManager::putGeometry(std::string name, Geometry * geometry)
+void ResourceManager::loadProgram(const std::string & name, const std::string & vertexShaderPath, const std::string & fragmentShaderPath)
+{
+    std::string vertSourcPath(vertexShaderPath);
+    vertSourcPath.append(".vert");
+    QFile vertSourceFile(vertSourcPath.c_str());
+    if (!vertSourceFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "*.vert file can not be opened";
+        return;
+    }
+    QByteArray vertSource = vertSourceFile.readAll();
+
+    std::string fragSourcPath(fragmentShaderPath);
+    fragSourcPath.append(".frag");
+    QFile fragSourceFile(fragSourcPath.c_str());
+    if (!fragSourceFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "*.frag file can not be opened";
+        return;
+    }
+    QByteArray fragSource = fragSourceFile.readAll();
+
+    putProgram(name, new Program(std::vector<char>(vertSource.begin(), vertSource.end()),
+                                             std::vector<char>(fragSource.begin(), fragSource.end())));
+}
+
+void ResourceManager::putGeometry(const std::string & name, Geometry * geometry)
 {
     if(m_geometryStorage.count(name) == 0)
     {
@@ -283,7 +304,7 @@ void ResourceManager::putGeometry(std::string name, Geometry * geometry)
     }
 }
 
-void ResourceManager::putMaterial(std::string name, Material * material)
+void ResourceManager::putMaterial(const std::string & name, Material * material)
 {
     if(m_materialStorage.count(name) == 0)
     {
@@ -296,7 +317,7 @@ void ResourceManager::putMaterial(std::string name, Material * material)
     }
 }
 
-void ResourceManager::putProgram(std::string name, Program * program)
+void ResourceManager::putProgram(const std::string & name, Program * program)
 {
     if(m_programStorage.count(name) == 0)
     {

@@ -13,8 +13,8 @@ public:
     MotionBlur(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~MotionBlur();
 
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
-    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderSetup(Program & program) const override;
+    virtual void localRenderCleanup(Program & program) const override;
 
 protected:
     QMatrix4x4 m_previousViewProjectionMatrix;

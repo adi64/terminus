@@ -38,14 +38,14 @@ protected:
      * \param name
      * \return resource identifier
      */
-    static std::string entityName(const std::string path, const std::string name);
+    static std::string entityName(const std::string & path, const std::string & name);
 
     /*!
      * \brief Generates a unique resource identifier from the resource's file path.
      * \param path
      * \return resource identifier
      */
-    static std::string entityName(const std::string path);
+    static std::string entityName(const std::string & path);
 
 public:
     virtual ~ResourceManager();
@@ -55,9 +55,9 @@ public:
      */
     virtual void loadResources();
 
-    virtual std::shared_ptr<std::unique_ptr<Geometry>> getGeometry(std::string name);
-    virtual std::shared_ptr<std::unique_ptr<Material>> getMaterial(std::string name);
-    virtual std::shared_ptr<std::unique_ptr<Program>> getProgram(std::string name);
+    virtual std::shared_ptr<std::unique_ptr<Geometry>> getGeometry(const std::string & name);
+    virtual std::shared_ptr<std::unique_ptr<Material>> getMaterial(const std::string & name);
+    virtual std::shared_ptr<std::unique_ptr<Program>> getProgram(const std::string & name);
 
 protected:
     ResourceManager();
@@ -71,7 +71,7 @@ protected:
      * A line starting with "o" specifies the object name.
      * The corresponding BBox is generated while parsing the data.
      */
-    virtual void loadObj(std::string path);
+    virtual void loadObj(const std::string & path);
 
     /*!
      * \brief This method is part of the loading mechanism for .obj files.
@@ -96,17 +96,26 @@ protected:
      *
      * Any number of materials encoded in one .mtl file are loaded and stored in the material container #m_materialStorage.
      */
-    virtual void loadMtl(std::string path);
+    virtual void loadMtl(const std::string & path);
+
+    /*!
+     * \brief Vertex and fragment shader files (with same base name) are loaded an combined into on program instance from the Program class.
+     * \param name
+     * \param path
+     */
+    virtual void loadProgram(const std::string & name, const std::string & path);
 
     /*!
      * \brief Vertex and fragment shader files are loaded an combined into on program instance from the Program class.
-     * \param path
+     * \param name
+     * \param vertexShaderPath
+     * \param fragmentShaderPath
      */
-    virtual void loadProgram(std::string path);
+    virtual void loadProgram(const std::string & name, const std::string & vertexShaderPath, const std::string & fragmentShaderPath);
 
-    virtual void putGeometry(std::string name, Geometry * geometry);
-    virtual void putMaterial(std::string name, Material * material);
-    virtual void putProgram(std::string name, Program * program);
+    virtual void putGeometry(const std::string & name, Geometry * geometry);
+    virtual void putMaterial(const std::string & name, Material * material);
+    virtual void putProgram(const std::string & name, Program * program);
 
 protected:
     std::map<std::string, std::shared_ptr<std::unique_ptr<Geometry>>> m_geometryStorage;

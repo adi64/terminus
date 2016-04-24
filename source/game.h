@@ -183,8 +183,6 @@ protected:
 
     QQuickWindow * m_window;
     std::unique_ptr<QTimer> m_renderTrigger; //! The timer that triggers a redraw
-    bool m_isGLInitialized;
-    QOpenGLFunctions m_gl;
 
     bool m_isPlayerOne;
     bool m_isUIActive;

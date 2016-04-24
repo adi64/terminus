@@ -12,5 +12,6 @@
         <file>data/postprocessing_invert.vert</file>
         <file>data/postprocessing_vignette.frag</file>
         <file>data/postprocessing_vignette.vert</file>
+        <file>data/to_gbuffer.frag</file>
     </qresource>
 </RCC>
