@@ -28,8 +28,8 @@ Weapon::Weapon(World & world, WeaponWagon * parent)
  , m_scattering(0.0)
  , m_thrust(0.0)
  , m_magazineSize(0)
- , m_turret(std::unique_ptr<Turret>(new Turret(world, this, "base_ico1", "base_Red")))
- , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, this, "base_ico1", "base_Blue")))
+ , m_turret(std::unique_ptr<Turret>(new Turret(world, this, "bigTurret_turret", "base_Red")))
+ , m_barrel(std::unique_ptr<Barrel>(new Barrel(world, this, "bigBarrel_barrel", "base_Blue")))
 {
     m_cameraTimer = m_world.timer().allocateTimer();
 }
@@ -197,6 +197,15 @@ QMatrix4x4 Weapon::modelMatrixInverted() const
         return parent()->modelMatrixInverted();
     }
     return QMatrix4x4();
+}
+
+QVector3D Weapon::position() const
+{
+    if(parent())
+    {
+        return parent()->position();
+    }
+    return QVector3D(0.f, 0.f, 0.f);
 }
 
 float Weapon::damage()

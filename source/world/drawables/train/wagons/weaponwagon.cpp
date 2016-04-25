@@ -26,7 +26,7 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     if(m_train->track()->isRightTrack())
     {
-        m_geometry = ResourceManager::getInstance()->getGeometry("weapon_right");
+        m_geometry = ResourceManager::getInstance()->getGeometry("weaponWagon_weaponWagon");
     }
     else
     {

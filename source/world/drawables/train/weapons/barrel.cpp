@@ -37,15 +37,12 @@ void Barrel::localUpdate()
             float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
             float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
             float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
+            QQuaternion x_rotation = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX*(-1));
+            QQuaternion y_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY+90);
 
-            //QQuaternion z_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
-            QQuaternion z_rotationY = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleZ);
-            QQuaternion x_rotationY = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleX);
-            QQuaternion y_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
+            setRotation(y_rotation * x_rotation);
 
-            setRotation(y_rotation);
-            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ));
-            setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX));
+            setPosition(QVector3D(parent()->position().x() + (61.46 * 0.0015), parent()->position().y() + (1027.556 * 0.0015), parent()->position().z()));
         }
         else
         {
@@ -53,11 +50,12 @@ void Barrel::localUpdate()
 
             float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
             float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
-
-            QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
+            QQuaternion x_rotation = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX*(-1));
             QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
 
-            setRotation(xz_rotation + y_rotationX);
+            setRotation(x_rotation * y_rotationX);
+
+            setPosition(QVector3D(parent()->position().x() + (61.46 * 0.0015), parent()->position().y() + (1027.556 * 0.0015), parent()->position().z()));
         }
     }
     KinematicPhysicsObject::localUpdate();

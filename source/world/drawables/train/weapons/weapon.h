@@ -61,6 +61,8 @@ public:
     virtual QMatrix4x4 modelMatrix() const override;
     virtual QMatrix4x4 modelMatrixInverted() const override;
 
+    virtual QVector3D position() const override;
+
 public:
     float damage();
     float reloadTime();

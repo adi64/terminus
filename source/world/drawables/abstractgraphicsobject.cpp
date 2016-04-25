@@ -174,10 +174,10 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
         m_modelMatrixChanged = false;
     }
 
-    if(parent())
-    {
-        m_modelMatrix = parent()->modelMatrix() * m_modelMatrix;
-    }
+//    if(parent())
+//    {
+//        m_modelMatrix = parent()->modelMatrix() * m_modelMatrix;
+//    }
 
     return m_modelMatrix;
 }

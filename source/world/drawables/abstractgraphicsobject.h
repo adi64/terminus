@@ -132,7 +132,7 @@ public:
     /*!
      * \return the position vector that was used to construct the model matrix
      */
-    QVector3D position() const;
+    virtual QVector3D position() const;
     /*!
      * \return the quaternion that was used to construct the model matrix
      */
