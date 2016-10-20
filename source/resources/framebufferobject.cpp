@@ -76,6 +76,9 @@ void FrameBufferObject::allocateFBO() const
 
     m_fbo = -1;
 
+    GLenum drawBuffers[MaxColorAttachmentCount];
+    GLsizei drawBufferCount = 0;
+
     // Texture
     for(unsigned int i = 0; i < MaxColorAttachmentCount; ++i)
     {
@@ -90,6 +93,8 @@ void FrameBufferObject::allocateFBO() const
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexImage2D(GL_TEXTURE_2D, 0, m_colorAttachmentFormats[i], m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             glBindTexture(GL_TEXTURE_2D, 0);
+            drawBuffers[drawBufferCount] = GL_COLOR_ATTACHMENT0 + drawBufferCount;
+            drawBufferCount++;
         }
         else
         {
@@ -121,6 +126,8 @@ void FrameBufferObject::allocateFBO() const
     {
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rboDepth);
     }
+
+    glDrawBuffers(drawBufferCount, drawBuffers);
 
     GLenum status;
     if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)

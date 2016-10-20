@@ -49,7 +49,7 @@ const FrameBufferObject & PostprocessingManager::gBufferFBO() const
 
 void PostprocessingManager::composeImage()
 {
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT0, GL_TEXTURE0);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT2, GL_TEXTURE0);
 
     m_passthrough->render();
 
