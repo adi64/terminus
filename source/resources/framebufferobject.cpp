@@ -1,7 +1,5 @@
 #include "framebufferobject.h"
 
-#include <GLES3/gl3.h>
-
 #include <QDebug>
 
 namespace terminus

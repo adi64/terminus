@@ -3,8 +3,6 @@
 #include <vector>
 #include <memory>
 
-#include <QOpenGLFunctions>
-#include <QOpenGLTexture>
 #include <QSize>
 #include <QVector3D>
 

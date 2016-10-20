@@ -3,7 +3,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QOpenGLFunctions>
 #include <QQuickItem>
 
 #include <eventhandler.h>

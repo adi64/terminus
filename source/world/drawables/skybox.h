@@ -5,7 +5,6 @@
 #include <world/drawables/abstractgraphicsobject.h>
 
 class QImage;
-class QOpenGLFunctions;
 
 namespace terminus
 {

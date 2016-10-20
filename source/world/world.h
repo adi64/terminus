@@ -15,8 +15,6 @@
 #include <world/lightmanager.h>
 #include <world/physics/bulletworld.h>
 
-class QOpenGLFunctions;
-class QOpenGLShaderProgram;
 class QTime;
 
 class btCollisionObject;

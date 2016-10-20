@@ -3,8 +3,6 @@
 #include <cassert>
 #include <memory>
 
-#include <QOpenGLFunctions>
-
 #include <util/mathutil.h>
 #include <util/timer.h>
 #include <world/drawables/track.h>

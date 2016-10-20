@@ -39,7 +39,7 @@ void Program::allocate() const
 
     m_vertShader = glCreateShader(GL_VERTEX_SHADER);
     const char * vertSourceString = m_vertexSrc.data();
-    int vertSourceStringLength =  m_vertexSrc.size();
+    int vertSourceStringLength = m_vertexSrc.size();
     glShaderSource(m_vertShader, 1, &vertSourceString, &vertSourceStringLength);
     glCompileShader(m_vertShader);
     GLint compiled;

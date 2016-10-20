@@ -4,8 +4,6 @@
 #include <resources/resourcemanager.h>
 #include <world/world.h>
 
-class QOpenGLFunctions;
-
 namespace terminus
 {
 

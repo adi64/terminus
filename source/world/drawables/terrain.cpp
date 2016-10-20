@@ -3,7 +3,8 @@
 #include <cassert>
 #include <string>
 
-#include <QOpenGLFunctions>
+#include <GLES3/gl3.h>
+
 #include <QPoint>
 
 #include <player/localplayer.h>

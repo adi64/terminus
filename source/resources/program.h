@@ -7,8 +7,6 @@
 #include <QVector4D>
 #include <QVector3D>
 
-class QOpenGLShaderProgram;
-
 namespace terminus
 {
 

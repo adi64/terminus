@@ -1,6 +1,7 @@
 #include "motionblur.h"
 
-#include <QOpenGLFunctions>
+#include <GLES3/gl3.h>
+
 
 namespace terminus
 {
@@ -24,17 +25,18 @@ void MotionBlur::localRenderSetup(Program & /*program*/) const
 
 void MotionBlur::localRenderCleanup(Program & /*program*/) const
 {
-    static bool firstFrame = true;
-    if(firstFrame)
-    {
-        glAccum(GL_LOAD, 1.0);
-        firstFrame = false;
-        return;
-    }
+    //TODO: replace with shader code. glAccum is not supported in GLES
+//    static bool firstFrame = true;
+//    if(firstFrame)
+//    {
+//        glAccum(GL_LOAD, 1.0);
+//        firstFrame = false;
+//        return;
+//    }
 
-    glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
-    glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
-    glAccum(GL_RETURN, 1.0);
+//    glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
+//    glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
+//    glAccum(GL_RETURN, 1.0);
 }
 
 } //namespace terminus

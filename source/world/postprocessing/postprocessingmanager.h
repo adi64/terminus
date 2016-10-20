@@ -8,8 +8,6 @@
 #include <world/postprocessing/abstracteffect.h>
 #include <world/postprocessing/passthrough.h>
 
-class QOpenGLFunctions;
-
 namespace terminus
 {
 

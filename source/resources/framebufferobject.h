@@ -2,7 +2,8 @@
 
 #include <initializer_list>
 
-#include <QOpenGLFunctions>
+#include <GLES3/gl3.h>
+
 #include <QSize>
 
 namespace terminus
