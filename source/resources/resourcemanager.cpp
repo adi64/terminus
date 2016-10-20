@@ -135,7 +135,6 @@ void ResourceManager::loadObj(std::string path)
         }
         else if(lineHeader == "f")
         {
-
             std::string indexSpec[3];
             lineStream >> indexSpec[0] >> indexSpec[1] >> indexSpec[2];
             for(int i = 0; i < 3; i++)
