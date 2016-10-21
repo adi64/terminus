@@ -7,11 +7,10 @@
         <file>data/terrain.frag</file>
         <file>data/terrain.vert</file>
         <file>data/postprocessing_passthrough.frag</file>
-        <file>data/postprocessing_passthrough.vert</file>
         <file>data/postprocessing_invert.frag</file>
-        <file>data/postprocessing_invert.vert</file>
         <file>data/postprocessing_vignette.frag</file>
-        <file>data/postprocessing_vignette.vert</file>
         <file>data/to_gbuffer.frag</file>
+        <file>data/postprocessing_compose.frag</file>
+        <file>data/postprocessing.vert</file>
     </qresource>
 </RCC>

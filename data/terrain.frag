@@ -12,8 +12,8 @@ uniform vec4 cDiffuseRock;
 uniform vec4 cSpecularRock;
 uniform vec4 fAlpha;
 
-uniform mat3 mViewNorm;
-uniform mat4 mView;
+uniform mat3 u_mViewNorm;
+uniform mat4 u_mView;
 
 const int lightCount = 8;
 const int lightComponents = 3;
@@ -52,9 +52,9 @@ void main()
         float isLightPS  = float(step(LIGHT_POINT, type));
         float isLightS   = float(step(LIGHT_SPOT, type));
 
-        vec4 lightPos4 = mView * vec4(light[iBase].xyz, 1.0);
+        vec4 lightPos4 = u_mView * vec4(light[iBase].xyz, 1.0);
         vec3 lightPos = lightPos4.xyz / lightPos4.w;
-        vec3 lightDir = mViewNorm * light[iBase+1].xyz;
+        vec3 lightDir = u_mViewNorm * light[iBase+1].xyz;
         vec3 lightColor = light[iBase+2].rgb;
         float intensity = light[iBase+1].w;
         float linAttenuation = 2.0 / intensity;

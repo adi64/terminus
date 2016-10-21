@@ -345,14 +345,15 @@ bool Camera::isBound() const
 
 void Camera::setUniforms(Program & program, const QMatrix4x4 & model) const
 {
-    program.setUniform(std::string("mModel"), model);
-    program.setUniform(std::string("mModelInv"), model.inverted());
-    program.setUniform(std::string("mModelNorm"), model.normalMatrix());
-    program.setUniform(std::string("mView"), view());
-    program.setUniform(std::string("mViewInv"), viewInverted());
-    program.setUniform(std::string("mViewNorm"), normal());
-    program.setUniform(std::string("mProjection"), projection());
-    program.setUniform(std::string("mProjectionInv"), projectionInverted());
+    // TODO rename "u_" prefix
+    program.setUniform(std::string("u_mModel"), model);
+    program.setUniform(std::string("u_mModelInv"), model.inverted());
+    program.setUniform(std::string("u_mModelNorm"), model.normalMatrix());
+    program.setUniform(std::string("u_mView"), view());
+    program.setUniform(std::string("u_mViewInv"), viewInverted());
+    program.setUniform(std::string("u_mViewNorm"), normal());
+    program.setUniform(std::string("u_mProjection"), projection());
+    program.setUniform(std::string("u_mProjectionInv"), projectionInverted());
 
     program.setUniform(std::string("screenWidth"), static_cast<float>(m_viewport.x()));
     program.setUniform(std::string("screenHeight"), static_cast<float>(m_viewport.y()));

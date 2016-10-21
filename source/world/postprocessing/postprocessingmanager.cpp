@@ -38,6 +38,7 @@ PostprocessingManager::PostprocessingManager(World &world)
         m_effectFBOs.push_back(std::move(fboPtr));
     }
 
+    m_compose = std::unique_ptr<Compose>(new Compose(world));
     // last "effect" to render to screen instead of texture
     m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));
 }
@@ -49,11 +50,22 @@ const FrameBufferObject & PostprocessingManager::gBufferFBO() const
 
 void PostprocessingManager::composeImage()
 {
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT2, GL_TEXTURE0);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT0, GL_TEXTURE0);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT1, GL_TEXTURE1);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT2, GL_TEXTURE2);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT3, GL_TEXTURE3);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT4, GL_TEXTURE4);
 
+    m_compose->render();
+
+/*    m_frameBufferObject.releaseTexture(GL_TEXTURE0);
+    m_frameBufferObject.releaseTexture(GL_TEXTURE1);
+    m_frameBufferObject.releaseTexture(GL_TEXTURE2);
+    m_frameBufferObject.releaseTexture(GL_TEXTURE3);
+    m_frameBufferObject.releaseTexture(GL_TEXTURE4);
+    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT3, GL_TEXTURE0);
     m_passthrough->render();
-
-    m_frameBufferObject.releaseTexture(GL_TEXTURE0);
+    m_frameBufferObject.releaseTexture(GL_TEXTURE0);*/
 //    assert(m_effects.size() == m_effectFBOs.size());
 
 //    for(unsigned int i = 0; i<m_effects.size(); i++)

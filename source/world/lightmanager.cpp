@@ -33,7 +33,7 @@ void LightManager::remove(LightManager::ID slot)
 
 void LightManager::setUniforms(Program & program) const
 {
-    program.setUniform(std::string("light"), reinterpret_cast<const QVector4D*>(&m_lights), slotCount * Light::vectorCount);
+    program.setUniform(std::string("u_light"), reinterpret_cast<const QVector4D*>(&m_lights), slotCount * Light::vectorCount);
 }
 
 LightManager::ID LightManager::getFreeSlot()

@@ -203,6 +203,7 @@ void Game::render()
     {
         m_world->render();
     }
+    m_window->resetOpenGLState();
 }
 
 void Game::cleanup()

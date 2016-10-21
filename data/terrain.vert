@@ -4,11 +4,11 @@
 precision mediump float;
 #endif
 
-uniform mat4 mModel;
-uniform mat4 mView;
-uniform mat4 mProjection;
-uniform mat3 mModelNorm;
-uniform mat3 mViewNorm;
+uniform mat4 u_mModel;
+uniform mat4 u_mView;
+uniform mat4 u_mProjection;
+uniform mat3 u_mModelNorm;
+uniform mat3 u_mViewNorm;
 
 uniform vec4 fSpecularitySnow;
 uniform vec4 cEmitSnow;
@@ -84,10 +84,10 @@ void main()
 
     //---camera space---
     //transform the relevant vectors for phong model in fragment shader
-    v_normalCamSpace = mViewNorm * mModelNorm * normal;
-    vec4 position4 = mView * mModel * vec4(position, 1.0);
+    v_normalCamSpace = u_mViewNorm * u_mModelNorm * normal;
+    vec4 position4 = u_mView * u_mModel * vec4(position, 1.0);
     v_positionCamSpace = position4.xyz / position4.w;
 
     //---screen space---
-    gl_Position = mProjection * mView * mModel * vec4(position, 1.0);
+    gl_Position = u_mProjection * u_mView * u_mModel * vec4(position, 1.0);
 }

@@ -72,7 +72,8 @@ void ResourceManager::loadResources()
 
     loadProgram(std::string("basicShader"), std::string(":/data/basicShader"), std::string(":/data/to_gbuffer"));
     loadProgram(std::string("terrain"), std::string(":/data/terrain"), std::string(":/data/to_gbuffer"));
-    loadProgram(std::string("pp_passthrough"), std::string(":/data/postprocessing_passthrough"));
+    loadProgram(std::string("pp_passthrough"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_passthrough"));
+    loadProgram(std::string("pp_compose"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_compose"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(const std::string & name)
