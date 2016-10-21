@@ -3,8 +3,8 @@
 namespace terminus
 {
 
-Vignette::Vignette(World &world, DisabledBehaviour behaviour)
-: AbstractEffect(world, behaviour)
+Vignette::Vignette(DisabledBehaviour behaviour)
+: AbstractEffect(behaviour)
 {
     m_program = ResourceManager::getInstance()->getProgram("postprocessing_vignette");
 }

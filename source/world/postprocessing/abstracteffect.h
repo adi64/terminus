@@ -3,11 +3,13 @@
 #include <world/drawables/abstractgraphicsobject.h>
 #include <resources/resourcemanager.h>
 #include <world/world.h>
+#include <world/camera.h>
+#include <world/lightmanager.h>
 
 namespace terminus
 {
 
-class AbstractEffect : public AbstractGraphicsObject
+class AbstractEffect
 {
 public:
 
@@ -19,11 +21,13 @@ public:
         SET_BLACK
     };
 
-    AbstractEffect(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    AbstractEffect(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~AbstractEffect();
 
-    virtual void localRenderSetup(Program & program) const override;
-    virtual void localRenderCleanup(Program & program) const override;
+    void render(const Camera & camera, const LightManager & lightManager) const;
+
+    virtual void localRenderSetup(Program & program) const;
+    virtual void localRenderCleanup(Program & program) const;
 
     void enable(bool enabled = true);
     void disable();
@@ -32,9 +36,12 @@ public:
 protected:
     void applyDisabled() const;
 
+protected:
     DisabledBehaviour m_disabledBehaviour;
-
     bool m_enabled;
+
+    std::shared_ptr<std::unique_ptr<Program>> m_program;
+    std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;
 };
 
 }

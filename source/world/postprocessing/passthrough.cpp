@@ -3,8 +3,8 @@
 namespace terminus
 {
 
-Passthrough::Passthrough(World &world, DisabledBehaviour behaviour)
-: AbstractEffect(world, behaviour)
+Passthrough::Passthrough(DisabledBehaviour behaviour)
+: AbstractEffect(behaviour)
 {
     m_program = ResourceManager::getInstance()->getProgram("pp_passthrough");
 }

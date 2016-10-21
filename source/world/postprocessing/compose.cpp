@@ -3,8 +3,8 @@
 namespace terminus
 {
 
-Compose::Compose(World &world, DisabledBehaviour behaviour)
-: AbstractEffect(world, behaviour)
+Compose::Compose(DisabledBehaviour behaviour)
+: AbstractEffect(behaviour)
 {
     m_program = ResourceManager::getInstance()->getProgram("pp_compose");
 }

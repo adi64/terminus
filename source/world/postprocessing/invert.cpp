@@ -3,8 +3,8 @@
 namespace terminus
 {
 
-Invert::Invert(World &world, DisabledBehaviour behaviour)
-: AbstractEffect(world, behaviour)
+Invert::Invert(DisabledBehaviour behaviour)
+: AbstractEffect(behaviour)
 {
     m_program = ResourceManager::getInstance()->getProgram("postprocessing_invert");
 }

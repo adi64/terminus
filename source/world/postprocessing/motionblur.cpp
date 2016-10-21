@@ -6,8 +6,8 @@
 namespace terminus
 {
 
-MotionBlur::MotionBlur(World &world, DisabledBehaviour behaviour)
-: AbstractEffect(world, behaviour)
+MotionBlur::MotionBlur(DisabledBehaviour behaviour)
+: AbstractEffect(behaviour)
 , m_motionBlurFactor(3.0)
 {
     m_program = ResourceManager::getInstance()->getProgram("postprocessing_passthrough");

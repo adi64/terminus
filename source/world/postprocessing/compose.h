@@ -10,7 +10,7 @@ namespace terminus
 class Compose : public AbstractEffect
 {
 public:
-    Compose(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    Compose(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~Compose();
 
     void localRenderSetup(Program & program) const override;
