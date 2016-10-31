@@ -10,7 +10,7 @@ namespace terminus
 class Invert : public AbstractEffect
 {
 public:
-    Invert(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    Invert(const World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~Invert();
 
 protected:

@@ -3,9 +3,10 @@
 namespace terminus
 {
 
-Passthrough::Passthrough(DisabledBehaviour behaviour)
-: AbstractEffect(behaviour)
+Passthrough::Passthrough(const World &world, DisabledBehaviour behaviour)
+: AbstractEffect(world, behaviour)
 {
+    m_targetFBO = FrameBufferObject::defaultFBO();
     m_program = ResourceManager::getInstance()->getProgram("pp_passthrough");
 }
 

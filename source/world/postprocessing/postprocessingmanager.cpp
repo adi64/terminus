@@ -21,26 +21,36 @@ PostprocessingManager::PostprocessingManager(World &world)
 , m_frameBufferObject(world.viewport(), {GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F})
 {
     // initialize effects
+    m_compose = std::unique_ptr<Compose>(new Compose(world));
+    m_compose->setTextures(
+        {
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT0},
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT1},
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT2},
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT3},
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT4}
+        });
+
+
     //auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
     //auto invertPtr = std::unique_ptr<Invert>(new Invert(world));
-    //auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
+    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
+    vignettePtr->setTextures(
+        {
+            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0}
+        });
 
     // create list of effects
     //m_effects.push_back(std::move(motionBlurPtr));
     //m_effects.push_back(std::move(invertPtr));
-    //m_effects.push_back(std::move(vignettePtr));
+    m_effects.push_back(std::move(vignettePtr));
 
-    // create FBO per effect
-    for(unsigned int i=0; i<m_effects.size(); i++)
-    {
-        auto fboPtr = std::unique_ptr<FrameBufferObject>(new FrameBufferObject(world.viewport()));
-
-        m_effectFBOs.push_back(std::move(fboPtr));
-    }
-
-    m_compose = std::unique_ptr<Compose>(new Compose());
     // last "effect" to render to screen instead of texture
-    m_passthrough = std::unique_ptr<Passthrough>(new Passthrough());
+    m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));
+    m_passthrough->setTextures(
+        {
+            {m_effects.back()->targetFBO(), GL_COLOR_ATTACHMENT0}
+        });
 }
 
 const FrameBufferObject & PostprocessingManager::gBufferFBO() const
@@ -50,52 +60,17 @@ const FrameBufferObject & PostprocessingManager::gBufferFBO() const
 
 void PostprocessingManager::composeImage()
 {
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT0, GL_TEXTURE0);
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT1, GL_TEXTURE1);
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT2, GL_TEXTURE2);
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT3, GL_TEXTURE3);
-    m_frameBufferObject.bindTexture(GL_COLOR_ATTACHMENT4, GL_TEXTURE4);
-
+    // Compose image from GBuffer
     m_compose->render(m_world.localPlayer().camera(), m_world.lightManager());
 
-    m_frameBufferObject.releaseTexture(GL_TEXTURE0);
-    m_frameBufferObject.releaseTexture(GL_TEXTURE1);
-    m_frameBufferObject.releaseTexture(GL_TEXTURE2);
-    m_frameBufferObject.releaseTexture(GL_TEXTURE3);
-    m_frameBufferObject.releaseTexture(GL_TEXTURE4);
+    // Apply post-processing effects
+    for (const auto & effectPtr : m_effects)
+    {
+        effectPtr->render(m_world.localPlayer().camera(), m_world.lightManager());
+    }
 
-//    assert(m_effects.size() == m_effectFBOs.size());
-
-//    for(unsigned int i = 0; i<m_effects.size(); i++)
-//    {
-//        AbstractEffect * effectPtr = m_effects[i].get();
-//        FrameBufferObject * targetFBOPtr = m_effectFBOs[i].get();
-//        FrameBufferObject * sourceFBOPtr = &m_frameBufferObject;
-
-//        if(i > 0)
-//            sourceFBOPtr = m_effectFBOs[i-1].get();
-
-//        if(i == m_effects.size() -1)
-//            targetFBOPtr = nullptr;
-
-//        applyEffect(effectPtr, sourceFBOPtr, targetFBOPtr);
-//    }
-}
-
-void PostprocessingManager::applyEffect(AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO)
-{
-    if(targetFBO)
-        targetFBO->bindFBO();
-
-    sourceFBO->bindTexture();
-
-    // TODO fix all of this
-    //effect->render();
-
-    sourceFBO->releaseTexture();
-
-    if(targetFBO)
-        targetFBO->releaseFBO();
+    // Render last image to screen
+    m_passthrough->render(m_world.localPlayer().camera(), m_world.lightManager());
 }
 
 } //namespace terminus

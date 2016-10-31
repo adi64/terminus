@@ -10,7 +10,7 @@ namespace terminus
 class Vignette : public AbstractEffect
 {
 public:
-    Vignette(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    Vignette(const World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~Vignette();
 
 protected:

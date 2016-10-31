@@ -32,8 +32,6 @@ public:
 
     void composeImage();
 protected:
-    void applyEffect(AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
-
     World & m_world;
     FrameBufferObject m_frameBufferObject;
 
@@ -41,7 +39,6 @@ protected:
     std::unique_ptr<Passthrough> m_passthrough;
 
     std::vector<std::unique_ptr<AbstractEffect>> m_effects;
-    std::vector<std::unique_ptr<FrameBufferObject>> m_effectFBOs;
 };
 
 }

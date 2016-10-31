@@ -10,7 +10,7 @@ namespace terminus
 class MotionBlur : public AbstractEffect
 {
 public:
-    MotionBlur(DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    MotionBlur(const World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~MotionBlur();
 
     virtual void localRenderSetup(Program & program) const override;

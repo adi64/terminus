@@ -1,15 +1,17 @@
+#version 300 es
+
 #ifdef GL_ES
 precision mediump float;
 #endif
 
-varying vec3 v_eye;
+uniform sampler2D inputTexture;
 
-uniform sampler2D fbo_texture;
+in vec2 v_texcoord;
+
+layout (location = 0) out vec4 f_fragColor;
 
 uniform float screenWidth;
 uniform float screenHeight;
-
-varying vec2 f_texcoord;
 
 //RADIUS of our vignette, where 0.5 results in a circle fitting the screen
 const float RADIUS = 0.75;
@@ -19,7 +21,7 @@ const float SOFTNESS = 0.45;
 
 void main(void) {
 
-    vec4 texColor = texture2D(fbo_texture, f_texcoord);
+    vec4 texColor = texture2D(inputTexture, v_texcoord);
 
     //determine center position
     vec2 position = vec2(float(gl_FragCoord.x) / screenWidth, float(gl_FragCoord.y) / screenHeight) - vec2(0.5);
@@ -32,5 +34,5 @@ void main(void) {
 
     //apply the vignette with 50% opacity
     texColor.rgb = mix(texColor.rgb, texColor.rgb * vignette, 0.9);
-    gl_FragColor = texColor;
+    f_fragColor = texColor;
 }
