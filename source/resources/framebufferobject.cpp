@@ -5,6 +5,8 @@
 namespace terminus
 {
 
+FrameBufferObject FrameBufferObject::m_defaultFBO;
+
 FrameBufferObject::FrameBufferObject(QSize size, std::initializer_list<int> colorAttachmentFormats, bool hasDepth)
 : FrameBufferObject(size.width(), size.height(), colorAttachmentFormats, hasDepth)
 {
@@ -13,6 +15,7 @@ FrameBufferObject::FrameBufferObject(QSize size, std::initializer_list<int> colo
 FrameBufferObject::FrameBufferObject(int width, int height, std::initializer_list<int> colorAttachmentFormats, bool hasDepth)
 : m_width(width)
 , m_height(height)
+, m_colorAttachmentCount(colorAttachmentFormats.size())
 , m_hasDepth(hasDepth)
 , m_objectsOnGPU(false)
 {
@@ -35,6 +38,12 @@ FrameBufferObject::~FrameBufferObject()
     // TODO FIXME we should call deallocateFBO() here,
     // but where do we get a valid OpenGL context?
     // On program teardown this doesn't matter...
+}
+
+const FrameBufferObject &FrameBufferObject::defaultFBO()
+{
+    // get default FBO (i.e. "the screen")
+    return m_defaultFBO;
 }
 
 void FrameBufferObject::bindFBO() const
@@ -65,6 +74,17 @@ void FrameBufferObject::releaseTexture(int textureUnit) const
 {
     glActiveTexture(textureUnit);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+unsigned int FrameBufferObject::colorAttachmentCount() const
+{
+    return m_colorAttachmentCount;
+}
+
+bool FrameBufferObject::hasColorAttachment(GLenum colorAttachmentNumber) const
+{
+    auto offset = colorAttachmentNumber - GL_COLOR_ATTACHMENT0;
+    return colorAttachmentCount() >= offset;
 }
 
 void FrameBufferObject::allocateFBO() const
@@ -150,6 +170,22 @@ void FrameBufferObject::deallocateFBO() const
     glDeleteFramebuffers(1, &m_fbo);
 
     m_objectsOnGPU = false;
+}
+
+// "the screen"
+FrameBufferObject::FrameBufferObject()
+: m_width(-1)
+, m_height(-1)
+, m_colorAttachmentCount(1)
+, m_hasDepth(false)
+, m_objectsOnGPU(true)
+{
+    // get ID of default framebuffer
+    GLint defaultFBO;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &defaultFBO);
+    qDebug() << "Default framebuffer ID: " << defaultFBO;
+
+    m_fbo = defaultFBO;
 }
 
 } // namespace terminus

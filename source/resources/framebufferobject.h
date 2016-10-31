@@ -18,19 +18,30 @@ public:
     FrameBufferObject(int width, int height, std::initializer_list<int> colorAttachmentFormats = { GL_RGBA }, bool hasDepth = true);
     virtual ~FrameBufferObject();
 
+    // "the screen"
+    static const FrameBufferObject & defaultFBO();
+
     void bindFBO() const;
     void releaseFBO() const;
 
     void bindTexture(int colorAttachment = GL_COLOR_ATTACHMENT0, int textureUnit = GL_TEXTURE0) const;
     void releaseTexture(int textureUnit = GL_TEXTURE0) const;
 
+    unsigned int colorAttachmentCount() const;
+    bool hasColorAttachment(GLenum colorAttachmentNumber) const;
+
 protected:
     void allocateFBO() const;
     void deallocateFBO() const;
 
+    static FrameBufferObject m_defaultFBO;
+
+    FrameBufferObject();
+
     int m_width;
     int m_height;
     int m_colorAttachmentFormats[MaxColorAttachmentCount];
+    unsigned int m_colorAttachmentCount;
     bool m_hasDepth;
 
     mutable bool m_objectsOnGPU;

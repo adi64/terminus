@@ -1,13 +1,14 @@
 #include "resourcemanager.h"
 
-#include <assert.h>
-#include <limits.h>
-#include <regex>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <cassert>
+#include <exception>
+#include <limits.h>
 #include <map>
 #include <math.h>
+#include <regex>
+#include <sstream>
+#include <string>
 
 #include <QFile>
 #include <QString>
@@ -74,21 +75,46 @@ void ResourceManager::loadResources()
     loadProgram(std::string("terrain"), std::string(":/data/terrain"), std::string(":/data/to_gbuffer"));
     loadProgram(std::string("pp_passthrough"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_passthrough"));
     loadProgram(std::string("pp_compose"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_compose"));
+    loadProgram(std::string("pp_vignette"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_vignette"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(const std::string & name)
 {
-    return m_geometryStorage.at(name);
+    try
+    {
+        return m_geometryStorage.at(name);
+    }
+    catch(const std::exception & ex)
+    {
+        qCritical() << "Cannot get geometry '" << QString::fromStdString(name) << "': " << QString::fromStdString(ex.what());
+        throw(ex);
+    }
 }
 
 std::shared_ptr<std::unique_ptr<Material>> ResourceManager::getMaterial(const std::string & name)
 {
-    return m_materialStorage.at(name);
+    try
+    {
+        return m_materialStorage.at(name);
+    }
+    catch(const std::exception & ex)
+    {
+        qCritical() << "Cannot get material '" << QString::fromStdString(name) << "': " << QString::fromStdString(ex.what());
+        throw(ex);
+    }
 }
 
 std::shared_ptr<std::unique_ptr<Program>> ResourceManager::getProgram(const std::string & name)
 {
-    return m_programStorage.at(name);
+    try
+    {
+        return m_programStorage.at(name);
+    }
+    catch(const std::exception & ex)
+    {
+        qCritical() << "Cannot get program '" << QString::fromStdString(name) << "': " << QString::fromStdString(ex.what());
+        throw(ex);
+    }
 }
 
 void ResourceManager::loadObj(const std::string & path)
