@@ -1,9 +1,9 @@
 #include "projectilefiredcommand.h"
 
-#include <game.h>
+#include <application.h>
 #include <resources/soundmanager.h>
 #include <world/drawables/projectile.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {

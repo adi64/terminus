@@ -18,21 +18,21 @@ namespace terminus
 
 class Camera;
 class Program;
-class World;
+class Game;
 
 /*!
- * \brief The AbstractGraphicsObject class is the root of a class hierarchy of
- * objects that contain independen game logic and are visible in the game.
+ * \brief The GameObject class is the root of a class hierarchy of
+ * objects that contain independent game logic and are visible in the game.
  */
-class AbstractGraphicsObject
+class GameObject
 {
 public:
-    AbstractGraphicsObject(World & world);
+    GameObject(Game & world);
     /*!
      * Do not delete this destructor, even if it is empty
      *  - otherwise std::shared_ptr<IncompleteType> in the header will break
      */
-    virtual ~AbstractGraphicsObject();
+    virtual ~GameObject();
 
     /*!
      * \brief update object hierarchy beginning at this object
@@ -40,7 +40,7 @@ public:
      * This method is not meant to be overridden as it contains logic to
      * update child objects.
      *
-     * \sa AbstractGraphicsObject::localUpdate
+     * \sa GameObject::localUpdate
      */
     virtual void update() final;
 
@@ -50,7 +50,7 @@ public:
      * This method is not meant to be overridden as it contains logic to
      * update child objects.
      *
-     * \sa AbstractGraphicsObject::localRender
+     * \sa GameObject::localRender
      */
     virtual void render() final;
 
@@ -198,7 +198,7 @@ protected:
      *
      * callback must be called once for every child object
      */
-    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback);
+    virtual void doForAllChildren(std::function<void(GameObject &)> callback);
 
     /*!
      * \brief sets the position and invalidates the model matrices
@@ -246,7 +246,7 @@ protected:
     void dispose();
 
 protected:
-    World & m_world;
+    Game & m_world;
     bool m_validState;
 
     Camera * m_camera;

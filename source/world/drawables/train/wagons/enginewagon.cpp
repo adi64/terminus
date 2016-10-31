@@ -12,12 +12,12 @@
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
 #include <world/light.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-EngineWagon::EngineWagon(World & world, Train * train)
+EngineWagon::EngineWagon(Game & world, Train * train)
 : AbstractWagon(world, train)
 {
     setHealth(maxHealth());

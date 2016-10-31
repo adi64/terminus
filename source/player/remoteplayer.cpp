@@ -1,11 +1,11 @@
 #include "remoteplayer.h"
 
-#include <world/camera.h>
+#include <player/camera.h>
 
 namespace terminus
 {
 
-RemotePlayer::RemotePlayer(World & world, Train *train)
+RemotePlayer::RemotePlayer(Game & world, Train *train)
 : AbstractPlayer(world, train)
 {
 

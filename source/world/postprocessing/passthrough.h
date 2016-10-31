@@ -10,7 +10,7 @@ namespace terminus
 class Passthrough : public AbstractEffect
 {
 public:
-    Passthrough(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    Passthrough(Game & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~Passthrough();
 
     void localRenderSetup(Program & program) const override;

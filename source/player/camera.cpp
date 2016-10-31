@@ -6,7 +6,7 @@
 #include <QQuaternion>
 
 #include <util/mathutil.h>
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 
 namespace terminus
 {
@@ -310,7 +310,7 @@ const QMatrix3x3 & Camera::normal() const
     return m_normal;
 }
 
-void Camera::bindTo(AbstractGraphicsObject * object)
+void Camera::bindTo(GameObject * object)
 {
     if(m_associatedObject)
     {
@@ -330,7 +330,7 @@ void Camera::unbind()
     bindTo(nullptr);
 }
 
-void Camera::unbound(AbstractGraphicsObject * object)
+void Camera::unbound(GameObject * object)
 {
     if(m_associatedObject == object)
     {

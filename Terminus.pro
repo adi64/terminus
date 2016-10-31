@@ -395,7 +395,6 @@ HEADERS += \
     source/world/drawables/train/wagons/weaponwagon.h \
     source/world/drawables/train/train.h \
     source/world/drawables/train/train.hpp \
-    source/world/drawables/abstractgraphicsobject.h \
     source/world/drawables/explosion.h \
     source/world/drawables/projectile.h \
     source/world/drawables/skybox.h \
@@ -406,14 +405,11 @@ HEADERS += \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
     source/world/postprocessing/postprocessingmanager.h \
-    source/world/camera.h \
     source/world/level.h \
     source/world/levelconfiguration.h \
     source/world/light.h \
     source/world/lightmanager.h \
-    source/world/world.h \
     source/eventhandler.h \
-    source/game.h \
     source/world/postprocessing/abstracteffect.h \
     source/resources/framebufferobject.h \
     source/world/postprocessing/motionblur.h \
@@ -421,7 +417,14 @@ HEADERS += \
     source/world/postprocessing/invert.h \
     source/world/postprocessing/vignette.h \
     source/util/gldebug.h \
-    source/world/postprocessing/compose.h
+    source/world/postprocessing/compose.h \
+    source/render/renderer.h \
+    source/player/camera.h \
+    source/render/objectmatrices.h \
+    source/render/cameramatrices.h \
+    source/application.h \
+    source/world/game.h \
+    source/world/drawables/gameobject.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -601,7 +604,6 @@ SOURCES += \
     source/world/drawables/train/wagons/repairwagon.cpp \
     source/world/drawables/train/wagons/weaponwagon.cpp \
     source/world/drawables/train/train.cpp \
-    source/world/drawables/abstractgraphicsobject.cpp \
     source/world/drawables/explosion.cpp \
     source/world/drawables/projectile.cpp \
     source/world/drawables/skybox.cpp \
@@ -612,14 +614,11 @@ SOURCES += \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
     source/world/postprocessing/postprocessingmanager.cpp \
-    source/world/camera.cpp \
     source/world/level.cpp \
     source/world/levelconfiguration.cpp \
     source/world/light.cpp \
     source/world/lightmanager.cpp \
-    source/world/world.cpp \
     source/eventhandler.cpp \
-    source/game.cpp \
     source/main.cpp \
     source/bullet/clew/clew.c \
     source/world/postprocessing/abstracteffect.cpp \
@@ -628,4 +627,11 @@ SOURCES += \
     source/world/postprocessing/passthrough.cpp \
     source/world/postprocessing/invert.cpp \
     source/world/postprocessing/vignette.cpp \
-    source/world/postprocessing/compose.cpp
+    source/world/postprocessing/compose.cpp \
+    source/render/renderer.cpp \
+    source/player/camera.cpp \
+    source/render/objectmatrices.cpp \
+    source/render/cameramatrices.cpp \
+    source/application.cpp \
+    source/world/game.cpp \
+    source/world/drawables/gameobject.cpp

@@ -1,6 +1,6 @@
 #include "pausecommand.h"
 
-#include <game.h>
+#include <application.h>
 #include <util/timer.h>
 
 namespace terminus

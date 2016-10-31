@@ -17,6 +17,6 @@ class Train;
 class LocalPlayer : public AbstractPlayer
 {
 public:
-    LocalPlayer(World & world, Train *train);
+    LocalPlayer(Game & world, Train *train);
 };
 }

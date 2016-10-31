@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 #include <world/physics/bulletworld.h>
 
 namespace terminus
@@ -18,10 +18,10 @@ namespace terminus
  *
  * \sa BulletWorld
  */
-class AbstractPhysicsObject : public AbstractGraphicsObject
+class AbstractPhysicsObject : public GameObject
 {    
 public:
-    AbstractPhysicsObject(World & world);
+    AbstractPhysicsObject(Game & world);
 
     /*!
      * \brief Moves object to new position

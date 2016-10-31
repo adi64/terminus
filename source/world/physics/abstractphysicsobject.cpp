@@ -2,14 +2,14 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+#include <world/game.h>
 #include <world/physics/bulletworld.h>
 
 namespace terminus
 {
 
-AbstractPhysicsObject::AbstractPhysicsObject(World & world)
-: AbstractGraphicsObject(world)
+AbstractPhysicsObject::AbstractPhysicsObject(Game & world)
+: GameObject(world)
 , m_bulletWorld(world.bulletWorld())
 , m_spawnedLocally(true)
 {

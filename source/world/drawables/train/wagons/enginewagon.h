@@ -13,7 +13,7 @@ class EngineWagon : public AbstractWagon
 {
 
 public:
-    EngineWagon(World & world, Train * train);
+    EngineWagon(Game & world, Train * train);
     virtual ~EngineWagon();
 
     virtual void localUpdate() override;

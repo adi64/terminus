@@ -9,7 +9,7 @@
 namespace terminus
 {
 
-AIPlayer::AIPlayer(World & world, Train *train, Train *enemyTrain)
+AIPlayer::AIPlayer(Game & world, Train *train, Train *enemyTrain)
     : AbstractPlayer(world, train)
     , m_enemyTrain(enemyTrain)
     , m_targetEnemyWagon(nullptr)

@@ -6,13 +6,13 @@
 #include <resources/geometry.h>
 #include <resources/program.h>
 #include <util/mathutil.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-Explosion::Explosion(World & world, const QVector3D & position)
-: AbstractGraphicsObject(world)
+Explosion::Explosion(Game & world, const QVector3D & position)
+: GameObject(world)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
     m_geometry = ResourceManager::getInstance()->getGeometry("base_ico2");
@@ -35,7 +35,7 @@ void Explosion::localUpdate()
 
     setScale(MathUtil::mix(3.f, 10.f, MathUtil::linstep(0, lifetimeMs, timeMs)));
 
-    AbstractGraphicsObject::localUpdate();
+    GameObject::localUpdate();
 
     if(timeMs > lifetimeMs)
     {

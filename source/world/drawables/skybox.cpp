@@ -4,13 +4,13 @@
 
 #include <resources/resourcemanager.h>
 #include <resources/program.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-SkyBox::SkyBox(World & world)
-: AbstractGraphicsObject(world)
+SkyBox::SkyBox(Game & world)
+: GameObject(world)
 , m_cubeMapOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("envmap");

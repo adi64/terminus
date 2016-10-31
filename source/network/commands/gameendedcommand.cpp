@@ -1,6 +1,6 @@
 #include "gameendedcommand.h"
 
-#include <game.h>
+#include <application.h>
 
 namespace terminus
 {

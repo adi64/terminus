@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 
 class QImage;
 
@@ -13,10 +13,10 @@ namespace terminus
  * \brief The SkyBox class renders an environment map in the form of a cube map
  * on a screen aligned quad in the background.
  */
-class SkyBox : public AbstractGraphicsObject
+class SkyBox : public GameObject
 {
 public:
-    SkyBox(World & world);
+    SkyBox(Game & world);
 
     void localRenderSetup(Program & program) const override;
     void localRenderCleanup(Program & program) const override;

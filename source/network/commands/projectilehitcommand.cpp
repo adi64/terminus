@@ -1,7 +1,7 @@
 #include "projectilehitcommand.h"
 
-#include <game.h>
-#include <world/world.h>
+#include <application.h>
+#include <world/game.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/explosion.h>
 #include <player/localplayer.h>

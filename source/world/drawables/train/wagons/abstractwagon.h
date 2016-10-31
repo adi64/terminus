@@ -25,7 +25,7 @@ enum WagonType
 class AbstractWagon : public KinematicPhysicsObject
 {
 public:
-    AbstractWagon(World & world, Train * train);
+    AbstractWagon(Game & world, Train * train);
     virtual ~AbstractWagon();
 
     /*!

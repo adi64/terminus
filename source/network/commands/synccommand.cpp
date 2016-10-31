@@ -4,10 +4,10 @@
 
 #include <QJsonArray>
 
-#include <game.h>
+#include <application.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {

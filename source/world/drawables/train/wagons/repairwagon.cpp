@@ -10,12 +10,12 @@
 
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-RepairWagon::RepairWagon(World & world, Train * train)
+RepairWagon::RepairWagon(Game & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");

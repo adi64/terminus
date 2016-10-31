@@ -11,17 +11,17 @@
 namespace terminus
 {
 
-class AbstractGraphicsObject;
+class GameObject;
 
 /*!
  * \brief The Camera class manages view and projection matrices that define
  * a view of a 3D scene.
  *
  * It also contains a mechanism that allows it to be bound to
- * AbstractGraphicsObjects in order to track their movement and
+ * GameObjects in order to track their movement and
  * implements a simple navigation mechanism that is active if it is not bound.
  *
- * \sa AbstractGraphicsObject
+ * \sa GameObject
  */
 class Camera
 {
@@ -72,12 +72,12 @@ public:
     void setUniforms(Program & program, const QMatrix4x4 & model) const;
 
     /*!
-     * \brief bind camera to track an AbstractGraphicsObject
+     * \brief bind camera to track an GameObject
      * \param object
      *
      * passing a nullptr releases the camera
      */
-    void bindTo(AbstractGraphicsObject * object);
+    void bindTo(GameObject * object);
     /*!
      * \brief release the camera from the object it is currently bound to
      */
@@ -86,10 +86,10 @@ public:
      * \brief is called if an object releases this camera
      * \param object
      */
-    void unbound(AbstractGraphicsObject * object);
+    void unbound(GameObject * object);
     /*!
      * \return true if this camera is currently bound to track an
-     * AbstractGraphicsObject
+     * GameObject
      */
     bool isBound() const;
 
@@ -146,7 +146,7 @@ protected:
     /*!
      * \brief object that this camera is bound to in order to track it
      */
-    AbstractGraphicsObject * m_associatedObject;
+    GameObject * m_associatedObject;
 };
 
 } // namespace terminus

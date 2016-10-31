@@ -5,7 +5,7 @@
 namespace terminus
 {
 
-class Game;
+class Application;
 
 /*!
  * \brief The EventHandler class receives events (touch, key, mouse, gyroscope,
@@ -25,7 +25,7 @@ class EventHandler
     };
 
 public:
-    EventHandler(Game *game = nullptr);
+    EventHandler(Application *game = nullptr);
 
     /*!
      * \brief Handles a click on a QML UI button
@@ -57,7 +57,7 @@ protected:
     void touchFire();
 
 protected:
-    Game *m_game;
+    Application *m_game;
 };
 
 }

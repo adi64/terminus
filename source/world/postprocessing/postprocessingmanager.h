@@ -12,14 +12,14 @@
 namespace terminus
 {
 
-class World;
+class Game;
 
 
 
 class PostprocessingManager
 {
 public:
-    PostprocessingManager(World & world);
+    PostprocessingManager(Game & world);
 
     /* Color Attachment mapping:
      * CA0: normal + depth
@@ -34,7 +34,7 @@ public:
 protected:
     void applyEffect(AbstractEffect * effect, FrameBufferObject * sourceFBO, FrameBufferObject * targetFBO);
 
-    World & m_world;
+    Game & m_world;
     FrameBufferObject m_frameBufferObject;
 
     std::unique_ptr<Compose> m_compose;

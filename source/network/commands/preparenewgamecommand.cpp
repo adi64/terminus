@@ -1,6 +1,6 @@
 #include "preparenewgamecommand.h"
 
-#include <game.h>
+#include <application.h>
 #include <network/networkmanager.h>
 
 namespace terminus

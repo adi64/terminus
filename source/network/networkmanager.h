@@ -13,7 +13,7 @@ namespace terminus
 {
 
 class AbstractCommand;
-class Game;
+class Application;
 class NetworkClient;
 class NetworkServer;
 class Train;
@@ -37,7 +37,7 @@ public:
     };
 
 public:
-    NetworkManager(Game & game);
+    NetworkManager(Application & game);
     virtual ~NetworkManager();
 
     /*!
@@ -140,7 +140,7 @@ protected:
     /*!
      * \brief Game instance that this NetworkManager is associated to
      */
-    Game & m_game;
+    Application & m_game;
 
     /*!
      * \brief operation mode of this NetworkManager

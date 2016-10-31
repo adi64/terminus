@@ -9,9 +9,9 @@
 
 #include <player/localplayer.h>
 #include <resources/resourcemanager.h>
-#include <world/camera.h>
+#include <player/camera.h>
 #include <world/level.h>
-#include <world/world.h>
+#include <world/game.h>
 
 #define TEXFORMAT GL_RGBA
 #ifdef Q_OS_LINUX
@@ -36,8 +36,8 @@
 namespace terminus
 {
 
-Terrain::Terrain(World & world, const Level & level)
-: AbstractGraphicsObject(world)
+Terrain::Terrain(Game & world, const Level & level)
+: GameObject(world)
 , m_terrainMapOnGPU(false)
 {
     m_program = ResourceManager::getInstance()->getProgram("terrain");
@@ -64,7 +64,7 @@ Track & Terrain::leftTrack() const
     return *(m_leftTrack.get());
 }
 
-void Terrain::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+void Terrain::doForAllChildren(std::function<void (GameObject &)> callback)
 {
     if(m_leftTrack)
     {
@@ -88,7 +88,7 @@ void Terrain::localRender() const
         {
             m_currentPatchX = iX;
             m_currentPatchZ = iZ;
-            AbstractGraphicsObject::localRender();
+            GameObject::localRender();
         }
     }
 
@@ -99,7 +99,7 @@ void Terrain::localRender() const
 
 void Terrain::localRenderSetup(Program & program) const
 {
-    AbstractGraphicsObject::localRenderSetup(program);
+    GameObject::localRenderSetup(program);
 
     program.setUniform("levelMap", 0);
     QVector4D texInfo(static_cast<float>(m_currentPatchX * (m_levelConfig.vertexCountS() - 1)),

@@ -11,7 +11,7 @@
 #include <world/drawables/projectile.h>
 #include <world/drawables/track.h>
 #include <world/drawables/train/train.h>
-#include <world/world.h>
+#include <world/game.h>
 
 #include <player/abstractplayer.h>
 
@@ -20,7 +20,7 @@
 namespace terminus
 {
 
-WeaponWagon::WeaponWagon(World & world, Train * train)
+WeaponWagon::WeaponWagon(Game & world, Train * train)
 : AbstractWagon(world, train)
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");

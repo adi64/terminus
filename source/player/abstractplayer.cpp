@@ -5,14 +5,14 @@
 #include <QQuaternion>
 
 #include <util/mathutil.h>
-#include <world/camera.h>
+#include <player/camera.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/drawables/train/train.h>
 
 namespace terminus
 {
 
-AbstractPlayer::AbstractPlayer(World & world, Train * train)
+AbstractPlayer::AbstractPlayer(Game & world, Train * train)
 : m_world(world)
 , m_train(train)
 , m_animationInProgress(false)

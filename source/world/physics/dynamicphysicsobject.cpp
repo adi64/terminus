@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-DynamicPhysicsObject::DynamicPhysicsObject(World & world)
+DynamicPhysicsObject::DynamicPhysicsObject(Game & world)
     : AbstractPhysicsObject(world)
 {
 }

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 #include <world/drawables/track.h>
 #include <world/levelconfiguration.h>
 
@@ -20,10 +20,10 @@ class Level;
  *
  * \sa Track
  */
-class Terrain : public AbstractGraphicsObject
+class Terrain : public GameObject
 {
 public:
-    Terrain(World & world, const Level & level);
+    Terrain(Game & world, const Level & level);
 
     virtual void localRender() const override;
     virtual void localRenderSetup(Program & program) const override;
@@ -39,7 +39,7 @@ public:
     Track & leftTrack() const;
 
 protected:
-    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
+    virtual void doForAllChildren(std::function<void(GameObject &)> callback) override;
 
     void allocateTerrainMap() const;
     void deallocateTerrainMap() const;

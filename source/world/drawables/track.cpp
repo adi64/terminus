@@ -5,8 +5,8 @@
 namespace terminus
 {
 
-Track::Track(World & world, bool isOtherTrackLeft)
-: AbstractGraphicsObject(world)
+Track::Track(Game & world, bool isOtherTrackLeft)
+: GameObject(world)
 , m_course(new Polyline)
 , m_isOtherTrackLeft(isOtherTrackLeft)
 {

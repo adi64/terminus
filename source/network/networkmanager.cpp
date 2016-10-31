@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include <game.h>
+#include <application.h>
 #include <network/commands/abstractcommand.h>
 #include <network/commands/preparenewgamecommand.h>
 #include <network/commands/clientreadycommand.h>
@@ -15,14 +15,14 @@
 #include <network/networkendpoint.h>
 #include <network/networkserver.h>
 #include <util/timer.h>
-#include <world/world.h>
+#include <world/game.h>
 #include <world/drawables/terrain.h>
 #include <world/drawables/train/train.h>
 
 namespace terminus
 {
 
-NetworkManager::NetworkManager(Game & game)
+NetworkManager::NetworkManager(Application & game)
 : m_game(game)
 , m_mode(Mode::Singleplayer)
 , m_networkEndpoint(nullptr)

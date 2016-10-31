@@ -16,7 +16,7 @@
 namespace terminus
 {
 
-AbstractWagon::AbstractWagon(World & world, Train * train)
+AbstractWagon::AbstractWagon(Game & world, Train * train)
 : KinematicPhysicsObject(world)
 , m_positionOffset(0.f)
 , m_health(100.f)

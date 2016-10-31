@@ -1,13 +1,13 @@
 #include "abstracteffect.h"
 
-#include <world/world.h>
-#include <world/camera.h>
+#include <world/game.h>
+#include <player/camera.h>
 
 namespace terminus
 {
 
-AbstractEffect::AbstractEffect(World & world, DisabledBehaviour behaviour)
-: AbstractGraphicsObject(world)
+AbstractEffect::AbstractEffect(Game & world, DisabledBehaviour behaviour)
+: GameObject(world)
 , m_disabledBehaviour(behaviour)
 , m_enabled(true)
 {

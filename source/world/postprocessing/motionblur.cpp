@@ -6,7 +6,7 @@
 namespace terminus
 {
 
-MotionBlur::MotionBlur(World &world, DisabledBehaviour behaviour)
+MotionBlur::MotionBlur(Game &world, DisabledBehaviour behaviour)
 : AbstractEffect(world, behaviour)
 , m_motionBlurFactor(3.0)
 {

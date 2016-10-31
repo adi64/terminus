@@ -4,7 +4,7 @@
 
 #include <resources/resourcemanager.h>
 #include <resources/program.h>
-#include <world/world.h>
+#include <world/game.h>
 #include <player/localplayer.h>
 
 #include <world/postprocessing/abstracteffect.h>
@@ -16,7 +16,7 @@
 namespace terminus
 {
 
-PostprocessingManager::PostprocessingManager(World &world)
+PostprocessingManager::PostprocessingManager(Game &world)
 : m_world(world)
 , m_frameBufferObject(world.viewport(), {GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F})
 {

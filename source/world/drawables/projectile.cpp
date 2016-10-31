@@ -8,12 +8,12 @@
 #include <world/drawables/explosion.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
 #include <world/drawables/train/train.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-Projectile::Projectile(World & world)
+Projectile::Projectile(Game & world)
 : DynamicPhysicsObject(world)
 {   
     m_program = ResourceManager::getInstance()->getProgram("basicShader");

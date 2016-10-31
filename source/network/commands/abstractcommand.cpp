@@ -6,7 +6,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-#include <game.h>
+#include <application.h>
 
 namespace terminus
 {
@@ -45,7 +45,7 @@ AbstractCommand::~AbstractCommand()
 {
 }
 
-void AbstractCommand::setGame(Game *game)
+void AbstractCommand::setGame(Application *game)
 {
     assert(game);
     m_game = game;

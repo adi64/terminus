@@ -11,7 +11,7 @@ namespace terminus
 class WeaponWagon : public AbstractWagon
 {
 public:
-    WeaponWagon(World & world, Train *train);
+    WeaponWagon(Game & world, Train *train);
     virtual ~WeaponWagon();
 
     virtual void localUpdate() override;

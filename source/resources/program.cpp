@@ -75,7 +75,6 @@ void Program::allocate() const
         glGetShaderInfoLog(m_fragShader, logSize, &logSize, &errorLog[0]);
 
         qDebug() << QString::fromUtf8(errorLog.data()) << "\n";
-        int i = 0;
     }
     glAttachShader(m_program, m_fragShader);
 

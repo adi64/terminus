@@ -12,8 +12,8 @@ namespace terminus
 {
 const float Train::base_velocity = 0.02;
 
-Train::Train(World & world, Track * track)
-: AbstractGraphicsObject(world)
+Train::Train(Game & world, Track * track)
+: GameObject(world)
 , m_hasEngine(false)
 , m_velocity(base_velocity)
 , m_followedTrain(nullptr)
@@ -171,7 +171,7 @@ void Train::calculateWagonOffset()
     setTravelledDistance(accumulatedOffset);
 }
 
-void Train::doForAllChildren(std::function<void (AbstractGraphicsObject &)> callback)
+void Train::doForAllChildren(std::function<void (GameObject &)> callback)
 {
     for (auto & wagon : m_wagons)
     {

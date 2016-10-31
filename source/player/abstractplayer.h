@@ -5,8 +5,8 @@
 #include <QVector3D>
 
 #include <util/timer.h>
-#include <world/camera.h>
-#include <world/world.h>
+#include <player/camera.h>
+#include <world/game.h>
 
 namespace terminus
 {
@@ -21,7 +21,7 @@ class Train;
 class AbstractPlayer
 {
 public:
-    AbstractPlayer(World & world, Train * train);
+    AbstractPlayer(Game & world, Train * train);
 
     Camera & camera();
 
@@ -56,7 +56,7 @@ protected:
     AbstractWagon * selectedWagon();
 
 protected:
-    World & m_world;
+    Game & m_world;
 
     Camera m_camera;
     Train *m_train;

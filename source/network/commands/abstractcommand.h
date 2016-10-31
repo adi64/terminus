@@ -9,7 +9,7 @@
 namespace terminus
 {
 
-class Game;
+class Application;
 class NetworkServer;
 class NetworkConnection;
 
@@ -34,7 +34,7 @@ public:
      * \brief set the game instance this command should operate on
      * \param game - ownership not taken
      */
-    void setGame(Game * game);
+    void setGame(Application * game);
 
     /*!
      * \brief get the time as counted by the sending game that this command was created and sent
@@ -65,7 +65,7 @@ public:
     virtual void doWork() = 0;
 
 protected:
-    Game * m_game;
+    Application * m_game;
     Timer::TimerMSec m_timeStamp;
 };
 

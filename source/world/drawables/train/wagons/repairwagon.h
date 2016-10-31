@@ -11,7 +11,7 @@ namespace terminus
 class RepairWagon : public AbstractWagon
 {
 public:
-    RepairWagon(World & world, Train * train);
+    RepairWagon(Game & world, Train * train);
     virtual ~RepairWagon();
 
     virtual void localUpdate() override;

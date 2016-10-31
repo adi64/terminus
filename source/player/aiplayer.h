@@ -18,7 +18,7 @@ class WeaponWagon;
 class AIPlayer : public AbstractPlayer
 {
 public:
-    AIPlayer(World & world, Train *train, Train *enemyTrain);
+    AIPlayer(Game & world, Train *train, Train *enemyTrain);
 
     /*!
      * \brief Contains the AI logic and determines what to do in this frame.

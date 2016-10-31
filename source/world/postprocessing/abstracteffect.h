@@ -1,13 +1,13 @@
 #pragma once
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 #include <resources/resourcemanager.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-class AbstractEffect : public AbstractGraphicsObject
+class AbstractEffect : public GameObject
 {
 public:
 
@@ -19,7 +19,7 @@ public:
         SET_BLACK
     };
 
-    AbstractEffect(World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
+    AbstractEffect(Game & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~AbstractEffect();
 
     virtual void localRenderSetup(Program & program) const override;

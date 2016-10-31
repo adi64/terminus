@@ -1,4 +1,4 @@
-#include "abstractgraphicsobject.h"
+#include "gameobject.h"
 
 #include <util/gldebug.h>
 
@@ -7,13 +7,13 @@
 #include <resources/material.h>
 #include <resources/program.h>
 #include <world/lightmanager.h>
-#include <world/camera.h>
-#include <world/world.h>
+#include <player/camera.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-AbstractGraphicsObject::AbstractGraphicsObject(World & world)
+GameObject::GameObject(Game & world)
 : m_world(world)
 , m_validState(true)
 , m_camera(nullptr)
@@ -25,11 +25,11 @@ AbstractGraphicsObject::AbstractGraphicsObject(World & world)
 {
 }
 
-AbstractGraphicsObject::~AbstractGraphicsObject()
+GameObject::~GameObject()
 {
 }
 
-void AbstractGraphicsObject::update()
+void GameObject::update()
 {
     if(!m_validState)
     {
@@ -44,13 +44,13 @@ void AbstractGraphicsObject::update()
     }
 
     doForAllChildren(
-        [](AbstractGraphicsObject & child)
+        [](GameObject & child)
         {
             child.update();
         });
 }
 
-void AbstractGraphicsObject::render()
+void GameObject::render()
 {
     if(!m_validState)
     {
@@ -63,13 +63,13 @@ void AbstractGraphicsObject::render()
     }
 
     doForAllChildren(
-        [](AbstractGraphicsObject & child) mutable
+        [](GameObject & child) mutable
         {
             child.render();
         });
 }
 
-void AbstractGraphicsObject::unbindCamera(Camera * camera)
+void GameObject::unbindCamera(Camera * camera)
 {
     if(camera != m_camera)
     {
@@ -83,7 +83,7 @@ void AbstractGraphicsObject::unbindCamera(Camera * camera)
     onUnbindCamera();
 }
 
-void AbstractGraphicsObject::bindCamera(Camera * camera)
+void GameObject::bindCamera(Camera * camera)
 {
     if(m_camera == camera)
     {
@@ -94,27 +94,27 @@ void AbstractGraphicsObject::bindCamera(Camera * camera)
     onBindCamera();
 }
 
-void AbstractGraphicsObject::onBindCamera()
+void GameObject::onBindCamera()
 {
 }
 
-void AbstractGraphicsObject::onUnbindCamera()
+void GameObject::onUnbindCamera()
 {
 }
 
-void AbstractGraphicsObject::adjustCamera()
+void GameObject::adjustCamera()
 {
 }
 
-void AbstractGraphicsObject::moveEvent(QVector3D /*movement*/)
+void GameObject::moveEvent(QVector3D /*movement*/)
 {
 }
 
-void AbstractGraphicsObject::rotateEvent(QVector2D /*rotation*/)
+void GameObject::rotateEvent(QVector2D /*rotation*/)
 {
 }
 
-const QVector3D & AbstractGraphicsObject::minBB() const
+const QVector3D & GameObject::minBB() const
 {
     static const QVector3D vZero{0.f, 0.f, 0.f};
     if(!m_geometry || !*m_geometry)
@@ -124,7 +124,7 @@ const QVector3D & AbstractGraphicsObject::minBB() const
     return (**m_geometry).bBoxMin();
 }
 
-const QVector3D & AbstractGraphicsObject::maxBB() const
+const QVector3D & GameObject::maxBB() const
 {
     static const QVector3D vZero{0.f, 0.f, 0.f};
     if(!m_geometry || !*m_geometry)
@@ -134,35 +134,35 @@ const QVector3D & AbstractGraphicsObject::maxBB() const
     return (**m_geometry).bBoxMax();
 }
 
-QVector3D AbstractGraphicsObject::worldUp()
+QVector3D GameObject::worldUp()
 {
     return (modelToWorld({0.f, 1.f, 0.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::worldFront()
+QVector3D GameObject::worldFront()
 {
     return (modelToWorld({1.f, 0.f, 0.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::worldSide()
+QVector3D GameObject::worldSide()
 {
     return (modelToWorld({0.f, 0.f, 1.f}) - position()).normalized();
 }
 
-QVector3D AbstractGraphicsObject::position() const
+QVector3D GameObject::position() const
 {
     return m_position;
 }
-QQuaternion AbstractGraphicsObject::rotation() const
+QQuaternion GameObject::rotation() const
 {
     return m_rotation;
 }
-QVector3D AbstractGraphicsObject::scale() const
+QVector3D GameObject::scale() const
 {
     return m_scale;
 }
 
-QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
+QMatrix4x4 GameObject::modelMatrix() const
 {
     if(m_modelMatrixChanged)
     {
@@ -175,7 +175,7 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrix() const
     return m_modelMatrix;
 }
 
-QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
+QMatrix4x4 GameObject::modelMatrixInverted() const
 {
     if(m_modelMatrixInvertedChanged)
     {
@@ -185,11 +185,11 @@ QMatrix4x4 AbstractGraphicsObject::modelMatrixInverted() const
     return m_modelMatrixInverted;
 }
 
-void AbstractGraphicsObject::localUpdate()
+void GameObject::localUpdate()
 {
 }
 
-void AbstractGraphicsObject::localRender() const
+void GameObject::localRender() const
 {
     if(!m_geometry || !*m_geometry)
     {
@@ -233,64 +233,64 @@ void AbstractGraphicsObject::localRender() const
     printGlError(__FILE__, __LINE__);
 }
 
-void AbstractGraphicsObject::localRenderSetup(Program & /*program*/) const
+void GameObject::localRenderSetup(Program & /*program*/) const
 {
 }
 
-void AbstractGraphicsObject::localRenderCleanup(Program & /*program*/) const
+void GameObject::localRenderCleanup(Program & /*program*/) const
 {
 }
 
-bool AbstractGraphicsObject::localRenderEnabled() const
+bool GameObject::localRenderEnabled() const
 {
     return true;
 }
 
-void AbstractGraphicsObject::doForAllChildren(std::function<void (AbstractGraphicsObject &)> /*callback*/)
+void GameObject::doForAllChildren(std::function<void (GameObject &)> /*callback*/)
 {
 }
 
-void AbstractGraphicsObject::setPosition(const QVector3D & position)
+void GameObject::setPosition(const QVector3D & position)
 {
     m_position = position;
     m_modelMatrixChanged = true;
     m_modelMatrixInvertedChanged = true;
 }
 
-void AbstractGraphicsObject::setRotation(const QQuaternion &rotation)
+void GameObject::setRotation(const QQuaternion &rotation)
 {
     m_rotation = rotation;
     m_modelMatrixChanged = true;
     m_modelMatrixInvertedChanged = true;
 }
 
-void AbstractGraphicsObject::setScale(const QVector3D & scale)
+void GameObject::setScale(const QVector3D & scale)
 {
     m_scale = scale;
     m_modelMatrixChanged = true;
     m_modelMatrixInvertedChanged = true;
 }
 
-void AbstractGraphicsObject::setScale(float scale)
+void GameObject::setScale(float scale)
 {
     m_scale = QVector3D(scale, scale, scale);
     m_modelMatrixChanged = true;
     m_modelMatrixInvertedChanged = true;
 }
 
-QVector3D AbstractGraphicsObject::worldToModel(const QVector3D & vWorld)
+QVector3D GameObject::worldToModel(const QVector3D & vWorld)
 {
     QVector4D v4 = modelMatrixInverted() * QVector4D(vWorld, 1.f);
     return v4.toVector3DAffine();
 }
 
-QVector3D AbstractGraphicsObject::modelToWorld(const QVector3D & vModel)
+QVector3D GameObject::modelToWorld(const QVector3D & vModel)
 {
     QVector4D v4 = modelMatrix() * QVector4D(vModel, 1.f);
     return v4.toVector3DAffine();
 }
 
-void AbstractGraphicsObject::dispose()
+void GameObject::dispose()
 {
     if(!m_validState)
     {

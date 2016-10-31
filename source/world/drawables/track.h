@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 #include <util/polyline.h>
 
 namespace terminus
@@ -13,10 +13,10 @@ namespace terminus
  * It is currently not rendered.
  * The course is represented by a Polyline instance.
  */
-class Track : public AbstractGraphicsObject
+class Track : public GameObject
 {
 public:
-    Track(World & world, bool isRightTrack);
+    Track(Game & world, bool isRightTrack);
 
     /*!
      * \return Polyline that represents this track's course

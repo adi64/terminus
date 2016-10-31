@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <util/timer.h>
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 
 class QVector3D;
 
@@ -17,10 +17,10 @@ namespace terminus
  *
  * \sa Projectile
  */
-class Explosion : public AbstractGraphicsObject
+class Explosion : public GameObject
 {
 public:
-    Explosion(World & world, const QVector3D & position);
+    Explosion(Game & world, const QVector3D & position);
     virtual ~Explosion();
 
 protected:

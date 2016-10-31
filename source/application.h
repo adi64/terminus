@@ -18,7 +18,7 @@ class QVariant;
 namespace terminus
 {
 
-class World;
+class Game;
 
 const unsigned short defaultPort = 7331;
 
@@ -33,7 +33,7 @@ const unsigned short defaultPort = 7331;
  * A timer triggers a redraw every 1000 / 60 milliseconds to cap the framerate at 60fps.
  *
  */
-class Game : public QQuickItem
+class Application : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QVariant qmlData READ qmlData NOTIFY qmlDataChanged())
@@ -42,23 +42,23 @@ public:
     /*!
      * \brief The one and only Game constructor
      */
-    Game();
+    Application();
 
     /*!
      * \brief Delete copy constructor
      */
-    Game(const Game & other) = delete;
+    Application(const Application & other) = delete;
 
     /*!
      * \brief Delete assignment operator
      */
-    Game & operator=(const Game & other) = delete;
+    Application & operator=(const Application & other) = delete;
 
     /*!
      * Do not delete this destructor, even if it is empty
      * - otherwise std::shared_ptr<IncompleteType> in the header will break
      */
-    ~Game();
+    ~Application();
 
     /*!
      * \brief Sets up a local game against an AI player with the local plaer
@@ -95,7 +95,7 @@ public:
     void showUI();
     void hideUI();
 
-    World & world() const;
+    Game & world() const;
     QVariant & qmlData();
     ActionScheduler & scheduler();
 
@@ -186,7 +186,7 @@ protected:
     bool m_isPlayerOne;
     bool m_isUIActive;
 
-    std::unique_ptr<World> m_world;
+    std::unique_ptr<Game> m_world;
 };
 
 }

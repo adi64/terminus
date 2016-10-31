@@ -5,9 +5,9 @@
 #include <memory>
 #include <vector>
 
-#include <world/drawables/abstractgraphicsobject.h>
+#include <world/drawables/gameobject.h>
 #include <world/drawables/train/wagons/abstractwagon.h>
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
@@ -22,12 +22,12 @@ class Camera;
  * The train itself isn't rendered, but implements all functionality used for determining the current position on the track
  * and the resulting positions for all corresponding wagons.
  */
-class Train : public AbstractGraphicsObject
+class Train : public GameObject
 {
 public:
     static const float base_velocity;
 public:
-    Train(World & world, Track * track);
+    Train(Game & world, Track * track);
     ~Train();
 
     /*!
@@ -101,7 +101,7 @@ public:
     unsigned int size() const;
 
     // TODO FIXME remove this getter since a camera will have the ability to be
-    // bound to any AbstractGraphicsObject which then knows the camera itself.
+    // bound to any GameObject which then knows the camera itself.
     AbstractPlayer &player() const;
     void setPlayer(AbstractPlayer *player);
 
@@ -116,7 +116,7 @@ protected:
      */
     void calculateWagonOffset();
 
-    virtual void doForAllChildren(std::function<void(AbstractGraphicsObject &)> callback) override;
+    virtual void doForAllChildren(std::function<void(GameObject &)> callback) override;
 
 protected:
     /*!

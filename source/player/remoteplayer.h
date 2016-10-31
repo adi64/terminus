@@ -17,7 +17,7 @@ class Train;
 class RemotePlayer : public AbstractPlayer
 {
 public:
-    RemotePlayer(World & world, Train *train);
+    RemotePlayer(Game & world, Train *train);
 
 protected:
 

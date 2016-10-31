@@ -1,4 +1,4 @@
-#include "game.h"
+#include "application.h"
 
 #include <cassert>
 #include <chrono>
@@ -17,13 +17,13 @@
 #include <player/localplayer.h>
 #include <resources/resourcemanager.h>
 #include <util/actionscheduler.h>
-#include <world/world.h>
+#include <world/game.h>
 
 
 namespace terminus
 {
 
-Game::Game()
+Application::Application()
 : m_eventHandler(this)
 , m_networkManager(*this)
 , m_window(nullptr)
@@ -35,37 +35,37 @@ Game::Game()
     ResourceManager::getInstance()->loadResources();
 }
 
-Game::~Game()
+Application::~Application()
 {
     disconnectSignals();
 }
 
-void Game::startLocalGame()
+void Application::startLocalGame()
 {
     createWorld(false, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::hostNetworkGame()
+void Application::hostNetworkGame()
 {
     m_networkManager.startServer(defaultPort);
     createWorld(true, true, std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-void Game::joinNetworkGame(QString host)
+void Application::joinNetworkGame(QString host)
 {
     m_networkManager.startClient(host, defaultPort);
 }
 
-void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
+void Application::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
-    m_world = std::unique_ptr<World>(new World(*this, isNetworkGame, isPlayerOne, terrainSeed));
+    m_world = std::unique_ptr<Game>(new Game(*this, isNetworkGame, isPlayerOne, terrainSeed));
     showUI();
 }
 
-void Game::endGame(bool localPlayerWins, bool showMessage)
+void Application::endGame(bool localPlayerWins, bool showMessage)
 {
     disconnectSignals();
     m_networkManager.sendGameEndedCommand(!localPlayerWins && showMessage);
@@ -86,7 +86,7 @@ void Game::endGame(bool localPlayerWins, bool showMessage)
     }
 }
 
-void Game::toggleUI()
+void Application::toggleUI()
 {
     if (m_isUIActive)
     {
@@ -98,7 +98,7 @@ void Game::toggleUI()
     }
 }
 
-void Game::showUI()
+void Application::showUI()
 {
     m_isUIActive = true;
     updateQMLData();
@@ -106,35 +106,35 @@ void Game::showUI()
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
 }
 
-void Game::hideUI()
+void Application::hideUI()
 {
     m_isUIActive = false;
     QString uiFile = "";
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
 }
 
-World & Game::world() const
+Game & Application::world() const
 {
     assert(m_world);
     return *m_world;
 }
 
-ActionScheduler & Game::scheduler()
+ActionScheduler & Application::scheduler()
 {
     return m_scheduler;
 }
 
-NetworkManager & Game::networkManager()
+NetworkManager & Application::networkManager()
 {
     return m_networkManager;
 }
 
-Timer & Game::timer()
+Timer & Application::timer()
 {
     return m_timer;
 }
 
-void Game::buttonInput(int type)
+void Application::buttonInput(int type)
 {
     if(m_world)
     {
@@ -142,7 +142,7 @@ void Game::buttonInput(int type)
     }
 }
 
-void Game::keyInput(Qt::Key key)
+void Application::keyInput(Qt::Key key)
 {
     if(m_world)
     {
@@ -150,7 +150,7 @@ void Game::keyInput(Qt::Key key)
     }
 }
 
-void Game::moveInput(int type, qreal x, qreal y)
+void Application::moveInput(int type, qreal x, qreal y)
 {
     if(m_world)
     {
@@ -158,7 +158,7 @@ void Game::moveInput(int type, qreal x, qreal y)
     }
 }
 
-void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
+void Application::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
 {
     if(m_world)
     {
@@ -166,7 +166,7 @@ void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
     }
 }
 
-void Game::sync()
+void Application::sync()
 {
     // process scheduled events
     m_scheduler.executeActions();
@@ -197,7 +197,7 @@ void Game::sync()
     m_timer.adjust("frameTimer", 0);
 }
 
-void Game::render()
+void Application::render()
 {
     if (m_world)
     {
@@ -206,12 +206,12 @@ void Game::render()
     m_window->resetOpenGLState();
 }
 
-void Game::cleanup()
+void Application::cleanup()
 {
     qDebug("cleanup");
 }
 
-void Game::handleWindowChanged(QQuickWindow * win)
+void Application::handleWindowChanged(QQuickWindow * win)
 {
     connectSignals(win);
     if (m_window)
@@ -225,18 +225,18 @@ void Game::handleWindowChanged(QQuickWindow * win)
     }
 }
 
-void Game::setPaused(bool paused)
+void Application::setPaused(bool paused)
 {
     m_timer.pause(paused);
 }
 
-void Game::togglePaused()
+void Application::togglePaused()
 {
     m_timer.pause();
     m_networkManager.sendPauseCommand(m_timer.isPaused());
 }
 
-void Game::connectSignals(QQuickWindow *win)
+void Application::connectSignals(QQuickWindow *win)
 {
     disconnectSignals();
     m_window = win;
@@ -248,7 +248,7 @@ void Game::connectSignals(QQuickWindow *win)
     }
 }
 
-void Game::disconnectSignals()
+void Application::disconnectSignals()
 {
     if(m_window)
     {
@@ -261,7 +261,7 @@ void Game::disconnectSignals()
 /*!
  * \brief Creates Data for QML. This is incredibly inefficient since QVariants cannot be edited only set.
  */
-void Game::updateQMLData()
+void Application::updateQMLData()
 {
     auto& playerTrain = m_world->localPlayerTrain();
     QList<QVariant> playerWagonList;
@@ -308,7 +308,7 @@ void Game::updateQMLData()
     emit qmlDataChanged();
 }
 
-QVariant & Game::qmlData()
+QVariant & Application::qmlData()
 {
     return m_qmlData;
 }

@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-#include <world/world.h>
+#include <world/game.h>
 
 namespace terminus
 {
 
-KinematicPhysicsObject::KinematicPhysicsObject(World & world)
+KinematicPhysicsObject::KinematicPhysicsObject(Game & world)
     : AbstractPhysicsObject(world)
 {
 }

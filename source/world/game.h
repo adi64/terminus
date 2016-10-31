@@ -10,7 +10,7 @@
 
 #include <util/actionscheduler.h>
 #include <util/timer.h>
-#include <world/camera.h>
+#include <player/camera.h>
 #include <world/level.h>
 #include <world/lightmanager.h>
 #include <world/physics/bulletworld.h>
@@ -22,11 +22,11 @@ class btDiscreteDynamicsWorld;
 
 namespace terminus
 {
-class AbstractGraphicsObject;
+class GameObject;
 class AbstractPhysicsObject;
 class AbstractPlayer;
 class AIPlayer;
-class Game;
+class Application;
 class LocalPlayer;
 class NetworkManager;
 class PostprocessingManager;
@@ -42,7 +42,7 @@ class Train;
  * (Projectile, Skybox, ...) and two AbstractPlayer s controlling the two trains.
  * It also holds the BulletWorld, an encapsulation of all bullet-related classes and methods.
  */
-class World : public QObject
+class Game : public QObject
 {
     Q_OBJECT
 public:
@@ -53,19 +53,19 @@ public:
      * \param isPlayerOne Whether the local player is "player one" or "player two"
      * \param terrainSeed Seed value for the noise generator to synchronize the terrain with the other network player
      */
-    World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed);
+    Game(Application & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed);
 
     /*!
      * \brief Delete copy constructor
      */
-    World(const World & other) = delete;
+    Game(const Game & other) = delete;
 
     /*!
      * \brief Delete assignment operator
      */
-    World & operator=(const World & other) = delete;
+    Game & operator=(const Game & other) = delete;
 
-    ~World();
+    ~Game();
 
     void update();
     void render() const;
@@ -87,8 +87,8 @@ public:
 
     void scheduleAction(ActionScheduler::Action event);
 
-    void addObject(AbstractGraphicsObject * node);
-    void deleteObject(AbstractGraphicsObject * object);
+    void addObject(GameObject * node);
+    void deleteObject(GameObject * object);
 
     /*!
      * \brief Returns a shared pointer to the corresponding BulletWorld
@@ -100,7 +100,7 @@ public:
     std::shared_ptr<BulletWorld> bulletWorld();
 
 protected:
-    Game & m_game;
+    Application & m_game;
 
     Level m_level;
 
@@ -118,7 +118,7 @@ protected:
     std::unique_ptr<LocalPlayer> m_localPlayer;
     std::unique_ptr<AbstractPlayer> m_enemyPlayer;
 
-    std::list<std::unique_ptr<AbstractGraphicsObject>> m_dynamicObjects;
+    std::list<std::unique_ptr<GameObject>> m_dynamicObjects;
 };
 
 }

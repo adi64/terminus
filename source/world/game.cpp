@@ -1,4 +1,4 @@
-#include "world.h"
+#include "game.h"
 
 #include <cmath>
 
@@ -8,14 +8,14 @@
 
 #include <util/gldebug.h>
 
-#include <game.h>
+#include <application.h>
 #include <player/abstractplayer.h>
 #include <player/aiplayer.h>
 #include <player/localplayer.h>
 #include <player/remoteplayer.h>
 #include <resources/soundmanager.h>
 #include <util/actionscheduler.h>
-#include <world/camera.h>
+#include <player/camera.h>
 #include <world/postprocessing/postprocessingmanager.h>
 #include <world/drawables/projectile.h>
 #include <world/drawables/skybox.h>
@@ -31,7 +31,7 @@
 namespace terminus
 {
 
-World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
+Game::Game(Application & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
 , m_level(LevelConfiguration(terrainSeed))
 , m_postprocessingManager(std::unique_ptr<PostprocessingManager>(new PostprocessingManager(*this)))
@@ -94,26 +94,26 @@ World::World(Game & game, bool isNetworkGame, bool isPlayerOne, unsigned int ter
     m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 }
 
-World::~World()
+Game::~Game()
 {
 
 }
 
-void World::addObject(AbstractGraphicsObject * node)
+void Game::addObject(GameObject * node)
 {
-    m_dynamicObjects.push_back(std::unique_ptr<AbstractGraphicsObject>(node));
+    m_dynamicObjects.push_back(std::unique_ptr<GameObject>(node));
 }
 
-void World::deleteObject(AbstractGraphicsObject * object)
+void Game::deleteObject(GameObject * object)
 {
     m_dynamicObjects.remove_if(
-        [object](const std::unique_ptr<AbstractGraphicsObject> & candidate)
+        [object](const std::unique_ptr<GameObject> & candidate)
         {
             return candidate.get() == object;
         });
 }
 
-void World::update()
+void Game::update()
 {
     // physics - never give bullet negative step times
     m_bulletWorld->stepSimulation(fmax(m_game.timer().get("frameTimer") / 1000.f, 0.f), 10);
@@ -140,7 +140,7 @@ void World::update()
     }
 }
 
-void World::render() const
+void Game::render() const
 {
     // render to g-buffer instead of to the screen
     m_postprocessingManager->gBufferFBO().bindFBO();
@@ -192,57 +192,57 @@ void World::render() const
     m_postprocessingManager->composeImage();
 }
 
-LocalPlayer & World::localPlayer()
+LocalPlayer & Game::localPlayer()
 {
     return *m_localPlayer;
 }
 
-AbstractPlayer & World::enemyPlayer()
+AbstractPlayer & Game::enemyPlayer()
 {
     return *m_enemyPlayer;
 }
 
-Train & World::localPlayerTrain()
+Train & Game::localPlayerTrain()
 {
     return *(localPlayer().train());
 }
 
-Train & World::enemyPlayerTrain()
+Train & Game::enemyPlayerTrain()
 {
     return *(enemyPlayer().train());
 }
 
-Level & World::level()
+Level & Game::level()
 {
     return m_level;
 }
 
-Timer & World::timer()
+Timer & Game::timer()
 {
     return m_game.timer();
 }
 
-LightManager & World::lightManager()
+LightManager & Game::lightManager()
 {
     return m_lightManager;
 }
 
-QSize World::viewport() const
+QSize Game::viewport() const
 {
     return m_game.window()->size();
 }
 
-std::shared_ptr<BulletWorld> World::bulletWorld()
+std::shared_ptr<BulletWorld> Game::bulletWorld()
 {
     return m_bulletWorld;
 }
 
-void World::scheduleAction(ActionScheduler::Action event)
+void Game::scheduleAction(ActionScheduler::Action event)
 {
     m_game.scheduler().scheduleAction(event);
 }
 
-NetworkManager & World::networkManager()
+NetworkManager & Game::networkManager()
 {
     return m_game.networkManager();
 }

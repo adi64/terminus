@@ -4,8 +4,8 @@
 #include <QApplication>
 #include <QQuickWindow>
 
-#include <world/camera.h>
-#include <world/world.h>
+#include <player/camera.h>
+#include <world/game.h>
 #include <world/drawables/train/train.h>
 #include <world/drawables/train/wagons/weaponwagon.h>
 #include <player/abstractplayer.h>
@@ -13,12 +13,12 @@
 
 #include <network/networkmanager.h>
 
-#include <game.h>
+#include <application.h>
 
 namespace terminus
 {
 
-EventHandler::EventHandler(Game * game)
+EventHandler::EventHandler(Application * game)
 : m_game(game)
 {
 
