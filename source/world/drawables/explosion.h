@@ -26,8 +26,8 @@ public:
 protected:
     virtual void localUpdate() override;
 
-    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const;
-    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const;
+    virtual void localRenderSetup(QOpenGLFunctions & gl, Program & program) const override;
+    virtual void localRenderCleanup(QOpenGLFunctions & gl, Program & program) const override;
 
 protected:
     Timer::TimerID m_timer;

@@ -44,3 +44,7 @@ music/not_used
 # Doxygen
 doxygen
 cppcheck_includes.txt
+Debug
+Release
+Terminus.xcodeproj
+Info.plist

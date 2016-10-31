@@ -20,7 +20,7 @@ public:
 
     virtual void primaryActionInternal() override;
 
-    virtual float maxHealth() const;
+    virtual float maxHealth() const override;
 
     virtual float cooldownTime() const override;
 

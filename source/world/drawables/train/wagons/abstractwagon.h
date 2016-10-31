@@ -64,13 +64,13 @@ public:
      * \sa localCameraCenter()
      * \sa localCameraEye()
      */
-    virtual void adjustCamera();
+    virtual void adjustCamera() override;
 
     /*!
      * \brief rotates the camera position in model space
      * \param rotation
      */
-    virtual void rotateEvent(QVector2D rotation);
+    virtual void rotateEvent(QVector2D rotation) override;
 
     virtual void setHealth(float health);
     virtual float currentHealth() const;
