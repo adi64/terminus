@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <queue>
 
 #include <QObject>
 #include <QOpenGLFunctions>
@@ -36,7 +37,7 @@ const unsigned short defaultPort = 7331;
 class Game : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant qmlData READ qmlData WRITE writeQmlData NOTIFY qmlDataChanged())
+    Q_PROPERTY(QVariant qmlData READ qmlData WRITE writeQmlData NOTIFY qmlDataChanged)
 
 public:
     /*!
@@ -84,7 +85,7 @@ public:
      * \param terrainSeed The seed used to initialize the Perlin noise function
      * to generate the terrain
      */
-    void createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed);
+    void createWorld(bool isNetworkGame, bool isPlayerOne, long long terrainSeed);
 
     void endGame(bool localPlayerWins, bool showMessage);
 
@@ -98,6 +99,7 @@ public:
     World & world() const;
     QVariant & qmlData();
     Q_INVOKABLE void writeQmlData(QVariant qmlData);
+
     ActionScheduler & scheduler();
 
     NetworkManager & networkManager();
@@ -164,6 +166,7 @@ public slots:
 
 signals:
     void qmlDataChanged();
+    void fpsChanged();
 
 protected:
     void connectSignals(QQuickWindow * win);
@@ -172,6 +175,7 @@ protected:
      * \brief Update the data storage used by the UI to display game info
      */
     void updateQMLData();
+    float updateFPS();
 
 protected:
     Timer m_timer;
@@ -188,6 +192,8 @@ protected:
 
     bool m_isPlayerOne;
     bool m_isUIActive;
+
+    std::queue<long long> m_frameTimes;
 
     std::unique_ptr<World> m_world;
 };

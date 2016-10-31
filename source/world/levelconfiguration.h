@@ -26,9 +26,9 @@ class LevelConfiguration
 {
 public:
     LevelConfiguration();
-    explicit LevelConfiguration(unsigned int seed);
+    explicit LevelConfiguration(long long seed);
 
-    virtual unsigned int seed() const;
+    virtual long long seed() const;
     virtual int vertexCountS() const;
     virtual int vertexCountT() const;
     virtual int patchCountS() const;
@@ -51,7 +51,7 @@ public:
     virtual QVector2D vertexIDToPosition(int s, int t) const;
 
 protected:
-    unsigned int m_seed;
+    long long m_seed;
 
     int m_vertexCountS;
     int m_vertexCountT;

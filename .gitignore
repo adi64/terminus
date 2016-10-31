@@ -48,3 +48,7 @@ Debug
 Release
 Terminus.xcodeproj
 Info.plist
+*.xcscheme
+*.xcsettings
+*.pbxproj
+*.mak

@@ -116,7 +116,8 @@ DISTFILES += \
     source/qml/Headline.qml \
     source/qml/UserInterface.qml \
     source/qml/SetupMenu.qml \
-    source/qml/SimpleButton.qml
+    source/qml/SimpleButton.qml \
+    source/qml/FPSCounter.qml
 
 RC_FILE = data/myapp.rc
 

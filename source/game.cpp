@@ -3,6 +3,7 @@
 #include <cassert>
 #include <chrono>
 #include <memory>
+#include <queue>
 
 #include <QApplication>
 #include <QList>
@@ -57,7 +58,7 @@ void Game::joinNetworkGame(QString host)
     m_networkManager.startClient(host, defaultPort);
 }
 
-void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
+void Game::createWorld(bool isNetworkGame, bool isPlayerOne, long long terrainSeed)
 {
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
@@ -293,14 +294,28 @@ void Game::updateQMLData()
         enemyTrainList.push_back(enemyTrain.wagonAt(i)->getStatus());
     }
 
+    auto fps = updateFPS();
+
     QMap<QString, QVariant> dataMap = {
         std::make_pair("currentWagon", m_world->localPlayer().selectedWagonIndex()),
         std::make_pair("progress", playerTrain.travelledDistanceRelative()),
         std::make_pair("playerTrain", playerTrainList),
-        std::make_pair("enemyTrain", enemyTrainList)
+        std::make_pair("enemyTrain", enemyTrainList),
+        std::make_pair("fps", fps)
     };
     m_qmlData.setValue(dataMap);
     emit qmlDataChanged();
+}
+
+float Game::updateFPS()
+{
+    m_frameTimes.push(std::chrono::system_clock::now().time_since_epoch().count());
+    if (m_frameTimes.size() > 10)
+    {
+        m_frameTimes.pop();
+    }
+    auto duration = std::chrono::system_clock::now().time_since_epoch().count() - m_frameTimes.front();
+    return 1000000.f / (duration / m_frameTimes.size());
 }
 
 QVariant & Game::qmlData()
