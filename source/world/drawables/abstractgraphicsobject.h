@@ -55,6 +55,8 @@ public:
      */
     virtual void render(QOpenGLFunctions & gl) final;
 
+    virtual Camera * camera();
+
     /*!
      * \brief binds a camera to track this object
      * \param cam
