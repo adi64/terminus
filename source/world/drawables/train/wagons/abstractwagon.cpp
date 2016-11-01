@@ -59,7 +59,6 @@ void AbstractWagon::localUpdate()
     float angleZ = atan2(t2.y(), t2.x()) * 180.f / MathUtil::PI;
     KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY)
                                             * QQuaternion::fromAxisAndAngle(QVector3D(0.f, 0.f, 1.f), angleZ));
-
     QVector3D trackOffset(0.f, 0.f, 0.f);
     setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
@@ -163,7 +162,7 @@ bool AbstractWagon::isDisabled() const
 
 WagonType AbstractWagon::wagonType() const
 {
-    return INVALID;
+    return WagonType::INVALID;
 }
 
 void AbstractWagon::setPositionOffset(float accumulatedOffset)
@@ -197,18 +196,14 @@ short AbstractWagon::possibleCollisionTypes() const
 
 QVector3D AbstractWagon::localCameraCenter()
 {
-    auto & vBBMinM = minBB();
-    auto & vBBMaxM = maxBB();
-
-    auto xCenterM = (vBBMinM.x() + vBBMaxM.x()) * 0.5f;
-    auto yBaseM = vBBMaxM.y() + 1.f;
+    auto centerM = (minBB() + maxBB()) * 0.5;
     if(isOtherTrainLeft())
     {
-        return {xCenterM, yBaseM, vBBMinM.z() - 1.f};
+        return {centerM.x(), centerM.y(), centerM.z() - 1.f};
     }
     else
     {
-        return {xCenterM, yBaseM, vBBMaxM.z() + 1.f};
+        return {centerM.x(), centerM.y(), centerM.z() + 1.f};
     }
 }
 
