@@ -274,7 +274,7 @@ void Game::updateQMLData()
     for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", playerTrain.wagonAt(i)->wagonType());
+        wagonMap.insert("type", static_cast<int>(playerTrain.wagonAt(i)->wagonType()));
         wagonMap.insert("currentHealth", playerTrain.wagonAt(i)->currentHealth());
         wagonMap.insert("maxHealth", playerTrain.wagonAt(i)->maxHealth());
         wagonMap.insert("currentCooldown", playerTrain.wagonAt(i)->cooldown());
@@ -287,7 +287,7 @@ void Game::updateQMLData()
     for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {
         QMap<QString, QVariant> wagonMap;
-        wagonMap.insert("type", enemyTrain.wagonAt(i)->wagonType());
+        wagonMap.insert("type", static_cast<int>(enemyTrain.wagonAt(i)->wagonType()));
         wagonMap.insert("currentHealth", enemyTrain.wagonAt(i)->currentHealth());
         wagonMap.insert("maxHealth", enemyTrain.wagonAt(i)->maxHealth());
         wagonMap.insert("currentCooldown", enemyTrain.wagonAt(i)->cooldown());

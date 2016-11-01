@@ -11,7 +11,7 @@ namespace terminus
 class AbstractGraphicsObject;
 class Train;
 
-enum WagonType
+enum class WagonType
 {
     INVALID = 0,
     ENGINE_WAGON = 1,

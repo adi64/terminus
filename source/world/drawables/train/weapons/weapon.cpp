@@ -60,23 +60,10 @@ void Weapon::localUpdate()
 {
     AbstractGraphicsObject::localUpdate();
 
-    //modelMatrix(); //muss das hier sein?
+    modelMatrix(); //muss das hier sein?
 
-//        QVector3D lookAt = (m_camera->eye() - m_camera->center()).normalized();
-
-//        float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
-//        float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
-//        float angleZ = atan2(lookAt.y(), lookAt.x()) * 180 / MathUtil::PI;
-
-//        QQuaternion xz_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY);
-//        QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
-//        QQuaternion y_rotationZ = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 0.0, 1.0), angleZ);
-
-//        m_turret->setRotation(xz_rotation + y_rotationX);
-     m_turret->localUpdate();
-
-//        m_barrel->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY));
-     m_barrel->localUpdate();
+    m_turret->localUpdate();
+    m_barrel->localUpdate();
 }
 
 QVector3D Weapon::weaponOffset()
@@ -115,6 +102,7 @@ void terminus::Weapon::adjustCamera()
 
 void Weapon::rotateEvent(QVector2D rotation)
 {
+    //Behaves the same as abstractWagon for the Moment
     if(!parent())
     {
         return;
@@ -168,44 +156,14 @@ QVector3D Weapon::localCameraEye()
 
     if(dynamic_cast<WeaponWagon*>(parent())->isOtherTrainLeft())
     {
-        return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
+        return m_turret->position();
+        //return {xCenterM - vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMaxM.z() + 2.f - vEyeOff.z()};
     }
     else
     {
-        return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
+        return m_turret->position();
+        //return {xCenterM + vEyeOff.x(), yBaseM + vEyeOff.y(), vBBMinM.z() - 2.f + vEyeOff.z()};
     }
-}
-
-Camera * Weapon::camera()
-{
-    return m_camera;
-}
-
-QMatrix4x4 Weapon::modelMatrix() const
-{
-    if(parent())
-    {
-        return parent()->modelMatrix();
-    }
-    return QMatrix4x4();
-}
-
-QMatrix4x4 Weapon::modelMatrixInverted() const
-{
-    if(parent())
-    {
-        return parent()->modelMatrixInverted();
-    }
-    return QMatrix4x4();
-}
-
-QVector3D Weapon::position() const
-{
-    if(parent())
-    {
-        return parent()->position();
-    }
-    return QVector3D(0.f, 0.f, 0.f);
 }
 
 float Weapon::damage()

@@ -95,7 +95,7 @@ QVector3D EngineWagon::lightPosition()
 
 WagonType EngineWagon::wagonType() const
 {
-    return ENGINE_WAGON;
+    return WagonType::ENGINE_WAGON;
 }
 
 }

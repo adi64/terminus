@@ -24,13 +24,14 @@ WeaponWagon::WeaponWagon(World & world, Train * train)
 , m_weapon(std::unique_ptr<Weapon>(nullptr))
 {
     m_program = ResourceManager::getInstance()->getProgram("basicShader");
+    //TODO: Differenciation is not that important anymore. Maybe still needed for initial weapon focus
     if(m_train->track()->isRightTrack())
     {
         m_geometry = ResourceManager::getInstance()->getGeometry("weaponWagon_weaponWagon");
     }
     else
     {
-        m_geometry = ResourceManager::getInstance()->getGeometry("weapon_left");
+        m_geometry = ResourceManager::getInstance()->getGeometry("weaponWagon_weaponWagon");
     }
     m_material = ResourceManager::getInstance()->getMaterial("base_weaponMat");
 
@@ -68,7 +69,7 @@ float WeaponWagon::cooldownTime() const
 
 WagonType WeaponWagon::wagonType() const
 {
-    return WEAPON_WAGON;
+    return WagonType::WEAPON_WAGON;
 }
 
 void WeaponWagon::bindCameraToWeapon(Camera & camera)

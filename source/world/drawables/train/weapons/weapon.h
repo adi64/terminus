@@ -22,6 +22,7 @@ public:
     void fire(QVector3D velocity, QVector3D position);
     virtual void localUpdate() override;
 
+    //TODO: What purpose?
     QVector3D weaponOffset();
 
     /*!
@@ -55,13 +56,6 @@ public:
      * \return
      */
     virtual QVector3D localCameraEye();
-
-    virtual Camera * camera();
-
-    virtual QMatrix4x4 modelMatrix() const override;
-    virtual QMatrix4x4 modelMatrixInverted() const override;
-
-    virtual QVector3D position() const override;
 
 public:
     float damage();

@@ -80,7 +80,7 @@ void RepairWagon::localUpdate()
 
 WagonType RepairWagon::wagonType() const
 {
-    return REPAIR_WAGON;
+    return WagonType::REPAIR_WAGON;
 }
 
 } //namespace terminus
