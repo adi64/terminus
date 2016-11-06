@@ -309,13 +309,21 @@ void Game::updateQMLData()
 
 float Game::updateFPS()
 {
-    m_frameTimes.push(std::chrono::system_clock::now().time_since_epoch().count());
+    std::string timerName("fpsCounter");
+
+    if (!m_timer.isAllocated(timerName)) {
+        m_timer.allocateTimer(timerName);
+    }
+
+    auto now = m_timer.get(timerName);
+
+    m_frameTimes.push(now);
     if (m_frameTimes.size() > 10)
     {
         m_frameTimes.pop();
     }
-    auto duration = std::chrono::system_clock::now().time_since_epoch().count() - m_frameTimes.front();
-    return 1000000.f / (duration / m_frameTimes.size());
+    auto duration = now - m_frameTimes.front();
+    return 1000.f / (duration / m_frameTimes.size());
 }
 
 QVariant & Game::qmlData()
