@@ -346,16 +346,16 @@ bool Camera::isBound() const
 void Camera::setUniforms(Program & program, const QMatrix4x4 & model) const
 {
     // TODO rename "u_" prefix
-    program.setUniform(std::string("u_mModel"), model);
-    program.setUniform(std::string("u_mModelInv"), model.inverted());
-    program.setUniform(std::string("u_mModelNorm"), model.normalMatrix());
-    program.setUniform(std::string("u_mView"), view());
-    program.setUniform(std::string("u_mViewInv"), viewInverted());
-    program.setUniform(std::string("u_mViewNorm"), normal());
-    program.setUniform(std::string("u_mProjection"), projection());
-    program.setUniform(std::string("u_mProjectionInv"), projectionInverted());
+    program.setUniform(std::string("u_mModel"), model, true);
+    program.setUniform(std::string("u_mModelInv"), model.inverted(), true);
+    program.setUniform(std::string("u_mModelNorm"), model.normalMatrix(), true);
+    program.setUniform(std::string("u_mView"), view(), true);
+    program.setUniform(std::string("u_mViewInv"), viewInverted(), true);
+    program.setUniform(std::string("u_mViewNorm"), normal(), true);
+    program.setUniform(std::string("u_mProjection"), projection(), true);
+    program.setUniform(std::string("u_mProjectionInv"), projectionInverted(), true);
 
-    program.setUniform(std::string("screenWidth"), static_cast<float>(m_viewport.x()));
-    program.setUniform(std::string("screenHeight"), static_cast<float>(m_viewport.y()));
+    program.setUniform(std::string("screenWidth"), static_cast<float>(m_viewport.x()), true);
+    program.setUniform(std::string("screenHeight"), static_cast<float>(m_viewport.y()), true);
 }
 } // namespace terminus

@@ -16,6 +16,9 @@ in vec2 v_texcoord;
 
 layout (location = 0) out vec4 f_fragColor;
 
+// taken from
+// http://http.developer.nvidia.com/GPUGems3/gpugems3_ch27.html
+
 void main(void) {
     float depthValue = texture2D(u_depthTexture, v_texcoord).a;
 

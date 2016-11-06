@@ -39,13 +39,13 @@ public:
 
     virtual int program() const;
 
-    virtual void setUniform(std::string name, const QMatrix4x4 & value);
-    virtual void setUniform(std::string name, const QMatrix3x3 & value);
-    virtual void setUniform(std::string name, const QVector3D value);
-    virtual void setUniform(std::string name, const QVector4D value);
-    virtual void setUniform(std::string name, float value);
-    virtual void setUniform(std::string name, int value);
-    virtual void setUniform(std::string name, const QVector4D * values, int count);
+    virtual void setUniform(std::string name, const QMatrix4x4 & value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, const QMatrix3x3 & value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, const QVector3D value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, const QVector4D value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, float value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, int value, bool suppressErrors = false);
+    virtual void setUniform(std::string name, const QVector4D * values, int count, bool suppressErrors = false);
 
 private:
     std::vector<char> m_vertexSrc;

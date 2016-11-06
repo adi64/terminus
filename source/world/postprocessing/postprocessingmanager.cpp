@@ -20,7 +20,7 @@ PostprocessingManager::PostprocessingManager(World &world)
 : m_world(world)
 , m_frameBufferObject(world.viewport(), {GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F, GL_RGBA16F})
 {
-    // initialize effects
+    // Initialize effects
     m_compose = std::unique_ptr<Compose>(new Compose(world));
     m_compose->setTextures(
         {
@@ -31,28 +31,28 @@ PostprocessingManager::PostprocessingManager(World &world)
             {m_frameBufferObject, GL_COLOR_ATTACHMENT4}
         });
 
-
-    auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
-    motionBlurPtr->setTextures(
-        {
-            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0},
-            {m_frameBufferObject, GL_COLOR_ATTACHMENT0} // normal xyz + depth
-        });
-//    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
-//    vignettePtr->setTextures(
+//    auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
+//    motionBlurPtr->setTextures(
 //        {
-//            {motionBlurPtr->targetFBO(), GL_COLOR_ATTACHMENT0}
+//            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0},
+//            {m_frameBufferObject, GL_COLOR_ATTACHMENT0} // normal xyz + depth
 //        });
+    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
+    vignettePtr->setTextures(
+        {
+            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0}
+        });
 
-    // create list of effects
-    m_effects.push_back(std::move(motionBlurPtr));
-//    m_effects.push_back(std::move(vignettePtr));
+    // Create list of effects (Compose and Passthrough do NOT go into this list!)
 
-    // last "effect" to render to screen instead of texture
+//    m_effects.push_back(std::move(motionBlurPtr));
+    m_effects.push_back(std::move(vignettePtr));
+
+    // Last "effect" to render to screen instead of texture
     m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));
     m_passthrough->setTextures(
         {
-            {m_effects.back()->targetFBO(), GL_COLOR_ATTACHMENT0}
+            {m_effects.size() ? m_effects.back()->targetFBO() : m_compose->targetFBO(), GL_COLOR_ATTACHMENT0}
         });
 }
 

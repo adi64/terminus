@@ -126,7 +126,7 @@ void Program::release() const
     m_isBound = false;
 }
 
-void Program::setUniform(std::string name, const QMatrix4x4 & value)
+void Program::setUniform(std::string name, const QMatrix4x4 & value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -137,11 +137,12 @@ void Program::setUniform(std::string name, const QMatrix4x4 & value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, const QMatrix3x3 & value)
+void Program::setUniform(std::string name, const QMatrix3x3 & value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -152,11 +153,12 @@ void Program::setUniform(std::string name, const QMatrix3x3 & value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, const QVector3D value)
+void Program::setUniform(std::string name, const QVector3D value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -167,11 +169,12 @@ void Program::setUniform(std::string name, const QVector3D value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, const QVector4D value)
+void Program::setUniform(std::string name, const QVector4D value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -182,11 +185,12 @@ void Program::setUniform(std::string name, const QVector4D value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, float value)
+void Program::setUniform(std::string name, float value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -197,11 +201,12 @@ void Program::setUniform(std::string name, float value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, int value)
+void Program::setUniform(std::string name, int value, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     bind();
@@ -212,11 +217,12 @@ void Program::setUniform(std::string name, int value)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
-void Program::setUniform(std::string name, const QVector4D * values, int count)
+void Program::setUniform(std::string name, const QVector4D * values, int count, bool suppressErrors /*=false*/)
 {
     printGlError(__FILE__, __LINE__);
     //name.append("[0]");
@@ -228,7 +234,8 @@ void Program::setUniform(std::string name, const QVector4D * values, int count)
     }
     else
     {
-        qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
+        if (!suppressErrors)
+            qDebug() << __FILE__ << " at " << __LINE__ << ": " << "Could not get location for " << QString::fromStdString(name);
     }
     printGlError(__FILE__, __LINE__);
 }
