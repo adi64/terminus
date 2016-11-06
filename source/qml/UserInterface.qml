@@ -53,6 +53,7 @@ Item
     FPSCounter
     {
         text: game.qmlData.fps.toPrecision(2) + " fps";
+        visible: game.qmlData.fps >= 0 ? true : false;
     }
 
     WagonActionArea

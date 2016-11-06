@@ -31,6 +31,7 @@ Game::Game()
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_isGLInitialized(false)
 , m_isUIActive(false) // is set to true on create world
+, m_showFPS(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -123,6 +124,11 @@ void Game::hideUI()
     m_isUIActive = false;
     QString uiFile = "";
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
+}
+
+void Game::toggleFPS()
+{
+    m_showFPS = !m_showFPS;
 }
 
 World & Game::world() const
@@ -276,7 +282,7 @@ void Game::disconnectSignals()
 }
 
 /*!
- * \brief Creates Data for QML. This is incredibly inefficient since QVariants cannot be edited only set.
+ * \brief Creates Data for QML. This is somewhat inefficient since QVariants cannot be edited only set.
  */
 void Game::updateQMLData()
 {
@@ -294,7 +300,7 @@ void Game::updateQMLData()
         enemyTrainList.push_back(enemyTrain.wagonAt(i)->getStatus());
     }
 
-    auto fps = updateFPS();
+    auto fps = m_showFPS == true ? updateFPS() : -1;
 
     QMap<QString, QVariant> dataMap = {
         std::make_pair("currentWagon", m_world->localPlayer().selectedWagonIndex()),
@@ -321,9 +327,10 @@ float Game::updateFPS()
     if (m_frameTimes.size() > 10)
     {
         m_frameTimes.pop();
+        auto duration = now - m_frameTimes.front();
+        return 1000.f / (duration / m_frameTimes.size());
     }
-    auto duration = now - m_frameTimes.front();
-    return 1000.f / (duration / m_frameTimes.size());
+    return -1.f;
 }
 
 QVariant & Game::qmlData()

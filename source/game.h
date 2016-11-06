@@ -96,6 +96,8 @@ public:
     void showUI();
     void hideUI();
 
+    void toggleFPS();
+
     World & world() const;
     QVariant & qmlData();
     Q_INVOKABLE void writeQmlData(QVariant qmlData);
@@ -192,6 +194,7 @@ protected:
 
     bool m_isPlayerOne;
     bool m_isUIActive;
+    bool m_showFPS;
 
     std::queue<long long> m_frameTimes;
 
