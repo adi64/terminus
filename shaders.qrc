@@ -12,5 +12,6 @@
         <file>data/to_gbuffer.frag</file>
         <file>data/postprocessing_compose.frag</file>
         <file>data/postprocessing.vert</file>
+        <file>data/postprocessing_motionblur.frag</file>
     </qresource>
 </RCC>

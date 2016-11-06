@@ -10,7 +10,8 @@ namespace terminus
 {
 
 AbstractEffect::AbstractEffect(const World &world, DisabledBehaviour behaviour)
-: m_disabledBehaviour(behaviour)
+: m_world(world)
+, m_disabledBehaviour(behaviour)
 , m_enabled(true)
 , m_targetFBO(world.viewport())
 {
@@ -75,13 +76,13 @@ void AbstractEffect::render(const Camera & camera, const LightManager & lightMan
     lightManager.setUniforms(program);
     printGlError(__FILE__, __LINE__);
 
-    localRenderSetup(program);
+    localRenderSetup(camera, program);
     printGlError(__FILE__, __LINE__);
 
     geometry.draw();
     printGlError(__FILE__, __LINE__);
 
-    localRenderCleanup(program);
+    localRenderCleanup(camera, program);
     printGlError(__FILE__, __LINE__);
 
     program.release();
@@ -98,10 +99,10 @@ void AbstractEffect::render(const Camera & camera, const LightManager & lightMan
     }
 }
 
-void AbstractEffect::localRenderSetup(Program & /*program*/) const
+void AbstractEffect::localRenderSetup(const Camera & camera, Program & /*program*/) const
 {
 }
-void AbstractEffect::localRenderCleanup(Program & /*program*/) const
+void AbstractEffect::localRenderCleanup(const Camera & camera, Program & /*program*/) const
 {
 }
 

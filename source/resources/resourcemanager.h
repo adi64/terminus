@@ -18,7 +18,7 @@ namespace terminus
  * Loaded data is stored in three corresponding member variables of type "std::map<std::string, std::shared_ptr<std::unique_ptr< ... >>>".
  * Having two pointers secures to have valid data accessable at all times. By the time data is updated during runtime,
  * classes with references to stored data will automatically load the recent data.
- * Implemented as a singelton, accessibility for all classes is ensured.
+ * Implemented as a singleton, accessibility for all classes is ensured.
  */
 class ResourceManager
 {

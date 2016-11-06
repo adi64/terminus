@@ -15,7 +15,7 @@ Passthrough::~Passthrough()
 
 }
 
-void Passthrough::localRenderSetup(Program & program) const
+void Passthrough::localRenderSetup(const Camera & camera, Program & program) const
 {
     program.setUniform("inputTexture", 0);
 }

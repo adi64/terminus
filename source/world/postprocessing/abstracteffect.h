@@ -43,8 +43,8 @@ public:
 
     void render(const Camera & camera, const LightManager & lightManager) const;
 
-    virtual void localRenderSetup(Program & program) const;
-    virtual void localRenderCleanup(Program & program) const;
+    virtual void localRenderSetup(const Camera & camera, Program & program) const;
+    virtual void localRenderCleanup(const Camera & camera, Program & program) const;
 
     void enable(bool enabled = true);
     void disable();
@@ -56,6 +56,7 @@ protected:
     void applyDisabled() const;
 
 protected:
+    const World & m_world;
     DisabledBehaviour m_disabledBehaviour;
     bool m_enabled;
 

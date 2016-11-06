@@ -13,13 +13,15 @@ public:
     MotionBlur(const World & world, DisabledBehaviour behaviour = DisabledBehaviour::PASS);
     virtual ~MotionBlur();
 
-    virtual void localRenderSetup(Program & program) const override;
-    virtual void localRenderCleanup(Program & program) const override;
+    virtual unsigned int requiredNumberOfInputTextures() const override { return 2; }
+
+    virtual void localRenderSetup(const Camera & camera, Program & program) const override;
+    virtual void localRenderCleanup(const Camera & camera, Program & program) const override;
 
 protected:
-    QMatrix4x4 m_previousViewProjectionMatrix;
-
-    float m_motionBlurFactor;
+    mutable QMatrix4x4 m_previousViewProjectionMatrix;
+    mutable bool m_initialized;
+    int m_motionBlurFactor;
 };
 
 }

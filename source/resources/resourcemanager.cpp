@@ -76,6 +76,8 @@ void ResourceManager::loadResources()
     loadProgram(std::string("pp_passthrough"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_passthrough"));
     loadProgram(std::string("pp_compose"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_compose"));
     loadProgram(std::string("pp_vignette"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_vignette"));
+    loadProgram(std::string("pp_invert"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_invert"));
+    loadProgram(std::string("pp_motionblur"), std::string(":/data/postprocessing"), std::string(":/data/postprocessing_motionblur"));
 }
 
 std::shared_ptr<std::unique_ptr<Geometry>> ResourceManager::getGeometry(const std::string & name)

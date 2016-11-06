@@ -14,7 +14,7 @@ Compose::~Compose()
 
 }
 
-void Compose::localRenderSetup(Program & program) const
+void Compose::localRenderSetup(const Camera & /*camera*/, Program & program) const
 {
     program.setUniform("u_Normal_Depth", 0);
     program.setUniform("u_CamCoord_Id", 1);

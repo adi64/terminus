@@ -32,18 +32,21 @@ PostprocessingManager::PostprocessingManager(World &world)
         });
 
 
-    //auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
-    //auto invertPtr = std::unique_ptr<Invert>(new Invert(world));
-    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
-    vignettePtr->setTextures(
+    auto motionBlurPtr = std::unique_ptr<MotionBlur>(new MotionBlur(world));
+    motionBlurPtr->setTextures(
         {
-            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0}
+            {m_compose->targetFBO(), GL_COLOR_ATTACHMENT0},
+            {m_frameBufferObject, GL_COLOR_ATTACHMENT0} // normal xyz + depth
         });
+//    auto vignettePtr = std::unique_ptr<Vignette>(new Vignette(world));
+//    vignettePtr->setTextures(
+//        {
+//            {motionBlurPtr->targetFBO(), GL_COLOR_ATTACHMENT0}
+//        });
 
     // create list of effects
-    //m_effects.push_back(std::move(motionBlurPtr));
-    //m_effects.push_back(std::move(invertPtr));
-    m_effects.push_back(std::move(vignettePtr));
+    m_effects.push_back(std::move(motionBlurPtr));
+//    m_effects.push_back(std::move(vignettePtr));
 
     // last "effect" to render to screen instead of texture
     m_passthrough = std::unique_ptr<Passthrough>(new Passthrough(world));

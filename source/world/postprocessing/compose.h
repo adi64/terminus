@@ -15,7 +15,7 @@ public:
 
     virtual unsigned int requiredNumberOfInputTextures() const override { return 5; }
 
-    void localRenderSetup(Program & program) const override;
+    void localRenderSetup(const Camera & camera, Program & program) const override;
 protected:
 };
 
