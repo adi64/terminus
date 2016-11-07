@@ -300,7 +300,7 @@ void Game::updateQMLData()
         enemyTrainList.push_back(enemyTrain.wagonAt(i)->getStatus());
     }
 
-    auto fps = m_showFPS == true ? updateFPS() : -1;
+    auto fps = m_showFPS ? updateFPS() : -1.f;
 
     QMap<QString, QVariant> dataMap = {
         std::make_pair("currentWagon", m_world->localPlayer().selectedWagonIndex()),
@@ -317,13 +317,18 @@ float Game::updateFPS()
 {
     std::string timerName("fpsCounter");
 
-    if (!m_timer.isAllocated(timerName)) {
+    if (!m_timer.isAllocated(timerName))
+    {
         m_timer.allocateTimer(timerName);
     }
 
     auto now = m_timer.get(timerName);
 
-    m_frameTimes.push(now);
+    if (m_frameTimes.size() == 0 || m_frameTimes.back() != now)
+    {
+        m_frameTimes.push(now);
+    }
+
     if (m_frameTimes.size() > 10)
     {
         m_frameTimes.pop();
