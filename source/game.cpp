@@ -3,6 +3,7 @@
 #include <cassert>
 #include <chrono>
 #include <memory>
+#include <queue>
 
 #include <QApplication>
 #include <QList>
@@ -30,6 +31,7 @@ Game::Game()
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_isGLInitialized(false)
 , m_isUIActive(false) // is set to true on create world
+, m_showFPS(false)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -57,7 +59,7 @@ void Game::joinNetworkGame(QString host)
     m_networkManager.startClient(host, defaultPort);
 }
 
-void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
+void Game::createWorld(bool isNetworkGame, bool isPlayerOne, long long terrainSeed)
 {
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
@@ -122,6 +124,11 @@ void Game::hideUI()
     m_isUIActive = false;
     QString uiFile = "";
     QMetaObject::invokeMethod(this, "loadUI", Qt::AutoConnection, Q_ARG(QVariant, uiFile), Q_ARG(QVariant, !m_isPlayerOne));
+}
+
+void Game::toggleFPS()
+{
+    m_showFPS = !m_showFPS;
 }
 
 World & Game::world() const
@@ -275,7 +282,7 @@ void Game::disconnectSignals()
 }
 
 /*!
- * \brief Creates Data for QML. This is incredibly inefficient since QVariants cannot be edited only set.
+ * \brief Creates Data for QML. This is somewhat inefficient since QVariants cannot be edited only set.
  */
 void Game::updateQMLData()
 {
@@ -293,14 +300,42 @@ void Game::updateQMLData()
         enemyTrainList.push_back(enemyTrain.wagonAt(i)->getStatus());
     }
 
+    auto fps = m_showFPS ? updateFPS() : -1.f;
+
     QMap<QString, QVariant> dataMap = {
         std::make_pair("currentWagon", m_world->localPlayer().selectedWagonIndex()),
         std::make_pair("progress", playerTrain.travelledDistanceRelative()),
         std::make_pair("playerTrain", playerTrainList),
-        std::make_pair("enemyTrain", enemyTrainList)
+        std::make_pair("enemyTrain", enemyTrainList),
+        std::make_pair("fps", fps)
     };
     m_qmlData.setValue(dataMap);
     emit qmlDataChanged();
+}
+
+float Game::updateFPS()
+{
+    std::string timerName("fpsCounter");
+
+    if (!m_timer.isAllocated(timerName))
+    {
+        m_timer.allocateTimer(timerName);
+    }
+
+    auto now = m_timer.get(timerName);
+
+    if (m_frameTimes.size() == 0 || m_frameTimes.back() != now)
+    {
+        m_frameTimes.push(now);
+    }
+
+    if (m_frameTimes.size() > 10)
+    {
+        m_frameTimes.pop();
+        auto duration = now - m_frameTimes.front();
+        return 1000.f / (duration / m_frameTimes.size());
+    }
+    return -1.f;
 }
 
 QVariant & Game::qmlData()

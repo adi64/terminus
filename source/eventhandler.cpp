@@ -116,6 +116,8 @@ void EventHandler::keyPressEvent(Qt::Key key)
         break;
     case Qt::Key_U:
         m_game->toggleUI();
+    case Qt::Key_O:
+        m_game->toggleFPS();
     default:
         break;
     }

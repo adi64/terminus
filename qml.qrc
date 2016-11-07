@@ -19,5 +19,6 @@
         <file>source/qml/UserInterface.qml</file>
         <file>source/qml/SimpleButton.qml</file>
         <file>source/qml/SetupMenu.qml</file>
+        <file>source/qml/FPSCounter.qml</file>
     </qresource>
 </RCC>

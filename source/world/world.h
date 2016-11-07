@@ -59,7 +59,7 @@ public:
     World(Game & game,
           bool isNetworkGame,
           bool isPlayerOne,
-          unsigned int terrainSeed,
+          long long terrainSeed,
           QList<WagonType> playerWagons,
           QList<WagonType> enemyWagons);
 

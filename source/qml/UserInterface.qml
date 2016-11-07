@@ -50,6 +50,12 @@ Item
 
     StatusBarContainer{}
 
+    FPSCounter
+    {
+        text: game.qmlData.fps.toPrecision(2) + " fps";
+        visible: game.qmlData.fps >= 0 ? true : false;
+    }
+
     WagonActionArea
     {
         id: actionArea
@@ -64,11 +70,11 @@ Item
         id: switchArea
         onSwitchToNextWagon:
         {
-            isReversed? game.buttonInput(4) : game.buttonInput(3)
+            isReversed ? game.buttonInput(4) : game.buttonInput(3)
         }
         onSwitchToPreviousWagon:
         {
-            isReversed? game.buttonInput(3) : game.buttonInput(4)
+            isReversed ? game.buttonInput(3) : game.buttonInput(4)
         }
     }
 
@@ -101,9 +107,9 @@ Item
         onReadingChanged:
         {
             game.moveInput(
-                               2
-                             , gyro.reading.x * -orientation
-                             , gyro.reading.y * orientation)
+                        2,
+                        gyro.reading.x * -orientation,
+                        gyro.reading.y * orientation)
         }
     }
 }

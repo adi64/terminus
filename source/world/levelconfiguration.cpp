@@ -11,7 +11,7 @@ LevelConfiguration::LevelConfiguration()
 {
 }
 
-LevelConfiguration::LevelConfiguration(unsigned int seed)
+LevelConfiguration::LevelConfiguration(long long seed)
 : m_seed(seed)
 , m_vertexCountS(64)
 , m_vertexCountT(73)
@@ -23,7 +23,7 @@ LevelConfiguration::LevelConfiguration(unsigned int seed)
 {
 }
 
-unsigned int LevelConfiguration::seed() const
+long long LevelConfiguration::seed() const
 {
     return m_seed;
 }
