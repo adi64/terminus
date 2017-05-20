@@ -73,10 +73,11 @@ void EventHandler::keyPressEvent(Qt::Key key)
 {
     AbstractPlayer & player = m_game->world().localPlayer();
 
-    float moveQuantum = 1.f;
+    float moveQuantum = 3.f;
     switch(key)
     {
     case Qt::Key_W:
+        //TODO: Test if a negative value has an actual purpose, since it will be multiplicated negatively a second time in moveEvent -> double negative?
         player.camera().moveEvent(QVector3D(0.f, 0.f, -moveQuantum));
         break;
     case Qt::Key_S:

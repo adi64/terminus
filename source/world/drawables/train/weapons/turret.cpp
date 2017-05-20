@@ -36,25 +36,22 @@ void Turret::localUpdate()
             Camera camera = *dynamic_cast<Weapon*>(parent())->camera();
 
             QVector3D lookAt = (camera.eye() - camera.center()).normalized();
-
             float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
             float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;            
             QQuaternion y_rotation = QQuaternion::fromAxisAndAngle(QVector3D(0.0, 1.0, 0.0), angleY+90);
 
             setRotation(y_rotation);
-
             setPosition(QVector3D(parent()->position().x() + (61.46 * 0.0015), parent()->position().y() + (764.384 * 0.0015), parent()->position().z() + (44.331 * 0.0015)));
         }
         else
         {
             QVector3D lookAt = parent()->modelMatrix() * QVector3D(1.f, 1.f, 1.f);
-
             float angleY = atan2(lookAt.z(), -lookAt.x()) * 180 / MathUtil::PI;
             float angleX = atan2(-lookAt.y(), lookAt.z()) * 180 / MathUtil::PI;
             QQuaternion y_rotationX = QQuaternion::fromAxisAndAngle(QVector3D(1.0, 0.0, 0.0), angleX);
 
             setRotation(y_rotationX);
-
+            //qDebug() << position() << "\n";
             setPosition(QVector3D(parent()->position().x() + (61.46 * 0.0015), parent()->position().y() + (764.384 * 0.0015), parent()->position().z() + (44.331 * 0.0015)));
         }
     }
