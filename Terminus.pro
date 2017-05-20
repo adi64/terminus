@@ -420,11 +420,12 @@ HEADERS += \
     source/world/postprocessing/compose.h \
     source/render/renderer.h \
     source/player/camera.h \
-    source/render/objectmatrices.h \
     source/render/cameramatrices.h \
     source/application.h \
     source/world/game.h \
-    source/world/drawables/gameobject.h
+    source/world/drawables/gameobject.h \
+    source/render/camerastate.h \
+    source/render/objectmatrix.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -630,8 +631,9 @@ SOURCES += \
     source/world/postprocessing/compose.cpp \
     source/render/renderer.cpp \
     source/player/camera.cpp \
-    source/render/objectmatrices.cpp \
     source/render/cameramatrices.cpp \
     source/application.cpp \
     source/world/game.cpp \
-    source/world/drawables/gameobject.cpp
+    source/world/drawables/gameobject.cpp \
+    source/render/camerastate.cpp \
+    source/render/objectmatrix.cpp

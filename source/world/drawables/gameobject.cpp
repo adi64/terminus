@@ -114,6 +114,11 @@ void GameObject::rotateEvent(QVector2D /*rotation*/)
 {
 }
 
+ObjectMatrix & GameObject::matrix()
+{
+    return m_matrix;
+}
+
 const QVector3D & GameObject::minBB() const
 {
     static const QVector3D vZero{0.f, 0.f, 0.f};

@@ -12,6 +12,7 @@
 #include <resources/geometry.h>
 #include <resources/material.h>
 #include <resources/program.h>
+#include <render/objectmatrix.h>
 
 namespace terminus
 {
@@ -101,6 +102,8 @@ public:
      */
     virtual void rotateEvent(QVector2D rotation);
 
+    virtual ObjectMatrix & matrix();
+
     /*!
      * \return the minimum vector of this objects AABB given that it has
      * a an associated Geometry instance
@@ -127,33 +130,6 @@ public:
      * to world space
      */
     QVector3D worldSide();
-
-    /*!
-     * \return the position vector that was used to construct the model matrix
-     */
-    QVector3D position() const;
-    /*!
-     * \return the quaternion that was used to construct the model matrix
-     */
-    QQuaternion rotation() const;
-    /*!
-     * \return the scaling vector that was used to construct the model matrix
-     */
-    QVector3D scale() const;
-
-    /*!
-     * \return this objects model matrix
-     *
-     * If necessary, the matrix is recalculated from the
-     * position, rotation and scaling information
-     */
-    QMatrix4x4 modelMatrix() const;
-    /*!
-     * \return this objects inverted model matrix
-     *
-     * If necessary, the matrix is recalculated from the model matrix
-     */
-    QMatrix4x4 modelMatrixInverted() const;
 
 protected:
     /*!
@@ -200,49 +176,6 @@ protected:
      */
     virtual void doForAllChildren(std::function<void(GameObject &)> callback);
 
-    /*!
-     * \brief sets the position and invalidates the model matrices
-     * \param position
-     */
-    void setPosition(const QVector3D & position);
-    /*!
-     * \brief sets the rotation and invalidates the model matrices
-     * \param rotation
-     */
-    void setRotation(const QQuaternion & rotation);
-    /*!
-     * \brief sets the scale and invalidates the model matrices
-     * \param scale
-     */
-    void setScale(const QVector3D & scale);
-    /*!
-     * \brief sets the scale uniformly on all three axes
-     * and invalidates the model matrices
-     * \param scale
-     */
-    void setScale(float scale);
-
-    /*!
-     * \param vWorld
-     * \return the model space position corresponding to vWorld in world space
-     *
-     * \sa modelMatrixInverted()
-     */
-    QVector3D worldToModel(const QVector3D & vWorld);
-    /*!
-     * \param vModel
-     * \return the world space position corresponding to vModel in model space
-     *
-     * \sa modelMatrix()
-     */
-    QVector3D modelToWorld(const QVector3D & vModel);
-
-    /*!
-     * \brief remove this object from the world and delete it
-     * as soon as it is safe to do so
-     *
-     * \sa World::deleteObject()
-     */
     void dispose();
 
 protected:
@@ -251,17 +184,11 @@ protected:
 
     Camera * m_camera;
 
+    ObjectMatrix m_matrix;
+
     std::shared_ptr<std::unique_ptr<Program>> m_program;
     std::shared_ptr<std::unique_ptr<Geometry>> m_geometry;
     std::shared_ptr<std::unique_ptr<Material>> m_material;
-
-    QVector3D m_position;
-    QQuaternion m_rotation;
-    QVector3D m_scale;
-    mutable bool m_modelMatrixChanged;
-    mutable QMatrix4x4 m_modelMatrix;
-    mutable bool m_modelMatrixInvertedChanged;
-    mutable QMatrix4x4 m_modelMatrixInverted;
 };
 
 }
