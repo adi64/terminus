@@ -17,11 +17,7 @@ GameObject::GameObject(Game & world)
 : m_world(world)
 , m_validState(true)
 , m_camera(nullptr)
-, m_position(0.0, 0.0, 0.0)
-, m_rotation(1.0, 0.0, 0.0, 0.0)
-, m_scale(1.0, 1.0, 1.0)
-, m_modelMatrixChanged(false)
-, m_modelMatrixInvertedChanged(false)
+, m_matrix()
 {
 }
 
@@ -141,54 +137,19 @@ const QVector3D & GameObject::maxBB() const
 
 QVector3D GameObject::worldUp()
 {
-    return (modelToWorld({0.f, 1.f, 0.f}) - position()).normalized();
+    return m_matrix.transform({0.f, 1.f, 0.f});
 }
 
 QVector3D GameObject::worldFront()
 {
-    return (modelToWorld({1.f, 0.f, 0.f}) - position()).normalized();
+    return m_matrix.transform({1.f, 0.f, 0.f});
 }
 
 QVector3D GameObject::worldSide()
 {
-    return (modelToWorld({0.f, 0.f, 1.f}) - position()).normalized();
+    return m_matrix.transform({0.f, 0.f, 1.f});
 }
 
-QVector3D GameObject::position() const
-{
-    return m_position;
-}
-QQuaternion GameObject::rotation() const
-{
-    return m_rotation;
-}
-QVector3D GameObject::scale() const
-{
-    return m_scale;
-}
-
-QMatrix4x4 GameObject::modelMatrix() const
-{
-    if(m_modelMatrixChanged)
-    {
-        m_modelMatrix.setToIdentity();
-        m_modelMatrix.translate(position());
-        m_modelMatrix.rotate(rotation());
-        m_modelMatrix.scale(scale());
-        m_modelMatrixChanged = false;
-    }
-    return m_modelMatrix;
-}
-
-QMatrix4x4 GameObject::modelMatrixInverted() const
-{
-    if(m_modelMatrixInvertedChanged)
-    {
-        m_modelMatrixInverted = modelMatrix().inverted();
-        m_modelMatrixInvertedChanged = false;
-    }
-    return m_modelMatrixInverted;
-}
 
 void GameObject::localUpdate()
 {
@@ -214,7 +175,7 @@ void GameObject::localRender() const
     program.bind();
 
     printGlError(__FILE__, __LINE__);
-    m_world.localPlayer().camera().setUniforms(program, modelMatrix());
+    m_world.localPlayer().camera().setUniforms(program, m_matrix.matrix());
     m_world.lightManager().setUniforms(program);
     printGlError(__FILE__, __LINE__);
 

@@ -99,15 +99,15 @@ QMatrix4x4 & ObjectMatrix::inverseMatrix() const
     return m_inverseMatrix;
 }
 
-QVector3D ObjectMatrix::translate(const QVector3D &vector)
+QVector3D ObjectMatrix::transform(const QVector3D &vector)
 {
-    QVector4D v4 = matrix() * QVector4D(vWorld, 1.f);
+    QVector4D v4 = matrix() * QVector4D(vector, 1.f);
     return v4.toVector3DAffine();
 }
 
-QVector3D ObjectMatrix::inverseTranslate(const QVector3D &vector)
+QVector3D ObjectMatrix::inverseTransform(const QVector3D &vector)
 {
-    QVector4D v4 = inverseMatrix() * QVector4D(vWorld, 1.f);
+    QVector4D v4 = inverseMatrix() * QVector4D(vector, 1.f);
     return v4.toVector3DAffine();
 }
 
@@ -136,7 +136,7 @@ void ObjectMatrix::calculateMatrixInverted() const
     m_inverseMatrixChanged = false;
 }
 
-void ObjectMatrix::invalidate()
+void ObjectMatrix::invalidate() const
 {
     m_matrixChanged = true;
     m_inverseMatrixChanged = true;

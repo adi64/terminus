@@ -33,8 +33,8 @@ public:
     virtual QMatrix4x4 & matrix() const;
     virtual QMatrix4x4 & inverseMatrix() const;
 
-    virtual QVector3D translate(const QVector3D & vector);
-    virtual QVector3D inverseTranslate(const QVector3D & vector);
+    virtual QVector3D transform(const QVector3D & vector);
+    virtual QVector3D inverseTransform(const QVector3D & vector);
 
 protected:
     void invalidate() const;
