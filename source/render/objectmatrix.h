@@ -26,12 +26,14 @@ public:
     void rotate(const QQuaternion & rotation);
     virtual const QVector3D & scale() const;
     virtual void setScale(const QVector3D & scale);
+    void setScale(float scale);
     void scale(const QVector3D & factors);
+    void scale(float factor);
 
     void setParent(ObjectMatrix * parent);
 
     virtual QMatrix4x4 & matrix() const;
-    virtual QMatrix4x4 & inverseMatrix() const;
+    virtual QMatrix4x4 & matrixInverted() const;
 
     virtual QVector3D transform(const QVector3D & vector);
     virtual QVector3D inverseTransform(const QVector3D & vector);

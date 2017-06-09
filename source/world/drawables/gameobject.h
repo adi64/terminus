@@ -28,12 +28,18 @@ class Game;
 class GameObject
 {
 public:
-    GameObject(Game & world);
+    GameObject(Game & game);
     /*!
      * Do not delete this destructor, even if it is empty
      *  - otherwise std::shared_ptr<IncompleteType> in the header will break
      */
-    virtual ~GameObject();
+    virtual ~GameObject() = default;
+
+    const std::shared_ptr<std::unique_ptr<Program>> & renderProgram() const;
+
+    const std::shared_ptr<std::unique_ptr<Geometry>> & renderGeometry() const;
+    
+    const std::shared_ptr<std::unique_ptr<Material>> & renderMaterial() const;
 
     /*!
      * \brief update object hierarchy beginning at this object
@@ -102,7 +108,8 @@ public:
      */
     virtual void rotateEvent(QVector2D rotation);
 
-    virtual ObjectMatrix & matrix();
+    ObjectMatrix & matrix();
+    const ObjectMatrix & matrix() const;
 
     /*!
      * \return the minimum vector of this objects AABB given that it has
@@ -179,7 +186,7 @@ protected:
     void dispose();
 
 protected:
-    Game & m_world;
+    Game & m_game;
     bool m_validState;
 
     Camera * m_camera;

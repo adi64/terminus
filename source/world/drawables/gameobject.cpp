@@ -13,16 +13,28 @@
 namespace terminus
 {
 
-GameObject::GameObject(Game & world)
-: m_world(world)
+GameObject::GameObject(Game & game)
+: m_game(game)
 , m_validState(true)
 , m_camera(nullptr)
 , m_matrix()
 {
 }
 
-GameObject::~GameObject()
+
+const std::shared_ptr<std::unique_ptr<Program>> & GameObject::renderProgram() const
 {
+    return m_program;
+}
+
+const std::shared_ptr<std::unique_ptr<Geometry>> & GameObject::renderGeometry() const
+{
+    return m_geometry;
+}
+
+const std::shared_ptr<std::unique_ptr<Material>> & GameObject::renderMaterial() const
+{
+    return m_material;
 }
 
 void GameObject::update()
@@ -115,6 +127,11 @@ ObjectMatrix & GameObject::matrix()
     return m_matrix;
 }
 
+const ObjectMatrix & GameObject::matrix() const
+{
+    return m_matrix;
+}
+
 const QVector3D & GameObject::minBB() const
 {
     static const QVector3D vZero{0.f, 0.f, 0.f};
@@ -175,8 +192,8 @@ void GameObject::localRender() const
     program.bind();
 
     printGlError(__FILE__, __LINE__);
-    m_world.localPlayer().camera().setUniforms(program, m_matrix.matrix());
-    m_world.lightManager().setUniforms(program);
+    //TODO-LW move to renderer.cpp: m_game.localPlayer().camera().setUniforms(program, m_matrix.matrix());
+    m_game.lightManager().setUniforms(program);
     printGlError(__FILE__, __LINE__);
 
     if(m_material && *m_material)
@@ -216,57 +233,17 @@ void GameObject::doForAllChildren(std::function<void (GameObject &)> /*callback*
 {
 }
 
-void GameObject::setPosition(const QVector3D & position)
-{
-    m_position = position;
-    m_modelMatrixChanged = true;
-    m_modelMatrixInvertedChanged = true;
-}
-
-void GameObject::setRotation(const QQuaternion &rotation)
-{
-    m_rotation = rotation;
-    m_modelMatrixChanged = true;
-    m_modelMatrixInvertedChanged = true;
-}
-
-void GameObject::setScale(const QVector3D & scale)
-{
-    m_scale = scale;
-    m_modelMatrixChanged = true;
-    m_modelMatrixInvertedChanged = true;
-}
-
-void GameObject::setScale(float scale)
-{
-    m_scale = QVector3D(scale, scale, scale);
-    m_modelMatrixChanged = true;
-    m_modelMatrixInvertedChanged = true;
-}
-
-QVector3D GameObject::worldToModel(const QVector3D & vWorld)
-{
-    QVector4D v4 = modelMatrixInverted() * QVector4D(vWorld, 1.f);
-    return v4.toVector3DAffine();
-}
-
-QVector3D GameObject::modelToWorld(const QVector3D & vModel)
-{
-    QVector4D v4 = modelMatrix() * QVector4D(vModel, 1.f);
-    return v4.toVector3DAffine();
-}
-
 void GameObject::dispose()
 {
-    if(!m_validState)
+    if(!m_validState) //TODO-LW: why is m_validState necessary
     {
         return;
     }
 
-    m_world.scheduleAction(
+    m_game.scheduleAction(
         [this]()
         {
-            m_world.deleteObject(this);
+            m_game.deleteObject(this);
             return false;
         });
     m_validState = false;

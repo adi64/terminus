@@ -6,11 +6,11 @@
 #include <QVector2D>
 
 #include <resources/program.h>
+#include <render/cameramatrices.h>
 
 namespace terminus
 {
 
-class CameraState;
 class GameObject;
 
 /*!
@@ -26,11 +26,11 @@ class GameObject;
 class Camera
 {
 public:
-    Camera(CameraState * backend);
+    Camera();
     virtual ~Camera();
 
-    const CameraState * state() const;
-    CameraState * state();
+    const CameraMatrices & state() const;
+    CameraMatrices & state();
 
     /*!
      * \brief bind camera to track an GameObject
@@ -74,7 +74,7 @@ public:
     void rotateEvent(QVector2D rotation);
 
 protected:
-    const CameraState * m_state;
+    CameraMatrices m_state;
 
     /*!
      * \brief object that this camera is bound to in order to track it

@@ -41,7 +41,7 @@ void ProjectileHitCommand::doWork()
     assert(wagon != nullptr);
     wagon->setHealth(wagon->currentHealth() - m_damage);
 
-    m_game->world().addObject(new Explosion(m_game->world(), wagon->position()));
+    m_game->world().addObject(new Explosion(m_game->world(), wagon->matrix().position()));
 }
 
 } // namespace terminus

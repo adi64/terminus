@@ -23,14 +23,14 @@ AbstractWagon::AbstractWagon(Game & world, Train * train)
 , m_disabled(false)
 , m_train(train)
 {
-    m_cooldownTimer = m_world.timer().allocateTimer();
-    m_cameraTimer = m_world.timer().allocateTimer();
+    m_cooldownTimer = m_game.timer().allocateTimer();
+    m_cameraTimer = m_game.timer().allocateTimer();
 }
 
 AbstractWagon::~AbstractWagon()
 {
-    m_world.timer().releaseTimer(m_cooldownTimer);
-    m_world.timer().releaseTimer(m_cameraTimer);
+    m_game.timer().releaseTimer(m_cooldownTimer);
+    m_game.timer().releaseTimer(m_cameraTimer);
 }
 
 void AbstractWagon::primaryAction()
@@ -58,20 +58,20 @@ void AbstractWagon::localUpdate()
     float angleY = atan2(-t.z(), t.x()) * 180.f / MathUtil::PI;
     QVector3D t2 = QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), -angleY).rotatedVector(t);
     float angleZ = atan2(t2.y(), t2.x()) * 180.f / MathUtil::PI;
-    KinematicPhysicsObject::setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY)
+    matrix().setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0.f, 1.f, 0.f), angleY)
                                             * QQuaternion::fromAxisAndAngle(QVector3D(0.f, 0.f, 1.f), angleZ));
 
     QVector3D trackOffset(0.f, 0.f, 0.f);
-    setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
+    matrix().setPosition(m_train->track()->course().getPosition(travelledDistance) + trackOffset);
     KinematicPhysicsObject::localUpdate();
 }
 
 void AbstractWagon::onBindCamera()
 {
     m_cameraEyeOffset = QVector3D(0.f, 0.f, 0.f);
-    m_previousCenter = worldToModel(m_camera->center());
-    m_previousEye = worldToModel(m_camera->eye());
-    m_world.timer().adjust(m_cameraTimer, 0);
+    m_previousCenter = matrix().transform(m_camera->state().center());
+    m_previousEye = matrix().transform(m_camera->state().eye());
+    m_game.timer().adjust(m_cameraTimer, 0);
 }
 
 void AbstractWagon::adjustCamera()
@@ -81,13 +81,13 @@ void AbstractWagon::adjustCamera()
         return;
     }
     const int transitionTime = 200;
-    float currentInfluence = MathUtil::linstep(0, transitionTime, m_world.timer().get(m_cameraTimer));
+    float currentInfluence = MathUtil::linstep(0, transitionTime, m_game.timer().get(m_cameraTimer));
 
     auto vCenterM = MathUtil::mix(m_previousCenter, localCameraCenter(), currentInfluence);
     auto vEyeM = MathUtil::mix(m_previousEye, localCameraEye(), currentInfluence);
 
-    m_camera->setCenter(modelToWorld(vCenterM));
-    m_camera->setEye(modelToWorld(vEyeM));
+    m_camera->state().setCenter(matrix().transform(vCenterM));
+    m_camera->state().setEye(matrix().transform(vEyeM));
 }
 
 void AbstractWagon::rotateEvent(QVector2D rotation)
@@ -108,17 +108,17 @@ float AbstractWagon::maxHealth() const
 
 void AbstractWagon::resetCooldown() const
 {
-    m_world.timer().adjust(m_cooldownTimer, 0);
+    m_game.timer().adjust(m_cooldownTimer, 0);
 }
 
 bool AbstractWagon::isOnCooldown() const
 {
-    return m_world.timer().get(m_cooldownTimer) < cooldownTime();
+    return m_game.timer().get(m_cooldownTimer) < cooldownTime();
 }
 
 float AbstractWagon::cooldown() const
 {
-    return MathUtil::linstep(0.f, cooldownTime(), m_world.timer().get(m_cooldownTimer));
+    return MathUtil::linstep(0.f, cooldownTime(), m_game.timer().get(m_cooldownTimer));
 }
 
 float AbstractWagon::currentHealth() const

@@ -36,7 +36,7 @@ EngineWagon::EngineWagon(Game & world, Train * train)
     QVector3D bb = (maxBB() - minBB()) / 2.f;
     initializePhysics(new btBoxShape(btVector3(bb.x(), bb.y(), bb.z())), 1000.f);
 
-    m_headLight = m_world.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, lightPosition(), worldFront(), 64.f, 45.f, 0.4f));
+    m_headLight = m_game.lightManager().add(Light::createSpot({1.f, 0.5f, 0.f}, lightPosition(), worldFront(), 64.f, 45.f, 0.4f));
 }
 
 EngineWagon::~EngineWagon()
@@ -63,7 +63,7 @@ float EngineWagon::maxHealth() const
 
 void EngineWagon::localUpdate()
 {
-    auto & light = m_world.lightManager().get(m_headLight);
+    auto & light = m_game.lightManager().get(m_headLight);
     light.setPosition(lightPosition());
     light.setDirection(worldFront());
     
@@ -90,7 +90,7 @@ void EngineWagon::playSound() const
 
 QVector3D EngineWagon::lightPosition()
 {
-    return modelToWorld({maxBB().x(), maxBB().y() * 0.5f, 0.f});
+    return matrix().transform({maxBB().x(), maxBB().y() * 0.5f, 0.f});
 }
 
 WagonType EngineWagon::wagonType() const

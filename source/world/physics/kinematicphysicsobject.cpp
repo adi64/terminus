@@ -14,8 +14,8 @@ KinematicPhysicsObject::KinematicPhysicsObject(Game & world)
 
 void KinematicPhysicsObject::localUpdate()
 {
-    QVector3D pos = position();
-    QQuaternion rot = rotation();
+    QVector3D pos = matrix().position();
+    QQuaternion rot = matrix().rotation();
 
     btTransform transform = m_btRigidBody->getCenterOfMassTransform();
     auto& offset = (minBB() + maxBB()) / 2.f;

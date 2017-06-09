@@ -108,12 +108,12 @@ void AbstractPlayer::update()
 
         auto progress = MathUtil::linstep(0, animationTime, time);
         auto angle = sin(progress * 10.f * MathUtil::PI) * MathUtil::mix(3.f, 0.f, progress);
-        auto newUp = QQuaternion::fromAxisAndAngle(m_camera.normalizedLook(), angle).rotatedVector({0.f, 1.f, 0.f});
-        m_camera.setUp(newUp);
+        auto newUp = QQuaternion::fromAxisAndAngle(m_camera.state().normalizedLook(), angle).rotatedVector({0.f, 1.f, 0.f});
+        m_camera.state().setUp(newUp);
 
         if(time > animationTime)
         {
-            m_camera.setUp({0.f, 1.f, 0.f});
+            m_camera.state().setUp({0.f, 1.f, 0.f});
             m_world.timer().releaseTimer(m_animationTimer);
             m_animationInProgress = false;
         }

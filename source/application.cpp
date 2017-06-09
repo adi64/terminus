@@ -61,7 +61,7 @@ void Application::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainS
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
-    m_world = std::unique_ptr<Game>(new Game(*this, isNetworkGame, isPlayerOne, terrainSeed));
+    m_game = std::unique_ptr<Game>(new Game(*this, isNetworkGame, isPlayerOne, terrainSeed));
     showUI();
 }
 
@@ -115,8 +115,8 @@ void Application::hideUI()
 
 Game & Application::world() const
 {
-    assert(m_world);
-    return *m_world;
+    assert(m_game);
+    return *m_game;
 }
 
 ActionScheduler & Application::scheduler()
@@ -136,7 +136,7 @@ Timer & Application::timer()
 
 void Application::buttonInput(int type)
 {
-    if(m_world)
+    if(m_game)
     {
         m_eventHandler.buttonInput(type);;
     }
@@ -144,7 +144,7 @@ void Application::buttonInput(int type)
 
 void Application::keyInput(Qt::Key key)
 {
-    if(m_world)
+    if(m_game)
     {
         m_eventHandler.keyInput(key);
     }
@@ -152,7 +152,7 @@ void Application::keyInput(Qt::Key key)
 
 void Application::moveInput(int type, qreal x, qreal y)
 {
-    if(m_world)
+    if(m_game)
     {
         m_eventHandler.moveInput(type, x, y);
     }
@@ -160,7 +160,7 @@ void Application::moveInput(int type, qreal x, qreal y)
 
 void Application::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
 {
-    if(m_world)
+    if(m_game)
     {
         m_eventHandler.touchInput(oldx, oldy, x, y);
     }
@@ -171,20 +171,20 @@ void Application::sync()
     // process scheduled events
     m_scheduler.executeActions();
 
-    if(!m_world)
+    if(!m_game)
     {
         return;
     }
 
     #ifdef Q_OS_MAC
-        m_world->localPlayer().camera().setViewport(window()->width() * 2, window()->height() * 2);
+        m_game->localPlayer().camera().state().setViewport(m_window->width() * 2, m_window->height() * 2);
     #else
-        m_world->localPlayer().camera().setViewport(window()->width(), window()->height());
+        m_game->localPlayer().camera().state().setViewport(m_window->width(), m_window->height());
     #endif
 
     if (!m_timer.isPaused())
     {
-       m_world->update();
+       m_game->update();
     }
 
     m_networkManager.update();
@@ -199,9 +199,9 @@ void Application::sync()
 
 void Application::render()
 {
-    if (m_world)
+    if (m_game)
     {
-        m_world->render();
+        m_game->render();
     }
     m_window->resetOpenGLState();
 }
@@ -263,7 +263,7 @@ void Application::disconnectSignals()
  */
 void Application::updateQMLData()
 {
-    auto& playerTrain = m_world->localPlayerTrain();
+    auto& playerTrain = m_game->localPlayerTrain();
     QList<QVariant> playerWagonList;
     for (unsigned int i = 0; i < playerTrain.size(); i++)
     {
@@ -276,7 +276,7 @@ void Application::updateQMLData()
         playerWagonList.push_back(wagonMap);
     }
 
-    auto& enemyTrain = m_world->enemyPlayerTrain();
+    auto& enemyTrain = m_game->enemyPlayerTrain();
     QList<QVariant> enemyWagonList;
     for (unsigned int i = 0; i < enemyTrain.size(); i++)
     {
@@ -292,7 +292,7 @@ void Application::updateQMLData()
 
     QMap<QString, QVariant> playerTrainMap;
     playerTrainMap.insert("totalWagons", playerTrain.size());
-    playerTrainMap.insert("currentWagon", m_world->localPlayer().selectedWagonIndex());
+    playerTrainMap.insert("currentWagon", m_game->localPlayer().selectedWagonIndex());
     playerTrainMap.insert("wagons", playerWagonList);
     float progress = playerTrain.travelledDistanceRelative();
     playerTrainMap.insert("progress", progress);

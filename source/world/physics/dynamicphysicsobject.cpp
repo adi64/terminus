@@ -18,8 +18,8 @@ void DynamicPhysicsObject::localUpdate()
     btVector3 position = transform.getOrigin();
     btQuaternion rotation = transform.getRotation();
 
-    setPosition(QVector3D(position.x(), position.y(), position.z()));
-    setRotation(QQuaternion(rotation.getW(), QVector3D(rotation.getX(), rotation.getY(), rotation.getZ())));
+    matrix().setPosition(QVector3D(position.x(), position.y(), position.z()));
+    matrix().setRotation(QQuaternion(rotation.getW(), QVector3D(rotation.getX(), rotation.getY(), rotation.getZ())));
 
     AbstractPhysicsObject::localUpdate();
 }

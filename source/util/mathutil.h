@@ -1,6 +1,6 @@
 #pragma once
 
-class QVector3D;
+#include <QVector3D>
 
 namespace terminus
 {

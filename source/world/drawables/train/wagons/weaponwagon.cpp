@@ -51,28 +51,28 @@ void WeaponWagon::primaryActionInternal()
 
 void WeaponWagon::fire(QVector3D velocity)
 {
-    auto projectilePosition = modelToWorld(localCameraCenter());
+    auto projectilePosition = matrix().transform(localCameraCenter());
     auto projectileVelocity = velocity + (worldFront() * m_train->velocity() * 1000.0f);
 
-    m_world.scheduleAction(
+    m_game.scheduleAction(
         [this, projectilePosition, projectileVelocity]()
         {
-            auto projectile = new Projectile(m_world);
+            auto projectile = new Projectile(m_game);
             projectile->moveTo(projectilePosition);
             projectile->setLinearVelocity(projectileVelocity);
-            m_world.addObject(projectile);
+            m_game.addObject(projectile);
             return false;
         }
     );
 
-    m_world.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
+    m_game.networkManager().sendProjectileFiredCommand(projectilePosition, projectileVelocity);
 
     SoundManager::getInstance()->playSound("shot");
 }
 
 QVector3D WeaponWagon::aimVector()
 {
-    return (modelToWorld(localCameraCenter()) - modelToWorld(localCameraEye())).normalized();
+    return (matrix().transform(localCameraCenter()) - matrix().transform(localCameraEye())).normalized();
 }
 
 float WeaponWagon::cooldownTime() const

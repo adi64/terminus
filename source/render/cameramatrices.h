@@ -5,19 +5,19 @@
 
 #include <QMatrix3x3>
 #include <QMatrix4x4>
+#include <QPoint>
+#include <QVector3D>
 
 
 namespace terminus
 {
-
-class QPoint;
-class QVector3D;
 
 class CameraMatrices : public CameraState
 {
 
 public:
     CameraMatrices();
+    virtual ~CameraMatrices() = default;
 
     virtual void setEye(const QVector3D & eye) override;
     virtual void setCenter(const QVector3D & center) override;
@@ -26,6 +26,7 @@ public:
     virtual void setZFar(float zFar) override;
     virtual void setFovy(float fovy) override;
     virtual void setViewport(const QPoint & viewport) override;
+    void setViewport(int width, int height) override;
 
     const QMatrix4x4 & view() const;
     const QMatrix4x4 & projection() const;

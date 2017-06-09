@@ -11,6 +11,7 @@
 #include <util/actionscheduler.h>
 #include <util/timer.h>
 #include <player/camera.h>
+#include <render/renderer.cpp>
 #include <world/level.h>
 #include <world/lightmanager.h>
 #include <world/physics/bulletworld.h>
@@ -81,9 +82,7 @@ public:
 
     NetworkManager & networkManager();
 
-    LightManager & lightManager();
-
-    QSize viewport() const;
+    Renderer & renderer();
 
     void scheduleAction(ActionScheduler::Action event);
 
@@ -104,9 +103,10 @@ protected:
 
     Level m_level;
 
-    LightManager m_lightManager;
-
-    std::unique_ptr<PostprocessingManager> m_postprocessingManager;
+    Renderer m_renderer;
+    Light * m_lightAmbient;
+    Light * m_lightSun;
+    Light * m_lightSky;
 
     std::shared_ptr<BulletWorld> m_bulletWorld;
 

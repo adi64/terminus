@@ -14,7 +14,7 @@ public:
     CameraState(const QVector3D & eye    = QVector3D(0.0, 0.0, 1.0),
                 const QVector3D & center = QVector3D(0.0, 0.0, 0.0),
                 const QVector3D & up     = QVector3D(0.0, 1.0, 0.0) );
-    virtual ~CameraState();
+    virtual ~CameraState() = default;
 
     virtual const QVector3D & eye() const;
     virtual void setEye(const QVector3D & eye);

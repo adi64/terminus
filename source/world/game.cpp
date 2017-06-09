@@ -34,7 +34,6 @@ namespace terminus
 Game::Game(Application & game, bool isNetworkGame, bool isPlayerOne, unsigned int terrainSeed)
 : m_game(game)
 , m_level(LevelConfiguration(terrainSeed))
-, m_postprocessingManager(std::unique_ptr<PostprocessingManager>(new PostprocessingManager(*this)))
 , m_bulletWorld(std::shared_ptr<BulletWorld>(new BulletWorld))
 , m_skybox(nullptr)
 {
@@ -85,13 +84,13 @@ Game::Game(Application & game, bool isNetworkGame, bool isPlayerOne, unsigned in
     m_rightTrain->addWagon<WeaponWagon>();
     m_rightTrain->addWagon<RepairWagon>();
 
-    localPlayer().camera().setEye(QVector3D(-30.0, 10.0, 20.0));
-    localPlayer().camera().setCenter(QVector3D(0.0, 0.0, 10.0));
-    localPlayer().camera().setUp(QVector3D(0.0, 1.0, 0.0));
+    localPlayer().camera().state().setEye(QVector3D(-30.0, 10.0, 20.0));
+    localPlayer().camera().state().setCenter(QVector3D(0.0, 0.0, 10.0));
+    localPlayer().camera().state().setUp(QVector3D(0.0, 1.0, 0.0));
 
-    m_lightManager.add(Light::createAmbient({0.1f, 0.1f, 0.1f}));
-    m_lightManager.add(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
-    m_lightManager.add(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
+    m_lightAmbient = m_renderer.allocateLight(Light::createAmbient({0.1f, 0.1f, 0.1f}));
+    m_lightSun = m_renderer.allocateLight(Light::createDirectional({0.5f, 0.47f, 0.43f}, {-5.0, -1.0, 5.0}));
+    m_lightSky = m_renderer.allocateLight(Light::createDirectional({0.4f, 0.43f, 0.5f}, {0.0, -1.0, 0.0}));
 }
 
 Game::~Game()
@@ -142,54 +141,7 @@ void Game::update()
 
 void Game::render() const
 {
-    // render to g-buffer instead of to the screen
-    m_postprocessingManager->gBufferFBO().bindFBO();
-
-
-    printGlError(__FILE__, __LINE__);
-    glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
-
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glDisable(GL_BLEND);
-
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW); //TODO check if still necessary after geometry loader
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    glDepthFunc(GL_LESS);
-
-    printGlError(__FILE__, __LINE__);
-
-//    m_skybox->render();
-//    printGlError(__FILE__, __LINE__);
-    m_terrain->render();
-    printGlError(__FILE__, __LINE__);
-    m_rightTrain->render();
-    printGlError(__FILE__, __LINE__);
-    m_leftTrain->render();
-    printGlError(__FILE__, __LINE__);
-    for(auto & object : m_dynamicObjects)
-    {
-        object->render();
-    }
-    printGlError(__FILE__, __LINE__);
-
-    m_postprocessingManager->gBufferFBO().releaseFBO();
-
-    // clear real framebuffer
-    glClearColor(1.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-    // disable stuff we don't need while post-processing
-    glDisable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-
-    // apply post-processing effects and render image to screen
-    m_postprocessingManager->composeImage();
+    m_renderer.render(m_localPlayer->camera().state());
 }
 
 LocalPlayer & Game::localPlayer()
@@ -222,14 +174,9 @@ Timer & Game::timer()
     return m_game.timer();
 }
 
-LightManager & Game::lightManager()
+Renderer & Game::renderer()
 {
-    return m_lightManager;
-}
-
-QSize Game::viewport() const
-{
-    return m_game.window()->size();
+    return m_renderer;
 }
 
 std::shared_ptr<BulletWorld> Game::bulletWorld()

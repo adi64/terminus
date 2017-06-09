@@ -44,12 +44,12 @@ Terrain::Terrain(Game & world, const Level & level)
     m_geometry = ResourceManager::getInstance()->getGeometry("terrain_patch");
     m_material = ResourceManager::getInstance()->getMaterial("base_Terrain");
 
-    m_rightTrack = std::unique_ptr<Track>(new Track(m_world, true));
-    m_leftTrack = std::unique_ptr<Track>(new Track(m_world, false));
+    m_rightTrack = std::unique_ptr<Track>(new Track(m_game, true));
+    m_leftTrack = std::unique_ptr<Track>(new Track(m_game, false));
 
     configureWith(level);
 
-    setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
+    matrix().setPosition(QVector3D(0.f, 0.f, 0.f)); //TODO centered collision object
 }
 
 Track & Terrain::rightTrack() const
@@ -78,7 +78,7 @@ void Terrain::doForAllChildren(std::function<void (GameObject &)> callback)
 
 void Terrain::localRender() const
 {
-    QVector3D camPos = m_world.localPlayer().camera().eye();
+    QVector3D camPos = m_game.localPlayer().camera().state().eye();
     QPoint patchID = m_levelConfig.positionToPatchID(camPos.x(), camPos.z());
 
     const int radius = 3;
@@ -127,7 +127,7 @@ void Terrain::localRenderCleanup(Program & /*program*/) const
 void Terrain::configureWith(const Level & level)
 {
     m_levelConfig = level.config();
-    setScale(m_levelConfig.scale());
+    matrix().setScale(m_levelConfig.scale());
     m_leftTrack->setCourse(level.createLeftTrackCourse());
     m_rightTrack->setCourse(level.createRightTrackCourse());
     m_terrainMapData.reset(level.copyTerrainMapData());

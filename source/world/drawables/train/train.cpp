@@ -75,7 +75,7 @@ void Train::localUpdate()
     }
 
     // move forward
-    m_travelledDistance += m_velocity * m_world.timer().get("frameTimer");
+    m_travelledDistance += m_velocity * m_game.timer().get("frameTimer");
 
     if(m_travelledDistance >= m_track->course().length())
     {

@@ -18,22 +18,22 @@ Explosion::Explosion(Game & world, const QVector3D & position)
     m_geometry = ResourceManager::getInstance()->getGeometry("base_ico2");
     m_material = ResourceManager::getInstance()->getMaterial("base_OrangeHalf");
 
-    setPosition(position);
+    matrix().setPosition(position);
 
-    m_timer = m_world.timer().allocateTimer();
+    m_timer = m_game.timer().allocateTimer();
 }
 
 Explosion::~Explosion()
 {
-    m_world.timer().releaseTimer(m_timer);
+    m_game.timer().releaseTimer(m_timer);
 }
 
 void Explosion::localUpdate()
 {
     const int lifetimeMs = 1000;
-    int timeMs = m_world.timer().get(m_timer);
+    int timeMs = m_game.timer().get(m_timer);
 
-    setScale(MathUtil::mix(3.f, 10.f, MathUtil::linstep(0, lifetimeMs, timeMs)));
+    matrix().setScale(MathUtil::mix(3.f, 10.f, MathUtil::linstep(0, lifetimeMs, timeMs)));
 
     GameObject::localUpdate();
 

@@ -186,7 +186,7 @@ protected:
     bool m_isPlayerOne;
     bool m_isUIActive;
 
-    std::unique_ptr<Game> m_world;
+    std::unique_ptr<Game> m_game;
 };
 
 }

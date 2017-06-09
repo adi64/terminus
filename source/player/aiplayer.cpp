@@ -76,7 +76,7 @@ void AIPlayer::fire()
         m_targetEnemyWagon = m_enemyTrain->wagonAt(rand() % m_enemyTrain->size());
     }
 
-    auto aimDirection = (m_targetEnemyWagon->position() - selectedWagon()->position());
+    auto aimDirection = (m_targetEnemyWagon->matrix().position() - selectedWagon()->matrix().position());
 
     // more up force
     aimDirection += QVector3D(0.0f, 1.0f, 0.0f) * (aimDirection.length() * 0.01f);
@@ -84,7 +84,7 @@ void AIPlayer::fire()
     auto normalizedAimDirection = aimDirection.normalized();
 
     // set camera position accordingly
-    m_camera.setEye(m_camera.center() - normalizedAimDirection);
+    m_camera.state().setEye(m_camera.state().center() - normalizedAimDirection);
 
     selectedWagon()->primaryAction();
 }

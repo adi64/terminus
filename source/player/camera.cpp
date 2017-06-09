@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include <QQuaternion>
+#include <QVector3D>
 
 #include <render/camerastate.h>
 #include <util/mathutil.h>
@@ -12,23 +13,22 @@
 namespace terminus
 {
 
-Camera::Camera(CameraState * backend)
-: m_state(backend)
+Camera::Camera()
+: m_state()
 , m_associatedObject(nullptr)
 {
-    assert(m_state);
 }
 
 Camera::~Camera()
 {
 }
 
-const CameraState * Camera::state() const
+const CameraMatrices & Camera::state() const
 {
     return m_state;
 }
 
-CameraState * Camera::state()
+CameraMatrices & Camera::state()
 {
     return m_state;
 }
@@ -37,22 +37,22 @@ void Camera::moveEvent(QVector3D movement)
 {
     if(!m_associatedObject)
     {
-        auto direction = m_state->normalizedLook();
-        auto newEye = m_state->eye();
-        auto newCenter = m_state->center();
-        auto normal = QVector3D::normal(direction, m_state->up());
+        auto direction = m_state.normalizedLook();
+        auto newEye = m_state.eye();
+        auto newCenter = m_state.center();
+        auto normal = QVector3D::normal(direction, m_state.up());
 
         newEye += normal * movement.x();
         newCenter += normal * movement.x();
 
-        newEye += up() * movement.y();
-        newCenter += up() * movement.y();
+        newEye += m_state.up() * movement.y();
+        newCenter += m_state.up() * movement.y();
 
         newEye += direction * -movement.z();
         newCenter += direction * -movement.z();
 
-        m_state->setEye(newEye);
-        m_state->setCenter(newCenter);
+        m_state.setEye(newEye);
+        m_state.setCenter(newCenter);
     }
     else
     {
@@ -62,18 +62,18 @@ void Camera::moveEvent(QVector3D movement)
 
 void Camera::rotateEvent(QVector2D rotation)
 {
-    auto viewDirection = (m_state->center() - m_state->eye()).normalized();
-    auto viewNormal = QVector3D::normal(viewDirection, m_state->up());
+    auto viewDirection = (m_state.center() - m_state.eye()).normalized();
+    auto viewNormal = QVector3D::normal(viewDirection, m_state.up());
     // "x rotation" -> rotate around up vector
-    auto rotation_x = QQuaternion::fromAxisAndAngle(m_state->up(), -rotation.x());
+    auto rotation_x = QQuaternion::fromAxisAndAngle(m_state.up(), -rotation.x());
     // "y rotation" -> rotation around "the vector pointing to the right"
     auto rotation_y = QQuaternion::fromAxisAndAngle(viewNormal, -rotation.y());
     auto rotation_total = rotation_x * rotation_y;
 
     if(!m_associatedObject)
     {
-        auto newCenter = m_state->eye() + rotation_total.rotatedVector(viewDirection);
-        m_state->setCenter(newCenter);
+        auto newCenter = m_state.eye() + rotation_total.rotatedVector(viewDirection);
+        m_state.setCenter(newCenter);
     }
     else
     {

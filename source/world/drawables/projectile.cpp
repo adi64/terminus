@@ -20,24 +20,24 @@ Projectile::Projectile(Game & world)
     m_geometry = ResourceManager::getInstance()->getGeometry("base_ico1");
     m_material = ResourceManager::getInstance()->getMaterial("base_Red");
 
-    m_lifeTimer = m_world.timer().allocateTimer();
+    m_lifeTimer = m_game.timer().allocateTimer();
 
     initializePhysics(new btSphereShape(1.0), 1.f);
-    setScale(0.3f);
+    matrix().setScale(0.3f);
 }
 
 Projectile::~Projectile()
 {
     deallocatePhysics();
 
-    m_world.timer().releaseTimer(m_lifeTimer);
+    m_game.timer().releaseTimer(m_lifeTimer);
 }
 
 void Projectile::localUpdate()
 {
     DynamicPhysicsObject::localUpdate();
 
-    if(m_world.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
+    if(m_game.timer().get(m_lifeTimer) > maxAgeInMilliseconds())
     {
         dispose();
     }
@@ -62,17 +62,17 @@ void Projectile::onCollisionWith(AbstractPhysicsObject *other)
         otherWagon->setHealth(otherWagon->currentHealth() - damage());
 
         // send hit event if enemy train was hit
-        for(unsigned int i=0; i<m_world.enemyPlayer().train()->size(); ++i)
+        for(unsigned int i=0; i<m_game.enemyPlayer().train()->size(); ++i)
         {
-            if(m_world.enemyPlayer().train()->wagonAt(i) == otherWagon)
+            if(m_game.enemyPlayer().train()->wagonAt(i) == otherWagon)
             {
-                m_world.networkManager().sendProjectileHitCommand(i, damage());
+                m_game.networkManager().sendProjectileHitCommand(i, damage());
                 break;
             }
         }
     }
 
-    m_world.addObject(new Explosion(m_world, position()));
+    m_game.addObject(new Explosion(m_game, matrix().position()));
 
     SoundManager::getInstance()->playSound("explosion");
 

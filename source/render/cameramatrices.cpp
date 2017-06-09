@@ -19,7 +19,7 @@ void CameraMatrices::setEye(const QVector3D & eye)
         return;
     }
 
-    CameraState::setEye(eye)
+    CameraState::setEye(eye);
     invalidateMatrices();
 }
 
@@ -87,6 +87,11 @@ void CameraMatrices::setViewport(const QPoint & viewport)
 
     CameraState::setViewport(viewport);
     invalidateMatrices();
+}
+
+void CameraMatrices::setViewport(int width, int height)
+{
+    setViewport(QPoint(width, height));
 }
 
 void CameraMatrices::invalidateMatrices() const

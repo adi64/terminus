@@ -29,8 +29,7 @@ void ObjectMatrix::setPosition(const QVector3D & position)
 
 void ObjectMatrix::translate(const QVector3D & vector)
 {
-    m_position += vector;
-    invalidate();
+    setPosition(position() + vector);
 }
 
 const QQuaternion & ObjectMatrix::rotation() const
@@ -44,10 +43,9 @@ void ObjectMatrix::setRotation(const QQuaternion & rotation)
     invalidate();
 }
 
-void ObjectMatrix::rotate(const QQuaternion & rotation)
+void ObjectMatrix::rotate(const QQuaternion & rot)
 {
-    m_rotation += rotation;
-    invalidate();
+    setRotation(rotation() + rot);
 }
 
 const QVector3D & ObjectMatrix::scale() const
@@ -61,10 +59,19 @@ void ObjectMatrix::setScale(const QVector3D & scale)
     invalidate();
 }
 
+void ObjectMatrix::setScale(float scale)
+{
+    setScale(QVector3D(scale, scale, scale));
+}
+
 void ObjectMatrix::scale(const QVector3D & factors)
 {
-    m_scale *= factors;
-    invalidate();
+    setScale(scale() * factors);
+}
+
+void ObjectMatrix::scale(float factor)
+{
+    setScale(scale() * factor);
 }
 
 void ObjectMatrix::setParent(ObjectMatrix * parent)
@@ -90,7 +97,7 @@ QMatrix4x4 & ObjectMatrix::matrix() const
     return m_matrix;
 }
 
-QMatrix4x4 & ObjectMatrix::inverseMatrix() const
+QMatrix4x4 & ObjectMatrix::matrixInverted() const
 {
     if (m_inverseMatrixChanged)
     {
@@ -107,7 +114,7 @@ QVector3D ObjectMatrix::transform(const QVector3D &vector)
 
 QVector3D ObjectMatrix::inverseTransform(const QVector3D &vector)
 {
-    QVector4D v4 = inverseMatrix() * QVector4D(vector, 1.f);
+    QVector4D v4 = matrixInverted() * QVector4D(vector, 1.f);
     return v4.toVector3DAffine();
 }
 
