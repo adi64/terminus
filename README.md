@@ -5,6 +5,10 @@ Game Programming Seminar 2014/15
 
 http://terminus-game.com
 
+and
+
+https://terminus-game.slack.com/
+
 ## How to run
 
 1. Clone repository
