@@ -4,7 +4,8 @@
 
 #include <QDebug>
 #include <QTime>
-#include <QQuickWindow>
+#include <QImage>
+//#include <QQuickWindow>
 
 #include <util/gldebug.h>
 
@@ -147,19 +148,19 @@ void World::render() const
 
 
     printGlError(__FILE__, __LINE__);
-    glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
+    gl.glViewport(0, 0, m_localPlayer->camera().viewport().x(), m_localPlayer->camera().viewport().y());
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDisable(GL_BLEND);
+    gl.glDisable(GL_BLEND);
 
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW); //TODO check if still necessary after geometry loader
+    gl.glEnable(GL_CULL_FACE);
+    gl.glFrontFace(GL_CCW); //TODO check if still necessary after geometry loader
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    glDepthFunc(GL_LESS);
+    gl.glEnable(GL_DEPTH_TEST);
+    gl.glDepthMask(GL_TRUE);
+    gl.glDepthFunc(GL_LESS);
 
     printGlError(__FILE__, __LINE__);
 
@@ -180,13 +181,13 @@ void World::render() const
     m_postprocessingManager->gBufferFBO().releaseFBO();
 
     // clear real framebuffer
-    glClearColor(1.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    gl.glClearColor(1.0, 0.0, 0.0, 1.0);
+    gl.glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // disable stuff we don't need while post-processing
-    glDisable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
+    gl.glDisable(GL_BLEND);
+    gl.glDisable(GL_DEPTH_TEST);
+    gl.glDisable(GL_CULL_FACE);
 
     // apply post-processing effects and render image to screen
     m_postprocessingManager->composeImage();
@@ -229,7 +230,7 @@ LightManager & World::lightManager()
 
 QSize World::viewport() const
 {
-    return m_game.window()->size();
+    return m_game.viewport();
 }
 
 std::shared_ptr<BulletWorld> World::bulletWorld()

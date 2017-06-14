@@ -99,10 +99,10 @@ void AbstractEffect::render(const Camera & camera, const LightManager & lightMan
     }
 }
 
-void AbstractEffect::localRenderSetup(const Camera & camera, Program & /*program*/) const
+void AbstractEffect::localRenderSetup(const Camera & /*camera*/, Program & /*program*/) const
 {
 }
-void AbstractEffect::localRenderCleanup(const Camera & camera, Program & /*program*/) const
+void AbstractEffect::localRenderCleanup(const Camera & /*camera*/, Program & /*program*/) const
 {
 }
 

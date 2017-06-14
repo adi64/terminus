@@ -59,15 +59,15 @@ void Geometry::allocate() const
      printGlError(__FILE__, __LINE__);
 
      //setup VertexBufferObject
-     glGenBuffers(1, &m_vbo);
-     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-     glBufferData(GL_ARRAY_BUFFER, m_vertexBuffer.size() * sizeof(Vertex), m_vertexBuffer.data(), GL_STATIC_DRAW);
-     glBindBuffer(GL_ARRAY_BUFFER, 0);
+     gl.glGenBuffers(1, &m_vbo);
+     gl.glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+     gl.glBufferData(GL_ARRAY_BUFFER, m_vertexBuffer.size() * sizeof(Vertex), m_vertexBuffer.data(), GL_STATIC_DRAW);
+     gl.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-     glGenBuffers(1, &m_ibo);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer.size() * sizeof(unsigned short), m_indexBuffer.data(), GL_STATIC_DRAW);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+     gl.glGenBuffers(1, &m_ibo);
+     gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+     gl.glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer.size() * sizeof(unsigned short), m_indexBuffer.data(), GL_STATIC_DRAW);
+     gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
      //TODO-LW: Add error checks
      printGlError(__FILE__, __LINE__);
@@ -80,8 +80,8 @@ void Geometry::deallocate() const
     if(!m_isOnGPU)
         return;
 
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteBuffers(1, &m_ibo);
+    gl.glDeleteBuffers(1, &m_vbo);
+    gl.glDeleteBuffers(1, &m_ibo);
 
     m_isOnGPU = false;
 }
@@ -101,20 +101,20 @@ void Geometry::draw() const
     allocate();
     printGlError(__FILE__, __LINE__);
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    gl.glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
-    glEnableVertexAttribArray(0); // positions
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
-    glEnableVertexAttribArray(1); // texture coordinates
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3])));
-    glEnableVertexAttribArray(2); // normals
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
+    gl.glEnableVertexAttribArray(0); // positions
+    gl.glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
+    gl.glEnableVertexAttribArray(1); // texture coordinates
+    gl.glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3])));
+    gl.glEnableVertexAttribArray(2); // normals
+    gl.glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(sizeof(GLfloat[3]) * 2));
 
-    glDrawElements(GL_TRIANGLES, m_elementCount, GL_UNSIGNED_SHORT, nullptr);
+    gl.glDrawElements(GL_TRIANGLES, m_elementCount, GL_UNSIGNED_SHORT, nullptr);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    gl.glBindBuffer(GL_ARRAY_BUFFER, 0);
+    gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     printGlError(__FILE__, __LINE__);
 }

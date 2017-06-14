@@ -1,6 +1,6 @@
 #include "program.h"
 
-#include <GLES3/gl3.h>
+#include <glincl.h>
 
 #include <util/gldebug.h>
 
@@ -34,54 +34,53 @@ void Program::allocate() const
 
     printGlError(__FILE__, __LINE__);
 
-    m_program = glCreateProgram();
+    m_program = gl.glCreateProgram();
     printGlError(__FILE__, __LINE__);
 
-    m_vertShader = glCreateShader(GL_VERTEX_SHADER);
+    m_vertShader = gl.glCreateShader(GL_VERTEX_SHADER);
     const char * vertSourceString = m_vertexSrc.data();
     int vertSourceStringLength = m_vertexSrc.size();
-    glShaderSource(m_vertShader, 1, &vertSourceString, &vertSourceStringLength);
-    glCompileShader(m_vertShader);
+    gl.glShaderSource(m_vertShader, 1, &vertSourceString, &vertSourceStringLength);
+    gl.glCompileShader(m_vertShader);
     GLint compiled;
-    glGetShaderiv(m_vertShader, GL_COMPILE_STATUS, &compiled);
+    gl.glGetShaderiv(m_vertShader, GL_COMPILE_STATUS, &compiled);
     if(!compiled)
     {
         qDebug() << "Compile Error";
 
         GLint logSize = 0;
-        glGetShaderiv(m_vertShader, GL_INFO_LOG_LENGTH, &logSize);
+        gl.glGetShaderiv(m_vertShader, GL_INFO_LOG_LENGTH, &logSize);
         std::vector<GLchar> errorLog(logSize);
-        glGetShaderInfoLog(m_vertShader, logSize, &logSize, &errorLog[0]);
+        gl.glGetShaderInfoLog(m_vertShader, logSize, &logSize, &errorLog[0]);
 
         qDebug() << QString::fromUtf8(errorLog.data());
     }
-    glAttachShader(m_program, m_vertShader);
+    gl.glAttachShader(m_program, m_vertShader);
 
     printGlError(__FILE__, __LINE__);
 
-    m_fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+    m_fragShader = gl.glCreateShader(GL_FRAGMENT_SHADER);
     const char * fragSourceString = m_fragmentSrc.data();
     int fragSourceStringLength = m_fragmentSrc.size();
-    glShaderSource(m_fragShader, 1, &fragSourceString, &fragSourceStringLength);
-    glCompileShader(m_fragShader);
-    glGetShaderiv(m_fragShader, GL_COMPILE_STATUS, &compiled);
+    gl.glShaderSource(m_fragShader, 1, &fragSourceString, &fragSourceStringLength);
+    gl.glCompileShader(m_fragShader);
+    gl.glGetShaderiv(m_fragShader, GL_COMPILE_STATUS, &compiled);
     if(!compiled)
     {
         qDebug() << "Compile Error";
 
         GLint logSize = 0;
-        glGetShaderiv(m_fragShader, GL_INFO_LOG_LENGTH, &logSize);
+        gl.glGetShaderiv(m_fragShader, GL_INFO_LOG_LENGTH, &logSize);
         std::vector<GLchar> errorLog(logSize);
-        glGetShaderInfoLog(m_fragShader, logSize, &logSize, &errorLog[0]);
+        gl.glGetShaderInfoLog(m_fragShader, logSize, &logSize, &errorLog[0]);
 
         qDebug() << QString::fromUtf8(errorLog.data()) << "\n";
-        int i = 0;
     }
-    glAttachShader(m_program, m_fragShader);
+    gl.glAttachShader(m_program, m_fragShader);
 
     printGlError(__FILE__, __LINE__);
 
-    glLinkProgram(m_program);
+    gl.glLinkProgram(m_program);
 
     //TODO-LW: add error detection
     printGlError(__FILE__, __LINE__);
@@ -93,9 +92,9 @@ void Program::deallocate() const
     if(!m_isOnGPU)
         return;
     printGlError(__FILE__, __LINE__);
-    glDeleteProgram(m_program);
-    glDeleteShader(m_vertShader);
-    glDeleteShader(m_fragShader);
+    gl.glDeleteProgram(m_program);
+    gl.glDeleteShader(m_vertShader);
+    gl.glDeleteShader(m_fragShader);
     printGlError(__FILE__, __LINE__);
     m_isOnGPU = false;
 }
@@ -111,7 +110,7 @@ int Program::program() const
 void Program::bind() const
 {
     printGlError(__FILE__, __LINE__);
-    glUseProgram(program());
+    gl.glUseProgram(program());
     printGlError(__FILE__, __LINE__);
     m_isBound = true;
 }
@@ -121,7 +120,7 @@ void Program::release() const
         return;
 
     printGlError(__FILE__, __LINE__);
-    glUseProgram(0);
+    gl.glUseProgram(0);
     printGlError(__FILE__, __LINE__);
     m_isBound = false;
 }
@@ -131,9 +130,9 @@ void Program::setUniform(std::string name, const QMatrix4x4 & value, bool suppre
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniformMatrix4fv(location, 1, GL_FALSE, value.constData());
+        gl.glUniformMatrix4fv(location, 1, GL_FALSE, value.constData());
     }
     else
     {
@@ -147,9 +146,9 @@ void Program::setUniform(std::string name, const QMatrix3x3 & value, bool suppre
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniformMatrix3fv(location, 1, GL_FALSE, value.constData());
+        gl.glUniformMatrix3fv(location, 1, GL_FALSE, value.constData());
     }
     else
     {
@@ -163,9 +162,9 @@ void Program::setUniform(std::string name, const QVector3D value, bool suppressE
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniform3fv(location, 1, reinterpret_cast<const GLfloat *>(&value));
+        gl.glUniform3fv(location, 1, reinterpret_cast<const GLfloat *>(&value));
     }
     else
     {
@@ -179,9 +178,9 @@ void Program::setUniform(std::string name, const QVector4D value, bool suppressE
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniform4fv(location, 1, reinterpret_cast<const GLfloat *>(&value));
+        gl.glUniform4fv(location, 1, reinterpret_cast<const GLfloat *>(&value));
     }
     else
     {
@@ -195,9 +194,9 @@ void Program::setUniform(std::string name, float value, bool suppressErrors /*=f
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniform1f(location, value);
+        gl.glUniform1f(location, value);
     }
     else
     {
@@ -211,9 +210,9 @@ void Program::setUniform(std::string name, int value, bool suppressErrors /*=fal
     printGlError(__FILE__, __LINE__);
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniform1i(location, value);
+        gl.glUniform1i(location, value);
     }
     else
     {
@@ -228,9 +227,9 @@ void Program::setUniform(std::string name, const QVector4D * values, int count, 
     //name.append("[0]");
     bind();
     int location = 0;
-    if((location = glGetUniformLocation(program(), name.c_str())) >= 0)
+    if((location = gl.glGetUniformLocation(program(), name.c_str())) >= 0)
     {
-        glUniform4fv(location, count, reinterpret_cast<const GLfloat *>(values));
+        gl.glUniform4fv(location, count, reinterpret_cast<const GLfloat *>(values));
     }
     else
     {

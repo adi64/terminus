@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include <GLES3/gl3.h>
+#include <glincl.h>
 
 #include <QVector2D>
 #include <QVector3D>

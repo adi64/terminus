@@ -29,7 +29,7 @@ Game::Game()
 , m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_isUIActive(false) // is set to true on create world
-{
+{    
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
     ResourceManager::getInstance()->loadResources();
@@ -134,6 +134,11 @@ Timer & Game::timer()
     return m_timer;
 }
 
+QSize Game::viewport() const
+{
+    return window()->size();
+}
+
 void Game::buttonInput(int type)
 {
     if(m_world)
@@ -216,6 +221,8 @@ void Game::handleWindowChanged(QQuickWindow * win)
     connectSignals(win);
     if (m_window)
     {
+        // Initialize OpenGL functions for the current context
+        gl.initializeOpenGLFunctions();
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         m_window->setClearBeforeRendering(false);

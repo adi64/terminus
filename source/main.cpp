@@ -7,6 +7,7 @@
 #include <QQuickView>
 
 #include "game.h"
+#include "glincl.h"
 
 #include <resources/resourcemanager.h>
 #include <network/ipprovider.h>

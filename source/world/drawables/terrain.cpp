@@ -3,7 +3,7 @@
 #include <cassert>
 #include <string>
 
-#include <GLES3/gl3.h>
+#include <glincl.h>
 
 #include <QPoint>
 
@@ -114,14 +114,14 @@ void Terrain::localRenderSetup(Program & program) const
     program.setUniform("posInfo", posInfo);
 
     allocateTerrainMap();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_terrainMap);
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
 }
 
 void Terrain::localRenderCleanup(Program & /*program*/) const
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Terrain::configureWith(const Level & level)
@@ -140,15 +140,15 @@ void Terrain::allocateTerrainMap() const
         return;
 
     if(!m_terrainMapOnGPU)
-        glGenTextures(1, &m_terrainMap);
+        gl.glGenTextures(1, &m_terrainMap);
 
-    glBindTexture(GL_TEXTURE_2D, m_terrainMap);
+    gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
     glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    gl.glBindTexture(GL_TEXTURE_2D, 0);
 
     m_terrainMapOnGPU = true;
 }
@@ -158,7 +158,7 @@ void Terrain::deallocateTerrainMap() const
     if(!m_terrainMapOnGPU)
         return;
 
-    glDeleteTextures(1, &m_terrainMap);
+    gl.glDeleteTextures(1, &m_terrainMap);
 
     m_terrainMapOnGPU = false;
 }

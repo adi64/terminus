@@ -28,14 +28,14 @@ void SkyBox::localRenderSetup(Program & /*program*/) const
 {
     allocateCubeMap();
 
-    glActiveTexture(GL_TEXTURE0);
-    glEnable(GL_TEXTURE_CUBE_MAP);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glEnable(GL_TEXTURE_CUBE_MAP);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 }
 void SkyBox::localRenderCleanup(Program & /*program*/) const
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    gl.glActiveTexture(GL_TEXTURE0);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 void SkyBox::allocateCubeMap() const
 {
@@ -43,14 +43,14 @@ void SkyBox::allocateCubeMap() const
         return;
 
     m_cubeMap = -1;
-    glGenTextures(1, &m_cubeMap);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+    gl.glGenTextures(1, &m_cubeMap);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, m_imagePX->width(), m_imagePX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePX->bits());
     glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, m_imageNX->width(), m_imageNX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNX->bits());
@@ -59,7 +59,7 @@ void SkyBox::allocateCubeMap() const
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, m_imagePZ->width(), m_imagePZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePZ->bits());
     glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, m_imageNZ->width(), m_imageNZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNZ->bits());
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
     m_cubeMapOnGPU = true;
 }
@@ -69,7 +69,7 @@ void SkyBox::deallocateCubeMap() const
     if(!m_cubeMapOnGPU)
         return;
 
-    glDeleteTextures(1, &m_cubeMap);
+    gl.glDeleteTextures(1, &m_cubeMap);
 
     m_cubeMapOnGPU = false;
 }

@@ -1,6 +1,6 @@
 #include "motionblur.h"
 
-#include <GLES3/gl3.h>
+#include <glincl.h>
 
 #include <player/localplayer.h>
 
@@ -44,14 +44,14 @@ void MotionBlur::localRenderCleanup(const Camera & camera, Program & /*program*/
 //    static bool firstFrame = true;
 //    if(firstFrame)
 //    {
-//        glAccum(GL_LOAD, 1.0);
+//        gl.glAccum(GL_LOAD, 1.0);
 //        firstFrame = false;
 //        return;
 //    }
 
-//    glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
-//    glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
-//    glAccum(GL_RETURN, 1.0);
+//    gl.glAccum(GL_MULT, 1.0 - (1.0 / m_motionBlurFactor));
+//    gl.glAccum(GL_ACCUM, 1.0 / m_motionBlurFactor);
+//    gl.glAccum(GL_RETURN, 1.0);
 }
 
 } //namespace terminus

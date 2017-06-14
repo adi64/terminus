@@ -1,8 +1,9 @@
 #pragma once
 
 #include <initializer_list>
+#include <memory>
 
-#include <GLES3/gl3.h>
+#include <glincl.h>
 
 #include <QSize>
 
@@ -34,7 +35,7 @@ protected:
     void allocateFBO() const;
     void deallocateFBO() const;
 
-    static FrameBufferObject m_defaultFBO;
+    static std::unique_ptr<FrameBufferObject> s_defaultFBO;
 
     FrameBufferObject();
 

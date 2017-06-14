@@ -5,7 +5,7 @@
 namespace terminus
 {
 
-FrameBufferObject FrameBufferObject::m_defaultFBO;
+std::unique_ptr<FrameBufferObject> FrameBufferObject::s_defaultFBO;
 
 FrameBufferObject::FrameBufferObject(QSize size, std::initializer_list<int> colorAttachmentFormats, bool hasDepth)
 : FrameBufferObject(size.width(), size.height(), colorAttachmentFormats, hasDepth)
@@ -42,8 +42,12 @@ FrameBufferObject::~FrameBufferObject()
 
 const FrameBufferObject &FrameBufferObject::defaultFBO()
 {
-    // get default FBO (i.e. "the screen")
-    return m_defaultFBO;
+    // Get default FBO (i.e. "the screen")
+    // Lazy initialize, because this needs a valid OpenGL context that we don't have at static initialization time
+    if (!s_defaultFBO)
+        s_defaultFBO = std::unique_ptr<FrameBufferObject>(new FrameBufferObject());
+
+    return *s_defaultFBO;
 }
 
 void FrameBufferObject::bindFBO() const
@@ -51,12 +55,12 @@ void FrameBufferObject::bindFBO() const
     if(!m_objectsOnGPU)
         allocateFBO();
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+    gl.glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 }
 
 void FrameBufferObject::releaseFBO() const
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    gl.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void FrameBufferObject::bindTexture(int colorAttachment, int textureUnit) const
@@ -65,15 +69,15 @@ void FrameBufferObject::bindTexture(int colorAttachment, int textureUnit) const
     if(textureNumber >= MaxColorAttachmentCount)
         return;
 
-    glActiveTexture(textureUnit);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, m_fboTexture[textureNumber]);
+    gl.glActiveTexture(textureUnit);
+    gl.glEnable(GL_TEXTURE_2D);
+    gl.glBindTexture(GL_TEXTURE_2D, m_fboTexture[textureNumber]);
 }
 
 void FrameBufferObject::releaseTexture(int textureUnit) const
 {
-    glActiveTexture(textureUnit);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    gl.glActiveTexture(textureUnit);
+    gl.glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 unsigned int FrameBufferObject::colorAttachmentCount() const
@@ -104,15 +108,15 @@ void FrameBufferObject::allocateFBO() const
     {
         if (m_colorAttachmentFormats[i] != GL_NONE)
         {
-            //TODO do we need this?! glActiveTexture(GL_TEXTURE0);
-            glGenTextures(1, &(m_fboTexture[i]));
-            glBindTexture(GL_TEXTURE_2D, m_fboTexture[i]);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            //TODO do we need this?! gl.glActiveTexture(GL_TEXTURE0);
+            gl.glGenTextures(1, &(m_fboTexture[i]));
+            gl.glBindTexture(GL_TEXTURE_2D, m_fboTexture[i]);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexImage2D(GL_TEXTURE_2D, 0, m_colorAttachmentFormats[i], m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            gl.glBindTexture(GL_TEXTURE_2D, 0);
             drawBuffers[drawBufferCount] = GL_COLOR_ATTACHMENT0 + drawBufferCount;
             drawBufferCount++;
         }
@@ -125,10 +129,10 @@ void FrameBufferObject::allocateFBO() const
     // Depth buffer
     if(m_hasDepth)
     {
-        glGenRenderbuffers(1, &m_rboDepth);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_rboDepth);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, m_width, m_height);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        gl.glGenRenderbuffers(1, &m_rboDepth);
+        gl.glBindRenderbuffer(GL_RENDERBUFFER, m_rboDepth);
+        gl.glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, m_width, m_height);
+        gl.glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
     else
     {
@@ -136,26 +140,26 @@ void FrameBufferObject::allocateFBO() const
     }
 
     // Framebuffer to link everything together
-    glGenFramebuffers(1, &m_fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+    gl.glGenFramebuffers(1, &m_fbo);
+    gl.glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     for(unsigned int i = 0; i < MaxColorAttachmentCount; ++i)
     {
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_fboTexture[i], 0);
+        gl.glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_fboTexture[i], 0);
     }
     if(m_hasDepth)
     {
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rboDepth);
+        gl.glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rboDepth);
     }
 
-    glDrawBuffers(drawBufferCount, drawBuffers);
+    gl.glDrawBuffers(drawBufferCount, drawBuffers);
 
     GLenum status;
-    if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+    if ((status = gl.glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
     {
         qDebug() << "glCheckFramebufferStatus: error " << status;
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    gl.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     m_objectsOnGPU = true;
 }
@@ -165,9 +169,9 @@ void FrameBufferObject::deallocateFBO() const
     if(!m_objectsOnGPU)
         return;
 
-    glDeleteRenderbuffers(1, &m_rboDepth);
-    glDeleteTextures(8, m_fboTexture);
-    glDeleteFramebuffers(1, &m_fbo);
+    gl.glDeleteRenderbuffers(1, &m_rboDepth);
+    gl.glDeleteTextures(8, m_fboTexture);
+    gl.glDeleteFramebuffers(1, &m_fbo);
 
     m_objectsOnGPU = false;
 }
@@ -182,7 +186,7 @@ FrameBufferObject::FrameBufferObject()
 {
     // get ID of default framebuffer
     GLint defaultFBO;
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &defaultFBO);
+    gl.glGetIntegerv(GL_FRAMEBUFFER_BINDING, &defaultFBO);
     qDebug() << "Default framebuffer ID: " << defaultFBO;
 
     m_fbo = defaultFBO;

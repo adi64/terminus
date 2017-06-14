@@ -45,12 +45,12 @@ void Explosion::localUpdate()
 
 void Explosion::localRenderSetup(Program &) const
 {
-    glDisable(GL_CULL_FACE);
+    gl.glDisable(GL_CULL_FACE);
 }
 
 void Explosion::localRenderCleanup(Program &) const
 {
-    glEnable(GL_CULL_FACE);
+    gl.glEnable(GL_CULL_FACE);
 }
 
 } //namespace terminus

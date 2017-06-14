@@ -103,6 +103,8 @@ public:
 
     Timer & timer();
 
+    QSize viewport() const;
+
     /*!
      * \brief Handle a pressed button event from the UI
      */
