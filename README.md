@@ -1,5 +1,3 @@
-\mainpage
-
 Terminus
 ============
 
@@ -7,19 +5,19 @@ Game Programming Seminar 2014/15
 
 http://terminus-game.com
 
-##How to run
+## How to run
 
-1. Clone repo
-2. Build for Platform
+1. Clone repository
+2. Build for your platform
 3. Deploy if on mobile
 4. Run
 
-###Dependencies
+### Dependencies
 
 1. Qt 5.4 for OpenGL or newer
 2. [Bullet2](https://github.com/bulletphysics/bullet3) is included in our source (zlib license)
 
-###System requirements
+### System requirements
 
 * Windows
   * A graphics card that supports OpenGL ES 2.0 or similar
