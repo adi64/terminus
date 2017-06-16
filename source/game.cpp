@@ -10,6 +10,7 @@
 #include <QQuickView>
 #include <QTimer>
 #include <QVariant>
+#include <QThread>
 
 #include <eventhandler.h>
 #include <network/networkmanager.h>
@@ -29,6 +30,7 @@ Game::Game()
 , m_window(nullptr)
 , m_renderTrigger(std::unique_ptr<QTimer>(new QTimer()))
 , m_isUIActive(false) // is set to true on create world
+, m_isGLInitialized(false)
 {    
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 
@@ -58,6 +60,27 @@ void Game::joinNetworkGame(QString host)
 
 void Game::createWorld(bool isNetworkGame, bool isPlayerOne, int terrainSeed)
 {
+    if (!m_isGLInitialized)
+    {
+        // TODO FIXME HACK INCOMING
+        // -> Read the details of this hack in main.cpp .
+        // This is called *before* the first call to the render() method
+        // but we are already initializing stuff that requires a valid
+        // OpenGL context and function resolver. So we initialize that here
+        // by "taking over" the QOpenGLContext from the other thread.
+        qDebug() << __FUNCTION__ << " Context: " << m_window->openglContext() << "Thread: " << QThread::currentThreadId();
+        qDebug() << "current context: " << QOpenGLContext::currentContext();
+
+        // TODO FIXME what if the context is already current?
+        m_window->openglContext()->makeCurrent(m_window);
+        qDebug() << "current context: " << QOpenGLContext::currentContext();
+        gl = *(m_window->openglContext()->extraFunctions());
+        m_window->openglContext()->doneCurrent();
+
+        //gl.initializeOpenGLFunctions();
+        m_isGLInitialized = true;
+    }
+
     m_timer.pause(isNetworkGame);
     m_timer.adjust(0);
     m_isPlayerOne = isPlayerOne;
@@ -173,6 +196,8 @@ void Game::touchInput(qreal oldx, qreal oldy, qreal x, qreal y)
 
 void Game::sync()
 {
+    assert(m_isGLInitialized);
+
     // process scheduled events
     m_scheduler.executeActions();
 
@@ -204,6 +229,8 @@ void Game::sync()
 
 void Game::render()
 {
+    assert(m_isGLInitialized);
+
     if (m_world)
     {
         m_world->render();
@@ -221,8 +248,6 @@ void Game::handleWindowChanged(QQuickWindow * win)
     connectSignals(win);
     if (m_window)
     {
-        // Initialize OpenGL functions for the current context
-        gl.initializeOpenGLFunctions();
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
         m_window->setClearBeforeRendering(false);

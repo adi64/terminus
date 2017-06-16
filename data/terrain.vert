@@ -45,7 +45,7 @@ vec2 decodeOffset(float offset)
 //read displacement vector from the terrain map
 vec3 displacement(vec2 coord)
 {
-    vec3 raw = texture2DLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz;
+    vec3 raw = textureLod(levelMap, (coord + texInfo.xy) / texInfo.zw, 0.0).xyz;
     return vec3(raw.x - 0.5, raw.y * 200.0, raw.z - 0.5);
 }
 

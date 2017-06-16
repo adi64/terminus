@@ -21,7 +21,7 @@ const float SOFTNESS = 0.45;
 
 void main(void) {
 
-    vec4 texColor = texture2D(inputTexture, v_texcoord);
+    vec4 texColor = texture(inputTexture, v_texcoord);
 
     //determine center position
     vec2 position = vec2(float(gl_FragCoord.x) / screenWidth, float(gl_FragCoord.y) / screenHeight) - vec2(0.5);

@@ -376,6 +376,7 @@ HEADERS += \
     source/player/aiplayer.h \
     source/player/localplayer.h \
     source/player/remoteplayer.h \
+    source/resources/framebufferobject.h \
     source/resources/geometry.h \
     source/resources/indextriple.h \
     source/resources/material.h \
@@ -384,6 +385,7 @@ HEADERS += \
     source/resources/soundmanager.h \
     source/util/actionscheduler.h \
     source/util/catmullromspline.h \
+    source/util/gldebug.h \
     source/util/mathutil.h \
     source/util/perlinnoise.h \
     source/util/polyline.h \
@@ -405,7 +407,13 @@ HEADERS += \
     source/world/physics/bulletworld.h \
     source/world/physics/dynamicphysicsobject.h \
     source/world/physics/kinematicphysicsobject.h \
+    source/world/postprocessing/abstracteffect.h \
+    source/world/postprocessing/compose.h \
+    source/world/postprocessing/invert.h \
+    source/world/postprocessing/motionblur.h \
+    source/world/postprocessing/passthrough.h \
     source/world/postprocessing/postprocessingmanager.h \
+    source/world/postprocessing/vignette.h \
     source/world/camera.h \
     source/world/level.h \
     source/world/levelconfiguration.h \
@@ -414,14 +422,7 @@ HEADERS += \
     source/world/world.h \
     source/eventhandler.h \
     source/game.h \
-    source/world/postprocessing/abstracteffect.h \
-    source/resources/framebufferobject.h \
-    source/world/postprocessing/motionblur.h \
-    source/world/postprocessing/passthrough.h \
-    source/world/postprocessing/invert.h \
-    source/world/postprocessing/vignette.h \
-    source/util/gldebug.h \
-    source/world/postprocessing/compose.h
+    source/glincl.h
 
 SOURCES += \
     source/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp \
@@ -584,6 +585,7 @@ SOURCES += \
     source/player/aiplayer.cpp \
     source/player/localplayer.cpp \
     source/player/remoteplayer.cpp \
+    source/resources/framebufferobject.cpp \
     source/resources/geometry.cpp \
     source/resources/indextriple.cpp \
     source/resources/material.cpp \
@@ -611,7 +613,13 @@ SOURCES += \
     source/world/physics/bulletworld.cpp \
     source/world/physics/dynamicphysicsobject.cpp \
     source/world/physics/kinematicphysicsobject.cpp \
+    source/world/postprocessing/abstracteffect.cpp \
+    source/world/postprocessing/compose.cpp \
+    source/world/postprocessing/invert.cpp \
+    source/world/postprocessing/motionblur.cpp \
+    source/world/postprocessing/passthrough.cpp \
     source/world/postprocessing/postprocessingmanager.cpp \
+    source/world/postprocessing/vignette.cpp \
     source/world/camera.cpp \
     source/world/level.cpp \
     source/world/levelconfiguration.cpp \
@@ -620,12 +628,6 @@ SOURCES += \
     source/world/world.cpp \
     source/eventhandler.cpp \
     source/game.cpp \
+    source/glincl.cpp \
     source/main.cpp \
-    source/bullet/clew/clew.c \
-    source/world/postprocessing/abstracteffect.cpp \
-    source/resources/framebufferobject.cpp \
-    source/world/postprocessing/motionblur.cpp \
-    source/world/postprocessing/passthrough.cpp \
-    source/world/postprocessing/invert.cpp \
-    source/world/postprocessing/vignette.cpp \
-    source/world/postprocessing/compose.cpp
+    source/bullet/clew/clew.c

@@ -52,12 +52,12 @@ void SkyBox::allocateCubeMap() const
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     gl.glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, m_imagePX->width(), m_imagePX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePX->bits());
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, m_imageNX->width(), m_imageNX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNX->bits());
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, m_imagePY->width(), m_imagePY->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePY->bits());
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, m_imageNY->width(), m_imageNY->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNY->bits());
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, m_imagePZ->width(), m_imagePZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePZ->bits());
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, m_imageNZ->width(), m_imageNZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNZ->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, m_imagePX->width(), m_imagePX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePX->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, m_imageNX->width(), m_imageNX->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNX->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, m_imagePY->width(), m_imagePY->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePY->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, m_imageNY->width(), m_imageNY->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNY->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, m_imagePZ->width(), m_imagePZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imagePZ->bits());
+    gl.glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, m_imageNZ->width(), m_imageNZ->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageNZ->bits());
 
     gl.glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 

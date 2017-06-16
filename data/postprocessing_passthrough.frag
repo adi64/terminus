@@ -11,5 +11,5 @@ in vec2 v_texcoord;
 layout (location = 0) out vec4 f_fragColor;
 
 void main(void) {
-    f_fragColor = vec4(texture2D(inputTexture, v_texcoord).rgb, 1.0);
+    f_fragColor = vec4(texture(inputTexture, v_texcoord).rgb, 1.0);
 }

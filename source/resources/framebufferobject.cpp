@@ -115,7 +115,7 @@ void FrameBufferObject::allocateFBO() const
             gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexImage2D(GL_TEXTURE_2D, 0, m_colorAttachmentFormats[i], m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+            gl.glTexImage2D(GL_TEXTURE_2D, 0, m_colorAttachmentFormats[i], m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             gl.glBindTexture(GL_TEXTURE_2D, 0);
             drawBuffers[drawBufferCount] = GL_COLOR_ATTACHMENT0 + drawBufferCount;
             drawBufferCount++;

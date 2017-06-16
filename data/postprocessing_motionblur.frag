@@ -20,7 +20,7 @@ layout (location = 0) out vec4 f_fragColor;
 // http://http.developer.nvidia.com/GPUGems3/gpugems3_ch27.html
 
 void main(void) {
-    float depthValue = texture2D(u_depthTexture, v_texcoord).a;
+    float depthValue = texture(u_depthTexture, v_texcoord).a;
 
     vec4 viewportPosition = vec4(
                 v_texcoord.x * 2.0 - 1.0,
@@ -36,13 +36,13 @@ void main(void) {
 
     vec2 velocity = (currentPos - previousPos).xy / 2.0;
 
-    vec4 finalColor = texture2D(inputTexture, v_texcoord);
+    vec4 finalColor = texture(inputTexture, v_texcoord);
 
     vec2 shiftedTexCoord = v_texcoord + velocity;
 
     for (int i=1; i<u_motionBlurFactor; ++i)
     {
-        vec4 currentColor = texture2D(inputTexture, shiftedTexCoord);
+        vec4 currentColor = texture(inputTexture, shiftedTexCoord);
         finalColor += currentColor;
         shiftedTexCoord += velocity;
     }

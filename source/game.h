@@ -187,6 +187,7 @@ protected:
 
     bool m_isPlayerOne;
     bool m_isUIActive;
+    bool m_isGLInitialized;
 
     std::unique_ptr<World> m_world;
 };

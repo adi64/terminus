@@ -143,7 +143,7 @@ void Terrain::allocateTerrainMap() const
         gl.glGenTextures(1, &m_terrainMap);
 
     gl.glBindTexture(GL_TEXTURE_2D, m_terrainMap);
-    glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
+    gl.glTexImage2D(GL_TEXTURE_2D, 0, TEXFORMAT, m_levelConfig.totalVertexCountS(), m_levelConfig.totalVertexCountT(), 0, GL_RGBA, GL_FLOAT, m_terrainMapData->data());
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
